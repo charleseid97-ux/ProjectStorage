@@ -297,17 +297,22 @@
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
-            <field>ReportsTo.Persona__c</field>
-            <table>Contact</table>
-        </columns>
-        <columns>
-            <checkedByDefault>false</checkedByDefault>
             <field>Carmignac_Global_Market_Neutral_CGMN__c</field>
             <table>Contact</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
             <field>Carmignac_Alt_European_Long_Short_CAELS__c</field>
+            <table>Contact</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>Persona__c</field>
+            <table>Contact</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>JobTitle__c</field>
             <table>Contact</table>
         </columns>
         <columns>
@@ -393,6 +398,41 @@
         <columns>
             <checkedByDefault>false</checkedByDefault>
             <field>Carmignac_Credit_2031_CC31__c</field>
+            <table>Contact</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>E_participated_24M__c</field>
+            <table>Contact</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>E_invited_24M__c</field>
+            <table>Contact</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>N_clicked_24M__c</field>
+            <table>Contact</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>N_received_24M__c</field>
+            <table>Contact</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>Event_loyalty_24M__c</field>
+            <table>Contact</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>Newsletter_loyalty_24M__c</field>
+            <table>Contact</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>Loyalty_Score_24M__c</field>
             <table>Contact</table>
         </columns>
         <masterLabel>Contacts</masterLabel>

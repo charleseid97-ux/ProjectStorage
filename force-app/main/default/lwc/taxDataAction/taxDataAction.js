@@ -33,8 +33,7 @@ export default class TaxDataAction extends LightningElement {
 
     beTypeOptions = [
         { label: 'BE Asset Test', value: 'BE Asset Test' },
-        { label: 'BE TIS', value: 'BE TIS' },
-        { label: 'Belgium Simulator', value: 'Belgium Simulator' }
+        { label: 'BE TIS', value: 'BE TIS' }
     ];
 
     connectedCallback() {

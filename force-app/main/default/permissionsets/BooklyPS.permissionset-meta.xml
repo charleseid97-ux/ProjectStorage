@@ -21,6 +21,10 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>EventApprovalInboxController</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>EventApprovalsPanelController</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -82,10 +86,6 @@
     </classAccesses>
     <classAccesses>
         <apexClass>customEventNotificationManager</apexClass>
-        <enabled>true</enabled>
-    </classAccesses>
-    <classAccesses>
-        <apexClass>customEventNotificationService</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
@@ -170,6 +170,10 @@
         <viewAllRecords>true</viewAllRecords>
     </objectPermissions>
     <pageAccesses>
+        <apexPage>EventApproval</apexPage>
+        <enabled>true</enabled>
+    </pageAccesses>
+    <pageAccesses>
         <apexPage>VFP17_PrintEvents</apexPage>
         <enabled>true</enabled>
     </pageAccesses>
@@ -203,6 +207,6 @@
     </tabSettings>
     <tabSettings>
         <tab>EventsOverView</tab>
-        <visibility>Available</visibility>
+        <visibility>Visible</visibility>
     </tabSettings>
 </PermissionSet>

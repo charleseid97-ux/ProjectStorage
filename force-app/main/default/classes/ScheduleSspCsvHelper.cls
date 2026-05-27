@@ -1,5 +1,26 @@
 public without sharing class ScheduleSspCsvHelper {
 
+    private static final Map<String, String> STRATEGY_MAPPING =
+        new Map<String, String>{
+            'CAELS' => 'CLSGE',
+            'CPR100' => 'CME',
+            'CPR75' => 'CME',
+            'PIL' => 'CIL',
+            'PSC' => 'CS',
+            'UKCED' => 'CED',
+            'UKCEMP' => 'CEMP',
+            'UKCP' => 'CP',
+            'GLMA' => 'GLMACRO',
+            'BND' => 'BRAND',
+            'BRND' => 'BRAND',
+            'ESG1' => 'ESG',
+            'CED' => 'CED',
+            'INSO' => 'IS',
+            'CUGB' => 'CUGB',
+            'CSC' => 'CS',
+            'CC25' => 'CC'
+        };
+
     public class RowData {
         public String scheduleId;
         public String eventScheduleId;
@@ -35,7 +56,9 @@ public without sharing class ScheduleSspCsvHelper {
             getCol(cols, headerIndex, 'schedule_key_event__c');
 
         row.speakerEmail =
-            getCol(cols, headerIndex, 'name');
+            normalizeSpeakerEmail(
+                getCol(cols, headerIndex, 'name')
+            );
 
         row.strategyCode =
             getCol(cols, headerIndex, 'thematic__c');
@@ -46,14 +69,16 @@ public without sharing class ScheduleSspCsvHelper {
         String endRaw =
             getCol(cols, headerIndex, 'end_date_time__c');
 
-
         // Parse date session
-        row.sessionDate = parseFrenchDate(startRaw);
+        row.sessionDate =
+            parseFrenchDate(startRaw);
 
         // Parse heures
-        row.startTime = parseFrenchTime(startRaw);
+        row.startTime =
+            parseFrenchTime(startRaw);
 
-        row.endTime = parseFrenchTime(endRaw);
+        row.endTime =
+            parseFrenchTime(endRaw);
 
         return row;
     }
@@ -74,7 +99,11 @@ public without sharing class ScheduleSspCsvHelper {
         sessionSpeakerProduct__c ssp =
             new sessionSpeakerProduct__c();
 
-        ssp.scheduleId__c = row.scheduleId;
+        // Evite "_null" pour les lignes sans strategy
+        ssp.scheduleId__c =
+            strategyId != null
+                ? row.scheduleId + '_' + String.valueOf(strategyId)
+                : row.scheduleId;
 
         ssp.Session__c = eventId;
 
@@ -92,7 +121,7 @@ public without sharing class ScheduleSspCsvHelper {
     }
 
 
-    // Parse date FR dd/MM/yyyy HH:mm
+    // Parse date dd/MM/yyyy OR yyyy/MM/dd
     public static Date parseFrenchDate(String raw) {
 
         if (String.isBlank(raw)) {
@@ -105,10 +134,34 @@ public without sharing class ScheduleSspCsvHelper {
         List<String> d =
             parts[0].split('/');
 
+        if (d.size() != 3) {
+            return null;
+        }
+
+        Integer first =
+            Integer.valueOf(d[0]);
+
+        Integer second =
+            Integer.valueOf(d[1]);
+
+        Integer third =
+            Integer.valueOf(d[2]);
+
+        // yyyy/MM/dd
+        if (d[0].length() == 4) {
+
+            return Date.newInstance(
+                first,
+                second,
+                third
+            );
+        }
+
+        // dd/MM/yyyy
         return Date.newInstance(
-            Integer.valueOf(d[2]),
-            Integer.valueOf(d[1]),
-            Integer.valueOf(d[0])
+            third,
+            second,
+            first
         );
     }
 
@@ -152,5 +205,118 @@ public without sharing class ScheduleSspCsvHelper {
         return ScheduleEventsCsvHelper.cleanCsvValue(
             cols[idx]
         );
+    }
+
+
+    // Normalise les emails speakers connus
+    public static String normalizeSpeakerEmail(
+        String email
+    ) {
+
+        if (String.isBlank(email)) {
+            return null;
+        }
+
+        String cleanEmail =
+            email.trim().toLowerCase();
+
+        // Speakers vides métier
+        if (cleanEmail == 'nospeaker@carmignac.com'
+            || cleanEmail == 'micfmtobedefined@carmignac.com') {
+
+            return null;
+        }
+
+        // Corrections emails
+        if (cleanEmail == 'axelle.pinon@carmignac.com') {
+            return 'apinon@carmignac.com';
+        }
+
+        if (cleanEmail == 'lloyd.mcallister@carmignac') {
+            return 'llyod.mcallister@carmignac.com';
+        }
+
+        if (cleanEmail == 'jean-marc.viguie@carmignac.com') {
+            return 'jeanmarc.viguie@carmignac.com';
+        }
+        if (cleanEmail == 'eliezer.ben-zimra@carmignac.com') {
+            return 'eliezer.benzimra@carmignac.com';
+        }
+        if (cleanEmail == 'alexandre.combes@carmignac.com') {
+            return 'acombes@carmignac.com';
+        }
+        if (cleanEmail == 'ariona.bundo@carmignac.com') {
+            return 'ariona.bundo@carmignac.com.inactif';
+        }
+        if (cleanEmail == 'celine.demonsang@carmignac.com') {
+            return 'celine.demonsang@carmignac.com.inactif';
+        }
+        if (cleanEmail == 'haiyan.li@carmignac.com') {
+            return 'haiyan.li@carmignac.com.inactif';
+        }
+        if (cleanEmail == 'lloyd.mcallister@carmignac.com') {
+            return 'llyod.mcallister@carmignac.com';
+        }
+        /*if (cleanEmail == 'malte.heininger@carmignac.com') {
+            return 'eliezer.benzimra@carmignac.com';
+        }*/
+        if (cleanEmail == 'nicolas.dementhon@carmignac.com') {
+            return 'ndementhon@carmignac.com';
+        }
+        /*if (cleanEmail == 'rosie.turner@carmignac.com') {
+            return 'eliezer.benzimra@carmignac.com';
+        }*/
+        
+
+
+
+
+
+
+
+        return cleanEmail;
+    }
+
+
+    // Normalise le code CSV en code Strategy ou Product
+    public static String normalizeStrategyCode(
+        String code
+    ) {
+
+        if (String.isBlank(code)) {
+            return null;
+        }
+
+        String cleanCode =
+            code.trim().toUpperCase();
+
+        // Produit ignoré
+        if (cleanCode == 'NOTH'
+            || cleanCode == 'EMEQ') {
+
+            return null;
+        }
+
+        if (STRATEGY_MAPPING.containsKey(cleanCode)) {
+            return STRATEGY_MAPPING.get(cleanCode);
+        }
+
+        return cleanCode;
+    }
+
+
+    // Indique si le code CSV doit être cherché directement comme Strategy.Code__c
+    public static Boolean hasStrategyMapping(
+        String code
+    ) {
+
+        if (String.isBlank(code)) {
+            return false;
+        }
+
+        String cleanCode =
+            code.trim().toUpperCase();
+
+        return STRATEGY_MAPPING.containsKey(cleanCode);
     }
 }

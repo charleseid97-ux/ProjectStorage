@@ -421,8 +421,16 @@ public without sharing class customEventNotificationManager {
             toAddresses.add(evt.SalesOwner__r.Email);
         }
 
-        // Sales Team (from metadata)
-        if (String.isNotBlank(evt.SalesTeam__c) && salesTeamEmails.containsKey(evt.SalesTeam__c)) {
+        // Submitted => Owner instead of Sales Team
+        if (evt.Status__c == 'SubmittedToEventTeam') {
+
+            if (evt.Owner != null && String.isNotBlank(evt.Owner.Email)) {
+                toAddresses.add(evt.Owner.Email);
+            }
+
+        } else if (String.isNotBlank(evt.SalesTeam__c) && salesTeamEmails.containsKey(evt.SalesTeam__c)) {
+
+            // Sales Team (from metadata)
             toAddresses.addAll(salesTeamEmails.get(evt.SalesTeam__c));
         }
 
@@ -618,7 +626,7 @@ public without sharing class customEventNotificationManager {
                 city__c, locationName__c, locationAddress__c, locationPostCode__c,
                 country__c, AudienceCompany__c, Company__r.Name,
                 meetingGoal__c, meetingBackground__c, description__c, speakersHTML__c,
-                Organizer__r.Email, SalesOwner__r.Email, RecordType.DeveloperName,parentEvent__c
+                Organizer__r.Email, SalesOwner__r.Email, Owner.Email, RecordType.DeveloperName,parentEvent__c
             FROM Event__c
             WHERE Id IN :eventIds
         ];
@@ -669,12 +677,13 @@ public without sharing class customEventNotificationManager {
 
         // C - 1 TO 1 STANDALONE
         if (fullyApprovedByType.containsKey('1to1StandAlone')) {
-            NotifOneToOneSAValidated(fullyApprovedByType.get('1to1StandAlone'));
+             // No validation notification for 1to1 standalone
+           // NotifOneToOneSAValidated(fullyApprovedByType.get('1to1StandAlone'));
         }
 
         // D - 1 TO 1 MEETING DAYS
         if (fullyApprovedByType.containsKey('1to1MeetingDays')) {
-            NotifOneToOneMDValidated(fullyApprovedByType.get('1to1MeetingDays'));
+           // NotifOneToOneMDValidated(fullyApprovedByType.get('1to1MeetingDays'));
         }
     }
 
@@ -697,30 +706,30 @@ public without sharing class customEventNotificationManager {
 
         System.debug('=======NotifMeetingDaysValidated=======' + events.size());
 
-        sendEventStatusEmails(events, loadSalesTeamEmails());
+        sendEventStatusEmails(events, loadSalesCRMEmails());
     }
 
 
     /**
      * Notify validated 1 TO 1 STANDALONE requests
-     */
+    
     public static void NotifOneToOneSAValidated(List<Event__c> events) {
 
         System.debug('=======NotifOneToOneSAValidated=======' + events.size());
 
         sendEventStatusEmails(events, loadSalesTeamEmails());
-    }
+    } */
 
 
     /**
      * Notify validated 1 TO 1 MEETING DAYS requests
      */
-    public static void NotifOneToOneMDValidated(List<Event__c> events) {
+    /*public static void NotifOneToOneMDValidated(List<Event__c> events) {
 
         System.debug('=======NotifOneToOneMDValidated=======' + events.size());
 
         sendEventStatusEmails(events, loadSalesTeamEmails());
-    }
+    }*/
 
 
     /**
@@ -780,6 +789,31 @@ public without sharing class customEventNotificationManager {
         // Metadata label must match Event__c.SalesTeam__c
         for (BooklySalesTeamNotification__mdt cfg : BooklySalesTeamNotification__mdt.getAll().values()) {
 
+            if (String.isBlank(cfg.Label) || String.isBlank(cfg.emailAddressCRM__c)) {
+                continue;
+            }
+
+            String salesTeam = cfg.Label.trim();
+
+            if (!result.containsKey(salesTeam)) {
+                result.put(salesTeam, new List<String>());
+            }
+
+            result.get(salesTeam).add(cfg.emailAddressCRM__c.trim());
+        }
+
+        return result;
+    }
+        /**
+     * Load sales team notification emails from metadata
+     */
+    public static Map<String, List<String>> loadSalesCRMEmails() {
+
+        Map<String, List<String>> result = new Map<String, List<String>>();
+
+        // Metadata label must match Event__c.SalesTeam__c
+        for (BooklySalesTeamNotification__mdt cfg : BooklySalesTeamNotification__mdt.getAll().values()) {
+
             if (String.isBlank(cfg.Label) || String.isBlank(cfg.emailAddress__c)) {
                 continue;
             }
@@ -826,22 +860,14 @@ public without sharing class customEventNotificationManager {
         for (Event__c evt : eventsWithData) {
 
             Set<String> recipients = new Set<String>();
-
+            
             // Organizer
             if (evt.Organizer__r != null &&
                 String.isNotBlank(evt.Organizer__r.Email)) {
 
                 recipients.add(evt.Organizer__r.Email);
             }
-
-            // Sales owner
-            if (evt.SalesOwner__r != null &&
-                String.isNotBlank(evt.SalesOwner__r.Email)) {
-
-                recipients.add(evt.SalesOwner__r.Email);
-            }
-
-            // Sales team emails from metadata
+            // CRM notification emails from metadata
             if (String.isNotBlank(evt.SalesTeam__c) &&
                 salesTeamEmails.containsKey(evt.SalesTeam__c)) {
 

@@ -85,10 +85,6 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
-        <apexClass>customEventNotificationService</apexClass>
-        <enabled>true</enabled>
-    </classAccesses>
-    <classAccesses>
         <apexClass>customEventService</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -286,6 +282,6 @@
     </tabSettings>
     <tabSettings>
         <tab>EventsOverView</tab>
-        <visibility>Available</visibility>
+        <visibility>Visible</visibility>
     </tabSettings>
 </PermissionSet>

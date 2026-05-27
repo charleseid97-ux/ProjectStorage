@@ -209,7 +209,7 @@
             <default>false</default>
         </values>
         <values>
-            <fullName>Besançon</fullName>
+            <fullName>Besancon</fullName>
             <default>false</default>
         </values>
         <values>
@@ -353,7 +353,7 @@
             <default>false</default>
         </values>
         <values>
-            <fullName>Coruña</fullName>
+            <fullName>Coruna</fullName>
             <default>false</default>
         </values>
         <values>
@@ -389,7 +389,7 @@
             <default>false</default>
         </values>
         <values>
-            <fullName>Düsseldorf</fullName>
+            <fullName>Dusseldorf</fullName>
             <default>false</default>
         </values>
         <values>
@@ -429,7 +429,7 @@
             <default>false</default>
         </values>
         <values>
-            <fullName>Gijón</fullName>
+            <fullName>Gijon</fullName>
             <default>false</default>
         </values>
         <values>
@@ -497,7 +497,7 @@
             <default>false</default>
         </values>
         <values>
-            <fullName>Hyères</fullName>
+            <fullName>Hyeres</fullName>
             <default>false</default>
         </values>
         <values>
@@ -533,11 +533,11 @@
             <default>false</default>
         </values>
         <values>
-            <fullName>Konstanz</fullName>
+            <fullName>Konigstein im Taunus</fullName>
             <default>false</default>
         </values>
         <values>
-            <fullName>Königstein im Taunus</fullName>
+            <fullName>Konstanz</fullName>
             <default>false</default>
         </values>
         <values>
@@ -589,6 +589,10 @@
             <default>false</default>
         </values>
         <values>
+            <fullName>Liege</fullName>
+            <default>false</default>
+        </values>
+        <values>
             <fullName>Lille</fullName>
             <default>false</default>
         </values>
@@ -609,15 +613,15 @@
             <default>false</default>
         </values>
         <values>
-            <fullName>Liège</fullName>
-            <default>false</default>
-        </values>
-        <values>
             <fullName>Logroño</fullName>
             <default>false</default>
         </values>
         <values>
             <fullName>London</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>LondonCanada</fullName>
             <default>false</default>
         </values>
         <values>
@@ -701,7 +705,7 @@
             <default>false</default>
         </values>
         <values>
-            <fullName>Montréal</fullName>
+            <fullName>Montreal</fullName>
             <default>false</default>
         </values>
         <values>
@@ -709,15 +713,19 @@
             <default>false</default>
         </values>
         <values>
+            <fullName>Mulhouse</fullName>
+            <default>false</default>
+        </values>
+        <values>
             <fullName>Munich</fullName>
             <default>false</default>
         </values>
         <values>
-            <fullName>Murcia-Orihuela</fullName>
+            <fullName>Munster</fullName>
             <default>false</default>
         </values>
         <values>
-            <fullName>Münster</fullName>
+            <fullName>Murcia-Orihuela</fullName>
             <default>false</default>
         </values>
         <values>
@@ -885,7 +893,7 @@
             <default>false</default>
         </values>
         <values>
-            <fullName>San Sebastián</fullName>
+            <fullName>San Sebastian</fullName>
             <default>false</default>
         </values>
         <values>
@@ -1313,6 +1321,33 @@
         <values>
             <fullName>WaitingForSpeakerApprovals</fullName>
             <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>timezone__c</picklist>
+        <values>
+            <fullName>America%2FToronto</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Asia%2FDubai</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Asia%2FSingapore</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Europe%2FHelsinki</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Europe%2FLondon</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Europe%2FParis</fullName>
+            <default>true</default>
         </values>
     </picklistValues>
 </RecordType>

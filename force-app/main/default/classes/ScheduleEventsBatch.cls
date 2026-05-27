@@ -8,7 +8,7 @@ global without sharing class ScheduleEventsBatch implements Database.Batchable<S
     private Map<String, Integer> headerIndex;
     private Integer fromLine;
     private Integer toLine;
-    private static final String ERROR_PREFIX =    ERROR_PREFIX;
+
     // Conserve les erreurs entre les execute()
     private List<String> collectedErrors = new List<String>();
 
@@ -125,7 +125,7 @@ global without sharing class ScheduleEventsBatch implements Database.Batchable<S
             if (ev == null) {
                 skippedRows++;
                 System.debug('SKIP event build failed for scheduleId=' + row.scheduleId);
-                collectedErrors.add(ERROR_PREFIX + row.scheduleId + ' Error : buildEvent returned null');
+                collectedErrors.add('scheduleId : ' + row.scheduleId + ' Error : buildEvent returned null');
                 continue;
             }
 
@@ -163,7 +163,7 @@ global without sharing class ScheduleEventsBatch implements Database.Batchable<S
                 System.debug('EVENT SAVED ScheduleID=' + ev.ScheduleID__c + ' Id=' + ev.Id);
             } catch (Exception e) {
                 eventErrors++;
-                String errorMessage = ERROR_PREFIX + row.scheduleId + ' Error : ' + e.getMessage();
+                String errorMessage = 'scheduleId : ' + row.scheduleId + ' Error : ' + e.getMessage();
                 collectedErrors.add(errorMessage);
 
                 System.debug(

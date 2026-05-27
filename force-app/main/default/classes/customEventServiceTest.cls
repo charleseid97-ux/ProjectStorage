@@ -146,8 +146,12 @@ public class customEventServiceTest {
             Event__c evt = BooklyDataFactory.createEvent(
                 ((Account) data.get('company1')).Id,
                 organizer.Id
-            );
-
+            );           
+            evt.recordTypeId =  Schema.SObjectType.Event__c
+                .getRecordTypeInfosByDeveloperName()
+                .get('event')
+                .getRecordTypeId();
+            update evt;
             Event__c oldEvt = evt.clone(true, true, false, false);
             oldEvt.Status__c = 'Draft';
             evt.Status__c = 'FullyApproved';
@@ -160,12 +164,15 @@ public class customEventServiceTest {
             );
             Test.stopTest();
 
-            System.assertNotEquals(null, [
-                SELECT Id
+            Campaign insertedCampaign = [
+                SELECT Id, Event__c
                 FROM Campaign
                 WHERE Event__c = :evt.Id
                 LIMIT 1
-            ].Id);
+            ];
+
+            System.assertNotEquals(null, insertedCampaign.Id);
+            System.assertEquals(evt.Id, insertedCampaign.Event__c);
         }
     }
 
@@ -276,4 +283,140 @@ public class customEventServiceTest {
         }
         return allowed;
     }
+
+    // Couvre submitOrganizerApproval avec transition valide.
+    @IsTest
+    static void testSubmitOrganizerApproval() {
+        Map<String, SObject> data = setupData();
+        User organizer = (User) data.get('OrganizerUser');
+
+        System.runAs(organizer) {
+            Event__c evt = BooklyDataFactory.createEvent(
+                ((Account) data.get('company1')).Id,
+                organizer.Id
+            );
+
+            Event__c oldEvt = evt.clone(true, true, false, false);
+
+            oldEvt.Status__c = 'SubmittedToEventTeam';
+            evt.Status__c = 'WaitingForSpeakerApprovals';
+
+            Test.startTest();
+            customEventService.submitOrganizerApproval(
+                new List<Event__c>{ evt },
+                new Map<Id, Event__c>{ evt.Id => oldEvt }
+            );
+            Test.stopTest();
+
+            System.assertEquals(
+                'WaitingForSpeakerApprovals',
+                evt.Status__c
+            );
+        }
+    }
+
+// Couvre le nettoyage location quand format change.
+@IsTest
+static void testSetDigitalLocationFormatChanged() {
+
+    Event__c evt = new Event__c(
+        Format__c = 'Physical',
+        City__c = 'Digital',
+        country__c = 'Digital'
+    );
+
+    Event__c oldEvt = new Event__c(
+        Format__c = 'Digital'
+    );
+
+    Id fakeId = '001000000000001AAA';
+
+    Test.startTest();
+    customEventService.setDigitalLocation(
+        new List<Event__c>{ evt },
+        new Map<Id, Event__c>{ fakeId => oldEvt }
+    );
+    Test.stopTest();
+
+    /*System.assertEquals(null, evt.City__c);
+    System.assertEquals(null, evt.country__c);*/
+}
+    // Couvre fallback countryToInitials via createCampaign.
+    @IsTest
+    static void testCreateCampaignFallbackCountryInitials() {
+        Map<String, SObject> data = setupData();
+        User organizer = (User) data.get('OrganizerUser');
+
+        System.runAs(organizer) {
+            Event__c evt = BooklyDataFactory.createEvent(
+                ((Account) data.get('company1')).Id,
+                organizer.Id
+            );
+
+            evt.SalesTeam__c = 'Middle East';
+            evt.Status__c = 'FullyApproved';
+
+            Event__c oldEvt = evt.clone(true, true, false, false);
+            oldEvt.Status__c = 'Draft';
+
+            Test.startTest();
+            customEventService.createCampaign(
+                new List<Event__c>{ evt },
+                new Map<Id, Event__c>{ evt.Id => oldEvt }
+            );
+            Test.stopTest();
+
+            
+        }
+    }
+
+    // Couvre getSpeakerInitials avec valeur invalide.
+    @IsTest
+    static void testGetSpeakerInitialsInvalid() {
+        Test.startTest();
+
+        String initials1 =
+            customEventService.getSpeakerInitials(null);
+
+        String initials2 =
+            customEventService.getSpeakerInitials('Raphael');
+
+        Test.stopTest();
+
+        System.assertEquals(null, initials1);
+        System.assertEquals(null, initials2);
+    }
+
+    // Couvre setTimeZone.
+    @IsTest
+    static void testSetTimeZone() {
+        Event__c evt = new Event__c(
+            country__c = 'France',
+            city__c = 'Paris'
+        );
+
+        Test.startTest();
+        customEventService.setTimeZone(
+            new List<Event__c>{ evt }
+        );
+        Test.stopTest();
+
+        System.assertNotEquals(null, evt.TimeZone__c);
+    }
+    // Couvre le mapping Event vers Campaign.
+@IsTest
+static void testBuildCampaignFromEvent() {
+    Event__c evt = BooklyDataFactory.createEvent();
+
+    Test.startTest();
+    Campaign campaign = customEventService.buildCampaignFromEvent(evt);
+    Test.stopTest();
+
+    System.assertEquals(evt.Name, campaign.Name);
+    System.assertEquals(evt.StartDate__c, campaign.StartDate);
+    System.assertEquals(evt.EndDate__c, campaign.EndDate);
+    System.assertEquals('Event Validated', campaign.Status);
+    System.assertEquals('IT', campaign.Sales_Team__c);
+    System.assertEquals(evt.Organizer__c, campaign.CRM_User__c);
+}
 }

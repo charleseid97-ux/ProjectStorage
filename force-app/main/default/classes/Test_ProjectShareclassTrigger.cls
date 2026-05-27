@@ -49,7 +49,6 @@ public class Test_ProjectShareclassTrigger {
         
         // Ancienne valeur vide -> nouvelle valeur remplie = création TaxData + email
         Test.startTest();
-        
         shareClass.TaxTransparency__c = 'AT;BE TIS';
         update shareClass;
         
@@ -60,9 +59,9 @@ public class Test_ProjectShareclassTrigger {
             WHERE ProjectShareclass__c = :shareClass.Id
             AND Source__c = 'PMT'
         ];
-        
+
         System.assertEquals(2, createdTaxData.size(), '2 TaxData doivent être créés');
-        
+
         Set<String> keys = new Set<String>();
         for (TaxData__c td : createdTaxData) {
             keys.add(td.Country__c + '|' + td.Type__c + '|' + td.Status__c);
@@ -73,7 +72,6 @@ public class Test_ProjectShareclassTrigger {
         
         System.assert(keys.contains('AT|Transparency|Requested'));
         System.assert(keys.contains('BE|BE TIS|Requested'));
-        
         // Nouvelle valeur retire FR -> le TaxData FR doit passer à Canceled
         shareClass.TaxTransparency__c = 'BE TIS';
         update shareClass;

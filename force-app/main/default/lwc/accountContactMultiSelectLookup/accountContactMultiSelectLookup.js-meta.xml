@@ -18,9 +18,9 @@
             <property name="preselectedIdsJson" type="String" role="inputOnly" label="Preselected Contact Ids (JSON array string)"/>
             <property name="showAddress" type="Boolean" role="inputOnly" label="Display Address"/>
 
-            <property name="accountId" type="String" role="outputOnly" label="Selected Account Id"/>
-            <property name="selectedIdsJson" type="String" role="outputOnly" label="Selected Contact Ids (JSON array string)"/>
-            <property name="selectedIdsCsv" type="String" role="outputOnly" label="Selected Contact Ids (CSV)"/>
+            <property name="accountId" type="String"  label="Selected Account Id"/>
+            <property name="selectedIdsJson" type="String"  label="Selected Contact Ids (JSON array string)"/>
+            <property name="selectedIdsCsv" type="String"  label="Selected Contact Ids (CSV)"/>
         </targetConfig>
     </targetConfigs>
 </LightningComponentBundle>

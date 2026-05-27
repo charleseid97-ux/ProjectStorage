@@ -162,12 +162,15 @@ public without sharing class sessionSpeakerProductService {
 
             String summary = buildSummary(data.productsByKey.get(key));
 
+            Contact speaker = speakerById.get(speakerId);
+            Boolean isAutoApproved = speaker != null && speaker.IsTopSpeaker__c == false;
+
             toInsert.add(new EventSpeakerApprovals__c(
                 Key__c          = key,
                 Event__c        = eventId,
                 Speaker__c      = speakerId,
                 ApproverUser__c = approverUserId,
-                Status__c       = SUBMITTED_STATUS,
+                Status__c       = isAutoApproved ? 'AutoApproved' : SUBMITTED_STATUS,
                 Summary__c      = summary
             ));
         }
@@ -180,6 +183,12 @@ public without sharing class sessionSpeakerProductService {
 
     private static Id getApproverUserId(Map<Id, Contact> speakerById, Id speakerId, String key) {
         Contact c = (speakerById != null) ? speakerById.get(speakerId) : null;
+
+        // Non top speaker => pas besoin d'assistant
+        if (c != null && c.IsTopSpeaker__c == false) {
+            return null;
+        }
+
         Id approverUserId = (c != null) ? c.SpeakerAssistant__c : null;
 
         if (approverUserId == null) {
@@ -191,7 +200,6 @@ public without sharing class sessionSpeakerProductService {
 
         return approverUserId;
     }
-
     private static String buildSummary(Set<String> productNames) {
         if (productNames == null || productNames.isEmpty()) return null;
 
@@ -276,7 +284,7 @@ public without sharing class sessionSpeakerProductService {
         if (speakerIds == null || speakerIds.isEmpty()) return new Map<Id, Contact>();
 
         return new Map<Id, Contact>([
-            SELECT Id, SpeakerAssistant__c
+            SELECT Id, SpeakerAssistant__c, IsTopSpeaker__c
             FROM Contact
             WHERE Id IN :speakerIds
         ]);
@@ -324,7 +332,7 @@ public without sharing class sessionSpeakerProductService {
         }
 
         Map<Id, Contact> speakersById = new Map<Id, Contact>([
-            SELECT Id, IsTopSpeaker__c
+            SELECT Id, IsTopSpeaker__c,SpeakerAssistant__c
             FROM Contact
             WHERE Id IN :speakerIds
         ]);
@@ -446,33 +454,70 @@ public without sharing class sessionSpeakerProductService {
     }
 
     public static void updateEventNamesFromSSP(List<SessionSpeakerProduct__c> ssps) {
-        if (ssps == null || ssps.isEmpty()) return;
+    if (ssps == null || ssps.isEmpty()) return;
 
-        Set<Id> eventIds = new Set<Id>();
-        for (SessionSpeakerProduct__c s : ssps) {
-            if (s.Session__c != null) eventIds.add(s.Session__c);
+    Set<Id> eventIds = new Set<Id>();
+    for (SessionSpeakerProduct__c s : ssps) {
+        if (s.Session__c != null) eventIds.add(s.Session__c);
+    }
+
+    if (eventIds.isEmpty()) return;
+
+    List<Event__c> events = [
+        SELECT Id, Name, startDate__c, SalesTeam__c, Title__c, SpeakersHTML__c, Speakers__c
+        FROM Event__c
+        WHERE Id IN :eventIds
+    ];
+
+    if (events.isEmpty()) return;
+
+    List<SessionSpeakerProduct__c> speakers = [
+        SELECT Session__c, SpeakerContact__c,
+            SpeakerContact__r.Name, SpeakerContact__r.Account.Name,
+            Language__c, PresentationStatus__c,
+            startTime__c, endTime__c,
+            strategy__c, strategy__r.Name
+        FROM SessionSpeakerProduct__c
+        WHERE Session__c IN :eventIds
+        AND SpeakerContact__c != null
+        ORDER BY Session__c, SpeakerContact__c
+    ];
+
+    Map<Id, List<SessionSpeakerProduct__c>> eventToSpeakers = new Map<Id, List<SessionSpeakerProduct__c>>();
+    for (SessionSpeakerProduct__c speaker : speakers) {
+        if (!eventToSpeakers.containsKey(speaker.Session__c)) {
+            eventToSpeakers.put(speaker.Session__c, new List<SessionSpeakerProduct__c>());
         }
 
-        if (eventIds.isEmpty()) return;
+        eventToSpeakers.get(speaker.Session__c).add(speaker);
+    }
 
-        List<Event__c> events = [
-            SELECT Id, Name, startDate__c, SalesTeam__c, Title__c
-            FROM Event__c
-            WHERE Id IN :eventIds
-        ];
-
-        if (events.isEmpty()) return;
-
-        Map<Id, String> oldNames = new Map<Id, String>();
+    Map<Id, String> oldNames = new Map<Id, String>();
+        Map<Id, String> oldSpeakersHtml = new Map<Id, String>();
+        Map<Id, String> oldSpeakers = new Map<Id, String>();
         for (Event__c e : events) {
             oldNames.put(e.Id, e.Name);
+            oldSpeakersHtml.put(e.Id, e.SpeakersHTML__c);
+            oldSpeakers.put(e.Id, e.Speakers__c);
         }
 
         customEventService.setEventName(events, false);
 
         List<Event__c> toUpdate = new List<Event__c>();
         for (Event__c e : events) {
-            if (oldNames.get(e.Id) != e.Name) {
+            List<SessionSpeakerProduct__c> eventSpeakers = eventToSpeakers.get(e.Id);
+
+            e.SpeakersHTML__c = customEventSpeakerApprovalService.buildSpeakersHtmlSingleSection(
+                'Speakers',
+                eventSpeakers
+            );
+            e.Speakers__c = customEventSpeakerApprovalService.buildSpeakersText(eventSpeakers);
+
+            if (
+                oldNames.get(e.Id) != e.Name ||
+                oldSpeakersHtml.get(e.Id) != e.SpeakersHTML__c ||
+                oldSpeakers.get(e.Id) != e.Speakers__c
+            ) {
                 toUpdate.add(e);
             }
         }
