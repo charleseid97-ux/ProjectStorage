@@ -259,7 +259,10 @@ export default class CustomGridBuilder extends NavigationMixin(LightningElement)
                 this.availableTeams = (agreementSettings.availableTeams || []).map(t => ({ label: t, value: t }));
                 this.primaryTeam = agreementSettings.primaryTeam;
                 this.selectedTeam = this.primaryTeam || (this.availableTeams.length ? this.availableTeams[0].value : null);
-                this.gridRequestData.startDate = new Date().toISOString().split('T')[0];
+                const today    = new Date().toISOString().split('T')[0];
+                const minStart = agreementSettings.existingGridStartDate ? this.shiftOne(agreementSettings.existingGridStartDate) : null;
+                const maxStart = agreementSettings.existingGridEndDate   ? this.shiftOne(agreementSettings.existingGridEndDate)   : null;
+                this.gridRequestData.startDate = [today, minStart, maxStart].filter(Boolean).reduce((a, b) => a > b ? a : b, today);
                 this.existingGridInfo = {
                     hasExistingGrid:        agreementSettings.hasExistingGrid             || false,
                     kind:                   agreementSettings.existingGridKind             || null,
@@ -870,6 +873,12 @@ export default class CustomGridBuilder extends NavigationMixin(LightningElement)
         this.resetResults(true);
         if(notify)
             showToast(this, this.labels.UI_Success, this.labels.Grid_ResetAll_Success, 'success');
+    }
+
+    // ------------------------------------ Utility methods ------------------------------------
+    shiftOne(dateStr) {
+        const [y, m, d] = dateStr.split('-').map(Number);
+        return new Date(Date.UTC(y, m - 1, d + 1)).toISOString().split('T')[0];
     }
 
     // ------------------------------------ Confirmation Modal methods ------------------------------------

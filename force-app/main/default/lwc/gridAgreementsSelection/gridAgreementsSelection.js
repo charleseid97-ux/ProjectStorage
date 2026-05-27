@@ -115,6 +115,12 @@ export default class GridAgreementsSelection extends LightningElement {
     get existingGridType()               { return this._existingGridInfo.type; }
     get existingGridSingleRuleSelection(){ return this._existingGridInfo.singleRuleGridSelection; }
 
+    formatDate(dateStr) {
+        const months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+        const [y, m, d] = dateStr.split('-').map(Number);
+        return `${String(d).padStart(2, '0')}-${months[m - 1]}-${y}`;
+    }
+
     shiftDate(dateStr, days) {
         const [y, m, d] = dateStr.split('-').map(Number);
         const dt = new Date(Date.UTC(y, m - 1, d + days));
@@ -140,9 +146,9 @@ export default class GridAgreementsSelection extends LightningElement {
 
     get startDateConstraintInfo() {
         if (!this.hasExistingGrid) return null;
-        const minPart = this.minStartDate ? `Must be after ${this.existingGridStartDate}.` : '';
-        const maxPart = this.maxStartDate ? ` Cannot exceed ${this.existingGridEndDate}.` : '';
-        return minPart + maxPart;
+        const minPart = this.minStartDate ? `Earliest allowed: ${this.formatDate(this.minStartDate)}\nMust start after the last approved grid's start date` : '';
+        const maxPart = this.maxStartDate ? `Latest allowed: ${this.formatDate(this.maxStartDate)}\nCannot exceed the last approved grid's end date` : '';
+        return [minPart, maxPart].filter(Boolean).join('\n\n');
     }
 
     get isLoadPreviousToggleDisabled() {
