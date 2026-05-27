@@ -270,38 +270,38 @@ public with sharing class GridDetailTableController {
         @AuraEnabled public Date endDate;
         @AuraEnabled public Boolean isExpired;
         public GridDetailRow(GridDetail__c detail, Map<Id, String> aumByShareClass) {
-            Boolean isCustom         =   detail.StandardGridDetail__c != null;
-            Share_Class__c share     =   isCustom ? detail.StandardGridDetail__r.ShareClass__r : detail.ShareClass__r;
-            Id effectiveScId         =   isCustom ? detail.StandardGridDetail__r.ShareClass__c : detail.ShareClass__c;
-            GridRule__c gridRule     =   isCustom ? detail.StandardGridDetail__r.GridRule__r : detail.GridRule__r;
-            Decimal effFee           =   detail.EffectiveManagementFees__c;
-            Decimal baseRebateRate   =   isCustom ? detail.StandardGridDetail__r.RebateRate__c : detail.RebateRate__c;
-            Boolean hasFinalRate     =   gridRule != null && gridRule.FinalRebateRate__c != null;
-            Decimal effectiveRate    =   hasFinalRate ? gridRule.FinalRebateRate__c : baseRebateRate;
-            Decimal netMarginVal     =   calculateNetMargin(effFee, effectiveRate);
-            Decimal profitabilityVal =   (effFee != null && effFee != 0 && netMarginVal != null) ? (netMarginVal / effFee * 100).setScale(2, RoundingMode.HALF_UP) : null;
-
-            this.id                  =   detail.Id;
-            this.shareClassId        =   effectiveScId;
-            this.standardGridDetailId=   isCustom ? detail.StandardGridDetail__c : detail.Id;
-            this.stdGridName         =   isCustom ? detail.StandardGridDetail__r?.Grid__r?.Name : detail.Grid__r?.Name;
-            this.assetType           =   getShareValue(share, 'Fund__r.FundStrategy__r.AssetClass__c');
-            this.strategy            =   getShareValue(share, 'Fund__r.FundStrategy__r.Name');
-            this.legalStatus         =   getShareValue(share, 'Fund__r.LegalForm__c');
-            this.internalShortName   =   getShareValue(share, 'Fund__r.InternalShortName__c');
-            this.portfolio           =   getShareValue(share, 'Fund__r.ProductName__c');
-            this.shareClass          =   getShareValue(share, 'Name__c');
-            this.isin                =   getShareValue(share, 'ISIN__c');
-            this.aum                 =   aumByShareClass.containsKey(effectiveScId) ? aumByShareClass.get(effectiveScId) : '0';
-            this.effMgtFeeDate       =   isCustom ? detail.StandardGridDetail__r.StartDate__c : detail.StartDate__c;
-            this.effMgtFee           =   GridBuilderHelper.formatPercent(effFee);
-            this.rebateRate          =   GridBuilderHelper.formatPercent(effectiveRate);
-            this.netMargin           =   GridBuilderHelper.formatPercent(netMarginVal);
-            this.profitability       =   GridBuilderHelper.formatPercent(profitabilityVal);
-            this.gridRule            =   hasFinalRate ? 'Calculated Rebates' : (gridRule != null ? gridRule.RuleToApply__c : null);
-            this.ruleValue           =   hasFinalRate ? GridBuilderHelper.formatPercent(gridRule.FinalRebateRate__c) : buildRuleValue(gridRule);
-            this.endDate             =   detail.EndDate__c;
-            this.isExpired           =   detail.EndDate__c != null && detail.EndDate__c < Date.today();
+            Boolean isCustom          =   detail.StandardGridDetail__c != null;
+            Share_Class__c share      =   detail.ShareClass__r;
+            Id effectiveScId          =   detail.ShareClass__c;
+            GridRule__c gridRule      =   isCustom ? detail.StandardGridDetail__r.GridRule__r : detail.GridRule__r;
+            Decimal effFee            =   detail.EffectiveManagementFees__c;
+            Decimal baseRebateRate    =   isCustom ? detail.StandardGridDetail__r.RebateRate__c : detail.RebateRate__c;
+            Boolean hasFinalRate      =   gridRule != null && gridRule.FinalRebateRate__c != null;
+            Decimal effectiveRate     =   hasFinalRate ? gridRule.FinalRebateRate__c : baseRebateRate;
+            Decimal netMarginVal      =   calculateNetMargin(effFee, effectiveRate);
+            Decimal profitabilityVal  =   (effFee != null && effFee != 0 && netMarginVal != null) ? (netMarginVal / effFee * 100).setScale(2, RoundingMode.HALF_UP) : null;
+ 
+            this.id                   =   detail.Id;
+            this.shareClassId         =   effectiveScId;
+            this.standardGridDetailId =   isCustom ? detail.StandardGridDetail__c : detail.Id;
+            this.stdGridName          =   isCustom ? detail.StandardGridDetail__r?.Grid__r?.Name : detail.Grid__r?.Name;
+            this.assetType            =   getShareValue(share, 'Fund__r.FundStrategy__r.AssetClass__c');
+            this.strategy             =   getShareValue(share, 'Fund__r.FundStrategy__r.Name');
+            this.legalStatus          =   getShareValue(share, 'Fund__r.LegalForm__c');
+            this.internalShortName    =   getShareValue(share, 'Fund__r.InternalShortName__c');
+            this.portfolio            =   getShareValue(share, 'Fund__r.ProductName__c');
+            this.shareClass           =   getShareValue(share, 'Name__c');
+            this.isin                 =   getShareValue(share, 'ISIN__c');
+            this.aum                  =   aumByShareClass.containsKey(effectiveScId) ? aumByShareClass.get(effectiveScId) : '0';
+            this.effMgtFeeDate        =   detail.StartDate__c;
+            this.effMgtFee            =   GridBuilderHelper.formatPercent(effFee);
+            this.rebateRate           =   GridBuilderHelper.formatPercent(effectiveRate);
+            this.netMargin            =   GridBuilderHelper.formatPercent(netMarginVal);
+            this.profitability        =   GridBuilderHelper.formatPercent(profitabilityVal);
+            this.gridRule             =   hasFinalRate ? 'Calculated Rebates' : (gridRule != null ? gridRule.RuleToApply__c : null);
+            this.ruleValue            =   hasFinalRate ? GridBuilderHelper.formatPercent(gridRule.FinalRebateRate__c) : buildRuleValue(gridRule);
+            this.endDate              =   detail.EndDate__c;
+            this.isExpired            =   detail.EndDate__c != null && detail.EndDate__c < Date.today();
         }
     }
 }

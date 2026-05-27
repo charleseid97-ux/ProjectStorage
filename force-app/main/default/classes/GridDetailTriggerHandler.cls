@@ -45,21 +45,26 @@ public with sharing class GridDetailTriggerHandler implements ITriggerHandler {
         if (gridIds.isEmpty()) return;
 
         Id customGridRtId = Schema.SObjectType.Grid__c.getRecordTypeInfosByDeveloperName().get(GridBuilderHelper.RT_CUSTOM_GRID).getRecordTypeId();
-        Set<Id> customGridIds = new Map<Id, Grid__c>([SELECT Id FROM Grid__c WHERE Id IN :gridIds AND RecordTypeId = :customGridRtId]).keySet();
+        Map<Id, Grid__c> customGridMap = new Map<Id, Grid__c>([SELECT Id, StartDate__c FROM Grid__c WHERE Id IN :gridIds AND RecordTypeId = :customGridRtId]);
+        Set<Id> customGridIds = customGridMap.keySet();
         if (customGridIds.isEmpty()) return;
 
         Map<Id, GridDetail__c> sourceMap = new Map<Id, GridDetail__c>([SELECT Id, ShareClass__c, RebateRate__c, EffectiveManagementFees__c, StartDate__c, EndDate__c 
                                                                        FROM GridDetail__c 
                                                                        WHERE Id IN :stdDetIds]);
 
+        Date gridStart, srcStart;
         for (GridDetail__c d : gdToUpdate) {
             if (!customGridIds.contains(d.Grid__c)) continue;
             GridDetail__c src = sourceMap.get(d.StandardGridDetail__c);
             if (src != null) {
+                gridStart = customGridMap.get(d.Grid__c)?.StartDate__c;
+                srcStart  = src.StartDate__c;
+
                 d.ShareClass__c              = src.ShareClass__c;
                 d.RebateRate__c              = src.RebateRate__c;
                 d.EffectiveManagementFees__c = src.EffectiveManagementFees__c;
-                d.StartDate__c               = src.StartDate__c;
+                d.StartDate__c               = (gridStart != null && (srcStart == null || gridStart > srcStart)) ? gridStart : srcStart;
                 d.EndDate__c                 = src.EndDate__c;
             }
         }
@@ -124,14 +129,14 @@ public with sharing class GridDetailTriggerHandler implements ITriggerHandler {
         if (standardGridIds.isEmpty()) return;
 
         // Query all Standard Grid Details for those (Grid, ShareClass) pairs
-        Map<String, List<Id>> stdIdsByKey = new Map<String, List<Id>>();
-        for (GridDetail__c std : [SELECT Id, Grid__c, ShareClass__c
+        Map<String, List<GridDetail__c>> stdDetsByKey = new Map<String, List<GridDetail__c>>();
+        for (GridDetail__c std : [SELECT Id, Grid__c, ShareClass__c, StartDate__c, EndDate__c
                                   FROM GridDetail__c
                                   WHERE Grid__c IN :standardGridIds AND ShareClass__c IN :shareClassIds
                                   ORDER BY StartDate__c ASC NULLS LAST]) {
             String key = std.Grid__c + '_' + std.ShareClass__c;
-            if (!stdIdsByKey.containsKey(key)) stdIdsByKey.put(key, new List<Id>());
-            stdIdsByKey.get(key).add(std.Id);
+            if (!stdDetsByKey.containsKey(key)) stdDetsByKey.put(key, new List<GridDetail__c>());
+            stdDetsByKey.get(key).add(std);
         }
 
         // Seed covered keys with base records (already inserted) — keyed by CustomGrid__c + StandardGridDetail__c
@@ -141,6 +146,7 @@ public with sharing class GridDetailTriggerHandler implements ITriggerHandler {
             coveredKeys.add(d.Grid__c + '_' + d.StandardGridDetail__c);
             customGridIdsForQuery.add(d.Grid__c);
         }
+        Map<Id, Grid__c> customGridDateMap = new Map<Id, Grid__c>([SELECT Id, StartDate__c, EndDate__c FROM Grid__c WHERE Id IN :customGridIdsForQuery]);
 
         // Exclude (Grid, StandardGridDetail) pairs that already exist to make the insert idempotent
         for (GridDetail__c existing : [SELECT Grid__c, StandardGridDetail__c
@@ -155,16 +161,22 @@ public with sharing class GridDetailTriggerHandler implements ITriggerHandler {
             GridDetail__c ref = stdDetMap.get(d.StandardGridDetail__c);
             if (ref == null) continue;
             String key = ref.Grid__c + '_' + ref.ShareClass__c;
-            List<Id> allStdIds = stdIdsByKey.get(key);
-            if (allStdIds == null) continue;
-            for (Id stdId : allStdIds) {
-                String coveredKey = d.Grid__c + '_' + stdId;
+            List<GridDetail__c> allStdDets = stdDetsByKey.get(key);
+            if (allStdDets == null) continue;
+            Grid__c parentGrid = customGridDateMap.get(d.Grid__c);
+            Date gridStart = parentGrid?.StartDate__c;
+            Date gridEnd   = parentGrid?.EndDate__c;
+            for (GridDetail__c std : allStdDets) {
+                String coveredKey = d.Grid__c + '_' + std.Id;
                 if (coveredKeys.contains(coveredKey)) continue; // already exists or already queued
+                // Skip standard details whose interval does not overlap with the parent grid's interval
+                if (gridStart != null && std.EndDate__c != null && std.EndDate__c < gridStart) continue;
+                if (gridEnd != null && std.StartDate__c != null && std.StartDate__c > gridEnd) continue;
                 coveredKeys.add(coveredKey); // prevent intra-batch duplicates
                 historicalToInsert.add(new GridDetail__c(
                     RecordTypeId = customGridDetailRtId,
                     Grid__c = d.Grid__c,
-                    StandardGridDetail__c = stdId,
+                    StandardGridDetail__c = std.Id,
                     GridCriteria__c = d.GridCriteria__c
                 ));
             }
