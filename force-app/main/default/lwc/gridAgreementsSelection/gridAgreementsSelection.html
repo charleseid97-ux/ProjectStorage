@@ -93,33 +93,42 @@
                     </div>
                 </div>
 
-                <!-- Warning: previous grid exists -->
-                <template if:true={hasExistingGrid}>
-                    <div class="info-banner">
-                        <lightning-icon icon-name="utility:info" size="x-small"></lightning-icon>
-                        <span>A previous grid exists for this agreement. It will be automatically given an end date of the day before the selected start date.</span>
+                <!-- Warning: previous grid end date will be updated -->
+                <template if:true={showEndDateChangeWarning}>
+                    <div class="warning-banner">
+                        <lightning-icon icon-name="utility:warning" size="x-small" variant="warning"></lightning-icon>
+                        <span>The end date of the last approved grid will be changed from {existingGridEndDate} to {expectedApprovedGridEndDate} once the new draft grid is approved.</span>
                     </div>
                 </template>
 
                 <!-- AG5 + AG6: Start Date and End Date side by side -->
                 <div class="date-row">
                     <div class="date-field">
+                        <div class="date-label-row">
+                            <span class="slds-form-element__label">{labels.Grid_StartDate}</span>
+                            <template if:true={startDateConstraintInfo}>
+                                <div class="date-info-wrapper">
+                                    <lightning-icon icon-name="utility:info" size="xx-small" class="date-info-icon"></lightning-icon>
+                                    <div class="date-info-popup" role="tooltip">
+                                        <p class="date-info-content">{startDateConstraintInfo}</p>
+                                    </div>
+                                </div>
+                            </template>
+                        </div>
                         <lightning-input type="date"
                                          label={labels.Grid_StartDate}
+                                         variant="label-hidden"
                                          value={agStartDate}
+                                         min={minStartDate}
+                                         max={maxStartDate}
                                          onchange={handleAgStartDate}>
                         </lightning-input>
-                        <template if:true={isStartDateConflict}>
-                            <div class="warning-banner">
-                                <lightning-icon icon-name="utility:warning" size="x-small" variant="warning"></lightning-icon>
-                                <span>Warning: the start date overlaps with the existing grid end date ({existingGridEndDate}). Please verify before proceeding.</span>
-                            </div>
-                        </template>
                     </div>
                     <div class="date-field">
                         <lightning-input type="date"
                                          label="End Date"
                                          value={agEndDate}
+                                         min={agStartDate}
                                          onchange={handleAgEndDate}>
                         </lightning-input>
                         <template if:true={isEndDateBeforeStartDate}>
