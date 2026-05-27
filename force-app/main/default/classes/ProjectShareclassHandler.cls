@@ -1,3 +1,15 @@
+/**
+ * ==================================================
+ * Change Log
+ * ==================================================
+ * Date   : 2026-05-26
+ * Author : Mira EID
+ * Ref    : US-19137
+ *
+ * Changes:
+ * - Updated SetNameWithoutProduct
+ * ==================================================
+ */
 public class ProjectShareclassHandler {
     
     static final Id fundModificationRecordTypeId = Schema.SObjectType.ProjectProduct__c.getRecordTypeInfosByDeveloperName().get('FundShareClassModification').getRecordTypeId();  
@@ -528,6 +540,101 @@ public class ProjectShareclassHandler {
         // cas standard -> Country = valeur sélectionnée, Type = Transparency
         result.put('Country', sel);
         result.put('Type', 'Transparency');
+        return result;
+    }
+    
+
+    public static void setNameWithoutProduct(
+        List<ProjectShareclass__c> newList,
+        Map<Id, ProjectShareclass__c> oldMap
+    ) {     
+        for (ProjectShareclass__c sc : newList) {
+
+            if (oldMap != null && !hasRelevantFieldChanged(sc, oldMap.get(sc.Id))) {
+                continue;
+            }
+            sc.Name__c = buildName(sc);
+        }
+    }
+
+    private static Boolean hasRelevantFieldChanged(
+        ProjectShareclass__c n,
+        ProjectShareclass__c o
+    ) {
+        return n.LegalForm__c != o.LegalForm__c ||
+            n.DividendPolicy__c != o.DividendPolicy__c ||
+            n.Type__c != o.Type__c ||
+            n.Currency__c != o.Currency__c ||
+            n.CurrencyHedging__c != o.CurrencyHedging__c ||
+            n.DividendFrequency__c != o.DividendFrequency__c;
+    }
+
+    private static String buildName(ProjectShareclass__c sc) { 
+        List<String> parts = new List<String>();
+
+        parts.add(sc.Type__c);
+
+        if (sc.Type__c == 'MyInvestor') {
+            return String.join(parts, ' ');
+        }
+
+        if (!String.isBlank(sc.Currency__c)) {
+            parts.add(sc.Currency__c);
+        }
+
+        Boolean hedged = String.valueOf(sc.CurrencyHedging__c) == 'True';
+
+        if (sc.LegalForm__c == 'OEIC') {
+            if (sc.DividendPolicy__c == 'Accumulating') {
+                parts.add(hedged ? 'Acc Hdg' : 'Acc');
+            } else if (sc.DividendPolicy__c == 'Income') {
+                parts.add(hedged ? 'Inc Hdg' : 'Inc');
+            } else {
+                return null;
+            }
+            return String.join(parts, ' ');
+        }
+
+        if (sc.DividendPolicy__c == 'Accumulating') {
+            parts.add('Acc');
+        } else if (sc.DividendPolicy__c == 'Distributing') {
+            parts.add(getDistributionCode(sc.DividendFrequency__c, 'dis'));
+        } else if (sc.DividendPolicy__c == 'Income') {
+            parts.add(getDistributionCode(sc.DividendFrequency__c, 'inc'));
+        }
+
+        if (hedged) {
+            parts.add('Hdg');
+        }
+
+        return String.join(removeBlank(parts), ' ');
+    }
+
+    private static String getDistributionCode(String frequency, String suffix) {
+        Map<String, String> prefixByFrequency = new Map<String, String>{
+            'Monthly' => 'M',
+            'Quarterly' => 'Q',
+            'Semi-Annually' => 'S',
+            'Annually' => 'Y',
+            'Weekly' => 'W',
+            'Daily' => 'D'
+        };
+
+        if (prefixByFrequency.containsKey(frequency)) {
+            return prefixByFrequency.get(frequency) + suffix;
+        }
+
+        return suffix == 'inc' ? 'inc' : '';
+    }
+
+    private static List<String> removeBlank(List<String> values) {
+        List<String> result = new List<String>();
+
+        for (String value : values) {
+            if (!String.isBlank(value)) {
+                result.add(value);
+            }
+        } 
         return result;
     }
 }
