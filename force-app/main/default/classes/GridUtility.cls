@@ -152,7 +152,7 @@ public with sharing class GridUtility {
         for (ProcessInstance pi : [SELECT Id, TargetObjectId,
                                            (SELECT StepStatus, Comments, CreatedDate,
                                                    ActorId, Actor.Name, OriginalActorId, OriginalActor.Name,
-                                                   ProcessNode.Name
+                                                   StepNode.Name
                                             FROM Steps ORDER BY CreatedDate ASC),
                                            (SELECT ActorId, Actor.Name, OriginalActorId, OriginalActor.Name, CreatedDate
                                             FROM Workitems)
@@ -188,7 +188,7 @@ public with sharing class GridUtility {
             List<CustomApprovalStep__c> steps = new List<CustomApprovalStep__c>();
             for (ProcessInstanceStep pis : stepsByAgreement.containsKey(agrId) ? stepsByAgreement.get(agrId) : new List<ProcessInstanceStep>()) {
                 Boolean isUser         = String.valueOf(pis.ActorId).startsWith('005');
-                String  stepLabel      = pis.ProcessNode?.Name;
+                String  stepLabel      = pis.StepNode?.Name;
                 String  stepStatus     = mapStandardStepStatus(pis.StepStatus);
                 String  assignedToId   = String.valueOf(pis.ActorId);
                 String  assignedName   = pis.Actor?.Name;
@@ -214,7 +214,7 @@ public with sharing class GridUtility {
         for (ProcessInstance pi : [SELECT Id, TargetObjectId,
                                            (SELECT StepStatus, Comments, CreatedDate,
                                                    ActorId, Actor.Name, OriginalActorId, OriginalActor.Name,
-                                                   ProcessNode.Name
+                                                   StepNode.Name
                                             FROM Steps ORDER BY CreatedDate ASC)
                                     FROM ProcessInstance
                                     WHERE TargetObjectId IN :agreementToGridMap.keySet()
@@ -249,7 +249,7 @@ public with sharing class GridUtility {
             List<CustomApprovalStep__c> steps = new List<CustomApprovalStep__c>();
             for (ProcessInstanceStep pis : stepsByAgreement.containsKey(agrId) ? stepsByAgreement.get(agrId) : new List<ProcessInstanceStep>()) {
                 Boolean isUser         = String.valueOf(pis.ActorId).startsWith('005');
-                String  stepLabel      = pis.ProcessNode?.Name;
+                String  stepLabel      = pis.StepNode?.Name;
                 String  stepStatus     = mapStandardStepStatus(pis.StepStatus);
                 String  assignedToId   = String.valueOf(pis.ActorId);
                 String  assignedName   = pis.Actor?.Name;
