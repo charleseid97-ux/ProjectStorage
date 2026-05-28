@@ -1,10 +1,15 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <Package xmlns="http://soap.sforce.com/2006/04/metadata">
+    
     <types>
-        <members>ProjectShareclassTriggerHandler</members>
-        <members>ProjectShareclassHandler</members>
-        <members>Test_ProjectShareclassTrigger</members>
+        <members>ReferentialProductHomepageCtrl</members>
+        <members>ProductHierarchyHelper</members>
         <name>ApexClass</name>
     </types>
-    <version>61.0</version>
+
+    <types>
+        <members>treeReferential</members>
+        <name>LightningComponentBundle</name>
+    </types>
+    <version>65.0</version>
 </Package>

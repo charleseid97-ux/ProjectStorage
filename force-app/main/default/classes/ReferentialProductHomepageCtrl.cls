@@ -152,7 +152,7 @@ public class ReferentialProductHomepageCtrl {
         productHierarchyController.ItemDTO allStrategies = new productHierarchyController.ItemDTO();
 
         // Step 1: Query Share_Class__c based on filters
-        String shareQuery = 'SELECT Id, Name, Fund__c, Status__c,TechIsActive__c, ISIN__c, Fund__r.AssetClass__c, Fund__r.SubAssetClass__c, ' +
+        String shareQuery = 'SELECT Id, Name, Fund__c, Status__c,TechIsActive__c, ISIN__c, Fund__r.AssetClass__c, Fund__r.LaunchDate__c, Fund__r.SubAssetClass__c, ' +
         'Last_AUM_Previous_Year__c, Last_AUM_Available__c, YTD_Net_Flows__c, CurrencyIsoCode,Currency__c, Country__c, Type__c ' +
         ', (SELECT Id,Country__c FROM Countries__r) '+
         'FROM Share_Class__c WHERE TechIsActive__c =:isActiveProducts';
@@ -213,7 +213,7 @@ public class ReferentialProductHomepageCtrl {
         
         
         
-            fundQuery = 'SELECT Id, Name, SRI__c, Record_Type_Name__c, Sub_Asset_Class__r.Name,RecordTypeId, ' +
+            fundQuery = 'SELECT Id, Name, SRI__c, Record_Type_Name__c, Sub_Asset_Class__r.Name,RecordTypeId,LaunchDate__c, ' +
                     'Sub_Asset_Class__r.Record_Type_Name__c, Sub_Asset_Class__c, Asset_Class__r.Record_Type_Name__c, ' +
                     'Asset_Class__c, Asset_Class__r.Name, FundStrategy__c, FundStrategy__r.Name,AssetClass__c,SubAssetClass__c, ' +
                     'FundStrategy__r.InvestmentStyle__c, Strategy__c, Strategy__r.Name, Strategy__r.SRI__c, ' +
@@ -275,7 +275,7 @@ public class ReferentialProductHomepageCtrl {
         String otherShareQuery = '';
         if(sharesList.isEmpty() && !fundsIds.isEmpty()){
             system.debug('empty share '+searchKey);
-            otherShareQuery= 'SELECT Id, Name, Fund__c, Fund__r.AssetClass__c, Fund__r.SubAssetClass__c, Status__c,TechIsActive__c, ISIN__c, ' +
+            otherShareQuery= 'SELECT Id, Name, Fund__c, Fund__r.AssetClass__c,Fund__r.LaunchDate__c, Fund__r.SubAssetClass__c, Status__c,TechIsActive__c, ISIN__c, ' +
             'Last_AUM_Previous_Year__c, Last_AUM_Available__c, YTD_Net_Flows__c, CurrencyIsoCode, Country__c, Type__c ' +
             ', (SELECT Id,Country__c FROM Countries__r) ' +
             'FROM Share_Class__c WHERE Fund__c IN :fundsIds AND TechIsActive__c = :isActiveProducts';

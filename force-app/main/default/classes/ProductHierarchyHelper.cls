@@ -263,7 +263,7 @@ public with sharing class ProductHierarchyHelper
             
                         strategy.assetclass = str.AssetClass__c;
                         
-                        strategy.regionalfocus = str.SubAssetClass__c;
+                        //strategy.regionalfocus = str.SubAssetClass__c;
 
                         if(strategy.items.size() > 0)
                         {
@@ -328,7 +328,7 @@ public with sharing class ProductHierarchyHelper
                 //if(fund.Last_AUM_Available__c != null) fundItem.lastaum = formatSharesAUM('- Last AUM : ', fund.Last_AUM_Available__c);
                 //if(fund.YTD_Net_Flows__c != null) fundItem.ytdnet = formatSharesAUM('- YTD Flows : ', fund.YTD_Net_Flows__c);
 				fundItem.assetclass = fund.AssetClass__c;
-                fundItem.regionalfocus = fund.SubAssetClass__c;
+                fundItem.regionalfocus = String.valueOf(fund.LaunchDate__c);
                 fundItems.add(fundItem);
             }else{
                 productHierarchyController.ItemDTO fundItem = new productHierarchyController.ItemDTO(fund.Name, fund.Record_Type_Name__c, fund.Name, URL.getSalesforceBaseUrl().toExternalForm()+'/'+fund.Id,
@@ -338,7 +338,7 @@ public with sharing class ProductHierarchyHelper
                 //if(fund.Last_AUM_Available__c != null) fundItem.lastaum = formatSharesAUM('- Last AUM : ', fund.Last_AUM_Available__c);
                 //if(fund.YTD_Net_Flows__c != null) fundItem.ytdnet = formatSharesAUM('- YTD Flows : ', fund.YTD_Net_Flows__c);
 				fundItem.assetclass = fund.AssetClass__c;
-                fundItem.regionalfocus = fund.SubAssetClass__c;
+                fundItem.regionalfocus = String.valueOf(fund.LaunchDate__c);
                 fundItems.add(fundItem);
 
             }
@@ -360,7 +360,7 @@ public with sharing class ProductHierarchyHelper
                 //if(share.Last_AUM_Available__c != null) shareItem.lastaum = formatSharesAUM('- Last AUM : ', share.Last_AUM_Available__c);
                 //if(share.YTD_Net_Flows__c != null) shareItem.ytdnet = formatSharesAUM('- YTD Flows : ', share.YTD_Net_Flows__c);
                 shareItem.assetclass = share.Fund__r.AssetClass__c;
-                shareItem.regionalfocus = share.Fund__r.SubAssetClass__c;
+                shareItem.regionalfocus = String.valueOf(share.Fund__r.LaunchDate__c);
                 shareItems.add(shareItem);
             }
         }
