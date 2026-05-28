@@ -412,6 +412,7 @@ matchingLegalEntityByCompany.put(le.Company__c, le);
                     }
                 }
             }
+            GridUtility.handleAgreementGridTransitions(newAgreements, oldAgreements);
             return;
         }
         //all companies linked to the new agreements
