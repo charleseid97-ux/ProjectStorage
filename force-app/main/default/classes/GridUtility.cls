@@ -140,11 +140,29 @@ public with sharing class GridUtility {
 
         updateGrids(gridApprovalUpdates, oldGridEndDates);
         AgreementGridTimelineUtility.updateTimelines(submittedAgrToGridIds, approvedAgrToGridIds, rejectedAgrToGridIds, recalledAgrToGridIds, historicalAgrToGridIds, immediateOldGridIds);
-        if (!firstGridProgressMap.isEmpty()) syncFirstGridApprovalProgress(firstGridProgressMap, progressStepLabels);
-        if (!firstGridFinalMap.isEmpty())    finalizeFirstGridApprovalMirror(firstGridFinalMap);
+        if (!firstGridProgressMap.isEmpty() || !firstGridFinalMap.isEmpty()) {
+            System.enqueueJob(new MirrorStandardApprovalQueueable(firstGridProgressMap, progressStepLabels, firstGridFinalMap));
+        }
     }
 
     // ─── Standard Approval Process mirroring ─────────────────────────────────────
+    public class MirrorStandardApprovalQueueable implements Queueable {
+        private Map<Id, Id>     progressMap;
+        private Map<Id, String> progressLabels;
+        private Map<Id, Id>     finalMap;
+
+        public MirrorStandardApprovalQueueable(Map<Id, Id> progressMap, Map<Id, String> progressLabels, Map<Id, Id> finalMap) {
+            this.progressMap    = progressMap;
+            this.progressLabels = progressLabels;
+            this.finalMap       = finalMap;
+        }
+
+        public void execute(QueueableContext ctx) {
+            if (!progressMap.isEmpty()) syncFirstGridApprovalProgress(progressMap, progressLabels);
+            if (!finalMap.isEmpty())    finalizeFirstGridApprovalMirror(finalMap);
+        }
+    }
+
     private static void syncFirstGridApprovalProgress(Map<Id, Id> agreementToGridMap, Map<Id, String> pendingStepLabels) {
         Map<Id, Id> piIdToAgrId = new Map<Id, Id>();
         Map<Id, Id> agrIdToPiId = new Map<Id, Id>();
