@@ -412,40 +412,39 @@ matchingLegalEntityByCompany.put(le.Company__c, le);
                     }
                 }
             }
-            GridUtility.handleAgreementGridTransitions(newAgreements, oldAgreements);
-            return;
-        }
-        //all companies linked to the new agreements
-        Map<Id, Account> companyMap = AgreementUtil.getAllLinkedAccounts(accountIds);
-        Map<Id, Grid__c> gridMap = new Map<Id, Grid__c>([SELECT Id, Name FROM Grid__c WHERE Id IN: gridIds]);
-        
-        if (mConvIds_withSubAgreements.size() > 0){
-            List<Convention__c> lConventionToUpdate = new List<Convention__c>([SELECT Primary_Rebate_Contact__c, Convention__c FROM Convention__c WHERE MasterConvention__c IN :mConvIds_withSubAgreements.keySet() AND Status__c != 'Terminated']);
-            if (lConventionToUpdate.size() > 0){
-                for (Convention__c Conv : lConventionToUpdate) {
-                    Convention__c a = mConvIds_withSubAgreements.get(Conv.id);
-                    for (id MasterId : mConvIds_withSubAgreements.keySet()) {
-                        Conv.Primary_Rebate_Contact__c = mConvIds_withSubAgreements.get(MasterId).Primary_Rebate_Contact__c;
+        } else {
+            //all companies linked to the new agreements
+            Map<Id, Account> companyMap = AgreementUtil.getAllLinkedAccounts(accountIds);
+            Map<Id, Grid__c> gridMap = new Map<Id, Grid__c>([SELECT Id, Name FROM Grid__c WHERE Id IN: gridIds]);
+
+            if (mConvIds_withSubAgreements.size() > 0){
+                List<Convention__c> lConventionToUpdate = new List<Convention__c>([SELECT Primary_Rebate_Contact__c, Convention__c FROM Convention__c WHERE MasterConvention__c IN :mConvIds_withSubAgreements.keySet() AND Status__c != 'Terminated']);
+                if (lConventionToUpdate.size() > 0){
+                    for (Convention__c Conv : lConventionToUpdate) {
+                        Convention__c a = mConvIds_withSubAgreements.get(Conv.id);
+                        for (id MasterId : mConvIds_withSubAgreements.keySet()) {
+                            Conv.Primary_Rebate_Contact__c = mConvIds_withSubAgreements.get(MasterId).Primary_Rebate_Contact__c;
+                        }
                     }
+
                 }
-                
+                update lConventionToUpdate;
             }
-            update lConventionToUpdate;
-        }
-        
-        for (Convention__c agr : newAgreements) {
 
-            Account tmpAcc = companyMap.get(agr.Company__c);
-            Convention__c oldAgr = oldAgreements.get(agr.Id);
+            for (Convention__c agr : newAgreements) {
 
-            if(agr.Company__c != oldAgr.Company__c) {
-                AgreementUtil.validateCompanySnapshot(agr, tmpAcc);
-                AgreementUtil.snapCompanyToAgreement(agr, tmpAcc);
-            }
-            
-            if( (String.isNotEmpty(agr.Amendment_Approval_Status__c) && agr.Amendment_Approval_Status__c != 'Approval Rejected' && agr.Status__c == 'Rejected') ||
-                (String.isNotEmpty(agr.Agreement_Termination_Status__c) && agr.Agreement_Termination_Status__c != 'Approval Rejected' && agr.Status__c == 'Rejected')) {
-                agr.Status__c = 'In Negotiation';
+                Account tmpAcc = companyMap.get(agr.Company__c);
+                Convention__c oldAgr = oldAgreements.get(agr.Id);
+
+                if(agr.Company__c != oldAgr.Company__c) {
+                    AgreementUtil.validateCompanySnapshot(agr, tmpAcc);
+                    AgreementUtil.snapCompanyToAgreement(agr, tmpAcc);
+                }
+
+                if( (String.isNotEmpty(agr.Amendment_Approval_Status__c) && agr.Amendment_Approval_Status__c != 'Approval Rejected' && agr.Status__c == 'Rejected') ||
+                    (String.isNotEmpty(agr.Agreement_Termination_Status__c) && agr.Agreement_Termination_Status__c != 'Approval Rejected' && agr.Status__c == 'Rejected')) {
+                    agr.Status__c = 'In Negotiation';
+                }
             }
         }
 
