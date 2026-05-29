@@ -10,37 +10,28 @@
 public without sharing class EmailService {
 
     public static void sendTemplateEmail(String templateDeveloperName, Id whatId, Set<Id> recipientUserIds) {
-        if (recipientUserIds == null || recipientUserIds.isEmpty()) {
-            return;
-        }
+        if (recipientUserIds == null || recipientUserIds.isEmpty()) return;
 
-        List<EmailTemplate> templates = [SELECT Id FROM EmailTemplate WHERE DeveloperName = :templateDeveloperName LIMIT 1];
+        List<EmailTemplate> templates = [SELECT Subject, HtmlValue, Body FROM EmailTemplate WHERE DeveloperName = :templateDeveloperName LIMIT 1];
         if (templates.isEmpty()) {
             System.debug('EmailService: template not found: ' + templateDeveloperName);
             return;
         }
-        Id templateId = templates[0].Id;
+        EmailTemplate tmpl = templates[0];
+        String htmlBody = String.isNotBlank(tmpl.HtmlValue) ? tmpl.HtmlValue : tmpl.Body;
 
-        Map<Id, String> userEmails = new Map<Id, String>();
-        for (User u : [SELECT Id, Email FROM User WHERE Id IN :recipientUserIds AND IsActive = true]) {
-            if (String.isNotBlank(u.Email)) {
-                userEmails.put(u.Id, u.Email);
-            }
+        List<String> toAddresses = new List<String>();
+        for (User u : [SELECT Email FROM User WHERE Id IN :recipientUserIds AND IsActive = true]) {
+            if (String.isNotBlank(u.Email)) toAddresses.add(u.Email);
         }
+        if (toAddresses.isEmpty()) return;
 
         List<Messaging.SingleEmailMessage> emailList = new List<Messaging.SingleEmailMessage>();
-        for (Id userId : recipientUserIds) {
-            String email = userEmails.get(userId);
-            if (String.isBlank(email)) {
-                continue;
-            }
-            Messaging.SingleEmailMessage rendered = Messaging.renderStoredEmailTemplate(templateId, userId, whatId);
-
+        for (String addr : toAddresses) {
             Messaging.SingleEmailMessage mail = new Messaging.SingleEmailMessage();
-            mail.setTargetObjectId(userId);
-            mail.setSubject(rendered.getSubject());
-            mail.setHtmlBody(rendered.getHtmlBody());
-            mail.setPlainTextBody(rendered.getPlainTextBody());
+            mail.setToAddresses(new List<String>{ addr });
+            mail.setSubject(tmpl.Subject);
+            mail.setHtmlBody(htmlBody);
             mail.setSaveAsActivity(false);
             emailList.add(mail);
         }
