@@ -20,7 +20,7 @@ public with sharing class CustomApprovalHistoryController {
 
         if (recordId == null) return result;
 
-        List<CustomApproval__c> approvals = [SELECT Id, Status__c, SubmittedBy__c, ProcessDeveloperName__c, CreatedDate, Comments__c
+        List<CustomApproval__c> approvals = [SELECT Id, Status__c, SubmittedBy__c, ProcessDeveloperName__c, CreatedDate, Comments__c, TECH_ReadOnly__c
                                              FROM CustomApproval__c
                                              WHERE TargetRecordId__c = :String.valueOf(recordId)
                                              ORDER BY CreatedDate DESC];
@@ -33,7 +33,7 @@ public with sharing class CustomApprovalHistoryController {
         List<CustomApprovalStep__c> steps = [SELECT Id, CustomApproval__c, StepLabel__c, StepDeveloperName__c, Status__c,
                                                     AssignedTo__c, AssignedToName__c, OriginalAssignedTo__c, OriginalAssignedToName__c,
                                                     ActualApprover__r.Name, Comments__c, ActionDate__c, IsCurrentStep__c,
-                                                    CustomApproval__r.ProcessDeveloperName__c, CreatedDate
+                                                    CustomApproval__r.ProcessDeveloperName__c, CustomApproval__r.TECH_ReadOnly__c, CreatedDate
                                              FROM CustomApprovalStep__c
                                              WHERE CustomApproval__c IN :approvalIds
                                              ORDER BY CustomApproval__r.CreatedDate DESC, ActionDate__c ASC NULLS LAST, CreatedDate ASC];
@@ -59,15 +59,18 @@ public with sharing class CustomApprovalHistoryController {
             ApprovalRow row = buildRow(s);
             if (s.IsCurrentStep__c) {
                 Boolean rowCanApprove = false;
-                if (isAdmin) {
-                    rowCanApprove = true;
-                } else if (String.isNotBlank(s.AssignedTo__c)) {
-                    Id assignedId = (Id) s.AssignedTo__c;
-                    String prefix = String.valueOf(assignedId).left(3);
-                    if (prefix == '005' && assignedId == currentUserId) {
+                Boolean isReadOnly = s.CustomApproval__r?.TECH_ReadOnly__c == true;
+                if (!isReadOnly) {
+                    if (isAdmin) {
                         rowCanApprove = true;
-                    } else if (prefix == '00G' && userQueueIds.contains(assignedId)) {
-                        rowCanApprove = true;
+                    } else if (String.isNotBlank(s.AssignedTo__c)) {
+                        Id assignedId = (Id) s.AssignedTo__c;
+                        String prefix = String.valueOf(assignedId).left(3);
+                        if (prefix == '005' && assignedId == currentUserId) {
+                            rowCanApprove = true;
+                        } else if (prefix == '00G' && userQueueIds.contains(assignedId)) {
+                            rowCanApprove = true;
+                        }
                     }
                 }
                 row.canApproveOrReject = rowCanApprove;
@@ -79,7 +82,7 @@ public with sharing class CustomApprovalHistoryController {
         }
 
         for (CustomApproval__c a : approvals) {
-            if (!canRecall && a.Status__c == 'Pending' && (isAdmin || a.SubmittedBy__c == currentUserId)) {
+            if (!canRecall && a.Status__c == 'Pending' && a.TECH_ReadOnly__c != true && (isAdmin || a.SubmittedBy__c == currentUserId)) {
                 canRecall = true;
             }
         }

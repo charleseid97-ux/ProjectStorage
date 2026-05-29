@@ -40,7 +40,7 @@ public with sharing class GridComparisonController {
                           WHERE Name LIKE :term
                             AND Id != :currentGridId
                             AND (RecordType.DeveloperName = :rtStandard OR RecordType.DeveloperName = :rtCustom)
-                          ORDER BY Name LIMIT 600]) {
+                          ORDER BY RecordType.DeveloperName DESC, Name LIMIT 600]) {
             if (g.RecordType.DeveloperName == rtStandard) {
                 if (g.ActiveGrid__c && !g.Tech_SpecificStandardGrid__c) {
                     group1.add(new LookupResult(g.Id, g.Name, null, null));
