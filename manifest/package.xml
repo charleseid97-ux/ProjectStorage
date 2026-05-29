@@ -216,6 +216,7 @@
 		<name>CustomLabel</name>
 	</types>
 	<types>
+		<members>ApprovalActionConfig.GridAmendment_DCODOApprovalAlert</members>
 		<members>ApprovalActionConfig.GridAmendment_FinalApproval</members>
 		<members>ApprovalActionConfig.GridAmendment_FinalRejection</members>
 		<members>ApprovalActionConfig.GridAmendment_HOCApprovalAlert</members>
@@ -226,8 +227,10 @@
 		<members>ApprovalStepApproverConfig.GridAmendment_DOKYD</members>
 		<members>ApprovalStepApproverConfig.GridAmendment_DCORebate</members>
 		<members>ApprovalStepApproverConfig.GridAmendment_HOC</members>
+		<members>ApprovalStepApproverConfig.GridAmendment_TopMngt</members>
 		<members>ApprovalStepConfig.GridAmendment_DCO_DO</members>
 		<members>ApprovalStepConfig.GridAmendment_HOC</members>
+		<members>ApprovalStepConfig.GridAmendment_TopMngt</members>
 		<members>GridBuilderSetting.CustomGridBuilderSetting</members>
 		<members>GridCriteriaSetting.Product</members>
 		<members>GridCriteriaSetting.ShareClass</members>
