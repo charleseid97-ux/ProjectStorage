@@ -10,9 +10,7 @@
 public without sharing class EmailService {
 
     public static void sendTemplateEmail(String templateDeveloperName, Id whatId, Set<Id> recipientUserIds) {
-        if (recipientUserIds == null || recipientUserIds.isEmpty()) {
-            return;
-        }
+        if (recipientUserIds == null || recipientUserIds.isEmpty()) return;
 
         List<EmailTemplate> templates = [SELECT Id FROM EmailTemplate WHERE DeveloperName = :templateDeveloperName LIMIT 1];
         if (templates.isEmpty()) {
@@ -21,26 +19,18 @@ public without sharing class EmailService {
         }
         Id templateId = templates[0].Id;
 
-        Map<Id, String> userEmails = new Map<Id, String>();
-        for (User u : [SELECT Id, Email FROM User WHERE Id IN :recipientUserIds AND IsActive = true]) {
-            if (String.isNotBlank(u.Email)) {
-                userEmails.put(u.Id, u.Email);
-            }
+        // Filter to active users with an email address
+        Set<Id> activeUserIds = new Set<Id>();
+        for (User u : [SELECT Id FROM User WHERE Id IN :recipientUserIds AND IsActive = true AND Email != null]) {
+            activeUserIds.add(u.Id);
         }
 
         List<Messaging.SingleEmailMessage> emailList = new List<Messaging.SingleEmailMessage>();
-        for (Id userId : recipientUserIds) {
-            String email = userEmails.get(userId);
-            if (String.isBlank(email)) {
-                continue;
-            }
-            Messaging.SingleEmailMessage rendered = Messaging.renderStoredEmailTemplate(templateId, userId, whatId);
-
+        for (Id userId : activeUserIds) {
             Messaging.SingleEmailMessage mail = new Messaging.SingleEmailMessage();
             mail.setTargetObjectId(userId);
-            mail.setSubject(rendered.getSubject());
-            mail.setHtmlBody(rendered.getHtmlBody());
-            mail.setPlainTextBody(rendered.getPlainTextBody());
+            mail.setTemplateId(templateId);
+            mail.setWhatId(whatId);
             mail.setSaveAsActivity(false);
             emailList.add(mail);
         }
