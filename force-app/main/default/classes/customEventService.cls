@@ -4,55 +4,27 @@ public without sharing class customEventService {
     private static final String SEP_NAME_PARTS = ' – ';
     private static final String EMPTY = '';
 
-    // Country lookup as a single static map to avoid re-creation
-    private static final Map<String,String> COUNTRY_MAP = new Map<String,String>{
-        'Belgium'         => 'BE',
-        'Luxembourg'      => 'LU',
-        'Netherlands'     => 'NL',
-        'France'          => 'FR',
-        'Germany'         => 'DE',
-        'Italy'           => 'IT',
-        'Spain'           => 'ES',
-        'United Kingdom'  => 'GB',
-        'Switzerland'     => 'CH',
-        'Us Offshore'     => 'XU',
-        'Sweden'          => 'SE',
-        'All Countries'   => 'XA',
-        'Andorra'         => 'AD',
-        'Argentina'       => 'AR',
-        'Austria'         => 'AT',
-        'Bahamas'         => 'BS',
-        'Brazil'          => 'BR',
-        'Canada'          => 'CA',
-        'DCP'             => 'XD',
-        'Denmark'         => 'DK',
-        'Finland'         => 'FI',
-        'Gibraltar'       => 'GI',
-        'Hong Kong'       => 'HK',
-        'Ireland'         => 'IE',
-        'Isle of Man'     => 'IM',
-        'Japan'           => 'JP',
-        'Jersey'          => 'JE',
-        'Liechtenstein'   => 'LI',
-        'Malta'           => 'MT',
-        'Norway'          => 'NO',
-        'Panama'          => 'PA',
-        'Portugal'        => 'PT',
-        'Qatar'           => 'QA',
-        'Saudi Arabia'    => 'SA',
-        'Singapore'       => 'SG',
-        'South Africa'    => 'ZA',
-        'Taiwan'          => 'TW',
-        'Uruguay'         => 'UY',
-        'Latvia'          => 'LV',
-        'Lithuania'       => 'LT'
+    private static final Map<String,String> SALES_TEAM_CODE_MAP = new Map<String,String>{
+        'All countries'  => 'ALL',
+        'Belgium'        => 'BE',
+        'France'         => 'FR',
+        'Germany'        => 'DE',
+        'International'  => 'INT',
+        'Italy'          => 'IT',
+        'Luxembourg'     => 'LU',
+        'Netherlands'    => 'NL',
+        'Nordics'        => 'SE',
+        'Spain'          => 'ES',
+        'Switzerland'    => 'CH',
+        'United Kingdom' => 'GB',
+        'DCP'            => 'DCP'
     };
 
     // ---------------------------
     // Event Name construction
     // ---------------------------
 
-    // Build event Name from time, country, title and format
+    // Build event Name from date, SalesTeam code, title and speakers
     public static void setEventName(List<Event__c> events, Boolean isInit) {
         if (events == null || events.isEmpty()) return;
 
@@ -60,12 +32,12 @@ public without sharing class customEventService {
 
         for (Event__c e : events) {
             String datePart    = (e.startDate__c != null) ? String.valueOf(e.startDate__c) : null;
-            String countryPart = countryToInitials(e.SalesTeam__c);
+            String salesTeamPart = salesTeamToCode(e.SalesTeam__c);
             String titlePart   = e.Title__c;
             String speakerPart = isInit ? null : eventToSpeakers.get(e.Id);
 
             e.Name = joinNonBlank(
-                new List<String>{ datePart, countryPart, titlePart, speakerPart },
+                new List<String>{ datePart, salesTeamPart, titlePart, speakerPart },
                 SEP_NAME_PARTS
             );
         }
@@ -115,20 +87,14 @@ public without sharing class customEventService {
     // Country mapping
     // ---------------------------
 
-    // Convert SalesTeam label to country initials
-    private static String countryToInitials(String countryRaw) {
-        if (String.isBlank(countryRaw)) return '';
-        String key = countryRaw.trim();
-        if (COUNTRY_MAP.containsKey(key)) {
-            return COUNTRY_MAP.get(key);
+   // Convert SalesTeam label to SalesTeam code
+    private static String salesTeamToCode(String salesTeamRaw) {
+        if (String.isBlank(salesTeamRaw)) return '';
+        String key = salesTeamRaw.trim();
+        if (SALES_TEAM_CODE_MAP.containsKey(key)) {
+            return SALES_TEAM_CODE_MAP.get(key);
         }
-        // Fallback: take initials from words (max 3 chars)
-        String out = '';
-        for (String w : countryRaw.toUpperCase().split('\\s+')) {
-            if (!String.isBlank(w)) out += w.substring(0, 1);
-            if (out.length() >= 3) break;
-        }
-        return out;
+        return key;
     }
 
     // ---------------------------
@@ -363,7 +329,6 @@ public without sharing class customEventService {
             .getRecordTypeId();
 
         // Name construction (time + country + title + format)
-        String countryPart = countryToInitials(e.SalesTeam__c);
         c.Name = e.name;
 
         // Dates mapping
@@ -401,8 +366,8 @@ public without sharing class customEventService {
 
         // Business mapping
         c.Company__c       = e.Company__c;
-        // Sales Team mapping (force 2-char country code compatible Campaign picklist)
-        c.Sales_Team__c = countryToInitials(e.SalesTeam__c);
+        // SalesTeam mapping        
+        c.Sales_Team__c = salesTeamToCode(e.SalesTeam__c);
         c.Participants_number__c = e.targetedAttendees__c;
         c.Local_zone__c   = e.timezone__c;
 
@@ -590,11 +555,12 @@ public without sharing class customEventService {
     // Timezone via LocationTimezoneResolver
     // ---------------------------
     public static void setTimeZone(List<Event__c> events) {
+        system.debug('====setTimeZone==='+events);
         if (events == null || events.isEmpty()) return;
 
         for (Event__c ev : events) {
             if (ev == null) continue;
-
+            system.debug('=====ev.TimeZone__c='+ev.TimeZone__c);
             //  ne rien faire si déjà renseigné
             if (!String.isBlank(ev.TimeZone__c)) continue;
 

@@ -275,8 +275,13 @@ public class BooklyDataFactory {
     public static Event__c createEvent() {
 
         User organizer = createOrganizer();
+        Id RT = Schema.SObjectType.Event__c
+                .getRecordTypeInfosByDeveloperName()
+                .get('event')
+                .getRecordTypeId();
 
         return new Event__c(
+            RecordTypeId = RT,
             Name = '2026-04-30 – IT – qsdqsd – AA',
             Organizer__c = organizer.Id,
             StartDate__c = Date.today(),

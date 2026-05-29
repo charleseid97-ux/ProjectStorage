@@ -54,20 +54,30 @@ public without sharing class sessionSpeakerProductRepeaterCTRL {
         return new List<PickOpt>();
     }
 
-    //   return PickOpt (label + value) 
+    // return PickOpt(label + value)
     @AuraEnabled(cacheable=true)
     public static List<PickOpt> getProducts() {
         List<PickOpt> out = new List<PickOpt>();
 
+        List<String> strategyCodes = System.Label.BooklyInScopeStrategy.split(',');
+
+        Set<Id> strategyIds = new Set<Id>();
+
+        for (Product__c p : [
+            SELECT FundStrategy__c
+            FROM Product__c
+            WHERE VehicleType__c = 'Funds'
+            AND Validity__c = true
+            AND FundStrategy__c != null
+        ]) {
+            strategyIds.add(p.FundStrategy__c);
+        }
+
         for (Strategy__c s : [
             SELECT Id, Name
             FROM Strategy__c
-            WHERE Id IN (
-                SELECT FundStrategy__c
-                FROM Product__c
-                WHERE VehicleType__c = 'Funds'
-                AND Validity__c = true
-            )
+            WHERE Id IN :strategyIds
+            OR Code__c IN :strategyCodes
             ORDER BY Name
         ]) {
             out.add(new PickOpt(s.Name, s.Id));

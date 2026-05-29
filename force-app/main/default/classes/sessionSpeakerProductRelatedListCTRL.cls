@@ -48,7 +48,7 @@ public without sharing class sessionSpeakerProductRelatedListCTRL {
 
             FROM sessionSpeakerProduct__c
             WHERE Session__c = :eventId
-            ORDER BY speakerContact__r.Name, strategy__r.Name
+            ORDER BY sessionNumber__c ASC
             LIMIT 5000
         ];
 
@@ -194,7 +194,7 @@ public without sharing class sessionSpeakerProductRelatedListCTRL {
             SELECT Id,sessionNumber__c, speakerContact__c, speakerContact__r.Name, strategy__c, strategy__r.Name, Language__c,speakerLanguage__c,startTime__c, endTime__c,Date__c
             FROM sessionSpeakerProduct__c
             WHERE Session__c = :eventId
-            ORDER BY speakerContact__r.Name, strategy__r.Name
+            ORDER BY sessionNumber__c ASC
             LIMIT 5000
         ];
 

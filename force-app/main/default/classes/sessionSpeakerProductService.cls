@@ -184,18 +184,19 @@ public without sharing class sessionSpeakerProductService {
     private static Id getApproverUserId(Map<Id, Contact> speakerById, Id speakerId, String key) {
         Contact c = (speakerById != null) ? speakerById.get(speakerId) : null;
 
-        // Non top speaker => pas besoin d'assistant
-        if (c != null && c.IsTopSpeaker__c == false) {
+        Boolean isTopSpeaker = c != null && c.IsTopSpeaker__c == true;
+
+        if (!isTopSpeaker) {
             return null;
         }
 
-        Id approverUserId = (c != null) ? c.SpeakerAssistant__c : null;
+        Id approverUserId = c.SpeakerAssistant__c;
 
         if (approverUserId == null) {
             System.debug(LoggingLevel.ERROR,
-                '[SSP Sync] Missing approver (SpeakerAssistant__c) for speaker=' + speakerId + ' key=' + key
+                '[SSP Sync] Missing approver (SpeakerAssistant__c) for top speaker=' + speakerId + ' key=' + key
             );
-            throw new SspApprovalSyncException('Missing SpeakerAssistant__c for speaker ' + speakerId);
+            throw new SspApprovalSyncException('Missing SpeakerAssistant__c for top speaker ' + speakerId);
         }
 
         return approverUserId;

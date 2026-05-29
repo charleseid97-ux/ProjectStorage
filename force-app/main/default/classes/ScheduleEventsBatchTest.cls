@@ -157,7 +157,7 @@ private class ScheduleEventsBatchTest {
         System.assertEquals('France', byScheduleId.get('00001').country__c);
         System.assertEquals('Physical', byScheduleId.get('00001').format__c);
 
-        System.assertEquals('One to One meeting', byScheduleId.get('00002').category__c);
+        System.assertEquals('One To One meeting', byScheduleId.get('00002').category__c);
         System.assertEquals('FullyApproved', byScheduleId.get('00002').status__c);
         System.assertEquals('Europe/London', byScheduleId.get('00002').timeZone__c);
         System.assertEquals('London', byScheduleId.get('00002').city__c);
