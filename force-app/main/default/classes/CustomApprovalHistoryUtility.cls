@@ -16,17 +16,25 @@ public without sharing class CustomApprovalHistoryUtility {
         result.success      = false;
         result.errorMessage = null;
         try {
+            System.debug('DBG submitForApproval | recordId=' + recordId + ' | processName=' + processName + ' | runningUser=' + UserInfo.getUserId() + ' (' + UserInfo.getName() + ')');
+
             List<ApprovalStepConfig__mdt> allSteps = [SELECT Id, DeveloperName, StepOrder__c, StepLabel__c, ApprovalMode__c
                                                       FROM ApprovalStepConfig__mdt
                                                       WHERE ProcessConfig__r.DeveloperName = :processName
                                                       ORDER BY StepOrder__c ASC];
+            System.debug('DBG submitForApproval | allSteps.size=' + allSteps.size());
             if (allSteps.isEmpty()) {
                 result.errorMessage = 'No step configuration found for process: ' + processName;
                 return result;
             }
             ApprovalStepConfig__mdt initialStep = allSteps[0];
+            System.debug('DBG submitForApproval | initialStep=' + initialStep.DeveloperName);
 
             List<ApproverAssignment> assignments = resolveApprovers(processName, initialStep, recordId, null);
+            System.debug('DBG submitForApproval | assignments.size=' + assignments.size());
+            for (ApproverAssignment a : assignments) {
+                System.debug('DBG submitForApproval | assignment: approverId=' + a.approverId + ' approverName=' + a.approverName);
+            }
             if (assignments.isEmpty()) {
                 result.errorMessage = 'No approvers could be resolved for the initial step.';
                 return result;
@@ -36,21 +44,25 @@ public without sharing class CustomApprovalHistoryUtility {
 
             CustomApproval__c approval = createCustomApproval(String.valueOf(recordId), processName, 'Pending', currentUserId, initialStep.DeveloperName, comments, false);
             insert approval;
+            System.debug('DBG submitForApproval | approval inserted: ' + approval.Id);
 
             List<CustomApprovalStep__c> steps = new List<CustomApprovalStep__c>();
             steps.add(createCustomApprovalStep(approval.Id, 'Submitted', 'Submitted', 'Started', false, null, null, null, null, currentUserId, System.now(), comments));
             steps.addAll(buildStepRecords(approval.Id, initialStep, assignments));
             insert steps;
+            System.debug('DBG submitForApproval | steps inserted: ' + steps.size());
 
             Set<Id> initialApproverIds = new Set<Id>();
             for (ApproverAssignment a : assignments) {
                 initialApproverIds.add(a.approverId);
             }
+            System.debug('DBG submitForApproval | initialApproverIds=' + initialApproverIds);
             executeActions(processName, null, 'InitialSubmission', recordId, buildContext(currentUserId, initialApproverIds, null));
 
             result.success = true;
-        } 
+        }
         catch (Exception ex) {
+            System.debug('DBG submitForApproval | EXCEPTION: ' + ex.getMessage() + ' | stack: ' + ex.getStackTraceString());
             result.success      = false;
             result.errorMessage = ex.getMessage();
         }
@@ -218,20 +230,24 @@ public without sharing class CustomApprovalHistoryUtility {
     // ─── resolveApprovers ────────────────────────────────────────────────────────
     private static List<ApproverAssignment> resolveApprovers(String processName, ApprovalStepConfig__mdt step, Id targetObjectId, List<Id> userInputIds) {
         List<ApproverAssignment> result = new List<ApproverAssignment>();
-        for (ApprovalStepApproverConfig__mdt cfg : [SELECT ApproverSource__c, ApproverType__c, ApproverValue__c, ApproverResolverClass__c
-                                                    FROM ApprovalStepApproverConfig__mdt
-                                                    WHERE StepConfig__r.DeveloperName = :step.DeveloperName
-                                                    ORDER BY ExecutionOrder__c ASC]) {
+        List<ApprovalStepApproverConfig__mdt> cfgs = [SELECT ApproverSource__c, ApproverType__c, ApproverValue__c, ApproverResolverClass__c
+                                                      FROM ApprovalStepApproverConfig__mdt
+                                                      WHERE StepConfig__r.DeveloperName = :step.DeveloperName
+                                                      ORDER BY ExecutionOrder__c ASC];
+        System.debug('DBG resolveApprovers | step=' + step.DeveloperName + ' | cfgs.size=' + cfgs.size());
+        for (ApprovalStepApproverConfig__mdt cfg : cfgs) {
+            System.debug('DBG resolveApprovers | cfg: source=' + cfg.ApproverSource__c + ' type=' + cfg.ApproverType__c + ' value=' + cfg.ApproverValue__c + ' resolverClass=' + cfg.ApproverResolverClass__c);
             if (cfg.ApproverSource__c == 'Configured') {
                 result.addAll(resolveConfiguredApprover(cfg, targetObjectId));
-            } 
+            }
             else if (cfg.ApproverSource__c == 'Dynamic') {
                 result.addAll(resolveDynamicApprovers(cfg, targetObjectId));
-            } 
+            }
             else if (cfg.ApproverSource__c == 'UserInput') {
                 result.addAll(resolveUserInputApprovers(userInputIds));
             }
         }
+        System.debug('DBG resolveApprovers | final result.size=' + result.size());
         return result;
     }
 
@@ -277,14 +293,20 @@ public without sharing class CustomApprovalHistoryUtility {
 
     private static List<ApproverAssignment> resolveDynamicApprovers(ApprovalStepApproverConfig__mdt cfg, Id targetObjectId) {
         List<ApproverAssignment> result = new List<ApproverAssignment>();
-        if (String.isBlank(cfg.ApproverResolverClass__c)) return result;
+        if (String.isBlank(cfg.ApproverResolverClass__c)) {
+            System.debug('DBG resolveDynamicApprovers | resolverClass is blank, skipping');
+            return result;
+        }
         try {
+            System.debug('DBG resolveDynamicApprovers | resolverClass=' + cfg.ApproverResolverClass__c + ' | targetObjectId=' + targetObjectId);
             IApproverResolver resolver = (IApproverResolver) Type.forName(cfg.ApproverResolverClass__c).newInstance();
-            for (Id resolvedId : resolver.resolve(targetObjectId)) {
+            List<Id> resolvedIds = resolver.resolve(targetObjectId);
+            System.debug('DBG resolveDynamicApprovers | resolvedIds=' + resolvedIds);
+            for (Id resolvedId : resolvedIds) {
                 result.add(new ApproverAssignment(resolvedId, resolveApproverName(resolvedId)));
             }
         } catch (Exception e) {
-            System.debug('resolveDynamicApprovers error: ' + e.getMessage());
+            System.debug('DBG resolveDynamicApprovers | EXCEPTION: ' + e.getMessage() + ' | stack: ' + e.getStackTraceString());
         }
         return result;
     }
@@ -330,10 +352,19 @@ public without sharing class CustomApprovalHistoryUtility {
                                             'ORDER BY ExecutionOrder__c ASC';
         String objectApiName = targetRecordId.getSObjectType().getDescribe().getName();
 
-        for (ApprovalActionConfig__mdt cfg : (List<ApprovalActionConfig__mdt>)Database.query(approvalActionConfigQuery)) {
-            if      (cfg.ActionKind__c == 'FieldUpdate')  executeFieldUpdate(cfg, targetRecordId);
-            else if (cfg.ActionKind__c == 'EmailAlert')   executeEmailAlert(cfg, targetRecordId, objectApiName, context);
-            else if (cfg.ActionKind__c == 'CustomApex')   executeCustomApex(cfg, targetRecordId, context);
+        List<ApprovalActionConfig__mdt> actionCfgs = (List<ApprovalActionConfig__mdt>)Database.query(approvalActionConfigQuery);
+        System.debug('DBG executeActions | process=' + processDevName + ' step=' + stepDevName + ' actionType=' + actionType + ' | configs.size=' + actionCfgs.size());
+
+        for (ApprovalActionConfig__mdt cfg : actionCfgs) {
+            System.debug('DBG executeActions | running: kind=' + cfg.ActionKind__c + ' template=' + cfg.EmailTemplateName__c);
+            try {
+                if      (cfg.ActionKind__c == 'FieldUpdate')  executeFieldUpdate(cfg, targetRecordId);
+                else if (cfg.ActionKind__c == 'EmailAlert')   executeEmailAlert(cfg, targetRecordId, objectApiName, context);
+                else if (cfg.ActionKind__c == 'CustomApex')   executeCustomApex(cfg, targetRecordId, context);
+                System.debug('DBG executeActions | completed: ' + cfg.ActionKind__c);
+            } catch (Exception e) {
+                System.debug('DBG executeActions | EXCEPTION [' + cfg.ActionKind__c + ']: ' + e.getMessage() + ' | stack: ' + e.getStackTraceString());
+            }
         }
     }
 
@@ -354,8 +385,12 @@ public without sharing class CustomApprovalHistoryUtility {
         Set<Id> nextIds = context.containsKey('nextApproverIds') && context.get('nextApproverIds') != null ? new Set<Id>((List<Id>) context.get('nextApproverIds')) : new Set<Id>();
         Id submittedById = (Id) context.get('submittedById');
 
+        System.debug('executeEmailAlert | template=' + cfg.EmailTemplateName__c + ' | recipientTypes=' + recipientTypes + ' | currentApproverIds=' + currentIds + ' | submittedById=' + submittedById);
+
         Set<Id> recipients = EmailService.resolveRecipientIds(recipientTypes, currentIds, nextIds, submittedById, targetRecordId, objectApiName);
         recipients.addAll(EmailService.resolveAdditionalRecipientIds(cfg.AdditionalQueues__c, cfg.AdditionalUsers__c));
+
+        System.debug('executeEmailAlert | resolved recipients=' + recipients);
 
         if (!recipients.isEmpty()) {
             EmailService.sendTemplateEmail(cfg.EmailTemplateName__c, targetRecordId, recipients);

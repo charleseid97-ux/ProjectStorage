@@ -10,34 +10,56 @@
 public without sharing class EmailService {
 
     public static void sendTemplateEmail(String templateDeveloperName, Id whatId, Set<Id> recipientUserIds) {
-        if (recipientUserIds == null || recipientUserIds.isEmpty()) return;
-
-        List<EmailTemplate> templates = [SELECT Subject, HtmlValue, Body FROM EmailTemplate WHERE DeveloperName = :templateDeveloperName LIMIT 1];
-        if (templates.isEmpty()) {
-            System.debug('EmailService: template not found: ' + templateDeveloperName);
+        System.debug('DBG sendTemplateEmail | template=' + templateDeveloperName + ' | whatId=' + whatId + ' | recipientUserIds=' + recipientUserIds);
+        if (recipientUserIds == null || recipientUserIds.isEmpty()) {
+            System.debug('DBG sendTemplateEmail | recipientUserIds is empty, returning');
             return;
         }
-        EmailTemplate tmpl = templates[0];
-        String htmlBody = String.isNotBlank(tmpl.HtmlValue) ? tmpl.HtmlValue : tmpl.Body;
 
-        List<String> toAddresses = new List<String>();
-        for (User u : [SELECT Email FROM User WHERE Id IN :recipientUserIds AND IsActive = true]) {
-            if (String.isNotBlank(u.Email)) toAddresses.add(u.Email);
+        List<EmailTemplate> templates = [SELECT Id FROM EmailTemplate WHERE DeveloperName = :templateDeveloperName LIMIT 1];
+        System.debug('DBG sendTemplateEmail | templates found=' + templates.size());
+        if (templates.isEmpty()) {
+            System.debug('DBG sendTemplateEmail | template not found: ' + templateDeveloperName);
+            return;
         }
-        if (toAddresses.isEmpty()) return;
+        Id templateId = templates[0].Id;
+        System.debug('DBG sendTemplateEmail | templateId=' + templateId);
+
+        Map<Id, String> userEmails = new Map<Id, String>();
+        for (User u : [SELECT Id, Email FROM User WHERE Id IN :recipientUserIds AND IsActive = true]) {
+            System.debug('DBG sendTemplateEmail | user found: id=' + u.Id + ' email=' + u.Email);
+            if (String.isNotBlank(u.Email)) {
+                userEmails.put(u.Id, u.Email);
+            }
+        }
+        System.debug('DBG sendTemplateEmail | userEmails.size=' + userEmails.size());
 
         List<Messaging.SingleEmailMessage> emailList = new List<Messaging.SingleEmailMessage>();
-        for (String addr : toAddresses) {
+        for (Id userId : recipientUserIds) {
+            String email = userEmails.get(userId);
+            if (String.isBlank(email)) {
+                System.debug('DBG sendTemplateEmail | skipping userId=' + userId + ' (no email)');
+                continue;
+            }
+            System.debug('DBG sendTemplateEmail | rendering template for userId=' + userId + ' email=' + email);
+            Messaging.SingleEmailMessage rendered = Messaging.renderStoredEmailTemplate(templateId, userId, whatId);
+            System.debug('DBG sendTemplateEmail | rendered subject=' + rendered.getSubject());
+
             Messaging.SingleEmailMessage mail = new Messaging.SingleEmailMessage();
-            mail.setToAddresses(new List<String>{ addr });
-            mail.setSubject(tmpl.Subject);
-            mail.setHtmlBody(htmlBody);
+            mail.setTargetObjectId(userId);
+            mail.setSubject(rendered.getSubject());
+            mail.setHtmlBody(rendered.getHtmlBody());
+            mail.setPlainTextBody(rendered.getPlainTextBody());
             mail.setSaveAsActivity(false);
             emailList.add(mail);
         }
 
+        System.debug('DBG sendTemplateEmail | emailList.size=' + emailList.size() + ', calling sendEmail');
         if (!emailList.isEmpty()) {
-            Messaging.sendEmail(emailList, false);
+            List<Messaging.SendEmailResult> results = Messaging.sendEmail(emailList, false);
+            for (Messaging.SendEmailResult r : results) {
+                System.debug('DBG sendTemplateEmail | sendEmail result: success=' + r.isSuccess() + ' errors=' + r.getErrors());
+            }
         }
     }
 
