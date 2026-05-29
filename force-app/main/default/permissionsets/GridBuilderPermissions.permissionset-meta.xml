@@ -533,6 +533,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
+        <field>CustomApproval__c.TECH_ReadOnly__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
         <field>CustomApprovalStep__c.ActionDate__c</field>
         <readable>true</readable>
     </fieldPermissions>
