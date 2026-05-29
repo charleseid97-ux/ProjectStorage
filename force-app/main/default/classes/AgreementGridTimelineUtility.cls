@@ -6,7 +6,7 @@
  * @testClass GridLifecycleTest
  * @coverage 100%   [19-03-26]
 ────────────────────────────────────── */
-public with sharing class AgreementGridTimelineUtility {
+public without sharing class AgreementGridTimelineUtility {
 
     public static final String AGT_DRAFT           = 'Draft';
     public static final String AGT_PENDINGAPPROVAL = 'Pending Approval';

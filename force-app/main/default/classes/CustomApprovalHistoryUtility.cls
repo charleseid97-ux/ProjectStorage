@@ -59,7 +59,7 @@ public without sharing class CustomApprovalHistoryUtility {
 
     // ─── processApproval ─────────────────────────────────────────────────────────
     @AuraEnabled(cacheable=false)
-    public static ProcessResult processApproval(Id stepId, String action, String comments, List<Id> nextApproverIds) {
+    public static ProcessResult processApproval(Id stepId, String action, String comments, List<Id> userInputApproverIds) {
         ProcessResult result = new ProcessResult();
         result.success      = false;
         result.errorMessage = null;
@@ -95,7 +95,7 @@ public without sharing class CustomApprovalHistoryUtility {
                 if (action == 'Reject') {
                     handleReject(ctx, siblings, allCurrentIds);
                 } else {
-                    handleApprove(ctx, siblings, allCurrentIds, nextApproverIds);
+                    handleApprove(ctx, siblings, allCurrentIds, userInputApproverIds);
                 }
             }
             result.success = true;
@@ -132,7 +132,7 @@ public without sharing class CustomApprovalHistoryUtility {
         executeActions(ctx.processName, null, 'FinalRejection', ctx.targetRecordId, rejectCtx);
     }
 
-    private static void handleApprove(StepContext ctx, List<CustomApprovalStep__c> siblings, Set<Id> allCurrentIds, List<Id> nextApproverIds) {
+    private static void handleApprove(StepContext ctx, List<CustomApprovalStep__c> siblings, Set<Id> allCurrentIds, List<Id> userInputApproverIds) {
         ApprovalStepConfig__mdt stepCfg = [SELECT ApprovalMode__c, StepOrder__c
                                            FROM ApprovalStepConfig__mdt
                                            WHERE DeveloperName = :ctx.stepDevName
@@ -153,7 +153,7 @@ public without sharing class CustomApprovalHistoryUtility {
 
         if (!nextSteps.isEmpty()) {
             ApprovalStepConfig__mdt nextStep = nextSteps[0];
-            List<ApproverAssignment> nextAssignments = resolveApprovers(ctx.processName, nextStep, ctx.targetRecordId, nextApproverIds);
+            List<ApproverAssignment> nextAssignments = resolveApprovers(ctx.processName, nextStep, ctx.targetRecordId, userInputApproverIds);
             Set<Id> nextIds = new Set<Id>();
             for (ApproverAssignment a : nextAssignments) {
                 nextIds.add(a.approverId);

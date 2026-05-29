@@ -108,7 +108,7 @@ export default class CustomApprovalHistory extends LightningElement {
     }
 
     handleHeaderRecall() {
-        const firstPending = this._firstPendingRow();
+        const firstPending = (this.rows || []).find(r => r.isPending && r.workItemId) || null;
         if (firstPending) this._openModal(firstPending);
     }
 

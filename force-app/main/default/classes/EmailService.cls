@@ -6,7 +6,7 @@
  * @author Charles EID
  * @testClass EmailServiceTest
  * @coverage 74%   [20-05-26]
- ────────────────────────────────────── */
+────────────────────────────────────── */
 public without sharing class EmailService {
 
     public static void sendTemplateEmail(String templateDeveloperName, Id whatId, Set<Id> recipientUserIds) {
@@ -35,7 +35,7 @@ public without sharing class EmailService {
                 continue;
             }
             Messaging.SingleEmailMessage rendered = Messaging.renderStoredEmailTemplate(templateId, userId, whatId);
-            
+
             Messaging.SingleEmailMessage mail = new Messaging.SingleEmailMessage();
             mail.setTargetObjectId(userId);
             mail.setSubject(rendered.getSubject());
@@ -79,21 +79,20 @@ public without sharing class EmailService {
         Set<Id> result = new Set<Id>();
 
         if (String.isNotBlank(additionalQueues)) {
-            Set<String> queueNames = new Set<String>(additionalQueues.split(','));
-            for (String name : queueNames) {
-                queueNames.add(name.trim());
+            Set<String> queueNames = new Set<String>();
+            for (String name : additionalQueues.split(',')) queueNames.add(name.trim());
+
+            Set<Id> queueIds = new Set<Id>();
+            for (Group g : [SELECT Id FROM Group WHERE DeveloperName IN :queueNames AND Type = 'Queue']) {
+                queueIds.add(g.Id);
             }
-            Map<String, Set<Id>> queueMembers = QueueMemberService.getQueueMemberIds(queueNames);
-            for (Set<Id> ids : queueMembers.values()) {
-                result.addAll(ids);
-            }
+            Map<Id, List<Id>> memberMap = QueueMemberService.resolveMembers(queueIds);
+            for (List<Id> ids : memberMap.values()) result.addAll(ids);
         }
 
         if (String.isNotBlank(additionalUsers)) {
             Set<String> usernames = new Set<String>();
-            for (String name : additionalUsers.split(',')) {
-                usernames.add(name.trim());
-            }
+            for (String name : additionalUsers.split(',')) usernames.add(name.trim());
             for (User u : [SELECT Id FROM User WHERE Username IN :usernames AND IsActive = true]) {
                 result.add(u.Id);
             }
@@ -103,26 +102,9 @@ public without sharing class EmailService {
     }
 
     private static Set<Id> expandApproverIds(Set<Id> approverIds) {
+        Map<Id, List<Id>> resolved = QueueMemberService.resolveMembers(approverIds);
         Set<Id> userIds = new Set<Id>();
-        Set<Id> queueIds = new Set<Id>();
-        for (Id approverId : approverIds) {
-            String prefix = String.valueOf(approverId).left(3);
-            if (prefix == '005') {
-                userIds.add(approverId);
-            } else if (prefix == '00G') {
-                queueIds.add(approverId);
-            }
-        }
-        if (!queueIds.isEmpty()) {
-            Set<String> queueDevNames = new Set<String>();
-            for (Group q : [SELECT DeveloperName FROM Group WHERE Id IN :queueIds]) {
-                queueDevNames.add(q.DeveloperName);
-            }
-            Map<String, Set<Id>> memberMap = QueueMemberService.getQueueMemberIds(queueDevNames);
-            for (Set<Id> ids : memberMap.values()) {
-                userIds.addAll(ids);
-            }
-        }
+        for (List<Id> members : resolved.values()) userIds.addAll(members);
         return userIds;
     }
 }
