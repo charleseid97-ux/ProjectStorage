@@ -47,7 +47,7 @@ public with sharing class CustomApprovalHistoryController {
                 queueIdsToCheck.add((Id) s.AssignedTo__c);
             }
         }
-        Set<Id> userQueueIds = QueueMemberService.getQueuesContainingUser(queueIdsToCheck, currentUserId);
+        Map<Id, List<Id>> resolvedQueueMembers = QueueMemberService.resolveMembers(queueIdsToCheck);
 
         Set<String> processDevNames = new Set<String>();
         for (CustomApproval__c a : approvals) {
@@ -68,8 +68,9 @@ public with sharing class CustomApprovalHistoryController {
                         String prefix = String.valueOf(assignedId).left(3);
                         if (prefix == '005' && assignedId == currentUserId) {
                             rowCanApprove = true;
-                        } else if (prefix == '00G' && userQueueIds.contains(assignedId)) {
-                            rowCanApprove = true;
+                        } else if (prefix == '00G') {
+                            List<Id> members = resolvedQueueMembers.get(assignedId);
+                            rowCanApprove = members != null && members.contains(currentUserId);
                         }
                     }
                 }
