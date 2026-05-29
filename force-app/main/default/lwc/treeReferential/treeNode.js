@@ -20,7 +20,7 @@ export function getTreeNode(node, level, parentKey, childNum) {
         name: node.name,
         label: node.label,
         isin: node.isin,
-        assetclass : 'Asset Class : '+node.assetclass+ ' | Regional Focus : '+node.regionalfocus,
+        assetclass : 'Asset Class : '+node.assetclass+ ' | Launch Date : '+node.regionalfocus,
         type: node.type,
         isproduct: node.isproduct,
         currentproduct: node.currentproduct,

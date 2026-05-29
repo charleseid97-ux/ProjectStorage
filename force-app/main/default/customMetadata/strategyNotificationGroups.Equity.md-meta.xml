@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomMetadata xmlns="http://soap.sforce.com/2006/04/metadata" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <label>Equity</label>
+    <protected>false</protected>
+    <values>
+        <field>Range__c</field>
+        <value xsi:type="xsd:string">Equity</value>
+    </values>
+    <values>
+        <field>strategies__c</field>
+        <value xsi:type="xsd:string">Investissement,Grandchildren,Emergents,Asia Discovery,China New Economy,Grande Europe,Human Xperience,Climate Transition,Tech Solutions</value>
+    </values>
+    <values>
+        <field>userGroupName__c</field>
+        <value xsi:type="xsd:string">equityAlerteBookly</value>
+    </values>
+</CustomMetadata>

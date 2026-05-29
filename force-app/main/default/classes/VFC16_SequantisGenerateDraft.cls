@@ -14,13 +14,14 @@ public with sharing class VFC16_SequantisGenerateDraft {
     public Boolean showPDF {get; set;} // Indique si le PDF est disponible pour affichage 
     public static String infoMessage {get; set;} // Message d'info pour l'utilisateur 
     public static String errorMessage {get; set;} // Message d'erreur pour l'utilisateur
-    public static Map<String, Object> payloadDebug  {get; set;} // Payload pour l'appel du service Sequantis
+    public static String payloadDebug  {get; set;} // Variable pour debug du payload
     public static List<String> payloadKeys { get; set; }
-    public static String payloadString { get; set; }
+    public static String payloadString { get; set; } // Variable pour stocker le payload JSON sérialisé (body)
     private  List <ProjectShareclass__c> shareclasses { get; set; }
 
 
     public VFC16_SequantisGenerateDraft(ApexPages.standardController con){
+        payloadDebug = '';
         showPDF = false;
         recordId = con.getId();
         system.debug('====VFC16_SequantisGenerateDraft=======recordId = ' + recordId);
@@ -39,6 +40,8 @@ public with sharing class VFC16_SequantisGenerateDraft {
 
     // Bouton Draft : génère le PDF et le met dans pdf (base64)
     public  void genPDF() {
+        errorMessage = ''; 
+        infoMessage = '';  
         system.debug('====genPDF=======shareclasses = ' + shareclasses);
         if(selectedRecordId == 'updateAll'){
             updateAllShareClasses();
@@ -47,7 +50,7 @@ public with sharing class VFC16_SequantisGenerateDraft {
         }
         
 
-        //try {
+        try {
             // Étape 1 — Récupération du token OAuth2
             String token = fetchAccessToken('/rest/authentication');
             
@@ -62,22 +65,25 @@ public with sharing class VFC16_SequantisGenerateDraft {
             pdf = pdfString;
             showPDF = true;
             
-       /* } catch (Exception e) {
+        } catch (CalloutException ce) {
+            // Laisser remonter pour les tests
+            throw ce;
+        
+        } catch (Exception e) {
             System.debug('Erreur globale : ' + e.getMessage());
             throw new AuraHandledException('Erreur API : ' + e.getMessage());
-        }*/
+        }
     }
 
     private void updateAllShareClasses() {   
-        errorMessage = ''; 
-        infoMessage = '';  
+        
             // Step 1 — Fetch authentication token
             String token = fetchAccessToken('/rest/authentication');
 
             // Step 2 — Iterate through all share class IDs
             for (ProjectShareclass__c shareClass : shareClasses) {
                 Id shareClassId = shareClass.Id;
-               // try {
+                try {
                     // Call the external Sequantis API for each share class
                     String response = callSequantisService(token, shareClassId, false);
                     if (response == 'OK') {
@@ -85,20 +91,21 @@ public with sharing class VFC16_SequantisGenerateDraft {
                     } else {
                         errorMessage+= '<br/>Error updating ShareClass with ID ' + shareClassId + ': ' + response;
                     }                                    
-               // } catch (Exception innerEx) {
+                } catch (Exception innerEx) {
                     // Log or handle per-share-class failure
-                   // System.debug('Error updating ShareClass with ID ' + shareClassId + ': ' + innerEx.getMessage());
-                //}
+                    System.debug('Error updating ShareClass with ID ' + shareClassId + ': ' + innerEx.getMessage());
+                }
             }
             if (errorMessage == '') {
                 infoMessage = 'All ShareClasses processed.';
             }        
     }
     public  String callSequantisService(String token, String projectShareClassId,Boolean returnPDF) {
+        payloadDebug = '';
         system.debug('====callSequantisService=======projectShareClassId = ' + projectShareClassId);
         Http httpReq = new Http();
         HttpRequest req = new HttpRequest();
-        String endpoint;
+        req.setTimeout(60000);
         Map<String, Object> payload  = new Map<String, Object>();
 
         // Requetage des champs 
@@ -107,7 +114,7 @@ public with sharing class VFC16_SequantisGenerateDraft {
                                 Retail__c, Professional__c, EligibleCounterparty__c, Basic__c, Informed__c, Advanced__c, ExpertGermany__c, LowestRiskTolGer__c, CanNot__c, CanLimited__c, NoNeedCapGuarantee__c, CanNoLimit__c, Preservation__c, CapitalGrowth__c, Income__c,
                                 LeveragedReturn__c, PensionSchemeGer__c, MayTerminateEarlier__c, ExecutionOnly__c, AppropTest__c, InvestAdvice__c, PortfolioManagement__c,
                                 ProjectProduct__c, ShareclassInvestmentObjective__c, InvestorType__c,PerformanceFeeUCITSKIID__c,PerformanceFeeEPTKID__c, MaxPerfFees__c,
-                                PerformanceFeeMethod__c,MaxRedemptionFeesSubfund__c
+                                PerformanceFeeMethod__c,MaxRedemptionFeesSubfund__c,MaxRedemptionFeesManCo__c,OngoingCostsExante__c
                                 FROM projectShareClass__c
                                 WHERE id = :projectShareClassId];
         
@@ -119,6 +126,35 @@ public with sharing class VFC16_SequantisGenerateDraft {
                                 internalShortName__c,TECH_RTName__c, BaseCurrency__c,RecordTypeId,DefaultLanguage__c
                             FROM ProjectProduct__c
                             WHERE Id = :projectShareClassRec.ProjectProduct__c];
+        system.debug('====callSequantisService=======endDate = ' + ProjectProductRec.EndDate__c); 
+        
+        Id fundShareClassModificationRecordTypeId = Schema.SObjectType.ProjectProduct__c.getRecordTypeInfosByDeveloperName().get('FundShareClassModification').getRecordTypeId();
+        Id fundCreationRecordTypeId = Schema.SObjectType.ProjectProduct__c.getRecordTypeInfosByDeveloperName().get('FundCreation').getRecordTypeId();
+        Id shareclassCreationRecordTypeId = Schema.SObjectType.ProjectProduct__c.getRecordTypeInfosByDeveloperName().get('ShareclassCreation').getRecordTypeId();
+
+        // ---------------------------------------------------------------------
+        // BLOCK Sequantis call: only allow sending within 1 month before launch date
+        // Applies to Modification record types only (Product / Shareclass Modification)
+        // ---------------------------------------------------------------------
+
+       
+        // Condition:
+        // - record type is a modification RT
+        // - launch date exists
+        // - launch date is MORE than 1 month from today
+     
+        if (
+            ProjectProductRec.RecordTypeId == fundShareClassModificationRecordTypeId
+            && ProjectProductRec.EndDate__c != null
+            && ProjectProductRec.EndDate__c > Date.today().addMonths(1)
+        ) {
+            system.debug('==1==callSequantisService=======generation failed : this project can be send to Sequantis only one month before the launch date');
+            String launchDateStr = ProjectProductRec.EndDate__c.format();
+             errorMessage = 'Generation failed : this project can be send to Sequantis only one month before the launch date (' + launchDateStr + ')';
+             showPDF = false;
+            return '<br/> Generation failed : this project can be send to Sequantis only one month before the launch date (' + launchDateStr + ')';
+        }
+       
 
         Narrative__c [] narratives = [ select  Type__c, Name, SubType__c
                                 from Narrative__c where Type__c = 'Third Party' and SubType__c= 'ManagementCompany'                       
@@ -163,7 +199,7 @@ public with sharing class VFC16_SequantisGenerateDraft {
         payload.put('notForInvestorsWithTheLowestRiskToleranceGermany', formatYesNoField(projectShareClassRec.LowestRiskTolGer__c)); //values : Yes, No, Neutral
         payload.put('expertInvestorGermany', formatYesNoField(projectShareClassRec.ExpertGermany__c )); //values : Yes, No, Neutral
         payload.put('advancedInvestor', formatYesNoField(projectShareClassRec.Advanced__c)); //values : Yes, No, Neutral
-        payload.put('informedInvestor', formatYesNoField(projectShareClassRec.Informed__c )); //values : Yes, No, Neutral
+        payload.put('informedInvestor', formatYesNoField(projectShareClassRec.Informed__c)); //values : Yes, No, Neutral
         payload.put('basicInvestor', formatYesNoField(projectShareClassRec.Basic__c)); //values : Yes, No, Neutral
         payload.put('investorTypeEligibleCounterparty', formatYesNoField(projectShareClassRec.EligibleCounterparty__c )); //values : Yes, No, Neutral
         payload.put('investorTypeProfessional', formatYesNoField(projectShareClassRec.Professional__c)); //values : Yes, No, Neutral
@@ -195,7 +231,7 @@ public with sharing class VFC16_SequantisGenerateDraft {
         payload.put('cutOff',ProjectProductRec.CutOffTime__c);
         payload.put('maturite',ProjectProductRec.MaturityDate__c);
         payload.put('hedge', projectShareClassRec.CurrencyHedging__c);
-        payload.put('partDeReference', projectShareClassRec.ProxyRisk__c);
+       // payload.put('partDeReference', projectShareClassRec.ProxyRisk__c);
         payload.put('benchmark',ProjectProductRec.BenchmarkName__c);
         payload.put('transactionCosts', projectShareClassRec.TransactionCosts__c);
         payload.put('effectiveServiceFees', projectShareClassRec.EffectiveServiceFees__c);
@@ -216,7 +252,7 @@ public with sharing class VFC16_SequantisGenerateDraft {
         payload.put('productId',ProjectProductRec.Product__c);
         payload.put('projectShareClassId',projectShareClassRec.Id);
         payload.put('projectId',ProjectProductRec.Id);
-
+        Payload.put('maxRedemptionFeesManco', projectShareClassRec.MaxRedemptionFeesManCo__c );
         if (ProjectProductRec.ParentProduct__r != null &&
             ProjectProductRec.ParentProduct__r.Product_Name__c != null) {
             payload.put('parentProduct', ProjectProductRec.ParentProduct__r.Product_Name__c);
@@ -234,30 +270,25 @@ public with sharing class VFC16_SequantisGenerateDraft {
         payload.put('projectType',  ProjectProductRec.TECH_RTName__c);
         payload.put('investmentObjective', projectInvestmentObjectiveNoHTML);
         payload.put('internalShortName',  ProjectProductRec.internalShortName__c);
+        payload.put('ongoingCosts',projectShareClassRec.OngoingCostsExante__c != null ? projectShareClassRec.OngoingCostsExante__c : 0 );
+        payload.put('userMail', UserInfo.getUserEmail());
+        Id rtId = ProjectProductRec.RecordTypeId;
 
-    // add only if project type is not Modification
-     Id fundShareClassModificationRecordTypeId = Schema.SObjectType.ProjectProduct__c.getRecordTypeInfosByDeveloperName().get('FundShareClassModification').getRecordTypeId();
-     Id fundCreationRecordTypeId = Schema.SObjectType.ProjectProduct__c.getRecordTypeInfosByDeveloperName().get('FundCreation').getRecordTypeId();
-     Id shareclassCreationRecordTypeId = Schema.SObjectType.ProjectProduct__c.getRecordTypeInfosByDeveloperName().get('ShareclassCreation').getRecordTypeId();
+        if (rtId == fundCreationRecordTypeId) {
+            
+            payload.put('sortieAnticipee1', ProjectProductRec.ReasonForRHP__c);
+            payload.put('typeInvestisseur', ProjectProductRec.IntentedRetailInvestor__c);
+            payload.put('shareClassInvestmentObjective', shareClassInvestmentObjectiveNoHTML);
+            payload.put('performanceFeesCommentEPT', projectShareClassRec.PerformanceFeeEPTKID__c);
+            payload.put('performanceFeesComment', projectShareClassRec.PerformanceFeeUCITSKIID__c);
 
-       Id rtId = ProjectProductRec.RecordTypeId;
+            if(narratives.size() > 0 ){payload.put('managementCompany',  narratives[0].Name );}
 
-if (rtId == fundCreationRecordTypeId) {
-    
-    payload.put('sortieAnticipee1', ProjectProductRec.ReasonForRHP__c);
-    payload.put('typeInvestisseur', ProjectProductRec.IntentedRetailInvestor__c);
-    payload.put('shareClassInvestmentObjective', shareClassInvestmentObjectiveNoHTML);
-    payload.put('performanceFeesCommentEPT', projectShareClassRec.PerformanceFeeEPTKID__c);
-    payload.put('performanceFeesComment', projectShareClassRec.PerformanceFeeUCITSKIID__c);
-
-    if(narratives.size() > 0 ){payload.put('managementCompany',  narratives[0].Name );}
-
-}
-else if (rtId == shareclassCreationRecordTypeId) {
-    payload.put('shareClassInvestmentObjective', shareClassInvestmentObjectiveNoHTML);
-    payload.put('performanceFeesCommentEPT', projectShareClassRec.PerformanceFeeEPTKID__c);
-    payload.put('performanceFeesComment', projectShareClassRec.PerformanceFeeUCITSKIID__c);
-}
+        }else if (rtId == shareclassCreationRecordTypeId) {
+                payload.put('shareClassInvestmentObjective', shareClassInvestmentObjectiveNoHTML);
+                payload.put('performanceFeesCommentEPT', projectShareClassRec.PerformanceFeeEPTKID__c);
+                payload.put('performanceFeesComment', projectShareClassRec.PerformanceFeeUCITSKIID__c);
+        }
        // payload.put('fundcurrency',  ProjectProductRec.BaseCurrency__c); //champ pas encore créé coté Sequantis
         //payload.put('????'  shareClassInvestmentObjectiveNoHTML
         //payload.put('riskNarrative', 'L\'indicateur synthétique de risque indique la probabilité que ce produit...');
@@ -266,15 +297,14 @@ else if (rtId == shareclassCreationRecordTypeId) {
         req.setHeader('Authorization', 'Bearer ' + token); 
         req.setHeader('Content-Type','application/json');
         req.setMethod('POST');
-        req.setEndpoint('callout:Sequantis/rest/CARMIGNAC_PROJECT');
-
+        req.setEndpoint('https://demo-rr.sequantis.com/SequantisPRIIPS/rest/CARMIGNAC_PROJECT');        
 
         // Sérialisation du Map en JSON
         system.debug('payload====='+JSON.serialize(payload));
-        payloadDebug = payload;
         payloadKeys = new List<String>(payload.keySet());
         payloadString = JSON.serialize(payload);
-        req.setBody(JSON.serialize(payload));
+        //payloadDebug= payloadString;
+        req.setBody(payloadString);
 
         HttpResponse res = httpReq.send(req);
         system.debug('==============Response status: ' + res.getStatusCode());
@@ -289,30 +319,23 @@ else if (rtId == shareclassCreationRecordTypeId) {
     }
 
     /* Escape HTML tags from text
-    except bold, italic 
+    except bold, italic and paragraph
     */
-    private String escapeHTML(String inputText){
-        if(inputText == null) {
+    private String escapeHTML(String inputText) {
+        if (inputText == null) {
             return '';
         }
-        // Remove all HTML tags and replace them with a space except <p> and </p> 
-        String noHTML = inputText.replaceAll('<(?!\\/??(p|i)>)[^>]+>', ' ');
-        // Clean up multiple spaces generated by the replacements
+
+        // Remove all HTML tags except <p>, </p>, <i>, </i>, <b>, </b>
+        String noHTML = inputText.replaceAll(
+            '<(?!\\/??(p|i|b)>)[^>]+>',
+            ' '
+        );
+
+        // Clean up multiple spaces
         inputText = noHTML.replaceAll('\\s+', ' ').trim();
         return inputText;
     }   
-    /* Escape HTML tags from text
-    except bold, italic 
-    */
-    /*
-    private String escapeHTML2(String inputText){
-        if (inputText == null) return '';
-        // Remove all HTML tags except <b>, </b>, <i>, </i> and replace them with a space
-        String noHTML = inputText.replaceAll('<(?!b>|/b>|i>|/i>)[^>]+>', ' ');
-        // Clean up multiple spaces generated by the replacements
-        noHTML = noHTML.replaceAll('\\s+', ' ').trim();    
-        return noHTML;
-    }   */
     //convert text field 'Yes'/'No'/Neutral to Boolean
     private Boolean formatYesNoField(String fieldValue){
         if(fieldValue == 'Yes'){
@@ -333,7 +356,7 @@ else if (rtId == shareclassCreationRecordTypeId) {
         req.setMethod('POST');
         // Utilise le Named Credential
         //req.setEndpoint('callout:Sequantis' + tokenPath);
-        req.setEndpoint('callout:Sequantis/rest/authentication/');
+        req.setEndpoint('https://demo-rr.sequantis.com/SequantisPRIIPS/rest/authentication/');
         req.setHeader('Content-Type', 'application/json');
         String username = Label.seqlgn;
         String password = Label.seqpwd;

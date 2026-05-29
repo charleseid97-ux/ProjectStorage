@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<LightningComponentBundle xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>55.0</apiVersion>
+    <isExposed>true</isExposed>
+
+    <masterLabel>Custom Calendar</masterLabel>
+
+    <targets>
+        <target>lightning__RecordPage</target>
+        <target>lightning__AppPage</target>
+        <target>lightning__HomePage</target>
+        <target>lightningCommunity__Page</target>
+        <target>lightningCommunity__Default</target>
+        <target>lightning__Tab</target>
+    </targets>
+
+    <targetConfigs>
+        <targetConfig targets="lightning__RecordPage, lightningCommunity__Default">
+            <property name="recordId" default="!recordId" label="Record Id" type="String" required="true"/>
+
+            <property name="childObject" default="Event__c" label="Child object"
+                      type="String"
+                      description="Child object that represents the events to be displayed on the calendar"
+                      datasource="apex://CustomPicklist"
+                      required="true"/>
+
+            <property name="parentFieldName" default="parentEvent__c" label="Parent Field API Name"
+                      type="String"
+                      description="API name of the lookup field to the parent record"
+                      required="true"/>
+
+            <!-- ✅ NEW MODEL -->
+            <property name="startDateField" default="startDate__c" label="Start Date API Field"
+                      type="String"
+                      description="API name of the Date field that contains the Start Date"
+                      required="true"/>
+
+            <property name="startTimeField" default="startTime__c" label="Start Time API Field"
+                      type="String"
+                      description="API name of the Text field (HH:MM) that contains the Start Time"
+                      required="true"/>
+
+            <property name="endDateField" default="endDate__c" label="End Date API Field"
+                      type="String"
+                      description="API name of the Date field that contains the End Date"
+                      required="true"/>
+
+            <property name="endTimeField" default="endTime__c" label="End Time API Field"
+                      type="String"
+                      description="API name of the Text field (HH:MM) that contains the End Time"
+                      required="true"/>
+
+            <property name="titleField" default="Name" label="Title API Field"
+                      type="String"
+                      description="API name of the field that should show as title of event"
+                      required="true"/>
+
+            <property name="channelName" label="Platform Event Name" type="String"
+                      description="Platform Event API Name if you want the calendar to rerender automatically"/>
+
+            <property name="colorField" default="color__c" label="Color Field API Name"
+                      type="String"
+                      description="API name of the field that contains the color value for the event"/>
+        </targetConfig>
+
+        <targetConfig targets="lightning__AppPage, lightning__HomePage">
+            <property name="childObject" default="Event__c" label="Child object"
+                      type="String"
+                      description="Child object that represents the events to be displayed on the calendar"
+                      datasource="apex://CustomPicklist"
+                      required="true"/>
+
+            <property name="parentFieldName" default="parentEvent__c" label="Parent Field API Name"
+                      type="String"
+                      description="API name of the lookup field to the parent record"
+                      required="true"/>
+
+            <!-- ✅ NEW MODEL -->
+            <property name="startDateField" default="startDate__c" label="Start Date API Field"
+                      type="String"
+                      required="true"/>
+
+            <property name="startTimeField" default="startTime__c" label="Start Time API Field"
+                      type="String"
+                      required="true"/>
+
+            <property name="endDateField" default="endDate__c" label="End Date API Field"
+                      type="String"
+                      required="true"/>
+
+            <property name="endTimeField" default="endTime__c" label="End Time API Field"
+                      type="String"
+                      required="true"/>
+
+            <property name="titleField" default="Name" label="Title API Field"
+                      type="String"
+                      required="true"/>
+
+            <property name="channelName" label="Platform Event Name" type="String"/>
+
+            <property name="colorField" default="color__c" label="Color Field API Name"
+                      type="String"/>
+        </targetConfig>
+    </targetConfigs>
+</LightningComponentBundle>

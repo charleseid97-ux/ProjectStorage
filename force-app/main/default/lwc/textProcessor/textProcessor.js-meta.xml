@@ -13,6 +13,7 @@
      <targetConfig targets="lightning__AppPage">
             <property name="typoAssistant" label="Typo Assistant" type="Boolean"/>
             <property name="productOverview" label="Prod Overview" type="Boolean" />
+            <property name="rfpTab" label="RFP Tab" type="Boolean"/>
         </targetConfig>
     </targetConfigs>
 

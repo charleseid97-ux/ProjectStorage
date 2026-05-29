@@ -5,7 +5,7 @@ public class MilestoneTriggerHandler {
     }
     
     public static void handleBeforeUpdate(Map<Id, Milestone__c> newMilestone, Map<Id, Milestone__c> oldMilestone) {
-       
+       MilestoneHandler.blockSPCFinal(newMilestone, oldMilestone);
     }
 
 

@@ -163,4 +163,109 @@ public class ProjectShareclassChildHandler {
             }
         }
     }
+
+    private static Boolean isRunning = false;
+
+    public static void updateTaxFields(
+            Map<Id, ProjectShareclassChild__c> m_newProjectShareclassChild,
+            Map<Id, ProjectShareclassChild__c> m_oldProjectShareclassChild
+        ){
+            if (isRunning) return;
+            isRunning = true;
+
+            try {
+                String BE_TIS = 'BE TIS';
+                String BE_ASSET_TEST = 'BE Asset Test';
+
+                for (ProjectShareclassChild__c newRec : m_newProjectShareclassChild.values()) {
+
+                    Set<String> valuesSet = new Set<String>();
+
+                    if (!String.isBlank(newRec.TaxTransparency__c)) {
+                        valuesSet.addAll(newRec.TaxTransparency__c.split(';'));
+                    }
+
+                    Boolean hasBeTis = valuesSet.contains(BE_TIS);
+                    Boolean hasBeAssetTest = valuesSet.contains(BE_ASSET_TEST);
+                    system.debug('hasBeTis: ' + hasBeTis + ', hasBeAssetTest: ' + hasBeAssetTest);
+                    if (hasBeTis && !hasBeAssetTest) {
+                        valuesSet.add(BE_ASSET_TEST);
+                    } else if (hasBeAssetTest && !hasBeTis) {
+                        valuesSet.add(BE_TIS);
+                    }
+
+                    newRec.TaxTransparency__c = String.join(new List<String>(valuesSet), ';');
+                }
+
+            } finally {
+                isRunning = false;
+            }
+        }
+    
+
+    /*public static void validateBelgiumSimulatorOnProject(
+        Map<Id, ProjectShareclassChild__c> m_newProjectShareclassChild,
+        Map<Id, ProjectShareclassChild__c> m_oldProjectShareclassChild
+    ) {
+        if (m_newProjectShareclassChild == null || m_newProjectShareclassChild.isEmpty()) {
+            return;
+        }
+
+        String BELGIUM_SIMULATOR = 'Belgium Simulator';
+        String ACCUMULATING = 'Accumulating';
+        String FCP = 'FCP';
+        String BELGIUM = 'Belgium';
+
+        for (ProjectShareclassChild__c rec : m_newProjectShareclassChild.values()) {
+            Set<String> newTaxValues = new Set<String>();
+            if (!String.isBlank(rec.TaxTransparency__c)) {
+                for (String val : rec.TaxTransparency__c.split(';')) {
+                    if (!String.isBlank(val)) {
+                        newTaxValues.add(val.trim());
+                    }
+                }
+            }
+
+            Boolean shouldValidate = false;
+
+            ProjectShareclassChild__c oldRec = m_oldProjectShareclassChild.get(rec.Id);
+
+            Set<String> oldTaxValues = new Set<String>();
+            if (!String.isBlank(oldRec.TaxTransparency__c)) {
+                for (String val : oldRec.TaxTransparency__c.split(';')) {
+                    if (!String.isBlank(val)) {
+                        oldTaxValues.add(val.trim());
+                    }
+                }
+            }
+
+            shouldValidate =
+                newTaxValues.contains(BELGIUM_SIMULATOR) &&
+                !oldTaxValues.contains(BELGIUM_SIMULATOR);
+            
+
+            if (!shouldValidate) {
+                continue;
+            }
+
+            Set<String> countryValues = new Set<String>();
+            if (!String.isBlank(rec.CountryRegNeeded__c)) {
+                for (String val : rec.CountryRegNeeded__c.split(';')) {
+                    if (!String.isBlank(val)) {
+                        countryValues.add(val.trim());
+                    }
+                }
+            }
+
+            Boolean isAccumulating = rec.DividendPolicy__c == ACCUMULATING;
+            Boolean isFcp = rec.LegalForm__c == FCP;
+            Boolean isRegisteredInBe = countryValues.contains(BELGIUM);
+
+            if (!(isAccumulating && isFcp && isRegisteredInBe)) {
+                rec.addError(
+                    'Belgium Simulator can only be added for Acc share classes of FCP funds registered in Belgium.'
+                );
+            }
+        }
+    }*/
 }

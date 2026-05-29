@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Cost_per_attendee__c</fullName>
+    <externalId>false</externalId>
+    <formula>IF(Attended_Count__c &gt; 0,  Budget_spent__c / Attended_Count__c , null)</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <inlineHelpText>Average cost per attendee actually present</inlineHelpText>
+    <label>Cost Per Attendee</label>
+    <precision>18</precision>
+    <required>false</required>
+    <scale>2</scale>
+    <trackHistory>false</trackHistory>
+    <type>Number</type>
+    <unique>false</unique>
+</CustomField>

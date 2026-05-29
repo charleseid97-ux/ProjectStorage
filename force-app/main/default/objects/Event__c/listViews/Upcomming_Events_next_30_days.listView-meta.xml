@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Upcomming_Events_next_30_days</fullName>
+    <booleanFilter>1 AND 2</booleanFilter>
+    <columns>startDate__c</columns>
+    <columns>DaysToEvent__c</columns>
+    <columns>NAME</columns>
+    <columns>category__c</columns>
+    <columns>salesTeam__c</columns>
+    <columns>StatusDisplay__c</columns>
+    <columns>city__c</columns>
+    <columns>format__c</columns>
+    <filterScope>Everything</filterScope>
+    <filters>
+        <field>DaysToEvent__c</field>
+        <operation>lessOrEqual</operation>
+        <value>30</value>
+    </filters>
+    <filters>
+        <field>DaysToEvent__c</field>
+        <operation>greaterOrEqual</operation>
+        <value>0</value>
+    </filters>
+    <label>Upcoming (next 30 days)</label>
+</ListView>

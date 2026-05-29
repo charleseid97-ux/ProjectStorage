@@ -40,6 +40,7 @@ export default class MeetingNote extends LightningElement {
     @api recordId;
     @api objectApiName;
     @api quickActionName='';
+    @api aiGeneration = false;      
 
     @track currentContact={};
     @track internalContacts; //list of options to choose.
@@ -140,6 +141,7 @@ export default class MeetingNote extends LightningElement {
      if(currentPageReference && (currentPageReference?.type === 'standard__quickAction')) {
          // eslint-disable-next-line @lwc/lwc/no-api-reassignments
          this.quickActionName = currentPageReference.attributes?.apiName;
+         console.log('quickActionName',this.quickActionName);
      }
     }
 
@@ -357,6 +359,9 @@ export default class MeetingNote extends LightningElement {
             case 'Note__c':
                 this.meetingNotes = evt.target.value;
                 break;
+            case 'Raw_Note__c':
+                this.meetingNotes = evt.target.value;
+                break;
             case 'Topic__c':
                 this.meetingTopic = evt.target.value;
                 break;
@@ -381,7 +386,7 @@ export default class MeetingNote extends LightningElement {
     checkMandatory(){
         let allOK= true;
         this.errorMessage = '';
-        if(!(this.clientPills.length > 0) || (!(this.clientInterest.length > 0) && this.isSalesPres)) {
+        if(!(this.clientPills.length > 0 ) || (!(this.clientInterest.length > 0) && this.isSalesPres)) {
             this.errorMessage = MissingClientProduct;
             allOK = false;
         }
@@ -413,18 +418,18 @@ export default class MeetingNote extends LightningElement {
         }
         fields.OwnerId = this.selectedOwnerId || userId;
         //check the requiered fields and section here before submit 
-            if(this.checkMandatory()){
-                    this.isLoading = true;
-                    this.template.querySelector('lightning-record-edit-form').submit(fields);
-            } else{
-                const evt = new ShowToastEvent({
-                    title: MissingDataTitle,
-                    message: this.errorMessage,
-                    variant: 'error',
-                    mode: 'sticky'
-                });
-                this.dispatchEvent(evt); 
-            }    
+        if(this.checkMandatory() || this.aiGeneration){
+            this.isLoading = true;
+            this.template.querySelector('lightning-record-edit-form').submit(fields);
+        } else{
+            const evt = new ShowToastEvent({
+                title: MissingDataTitle,
+                message: this.errorMessage,
+                variant: 'error',
+                mode: 'sticky'
+            });
+            this.dispatchEvent(evt); 
+        }    
     }
      handleCancel()
      {

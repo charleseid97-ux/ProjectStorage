@@ -1,0 +1,152 @@
+<template>
+    <section class="matrix-card">
+        <!-- Loading Spinner -->
+        <template if:true={isLoading}>
+            <div class="center-spinner">
+                <lightning-spinner alternative-text="Loading" size="medium"></lightning-spinner>
+            </div>
+        </template>
+
+        <!-- Errors -->
+        <template if:true={hasErrors}>
+            <div class="matrix-errors">
+                <template for:each={errors} for:item="err">
+                    <p key={err} class="error-msg">{err}</p>
+                </template>
+            </div>
+        </template>
+
+        <!-- Card Header -->
+        <div class="matrix-header">
+            <div class="header-left">
+                <h2 class="matrix-title">{title}</h2>
+                <template if:true={allowFilter}>
+                    <div class="header-separator"></div>
+                    <div class="header-filter">
+                        <lightning-input type="search" label={filterRowsLabel} placeholder="Filter rows..." value={filterTerm} onchange={handleFilterChange}></lightning-input>
+                        <template if:true={isFiltering}>
+                            <lightning-spinner size="x-small" alternative-text="Filtering"></lightning-spinner>
+                        </template>
+                    </div>
+                    <template if:true={hasFilterOptions}>
+                        <div class="header-separator"></div>
+                        <div class="dynamic-filters-section">
+                            <template for:each={displayFilterOptions} for:item="fo">
+                                <div key={fo.fieldPath} class="header-filter-item">
+                                    <c-multi-select-search-list label={fo.fieldLabel}
+                                                                options={fo.options}
+                                                                value={fo.selectedValues}
+                                                                enable-select-all="true"
+                                                                show-values-when-not-selecting="true"
+                                                                data-field-path={fo.fieldPath}
+                                                                onchange={handleMultiFilterChange}>
+                                    </c-multi-select-search-list>
+                                </div>
+                            </template>
+                            <template for:each={displayDateFilterOptions} for:item="df">
+                                <div key={df.fieldPath} class="header-filter-item date-filter-group" style={df.groupStyle}>
+                                    <div>
+                                        <span class="slds-form-element__label">{df.fieldLabel}</span>
+                                        <button class="date-mode-toggle" data-field-path={df.fieldPath} onclick={handleDateModeToggle}>{df.modeLabel}</button>
+                                    </div>
+                                    <div class="date-input-values">
+                                        <template if:true={df.isExact}>
+                                            <lightning-input type={df.inputType} label={df.fieldLabel} variant="label-hidden" data-field-path={df.fieldPath} data-bound="exact" value={df.exactValue} onchange={handleDateFilterChange}></lightning-input>
+                                        </template>
+                                        <template if:true={df.isRange}>
+                                            <lightning-input type={df.inputType} label="From" variant="label-hidden" data-field-path={df.fieldPath} data-bound="from" value={df.fromValue} onchange={handleDateFilterChange}></lightning-input>
+                                            <span>to</span>
+                                            <lightning-input type={df.inputType} label="To" variant="label-hidden" data-field-path={df.fieldPath} data-bound="to" value={df.toValue} onchange={handleDateFilterChange}></lightning-input>
+                                        </template>
+                                    </div>
+                                </div>
+                            </template>
+                            <div class="dynamic-filters-btns">
+                                <lightning-button label="Apply filters" variant="brand" onclick={handleApplyFilters} disabled={noPendingFilters}></lightning-button>
+                                <lightning-button label="Reset filters" variant="neutral" onclick={handleResetFilters} disabled={noActiveFilters}></lightning-button>
+                            </div>
+                        </div>
+                    </template>
+                </template>
+            </div>
+
+            <div class="header-right">
+                <template if:true={allowExcelExport}>
+                    <lightning-button label="Export to Excel" icon-name="utility:download" icon-position="left" disabled={isExportDisabled} onclick={handleExport}></lightning-button>
+                </template>
+                <lightning-button-icon icon-name="utility:refresh" variant="border" alternative-text="Refresh" title="Refresh" onclick={handleRefresh}></lightning-button-icon>
+            </div>
+        </div>
+
+        <!-- Empty State -->
+        <template if:true={isEmpty}>
+            <p class="matrix-empty">{labels.noData}</p>
+        </template>
+
+        <template if:true={hasData}>
+            <template if:true={isReloading}> <!-- Reloading indicator (filter change reload — keeps header visible) -->
+                <div class="table-reloading">
+                    <lightning-spinner size="small" alternative-text="Applying filters"></lightning-spinner>
+                </div>
+            </template>
+            <!-- Matrix Main Table -->
+            <div class="table-scroll-wrapper">
+                <table class="matrix-table">
+                    <thead>
+                        <!-- N header rows: one per column grouping level.
+                                - Non-last rows: merged corner (colspan=cornerColspan) + grouped column headers
+                                - Last row: individual row-group label headers + leaf column headers
+                                The `style` attribute on each <th> carries the sticky `top` offset. -->
+                        <template for:each={columnHeaderRows} for:item="hr">
+                            <tr key={hr.key}>
+                                <!-- Non-last rows: single merged corner cell -->
+                                <template if:true={hr.showCorner}>
+                                    <th class="corner-cell sticky-col sticky-header col-group1-header" colspan={cornerColspan} style={cornerStickyStyle}>
+                                        {hr.cornerLabel}
+                                    </th>
+                                </template>
+                                <!-- Last row: individual row-group label <th> per level -->
+                                <template if:true={hr.isLast}>
+                                    <template for:each={rowGroupHeaders} for:item="rgh">
+                                        <th key={rgh.key} class={rgh.cssClass} style={rgh.stickyStyle}>
+                                            {rgh.label}
+                                        </th>
+                                    </template>
+                                </template>
+                                <!-- Column header cells at this depth -->
+                                <template for:each={hr.cells} for:item="cell">
+                                    <th key={cell.key} class={cell.cssClass} colspan={cell.colspan}>
+                                        {cell.label}
+                                    </th>
+                                </template>
+                            </tr>
+                        </template>
+                    </thead>
+
+                    <tbody>
+                        <template for:each={filteredDisplayRows} for:item="row">
+                            <tr key={row.key} class={row.rowClass}>
+                                <!-- One <td> per row-group level.
+                                     Only `isFirst = true` cells are rendered — the rowspan above covers the rest. -->
+                                <template for:each={row.groupCells} for:item="gc">
+                                    <template if:true={gc.isFirst}>
+                                        <td key={gc.key} class={gc.cssClass} rowspan={gc.rowspan} style={gc.stickyStyle}>
+                                            {gc.label}
+                                        </td>
+                                    </template>
+                                </template>
+                                <!-- Value cells -->
+                                <template for:each={row.values} for:item="cell">
+                                    <td key={cell.key} class={cell.cssClass} style={cell.inlineStyle} data-tooltip={cell.tooltip} onmouseenter={handleCellMouseEnter} onmouseleave={handleCellMouseLeave}>
+                                        {cell.value}
+                                    </td>
+                                </template>
+                            </tr>
+                        </template>
+                    </tbody>
+                </table>
+            </div>
+        </template>
+        <div class={tooltipClass} style={tooltipStyle}>{tooltipText}</div>
+    </section>
+</template>

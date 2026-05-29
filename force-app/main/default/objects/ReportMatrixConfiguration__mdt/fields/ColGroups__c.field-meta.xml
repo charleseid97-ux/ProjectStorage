@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>ColGroups__c</fullName>
+    <label>Column Groups</label>
+    <type>LongTextArea</type>
+    <length>1000</length>
+    <visibleLines>4</visibleLines>
+    <description>Ordered list of column grouping field API names, one per line. The first line defines the top-level column headers; subsequent lines add sub-header levels. Supports relationship paths.</description>
+    <inlineHelpText>Enter one field API name per line, outermost group first. Example:
+Country__c
+ShareClass__r.Currency__c</inlineHelpText>
+</CustomField>

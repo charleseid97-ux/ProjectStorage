@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Type__c</fullName>
+    <label>Type</label>
+    <required>false</required>
+    <trackHistory>true</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <controllingField>Country__c</controllingField>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Transparency</fullName>
+                <default>false</default>
+                <label>Transparency</label>
+            </value>
+            <value>
+                <fullName>BE Asset Test</fullName>
+                <default>false</default>
+                <label>BE Asset Test</label>
+            </value>
+            <value>
+                <fullName>BE TIS</fullName>
+                <default>false</default>
+                <label>BE TIS</label>
+            </value>
+            <value>
+                <fullName>Belgium Simulator</fullName>
+                <default>false</default>
+                <label>Belgium Simulator</label>
+            </value>
+        </valueSetDefinition>
+        <valueSettings>
+            <controllingFieldValue>BE</controllingFieldValue>
+            <valueName>BE Asset Test</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>BE</controllingFieldValue>
+            <valueName>BE TIS</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>BE</controllingFieldValue>
+            <valueName>Belgium Simulator</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>IT</controllingFieldValue>
+            <controllingFieldValue>UK</controllingFieldValue>
+            <controllingFieldValue>AT</controllingFieldValue>
+            <controllingFieldValue>CH</controllingFieldValue>
+            <valueName>Transparency</valueName>
+        </valueSettings>
+    </valueSet>
+</CustomField>

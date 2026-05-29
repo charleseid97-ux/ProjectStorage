@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>VR05_NarrativeTP_NullFields</fullName>
+    <active>true</active>
+    <errorConditionFormula>AND(NOT($User.BypassValidationRules__c),
+RecordType.DeveloperName = &apos;Narrative&apos;,
+ISPICKVAL(Type__c, &apos;Third Party&apos;),
+OR(NOT(ISBLANK(ShareClass__c)),NOT(ISBLANK(Strategy__c)))
+)</errorConditionFormula>
+    <errorMessage>For narratives of type Third Party, both the Share Class and Strategy fields should be empty.</errorMessage>
+</ValidationRule>

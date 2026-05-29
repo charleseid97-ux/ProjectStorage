@@ -1,0 +1,12 @@
+<aura:component implements="force:hasRecordId,force:lightningQuickActionWithoutHeader,flexipage:availableForRecordHome"
+                access="global">
+    <ltng:require styles="{!$Resource.auraActionWith}" /> 
+
+    <aura:attribute name="recordId" type="String"/>
+
+    <!-- init debug -->
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+
+    <!-- pass recordId to LWC + listen to done -->
+    <c:newTask recordId="{!v.recordId}" ondone="{!c.handleDone}" />
+</aura:component>

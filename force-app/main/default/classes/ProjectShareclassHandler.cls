@@ -1,7 +1,21 @@
+/**
+ * ==================================================
+ * Change Log
+ * ==================================================
+ * Date   : 2026-05-26
+ * Author : Mira EID
+ * Ref    : US-19137
+ *
+ * Changes:
+ * - Updated SetNameWithoutProduct
+ * ==================================================
+ */
 public class ProjectShareclassHandler {
     
     static final Id fundModificationRecordTypeId = Schema.SObjectType.ProjectProduct__c.getRecordTypeInfosByDeveloperName().get('FundShareClassModification').getRecordTypeId();  
-    
+    private static final String COUNTRY_ALL = 'ALL';
+    private static final String SCENARIO_INTERNAL_TAX_TRANSPARENCY = 'InternalTaxTransparencyNotification';
+
     public static void nbOfFieldsGoal(Map<id, ProjectShareclass__c> newChilds) {
         System.debug('ProjectShareclassHandler.nbOfFieldsGoal - newChilds: ' + newChilds);
         Map<String, Set<String>> fieldListByStage = new Map<String, Set<String>>();
@@ -238,5 +252,389 @@ public class ProjectShareclassHandler {
             update toUpdate;
         }
 
+    }
+
+    public static void syncTaxDataFromTaxTransparency(Map<Id, ProjectShareclass__c> newMap, Map<Id, ProjectShareclass__c> oldMap) {
+        if (newMap == null || newMap.isEmpty() || oldMap == null || oldMap.isEmpty()) {
+            return;
+        }
+
+        Map<Id, Set<String>> addedByScId = new Map<Id, Set<String>>();
+        Map<Id, Set<String>> removedByScId = new Map<Id, Set<String>>();
+        Set<Id> scIdsToProcess = new Set<Id>();
+
+        for (Id scId : newMap.keySet()) {
+            ProjectShareclass__c newSc = newMap.get(scId);
+            ProjectShareclass__c oldSc = oldMap.get(scId);
+
+            Set<String> newValues = new Set<String>(splitMultiPicklist(newSc.TaxTransparency__c));
+            Set<String> oldValues = new Set<String>(splitMultiPicklist(oldSc.TaxTransparency__c));
+
+            Set<String> added = new Set<String>(newValues);
+            added.removeAll(oldValues);
+
+            Set<String> removed = new Set<String>(oldValues);
+            removed.removeAll(newValues);
+
+            if (!added.isEmpty()) {
+                addedByScId.put(scId, added);
+                scIdsToProcess.add(scId);
+            }
+
+            if (!removed.isEmpty()) {
+                removedByScId.put(scId, removed);
+                scIdsToProcess.add(scId);
+            }
+        }
+
+        if (scIdsToProcess.isEmpty()) {
+            return;
+        }
+
+        Map<Id, ProjectShareclass__c> scMap = new Map<Id, ProjectShareclass__c>([
+            SELECT Id,
+                Name,
+            Name__c,
+                ProjectProduct__c,
+                ProjectProduct__r.Name
+            FROM ProjectShareclass__c
+            WHERE Id IN :scIdsToProcess
+        ]);
+
+        List<TaxData__c> toInsert = new List<TaxData__c>();
+        Set<String> deleteKeys = new Set<String>();
+
+        // CREATE
+        for (Id scId : addedByScId.keySet()) {
+            ProjectShareclass__c sc = scMap.get(scId);
+            if (sc == null || sc.ProjectProduct__c == null) {
+                continue;
+            }
+
+            for (String label : addedByScId.get(scId)) {
+                Map<String, String> ct = mapSelectionToCountryType(label);
+                String country = ct.get('Country');
+                String typeVal = ct.get('Type');
+
+                if (isBlank(country) || isBlank(typeVal)) {
+                    continue;
+                }
+
+                TaxData__c td = new TaxData__c();
+                td.Type__c = typeVal;
+                td.Country__c = country;
+                td.Status__c = 'Requested';
+                td.Source__c = 'PMT';
+                td.ProjectProduct__c = sc.ProjectProduct__c;
+                td.ProjectShareclass__c = sc.Id;
+
+                toInsert.add(td);
+            }
+        }
+
+        // DELETE keys
+        for (Id scId : removedByScId.keySet()) {
+            ProjectShareclass__c sc = scMap.get(scId);
+            if (sc == null || sc.ProjectProduct__c == null) {
+                continue;
+            }
+
+            for (String label : removedByScId.get(scId)) {
+                Map<String, String> ct = mapSelectionToCountryType(label);
+                String country = ct.get('Country');
+                String typeVal = ct.get('Type');
+
+                if (isBlank(country) || isBlank(typeVal)) {
+                    continue;
+                }
+
+                String key = sc.Id + '|' + sc.ProjectProduct__c + '|' + country + '|' + typeVal;
+                deleteKeys.add(key);
+            }
+        }
+
+        List<TaxData__c> toCancel = new List<TaxData__c>();
+        if (!deleteKeys.isEmpty()) {
+            for (TaxData__c td : [
+                SELECT Id, ProjectShareclass__c, ProjectProduct__c, Country__c, Type__c
+                FROM TaxData__c
+                WHERE ProjectShareclass__c IN :scIdsToProcess
+                AND Source__c = 'PMT'
+            ]) {
+                String key = td.ProjectShareclass__c + '|' + td.ProjectProduct__c + '|' + td.Country__c + '|' + td.Type__c;
+                if (deleteKeys.contains(key)) {
+                    td.Status__c = 'Canceled';
+                    toCancel.add(td);
+                }
+            }
+        }
+
+        if (!toInsert.isEmpty()) {
+            insert toInsert;
+        }
+
+        if (!toCancel.isEmpty()) {
+            update toCancel;
+        }
+
+        sendTaxTransparencyNotification(scMap, addedByScId);
+    }
+
+    private static void sendTaxTransparencyNotification(Map<Id, ProjectShareclass__c> scMap, Map<Id, Set<String>> addedByScId) {
+        if (addedByScId == null || addedByScId.isEmpty()) {
+            return;
+        }
+
+        TaxEmailConfiguration__mdt config = getEmailConfiguration(
+            COUNTRY_ALL,
+            SCENARIO_INTERNAL_TAX_TRANSPARENCY
+        );
+
+        if (config == null || !config.IsActive__c) {
+            return;
+        }
+
+        List<String> taxRecipients = splitEmails(config.ToAddresses__c);
+        List<String> ccRecipients = splitEmails(config.CcAddresses__c);
+
+        if (taxRecipients.isEmpty()) {
+            return;
+        }
+
+        String baseUrl = URL.getOrgDomainUrl().toExternalForm();
+        List<Messaging.SingleEmailMessage> emails = new List<Messaging.SingleEmailMessage>();
+
+        for (Id scId : addedByScId.keySet()) {
+            ProjectShareclass__c sc = scMap.get(scId);
+            if (sc == null) {
+                continue;
+            }
+
+            Set<String> labels = addedByScId.get(scId);
+            String scLink = baseUrl + '/' + scId;
+            String projectLink = sc.ProjectProduct__c != null ? baseUrl + '/' + sc.ProjectProduct__c : null;
+
+            String subject = 'Tax Transparency request(s) - ' +
+                (sc.ProjectProduct__r != null ? sc.ProjectProduct__r.Name : '');
+
+            String body = ''
+                + '<p>Hello Tax Team,</p>'
+                + '<p>New Tax Transparency request(s) have been submitted.</p>'
+                + '<ul>'
+                + '<li><b>Share Class:</b> ' + htmlEscape(sc.Name__c) + '</li>'
+                + '<li><b>Requests:</b> ' + htmlEscape(String.join(new List<String>(labels), ', ')) + '</li>'
+                
+                + (projectLink != null
+                    ? '<li><b>Salesforce link (Project):</b> <a href="' + projectLink + '">Open Project</a></li>'
+                    : '')
+                + '</ul>'
+                + '<p>Merci,</p>';
+
+            Messaging.SingleEmailMessage msg = new Messaging.SingleEmailMessage();
+            msg.setToAddresses(taxRecipients);
+
+            if (!ccRecipients.isEmpty()) {
+                msg.setCcAddresses(ccRecipients);
+            }
+
+            msg.setSubject(subject);
+            msg.setHtmlBody(body);
+            emails.add(msg);
+        }
+
+        if (!emails.isEmpty()) {
+            Messaging.sendEmail(emails);
+        }
+    }
+
+    private static TaxEmailConfiguration__mdt getEmailConfiguration(String country, String scenario) {
+        List<TaxEmailConfiguration__mdt> configs = [
+            SELECT Country__c,
+                Scenario__c,
+                ToAddresses__c,
+                CcAddresses__c,
+                IsActive__c
+            FROM TaxEmailConfiguration__mdt
+            WHERE Country__c = :country
+            AND Scenario__c = :scenario
+            LIMIT 1
+        ];
+
+        return configs.isEmpty() ? null : configs[0];
+    }
+
+    private static List<String> splitEmails(String rawEmails) {
+        List<String> results = new List<String>();
+
+        if (String.isBlank(rawEmails)) {
+            return results;
+        }
+
+        String normalized = rawEmails.replace(',', ';');
+        for (String email : normalized.split(';')) {
+            String trimmedEmail = email != null ? email.trim() : null;
+            if (!String.isBlank(trimmedEmail)) {
+                results.add(trimmedEmail);
+            }
+        }
+
+        return results;
+    }
+
+    private static String htmlEscape(String input) {
+        if (input == null) {
+            return '';
+        }
+
+        String result = input;
+        result = result.replace('&', '&amp;');
+        result = result.replace('<', '&lt;');
+        result = result.replace('>', '&gt;');
+        result = result.replace('"', '&quot;');
+
+        return result;
+    }
+
+    // ------------------------
+    // Helpers
+    // ------------------------
+    private static Boolean isBlank(String s) {
+        return s == null || s.trim() == '';
+    }
+
+    // split multi-select picklist values (separator ';' in Salesforce)
+    private static List<String> splitMultiPicklist(String value) {
+        if (isBlank(value)) return new List<String>();
+        List<String> parts = value.split(';');
+        List<String> out = new List<String>();
+        for (String p : parts) {
+            if (!isBlank(p)) out.add(p.trim());
+        }
+        return out;
+    }
+
+     /**
+     * Retourne un map { 'Country' => ..., 'Type' => ... } pour une sélection donnée.
+     * - Si sélection BE (ex: 'BE TIS', 'BE Asset Test', 'Belgium Simulator') =>
+     *     Country = 'BE', Type = le type correspondant (ex 'TIS', 'BE Asset Test', 'Belgium Simulator')
+     * - Sinon => Country = sélection, Type = 'Transparency'
+     */
+    private static Map<String, String> mapSelectionToCountryType(String selection) {
+        Map<String, String> result = new Map<String, String>{ 'Country' => null, 'Type' => null };
+        if (isBlank(selection)) return result;
+        String sel = selection.trim();
+
+        // mapping exact (adapter si besoin)
+        Map<String, String> beSelectionToType = new Map<String, String>{
+            'BE TIS'            => 'BE TIS',
+            'BE Asset Test'     => 'BE Asset Test',
+            'Belgium Simulator' => 'Belgium Simulator'
+        };
+
+        if (beSelectionToType.containsKey(sel)) {
+            result.put('Country', 'BE');
+            result.put('Type', beSelectionToType.get(sel));
+            return result;
+        }
+
+        // cas standard -> Country = valeur sélectionnée, Type = Transparency
+        result.put('Country', sel);
+        result.put('Type', 'Transparency');
+        return result;
+    }
+    
+
+    public static void setNameWithoutProduct(
+        List<ProjectShareclass__c> newList,
+        Map<Id, ProjectShareclass__c> oldMap
+    ) {     
+        for (ProjectShareclass__c sc : newList) {
+
+            if (oldMap != null && !hasRelevantFieldChanged(sc, oldMap.get(sc.Id))) {
+                continue;
+            }
+            sc.Name__c = buildName(sc);
+        }
+    }
+
+    private static Boolean hasRelevantFieldChanged(
+        ProjectShareclass__c n,
+        ProjectShareclass__c o
+    ) {
+        return n.LegalForm__c != o.LegalForm__c ||
+            n.DividendPolicy__c != o.DividendPolicy__c ||
+            n.Type__c != o.Type__c ||
+            n.Currency__c != o.Currency__c ||
+            n.CurrencyHedging__c != o.CurrencyHedging__c ||
+            n.DividendFrequency__c != o.DividendFrequency__c;
+    }
+
+    private static String buildName(ProjectShareclass__c sc) { 
+        List<String> parts = new List<String>();
+
+        parts.add(sc.Type__c);
+
+        if (sc.Type__c == 'MyInvestor') {
+            return String.join(parts, ' ');
+        }
+
+        if (!String.isBlank(sc.Currency__c)) {
+            parts.add(sc.Currency__c);
+        }
+
+        Boolean hedged = String.valueOf(sc.CurrencyHedging__c) == 'True';
+
+        if (sc.LegalForm__c == 'OEIC') {
+            if (sc.DividendPolicy__c == 'Accumulating') {
+                parts.add(hedged ? 'Acc Hdg' : 'Acc');
+            } else if (sc.DividendPolicy__c == 'Income') {
+                parts.add(hedged ? 'Inc Hdg' : 'Inc');
+            } else {
+                return null;
+            }
+            return String.join(parts, ' ');
+        }
+
+        if (sc.DividendPolicy__c == 'Accumulating') {
+            parts.add('Acc');
+        } else if (sc.DividendPolicy__c == 'Distributing') {
+            parts.add(getDistributionCode(sc.DividendFrequency__c, 'dis'));
+        } else if (sc.DividendPolicy__c == 'Income') {
+            parts.add(getDistributionCode(sc.DividendFrequency__c, 'inc'));
+        }
+
+        if (hedged) {
+            parts.add('Hdg');
+        }
+
+        return String.join(removeBlank(parts), ' ');
+    }
+
+    private static String getDistributionCode(String frequency, String suffix) {
+        Map<String, String> prefixByFrequency = new Map<String, String>{
+            'Monthly' => 'M',
+            'Quarterly' => 'Q',
+            'Semi-Annually' => 'S',
+            'Annually' => 'Y',
+            'Weekly' => 'W',
+            'Daily' => 'D'
+        };
+
+        if (prefixByFrequency.containsKey(frequency)) {
+            return prefixByFrequency.get(frequency) + suffix;
+        }
+
+        return suffix == 'inc' ? 'inc' : '';
+    }
+
+    private static List<String> removeBlank(List<String> values) {
+        List<String> result = new List<String>();
+
+        for (String value : values) {
+            if (!String.isBlank(value)) {
+                result.add(value);
+            }
+        } 
+        return result;
     }
 }

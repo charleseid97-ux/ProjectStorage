@@ -1,0 +1,985 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<GenAiPromptTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <activeVersionIdentifier>WVN3tZk4o404O8n8M7lvj2vqM7T4xnyoLEatZnrtmCY=_11</activeVersionIdentifier>
+    <developerName>JSON_Insights_from_MeetingNote</developerName>
+    <masterLabel>JSON Insights from MeetingNote</masterLabel>
+    <templateVersions>
+        <content>Here are all the Products at Carmignac:
+
+[
+{!$Flow:List_of_Share_Classes_Funds_and_Strategy.Prompt}
+]
+-------------------------------------
+
+Extract the following insights from the provided meeting notes text and return the result in JSON format:
+
+1. Product Mentions: Identify any product names or references mentioned in the text.
+2. Sentiment Analysis: Analyze the overall sentiment of the text (e.g., positive, negative, neutral).
+3. Key Highlights: Extract any critical points, decisions, or feedback mentioned.
+
+Meeting Notes: {!$Input:Meeting_Note.Note__c}
+
+*Important Note:* The response must contain *only the JSON output* without any additional text, commentary, or formatting.
+
+Response Format:
+[{
+ &quot;product_Id&quot;: &lt;product_Id1&gt;,
+ &quot;product_name&quot;: &lt;product_name1&gt;,
+ &quot;sentiment&quot;: &lt;positive/negative/neutral&gt;,
+ &quot;key_highlights&quot;: &lt;highlight1&gt;&quot;
+},{
+ &quot;product_Id&quot;: &lt;product_Id2&gt;,
+ &quot;product_name&quot;: &lt;product_name1&gt;,
+ &quot;sentiment&quot;: &lt;positive/negative/neutral&gt;,
+ &quot;key_highlights&quot;: &lt;highlight2&gt;&quot;
+}...
+]
+Only respond with the JSON output, without additional text or explanations.
+</content>
+        <inputs>
+            <apiName>Meeting_Note</apiName>
+            <definition>SOBJECT://Meeting_Note__c</definition>
+            <masterLabel>Meeting Note</masterLabel>
+            <referenceName>Input:Meeting_Note</referenceName>
+            <required>true</required>
+        </inputs>
+        <primaryModel>sfdc_ai__DefaultGPT4Omni</primaryModel>
+        <status>Published</status>
+        <templateDataProviders>
+            <definition>flow://List_of_Share_Classes_Funds_and_Strategy</definition>
+            <referenceName>Flow:List_of_Share_Classes_Funds_and_Strategy</referenceName>
+        </templateDataProviders>
+        <versionIdentifier>9+PD0v5/aJmvKUSsaXvgNBPGw/jfKTW77RgqTSMJGuA=_1</versionIdentifier>
+    </templateVersions>
+    <templateVersions>
+        <content>Here are all the Products at Carmignac:
+
+[
+{!$Flow:List_of_Share_Classes_Funds_and_Strategy.Prompt}
+]
+-------------------------------------
+
+Extract the following insights from the provided meeting notes text and return the result in JSON format:
+
+1. Product Mentions: Identify any product names or references mentioned in the text.
+2. Sentiment Analysis: Analyze the overall sentiment of the text (e.g., positive, negative, neutral).
+3. Key Highlights: Extract any critical points, decisions, or feedback mentioned.
+
+Meeting Notes: {!$Input:Meeting_Note.Note__c}
+
+*Important Note:* The response must contain *only the JSON output* without any additional text, commentary, or formatting.
+
+Response Format:
+[{
+ &quot;product_Id&quot;: &lt;product_Id1&gt;,
+ &quot;meetingNote_Id&quot;: &lt;meetingNote_Id1&gt;,
+ &quot;meetingNote_date&quot;: {!$Input:Meeting_Note.Date__c} ,
+ &quot;product_name&quot;: &lt;product_name1&gt;,
+ &quot;sentiment&quot;: &lt;positive/negative/neutral&gt;,
+ &quot;key_highlights&quot;: &lt;highlight1&gt;&quot;
+},{
+ &quot;product_Id&quot;: &lt;product_Id2&gt;,
+ &quot;meetingNote_Id&quot;: &lt;meetingNote_Id2&gt;,
+ &quot;meetingNote_date&quot;:{!$Input:Meeting_Note.Date__c} ,
+ &quot;product_name&quot;: &lt;product_name1&gt;,
+ &quot;sentiment&quot;: &lt;positive/negative/neutral&gt;,
+ &quot;key_highlights&quot;: &lt;highlight2&gt;&quot;
+}...
+]
+Only respond with the JSON output, without additional text or explanations.
+</content>
+        <inputs>
+            <apiName>Meeting_Note</apiName>
+            <definition>SOBJECT://Meeting_Note__c</definition>
+            <masterLabel>Meeting Note</masterLabel>
+            <referenceName>Input:Meeting_Note</referenceName>
+            <required>true</required>
+        </inputs>
+        <primaryModel>sfdc_ai__DefaultGPT4Omni</primaryModel>
+        <status>Published</status>
+        <templateDataProviders>
+            <definition>flow://List_of_Share_Classes_Funds_and_Strategy</definition>
+            <referenceName>Flow:List_of_Share_Classes_Funds_and_Strategy</referenceName>
+        </templateDataProviders>
+        <versionIdentifier>9+PD0v5/aJmvKUSsaXvgNBPGw/jfKTW77RgqTSMJGuA=_2</versionIdentifier>
+    </templateVersions>
+    <templateVersions>
+        <content>Here are all the Products at Carmignac:
+
+[
+{!$Flow:List_of_Share_Classes_Funds_and_Strategy.Prompt}
+]
+-------------------------------------
+
+Extract the following insights from the provided meeting notes text and return the result in JSON format:
+
+1. Product Mentions: Identify any product names or references mentioned in the text.
+2. Sentiment Analysis: Analyze the overall sentiment of the text (e.g., positive, negative, neutral).
+3. Key Highlights: Extract any critical points, decisions, or feedback mentioned.
+
+Meeting Notes: {!$Input:Meeting_Note.Note__c}
+
+*Important Note:* The response must contain *only the JSON output* without any additional text, commentary, or formatting.
+
+Response Format:
+[{
+ &quot;product_Id&quot;: &lt;product_Id1&gt;,
+ &quot;meetingNote_Id&quot;:  {!$Input:Meeting_Note.Id},
+ &quot;product_name&quot;: &lt;product_name1&gt;,
+ &quot;sentiment&quot;: &lt;positive/negative/neutral&gt;,
+ &quot;key_highlights&quot;: &lt;highlight1&gt;&quot;
+},{
+ &quot;product_Id&quot;: &lt;product_Id2&gt;,
+ &quot;meetingNote_Id&quot;:  {!$Input:Meeting_Note.Id},
+ &quot;product_name&quot;: &lt;product_name1&gt;,
+ &quot;sentiment&quot;: &lt;positive/negative/neutral&gt;,
+ &quot;key_highlights&quot;: &lt;highlight2&gt;&quot;
+}...
+]
+Only respond with the JSON output, without additional text or explanations.
+</content>
+        <inputs>
+            <apiName>Meeting_Note</apiName>
+            <definition>SOBJECT://Meeting_Note__c</definition>
+            <masterLabel>Meeting Note</masterLabel>
+            <referenceName>Input:Meeting_Note</referenceName>
+            <required>true</required>
+        </inputs>
+        <primaryModel>sfdc_ai__DefaultGPT4Omni</primaryModel>
+        <status>Published</status>
+        <templateDataProviders>
+            <definition>flow://List_of_Share_Classes_Funds_and_Strategy</definition>
+            <referenceName>Flow:List_of_Share_Classes_Funds_and_Strategy</referenceName>
+        </templateDataProviders>
+        <versionIdentifier>9+PD0v5/aJmvKUSsaXvgNBPGw/jfKTW77RgqTSMJGuA=_3</versionIdentifier>
+    </templateVersions>
+    <templateVersions>
+        <content>Here are all the Products at Carmignac:
+
+[
+{!$Flow:List_of_Share_Classes_Funds_and_Strategy.Prompt}
+]
+-------------------------------------
+
+Extract the following insights from the provided meeting notes text and return the result in JSON format:
+
+1. Product Mentions: Identify any product names or references mentioned in the text.
+
+2. Sentiment Analysis: Analyze the overall sentiment of the text (e.g., positive, negative, neutral).
+
+3. Key Highlights: Extract any critical points, decisions, or feedback mentioned. Ensure you extract all positive and negative points, even if they refer to the same product.
+
+Meeting Notes:
+
+{!$Input:Meeting_Note.Note__c}
+
+
+Response Format:
+
+[
+  {
+    &quot;product_Id&quot;: &quot;&lt;product_Id1&gt;&quot;,
+    &quot;meetingNote_Id&quot;: {!$Input:Meeting_Note.Id},
+    &quot;product_name&quot;: &quot;&lt;product_name1&gt;&quot;,
+    &quot;sentiment&quot;: &quot;positive&quot;,
+    &quot;key_highlights&quot;: &quot;&lt;positive_highlight1&gt;&quot;
+  },
+  {
+    &quot;product_Id&quot;: &quot;&lt;product_Id1&gt;&quot;,
+    &quot;meetingNote_Id&quot;:  {!$Input:Meeting_Note.Id} ,
+    &quot;product_name&quot;: &quot;&lt;product_name1&gt;&quot;,
+    &quot;sentiment&quot;: &quot;negative&quot;,
+    &quot;key_highlights&quot;: &quot;&lt;negative_highlight1&gt;&quot;
+  },
+  {
+    &quot;product_Id&quot;: &quot;&lt;product_Id2&gt;&quot;,
+    &quot;meetingNote_Id&quot;: {!$Input:Meeting_Note.Id} ,
+    &quot;product_name&quot;: &quot;&lt;product_name2&gt;&quot;,
+    &quot;sentiment&quot;: &quot;positive&quot;,
+    &quot;key_highlights&quot;: &quot;&lt;positive_highlight2&gt;&quot;
+  },
+  ...
+]
+
+Important Notes:
+
+1. Do not group multiple highlights into a single JSON object. Each positive or negative point for the same product must have its own entry.
+2. Return only the JSON output without any additional text, commentary, or formatting.
+
+</content>
+        <inputs>
+            <apiName>Meeting_Note</apiName>
+            <definition>SOBJECT://Meeting_Note__c</definition>
+            <masterLabel>Meeting Note</masterLabel>
+            <referenceName>Input:Meeting_Note</referenceName>
+            <required>true</required>
+        </inputs>
+        <primaryModel>sfdc_ai__DefaultGPT4Omni</primaryModel>
+        <status>Published</status>
+        <templateDataProviders>
+            <definition>flow://List_of_Share_Classes_Funds_and_Strategy</definition>
+            <referenceName>Flow:List_of_Share_Classes_Funds_and_Strategy</referenceName>
+        </templateDataProviders>
+        <versionIdentifier>9+PD0v5/aJmvKUSsaXvgNBPGw/jfKTW77RgqTSMJGuA=_4</versionIdentifier>
+    </templateVersions>
+    <templateVersions>
+        <content>Here are all the Products at Carmignac:
+
+[ {!$Flow:List_of_Share_Classes_Funds_and_Strategy.Prompt} ]
+
+Extract the following insights from the provided meeting notes text and return the result in JSON format:
+
+1. Product Mentions: Identify any product names or references mentioned in the text. If no product is mentioned, ignore the recordId.
+2. Sentiment Analysis: Analyze the overall sentiment of the text (e.g., positive, negative, neutral).
+3. Key Highlights: Extract any critical points, decisions, or feedback mentioned. Ensure you extract all positive and negative points, even if they refer to the same product. The extracted key highlights must be at least 8 words long; otherwise, ignore the record.
+
+Additional Conditions:
+If the meeting note contains fewer than 10 words, ignore the meeting note entirely and return nothing for it.
+
+Meeting Notes:
+{!$Input:Meeting_Note.Note__c}
+
+Response Format:
+[{ 
+&quot;product_Id&quot;: &quot;&lt;product_Id1&gt;&quot;, 
+&quot;meetingNote_Id&quot;: {!$Input:Meeting_Note.Id},
+&quot;product_name&quot;: &quot;&lt;product_name1&gt;&quot;, 
+&quot;sentiment&quot;: &quot;positive&quot;, 
+&quot;key_highlights&quot;: &quot;&lt;positive_highlight1&gt;&quot; },
+{ &quot;product_Id&quot;: &quot;&lt;product_Id1&gt;&quot;,
+&quot;meetingNote_Id&quot;: {!$Input:Meeting_Note.Id},
+&quot;product_name&quot;: &quot;&lt;product_name1&gt;&quot;,
+&quot;sentiment&quot;: &quot;negative&quot;,
+&quot;key_highlights&quot;: &quot;&lt;negative_highlight1&gt;&quot; },
+{ &quot;product_Id&quot;: &quot;&lt;product_Id2&gt;&quot;,
+&quot;meetingNote_Id&quot;: {!$Input:Meeting_Note.Id},
+&quot;product_name&quot;: &quot;&lt;product_name2&gt;&quot;,
+&quot;sentiment&quot;: &quot;positive&quot;,
+&quot;key_highlights&quot;: &quot;&lt;positive_highlight2&gt;&quot; },
+... ]
+
+Important Notes:
+
+1. If a product is not found in the meeting notes, ignore the recordId and do not include it in the JSON output.
+2. Do not process or return meeting notes shorter than 10 words.
+3. Each key highlight must be at least 8 words long; otherwise, ignore the record.
+4. Do not group multiple highlights into a single JSON object. Each positive or negative point for the same product must have its own entry.
+5. Return only the JSON output without any additional text, commentary, or formatting.
+</content>
+        <inputs>
+            <apiName>Meeting_Note</apiName>
+            <definition>SOBJECT://Meeting_Note__c</definition>
+            <masterLabel>Meeting Note</masterLabel>
+            <referenceName>Input:Meeting_Note</referenceName>
+            <required>true</required>
+        </inputs>
+        <primaryModel>sfdc_ai__DefaultGPT4Omni</primaryModel>
+        <status>Published</status>
+        <templateDataProviders>
+            <definition>flow://List_of_Share_Classes_Funds_and_Strategy</definition>
+            <referenceName>Flow:List_of_Share_Classes_Funds_and_Strategy</referenceName>
+        </templateDataProviders>
+        <versionIdentifier>9+PD0v5/aJmvKUSsaXvgNBPGw/jfKTW77RgqTSMJGuA=_5</versionIdentifier>
+    </templateVersions>
+    <templateVersions>
+        <content>Here are all the Products at Carmignac:
+
+[
+{!$Flow:List_of_Share_Classes_Funds_and_Strategy.Prompt}
+]
+-------------------------------------
+
+Extract the following insights from the provided meeting notes text and return the result in JSON format:
+
+1. **Product Matching:** Match any mentioned product in the meeting notes with the products in the provided data above. The match can be based on either:
+  - **Product Code**
+  - **Product Name**
+  If no equivalent product is found, ignore the recordId.
+
+2. **Sentiment Analysis:** Analyze the overall sentiment of the text (e.g., positive, negative, neutral).
+
+3. **Key Highlights:** Extract any critical points, decisions, or feedback mentioned. Ensure you extract all positive and negative points, even if they refer to the same product. The extracted key highlights must be at least 8 words long; otherwise, ignore the record.
+
+Additional Conditions:
+
+- If the meeting note contains fewer than 10 words, ignore the meeting note entirely and return nothing for it.
+
+Meeting Notes:
+
+{!$Input:Meeting_Note.Note__c}
+
+Response Format:
+
+[
+ {
+  &quot;product_Id&quot;: &quot;&lt;product_Id1&gt;&quot;,
+  &quot;meetingNote_Id&quot;: {!$Input:Meeting_Note.Id},
+  &quot;product_name&quot;: &quot;&lt;product_name1&gt;&quot;,
+  &quot;sentiment&quot;: &quot;positive&quot;,
+  &quot;key_highlights&quot;: &quot;&lt;positive_highlight1&gt;&quot;
+ },
+ {
+  &quot;product_Id&quot;: &quot;&lt;product_Id1&gt;&quot;,
+  &quot;meetingNote_Id&quot;: {!$Input:Meeting_Note.Id},
+  &quot;product_name&quot;: &quot;&lt;product_name1&gt;&quot;,
+  &quot;sentiment&quot;: &quot;negative&quot;,
+  &quot;key_highlights&quot;: &quot;&lt;negative_highlight1&gt;&quot;
+ },
+ {
+  &quot;product_Id&quot;: &quot;&lt;product_Id2&gt;&quot;,
+  &quot;meetingNote_Id&quot;: {!$Input:Meeting_Note.Id},
+  &quot;product_name&quot;: &quot;&lt;product_name2&gt;&quot;,
+  &quot;sentiment&quot;: &quot;positive&quot;,
+  &quot;key_highlights&quot;: &quot;&lt;positive_highlight2&gt;&quot;
+ },
+ ...
+]
+
+Important Notes:
+
+1. Match products in the meeting notes with the provided product data using either **Product Code** or **Product Name**. If no match is found, ignore the JSON object and do not include it in the JSON output.
+2. Do not process or return meeting notes shorter than 10 words.
+3. the key_highlights of an object must be at least 10 words long; otherwise, ignore the JSON object.
+4. Do not group multiple highlights into a single JSON object. Each positive or negative point for the same product must have its own entry.
+5. Return only the JSON output without any additional text, commentary, or formatting.
+</content>
+        <inputs>
+            <apiName>Meeting_Note</apiName>
+            <definition>SOBJECT://Meeting_Note__c</definition>
+            <masterLabel>Meeting Note</masterLabel>
+            <referenceName>Input:Meeting_Note</referenceName>
+            <required>true</required>
+        </inputs>
+        <primaryModel>sfdc_ai__DefaultGPT4Omni</primaryModel>
+        <status>Published</status>
+        <templateDataProviders>
+            <definition>flow://List_of_Share_Classes_Funds_and_Strategy</definition>
+            <referenceName>Flow:List_of_Share_Classes_Funds_and_Strategy</referenceName>
+        </templateDataProviders>
+        <versionIdentifier>9+PD0v5/aJmvKUSsaXvgNBPGw/jfKTW77RgqTSMJGuA=_6</versionIdentifier>
+    </templateVersions>
+    <templateVersions>
+        <content>Here are all the Products at Carmignac:
+
+[
+{!$Flow:List_of_Share_Classes_Funds_and_Strategy.Prompt}
+]
+-------------------------------------
+
+Extract the following insights from the provided meeting notes text and return the result in JSON format:
+
+1. **Product Matching:** Match any mentioned product in the meeting notes with the products in the provided data above. The match can be based on either:
+  - **Product Code**
+  - **Product Name**
+  If no equivalent product is found, ignore the record.
+
+2. **Sentiment Analysis:** Analyze the overall sentiment of the text (e.g., positive, negative, neutral).
+
+3. **Key Highlights:** Extract any critical points, decisions, or feedback mentioned. Ensure you extract all positive and negative points, even if they refer to the same product. The extracted key highlights must be at least 10 words long; otherwise, ignore the record.
+Additional Conditions:
+
+- If the meeting note contains fewer than 10 words, ignore the meeting note entirely and return nothing for it.
+- key highlights It should contain the product_code or product_name explicitly
+
+Meeting Notes:
+
+{!$Input:Meeting_Note.Note__c}
+
+Response Format:
+
+[
+ {
+  &quot;product_Id&quot;: &quot;&lt;product_Id1&gt;&quot;,
+  &quot;meetingNote_Id&quot;: {!$Input:Meeting_Note.Id},
+  &quot;product_name&quot;: &quot;&lt;product_name1&gt;&quot;,
+  &quot;product_code&quot;: &quot;&lt;product_code1&gt;&quot;,
+  &quot;sentiment&quot;: &quot;positive&quot;,
+  &quot;key_highlights&quot;: &quot;&lt;positive_highlight1&gt;&quot;
+ },
+ {
+  &quot;product_Id&quot;: &quot;&lt;product_Id1&gt;&quot;,
+  &quot;meetingNote_Id&quot;: {!$Input:Meeting_Note.Id},
+  &quot;product_name&quot;: &quot;&lt;product_name1&gt;&quot;,
+  &quot;product_code&quot;: &quot;&lt;product_code1&gt;&quot;,
+  &quot;sentiment&quot;: &quot;negative&quot;,
+  &quot;key_highlights&quot;: &quot;&lt;negative_highlight1&gt;&quot;
+ },
+ {
+  &quot;product_Id&quot;: &quot;&lt;product_Id2&gt;&quot;,
+  &quot;meetingNote_Id&quot;: {!$Input:Meeting_Note.Id},
+  &quot;product_name&quot;: &quot;&lt;product_name2&gt;&quot;,
+  &quot;product_code&quot;: &quot;&lt;product_code2&gt;&quot;,
+  &quot;sentiment&quot;: &quot;positive&quot;,
+  &quot;key_highlights&quot;: &quot;&lt;positive_highlight2&gt;&quot;
+ },
+ ...
+]
+
+Important Notes:
+
+1. Match products in the meeting notes with the provided product data using strictly either the **Product Code** or **Product Name**. If no match is found, ignore the JSON object and do not include it in the JSON output.
+2. Do not process or return meeting notes shorter than 10 words.
+3. The key_highlights of an object must be at least 10 words long; otherwise, ignore the JSON object.
+4. The key_highlights should contain the product_code or product_name explicitly; otherwise, ignore the JSON object.
+5. Do not group multiple highlights into a single JSON object. Each positive or negative point for the same product must have its own entry.
+6. Return only the JSON output without any additional text, commentary, or formatting.
+</content>
+        <inputs>
+            <apiName>Meeting_Note</apiName>
+            <definition>SOBJECT://Meeting_Note__c</definition>
+            <masterLabel>Meeting Note</masterLabel>
+            <referenceName>Input:Meeting_Note</referenceName>
+            <required>true</required>
+        </inputs>
+        <primaryModel>sfdc_ai__DefaultGPT4Omni</primaryModel>
+        <status>Published</status>
+        <templateDataProviders>
+            <definition>flow://List_of_Share_Classes_Funds_and_Strategy</definition>
+            <referenceName>Flow:List_of_Share_Classes_Funds_and_Strategy</referenceName>
+        </templateDataProviders>
+        <versionIdentifier>9+PD0v5/aJmvKUSsaXvgNBPGw/jfKTW77RgqTSMJGuA=_7</versionIdentifier>
+    </templateVersions>
+    <templateVersions>
+        <content>Here are all the Products at Carmignac:
+
+[ {!$Flow:List_of_Share_Classes_Funds_and_Strategy.Prompt} ]
+
+Extract the following insights from the provided meeting notes text and return the result in JSON format:
+
+1. Product Matching: Match any mentioned product in the meeting notes with the products in the provided data above. The match can be based on:
+
+Product Code
+Product Name
+
+Indirect references or contextual mentions (e.g., &quot;the fund,&quot; &quot;the product,&quot; or descriptions related to the product). Even partial or implied references should be matched. If no equivalent product is found, ignore the record.
+
+
+
+2. Sentiment Analysis: Analyze the overall sentiment of the text (e.g., positive, negative, neutral).
+
+Include all insights, even if they are neutral or purely factual.
+
+Assign multiple sentiments to the same product if different aspects of the product are discussed.
+
+
+
+3. Key Highlights: Extract all critical points, decisions, or feedback related to the following categories. Include all positive, negative, and neutral points, even if they refer to the same product.
+
+The extracted key highlights must be at least 3 words long to capture brief yet relevant insights.
+
+If an insight fits into multiple categories, assign it to all applicable categories.
+
+
+Categories to focus on:
+
+Performance
+
+Buy List / Watchlist
+
+Performance Fees
+
+Investment Process
+
+Portfolio Manager
+
+Yield / Dividends
+
+Stock Selection / Asset Allocation
+
+Market Outlook / Macroéconomics
+
+Fund Strategy
+
+Risk Management
+
+Client Sentiment
+
+Product Differentiation
+
+Regulatory Compliance
+
+Fees &amp; Costs
+
+Sustainability / ESG
+
+Liquidity
+
+Fund Size &amp; Growth
+
+Operational Aspects
+
+
+If an insight does not clearly fit a specific category, assign it to Client Sentiment or Operational Aspects.
+
+
+
+
+---
+
+Additional Conditions:
+
+If the meeting note contains fewer than 3 words, ignore the meeting note entirely and return nothing for it.
+Key highlights should contain the product code or product name explicitly or refer to the product indirectly in a clear context.
+Do not group multiple highlights into a single JSON object. Each positive, negative, or neutral point for the same product must have its own entry, even if they relate to the same category.
+Return only the JSON output without any additional text, commentary, or formatting.
+
+---
+
+Meeting Notes:
+
+{!$Input:Meeting_Note.Note__c}
+
+---
+
+Response Format:
+
+[
+ {
+  &quot;product_Id&quot;: &quot;&lt;product_Id1&gt;&quot;,
+  &quot;meetingNote_Id&quot;: {!$Input:Meeting_Note.Id},
+  &quot;product_name&quot;: &quot;&lt;product_name1&gt;&quot;,
+  &quot;product_code&quot;: &quot;&lt;product_code1&gt;&quot;,
+  &quot;category&quot;: &quot;Performance&quot;,
+  &quot;sentiment&quot;: &quot;positive&quot;,
+  &quot;key_highlights&quot;: &quot;The behavior of CP is good in their selections.&quot;
+ },
+ {
+  &quot;product_Id&quot;: &quot;&lt;product_Id1&gt;&quot;,
+  &quot;meetingNote_Id&quot;: {!$Input:Meeting_Note.Id},
+  &quot;product_name&quot;: &quot;&lt;product_name1&gt;&quot;,
+  &quot;product_code&quot;: &quot;&lt;product_code1&gt;&quot;,
+  &quot;category&quot;: &quot;Performance&quot;,
+  &quot;sentiment&quot;: &quot;neutral&quot;,
+  &quot;key_highlights&quot;: &quot;Received several questions regarding Portfolio, Yield Evolution, and plans for the end of Maturity for CC29.&quot;
+ },
+ {
+  &quot;product_Id&quot;: &quot;&lt;product_Id1&gt;&quot;,
+  &quot;meetingNote_Id&quot;: {!$Input:Meeting_Note.Id},
+  &quot;product_name&quot;: &quot;&lt;product_name1&gt;&quot;,
+  &quot;product_code&quot;: &quot;&lt;product_code1&gt;&quot;,
+  &quot;category&quot;: &quot;Client Sentiment&quot;,
+  &quot;sentiment&quot;: &quot;neutral&quot;,
+  &quot;key_highlights&quot;: &quot;They’ve had CFB on their recommendation list in the past.&quot;
+ },
+ {
+  &quot;product_Id&quot;: &quot;&lt;product_Id2&gt;&quot;,
+  &quot;meetingNote_Id&quot;: {!$Input:Meeting_Note.Id},
+  &quot;product_name&quot;: &quot;&lt;product_name2&gt;&quot;,
+  &quot;product_code&quot;: &quot;&lt;product_code2&gt;&quot;,
+  &quot;category&quot;: &quot;Fund Strategy&quot;,
+  &quot;sentiment&quot;: &quot;positive&quot;,
+  &quot;key_highlights&quot;: &quot;Pitched CFB as an &apos;All in One&apos; Fixed Income Solution for their clients.&quot;
+ }
+]
+
+
+---
+
+Important Notes:
+
+1. Match products in the meeting notes with the provided product data using Product Code, Product Name, or indirect references. If no match is found, ignore the JSON object and do not include it in the JSON output.
+2. Do not process or return meeting notes shorter than 3 words.
+3. The key_highlights of an object must be at least 3 words long; otherwise, ignore the JSON object.
+4. The key_highlights should contain the product_code, product_name, or an indirect reference; otherwise, ignore the JSON object.
+5. If an insight fits multiple categories, assign it to each applicable category.
+6. Return only the JSON output without any additional text, commentary, or formatting.
+</content>
+        <inputs>
+            <apiName>Meeting_Note</apiName>
+            <definition>SOBJECT://Meeting_Note__c</definition>
+            <masterLabel>Meeting Note</masterLabel>
+            <referenceName>Input:Meeting_Note</referenceName>
+            <required>true</required>
+        </inputs>
+        <primaryModel>sfdc_ai__DefaultGPT4Omni</primaryModel>
+        <status>Published</status>
+        <templateDataProviders>
+            <definition>flow://List_of_Share_Classes_Funds_and_Strategy</definition>
+            <referenceName>Flow:List_of_Share_Classes_Funds_and_Strategy</referenceName>
+        </templateDataProviders>
+        <versionIdentifier>9+PD0v5/aJmvKUSsaXvgNBPGw/jfKTW77RgqTSMJGuA=_8</versionIdentifier>
+    </templateVersions>
+    <templateVersions>
+        <content>### **Extract Investment Insights from Meeting Notes**
+
+Here are all the products at Carmignac:
+
+**[ {!$Flow:List_of_Share_Classes_Funds_and_Strategy.Prompt} ]**
+
+Extract insights from the provided meeting notes and return the result in JSON format:
+
+---
+
+### **1. Product Matching**
+Match any mentioned product in the meeting notes with the provided product data based on:
+
+- **Product Code**
+- **Product Name**
+- **Indirect references or contextual mentions** (e.g., &quot;the fund,&quot; &quot;the product,&quot; or other descriptions related to the product). Even partial or implied references should be matched.
+
+If no equivalent product is found, **ignore the record** and do not include it in the JSON output.
+
+---
+
+### **2. Sentiment Analysis**
+Analyze the overall sentiment of the text and classify it into:
+- **Positive** (e.g., favorable remarks, strong performance, client satisfaction)
+- **Negative** (e.g., concerns, criticism, performance issues, dissatisfaction)
+
+🔴 **Avoid excessive neutral classifications.**
+- If the sentiment is unclear, **lean towards either positive or negative based on context.**
+- **Do not classify statements as neutral unless they are purely factual without any implied sentiment.**
+- If multiple sentiments are detected for a product, return separate JSON objects for each sentiment.
+
+---
+
+### **3. Key Highlights**
+Extract key insights, decisions, or feedback related to the following categories:
+- **Performance** (e.g., returns, stability, portfolio growth)
+- **Client Sentiment** (e.g., investor perception, demand, feedback)
+- **Fund Strategy** (e.g., investment approach, positioning, risk strategy)
+- **Market Context** (e.g., external factors affecting performance, regulatory impact)
+
+Each insight must:
+- **Be at least 3 words long** to ensure meaningful extraction.
+- **Include the product code, product name, or a clear contextual reference.**
+- **Have its own entry in the JSON output** (do not merge multiple insights into a single object).
+- If an insight fits multiple categories, **assign it to each applicable category separately.**
+
+---
+
+### **Additional Processing Rules**
+❌ Ignore meeting notes shorter than **3 words** entirely.
+❌ Ignore key highlights that do not include a product reference (explicit or contextual).
+✅ Ensure that each insight is placed in the most relevant category.
+✅ **Sentiment must be decisive**—default to either positive or negative unless purely factual.
+
+---
+
+### **Meeting Notes Input:**
+{!$Input:Meeting_Note.Note__c}
+
+---
+
+### **Response Format (JSON Output Only, No Additional Text):**
+```json
+[
+ {
+  &quot;product_Id&quot;: &quot;&lt;product_Id1&gt;&quot;,
+  &quot;meetingNote_Id&quot;: {!$Input:Meeting_Note.Id},
+  &quot;product_name&quot;: &quot;&lt;product_name1&gt;&quot;,
+  &quot;product_code&quot;: &quot;&lt;product_code1&gt;&quot;,
+  &quot;category&quot;: &quot;Performance&quot;,
+  &quot;sentiment&quot;: &quot;positive&quot;,
+  &quot;key_highlights&quot;: &quot;CP&apos;s selections have performed strongly in volatile conditions.&quot;
+ },
+ {
+  &quot;product_Id&quot;: &quot;&lt;product_Id1&gt;&quot;,
+  &quot;meetingNote_Id&quot;: {!$Input:Meeting_Note.Id},
+  &quot;product_name&quot;: &quot;&lt;product_name1&gt;&quot;,
+  &quot;product_code&quot;: &quot;&lt;product_code1&gt;&quot;,
+  &quot;category&quot;: &quot;Performance&quot;,
+  &quot;sentiment&quot;: &quot;negative&quot;,
+  &quot;key_highlights&quot;: &quot;Portfolio returns have been below expectations this quarter.&quot;
+ },
+ {
+  &quot;product_Id&quot;: &quot;&lt;product_Id1&gt;&quot;,
+  &quot;meetingNote_Id&quot;: {!$Input:Meeting_Note.Id},
+  &quot;product_name&quot;: &quot;&lt;product_name1&gt;&quot;,
+  &quot;product_code&quot;: &quot;&lt;product_code1&gt;&quot;,
+  &quot;category&quot;: &quot;Client Sentiment&quot;,
+  &quot;sentiment&quot;: &quot;negative&quot;,
+  &quot;key_highlights&quot;: &quot;Investors expressed concerns about liquidity and risk exposure.&quot;
+ },
+ {
+  &quot;product_Id&quot;: &quot;&lt;product_Id2&gt;&quot;,
+  &quot;meetingNote_Id&quot;: {!$Input:Meeting_Note.Id},
+  &quot;product_name&quot;: &quot;&lt;product_name2&gt;&quot;,
+  &quot;product_code&quot;: &quot;&lt;product_code2&gt;&quot;,
+  &quot;category&quot;: &quot;Fund Strategy&quot;,
+  &quot;sentiment&quot;: &quot;positive&quot;,
+  &quot;key_highlights&quot;: &quot;Positioned as a diversified fixed-income solution, attracting strong interest.&quot;
+ }
+]
+```
+
+---
+
+### **Key Enhancements**
+✅ **More decisive sentiment classification**—leaning towards positive or negative rather than neutral.
+✅ **Clearer sentiment breakdown**—ensuring insights are categorized effectively.
+✅ **Stronger conditions for key highlights**—avoiding generic or vague entries.
+✅ **More structured approach** to make the extraction process robust and useful.
+
+This version ensures actionable insights while minimizing neutral results.
+
+</content>
+        <inputs>
+            <apiName>Meeting_Note</apiName>
+            <definition>SOBJECT://Meeting_Note__c</definition>
+            <masterLabel>Meeting Note</masterLabel>
+            <referenceName>Input:Meeting_Note</referenceName>
+            <required>true</required>
+        </inputs>
+        <primaryModel>sfdc_ai__DefaultGPT4Omni</primaryModel>
+        <status>Published</status>
+        <templateDataProviders>
+            <definition>flow://List_of_Share_Classes_Funds_and_Strategy</definition>
+            <referenceName>Flow:List_of_Share_Classes_Funds_and_Strategy</referenceName>
+        </templateDataProviders>
+        <versionIdentifier>9+PD0v5/aJmvKUSsaXvgNBPGw/jfKTW77RgqTSMJGuA=_9</versionIdentifier>
+    </templateVersions>
+    <templateVersions>
+        <content>### **Extract Investment Insights from Meeting Notes**
+
+Here are all the products at Carmignac:
+
+**[ {!$Flow:List_of_Share_Classes_Funds_and_Strategy.Prompt} ]**
+
+Extract insights from the provided meeting notes and return the result in JSON format:
+
+---
+
+### **1. Product Matching**
+Match any mentioned product in the meeting notes with the provided product data based on:
+
+- **Product Code**
+- **Product Name**
+- **Indirect references or contextual mentions** (e.g., &quot;the fund,&quot; &quot;the product,&quot; or other descriptions related to the product). Even partial or implied references should be matched.
+
+If no equivalent product is found, **ignore the record** and do not include it in the JSON output.
+
+---
+
+### **2. Sentiment Analysis**
+Analyze the overall sentiment of the text and classify it into:
+- **Positive** (e.g., favorable remarks, strong performance, client satisfaction)
+- **Negative** (e.g., concerns, criticism, performance issues, dissatisfaction)
+
+🔴 **Avoid excessive neutral classifications.**
+- If the sentiment is unclear, **lean towards either positive or negative based on context.**
+- **Do not classify statements as neutral unless they are purely factual without any implied sentiment.**
+- If multiple sentiments are detected for a product, return separate JSON objects for each sentiment.
+
+---
+
+### **3. Key Highlights**
+Extract key insights, decisions, or feedback related to the following categories:
+- **Performance** (e.g., returns, stability, portfolio growth)
+- **Client Sentiment** (e.g., investor perception, demand, feedback)
+- **Fund Strategy** (e.g., investment approach, positioning, risk strategy)
+- **Market Context** (e.g., external factors affecting performance, regulatory impact)
+
+Each insight must:
+- **Be at least 3 words long** to ensure meaningful extraction.
+- **Include the product code, product name, or a clear contextual reference.**
+- **Have its own entry in the JSON output** (do not merge multiple insights into a single object).
+- If an insight fits multiple categories, **assign it to each applicable category separately.**
+
+---
+
+### **Additional Processing Rules**
+❌ Ignore meeting notes shorter than **3 words** entirely.
+❌ Ignore key highlights that do not include a product reference (explicit or contextual).
+✅ Ensure that each insight is placed in the most relevant category.
+✅ **Sentiment must be decisive**—default to either positive or negative unless purely factual.
+
+---
+
+### **Meeting Notes Input:**
+{!$Input:Meeting_Note.Note__c}
+
+---
+
+### **Response Format (JSON Output Only, No Additional Text):**
+
+[
+ {
+  &quot;product_Id&quot;: &quot;&lt;product_Id1&gt;&quot;,
+  &quot;meetingNote_Id&quot;: {!$Input:Meeting_Note.Id},
+  &quot;product_name&quot;: &quot;&lt;product_name1&gt;&quot;,
+  &quot;product_code&quot;: &quot;&lt;product_code1&gt;&quot;,
+  &quot;category&quot;: &quot;Performance&quot;,
+  &quot;sentiment&quot;: &quot;positive&quot;,
+  &quot;key_highlights&quot;: &quot;CP&apos;s selections have performed strongly in volatile conditions.&quot;
+ },
+ {
+  &quot;product_Id&quot;: &quot;&lt;product_Id1&gt;&quot;,
+  &quot;meetingNote_Id&quot;: {!$Input:Meeting_Note.Id},
+  &quot;product_name&quot;: &quot;&lt;product_name1&gt;&quot;,
+  &quot;product_code&quot;: &quot;&lt;product_code1&gt;&quot;,
+  &quot;category&quot;: &quot;Performance&quot;,
+  &quot;sentiment&quot;: &quot;negative&quot;,
+  &quot;key_highlights&quot;: &quot;Portfolio returns have been below expectations this quarter.&quot;
+ },
+ {
+  &quot;product_Id&quot;: &quot;&lt;product_Id1&gt;&quot;,
+  &quot;meetingNote_Id&quot;: {!$Input:Meeting_Note.Id},
+  &quot;product_name&quot;: &quot;&lt;product_name1&gt;&quot;,
+  &quot;product_code&quot;: &quot;&lt;product_code1&gt;&quot;,
+  &quot;category&quot;: &quot;Client Sentiment&quot;,
+  &quot;sentiment&quot;: &quot;negative&quot;,
+  &quot;key_highlights&quot;: &quot;Investors expressed concerns about liquidity and risk exposure.&quot;
+ },
+ {
+  &quot;product_Id&quot;: &quot;&lt;product_Id2&gt;&quot;,
+  &quot;meetingNote_Id&quot;: {!$Input:Meeting_Note.Id},
+  &quot;product_name&quot;: &quot;&lt;product_name2&gt;&quot;,
+  &quot;product_code&quot;: &quot;&lt;product_code2&gt;&quot;,
+  &quot;category&quot;: &quot;Fund Strategy&quot;,
+  &quot;sentiment&quot;: &quot;positive&quot;,
+  &quot;key_highlights&quot;: &quot;Positioned as a diversified fixed-income solution, attracting strong interest.&quot;
+ }
+]
+
+---
+
+### **Key Enhancements**
+✅ **More decisive sentiment classification**—leaning towards positive or negative rather than neutral.
+✅ **Clearer sentiment breakdown**—ensuring insights are categorized effectively.
+✅ **Stronger conditions for key highlights**—avoiding generic or vague entries.
+✅ **More structured approach** to make the extraction process robust and useful.
+
+This version ensures actionable insights while minimizing neutral results.
+
+</content>
+        <inputs>
+            <apiName>Meeting_Note</apiName>
+            <definition>SOBJECT://Meeting_Note__c</definition>
+            <masterLabel>Meeting Note</masterLabel>
+            <referenceName>Input:Meeting_Note</referenceName>
+            <required>true</required>
+        </inputs>
+        <primaryModel>sfdc_ai__DefaultGPT4Omni</primaryModel>
+        <status>Published</status>
+        <templateDataProviders>
+            <definition>flow://List_of_Share_Classes_Funds_and_Strategy</definition>
+            <referenceName>Flow:List_of_Share_Classes_Funds_and_Strategy</referenceName>
+        </templateDataProviders>
+        <versionIdentifier>9+PD0v5/aJmvKUSsaXvgNBPGw/jfKTW77RgqTSMJGuA=_10</versionIdentifier>
+    </templateVersions>
+    <templateVersions>
+        <content>### **Extract Investment Insights from Meeting Notes**
+
+Here are all the products at Carmignac:
+
+**[ {!$Flow:List_of_Share_Classes_Funds_and_Strategy.Prompt} ]**
+
+Extract insights from the provided meeting notes and return the result in JSON format:
+NB: Return only the raw JSON without any markdown or code block formatting (no ` or &apos;&apos;&apos; at the start or end).
+
+---
+
+### **1. Product Matching**
+Match any mentioned product in the meeting notes with the provided product data based on:
+
+- **Product Code**
+- **Product Name**
+- **Indirect references or contextual mentions** (e.g., &quot;the fund,&quot; &quot;the product,&quot; or other descriptions related to the product). Even partial or implied references should be matched.
+
+If no equivalent product is found, **ignore the record** and do not include it in the JSON output.
+
+---
+
+### **2. Sentiment Analysis**
+Analyze the overall sentiment of the text and classify it into:
+- **Positive** (e.g., favorable remarks, strong performance, client satisfaction)
+- **Negative** (e.g., concerns, criticism, performance issues, dissatisfaction)
+
+🔴 **Avoid excessive neutral classifications.**
+- If the sentiment is unclear, **lean towards either positive or negative based on context.**
+- **Do not classify statements as neutral unless they are purely factual without any implied sentiment.**
+- If multiple sentiments are detected for a product, return separate JSON objects for each sentiment.
+
+---
+
+### **3. Key Highlights**
+Extract key insights, decisions, or feedback related to the following categories:
+- **Performance** (e.g., returns, stability, portfolio growth)
+- **Client Sentiment** (e.g., investor perception, demand, feedback)
+- **Fund Strategy** (e.g., investment approach, positioning, risk strategy)
+- **Market Context** (e.g., external factors affecting performance, regulatory impact)
+
+Each insight must:
+- **Be at least 3 words long** to ensure meaningful extraction.
+- **Include the product code, product name, or a clear contextual reference.**
+- **Have its own entry in the JSON output** (do not merge multiple insights into a single object).
+- If an insight fits multiple categories, **assign it to each applicable category separately.**
+
+---
+
+### **Additional Processing Rules**
+❌ Ignore meeting notes shorter than **3 words** entirely.
+❌ Ignore key highlights that do not include a product reference (explicit or contextual).
+✅ Ensure that each insight is placed in the most relevant category.
+✅ **Sentiment must be decisive**—default to either positive or negative unless purely factual.
+
+---
+
+### **Meeting Notes Input:**
+{!$Input:Meeting_Note.Note__c}
+
+---
+
+### **Response Format (JSON Output Only, No Additional Text):**
+
+[
+ {
+  &quot;product_Id&quot;: &quot;&lt;product_Id1&gt;&quot;,
+  &quot;meetingNote_Id&quot;: {!$Input:Meeting_Note.Id},
+  &quot;product_name&quot;: &quot;&lt;product_name1&gt;&quot;,
+  &quot;product_code&quot;: &quot;&lt;product_code1&gt;&quot;,
+  &quot;category&quot;: &quot;Performance&quot;,
+  &quot;sentiment&quot;: &quot;positive&quot;,
+  &quot;key_highlights&quot;: &quot;CP&apos;s selections have performed strongly in volatile conditions.&quot;
+ },
+ {
+  &quot;product_Id&quot;: &quot;&lt;product_Id1&gt;&quot;,
+  &quot;meetingNote_Id&quot;: {!$Input:Meeting_Note.Id},
+  &quot;product_name&quot;: &quot;&lt;product_name1&gt;&quot;,
+  &quot;product_code&quot;: &quot;&lt;product_code1&gt;&quot;,
+  &quot;category&quot;: &quot;Performance&quot;,
+  &quot;sentiment&quot;: &quot;negative&quot;,
+  &quot;key_highlights&quot;: &quot;Portfolio returns have been below expectations this quarter.&quot;
+ },
+ {
+  &quot;product_Id&quot;: &quot;&lt;product_Id1&gt;&quot;,
+  &quot;meetingNote_Id&quot;: {!$Input:Meeting_Note.Id},
+  &quot;product_name&quot;: &quot;&lt;product_name1&gt;&quot;,
+  &quot;product_code&quot;: &quot;&lt;product_code1&gt;&quot;,
+  &quot;category&quot;: &quot;Client Sentiment&quot;,
+  &quot;sentiment&quot;: &quot;negative&quot;,
+  &quot;key_highlights&quot;: &quot;Investors expressed concerns about liquidity and risk exposure.&quot;
+ },
+ {
+  &quot;product_Id&quot;: &quot;&lt;product_Id2&gt;&quot;,
+  &quot;meetingNote_Id&quot;: {!$Input:Meeting_Note.Id},
+  &quot;product_name&quot;: &quot;&lt;product_name2&gt;&quot;,
+  &quot;product_code&quot;: &quot;&lt;product_code2&gt;&quot;,
+  &quot;category&quot;: &quot;Fund Strategy&quot;,
+  &quot;sentiment&quot;: &quot;positive&quot;,
+  &quot;key_highlights&quot;: &quot;Positioned as a diversified fixed-income solution, attracting strong interest.&quot;
+ }
+]
+
+---
+
+</content>
+        <inputs>
+            <apiName>Meeting_Note</apiName>
+            <definition>SOBJECT://Meeting_Note__c</definition>
+            <masterLabel>Meeting Note</masterLabel>
+            <referenceName>Input:Meeting_Note</referenceName>
+            <required>true</required>
+        </inputs>
+        <primaryModel>sfdc_ai__DefaultGPT4Omni</primaryModel>
+        <status>Published</status>
+        <templateDataProviders>
+            <definition>flow://List_of_Share_Classes_Funds_and_Strategy</definition>
+            <referenceName>Flow:List_of_Share_Classes_Funds_and_Strategy</referenceName>
+        </templateDataProviders>
+        <versionIdentifier>WVN3tZk4o404O8n8M7lvj2vqM7T4xnyoLEatZnrtmCY=_11</versionIdentifier>
+    </templateVersions>
+    <type>einstein_gpt__flex</type>
+    <visibility>Global</visibility>
+</GenAiPromptTemplate>

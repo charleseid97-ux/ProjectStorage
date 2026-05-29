@@ -25,6 +25,7 @@ export default class SearchSubscriptionProduct extends LightningElement {
   @api counter;
   @api fundOnly;
   @api isPerformance;
+  @api isKid;
 
   selectedFrequency;
   frequenciesOptions = [
@@ -200,7 +201,7 @@ export default class SearchSubscriptionProduct extends LightningElement {
       let groupFund = [];
       let alerts = {};
       groupFund = result.data.reduce(function (r, o) {
-        var key = o.Fund__c;
+        const key = o.Fund__c;
         alerts[o.Id] = {
           daily: { label: "Daily", prospId: "", active: false, checked: false },
           weekly: {
@@ -221,16 +222,25 @@ export default class SearchSubscriptionProduct extends LightningElement {
             active: false,
             checked: false
           }
+          ,
+          kid: {
+            label: "KID",
+            prospId: "",
+            active: false,
+            checked: false
+          }
         };
 
         let regD = new RegExp("daily", "gi");
         let regW = new RegExp("weekly", "gi");
         let regM = new RegExp("monthly", "gi");
         let regPerf = new RegExp("performance", "gi");
+        let regKid = new RegExp("kid", "gi");
         let isDaily = false,
           isWeekly = false,
           isMonthly = false,
-          isPerf = false;
+          isPerf = false,
+          isKidSubsc = false;
         let ischecked = false;
 
         if (o.WebCommunications__r) {
@@ -294,6 +304,20 @@ export default class SearchSubscriptionProduct extends LightningElement {
               };
               isPerf = true;
             }
+            if (
+              (regKid.test(alert.AlertType__c) ||
+              regKid.test(alert.AlertTypeRecord__r?.Name)) &&
+              !isKidSubsc
+            ) {
+              ischecked = alert.IsActive__c || ischecked;
+              alerts[o.Id].kid = {
+                label: "KID",
+                prospId: alert.Id,
+                active: alert.IsActive__c,
+                checked: alert.IsActive__c
+              };
+              isKidSubsc = true;
+            }
           });
         }
         let newO = {
@@ -328,7 +352,7 @@ export default class SearchSubscriptionProduct extends LightningElement {
       this.selectedAlerts = alerts;
       //groupeByStrat
       this.results = groupFund.reduce(function (r, o) {
-        var key = o.Strategy.Id;
+        const key = o.Strategy.Id;
         if (!helper[key]) {
           helper[key] = Object.assign(
             { Id: o.Strategy.Id, Code: o.Strategy.Code, Name: o.Strategy.Name },
@@ -366,7 +390,7 @@ export default class SearchSubscriptionProduct extends LightningElement {
       let groupFund = [];
       let alerts = {};
       groupFund = result.data.reduce(function (r, o) {
-        var key = o.Id;
+        const key = o.Id;
         alerts[o.Id] = {
           fund: {
             label: "Fund",
@@ -451,7 +475,7 @@ export default class SearchSubscriptionProduct extends LightningElement {
       this.selectedAlerts = alerts;
       //groupeByStrat
       this.results = groupFund.reduce(function (r, o) {
-        var key = o.Strategy.Id;
+        const key = o.Strategy.Id;
         if (!helper[key]) {
           helper[key] = Object.assign(
             { Id: o.Strategy.Id, Code: o.Strategy.Code, Name: o.Strategy.Name },
@@ -637,40 +661,54 @@ export default class SearchSubscriptionProduct extends LightningElement {
     this.defaultOpenStrat = expandedStrat;
   }
 
-  expandActiveSubAl2l() {
-    let expandedFund = [];
-    let expandedStrat = [];
+// ✅ Helpers (à mettre dans la classe)
+hasActiveAlertTypes(alertTypes) {
+  return Object.values(alertTypes || {}).some((alert) => alert?.active === true);
+}
 
-    this.initGroupedData.forEach((strategy) => {
-      let expStrat = strategy.funds.some((fund) =>
-        fund.products.some((product) =>
-          Object.values(product.alertTypes).some(
-            (alert) => alert.active === true
-          )
-        )
-      );
+productHasActiveAlert(product) {
+  return this.hasActiveAlertTypes(product?.alertTypes);
+}
 
-      if (expStrat) {
-        expandedStrat.push(strategy.Id);
+fundHasActiveAlert(fund) {
+  return (fund?.products || []).some((product) => this.productHasActiveAlert(product));
+}
 
-        // Only add funds with at least one active product alert
-        expandedFund.push(
-          ...strategy.funds
-            .filter((fund) =>
-              fund.products.some((product) =>
-                Object.values(product.alertTypes).some(
-                  (alert) => alert.active === true
-                )
-              )
-            )
-            .map((fund) => fund.Id)
-        );
-      }
-    });
+strategyHasActiveAlert(strategy) {
+  return (strategy?.funds || []).some((fund) => this.fundHasActiveAlert(fund));
+}
 
-    this.defaultOpenFund = expandedFund;
-    this.defaultOpenStrat = expandedStrat;
-  }
+getFundIdsWithActiveAlerts(strategy) {
+  return (strategy?.funds || [])
+    .filter((fund) => this.fundHasActiveAlert(fund))
+    .map((fund) => fund.Id);
+}
+
+// ✅ Une seule fonction qui fait le job
+expandStrategiesAndFundsWithActiveAlerts() {
+  const expandedFund = [];
+  const expandedStrat = [];
+
+  (this.initGroupedData || []).forEach((strategy) => {
+    if (!this.strategyHasActiveAlert(strategy)) return;
+
+    expandedStrat.push(strategy.Id);
+    expandedFund.push(...this.getFundIdsWithActiveAlerts(strategy));
+  });
+
+  this.defaultOpenFund = expandedFund;
+  this.defaultOpenStrat = expandedStrat;
+}
+
+// ✅ Tu gardes tes 2 méthodes publiques si elles sont appelées ailleurs
+expandSCA1() {
+  this.expandStrategiesAndFundsWithActiveAlerts();
+}
+
+expandActiveSubAl2l() {
+  this.expandStrategiesAndFundsWithActiveAlerts();
+}
+
   // expandActiveSubAll() {
   //   let expandedFund = [];
   //   let expandedStrat = [];
@@ -934,40 +972,7 @@ export default class SearchSubscriptionProduct extends LightningElement {
     });
   }
 
-  expandSCA1() {
-    let expandedFund = [];
-    let expandedStrat = [];
 
-    this.initGroupedData.forEach((strategy) => {
-      let expStrat = strategy.funds.some((fund) =>
-        fund.products.some((product) =>
-          Object.values(product.alertTypes).some(
-            (alert) => alert.active === true
-          )
-        )
-      );
-
-      if (expStrat) {
-        expandedStrat.push(strategy.Id);
-
-        // Only add funds with at least one active product alert
-        expandedFund.push(
-          ...strategy.funds
-            .filter((fund) =>
-              fund.products.some((product) =>
-                Object.values(product.alertTypes).some(
-                  (alert) => alert.active === true
-                )
-              )
-            )
-            .map((fund) => fund.Id)
-        );
-      }
-    });
-
-    this.defaultOpenFund = expandedFund;
-    this.defaultOpenStrat = expandedStrat;
-  }
 
   collapseAll() {
     this.defaultOpenStrat = [];

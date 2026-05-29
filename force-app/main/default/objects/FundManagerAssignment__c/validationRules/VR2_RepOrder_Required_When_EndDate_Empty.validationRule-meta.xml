@@ -3,9 +3,10 @@
     <fullName>VR2_RepOrder_Required_When_EndDate_Empty</fullName>
     <active>true</active>
     <errorConditionFormula>AND(
+  NOT($User.BypassValidationRules__c),
   ISBLANK(EndDate__c),
   ISBLANK(TEXT(RepOrder__c))
 )</errorConditionFormula>
     <errorDisplayField>RepOrder__c</errorDisplayField>
-    <errorMessage>RepOrder is required when End Date is empty.</errorMessage>
+    <errorMessage>Rep Order is required when End Date is empty to define the display order of product managers in reports</errorMessage>
 </ValidationRule>

@@ -1,0 +1,306 @@
+<template>
+  <div class="slds-box slds-theme_default slds-m-around_medium">
+
+    <!-- =========================
+         FILTERS
+         ========================= -->
+    <template if:false={isEvent}>
+      <lightning-card title="Filters">
+        <div class="slds-p-horizontal_small slds-p-vertical_x-small">
+          <div class="slds-grid slds-wrap slds-gutters_small">
+
+            <!-- Speakers -->
+            <div class="slds-col slds-size_1-of-1 slds-large-size_1-of-3">
+              <div class="slds-var-m-bottom_x-small">
+                <template if:true={hasSpeakers}>
+                  <c-multi-select-search-list
+                    label="Speakers: "
+                    options={allSpeakers}
+                    value={selectedSpeakerContactIds}
+                    data-id="Speakers"
+                    onchange={handleMultiSelection}>
+                  </c-multi-select-search-list>
+                </template>
+
+                <template if:true={dispSelectionPills.Speakers}>
+                  <div style="max-height: 3rem;">
+                    <lightning-pill-container
+                      items={speakerPills}
+                      onitemremove={handleMultiItemRemove}
+                      is-collapsible="true"
+                      is-expanded="false"
+                      data-id="Speakers">
+                    </lightning-pill-container>
+                  </div>
+                </template>
+              </div>
+            </div>
+
+            <!-- Job Titles -->
+            <div class="slds-col slds-size_1-of-1 slds-large-size_1-of-3">
+              <div class="slds-var-m-bottom_x-small">
+                <template if:true={hasJobTitles}>
+                  <c-multi-select-search-list
+                    label="Job titles: "
+                    options={allJobTitles}
+                    value={selectedJobTitles}
+                    data-id="JobTitles"
+                    onchange={handleMultiSelection}>
+                  </c-multi-select-search-list>
+                </template>
+
+                <template if:true={dispSelectionPills.JobTitles}>
+                  <div style="max-height: 3rem;">
+                    <lightning-pill-container
+                      items={jobTitlePills}
+                      onitemremove={handleMultiItemRemove}
+                      is-collapsible="true"
+                      is-expanded="false"
+                      data-id="JobTitles">
+                    </lightning-pill-container>
+                  </div>
+                </template>
+              </div>
+            </div>
+
+            <!-- Sales Teams -->
+            <div class="slds-col slds-size_1-of-1 slds-large-size_1-of-3">
+              <div class="slds-var-m-bottom_x-small">
+                <template if:true={hasSalesTeams}>
+                  <c-multi-select-search-list
+                    label="Sales teams: "
+                    options={allSalesTeams}
+                    value={selectedCountries}
+                    data-id="SalesTeams"
+                    onchange={handleMultiSelection}>
+                  </c-multi-select-search-list>
+                </template>
+
+                <template if:true={dispSelectionPills.SalesTeams}>
+                  <div style="max-height: 3rem;">
+                    <lightning-pill-container
+                      items={salesTeamPills}
+                      onitemremove={handleMultiItemRemove}
+                      is-collapsible="true"
+                      is-expanded="false"
+                      data-id="SalesTeams">
+                    </lightning-pill-container>
+                  </div>
+                </template>
+              </div>
+            </div>
+
+          </div>
+
+          <div class="slds-m-top_x-small slds-grid slds-grid_align-spread">
+            <lightning-button label="Clear" onclick={handleClear}></lightning-button>
+
+            <div>
+              <lightning-button
+                class="slds-m-right_x-small"
+                label="Print"
+                variant="neutral"
+                onclick={openPrintVF}>
+              </lightning-button>
+
+              <lightning-button
+                variant="brand"
+                label="Apply Filters"
+                onclick={applyFilters}>
+              </lightning-button>
+            </div>
+          </div>
+        </div>
+      </lightning-card>
+    </template>
+
+    <template if:true={isEvent}>
+      <lightning-button
+        label="Agenda"
+        icon-name="utility:preview"
+        variant="brand"
+        onclick={openRecap}>
+      </lightning-button>
+
+      <lightning-button
+        class="slds-m-left_small"
+        label="Agenda + Notes"
+        icon-name="utility:preview"
+        variant="brand"
+        onclick={openRecapWithNotes}>
+      </lightning-button>
+
+      <c-event-recap-modal></c-event-recap-modal>
+    </template>
+
+    <!-- Main 2/3 + 1/3 layout -->
+    <div class="slds-grid slds-wrap slds-gutters slds-p-top_medium">
+
+      <!-- Calendar -->
+      <div class="slds-col slds-size_1-of-1 slds-large-size_2-of-3">
+        <c-calendar
+          record-id={recordId}
+          ondatechange={handleDateChange}
+          onfceventclick={handleEventClick}>
+        </c-calendar>
+
+        <!-- Time zone + Legend moved below calendar -->
+        <template if:false={isEvent}>
+          <div class="slds-m-top_medium">
+
+            <!-- Time Zone -->
+            <div class="slds-m-bottom_small slds-size_1-of-1 slds-large-size_4-of-12">
+              <lightning-combobox
+                label="Time zone"
+                variant="label-hidden"
+                placeholder="Time zone"
+                value={selectedTimezone}
+                options={allTimezones}
+                onchange={handleTimezoneChange}>
+              </lightning-combobox>
+            </div>
+
+            <!-- Legend -->
+            <lightning-accordion
+              active-section-name={activeSections}
+              allow-multiple-sections-open>
+              <lightning-accordion-section
+                name="legend"
+                label="Colors legend">
+                <div class="slds-p-around_medium">
+                  <template if:true={hasColorLegend}>
+                    <div class="slds-scrollable_x">
+                      <table class="slds-table slds-table_cell-buffer slds-table_bordered slds-table_col-bordered">
+                        <thead>
+                          <tr>
+                            <th scope="col">
+                              <div class="slds-truncate">Type</div>
+                            </th>
+                            <template for:each={colorLegendHeaders} for:item="header">
+                              <th key={header.key} scope="col">
+                                <div class="slds-truncate" title={header.label}>
+                                  {header.label}
+                                </div>
+                              </th>
+                            </template>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <template for:each={colorLegendRows} for:item="row">
+                            <tr key={row.key}>
+                              <th scope="row">
+                                <div class="slds-truncate">{row.label}</div>
+                              </th>
+
+                              <template for:each={row.cells} for:item="cell">
+                                <td key={cell.key}>
+                                  <span style={cell.style}></span>
+                                </td>
+                              </template>
+                            </tr>
+                          </template>
+                        </tbody>
+                      </table>
+                    </div>
+                  </template>
+
+                  <template if:false={hasColorLegend}>
+                    <div class="slds-text-color_weak">No color legend found.</div>
+                  </template>
+                </div>
+              </lightning-accordion-section>
+            </lightning-accordion>
+          </div>
+        </template>
+      </div>
+
+      <!-- Details -->
+      <div class="slds-col slds-size_1-of-1 slds-large-size_1-of-3">
+        <lightning-card title="Selection" icon-name="standard:record">
+          <template if:true={selectedRecordId}>
+            <div class="slds-p-horizontal_medium slds-p-bottom_medium">
+              <div class="slds-grid slds-gutters_x-small">
+                <div>
+                  <lightning-button
+                    variant="neutral"
+                    label="Open Record"
+                    onclick={openRecord}>
+                  </lightning-button>
+                </div>
+
+                <template if:true={showMeetingNoteButton}>
+                  <div>
+                      <lightning-button
+                          class="slds-m-left_small"
+                          variant="brand"
+                          label="Meeting Note"
+                          onclick={openMeetingNoteQuickAction}>
+                      </lightning-button>
+                  </div>
+              </template>
+              </div>
+            </div>
+
+            <lightning-record-view-form
+              record-id={selectedRecordId}
+              object-api-name={childObject}>
+
+              <div class="slds-p-around_medium slds-grid slds-wrap slds-gutters">
+
+                <div class="slds-col slds-size_1-of-2">
+                  <lightning-output-field field-name="title__c"></lightning-output-field>
+                </div>
+
+                <div class="slds-col slds-size_1-of-2">
+                  <lightning-output-field field-name="category__c"></lightning-output-field>
+                </div>
+
+                <div class="slds-col slds-size_1-of-2">
+                  <lightning-output-field field-name="startDate__c"></lightning-output-field>
+                </div>
+                <div class="slds-col slds-size_1-of-2">
+                  <lightning-output-field field-name="startTime__c"></lightning-output-field>
+                </div>
+
+                <div class="slds-col slds-size_1-of-2">
+                  <lightning-output-field field-name="endDate__c"></lightning-output-field>
+                </div>
+                <div class="slds-col slds-size_1-of-2">
+                  <lightning-output-field field-name="endTime__c"></lightning-output-field>
+                </div>
+
+                <div class="slds-col slds-size_1-of-2">
+                  <lightning-output-field field-name="timezone__c"></lightning-output-field>
+                </div>
+                <div class="slds-col slds-size_1-of-2">
+                  <lightning-output-field field-name="status__c"></lightning-output-field>
+                </div>
+
+                <div class="slds-col slds-size_1-of-2">
+                  <lightning-output-field field-name="salesTeam__c"></lightning-output-field>
+                </div>
+                <div class="slds-col slds-size_1-of-2">
+                  <lightning-output-field field-name="format__c"></lightning-output-field>
+                </div>
+                <div class="slds-col slds-size_1-of-1">
+                  <lightning-output-field field-name="salesOwner__c"></lightning-output-field>
+                </div>
+
+              </div>
+            </lightning-record-view-form>
+
+            <c-speaker-products-by-session
+              selected-record-id={selectedRecordId}>
+            </c-speaker-products-by-session>
+          </template>
+
+          <template if:false={selectedRecordId}>
+            <div class="slds-p-around_medium slds-text-color_weak">
+              Click an event in the calendar to view its details here.
+            </div>
+          </template>
+        </lightning-card>
+      </div>
+    </div>
+  </div>
+</template>

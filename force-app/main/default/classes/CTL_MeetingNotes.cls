@@ -55,37 +55,74 @@ public without sharing class CTL_MeetingNotes {
         return ([select Id , Name, Account.Name from Opportunity WHERE IsClosed=false]);
     }
 
+         
+    @AuraEnabled(cacheable=false)
+    public static Id getEventIdByMeetingNote(Id meetingNoteId) {
+        if (meetingNoteId == null) return null;
+        Event evt = [
+            SELECT Id
+            FROM Event
+            WHERE Meeting_Note__c = :meetingNoteId
+            LIMIT 1
+        ];
+        return evt.Id;
+    }
+    
     @AuraEnabled
-    public static CreationWrapper createRelatedObjects(Event evt, List<String> participants, List<ClientInterest__c> prodInterest,List<Task> tasks){
-        Savepoint sp = Database.setSavepoint(); // rollback in case of error
+    public static CreationWrapper createRelatedObjects(
+        Event evt,
+        List<String> participants,
+        List<ClientInterest__c> prodInterest,
+        List<Task> tasks
+    ){
+        // Création d’un savepoint pour permettre un rollback en cas d’erreur
+        Savepoint sp = Database.setSavepoint();
+
+        // Indicateur de succès de l’opération globale
         Boolean success = false;
-        try {
-            List<EventRelation> evtRelation = new List<EventRelation>();
-            insert evt;
-            //add Client contact and Internal as Who Ids on the event.
-            for(String cont:participants){
-                evtRelation.add(new EventRelation(EventId = evt.Id,
-                                                 IsInvitee = false,
-                                                 IsWhat = false,
-                                                 IsParent=true,
-                                                 RelationId = cont));
-            }
 
-            //add Client Interest Object  and tasks .....
-            if(tasks.size() > 0) insert tasks;
-            if(evtRelation.size() > 0) insert evtRelation;
-            if(prodInterest.size() > 0) insert prodInterest;
+        // Liste des relations entre l’Event et les participants
+        List<EventRelation> evtRelation = new List<EventRelation>();
 
-            success = true;
+        // Insertion de l’Event principal
+        insert evt;
 
-        } catch (Exception e) {
-            Database.rollback(sp);
-            delete (new Meeting_Note__c(Id = evt.Meeting_Note__c)); //we delete the created meeting note created when we got an error for related objects. 
-            System.debug('####CTL_MeetingNotes:createRelatedObjects => '+e.getMessage());
+        // Création des relations EventRelation pour chaque participant
+        // Chaque contact est lié à l’Event nouvellement créé
+        for(String cont : participants){
+            evtRelation.add(new EventRelation(
+                EventId   = evt.Id,
+                IsInvitee = false,
+                IsWhat    = false,
+                IsParent  = true,
+                RelationId = cont
+            ));
         }
-        CreationWrapper response = new CreationWrapper(tasks,success);
+
+        // Insertion des tâches associées si présentes
+        if(tasks.size() > 0) {
+            insert tasks;
+        }
+
+        // Insertion des relations participants si présentes
+        if(evtRelation.size() > 0) {
+            insert evtRelation;
+        }
+
+        // Insertion des enregistrements d’intérêt client si présents
+        if(prodInterest.size() > 0) {
+            insert prodInterest;
+        }
+
+        // Toutes les opérations se sont déroulées correctement
+        success = true;
+
+        // Création de l’objet de réponse 
+        CreationWrapper response = new CreationWrapper(tasks, success, evt.Id);
+
         return response;
     }
+
 
     @AuraEnabled(cacheable=true)
     public static Map<String,String> getEmailTemplate(String name){
@@ -113,6 +150,7 @@ public without sharing class CTL_MeetingNotes {
                 mail.setReplyTo(note.Owner.Email);
                 mail.setSenderDisplayName(note.Owner.Name);
                 mail.setWhatId(meetingNoteId);
+                mail.setSaveAsActivity(false);
                 allmsg.add(mail);
             }
             if(allmsg.size() > 0){
@@ -135,7 +173,6 @@ public without sharing class CTL_MeetingNotes {
                  EndDateTime, 
                  Description, 
                  IntelligenceScore, 
-                 (SELECT Summary FROM Summaries LIMIT 1),
                  (SELECT RelatedPersonId,RelatedPerson.Name, RelatedPerson.Email FROM VideoCalls) 
              FROM VideoCall 
              WHERE Id = :videoCallId
@@ -145,7 +182,6 @@ public without sharing class CTL_MeetingNotes {
          wrapper.Name = vc.Name;
          wrapper.EndDateTime = vc.EndDateTime != null ? vc.EndDateTime.format() : null;
          wrapper.Description = vc.Description;
-         wrapper.Summary = vc.Summaries.size() > 0 ? vc.Summaries[0].Summary : null;
          List<ProductFeedback> productsAndRatings = parseFeedback(getProductsAndRatings(wrapper.Summary));
          List<Contact> contactIds = new List<Contact>();
          for (VideoCallParticipant participant : vc.VideoCalls) {
@@ -177,7 +213,6 @@ public without sharing class CTL_MeetingNotes {
                 StartDateTime,
                 Description, 
                 IntelligenceScore, 
-                (SELECT Summary FROM Summaries LIMIT 1),
                 (SELECT RelatedPersonId,RelatedPerson.Name, RelatedPerson.Email FROM VideoCalls WHERE RelatedPersonId IN (SELECT id FROM Contact)) 
             FROM VideoCall 
             WHERE Id = :videoCallId
@@ -187,7 +222,6 @@ public without sharing class CTL_MeetingNotes {
 
         meetingNote.Name = vc.Name;
         meetingNote.Date__c = vc.EndDateTime != null ? vc.EndDateTime.date() : null;
-        meetingNote.Note__c  = vc.Summaries.size() > 0 ? vc.Summaries[0].Summary : null;
 
         insert meetingNote;
         system.debug('meetingNote=>'+meetingNote);
@@ -247,7 +281,6 @@ public without sharing class CTL_MeetingNotes {
                 StartDateTime, 
                 Description, 
                 IntelligenceScore, 
-                (SELECT Summary FROM Summaries Order by CreatedDate DESC LIMIT 1),
                 (SELECT RelatedPersonId, RelatedPerson.Name, RelatedPerson.Email FROM VideoCalls WHERE RelatedPersonId IN (SELECT Id FROM Contact))
             FROM VideoCall 
             WHERE Id IN :videoCallIds
@@ -270,7 +303,6 @@ public without sharing class CTL_MeetingNotes {
             meetingNote.Name = vc.Name; 
             meetingNote.SalesPresentation__c = true; 
             meetingNote.Date__c = vc.EndDateTime != null ? vc.EndDateTime.date() : null;
-            meetingNote.Note__c = vc.Summaries.size() > 0 ? vc.Summaries[0].Summary : null;
             meetingNotes.add(meetingNote);
             meetingNotesMap.put(vc.Id, meetingNote);
             // Create Event
@@ -368,7 +400,7 @@ public without sharing class CTL_MeetingNotes {
         return ouput;
     }
     
-    public static List<Meeting_Note_Insight__c> getJSONMeetingNote(List<Meeting_Note__c> recordIds) {
+    /*public static List<Meeting_Note_Insight__c> getJSONMeetingNote(List<Meeting_Note__c> recordIds) {
         List<Meeting_Note_Insight__c> mndllList = new List<Meeting_Note_Insight__c>();
         List<Meeting_Note__c> failedRecords = new List<Meeting_Note__c>();
         Map<Id, String> failedReasons = new Map<Id, String>();
@@ -398,7 +430,7 @@ public without sharing class CTL_MeetingNotes {
                 for (ProductInsights prod : productsInsight) {
                     if (prod.product_Id != 'unknown' && prod.product_Id != null && prod.product_Id != '') {
                         Meeting_Note_Insight__c dmo = new Meeting_Note_Insight__c();
-                        dmo.Product__c = prod.product_Id;
+                        dmo.Strategy__c = prod.product_Id;
                         dmo.Sentiment__c = prod.sentiment;
                         dmo.Meeting_Note__c = prod.meetingNote_Id;
                         dmo.Inisghts__c = prod.key_highlights;
@@ -430,6 +462,110 @@ public without sharing class CTL_MeetingNotes {
         }
     
         return mndllList;
+    }*/
+
+    public static List<Meeting_Note_Insight__c> getJSONMeetingNote(List<Meeting_Note__c> recordIds) {
+    List<Meeting_Note_Insight__c> mndllList = new List<Meeting_Note_Insight__c>();
+    List<Meeting_Note__c> failedRecords = new List<Meeting_Note__c>();
+    Map<Id, String> failedReasons = new Map<Id, String>();
+
+    for (Meeting_Note__c mn : recordIds) {
+        try {
+            Map<String, Object> params = new Map<String, Object>();
+            params.put('MeetingNoteObj', mn);
+
+            Flow.Interview.Get_JSON_insights_from_MeetingNotes jsonFlow =
+                new Flow.Interview.Get_JSON_insights_from_MeetingNotes(params);
+
+            jsonFlow.start();
+
+            String output = (String) jsonFlow.getVariableValue('output');
+
+            System.debug('RAW EINSTEIN OUTPUT: ' + output);
+
+            if (String.isBlank(output) || output == 'null') {
+                System.debug('No output for Meeting Note: ' + mn.Id);
+                continue;
+            }
+
+            List<ProductInsights> productsInsight = parseInsights(output);
+            System.debug('Insights: ' + productsInsight);
+
+            if (productsInsight == null || productsInsight.isEmpty()) {
+                continue;
+            }
+
+            Set<Id> strategyIds = new Set<Id>();
+
+            for (ProductInsights prod : productsInsight) {
+                if (String.isNotBlank(prod.product_Id) && prod.product_Id != 'unknown') {
+                    strategyIds.add((Id) prod.product_Id);
+                }
+            }
+
+            Map<Id, Product__c> productByStrategyId = new Map<Id, Product__c>();
+
+            if (!strategyIds.isEmpty()) {
+                for (Product__c p : [
+                    SELECT Id, FundStrategy__c
+                    FROM Product__c
+                    WHERE FundStrategy__c IN :strategyIds
+                ]) {
+                    productByStrategyId.put(p.FundStrategy__c, p);
+                }
+            }
+
+            for (ProductInsights prod : productsInsight) {
+                if (String.isBlank(prod.product_Id) || prod.product_Id == 'unknown') {
+                    continue;
+                }
+
+                Product__c relatedProduct = productByStrategyId.get((Id) prod.product_Id);
+
+                if (relatedProduct == null) {
+                    System.debug('No Product__c found for Strategy__c: ' + prod.product_Id);
+                    continue;
+                }
+
+                Meeting_Note_Insight__c dmo = new Meeting_Note_Insight__c();
+
+                dmo.Strategy__c = prod.product_Id;
+                dmo.Product__c = relatedProduct.Id;
+                dmo.Sentiment__c = prod.sentiment;
+                dmo.Meeting_Note__c = String.isNotBlank(prod.meetingNote_Id)
+                    ? prod.meetingNote_Id
+                    : mn.Id;
+                dmo.Inisghts__c = prod.key_highlights;
+
+                mndllList.add(dmo);
+            }
+
+        } catch (Exception e) {
+            failedRecords.add(mn);
+            failedReasons.put(mn.Id, e.getMessage());
+            System.debug('Failed to process record: ' + mn.Id + ', Error: ' + e.getMessage());
+        }
+    }
+
+    if (!mndllList.isEmpty()) {
+        Database.SaveResult[] results = Database.insert(mndllList, false);
+
+        for (Integer i = 0; i < results.size(); i++) {
+            if (!results[i].isSuccess()) {
+                System.debug(
+                    'Failed to insert record: ' + mndllList[i] +
+                    ', Error: ' + results[i].getErrors()[0].getMessage()
+                );
+            }
+        }
+    }
+
+    if (!failedRecords.isEmpty()) {
+        System.debug('Failed records: ' + failedRecords);
+        System.debug('Failed reasons: ' + failedReasons);
+    }
+
+    return mndllList;
     }
 
     public class ProductFeedback {
@@ -484,12 +620,20 @@ public without sharing class CTL_MeetingNotes {
         @AuraEnabled public List<ClientInterest__c> ClientInterest;
     }
 
-    public class CreationWrapper {
+   public class CreationWrapper {
         @AuraEnabled public List<sObject> objectList;
         @AuraEnabled public Boolean success;
+        @AuraEnabled public Id eventId;
+
         public CreationWrapper(List<sObject> objectList , Boolean success){
             this.objectList = objectList;
             this.success = success;
+        }
+
+        public CreationWrapper(List<sObject> objectList , Boolean success, Id eventId){
+            this.objectList = objectList;
+            this.success = success;
+            this.eventId = eventId;
         }
     }
 

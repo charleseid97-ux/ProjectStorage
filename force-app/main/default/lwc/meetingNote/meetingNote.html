@@ -94,28 +94,30 @@
               </div>
               
             </lightning-accordion-section>
-            <lightning-accordion-section name="MeetingType" label="Meeting Type" >
-              <div class="slds-grid slds-gutters slds-grid_vertical-align-center slds-var-p-top_x-small slds-var-p-bottom_x-small">
-                <div class="slds-col slds-size_1-of-2">
-                  <label for="SalesPres" class="slds-form-element__label">Strategy Presentation</label>
-                  <lightning-input-field id="SalesPres" field-name="SalesPresentation__c" value={isSalesPres} data-item="SalesPresentation__c" variant="label-hidden" onchange={handleMeetingType}>
-                  </lightning-input-field>
+            <template if:false={aiGeneration}>
+
+              <lightning-accordion-section name="MeetingType" label="Meeting Type" >
+                <div class="slds-grid slds-gutters slds-grid_vertical-align-center slds-var-p-top_x-small slds-var-p-bottom_x-small">
+                  <div class="slds-col slds-size_1-of-2">
+                    <label for="SalesPres" class="slds-form-element__label">Strategy Presentation</label>
+                    <lightning-input-field id="SalesPres" field-name="SalesPresentation__c" value={isSalesPres} data-item="SalesPresentation__c" variant="label-hidden" onchange={handleMeetingType}>
+                    </lightning-input-field>
+                  </div>
+                  <div class="slds-col slds-size_1-of-2">
+                    <lightning-input-field field-name="RelationshipManagement__c" value={isRelatMgt} data-item="RelationshipManagement__c" onchange={handleMeetingType}>
+                    </lightning-input-field>
+                  </div>
                 </div>
-                <div class="slds-col slds-size_1-of-2">
-                  <lightning-input-field field-name="RelationshipManagement__c" value={isRelatMgt} data-item="RelationshipManagement__c" onchange={handleMeetingType}>
+                <template if:true={isRelatMgt}>
+                  <lightning-input-field field-name="Topic__c" required={isRelatMgt} value={meetingTopic} onchange={handleFieldChange}>
                   </lightning-input-field>
-                </div>
-              </div>
-              <template if:true={isRelatMgt}>
-                <lightning-input-field field-name="Topic__c" required={isRelatMgt} value={meetingTopic} onchange={handleFieldChange}>
-                </lightning-input-field>
-              </template>
-              <template if:true={isSalesPres}>
-                <template if:true={allProducts}>
-                  <c-multi-select-search-list label="Strategies (Short name or Long name)" options={allProducts} value={selectedProducts} more-searching-fields={productSearchFields} required-label="true" onchange={handleProducts}>
-                  </c-multi-select-search-list>
                 </template>
-                <!-- Client Interests pills part -->
+                <template if:true={isSalesPres}>
+                  <template if:true={allProducts}>
+                    <c-multi-select-search-list label="Strategies (Short name or Long name)" options={allProducts} value={selectedProducts} more-searching-fields={productSearchFields} required-label="true" onchange={handleProducts}>
+                    </c-multi-select-search-list>
+                  </template>
+                  <!-- Client Interests pills part -->
                   <template if:true={clientInterest}>
                     <template for:each={clientInterest} for:item="item">
                       <div key={item.id}  class="slds-grid slds-gutters slds-grid_vertical-align-center slds-var-p-top_x-small slds-var-p-bottom_x-small slds-align_absolute-center">
@@ -148,34 +150,41 @@
                       </div>
                     </template>
                   </template>
-              </template>
-            </lightning-accordion-section>
+                </template>
+              </lightning-accordion-section>
+            </template>
             <lightning-accordion-section name="Note" label="Notes" >
+              <template if:false={aiGeneration}>
                 <lightning-input-field id="meetingNote" field-name="Note__c" variant="label-hidden" required onchange={handleFieldChange}>
                 </lightning-input-field>
-                <!-- Add Opport -->
-                <div class="slds-var-m-top_xx-small slds-var-m-bottom_x-small">
-                  <template if:true={allOpport}>
-                      <template if:true={selectedOpport}>
-                        <label class="slds-form-element__label">Opportunity</label>
-                        <div class="slds-pill-container slds-border_right slds-border_top slds-border_bottom slds-border_left slds-var-p-top_xxx-small" style="border-radius: 0.25rem;min-height: 2rem;">
-                            <lightning-pill
-                                    id={selectedOpport}
-                                    label={selectedOpportLabel}
-                                    onremove={handleRemoveSelectedOpport}
-                            >
-                            <lightning-icon
-                                    icon-name="standard:opportunity"
-                                    size="medium"></lightning-icon>
-                            </lightning-pill>
-                        </div>
-                    </template>
-                    <template if:false={selectedOpport}>
-                      <c-multi-select-search-list label="Opportunity" mono-select="true" options={allOpport} value={selectedOpport} more-searching-fields={oppSearchFields} onchange={handleOpport}>
-                      </c-multi-select-search-list>
-                    </template>
+              </template>
+              <template if:true={aiGeneration}>
+                <lightning-input-field id="meetingNoteRaw" field-name="Raw_Note__c" variant="label-hidden" required onchange={handleFieldChange}>
+                </lightning-input-field>
+              </template>
+                  <!-- Add Opport -->
+              <div class="slds-var-m-top_xx-small slds-var-m-bottom_x-small">
+                <template if:true={allOpport}>
+                    <template if:true={selectedOpport}>
+                      <label class="slds-form-element__label">Opportunity</label>
+                      <div class="slds-pill-container slds-border_right slds-border_top slds-border_bottom slds-border_left slds-var-p-top_xxx-small" style="border-radius: 0.25rem;min-height: 2rem;">
+                          <lightning-pill
+                                  id={selectedOpport}
+                                  label={selectedOpportLabel}
+                                  onremove={handleRemoveSelectedOpport}
+                          >
+                          <lightning-icon
+                                  icon-name="standard:opportunity"
+                                  size="medium"></lightning-icon>
+                          </lightning-pill>
+                      </div>
                   </template>
-                </div>
+                  <template if:false={selectedOpport}>
+                    <c-multi-select-search-list label="Opportunity" mono-select="true" options={allOpport} value={selectedOpport} more-searching-fields={oppSearchFields} onchange={handleOpport}>
+                    </c-multi-select-search-list>
+                  </template>
+                </template>
+              </div>
             </lightning-accordion-section>
             <lightning-accordion-section name="FollowUP" label="Follow UP">
               <lightning-button-icon slot="actions" icon-name="utility:add" variant="brand" alternative-text="New Task" class="slds-var-m-left_xx-small" title="New Task" onclick={handleAddTask}></lightning-button-icon>

@@ -1,0 +1,120 @@
+<template>
+    <template if:true={isOpen}>
+        <section role="dialog" tabindex="-1" aria-modal="true" aria-label="Event recap"
+                 class="slds-modal slds-fade-in-open">
+            <div class="slds-modal__container">
+
+                <header class="slds-modal__header">
+                    <div class="slds-grid slds-grid_align-spread slds-grid_vertical-align-center">
+                        <h2 class="slds-text-heading_medium">Event recap</h2>
+                        <button class="slds-button slds-button_icon slds-modal__close" title="Close" onclick={close}>
+                            <lightning-icon icon-name="utility:close" size="small" alternative-text="Close"></lightning-icon>
+                        </button>
+                    </div>
+
+                    <template if:true={errorMessage}>
+                        <div class="slds-text-color_error slds-m-top_x-small">{errorMessage}</div>
+                    </template>
+                </header>
+
+                <div class="slds-modal__content slds-p-around_medium">
+                    <template if:true={loading}>
+                        <lightning-spinner alternative-text="Loading"></lightning-spinner>
+                    </template>
+
+                    <template if:true={recap}>
+                        <!-- Parent summary displayed directly in the modal -->
+                        <div class="parentBox slds-box slds-m-bottom_medium">
+                            <div class="parentTitle">{recap.parent.title}</div>
+
+                            <div class="parentMeta slds-m-top_x-small">
+                                <template if:true={recap.parent.salesTeam}>
+                                    <span class="pill">{recap.parent.salesTeam}</span>
+                                </template>
+                                <template if:true={recap.parent.timezone}>
+                                    <span class="pill">{recap.parent.timezone}</span>
+                                </template>
+                                <!-- Company OUTSIDE collapsible; show Company__r.Name via DTO.company -->
+                                <template if:true={recap.parent.company}>
+                                    <span class="pill">{recap.parent.company}</span>
+                                </template>
+                            </div>
+
+                            <div class="parentDates slds-m-top_small">
+                                <div class="dateLine">
+                                    <span class="dateLabel">Start</span>
+                                    <span class="dateValue">{parentStartDate} {parentStartTime}</span>
+                                </div>
+                                <div class="dateLine">
+                                    <span class="dateLabel">End</span>
+                                    <span class="dateValue">{parentEndDate} {parentEndTime}</span>
+                                </div>
+                            </div>
+
+                            <!-- Parent requirement: meetingBackground collapsible (collapsed by default) -->
+                            <template if:true={hasParentBackground}>
+                                <lightning-accordion allow-multiple-sections-open class="slds-m-top_small">
+                                    <lightning-accordion-section name="background" label="Meeting background">
+                                        <div class="sectionText">
+                                            {recap.parent.meetingBackground}
+                                        </div>
+                                    </lightning-accordion-section>
+                                </lightning-accordion>
+                            </template>
+
+                            <!-- Parent requirement: speakers & products visible (NOT collapsible) -->
+                            <template if:true={hasParentSpeakers}>
+                                <div class="speakersBlock">
+                                    <div class="speakersTitle">Speakers &amp; products</div>
+                                    <template for:each={parentSpeakersView} for:item="sp">
+                                        <div key={sp.key} class="speakerLine">
+                                            <span class="speakerName">{sp.speakerName}:</span>
+                                            <span class="speakerProducts">{sp.productsLabel}</span>
+                                        </div>
+                                    </template>
+                                </div>
+                            </template>
+                        </div>
+
+                        <!-- Child events -->
+                        <template if:true={hasChildren}>
+                            <!-- If parent spans multiple days: group children by day (startDate) -->
+                            <template if:true={isParentMultiDay}>
+                                <template for:each={childrenGroups} for:item="grp">
+                                    <div key={grp.key}>
+                                        <div class="dayHeader">{grp.label}</div>
+                                        <div class="dayDivider"></div>
+
+                                        <template for:each={grp.events} for:item="ev">
+                                            <div key={ev.id} class="slds-m-bottom_medium">
+                                                <c-event-recap-event-card event={ev}></c-event-recap-event-card>
+                                            </div>
+                                        </template>
+                                    </div>
+                                </template>
+                            </template>
+
+                            <template if:false={isParentMultiDay}>
+                                <template for:each={recap.children} for:item="ev">
+                                    <div key={ev.id} class="slds-m-bottom_medium">
+                                        <c-event-recap-event-card event={ev}></c-event-recap-event-card>
+                                    </div>
+                                </template>
+                            </template>
+                        </template>
+
+                        <template if:false={hasChildren}>
+                            <div class="slds-text-color_weak">No child events.</div>
+                        </template>
+                    </template>
+                </div>
+
+                <footer class="slds-modal__footer">
+                    <button class="slds-button slds-button_neutral" onclick={close}>Close</button>
+                </footer>
+            </div>
+        </section>
+
+        <div class="slds-backdrop slds-backdrop_open"></div>
+    </template>
+</template>

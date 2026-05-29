@@ -1,0 +1,55 @@
+/* spacing between left and right columns */
+.item-row {
+    gap: 0.75rem;
+}
+
+/* Right column positioned on the right side */
+.right-column {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end; /* push section to the right */
+}
+
+/* Review block content (text aligned left INSIDE right column) */
+.review-section {
+    text-align: left;
+    min-width: 180px;
+}
+
+/* Buttons container */
+.action-buttons {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+/* Result text styling */
+.result-text {
+    font-weight: 500;
+}
+
+/* Approved / Rejected colors */
+.result-approved {
+    color: #0f521f;
+}
+
+.result-rejected {
+    color: #b10e1e;
+}
+
+/* make lightning-icon a little tighter next to text */
+.lightning-icon {
+    margin-right: 0.25rem;
+}
+
+/* Responsive behavior */
+@media (max-width: 767px) {
+    .right-column {
+        justify-content: flex-start;
+        margin-top: 0.5rem;
+    }
+
+    .review-section {
+        text-align: left;
+    }
+}

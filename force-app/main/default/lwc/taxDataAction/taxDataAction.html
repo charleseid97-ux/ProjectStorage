@@ -1,0 +1,113 @@
+<template>
+    <lightning-quick-action-panel header="Manage Tax Requests">
+        <template if:true={loading}>
+            <div class="slds-p-around_medium slds-text-align_center">
+                <lightning-spinner alternative-text="Loading"></lightning-spinner>
+            </div>
+        </template>
+
+        <template if:false={loading}>
+            <div class="slds-p-around_small">
+
+                <div class="slds-m-bottom_medium">
+                    <div class="section-label">Request type</div>
+
+                    <div class="mode-selector">
+                        <div
+                            class={createCardClass}
+                            data-mode="create"
+                            onclick={handleModeSelect}>
+                            <div class="mode-card-title">Tax transparency request</div>
+                            <div class="mode-card-text">
+                                Create new Tax Data requests for selected countries.
+                            </div>
+                        </div>
+
+                        <div
+                            class={closureCardClass}
+                            data-mode="close"
+                            onclick={handleModeSelect}>
+                            <div class="mode-card-title">Closure request</div>
+                            <div class="mode-card-text">
+                                Select existing available Tax Data entries to close.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <template if:true={isCreateMode}>
+                    <div class="section-box">
+                        <lightning-dual-listbox
+                            name="countries"
+                            label="Select countries for Tax Transparency request"
+                            source-label="Available"
+                            selected-label="Selected"
+                            options={countryOptions}
+                            value={selectedCountries}
+                            onchange={handleCountriesChange}>
+                        </lightning-dual-listbox>
+
+                        <template if:true={isBEselected}>
+                            <lightning-dual-listbox
+                                name="beTypes"
+                                label="Select additional Belgian-specific requests:"
+                                source-label="Available"
+                                selected-label="Selected"
+                                options={beTypeOptions}
+                                value={beTypeValues}
+                                onchange={handleBETypeChange}
+                                required>
+                            </lightning-dual-listbox>
+                        </template>
+
+                        <lightning-textarea
+                            class="slds-m-top_small"
+                            name="comment"
+                            label="Comment (optional)"
+                            value={comment}
+                            onchange={handleCommentChange}>
+                        </lightning-textarea>
+                    </div>
+                </template>
+
+                <template if:true={isClosureMode}>
+                    <div class="section-box">
+                        <template if:true={hasClosureOptions}>
+                            <lightning-dual-listbox
+                                name="closureSelections"
+                                label="Select Tax Data to close"
+                                source-label="Available"
+                                selected-label="Selected"
+                                options={closureOptions}
+                                value={selectedClosureKeys}
+                                onchange={handleClosureSelectionChange}>
+                            </lightning-dual-listbox>
+                        </template>
+
+                        <template if:false={hasClosureOptions}>
+                            <div class="slds-text-color_weak">
+                                No available Tax Data found for closure.
+                            </div>
+                        </template>
+                    </div>
+                </template>
+            </div>
+
+            <div slot="footer">
+                <lightning-button
+                    variant="neutral"
+                    label="Cancel"
+                    onclick={handleCancel}>
+                </lightning-button>
+
+                <lightning-button
+                    variant="brand"
+                    label={submitLabel}
+                    class="slds-m-left_small"
+                    onclick={handleSubmit}
+                    disabled={submitDisabled}>
+                </lightning-button>
+            </div>
+        </template>
+    </lightning-quick-action-panel>
+</template>

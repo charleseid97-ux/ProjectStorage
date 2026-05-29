@@ -10,7 +10,7 @@ public with sharing class CTL_SearchSubscriptionProduct {
 
     @AuraEnabled(cacheable=true)
     public static List<Share_Class__c> getShareClasses() {
-        return ([SELECT Id, Name, Fund__c, Fund__r.Product_Name__c,Fund__r.Name,   TechIsActive__c, ISIN_Code__c,Country__c,Share_Class_Type__c
+        return ([SELECT Id, Name, Fund__c, Fund__r.Product_Name__c,Fund__r.Name,   TechIsActive__c, ISIN_Code__c,Share_Class_Type__c
                             FROM Share_Class__c
                             WHERE TechIsActive__c = TRUE order by Fund__r.Product_Name__c  asc ,Name asc]);
     }
@@ -39,24 +39,23 @@ public with sharing class CTL_SearchSubscriptionProduct {
 
     @AuraEnabled(cacheable=true)
     public static List<Product__c> getFundWithShareClasses() {
-        return ([SELECT Id,Name,Product_Name__c,(SELECT Id, Name,ISIN_Code__c, Country__c FROM Share_Classes__r WHERE TechIsActive__c =true ORDER BY Name ASC) 
+        return ([SELECT Id,Name,Product_Name__c,(SELECT Id, Name,ISIN_Code__c FROM Share_Classes__r WHERE TechIsActive__c =true ORDER BY Name ASC) 
                     FROM Product__c WHERE Validity__c=true AND RecordType.Name='Fund'  ORDER BY Product_Name__c ASC]);
     }
 
     @AuraEnabled(cacheable=true)
     public static List<Share_Class__c> getShareClassesByCountry(String countryCode) {
         if (String.isNotBlank(countryCode)) {
-            return ([SELECT Id, Name,Fund__c,Fund__r.Product_Name__c,Fund__r.Name,ISIN_Code__c,Country__c,
+            return ([SELECT Id, Name,Fund__c,Fund__r.Product_Name__c,Fund__r.Name,ISIN_Code__c,
                                                             Fund__r.Strategy__c,Fund__r.Strategy__r.Name,Fund__r.Strategy__r.Product_Name__c,Share_Class_Type__c
                                                     FROM Share_Class__c
-                                                    WHERE TechIsActive__c = TRUE AND Fund__c!=null AND Fund__r.Strategy__c!=null AND  
-                                                            (Country__c INCLUDES (:countryCode) OR Country__c=null OR Country__c='') order by Fund__r.Strategy__r.Product_Name__c,Fund__r.Product_Name__c  asc ,Name asc]);
+                                                    WHERE TechIsActive__c = TRUE AND Fund__c!=null AND Fund__r.Strategy__c!=null  order by Fund__r.Strategy__r.Product_Name__c,Fund__r.Product_Name__c  asc ,Name asc]);
         }
         else {
-            return ([SELECT Id, Name, Fund__c, Fund__r.Product_Name__c,Fund__r.Name,ISIN_Code__c,Country__c,
+            return ([SELECT Id, Name, Fund__c, Fund__r.Product_Name__c,Fund__r.Name,ISIN_Code__c,
                         Fund__r.Strategy__c,Fund__r.Strategy__r.Name,Fund__r.Strategy__r.Product_Name__c,Share_Class_Type__c
                 FROM Share_Class__c
-                WHERE TechIsActive__c = TRUE AND Fund__c!=null AND Fund__r.Strategy__c!=null AND (Country__c=null OR Country__c='')order by Fund__r.Strategy__r.Product_Name__c,Fund__r.Product_Name__c  asc ,Name asc]);
+                WHERE TechIsActive__c = TRUE AND Fund__c!=null AND Fund__r.Strategy__c!=null order by Fund__r.Strategy__r.Product_Name__c,Fund__r.Product_Name__c  asc ,Name asc]);
         }
     }
 
@@ -75,6 +74,9 @@ public with sharing class CTL_SearchSubscriptionProduct {
     public static List<Share_Class__c> getShareClassesByCountryWithSub(String countryCode,String cat,String contId, Integer counter){
         //WebCommunications AlertTypeRecord__r.Name,AlertTypeRecord__r.TECH_WebSiteID__c,AlertType__c, Contact__c,IsActive__c
         //get list picklist possible value
+
+        Boolean canSeeXZ = FeatureManagement.checkPermission('See_Share_Classes_X_et_Z');
+
         ProspaceAlertType__mdt[] alerts = getAlertTypes(cat);
         Set<String> alertVal= new Set<String>();
         Set<String> alertDevName= new Set<String>();
@@ -97,14 +99,30 @@ public with sharing class CTL_SearchSubscriptionProduct {
             shareClassCountryids.add(c.ShareClass__c);
         }
 
-        return ([SELECT Id, Name,Fund__c,Fund__r.ProductName__c,Fund__r.Name,ISIN__c,Type__c,Currency__c ,DividendPolicy__c,Hedged__c,
-                                                            Fund__r.FundStrategy__c,Fund__r.FundStrategy__r.Code__c,Fund__r.FundStrategy__r.Name,
-                                                            (SELECT AlertTypeRecord__r.Name,AlertTypeRecord__r.TECH_WebSiteID__c,AlertType__c,IsActive__c FROM WebCommunications__r
-                                                            WHERE  (Contact__c = :contId) AND ((AlertTypeRecord__r.Name IN :alertVal) OR (AlertType__c IN :alertDevName) 
-                                                            OR (AlertType__c IN :alertVal)))
-                                                    FROM Share_Class__c
-                                                    WHERE id IN :shareClassCountryids AND TechIsActive__c = TRUE AND Fund__c!=null AND Fund__r.FundStrategy__c!=null 
-                                                     order by Fund__r.FundStrategy__r.Name,Fund__r.ProductName__c  asc ,Name asc]);
+        String query =
+        'SELECT Id, Name, Fund__c, Fund__r.ProductName__c, Fund__r.Name, ISIN__c, Type__c, Currency__c, DividendPolicy__c, Hedged__c,' +
+        ' Fund__r.FundStrategy__c, Fund__r.FundStrategy__r.Code__c, Fund__r.FundStrategy__r.Name,' +
+        ' (SELECT AlertTypeRecord__r.Name, AlertTypeRecord__r.TECH_WebSiteID__c, AlertType__c, IsActive__c' +
+        '  FROM WebCommunications__r' +
+        '  WHERE Contact__c = :contId' +
+        '    AND ((AlertTypeRecord__r.Name IN :alertVal)' +
+        '      OR (AlertType__c IN :alertDevName)' +
+        '      OR (AlertType__c IN :alertVal)))' +
+        ' FROM Share_Class__c' +
+        ' WHERE Id IN :shareClassCountryids' +
+        '   AND TechIsActive__c = TRUE' +
+        '   AND Fund__c != null' +
+        '   AND Fund__r.FundStrategy__c != null';
+
+        if (!canSeeXZ) {
+            query += ' AND Dissemination__c != \'Restricted\' AND Dissemination__c != \'No\' ';
+        }
+
+        query +=
+        ' ORDER BY Fund__r.FundStrategy__r.Name, Fund__r.ProductName__c ASC, Name ASC';
+
+        return Database.query(query);
+
     }
 
     @AuraEnabled(cacheable=true)

@@ -1,0 +1,73 @@
+<template>
+    <lightning-quick-action-panel header={title}>
+        <template if:true={loading}>
+            <div class="slds-p-around_medium">
+                <lightning-spinner alternative-text="Loading" size="small"></lightning-spinner>
+            </div>
+        </template>
+
+        <template if:false={loading}>
+            <div class="slds-p-around_medium">
+                <template if:true={hasMeetingNote}>
+                    <template if:true={standardEventId}>
+                        <div class="slds-text-title_bold slds-m-bottom_x-small">
+                            <a href={standardEventUrl} target="_blank">{meetingNoteName}</a>
+                        </div>
+                    </template>
+
+                    <template if:false={standardEventId}>
+                        <div class="slds-text-title_bold slds-m-bottom_x-small">{meetingNoteName}</div>
+                    </template>
+                    <div class="slds-text-color_weak slds-m-bottom_small">
+                        <template if:true={formattedMeetingNoteDate}>Date: {formattedMeetingNoteDate}</template>
+                        <template if:true={meetingType}>&nbsp;•&nbsp;Type: {meetingType}</template>
+                    </div>
+                </template>
+
+                <template if:true={showReadOnly}>
+                    <lightning-formatted-rich-text value={draftNoteHtml}></lightning-formatted-rich-text>
+                </template>
+
+                <template if:true={showEditor}>
+                    <lightning-input-rich-text
+                        label="Note"
+                        value={draftNoteHtml}
+                        oninput={handleNoteChange}>
+                    </lightning-input-rich-text>
+                </template>
+            </div>
+        </template>
+
+        <div slot="footer">
+            <!-- Edit mode : Cancel -->
+            <template if:true={showCancel}>
+                <lightning-button
+                    variant="neutral"
+                    label="Cancel"
+                    onclick={handleCancel}
+                    disabled={loading}>
+                </lightning-button>
+            </template>
+
+            <!-- Read-only mode : Close -->
+            <template if:true={showClose}>
+                <lightning-button
+                    variant="neutral"
+                    label="Close"
+                    onclick={handleClose}
+                    disabled={loading}>
+                </lightning-button>
+            </template>
+
+            <!-- Primary action -->
+            <lightning-button
+                class="slds-m-left_small"
+                variant="brand"
+                label={primaryLabel}
+                onclick={handlePrimary}
+                disabled={loading}>
+            </lightning-button>
+        </div>
+
+    </lightning-quick-action-panel>
+</template>

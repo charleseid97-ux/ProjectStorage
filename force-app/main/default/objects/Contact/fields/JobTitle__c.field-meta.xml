@@ -76,9 +76,19 @@
                 <label>Product Manager</label>
             </value>
             <value>
+                <fullName>Product Specialist</fullName>
+                <default>false</default>
+                <label>Product Specialist</label>
+            </value>
+            <value>
                 <fullName>Relationship Manager</fullName>
                 <default>false</default>
                 <label>Relationship Manager</label>
+            </value>
+            <value>
+                <fullName>Sales</fullName>
+                <default>false</default>
+                <label>Sales</label>
             </value>
             <value>
                 <fullName>Sales Contact</fullName>
@@ -89,6 +99,11 @@
                 <fullName>Tied Agent</fullName>
                 <default>false</default>
                 <label>Tied Agent</label>
+            </value>
+            <value>
+                <fullName>Top Management</fullName>
+                <default>false</default>
+                <label>Top Management</label>
             </value>
         </valueSetDefinition>
     </valueSet>

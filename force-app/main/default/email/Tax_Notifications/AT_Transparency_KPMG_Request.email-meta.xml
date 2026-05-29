@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <encodingKey>ISO-8859-1</encodingKey>
+    <letterhead>Carmignac</letterhead>
+    <name>AT Transparency KPMG Request</name>
+    <style>freeForm</style>
+    <subject>Austria Tax Transparency Request - {FundName} {ShareClassName}</subject>
+    <textOnly>Dear Team,
+
+New Tax Transparency request have been submitted
+
+Share Class : {FundName} {ShareClassName}
+Request : AT
+Comment : To this extent, we will send you the Master Data file completed.
+
+Kind regards,</textOnly>
+    <type>html</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

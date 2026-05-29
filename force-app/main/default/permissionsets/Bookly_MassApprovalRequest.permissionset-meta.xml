@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PermissionSet xmlns="http://soap.sforce.com/2006/04/metadata">
+    <classAccesses>
+        <apexClass>EventApprovalInboxController</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <description>Allows user to access Mass Approval Request Apex logic</description>
+    <hasActivationRequired>false</hasActivationRequired>
+    <label>Bookly - Mass Approval Request</label>
+    <tabSettings>
+        <tab>BooklyInbox</tab>
+        <visibility>Visible</visibility>
+    </tabSettings>
+</PermissionSet>

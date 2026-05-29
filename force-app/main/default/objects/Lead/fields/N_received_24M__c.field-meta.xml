@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>N_received_24M__c</fullName>
+    <description>COUNT(DISTINCT newsletter_id) where CM.status IN (&apos;Ready to be Sent&apos;,&apos;Opened&apos;,&apos;Clicked&apos;) AND send_date ≥ TODAY - 24 months</description>
+    <externalId>false</externalId>
+    <inlineHelpText>Number of newsletters or marketing emails actually received by the person over the past 24 months</inlineHelpText>
+    <label>Count Received 24M</label>
+    <precision>18</precision>
+    <required>false</required>
+    <scale>2</scale>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <type>Number</type>
+    <unique>false</unique>
+</CustomField>

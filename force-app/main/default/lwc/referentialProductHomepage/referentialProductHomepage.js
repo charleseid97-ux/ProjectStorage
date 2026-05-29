@@ -414,4 +414,19 @@ export default class ReferentialProductHomepage extends NavigationMixin(Lightnin
         window.open(this.navCalendar, '_blank');
     }
 
+    handleOpenRegistrationStatusMatrix() {
+        this[NavigationMixin.Navigate]({
+            type: 'standard__navItemPage',
+            attributes: { apiName: 'RegistrationStatusMatrix' },
+            state: { c__searchKey: this.searchKey }
+        }, false);
+    }
+
+    handleOpenTaxTransparencyMatrix() {
+        this[NavigationMixin.Navigate]({
+            type: 'standard__navItemPage',
+            attributes: { apiName: 'Tax_Transparency_Matrix' },
+            state: { c__searchKey: this.searchKey }
+        }, false);
+    }
 }

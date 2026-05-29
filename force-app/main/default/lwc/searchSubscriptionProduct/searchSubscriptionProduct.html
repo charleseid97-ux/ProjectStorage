@@ -229,6 +229,26 @@
                                                                     </div>
                                                                     
                                                                 </template>
+                                                                <template if:true={isKid}>
+                                                                    <div class="slds-col slds-size_1-of-6">
+                                                                        <!-- Daily-->
+                                                                        <div class="slds-form slds-form_stacked">
+                                                                            <div class="slds-form-element">
+                                                                                
+                                                                                <lightning-input data-item={item.Id}
+                                                                                    type="toggle" label=""
+                                                                                    variant="label-hidden" name={product.Id}
+                                                                                    value="kid"
+                                                                                    checked={product.alertTypes.kid.checked}
+                                                                                    message-toggle-active=""
+                                                                                    message-toggle-inactive=""
+                                                                                    onchange={handlePeriodSelection}>
+                                                                                </lightning-input>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                    
+                                                                </template>
                                                             </div>
                                                         </div>
                                                     </template>

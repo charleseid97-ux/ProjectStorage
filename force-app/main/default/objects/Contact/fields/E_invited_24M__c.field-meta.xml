@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>E_invited_24M__c</fullName>
+    <description>COUNT(DISTINCT event_id) where CM.status IN (&apos;invited&apos;,&apos;confirmed&apos;,&apos;declined&apos;,&apos;attended&apos;,&apos;no show&apos;,&apos;cancelled&apos;) AND event_date ≥ TODAY - 24 months</description>
+    <externalId>false</externalId>
+    <inlineHelpText>Number of events the person was invited to over the past 24 months</inlineHelpText>
+    <label>Event Invited 24M</label>
+    <precision>16</precision>
+    <required>false</required>
+    <scale>0</scale>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <type>Number</type>
+    <unique>false</unique>
+</CustomField>

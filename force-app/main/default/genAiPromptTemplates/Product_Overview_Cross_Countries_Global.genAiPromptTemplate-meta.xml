@@ -1,0 +1,3101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<GenAiPromptTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <activeVersionIdentifier>WVN3tZk4o404O8n8M7lvj2vqM7T4xnyoLEatZnrtmCY=_30</activeVersionIdentifier>
+    <developerName>Product_Overview_Cross_Countries_Global</developerName>
+    <masterLabel>Product Overview Cross Countries - Global</masterLabel>
+    <templateVersions>
+        <content>You are tasked with analyzing both the positive and negative aspects of a product based on customer meeting notes. These notes include comments about the product&apos;s strengths and areas of improvement, along with customer ratings.
+
+### Objective:
+To create a comprehensive analysis by combining insights from the positive and negative points. The analysis will:
+1. Highlight key positive themes and their examples.
+2. Identify key negative themes with examples and concerns.
+3. Provide actionable sales strategies to address negatives and amplify positives.
+
+### Input Data:
+
+Positive points:
+{!$Input:Postive}
+
+Negative points:
+{!$Input:Negative}
+
+---
+
+### Instructions:
+1. **Summarize Positive Points:**
+  - Extract top 5 recurring themes from the positive notes.
+  - For each theme:
+   - Provide a concise description of the theme.
+   - Include a specific example and link to the meeting note (if provided).
+   - Mention the percentage of meeting notes where the theme appears.
+
+2. **Summarize Negative Points:**
+  - Extract top 5 recurring themes from the negative notes.
+  - For each theme:
+   - Provide a concise description of the issue.
+   - Include a specific example and link to the meeting note (if provided).
+   - Mention the percentage of meeting notes where the issue appears.
+
+3. **Sales Strategy Recommendations:**
+  - Based on the combined analysis of positive and negative points:
+   - Suggest actionable strategies to address client concerns (negatives).
+   - Highlight how to amplify product strengths (positives) during sales pitches.
+
+4. **Potential Objections and Counterarguments:**
+  - For each negative theme, anticipate potential objections from clients.
+  - Provide well-structured counterarguments to overcome these objections.
+
+---
+
+### Output Format:
+**Product:** [Product Name]  
+**Period:** [Oldest Date - Most Recent Date]  
+**Number of Client Interests:** [Number]  
+**Average Score:** [Score]  
+
+---
+
+### Positive Points:
+#1 - [Percentage%] - [Main Positive Theme]  
+Concise description of the positive theme.  
+**Example:** &quot;[Example comment]&quot; &amp; [Meeting Note Link]  
+
+#2 - [Repeat format for the other positive points]  
+
+---
+
+### Negative Points:
+#1 - [Percentage%] - [Main Negative Theme]  
+Concise description of the negative theme.  
+**Example:** &quot;[Example comment]&quot; &amp; [Meeting Note Link]  
+
+#2 - [Repeat format for the other negative points]  
+
+---
+
+### Sales Strategy Recommendations:
+- Actions to address negatives.
+- Strategies to amplify positives.
+
+### Potential Objections and Counterarguments:
+- **Objection:** &quot;[Client objection]&quot;  
+ - **Counterargument:** &quot;[Response]&quot;  
+
+[Repeat for other objections related to negative points]
+
+</content>
+        <inputs>
+            <apiName>Postive</apiName>
+            <definition>primitive://String</definition>
+            <masterLabel>Postive</masterLabel>
+            <referenceName>Input:Postive</referenceName>
+            <required>true</required>
+        </inputs>
+        <inputs>
+            <apiName>Negative</apiName>
+            <definition>primitive://String</definition>
+            <masterLabel>Negative</masterLabel>
+            <referenceName>Input:Negative</referenceName>
+            <required>true</required>
+        </inputs>
+        <primaryModel>sfdc_ai__DefaultGPT4Omni</primaryModel>
+        <status>Published</status>
+        <versionIdentifier>9+PD0v5/aJmvKUSsaXvgNBPGw/jfKTW77RgqTSMJGuA=_1</versionIdentifier>
+    </templateVersions>
+    <templateVersions>
+        <content>You are tasked with analyzing both the positive and negative aspects of a product based on customer meeting notes. These notes include comments about the product&apos;s strengths and areas of improvement, along with customer ratings.
+
+### Objective:
+To create a comprehensive analysis by combining insights from the positive and negative points. The analysis will:
+1. Highlight key positive themes and their examples.
+2. Identify key negative themes with examples and concerns.
+3. Provide actionable sales strategies to address negatives and amplify positives.
+
+### Input Data:
+
+Positive points:
+{!$Input:Postive}
+
+Negative points:
+{!$Input:Negative}
+
+---
+
+### Instructions:
+1. **Summarize Positive Points:**
+  - Extract top 5 recurring themes from the positive notes.
+  - For each theme:
+   - Provide a concise description of the theme.
+   - Include a specific example and link to the meeting note (if provided).
+   - Mention the percentage of meeting notes where the theme appears.
+
+2. **Summarize Negative Points:**
+  - Extract top 5 recurring themes from the negative notes.
+  - For each theme:
+   - Provide a concise description of the issue.
+   - Include a specific example and link to the meeting note (if provided).
+   - Mention the percentage of meeting notes where the issue appears.
+
+3. **Sales Strategy Recommendations:**
+  - Based on the combined analysis of positive and negative points:
+   - Suggest actionable strategies to address client concerns (negatives).
+   - Highlight how to amplify product strengths (positives) during sales pitches.
+
+4. **Potential Objections and Counterarguments:**
+  - For each negative theme, anticipate potential objections from clients.
+  - Provide well-structured counterarguments to overcome these objections.
+
+---
+
+### Output Format:
+**Product:** [Product Name]  
+**Period:** [Oldest Date - Most Recent Date]  (take into concideration the period of the Postive and Negative Inputs)
+**Number of Client Interests:** [Number = Sum of (Number of Client Interests from Postive Inputs) &amp; (Number of Client Interests from Negative Inputs) ]  
+**Average Score:** [Score]  ( = Average score of Positive and Negative inputs)
+
+---
+
+### Positive Points:
+#1 - [Percentage%] - [Main Positive Theme]  
+Concise description of the positive theme.  
+**Example:** &quot;[Example comment]&quot; &amp; [Meeting Note Link]  
+
+#2 - [Repeat format for the other positive points]  
+
+---
+
+### Negative Points:
+#1 - [Percentage%] - [Main Negative Theme]  
+Concise description of the negative theme.  
+**Example:** &quot;[Example comment]&quot; &amp; [Meeting Note Link]  
+
+#2 - [Repeat format for the other negative points]  
+
+---
+
+### Sales Strategy Recommendations:
+- Actions to address negatives.
+- Strategies to amplify positives.
+
+### Potential Objections and Counterarguments:
+- **Objection:** &quot;[Client objection]&quot;  
+ - **Counterargument:** &quot;[Response]&quot;  
+
+[Repeat for other objections related to negative points]
+
+</content>
+        <inputs>
+            <apiName>Postive</apiName>
+            <definition>primitive://String</definition>
+            <masterLabel>Postive</masterLabel>
+            <referenceName>Input:Postive</referenceName>
+            <required>true</required>
+        </inputs>
+        <inputs>
+            <apiName>Negative</apiName>
+            <definition>primitive://String</definition>
+            <masterLabel>Negative</masterLabel>
+            <referenceName>Input:Negative</referenceName>
+            <required>true</required>
+        </inputs>
+        <primaryModel>sfdc_ai__DefaultGPT4Omni</primaryModel>
+        <status>Published</status>
+        <versionIdentifier>9+PD0v5/aJmvKUSsaXvgNBPGw/jfKTW77RgqTSMJGuA=_2</versionIdentifier>
+    </templateVersions>
+    <templateVersions>
+        <content>You are tasked with analyzing both the positive and negative aspects of a product based on customer meeting notes. These notes include comments about the product&apos;s strengths and areas of improvement, along with customer ratings.
+
+### Objective:
+To create a comprehensive analysis by combining insights from the positive and negative points. The analysis will:
+1. Highlight key positive themes and their examples.
+2. Identify key negative themes with examples and concerns.
+3. Provide actionable sales strategies to address negatives and amplify positives.
+
+### Input Data:
+
+Positive points:
+{!$Input:Postive}
+
+Negative points:
+{!$Input:Negative}
+
+---
+
+### Instructions:
+1. **Summarize Positive Points:**
+  - Extract top 5 recurring themes from the positive notes.
+  - For each theme:
+   - Provide a concise description of the theme.
+   - Include a specific example and link to the meeting note (if provided).
+   - Mention the percentage of meeting notes where the theme appears.
+
+2. **Summarize Negative Points:**
+  - Extract top 5 recurring themes from the negative notes.
+  - For each theme:
+   - Provide a concise description of the issue.
+   - Include a specific example and link to the meeting note (if provided).
+   - Mention the percentage of meeting notes where the issue appears.
+
+3. **Sales Strategy Recommendations:**
+  - Based on the combined analysis of positive and negative points:
+   - Suggest actionable strategies to address client concerns (negatives).
+   - Highlight how to amplify product strengths (positives) during sales pitches.
+
+4. **Potential Objections and Counterarguments:**
+  - For each negative theme, anticipate potential objections from clients.
+  - Provide well-structured counterarguments to overcome these objections.
+
+---
+
+### Output Format:
+
+**Product:** **[Product Name]**  
+**Period:** **[Oldest Date - Most Recent Date]**  
+**Number of Client Interests:** **[Number]**  
+**Average Score:** **[Score]**  
+
+---
+
+### **Positive Points:**  
+#1 - [Percentage%] ([Number of Meeting Notes]) - **[Main Positive Theme]**  
+**Description:** Concise description of the positive theme.  
+**Example:** &quot;[Example comment]&quot; &amp; &lt;a href=&quot;/{Meeting Note Id}&quot;&gt;Meeting Note&lt;/a&gt; 
+
+#2 - [Percentage%] ([Number of Meeting Notes]) - **[Next Positive Theme]**  
+**Description:** Concise description of the positive theme.  
+**Example:** &quot;[Example comment]&quot; &amp; &lt;a href=&quot;/{Meeting Note Id}&quot;&gt;Meeting Note&lt;/a&gt; 
+
+[Repeat for up to 5 positive points]  
+
+---
+
+### **Negative Points:**  
+#1 - [Percentage%] ([Number of Meeting Notes]) - **[Main Negative Theme]**  
+**Description:** Concise description of the negative theme.  
+**Example:** &quot;[Example comment]&quot; &amp; &lt;a href=&quot;/{Meeting Note Id}&quot;&gt;Meeting Note&lt;/a&gt;  
+
+#2 - [Percentage%] ([Number of Meeting Notes]) - **[Next Negative Theme]**  
+**Description:** Concise description of the negative theme.  
+**Example:** &quot;[Example comment]&quot; &amp; &lt;a href=&quot;/{Meeting Note Id}&quot;&gt;Meeting Note&lt;/a&gt; 
+
+[Repeat for up to 5 negative points]  
+
+---
+
+### **Sales Strategy Recommendations:**  
+- Summarize actionable strategies to address the negative points.  
+- Highlight approaches to amplify the positive points during sales efforts.  
+
+---
+
+### **Potential Objections and Counterarguments:**  
+- **Objection:** &quot;[Client objection]&quot;  
+ - **Counterargument:** &quot;[Response]&quot;  
+
+[Repeat for each objection related to negative themes]  
+
+</content>
+        <inputs>
+            <apiName>Postive</apiName>
+            <definition>primitive://String</definition>
+            <masterLabel>Postive</masterLabel>
+            <referenceName>Input:Postive</referenceName>
+            <required>true</required>
+        </inputs>
+        <inputs>
+            <apiName>Negative</apiName>
+            <definition>primitive://String</definition>
+            <masterLabel>Negative</masterLabel>
+            <referenceName>Input:Negative</referenceName>
+            <required>true</required>
+        </inputs>
+        <primaryModel>sfdc_ai__DefaultGPT4Omni</primaryModel>
+        <status>Published</status>
+        <versionIdentifier>9+PD0v5/aJmvKUSsaXvgNBPGw/jfKTW77RgqTSMJGuA=_3</versionIdentifier>
+    </templateVersions>
+    <templateVersions>
+        <content>You are tasked with analyzing both the positive and negative aspects of a product based on customer meeting notes. These notes include comments about the product&apos;s strengths and areas of improvement, along with customer ratings.
+
+### Objective:
+To create a comprehensive analysis by combining insights from the positive and negative points. The analysis will:
+1. Highlight key positive themes and their examples.
+2. Identify key negative themes with examples and concerns.
+3. Provide actionable sales strategies to address negatives and amplify positives.
+
+### Input Data:
+
+Positive points:
+{!$Input:Postive}
+
+Negative points:
+{!$Input:Negative}
+
+---
+
+### Instructions:
+1. **Summarize Positive Points:**
+  - Extract top 5 recurring themes from the positive notes.
+  - For each theme:
+   - Provide a concise description of the theme.
+   - Include a specific example and link to the meeting note (if provided).
+   - Mention the percentage of meeting notes where the theme appears.
+
+2. **Summarize Negative Points:**
+  - Extract top 5 recurring themes from the negative notes.
+  - For each theme:
+   - Provide a concise description of the issue.
+   - Include a specific example and link to the meeting note (if provided).
+   - Mention the percentage of meeting notes where the issue appears.
+
+3. **Sales Strategy Recommendations:**
+  - Based on the combined analysis of positive and negative points:
+   - Suggest actionable strategies to address client concerns (negatives).
+   - Highlight how to amplify product strengths (positives) during sales pitches.
+
+4. **Potential Objections and Counterarguments:**
+  - For each negative theme, anticipate potential objections from clients.
+  - Provide well-structured counterarguments to overcome these objections.
+
+---
+
+### Output Format:
+
+**Product:** **[Product Name]**  
+**Period:** **[Oldest Date - Most Recent Date]**  
+**Number of Positive Meetings:** **[Number]**  
+**Number of Positive Meetings:** **[Number]**  
+**Average Score:** **[Score]**  
+
+---
+
+### **Positive Points:**  
+#1 - [Percentage%] ([Number of Meeting Notes]) - **[Main Positive Theme]**  
+**Description:** Concise description of the positive theme.  
+**Example:** &quot;[Example comment]&quot; &amp; &lt;a href=&quot;/{Meeting Note Id}&quot;&gt;Meeting Note&lt;/a&gt; 
+
+#2 - [Percentage%] ([Number of Meeting Notes]) - **[Next Positive Theme]**  
+**Description:** Concise description of the positive theme.  
+**Example:** &quot;[Example comment]&quot; &amp; &lt;a href=&quot;/{Meeting Note Id}&quot;&gt;Meeting Note&lt;/a&gt; 
+
+[Repeat for up to 5 positive points]  
+
+---
+
+### **Negative Points:**  
+#1 - [Percentage%] ([Number of Meeting Notes]) - **[Main Negative Theme]**  
+**Description:** Concise description of the negative theme.  
+**Example:** &quot;[Example comment]&quot; &amp; &lt;a href=&quot;/{Meeting Note Id}&quot;&gt;Meeting Note&lt;/a&gt;  
+
+#2 - [Percentage%] ([Number of Meeting Notes]) - **[Next Negative Theme]**  
+**Description:** Concise description of the negative theme.  
+**Example:** &quot;[Example comment]&quot; &amp; &lt;a href=&quot;/{Meeting Note Id}&quot;&gt;Meeting Note&lt;/a&gt; 
+
+[Repeat for up to 5 negative points]  
+
+---
+
+### **Sales Strategy Recommendations:**  
+- Summarize actionable strategies to address the negative points.  
+- Highlight approaches to amplify the positive points during sales efforts.  
+
+---
+
+### **Potential Objections and Counterarguments:**  
+- **Objection:** &quot;[Client objection]&quot;  
+ - **Counterargument:** &quot;[Response]&quot;  
+
+[Repeat for each objection related to negative themes]  
+
+</content>
+        <inputs>
+            <apiName>Postive</apiName>
+            <definition>primitive://String</definition>
+            <masterLabel>Postive</masterLabel>
+            <referenceName>Input:Postive</referenceName>
+            <required>true</required>
+        </inputs>
+        <inputs>
+            <apiName>Negative</apiName>
+            <definition>primitive://String</definition>
+            <masterLabel>Negative</masterLabel>
+            <referenceName>Input:Negative</referenceName>
+            <required>true</required>
+        </inputs>
+        <primaryModel>sfdc_ai__DefaultGPT4Omni</primaryModel>
+        <status>Published</status>
+        <versionIdentifier>9+PD0v5/aJmvKUSsaXvgNBPGw/jfKTW77RgqTSMJGuA=_4</versionIdentifier>
+    </templateVersions>
+    <templateVersions>
+        <content>You are tasked with analyzing both the positive and negative aspects of a product based on customer meeting notes. These notes include comments about the product&apos;s strengths and areas of improvement, along with customer ratings.
+
+### Objective:
+To create a comprehensive analysis by combining insights from the positive and negative points. The analysis will:
+1. Highlight key positive themes and their examples.
+2. Identify key negative themes with examples and concerns.
+3. Provide actionable sales strategies to address negatives and amplify positives.
+
+### Input Data:
+
+Positive points:
+{!$Input:Postive}
+
+Negative points:
+{!$Input:Negative}
+
+---
+
+### Instructions:
+1. **Summarize Positive Points:**
+  - Extract top 5 recurring themes from the positive notes.
+  - For each theme:
+   - Provide a concise description of the theme.
+   - Include a specific example and link to the meeting note (if provided).
+   - Mention the percentage of meeting notes where the theme appears.
+
+2. **Summarize Negative Points:**
+  - Extract top 5 recurring themes from the negative notes.
+  - For each theme:
+   - Provide a concise description of the issue.
+   - Include a specific example and link to the meeting note (if provided).
+   - Mention the percentage of meeting notes where the issue appears.
+
+3. &lt;b&gt;Sales Strategy Recommendations:&lt;b&gt;
+  - Based on the combined analysis of positive and negative points:
+   - Suggest actionable strategies to address client concerns (negatives).
+   - Highlight how to amplify product strengths (positives) during sales pitches.
+
+4. &lt;b&gt;Potential Objections and Counterarguments:&lt;b&gt;
+  - For each negative theme, anticipate potential objections from clients.
+  - Provide well-structured counterarguments to overcome these objections.
+
+---
+
+### Output Format:
+
+&lt;b&gt;Product:&lt;b&gt; [Product Name]   
+&lt;b&gt;Period:&lt;b&gt;[Oldest Date - Most Recent Date] 
+&lt;b&gt;Number of Positive Meetings:&lt;b&gt;[Number]  (Number of Client Interests from Postive Inputs) 
+&lt;b&gt;Number of Positive Meetings:&lt;b&gt;[Number]**  (Number of Client Interests from Negative Inputs)
+
+---
+
+&lt;b&gt;Positive Points&lt;b&gt;:
+#1 - [Percentage%] ([Number of Meeting Notes]) - [Main Positive Theme]
+&lt;b&gt;Description:&lt;b&gt; Concise description of the positive theme.  
+&lt;b&gt;Example:&lt;b&gt; &quot;[Example comment]&quot; &amp; &lt;a href=&quot;/{Meeting Note Id}&quot;&gt;Meeting Note&lt;/a&gt; 
+
+#2 - [Percentage%] ([Number of Meeting Notes]) - [Next Positive Theme]
+&lt;b&gt;Description:&lt;b&gt; Concise description of the positive theme.  
+&lt;b&gt;Example:&lt;b&gt;&quot;[Example comment]&quot; &amp; &lt;a href=&quot;/{Meeting Note Id}&quot;&gt;Meeting Note&lt;/a&gt; 
+
+[Repeat for up to 5 positive points]  
+
+---
+
+&lt;b&gt;Negative Points:&lt;b&gt;
+#1 - [Percentage%] ([Number of Meeting Notes]) - [Main Negative Theme]
+&lt;b&gt;Description:&lt;b&gt; Concise description of the negative theme.  
+&lt;b&gt;Example:&lt;b&gt; &quot;[Example comment]&quot; &amp; &lt;a href=&quot;/{Meeting Note Id}&quot;&gt;Meeting Note&lt;/a&gt;  
+
+#2 - [Percentage%] ([Number of Meeting Notes]) - [Next Negative Theme] 
+&lt;b&gt;Description:&lt;b&gt; Concise description of the negative theme.  
+&lt;b&gt;Example:&lt;b&gt; &quot;[Example comment]&quot; &amp; &lt;a href=&quot;/{Meeting Note Id}&quot;&gt;Meeting Note&lt;/a&gt; 
+
+[Repeat for up to 5 negative points]  
+
+---
+
+&lt;b&gt;Sales Strategy Recommendations:&lt;b&gt; 
+- Summarize actionable strategies to address the negative points.  
+- Highlight approaches to amplify the positive points during sales efforts.  
+
+---
+
+&lt;b&gt;Potential Objections and Counterarguments:&lt;b&gt;
+- &lt;b&gt;Objection:&lt;b&gt; &quot;[Client objection]&quot;  
+ - &lt;b&gt;Counterargument:&lt;b&gt; &quot;[Response]&quot;  
+
+[Repeat for each objection related to negative themes]  
+
+</content>
+        <inputs>
+            <apiName>Postive</apiName>
+            <definition>primitive://String</definition>
+            <masterLabel>Postive</masterLabel>
+            <referenceName>Input:Postive</referenceName>
+            <required>true</required>
+        </inputs>
+        <inputs>
+            <apiName>Negative</apiName>
+            <definition>primitive://String</definition>
+            <masterLabel>Negative</masterLabel>
+            <referenceName>Input:Negative</referenceName>
+            <required>true</required>
+        </inputs>
+        <primaryModel>sfdc_ai__DefaultGPT4Omni</primaryModel>
+        <status>Published</status>
+        <versionIdentifier>9+PD0v5/aJmvKUSsaXvgNBPGw/jfKTW77RgqTSMJGuA=_5</versionIdentifier>
+    </templateVersions>
+    <templateVersions>
+        <content>You are tasked with analyzing both the positive and negative aspects of a product based on customer meeting notes. These notes include comments about the product&apos;s strengths and areas of improvement, along with customer ratings.
+
+### Objective:
+To create a comprehensive analysis by combining insights from the positive and negative points. The analysis will:
+1. Highlight key positive themes and their examples.
+2. Identify key negative themes with examples and concerns.
+3. Provide actionable sales strategies to address negatives and amplify positives.
+
+### Input Data:
+
+Positive points:
+{!$Input:Postive}
+
+Negative points:
+{!$Input:Negative}
+
+---
+
+### Instructions:
+1. &lt;b&gt;Summarize Positive Points:&lt;b&gt;
+  - Extract top 5 recurring themes from the positive notes.
+  - For each theme:
+   - Provide a concise description of the theme.
+   - Include a specific example and link to the meeting note (if provided).
+   - Mention the percentage of meeting notes where the theme appears.
+
+2. &lt;b&gt;Summarize Negative Points:&lt;b&gt;
+  - Extract top 5 recurring themes from the negative notes.
+  - For each theme:
+   - Provide a concise description of the issue.
+   - Include a specific example and link to the meeting note (if provided).
+   - Mention the percentage of meeting notes where the issue appears.
+
+3. &lt;b&gt;Sales Strategy Recommendations:&lt;b&gt;
+  - Based on the combined analysis of positive and negative points:
+   - Suggest actionable strategies to address client concerns (negatives).
+   - Highlight how to amplify product strengths (positives) during sales pitches.
+
+4. &lt;b&gt;Potential Objections and Counterarguments:&lt;b&gt;
+  - For each negative theme, anticipate potential objections from clients.
+  - Provide well-structured counterarguments to overcome these objections.
+
+---
+Important: Respect the exact format provided below and ensure that all parts from Start Format of the Response to End Format of the Response are fully completed.:
+
+### Output Format:
+
+&lt;b&gt;Product:&lt;b&gt; [Product Name]   
+&lt;b&gt;Period:&lt;b&gt;[Oldest Date - Most Recent Date] 
+&lt;b&gt;Number of Positive Meetings:&lt;b&gt;[Number]  (Number of Client Interests from Postive Inputs) 
+&lt;b&gt;Number of Positive Meetings:&lt;b&gt;[Number]**  (Number of Client Interests from Negative Inputs)
+
+---
+
+&lt;b&gt;Positive Points&lt;b&gt;:
+#1 - [Percentage%] ([Number of Meeting Notes]) - [Main Positive Theme]
+&lt;b&gt;Description:&lt;b&gt; Concise description of the positive theme.  
+&lt;b&gt;Example:&lt;b&gt; &quot;[Example comment]&quot; &amp; &lt;a href=&quot;/{Meeting Note Id}&quot;&gt;Meeting Note&lt;/a&gt; 
+
+#2 - [Percentage%] ([Number of Meeting Notes]) - [Next Positive Theme]
+&lt;b&gt;Description:&lt;b&gt; Concise description of the positive theme.  
+&lt;b&gt;Example:&lt;b&gt;&quot;[Example comment]&quot; &amp; &lt;a href=&quot;/{Meeting Note Id}&quot;&gt;Meeting Note&lt;/a&gt; 
+
+[Repeat for up to 5 positive points]  
+
+---
+
+&lt;b&gt;Negative Points:&lt;b&gt;
+#1 - [Percentage%] ([Number of Meeting Notes]) - [Main Negative Theme]
+&lt;b&gt;Description:&lt;b&gt; Concise description of the negative theme.  
+&lt;b&gt;Example:&lt;b&gt; &quot;[Example comment]&quot; &amp; &lt;a href=&quot;/{Meeting Note Id}&quot;&gt;Meeting Note&lt;/a&gt;  
+
+#2 - [Percentage%] ([Number of Meeting Notes]) - [Next Negative Theme] 
+&lt;b&gt;Description:&lt;b&gt; Concise description of the negative theme.  
+&lt;b&gt;Example:&lt;b&gt; &quot;[Example comment]&quot; &amp; &lt;a href=&quot;/{Meeting Note Id}&quot;&gt;Meeting Note&lt;/a&gt; 
+
+[Repeat for up to 5 negative points]  
+
+---
+
+&lt;b&gt;Sales Strategy Recommendations:&lt;b&gt; 
+- Summarize actionable strategies to address the negative points.  
+- Highlight approaches to amplify the positive points during sales efforts.  
+
+---
+
+&lt;b&gt;Potential Objections and Counterarguments:&lt;b&gt;
+- &lt;b&gt;Objection:&lt;b&gt; &quot;[Client objection]&quot;  
+ - &lt;b&gt;Counterargument:&lt;b&gt; &quot;[Response]&quot;  
+
+[Repeat for each objection related to negative themes]  
+
+</content>
+        <inputs>
+            <apiName>Postive</apiName>
+            <definition>primitive://String</definition>
+            <masterLabel>Postive</masterLabel>
+            <referenceName>Input:Postive</referenceName>
+            <required>true</required>
+        </inputs>
+        <inputs>
+            <apiName>Negative</apiName>
+            <definition>primitive://String</definition>
+            <masterLabel>Negative</masterLabel>
+            <referenceName>Input:Negative</referenceName>
+            <required>true</required>
+        </inputs>
+        <primaryModel>sfdc_ai__DefaultGPT4Omni</primaryModel>
+        <status>Published</status>
+        <versionIdentifier>9+PD0v5/aJmvKUSsaXvgNBPGw/jfKTW77RgqTSMJGuA=_6</versionIdentifier>
+    </templateVersions>
+    <templateVersions>
+        <content>You are tasked with analyzing both the positive and negative aspects of a product based on customer meeting notes. These notes include comments about the product&apos;s strengths and areas of improvement, along with customer ratings.
+
+### Objective:
+To create a comprehensive analysis by combining insights from the positive and negative points. The analysis will:
+1. Highlight key positive themes and their examples.
+2. Identify key negative themes with examples and concerns.
+3. Provide actionable sales strategies to address negatives and amplify positives.
+
+### Input Data:
+
+Positive points:
+{!$Input:Postive}
+
+Negative points:
+{!$Input:Negative}
+
+---
+
+### Instructions:
+1. &lt;b&gt;Summarize Positive Points:&lt;b&gt;
+  - Extract top 5 recurring themes from the positive notes.
+  - For each theme:
+   - Provide a concise description of the theme.
+   - Include a specific example and link to the meeting note (if provided).
+   - Mention the percentage of meeting notes where the theme appears.
+
+2. &lt;b&gt;Summarize Negative Points:&lt;b&gt;
+  - Extract top 5 recurring themes from the negative notes.
+  - For each theme:
+   - Provide a concise description of the issue.
+   - Include a specific example and link to the meeting note (if provided).
+   - Mention the percentage of meeting notes where the issue appears.
+
+3. &lt;b&gt;Sales Strategy Recommendations:&lt;b&gt;
+  - Based on the combined analysis of positive and negative points:
+   - Suggest actionable strategies to address client concerns (negatives).
+   - Highlight how to amplify product strengths (positives) during sales pitches.
+
+4. &lt;b&gt;Potential Objections and Counterarguments:&lt;b&gt;
+  - For each negative theme, anticipate potential objections from clients.
+  - Provide well-structured counterarguments to overcome these objections.
+
+---
+Important: Respect the exact format,with the html tags, provided below and ensure that all parts from Start Format of the Response to End Format of the Response are fully completed.:
+
+### Output Format:
+
+&lt;b&gt;Product:&lt;b&gt; [Product Name]   
+&lt;b&gt;Period:&lt;b&gt;[Oldest Date - Most Recent Date] 
+&lt;b&gt;Number of Positive Meetings:&lt;b&gt;[Number]  (Number of Client Interests from Postive Inputs) 
+&lt;b&gt;Number of Positive Meetings:&lt;b&gt;[Number]  (Number of Client Interests from Negative Inputs)
+
+---
+
+&lt;b&gt;Positive Points&lt;b&gt;:
+#1 - [Percentage%] ([Number of Meeting Notes]) - [Main Positive Theme]
+&lt;b&gt;Description:&lt;b&gt; Concise description of the positive theme.  
+&lt;b&gt;Example:&lt;b&gt; &quot;[Example comment]&quot; &amp; &lt;a href=&quot;/{Meeting Note Id}&quot;&gt;Meeting Note&lt;/a&gt; 
+
+#2 - [Percentage%] ([Number of Meeting Notes]) - [Next Positive Theme]
+&lt;b&gt;Description:&lt;b&gt; Concise description of the positive theme.  
+&lt;b&gt;Example:&lt;b&gt;&quot;[Example comment]&quot; &amp; &lt;a href=&quot;/{Meeting Note Id}&quot;&gt;Meeting Note&lt;/a&gt; 
+
+[Repeat for up to 5 positive points]  
+
+---
+
+&lt;b&gt;Negative Points:&lt;b&gt;
+#1 - [Percentage%] ([Number of Meeting Notes]) - [Main Negative Theme]
+&lt;b&gt;Description:&lt;b&gt; Concise description of the negative theme.  
+&lt;b&gt;Example:&lt;b&gt; &quot;[Example comment]&quot; &amp; &lt;a href=&quot;/{Meeting Note Id}&quot;&gt;Meeting Note&lt;/a&gt;  
+
+#2 - [Percentage%] ([Number of Meeting Notes]) - [Next Negative Theme] 
+&lt;b&gt;Description:&lt;b&gt; Concise description of the negative theme.  
+&lt;b&gt;Example:&lt;b&gt; &quot;[Example comment]&quot; &amp; &lt;a href=&quot;/{Meeting Note Id}&quot;&gt;Meeting Note&lt;/a&gt; 
+
+[Repeat for up to 5 negative points]  
+
+---
+
+&lt;b&gt;Sales Strategy Recommendations:&lt;b&gt; 
+- Summarize actionable strategies to address the negative points.  
+- Highlight approaches to amplify the positive points during sales efforts.  
+
+---
+
+&lt;b&gt;Potential Objections and Counterarguments:&lt;b&gt;
+- &lt;b&gt;Objection:&lt;b&gt; &quot;[Client objection]&quot;  
+ - &lt;b&gt;Counterargument:&lt;b&gt; &quot;[Response]&quot;  
+
+[Repeat for each objection related to negative themes]  
+
+</content>
+        <inputs>
+            <apiName>Postive</apiName>
+            <definition>primitive://String</definition>
+            <masterLabel>Postive</masterLabel>
+            <referenceName>Input:Postive</referenceName>
+            <required>true</required>
+        </inputs>
+        <inputs>
+            <apiName>Negative</apiName>
+            <definition>primitive://String</definition>
+            <masterLabel>Negative</masterLabel>
+            <referenceName>Input:Negative</referenceName>
+            <required>true</required>
+        </inputs>
+        <primaryModel>sfdc_ai__DefaultGPT4Omni</primaryModel>
+        <status>Published</status>
+        <versionIdentifier>9+PD0v5/aJmvKUSsaXvgNBPGw/jfKTW77RgqTSMJGuA=_7</versionIdentifier>
+    </templateVersions>
+    <templateVersions>
+        <content>You are tasked with analyzing both the positive and negative aspects of a product based on customer meeting notes. These notes include comments about the product&apos;s strengths and areas of improvement, along with customer ratings.
+
+### Objective:
+To create a comprehensive analysis by combining insights from the positive and negative points. The analysis will:
+1. Highlight key positive themes and their examples.
+2. Identify key negative themes with examples and concerns.
+3. Provide actionable sales strategies to address negatives and amplify positives.
+
+### Input Data:
+
+Positive points:
+{!$Input:Postive}
+
+Negative points:
+{!$Input:Negative}
+
+---
+
+### Instructions:
+1. &lt;b&gt;Summarize Positive Points:&lt;/b&gt;
+  - Extract top 5 recurring themes from the positive notes.
+  - For each theme:
+   - Provide a concise description of the theme.
+   - Include a specific example and link to the meeting note (if provided).
+   - Mention the percentage of meeting notes where the theme appears.
+
+2. &lt;b&gt;Summarize Negative Points:&lt;/b&gt;
+  - Extract top 5 recurring themes from the negative notes.
+  - For each theme:
+   - Provide a concise description of the issue.
+   - Include a specific example and link to the meeting note (if provided).
+   - Mention the percentage of meeting notes where the issue appears.
+
+3. &lt;b&gt;Sales Strategy Recommendations:&lt;/b&gt;
+  - Based on the combined analysis of positive and negative points:
+   - Suggest actionable strategies to address client concerns (negatives).
+   - Highlight how to amplify product strengths (positives) during sales pitches.
+
+4. &lt;b&gt;Potential Objections and Counterarguments:&lt;/b&gt;
+  - For each negative theme, anticipate potential objections from clients.
+  - Provide well-structured counterarguments to overcome these objections.
+
+---
+Important: 
+- Respect the exact format,with the html tags, provided below and ensure that all parts from Start Format of the Response to End Format of the Response are fully completed.:
+
+### Output Format:
+
+&lt;b&gt;Product:&lt;/b&gt; [Product Name]   
+&lt;b&gt;Period:&lt;/b&gt;[Oldest Date - Most Recent Date] 
+&lt;b&gt;Number of Positive Meetings:&lt;/b&gt;[Number]  (Number of Client Interests from Postive Inputs) 
+&lt;b&gt;Number of Positive Meetings:&lt;/b&gt;[Number]  (Number of Client Interests from Negative Inputs)
+
+---
+
+&lt;b&gt;Positive Points&lt;/b&gt;:
+#1 - [Percentage%] ([Number of Meeting Notes]) - [Main Positive Theme]
+&lt;b&gt;Description:&lt;/b&gt; Concise description of the positive theme.  
+&lt;b&gt;Example:&lt;/b&gt; &quot;[Example comment]&quot; &amp; &lt;a href=&quot;/{Meeting Note Id}&quot;&gt;Meeting Note&lt;/a&gt; 
+
+#2 - [Percentage%] ([Number of Meeting Notes]) - [Next Positive Theme]
+&lt;b&gt;Description:&lt;/b&gt; Concise description of the positive theme.  
+&lt;b&gt;Example:&lt;/b&gt;&quot;[Example comment]&quot; &amp; &lt;a href=&quot;/{Meeting Note Id}&quot;&gt;Meeting Note&lt;/a&gt; 
+
+[Repeat for up to 5 positive points]  
+
+---
+
+&lt;b&gt;Negative Points:&lt;/b&gt;
+#1 - [Percentage%] ([Number of Meeting Notes]) - [Main Negative Theme]
+&lt;b&gt;Description:&lt;/b&gt; Concise description of the negative theme.  
+&lt;b&gt;Example:&lt;/b&gt; &quot;[Example comment]&quot; &amp; &lt;a href=&quot;/{Meeting Note Id}&quot;&gt;Meeting Note&lt;/a&gt;  
+
+#2 - [Percentage%] ([Number of Meeting Notes]) - [Next Negative Theme] 
+&lt;b&gt;Description:&lt;/b&gt; Concise description of the negative theme.  
+&lt;b&gt;Example:&lt;/b&gt; &quot;[Example comment]&quot; &amp; &lt;a href=&quot;/{Meeting Note Id}&quot;&gt;Meeting Note&lt;/a&gt; 
+
+[Repeat for up to 5 negative points]  
+
+---
+
+&lt;b&gt;Sales Strategy Recommendations:&lt;/b&gt; 
+- Summarize actionable strategies to address the negative points.  
+- Highlight approaches to amplify the positive points during sales efforts.  
+
+---
+
+&lt;b&gt;Potential Objections and Counterarguments:&lt;/b&gt;
+- &lt;b&gt;Objection:&lt;/b&gt; &quot;[Client objection]&quot;  
+ - &lt;b&gt;Counterargument:&lt;/b&gt; &quot;[Response]&quot;  
+
+[Repeat for each objection related to negative themes]  
+
+</content>
+        <inputs>
+            <apiName>Postive</apiName>
+            <definition>primitive://String</definition>
+            <masterLabel>Postive</masterLabel>
+            <referenceName>Input:Postive</referenceName>
+            <required>true</required>
+        </inputs>
+        <inputs>
+            <apiName>Negative</apiName>
+            <definition>primitive://String</definition>
+            <masterLabel>Negative</masterLabel>
+            <referenceName>Input:Negative</referenceName>
+            <required>true</required>
+        </inputs>
+        <primaryModel>sfdc_ai__DefaultGPT4Omni</primaryModel>
+        <status>Published</status>
+        <versionIdentifier>9+PD0v5/aJmvKUSsaXvgNBPGw/jfKTW77RgqTSMJGuA=_8</versionIdentifier>
+    </templateVersions>
+    <templateVersions>
+        <content>You are tasked with analyzing both the positive and negative aspects of a product based on customer meeting notes. These notes include comments about the product&apos;s strengths and areas of improvement, along with customer ratings.
+
+### Objective:
+To create a comprehensive analysis by combining insights from the positive and negative points. The analysis will:
+1. Highlight key positive themes and their examples.
+2. Identify key negative themes with examples and concerns.
+3. Provide actionable sales strategies to address negatives and amplify positives.
+
+### Input Data:
+
+Positive points:
+{!$Input:Postive}
+
+Negative points:
+{!$Input:Negative}
+
+---
+
+### Instructions:
+1. &lt;b&gt;Summarize Positive Points:&lt;/b&gt;
+  - Extract top 5 recurring themes from the positive notes.
+  - For each theme:
+   - Provide a concise description of the theme.
+   - Include a specific example and link to the meeting note (if provided).
+   - Mention the percentage of meeting notes where the theme appears.
+
+2. &lt;b&gt;Summarize Negative Points:&lt;/b&gt;
+  - Extract top 5 recurring themes from the negative notes.
+  - For each theme:
+   - Provide a concise description of the issue.
+   - Include a specific example and link to the meeting note (if provided).
+   - Mention the percentage of meeting notes where the issue appears.
+
+3. &lt;b&gt;Sales Strategy Recommendations:&lt;/b&gt;
+  - Based on the combined analysis of positive and negative points:
+   - Suggest actionable strategies to address client concerns (negatives).
+   - Highlight how to amplify product strengths (positives) during sales pitches.
+
+4. &lt;b&gt;Potential Objections and Counterarguments:&lt;/b&gt;
+  - For each negative theme, anticipate potential objections from clients.
+  - Provide well-structured counterarguments to overcome these objections.
+
+---
+Important: 
+- Respect the exact format,with the html tags, provided below and ensure that all parts from Start Format of the Response to End Format of the Response are fully completed.:
+
+### Output Format:
+
+&lt;b&gt;Product:&lt;/b&gt; [Product Name]   
+&lt;b&gt;Period:&lt;/b&gt;[Oldest Date - Most Recent Date] 
+&lt;b&gt;Number of Positive Meetings:&lt;/b&gt;[Number]  (Number of Client Interests from Postive Inputs) 
+&lt;b&gt;Number of Positive Meetings:&lt;/b&gt;[Number]  (Number of Client Interests from Negative Inputs)
+&lt;b&gt;Average Score:&lt;/b&gt;[Score] ( = Average score of Positive and Negative inputs)
+
+---
+
+&lt;b&gt;Positive Points&lt;/b&gt;:
+#1 - [Percentage%] ([Number of Meeting Notes]) - [Main Positive Theme]
+&lt;b&gt;Description:&lt;/b&gt; Concise description of the positive theme.  
+&lt;b&gt;Example:&lt;/b&gt; &quot;[Example comment]&quot; &amp; &lt;a href=&quot;/{Meeting Note Id}&quot;&gt;Meeting Note&lt;/a&gt; 
+
+#2 - [Percentage%] ([Number of Meeting Notes]) - [Next Positive Theme]
+&lt;b&gt;Description:&lt;/b&gt; Concise description of the positive theme.  
+&lt;b&gt;Example:&lt;/b&gt;&quot;[Example comment]&quot; &amp; &lt;a href=&quot;/{Meeting Note Id}&quot;&gt;Meeting Note&lt;/a&gt; 
+
+[Repeat for up to 5 positive points]  
+
+---
+
+&lt;b&gt;Negative Points:&lt;/b&gt;
+#1 - [Percentage%] ([Number of Meeting Notes]) - [Main Negative Theme]
+&lt;b&gt;Description:&lt;/b&gt; Concise description of the negative theme.  
+&lt;b&gt;Example:&lt;/b&gt; &quot;[Example comment]&quot; &amp; &lt;a href=&quot;/{Meeting Note Id}&quot;&gt;Meeting Note&lt;/a&gt;  
+
+#2 - [Percentage%] ([Number of Meeting Notes]) - [Next Negative Theme] 
+&lt;b&gt;Description:&lt;/b&gt; Concise description of the negative theme.  
+&lt;b&gt;Example:&lt;/b&gt; &quot;[Example comment]&quot; &amp; &lt;a href=&quot;/{Meeting Note Id}&quot;&gt;Meeting Note&lt;/a&gt; 
+
+[Repeat for up to 5 negative points]  
+
+---
+
+&lt;b&gt;Sales Strategy Recommendations:&lt;/b&gt; 
+- Summarize actionable strategies to address the negative points.  
+- Highlight approaches to amplify the positive points during sales efforts.  
+
+---
+
+&lt;b&gt;Potential Objections and Counterarguments:&lt;/b&gt;
+- &lt;b&gt;Objection:&lt;/b&gt; &quot;[Client objection]&quot;  
+ - &lt;b&gt;Counterargument:&lt;/b&gt; &quot;[Response]&quot;  
+
+[Repeat for each objection related to negative themes]  
+
+</content>
+        <inputs>
+            <apiName>Postive</apiName>
+            <definition>primitive://String</definition>
+            <masterLabel>Postive</masterLabel>
+            <referenceName>Input:Postive</referenceName>
+            <required>true</required>
+        </inputs>
+        <inputs>
+            <apiName>Negative</apiName>
+            <definition>primitive://String</definition>
+            <masterLabel>Negative</masterLabel>
+            <referenceName>Input:Negative</referenceName>
+            <required>true</required>
+        </inputs>
+        <primaryModel>sfdc_ai__DefaultGPT4Omni</primaryModel>
+        <status>Published</status>
+        <versionIdentifier>9+PD0v5/aJmvKUSsaXvgNBPGw/jfKTW77RgqTSMJGuA=_9</versionIdentifier>
+    </templateVersions>
+    <templateVersions>
+        <content>You are tasked with analyzing both the positive and negative aspects of a product based on customer meeting notes. These notes include comments about the product&apos;s strengths and areas of improvement, along with customer ratings.
+
+### Objective:
+To create a comprehensive analysis by combining insights from the positive and negative points. The analysis will:
+1. Highlight key positive themes and their examples.
+2. Identify key negative themes with examples and concerns.
+3. Provide actionable sales strategies to address negatives and amplify positives.
+
+### Input Data:
+
+Positive points:
+{!$Input:Postive}
+
+Negative points:
+{!$Input:Negative}
+
+---
+
+### Instructions:
+1. &lt;b&gt;Summarize Positive Points:&lt;/b&gt;
+  - Extract top 5 recurring themes from the positive notes.
+  - For each theme:
+   - Provide a concise description of the theme.
+   - Include a specific example and link to the meeting note (if provided).
+   - Mention the percentage of meeting notes where the theme appears.
+
+2. &lt;b&gt;Summarize Negative Points:&lt;/b&gt;
+  - Extract top 5 recurring themes from the negative notes.
+  - For each theme:
+   - Provide a concise description of the issue.
+   - Include a specific example and link to the meeting note (if provided).
+   - Mention the percentage of meeting notes where the issue appears.
+
+3. &lt;b&gt;Sales Strategy Recommendations:&lt;/b&gt;
+  - Based on the combined analysis of positive and negative points:
+   - Suggest actionable strategies to address client concerns (negatives).
+   - Highlight how to amplify product strengths (positives) during sales pitches.
+
+4. &lt;b&gt;Potential Objections and Counterarguments:&lt;/b&gt;
+  - For each negative theme, anticipate potential objections from clients.
+  - Provide well-structured counterarguments to overcome these objections.
+
+---
+Important: 
+- Respect the exact format,with the html tags, provided below and ensure that all parts from Start Format of the Response to End Format of the Response are fully completed.:
+
+### Output Format:
+
+&lt;b&gt;Product:&lt;/b&gt; [Product Name]   
+&lt;b&gt;Period:&lt;/b&gt;[Oldest Date - Most Recent Date] 
+&lt;b&gt;Number of Positive Meetings:&lt;/b&gt;[Number]  (Number of Client Interests from Postive Inputs) 
+&lt;b&gt;Number of Positive Meetings:&lt;/b&gt;[Number]  (Number of Client Interests from Negative Inputs)
+&lt;b&gt;Average Score:&lt;/b&gt;[Score] ( = Average score of Positive and Negative inputs and take into concideration the number of Meetings for each)
+
+---
+
+&lt;b&gt;Positive Points&lt;/b&gt;:
+#1 - [Percentage%] ([Number of Meeting Notes]) - [Main Positive Theme]
+&lt;b&gt;Description:&lt;/b&gt; Concise description of the positive theme.  
+&lt;b&gt;Example:&lt;/b&gt; &quot;[Example comment]&quot; &amp; &lt;a href=&quot;/{Meeting Note Id}&quot;&gt;Meeting Note&lt;/a&gt; 
+
+#2 - [Percentage%] ([Number of Meeting Notes]) - [Next Positive Theme]
+&lt;b&gt;Description:&lt;/b&gt; Concise description of the positive theme.  
+&lt;b&gt;Example:&lt;/b&gt;&quot;[Example comment]&quot; &amp; &lt;a href=&quot;/{Meeting Note Id}&quot;&gt;Meeting Note&lt;/a&gt; 
+
+[Repeat for up to 5 positive points]  
+
+---
+
+&lt;b&gt;Negative Points:&lt;/b&gt;
+#1 - [Percentage%] ([Number of Meeting Notes]) - [Main Negative Theme]
+&lt;b&gt;Description:&lt;/b&gt; Concise description of the negative theme.  
+&lt;b&gt;Example:&lt;/b&gt; &quot;[Example comment]&quot; &amp; &lt;a href=&quot;/{Meeting Note Id}&quot;&gt;Meeting Note&lt;/a&gt;  
+
+#2 - [Percentage%] ([Number of Meeting Notes]) - [Next Negative Theme] 
+&lt;b&gt;Description:&lt;/b&gt; Concise description of the negative theme.  
+&lt;b&gt;Example:&lt;/b&gt; &quot;[Example comment]&quot; &amp; &lt;a href=&quot;/{Meeting Note Id}&quot;&gt;Meeting Note&lt;/a&gt; 
+
+[Repeat for up to 5 negative points]  
+
+---
+
+&lt;b&gt;Sales Strategy Recommendations:&lt;/b&gt; 
+- Summarize actionable strategies to address the negative points.  
+- Highlight approaches to amplify the positive points during sales efforts.  
+
+---
+
+&lt;b&gt;Potential Objections and Counterarguments:&lt;/b&gt;
+- &lt;b&gt;Objection:&lt;/b&gt; &quot;[Client objection]&quot;  
+ - &lt;b&gt;Counterargument:&lt;/b&gt; &quot;[Response]&quot;  
+
+[Repeat for each objection related to negative themes]  
+
+</content>
+        <inputs>
+            <apiName>Postive</apiName>
+            <definition>primitive://String</definition>
+            <masterLabel>Postive</masterLabel>
+            <referenceName>Input:Postive</referenceName>
+            <required>true</required>
+        </inputs>
+        <inputs>
+            <apiName>Negative</apiName>
+            <definition>primitive://String</definition>
+            <masterLabel>Negative</masterLabel>
+            <referenceName>Input:Negative</referenceName>
+            <required>true</required>
+        </inputs>
+        <primaryModel>sfdc_ai__DefaultGPT4Omni</primaryModel>
+        <status>Published</status>
+        <versionIdentifier>9+PD0v5/aJmvKUSsaXvgNBPGw/jfKTW77RgqTSMJGuA=_10</versionIdentifier>
+    </templateVersions>
+    <templateVersions>
+        <content>You are tasked with analyzing both the positive and negative aspects of a product based on customer meeting notes. These notes include comments about the product&apos;s strengths and areas of improvement, along with customer ratings.
+
+### Objective:
+To create a comprehensive analysis by combining insights from the positive and negative points. The analysis will:
+1. Highlight key positive themes and their examples.
+2. Identify key negative themes with examples and concerns.
+3. Provide actionable sales strategies to address negatives and amplify positives.
+
+### Input Data:
+
+Positive points:
+{!$Input:Postive}
+
+Negative points:
+{!$Input:Negative}
+
+---
+
+### Instructions:
+1. &lt;b&gt;Summarize Positive Points:&lt;/b&gt;
+  - Extract top 5 recurring themes from the positive notes.
+  - For each theme:
+   - Provide a concise description of the theme.
+   - Include a specific example and link to the meeting note (if provided).
+   - Mention the percentage of meeting notes where the theme appears.
+
+2. &lt;b&gt;Summarize Negative Points:&lt;/b&gt;
+  - Extract top 5 recurring themes from the negative notes.
+  - For each theme:
+   - Provide a concise description of the issue.
+   - Include a specific example and link to the meeting note (if provided).
+   - Mention the percentage of meeting notes where the issue appears.
+
+3. &lt;b&gt;Sales Strategy Recommendations:&lt;/b&gt;
+  - Based on the combined analysis of positive and negative points:
+   - Suggest actionable strategies to address client concerns (negatives).
+   - Highlight how to amplify product strengths (positives) during sales pitches.
+
+4. &lt;b&gt;Potential Objections and Counterarguments:&lt;/b&gt;
+  - For each negative theme, anticipate potential objections from clients.
+  - Provide well-structured counterarguments to overcome these objections.
+
+---
+Important: 
+- Respect the exact format,with the html tags, provided below and ensure that all parts from Start Format of the Response to End Format of the Response are fully completed.:
+
+&lt;b&gt;Product:&lt;/b&gt; [Product Name]   
+&lt;b&gt;Period:&lt;/b&gt;[Oldest Date - Most Recent Date] 
+&lt;b&gt;Number of Positive Meetings:&lt;/b&gt;[Number]  (Number of Client Interests from Postive Inputs) 
+&lt;b&gt;Number of Positive Meetings:&lt;/b&gt;[Number]  (Number of Client Interests from Negative Inputs)
+&lt;b&gt;Average Score:&lt;/b&gt;[Score] ( = Average score of Positive and Negative inputs and take into concideration the number of Meetings for each)
+
+---
+
+&lt;b&gt;Positive Points&lt;/b&gt;:
+#1 - [Percentage%] ([Number of Meeting Notes]) - [Main Positive Theme]
+&lt;b&gt;Description:&lt;/b&gt; Concise description of the positive theme.  
+&lt;b&gt;Example:&lt;/b&gt; &quot;[Example comment]&quot; &amp; &lt;a href=&quot;/{Meeting Note Id}&quot;&gt;Meeting Note&lt;/a&gt; 
+
+#2 - [Percentage%] ([Number of Meeting Notes]) - [Next Positive Theme]
+&lt;b&gt;Description:&lt;/b&gt; Concise description of the positive theme.  
+&lt;b&gt;Example:&lt;/b&gt;&quot;[Example comment]&quot; &amp; &lt;a href=&quot;/{Meeting Note Id}&quot;&gt;Meeting Note&lt;/a&gt; 
+
+[Repeat for up to 5 positive points]  
+
+---
+
+&lt;b&gt;Negative Points:&lt;/b&gt;
+#1 - [Percentage%] ([Number of Meeting Notes]) - [Main Negative Theme]
+&lt;b&gt;Description:&lt;/b&gt; Concise description of the negative theme.  
+&lt;b&gt;Example:&lt;/b&gt; &quot;[Example comment]&quot; &amp; &lt;a href=&quot;/{Meeting Note Id}&quot;&gt;Meeting Note&lt;/a&gt;  
+
+#2 - [Percentage%] ([Number of Meeting Notes]) - [Next Negative Theme] 
+&lt;b&gt;Description:&lt;/b&gt; Concise description of the negative theme.  
+&lt;b&gt;Example:&lt;/b&gt; &quot;[Example comment]&quot; &amp; &lt;a href=&quot;/{Meeting Note Id}&quot;&gt;Meeting Note&lt;/a&gt; 
+
+[Repeat for up to 5 negative points]  
+
+---
+
+&lt;b&gt;Sales Strategy Recommendations:&lt;/b&gt; 
+- Summarize actionable strategies to address the negative points.  
+- Highlight approaches to amplify the positive points during sales efforts.  
+
+---
+
+&lt;b&gt;Potential Objections and Counterarguments:&lt;/b&gt;
+- &lt;b&gt;Objection:&lt;/b&gt; &quot;[Client objection]&quot;  
+ - &lt;b&gt;Counterargument:&lt;/b&gt; &quot;[Response]&quot;  
+
+[Repeat for each objection related to negative themes]  
+
+</content>
+        <inputs>
+            <apiName>Postive</apiName>
+            <definition>primitive://String</definition>
+            <masterLabel>Postive</masterLabel>
+            <referenceName>Input:Postive</referenceName>
+            <required>true</required>
+        </inputs>
+        <inputs>
+            <apiName>Negative</apiName>
+            <definition>primitive://String</definition>
+            <masterLabel>Negative</masterLabel>
+            <referenceName>Input:Negative</referenceName>
+            <required>true</required>
+        </inputs>
+        <primaryModel>sfdc_ai__DefaultGPT4Omni</primaryModel>
+        <status>Published</status>
+        <versionIdentifier>9+PD0v5/aJmvKUSsaXvgNBPGw/jfKTW77RgqTSMJGuA=_11</versionIdentifier>
+    </templateVersions>
+    <templateVersions>
+        <content>You are tasked with analyzing both the positive and negative aspects of a product based on customer meeting notes. These notes include comments about the product&apos;s strengths and areas of improvement, along with customer ratings.
+
+### Objective:
+To create a comprehensive analysis by combining insights from the positive and negative points. The analysis will:
+1. Highlight key positive themes and their examples.
+2. Identify key negative themes with examples and concerns.
+3. Provide actionable sales strategies to address negatives and amplify positives.
+
+### Input Data:
+
+Positive points:
+{!$Input:Postive}
+
+Negative points:
+{!$Input:Negative}
+
+---
+
+### Instructions:
+1. &lt;b&gt;Summarize Positive Points:&lt;/b&gt;
+  - Extract top 5 recurring themes from the positive notes.
+  - For each theme:
+   - Provide a concise description of the theme.
+   - Include a specific example and link to the meeting note (if provided).
+   - Mention the percentage of meeting notes where the theme appears.
+
+2. &lt;b&gt;Summarize Negative Points:&lt;/b&gt;
+  - Extract top 5 recurring themes from the negative notes.
+  - For each theme:
+   - Provide a concise description of the issue.
+   - Include a specific example and link to the meeting note (if provided).
+   - Mention the percentage of meeting notes where the issue appears.
+
+3. &lt;b&gt;Sales Strategy Recommendations:&lt;/b&gt;
+  - Based on the combined analysis of positive and negative points:
+   - Suggest actionable strategies to address client concerns (negatives).
+   - Highlight how to amplify product strengths (positives) during sales pitches.
+
+4. &lt;b&gt;Potential Objections and Counterarguments:&lt;/b&gt;
+  - For each negative theme, anticipate potential objections from clients.
+  - Provide well-structured counterarguments to overcome these objections.
+
+---
+Important: 
+- Respect the exact format,with the html tags, provided below and ensure that all parts from Start Format of the Response to End Format of the Response are fully completed.:
+
+&lt;b&gt;Product:&lt;/b&gt; [Product Name]   
+&lt;b&gt;Period:&lt;/b&gt;[Oldest Date - Most Recent Date] 
+&lt;b&gt;Number of Positive Meetings:&lt;/b&gt;[Number]  (Number of Client Interests from Postive Inputs) 
+&lt;b&gt;Number of Positive Meetings:&lt;/b&gt;[Number]  (Number of Client Interests from Negative Inputs)
+&lt;b&gt;Average Score:&lt;/b&gt;[Score] ( = Calculate the weighted average score using this formula: Average Score= ((PositiveScore * PositiveCount) + (NegativeScore * NegativeCount)) / (PositiveCount + NegativeCount).)
+
+---
+
+&lt;b&gt;Positive Points&lt;/b&gt;:
+#1 - [Percentage%] ([Number of Meeting Notes]) - [Main Positive Theme]
+&lt;b&gt;Description:&lt;/b&gt; Concise description of the positive theme.  
+&lt;b&gt;Example:&lt;/b&gt; &quot;[Example comment]&quot; &amp; &lt;a href=&quot;/{Meeting Note Id}&quot;&gt;Meeting Note&lt;/a&gt; 
+
+#2 - [Percentage%] ([Number of Meeting Notes]) - [Next Positive Theme]
+&lt;b&gt;Description:&lt;/b&gt; Concise description of the positive theme.  
+&lt;b&gt;Example:&lt;/b&gt;&quot;[Example comment]&quot; &amp; &lt;a href=&quot;/{Meeting Note Id}&quot;&gt;Meeting Note&lt;/a&gt; 
+
+[Repeat for up to 5 positive points]  
+
+---
+
+&lt;b&gt;Negative Points:&lt;/b&gt;
+#1 - [Percentage%] ([Number of Meeting Notes]) - [Main Negative Theme]
+&lt;b&gt;Description:&lt;/b&gt; Concise description of the negative theme.  
+&lt;b&gt;Example:&lt;/b&gt; &quot;[Example comment]&quot; &amp; &lt;a href=&quot;/{Meeting Note Id}&quot;&gt;Meeting Note&lt;/a&gt;  
+
+#2 - [Percentage%] ([Number of Meeting Notes]) - [Next Negative Theme] 
+&lt;b&gt;Description:&lt;/b&gt; Concise description of the negative theme.  
+&lt;b&gt;Example:&lt;/b&gt; &quot;[Example comment]&quot; &amp; &lt;a href=&quot;/{Meeting Note Id}&quot;&gt;Meeting Note&lt;/a&gt; 
+
+[Repeat for up to 5 negative points]  
+
+---
+
+&lt;b&gt;Sales Strategy Recommendations:&lt;/b&gt; 
+- Summarize actionable strategies to address the negative points.  
+- Highlight approaches to amplify the positive points during sales efforts.  
+
+---
+
+&lt;b&gt;Potential Objections and Counterarguments:&lt;/b&gt;
+- &lt;b&gt;Objection:&lt;/b&gt; &quot;[Client objection]&quot;  
+ - &lt;b&gt;Counterargument:&lt;/b&gt; &quot;[Response]&quot;  
+
+[Repeat for each objection related to negative themes]  
+
+</content>
+        <inputs>
+            <apiName>Postive</apiName>
+            <definition>primitive://String</definition>
+            <masterLabel>Postive</masterLabel>
+            <referenceName>Input:Postive</referenceName>
+            <required>true</required>
+        </inputs>
+        <inputs>
+            <apiName>Negative</apiName>
+            <definition>primitive://String</definition>
+            <masterLabel>Negative</masterLabel>
+            <referenceName>Input:Negative</referenceName>
+            <required>true</required>
+        </inputs>
+        <primaryModel>sfdc_ai__DefaultGPT4Omni</primaryModel>
+        <status>Draft</status>
+        <versionIdentifier>9+PD0v5/aJmvKUSsaXvgNBPGw/jfKTW77RgqTSMJGuA=_12</versionIdentifier>
+    </templateVersions>
+    <templateVersions>
+        <content>Objective:
+Analyze both the positive and negative aspects of a product based on customer meeting notes. The analysis will:
+
+1. Highlight the top recurring positive themes with examples and their significance.
+2. Identify the top recurring negative themes with examples and their impact.
+3. Provide actionable sales strategies to address concerns and leverage strengths.
+4. Include potential objections raised by clients and well-structured counterarguments to overcome these objections.
+
+---
+
+Input Data:
+
+Positive Data:
+{!$Input:Postive}
+
+Negative Data:
+{!$Input:Negative}
+
+1. Combine Positive and Negative Inputs:
+Parse the provided positive and negative meeting notes.
+Identify and group key themes from both inputs.
+
+2. Summarize Positive Points:
+Extract the top 5 recurring themes from the positive notes.
+For each theme:
+Provide a concise description (max 200 characters).
+Include a specific example and link to the meeting note: &lt;a href=&quot;/{Meeting Note Id}&quot;&gt;Meeting Note&lt;/a&gt;.
+Mention the percentage of meeting notes where the theme appears.
+
+3. Summarize Negative Points:
+
+Extract the top 5 recurring themes from the negative notes.
+For each theme:
+Provide a concise description of the issue (max 200 characters).
+Include a specific example and link to the meeting note: &lt;a href=&quot;/{Meeting Note Id}&quot;&gt;Meeting Note&lt;/a&gt;.
+Mention the percentage of meeting notes where the issue appears.
+
+4. Calculate Metrics:
+
+Period: Identify the oldest and most recent meeting dates.
+Number of Positive Meetings: Count the total meetings with positive notes.
+Number of Negative Meetings: Count the total meetings with negative notes.
+Average Score: Calculate an overall score by weighing the number of meetings for each sentiment and their average scores.
+
+5. Sales Strategy Recommendations:
+Suggest actionable strategies to address client concerns based on negative points.
+Propose ways to amplify strengths derived from positive points.
+
+6. Potential Objections and Counterarguments:
+Anticipate objections for each negative theme.
+Provide clear counterarguments to overcome these objections.
+
+---
+
+Output Format:
+
+&lt;b&gt;Product:&lt;/b&gt; [Product Name]
+&lt;b&gt;Period:&lt;/b&gt; [Oldest Date - Most Recent Date]
+
+---
+
+Positive Points:
+
+#1 - [Percentage%] ([Number of Meeting Notes]) - [Main Positive Theme]
+&lt;b&gt;Description:&lt;/b&gt; Concise description of the positive theme.
+&lt;b&gt;Example:&lt;/b&gt; &quot;[Example comment]&quot; &amp; &lt;a href=&quot;/{Meeting Note Id}&quot;&gt;Meeting Note&lt;/a&gt;.
+
+#2 - [Percentage%] ([Number of Meeting Notes]) - [Next Positive Theme]
+&lt;b&gt;Description:&lt;/b&gt; Concise description of the positive theme.
+&lt;b&gt;Example:&lt;/b&gt; &quot;[Example comment]&quot; &amp; &lt;a href=&quot;/{Meeting Note Id}&quot;&gt;Meeting Note&lt;/a&gt;.
+
+[Repeat for up to 5 positive points.]
+
+---
+
+Negative Points:
+
+#1 - [Percentage%] ([Number of Meeting Notes]) - [Main Negative Theme]
+&lt;b&gt;Description:&lt;/b&gt; Concise description of the negative theme.
+&lt;b&gt;Example:&lt;/b&gt; &quot;[Example comment]&quot; &amp; &lt;a href=&quot;/{Meeting Note Id}&quot;&gt;Meeting Note&lt;/a&gt;.
+
+#2 - [Percentage%] ([Number of Meeting Notes]) - [Next Negative Theme]
+&lt;b&gt;Description:&lt;/b&gt; Concise description of the negative theme.
+&lt;b&gt;Example:&lt;/b&gt; &quot;[Example comment]&quot; &amp; &lt;a href=&quot;/{Meeting Note Id}&quot;&gt;Meeting Note&lt;/a&gt;.
+
+[Repeat for up to 5 negative points.]
+
+---
+
+Sales Strategy Recommendations:
+
+Suggest actionable strategies for addressing negative points.
+Highlight approaches to amplify positive points during sales efforts.
+
+---
+
+Potential Objections and Counterarguments:
+&lt;b&gt;Objection:&lt;/b&gt; &quot;[Client objection]&quot;
+&lt;b&gt;Counterargument:&lt;/b&gt; &quot;[Response]&quot;
+
+
+[Repeat for each objection related to negative themes.]
+
+
+---
+
+Key Improvements for Scalability and Accuracy:
+1. Dynamic Inputs: Automatically adjust for large datasets, ensuring both positive and negative inputs are analyzed consistently.
+2. Structured Analysis: Ensure clear separation of positives, negatives, and actionable insights for readability.
+3. Metrics Integration: Use data-driven metrics to provide context and support strategic recommendations.
+</content>
+        <inputs>
+            <apiName>Postive</apiName>
+            <definition>primitive://String</definition>
+            <masterLabel>Postive</masterLabel>
+            <referenceName>Input:Postive</referenceName>
+            <required>true</required>
+        </inputs>
+        <inputs>
+            <apiName>Negative</apiName>
+            <definition>primitive://String</definition>
+            <masterLabel>Negative</masterLabel>
+            <referenceName>Input:Negative</referenceName>
+            <required>true</required>
+        </inputs>
+        <primaryModel>sfdc_ai__DefaultGPT4Omni</primaryModel>
+        <status>Published</status>
+        <versionIdentifier>9+PD0v5/aJmvKUSsaXvgNBPGw/jfKTW77RgqTSMJGuA=_13</versionIdentifier>
+    </templateVersions>
+    <templateVersions>
+        <content>Objective:
+Analyze both the positive and negative aspects of a product based on customer meeting notes. The analysis will:
+
+1. Highlight the top recurring positive themes with examples and their significance.
+2. Identify the top recurring negative themes with examples and their impact.
+3. Provide actionable sales strategies to address concerns and leverage strengths.
+4. Include potential objections raised by clients and well-structured counterarguments to overcome these objections.
+
+---
+
+Input Data:
+
+Positive Data:
+{!$Input:Postive}
+
+Negative Data:
+{!$Input:Negative}
+
+1. Combine Positive and Negative Inputs:
+Parse the provided positive and negative meeting notes.
+Identify and group key themes from both inputs.
+
+2. Summarize Positive Points:
+Extract the top 5 recurring themes from the positive notes.
+For each theme:
+Provide a concise description (max 200 characters).
+Include a specific example and link to the meeting note: &lt;a href=&quot;/{Meeting Note Id}&quot;&gt;Meeting Note&lt;/a&gt;.
+Mention the percentage of meeting notes where the theme appears.
+
+3. Summarize Negative Points:
+
+Extract the top 5 recurring themes from the negative notes.
+For each theme:
+Provide a concise description of the issue (max 200 characters).
+Include a specific example and link to the meeting note: &lt;a href=&quot;/{Meeting Note Id}&quot;&gt;Meeting Note&lt;/a&gt;.
+Mention the percentage of meeting notes where the issue appears.
+
+4. Calculate Metrics:
+
+Period: Identify the oldest and most recent meeting dates.
+Number of Positive Meetings: Count the total meetings with positive notes.
+Number of Negative Meetings: Count the total meetings with negative notes.
+Average Score: Calculate an overall score by weighing the number of meetings for each sentiment and their average scores.
+
+5. Sales Strategy Recommendations:
+Suggest actionable strategies to address client concerns based on negative points.
+Propose ways to amplify strengths derived from positive points.
+
+6. Potential Objections and Counterarguments:
+Anticipate objections for each negative theme.
+Provide clear counterarguments to overcome these objections.
+
+---
+
+Output Format:
+
+&lt;b&gt;Product:&lt;/b&gt; [Product Name]
+&lt;b&gt;Period:&lt;/b&gt; [Oldest Date - Most Recent Date]
+
+---
+
+Positive Points:
+
+#1 - [Percentage%] ([Number of Meeting Notes]) - [Main Positive Theme]
+&lt;b&gt;Description:&lt;/b&gt; Concise description of the positive theme.
+&lt;b&gt;Example:&lt;/b&gt; &quot;[Example comment]&quot; &amp; &lt;a href=&quot;/{Meeting Note Id}&quot;&gt;Meeting Note&lt;/a&gt;.
+
+#2 - [Percentage%] ([Number of Meeting Notes]) - [Next Positive Theme]
+&lt;b&gt;Description:&lt;/b&gt; Concise description of the positive theme.
+&lt;b&gt;Example:&lt;/b&gt; &quot;[Example comment]&quot; &amp; &lt;a href=&quot;/{Meeting Note Id}&quot;&gt;Meeting Note&lt;/a&gt;.
+
+[Repeat for up to 5 positive points.]
+
+---
+
+Negative Points:
+
+#1 - [Percentage%] ([Number of Meeting Notes]) - [Main Negative Theme]
+&lt;b&gt;Description:&lt;/b&gt; Concise description of the negative theme.
+&lt;b&gt;Example:&lt;/b&gt; &quot;[Example comment]&quot; &amp; &lt;a href=&quot;/{Meeting Note Id}&quot;&gt;Meeting Note&lt;/a&gt;.
+
+#2 - [Percentage%] ([Number of Meeting Notes]) - [Next Negative Theme]
+&lt;b&gt;Description:&lt;/b&gt; Concise description of the negative theme.
+&lt;b&gt;Example:&lt;/b&gt; &quot;[Example comment]&quot; &amp; &lt;a href=&quot;/{Meeting Note Id}&quot;&gt;Meeting Note&lt;/a&gt;.
+
+[Repeat for up to 5 negative points.]
+
+---
+
+</content>
+        <inputs>
+            <apiName>Postive</apiName>
+            <definition>primitive://String</definition>
+            <masterLabel>Postive</masterLabel>
+            <referenceName>Input:Postive</referenceName>
+            <required>true</required>
+        </inputs>
+        <inputs>
+            <apiName>Negative</apiName>
+            <definition>primitive://String</definition>
+            <masterLabel>Negative</masterLabel>
+            <referenceName>Input:Negative</referenceName>
+            <required>true</required>
+        </inputs>
+        <primaryModel>sfdc_ai__DefaultGPT4Omni</primaryModel>
+        <status>Published</status>
+        <versionIdentifier>9+PD0v5/aJmvKUSsaXvgNBPGw/jfKTW77RgqTSMJGuA=_14</versionIdentifier>
+    </templateVersions>
+    <templateVersions>
+        <content>Objective:
+Analyze both the positive and negative aspects of a product based on customer meeting notes. The analysis will:
+
+1. Highlight the top recurring positive themes with examples and their significance.
+2. Identify the top recurring negative themes with examples and their impact.
+3. Provide actionable sales strategies to address concerns and leverage strengths.
+4. Include potential objections raised by clients and well-structured counterarguments to overcome these objections.
+
+---
+
+Input Data:
+
+Positive Data:
+{!$Input:Postive}
+
+Negative Data:
+{!$Input:Negative}
+
+1. Combine Positive and Negative Inputs:
+Parse the provided positive and negative meeting notes.
+Identify and group key themes from both inputs.
+
+2. Summarize Positive Points:
+Extract the top 5 recurring themes from the positive notes.
+For each theme:
+Provide a concise description (max 200 characters).
+Include a specific example and link to the meeting note: &lt;a href=&quot;/{Meeting Note Id}&quot;&gt;Meeting Note&lt;/a&gt;.
+Mention the percentage of meeting notes where the theme appears.
+
+3. Summarize Negative Points:
+
+Extract the top 5 recurring themes from the negative notes.
+For each theme:
+Provide a concise description of the issue (max 200 characters).
+Include a specific example and link to the meeting note: &lt;a href=&quot;/{Meeting Note Id}&quot;&gt;Meeting Note&lt;/a&gt;.
+Mention the percentage of meeting notes where the issue appears.
+
+4. Calculate Metrics:
+
+Period: Identify the oldest and most recent meeting dates.
+Number of Positive Meetings: Count the total meetings with positive notes.
+Number of Negative Meetings: Count the total meetings with negative notes.
+Average Score: Calculate an overall score by weighing the number of meetings for each sentiment and their average scores.
+
+5. Sales Strategy Recommendations:
+Suggest actionable strategies to address client concerns based on negative points.
+Propose ways to amplify strengths derived from positive points.
+
+6. Potential Objections and Counterarguments:
+Anticipate objections for each negative theme.
+Provide clear counterarguments to overcome these objections.
+
+---
+
+Output Format:
+
+&lt;b&gt;Product:&lt;/b&gt; [Product Name]
+&lt;b&gt;Period:&lt;/b&gt; [Oldest Date - Most Recent Date]
+
+
+
+Positive Points:
+
+#1 - [Percentage%] ([Number of Meeting Notes]) - [Main Positive Theme]
+&lt;b&gt;Description:&lt;/b&gt; Concise description of the positive theme.
+&lt;b&gt;Example:&lt;/b&gt; &quot;[Example comment]&quot; &amp; &lt;a href=&quot;/{Meeting Note Id}&quot;&gt;Meeting Note&lt;/a&gt;.
+
+#2 - [Percentage%] ([Number of Meeting Notes]) - [Next Positive Theme]
+&lt;b&gt;Description:&lt;/b&gt; Concise description of the positive theme.
+&lt;b&gt;Example:&lt;/b&gt; &quot;[Example comment]&quot; &amp; &lt;a href=&quot;/{Meeting Note Id}&quot;&gt;Meeting Note&lt;/a&gt;.
+
+[Repeat for up to 5 positive points.]
+
+
+
+Negative Points:
+
+#1 - [Percentage%] ([Number of Meeting Notes]) - [Main Negative Theme]
+&lt;b&gt;Description:&lt;/b&gt; Concise description of the negative theme.
+&lt;b&gt;Example:&lt;/b&gt; &quot;[Example comment]&quot; &amp; &lt;a href=&quot;/{Meeting Note Id}&quot;&gt;Meeting Note&lt;/a&gt;.
+
+#2 - [Percentage%] ([Number of Meeting Notes]) - [Next Negative Theme]
+&lt;b&gt;Description:&lt;/b&gt; Concise description of the negative theme.
+&lt;b&gt;Example:&lt;/b&gt; &quot;[Example comment]&quot; &amp; &lt;a href=&quot;/{Meeting Note Id}&quot;&gt;Meeting Note&lt;/a&gt;.
+
+[Repeat for up to 5 negative points.]
+
+
+</content>
+        <inputs>
+            <apiName>Postive</apiName>
+            <definition>primitive://String</definition>
+            <masterLabel>Postive</masterLabel>
+            <referenceName>Input:Postive</referenceName>
+            <required>true</required>
+        </inputs>
+        <inputs>
+            <apiName>Negative</apiName>
+            <definition>primitive://String</definition>
+            <masterLabel>Negative</masterLabel>
+            <referenceName>Input:Negative</referenceName>
+            <required>true</required>
+        </inputs>
+        <primaryModel>sfdc_ai__DefaultGPT4Omni</primaryModel>
+        <status>Published</status>
+        <versionIdentifier>9+PD0v5/aJmvKUSsaXvgNBPGw/jfKTW77RgqTSMJGuA=_15</versionIdentifier>
+    </templateVersions>
+    <templateVersions>
+        <content>Objective:
+Analyze both the positive and negative aspects of a product based on customer meeting notes. The analysis will:
+
+1. Highlight the top recurring positive themes with examples and their significance.
+2. Identify the top recurring negative themes with examples and their impact.
+3. Provide actionable sales strategies to address concerns and leverage strengths.
+4. Include potential objections raised by clients and well-structured counterarguments to overcome these objections.
+
+---
+
+Input Data:
+
+Positive Data:
+{!$Input:Postive}
+
+Negative Data:
+{!$Input:Negative}
+
+1. Combine Positive and Negative Inputs:
+Parse the provided positive and negative meeting notes.
+Identify and group key themes from both inputs.
+
+2. Summarize Positive Points:
+Extract the top 5 recurring themes from the positive notes.
+For each theme:
+Provide a concise description (min 200 characters).
+Include a specific example and link to the meeting note: &lt;a href=&quot;/{Meeting Note Id}&quot;&gt;Meeting Note&lt;/a&gt;.
+Mention the percentage of meeting notes where the theme appears.
+
+3. Summarize Negative Points:
+
+Extract the top 5 recurring themes from the negative notes.
+For each theme:
+Provide a concise description of the issue (min 200 characters).
+Include a specific example and link to the meeting note: &lt;a href=&quot;/{Meeting Note Id}&quot;&gt;Meeting Note&lt;/a&gt;.
+Mention the percentage of meeting notes where the issue appears.
+
+4. Calculate Metrics:
+
+Period: Identify the oldest and most recent meeting dates.
+Number of Positive Meetings: Count the total meetings with positive notes.
+Number of Negative Meetings: Count the total meetings with negative notes.
+Average Score: Calculate an overall score by weighing the number of meetings for each sentiment and their average scores.
+
+---
+
+Output Format:
+
+&lt;b&gt;Product:&lt;/b&gt; [Product Name]
+&lt;b&gt;Period:&lt;/b&gt; [Oldest Date - Most Recent Date]
+
+Positive Points:
+
+#1 - [Percentage%] ([Number of Meeting Notes]) - [Main Positive Theme]
+&lt;b&gt;Description:&lt;/b&gt; Concise description of the positive theme.
+&lt;b&gt;Example:&lt;/b&gt; &quot;[Example comment]&quot; &amp; &lt;a href=&quot;/{Meeting Note Id}&quot;&gt;Meeting Note&lt;/a&gt;.
+
+#2 - [Percentage%] ([Number of Meeting Notes]) - [Next Positive Theme]
+&lt;b&gt;Description:&lt;/b&gt; Concise description of the positive theme.
+&lt;b&gt;Example:&lt;/b&gt; &quot;[Example comment]&quot; &amp; &lt;a href=&quot;/{Meeting Note Id}&quot;&gt;Meeting Note&lt;/a&gt;.
+
+[Repeat for up to 5 positive points.]
+
+Negative Points:
+
+#1 - [Percentage%] ([Number of Meeting Notes]) - [Main Negative Theme]
+&lt;b&gt;Description:&lt;/b&gt; Concise description of the negative theme.
+&lt;b&gt;Example:&lt;/b&gt; &quot;[Example comment]&quot; &amp; &lt;a href=&quot;/{Meeting Note Id}&quot;&gt;Meeting Note&lt;/a&gt;.
+
+#2 - [Percentage%] ([Number of Meeting Notes]) - [Next Negative Theme]
+&lt;b&gt;Description:&lt;/b&gt; Concise description of the negative theme.
+&lt;b&gt;Example:&lt;/b&gt; &quot;[Example comment]&quot; &amp; &lt;a href=&quot;/{Meeting Note Id}&quot;&gt;Meeting Note&lt;/a&gt;.
+
+[Repeat for up to 5 negative points.]
+</content>
+        <inputs>
+            <apiName>Postive</apiName>
+            <definition>primitive://String</definition>
+            <masterLabel>Postive</masterLabel>
+            <referenceName>Input:Postive</referenceName>
+            <required>true</required>
+        </inputs>
+        <inputs>
+            <apiName>Negative</apiName>
+            <definition>primitive://String</definition>
+            <masterLabel>Negative</masterLabel>
+            <referenceName>Input:Negative</referenceName>
+            <required>true</required>
+        </inputs>
+        <primaryModel>sfdc_ai__DefaultGPT4Omni</primaryModel>
+        <status>Published</status>
+        <versionIdentifier>9+PD0v5/aJmvKUSsaXvgNBPGw/jfKTW77RgqTSMJGuA=_16</versionIdentifier>
+    </templateVersions>
+    <templateVersions>
+        <content>Objective:
+Analyze both the positive and negative aspects of a product based on customer meeting notes. The analysis will:
+
+1. Highlight the top recurring positive themes with examples and their significance.
+2. Identify the top recurring negative themes with examples and their impact.
+3. Provide actionable sales strategies to address concerns and leverage strengths.
+
+---
+
+Input Data:
+
+Positive Data:
+{!$Input:Postive}
+
+Negative Data:
+{!$Input:Negative}
+
+1. Combine Positive and Negative Inputs:
+Parse the provided positive and negative meeting notes.
+Identify and group key themes from both inputs.
+
+2. Summarize Positive Points:
+Extract the top 5 recurring themes from the positive notes.
+For each theme:
+Provide a concise description (min 200 characters).
+Include a specific example and link to the meeting note: &lt;a href=&quot;/{Meeting Note Id}&quot;&gt;Meeting Note&lt;/a&gt;.
+Mention the percentage of meeting notes where the theme appears.
+
+3. Summarize Negative Points:
+
+Extract the top 5 recurring themes from the negative notes.
+For each theme:
+Provide a concise description of the issue (min 200 characters).
+Include a specific example and link to the meeting note: &lt;a href=&quot;/{Meeting Note Id}&quot;&gt;Meeting Note&lt;/a&gt;.
+Mention the percentage of meeting notes where the issue appears.
+
+---
+
+Output Format:
+
+&lt;b&gt;Product:&lt;/b&gt; [Product Name]
+&lt;b&gt;Period:&lt;/b&gt; [Oldest Date - Most Recent Date]
+
+Positive Feedbacks:
+
+#1 - [Percentage%] ([Number of Meeting Notes]) - [Main Positive Theme]
+&lt;b&gt;Description:&lt;/b&gt; Concise description of the positive theme.
+&lt;b&gt;Example:&lt;/b&gt; &quot;[Example comment]&quot; &amp; &lt;a href=&quot;/{Meeting Note Id}&quot;&gt;Meeting Note&lt;/a&gt;.
+
+#2 - [Percentage%] ([Number of Meeting Notes]) - [Next Positive Theme]
+&lt;b&gt;Description:&lt;/b&gt; Concise description of the positive theme.
+&lt;b&gt;Example:&lt;/b&gt; &quot;[Example comment]&quot; &amp; &lt;a href=&quot;/{Meeting Note Id}&quot;&gt;Meeting Note&lt;/a&gt;.
+
+[Repeat for up to 5 positive points.]
+
+Negative Feedbacks:
+
+#1 - [Percentage%] ([Number of Meeting Notes]) - [Main Negative Theme]
+&lt;b&gt;Description:&lt;/b&gt; Concise description of the negative theme.
+&lt;b&gt;Example:&lt;/b&gt; &quot;[Example comment]&quot; &amp; &lt;a href=&quot;/{Meeting Note Id}&quot;&gt;Meeting Note&lt;/a&gt;.
+
+#2 - [Percentage%] ([Number of Meeting Notes]) - [Next Negative Theme]
+&lt;b&gt;Description:&lt;/b&gt; Concise description of the negative theme.
+&lt;b&gt;Example:&lt;/b&gt; &quot;[Example comment]&quot; &amp; &lt;a href=&quot;/{Meeting Note Id}&quot;&gt;Meeting Note&lt;/a&gt;.
+
+[Repeat for up to 5 negative points.]
+</content>
+        <inputs>
+            <apiName>Postive</apiName>
+            <definition>primitive://String</definition>
+            <masterLabel>Postive</masterLabel>
+            <referenceName>Input:Postive</referenceName>
+            <required>true</required>
+        </inputs>
+        <inputs>
+            <apiName>Negative</apiName>
+            <definition>primitive://String</definition>
+            <masterLabel>Negative</masterLabel>
+            <referenceName>Input:Negative</referenceName>
+            <required>true</required>
+        </inputs>
+        <primaryModel>sfdc_ai__DefaultGPT4Omni</primaryModel>
+        <status>Published</status>
+        <versionIdentifier>9+PD0v5/aJmvKUSsaXvgNBPGw/jfKTW77RgqTSMJGuA=_17</versionIdentifier>
+    </templateVersions>
+    <templateVersions>
+        <content>Objective:
+Analyze both the positive and negative aspects of a product based on customer meeting notes. The analysis will:
+
+1. Highlight the top recurring positive themes with examples and their significance.
+2. Identify the top recurring negative themes with examples and their impact.
+
+---
+
+Input Data:
+
+Positive Data:
+{!$Input:Postive}
+
+Negative Data:
+{!$Input:Negative}
+
+1. Combine Positive and Negative Inputs:
+Parse the provided positive and negative meeting notes.
+Identify and group key themes from both inputs.
+
+2. Summarize Positive Points:
+Extract the top 5 recurring themes from the positive notes.
+For each theme:
+Provide a concise description (minimum 200 characters).
+Include a specific example and link to the meeting note: &lt;a href=&quot;/{Meeting Note Id}&quot;&gt;Meeting Note&lt;/a&gt;.
+Mention the percentage of meeting notes where the theme appears.
+
+3. Summarize Negative Points:
+
+Extract the top 5 recurring themes from the negative notes.
+For each theme:
+Provide a concise description of the issue (max 200 characters).
+Include a specific example and link to the meeting note: &lt;a href=&quot;/{Meeting Note Id}&quot;&gt;Meeting Note&lt;/a&gt;.
+Mention the percentage of meeting notes where the issue appears.
+
+4. Calculate Metrics:
+
+Period: Identify the oldest and most recent meeting dates.
+Number of Positive Meetings: Count the total meetings with positive notes.
+Number of Negative Meetings: Count the total meetings with negative notes.
+Average Score: Calculate an overall score by weighing the number of meetings for each sentiment and their average scores.
+
+
+---
+
+Output Format:
+
+&lt;b&gt;Product:&lt;/b&gt; [Product Name]
+&lt;b&gt;Period:&lt;/b&gt; [Oldest Date - Most Recent Date]
+
+---
+
+Positive Feedbacks:
+
+#1 - [Percentage%] ([Number of Meeting Notes]) - [Main Positive Theme]
+&lt;b&gt;Description:&lt;/b&gt; Concise description of the positive theme.
+&lt;b&gt;Example:&lt;/b&gt; &quot;[Example comment]&quot; &amp; &lt;a href=&quot;/{Meeting Note Id}&quot;&gt;Meeting Note&lt;/a&gt;.
+
+#2 - [Percentage%] ([Number of Meeting Notes]) - [Next Positive Theme]
+&lt;b&gt;Description:&lt;/b&gt; Concise description of the positive theme.
+&lt;b&gt;Example:&lt;/b&gt; &quot;[Example comment]&quot; &amp; &lt;a href=&quot;/{Meeting Note Id}&quot;&gt;Meeting Note&lt;/a&gt;.
+
+[Repeat for up to 5 positive points.]
+
+---
+
+Negative Feedbacks:
+
+#1 - [Percentage%] ([Number of Meeting Notes]) - [Main Negative Theme]
+&lt;b&gt;Description:&lt;/b&gt; Concise description of the negative theme.
+&lt;b&gt;Example:&lt;/b&gt; &quot;[Example comment]&quot; &amp; &lt;a href=&quot;/{Meeting Note Id}&quot;&gt;Meeting Note&lt;/a&gt;.
+
+#2 - [Percentage%] ([Number of Meeting Notes]) - [Next Negative Theme]
+&lt;b&gt;Description:&lt;/b&gt; Concise description of the negative theme.
+&lt;b&gt;Example:&lt;/b&gt; &quot;[Example comment]&quot; &amp; &lt;a href=&quot;/{Meeting Note Id}&quot;&gt;Meeting Note&lt;/a&gt;.
+
+[Repeat for up to 5 negative points.]
+
+---
+</content>
+        <inputs>
+            <apiName>Postive</apiName>
+            <definition>primitive://String</definition>
+            <masterLabel>Postive</masterLabel>
+            <referenceName>Input:Postive</referenceName>
+            <required>true</required>
+        </inputs>
+        <inputs>
+            <apiName>Negative</apiName>
+            <definition>primitive://String</definition>
+            <masterLabel>Negative</masterLabel>
+            <referenceName>Input:Negative</referenceName>
+            <required>true</required>
+        </inputs>
+        <primaryModel>sfdc_ai__DefaultGPT4Omni</primaryModel>
+        <status>Published</status>
+        <versionIdentifier>9+PD0v5/aJmvKUSsaXvgNBPGw/jfKTW77RgqTSMJGuA=_18</versionIdentifier>
+    </templateVersions>
+    <templateVersions>
+        <content>Objective:
+Analyze both the positive and negative aspects of a product based on customer meeting notes. The analysis will:
+
+1. Highlight the top recurring positive themes with examples and their significance.
+2. Identify the top recurring negative themes with examples and their impact.
+
+---
+
+Input Data:
+
+Positive Data:
+{!$Input:Postive}
+
+Negative Data:
+{!$Input:Negative}
+
+1. Combine Positive and Negative Inputs:
+Parse the provided positive and negative meeting notes.
+Identify and group key themes from both inputs.
+
+2. Summarize Positive Points:
+Extract the top 5 recurring themes from the positive notes.
+For each theme:
+Provide a concise description (minimum 200 characters).
+Include a specific example and link to the meeting note: &lt;a href=&quot;/{Meeting Note Id}&quot;&gt;Meeting Note&lt;/a&gt;.
+Mention the percentage of meeting notes where the theme appears.
+
+3. Summarize Negative Points:
+
+Extract the top 5 recurring themes from the negative notes.
+For each theme:
+Provide a concise description of the issue (minimum 200 characters).
+Include a specific example and link to the meeting note: &lt;a href=&quot;/{Meeting Note Id}&quot;&gt;Meeting Note&lt;/a&gt;.
+Mention the percentage of meeting notes where the issue appears.
+
+4. Calculate Metrics:
+
+Period: Identify the oldest and most recent meeting dates.
+Number of Positive Meetings: Count the total meetings with positive notes.
+Number of Negative Meetings: Count the total meetings with negative notes.
+Average Score: Calculate an overall score by weighing the number of meetings for each sentiment and their average scores.
+
+
+---
+
+Output Format:
+
+&lt;b&gt;Product:&lt;/b&gt; [Product Name]
+&lt;b&gt;Period:&lt;/b&gt; [Oldest Date - Most Recent Date]
+
+---
+
+Positive Feedbacks:
+
+#1 - [Percentage%] ([Number of Meeting Notes]) - [Main Positive Theme]
+&lt;b&gt;Description:&lt;/b&gt; Concise description of the positive theme.
+&lt;b&gt;Example:&lt;/b&gt; &quot;[Example comment]&quot; &amp; &lt;a href=&quot;/{Meeting Note Id}&quot;&gt;Meeting Note&lt;/a&gt;.
+
+#2 - [Percentage%] ([Number of Meeting Notes]) - [Next Positive Theme]
+&lt;b&gt;Description:&lt;/b&gt; Concise description of the positive theme.
+&lt;b&gt;Example:&lt;/b&gt; &quot;[Example comment]&quot; &amp; &lt;a href=&quot;/{Meeting Note Id}&quot;&gt;Meeting Note&lt;/a&gt;.
+
+[Repeat for up to 5 positive points.]
+
+---
+
+Negative Feedbacks:
+
+#1 - [Percentage%] ([Number of Meeting Notes]) - [Main Negative Theme]
+&lt;b&gt;Description:&lt;/b&gt; Concise description of the negative theme.
+&lt;b&gt;Example:&lt;/b&gt; &quot;[Example comment]&quot; &amp; &lt;a href=&quot;/{Meeting Note Id}&quot;&gt;Meeting Note&lt;/a&gt;.
+
+#2 - [Percentage%] ([Number of Meeting Notes]) - [Next Negative Theme]
+&lt;b&gt;Description:&lt;/b&gt; Concise description of the negative theme.
+&lt;b&gt;Example:&lt;/b&gt; &quot;[Example comment]&quot; &amp; &lt;a href=&quot;/{Meeting Note Id}&quot;&gt;Meeting Note&lt;/a&gt;.
+
+[Repeat for up to 5 negative points.]
+
+---
+</content>
+        <inputs>
+            <apiName>Postive</apiName>
+            <definition>primitive://String</definition>
+            <masterLabel>Postive</masterLabel>
+            <referenceName>Input:Postive</referenceName>
+            <required>true</required>
+        </inputs>
+        <inputs>
+            <apiName>Negative</apiName>
+            <definition>primitive://String</definition>
+            <masterLabel>Negative</masterLabel>
+            <referenceName>Input:Negative</referenceName>
+            <required>true</required>
+        </inputs>
+        <primaryModel>sfdc_ai__DefaultGPT4Omni</primaryModel>
+        <status>Published</status>
+        <versionIdentifier>9+PD0v5/aJmvKUSsaXvgNBPGw/jfKTW77RgqTSMJGuA=_19</versionIdentifier>
+    </templateVersions>
+    <templateVersions>
+        <content>Objective:
+Analyze both the positive and negative aspects of a product based on customer meeting notes. The analysis will:
+
+1. Highlight the top recurring positive themes with examples and their significance.
+2. Identify the top recurring negative themes with examples and their impact.
+
+---
+
+Input Data:
+
+Positive Data:
+{!$Input:Postive}
+
+Negative Data:
+{!$Input:Negative}
+
+1. Combine Positive and Negative Inputs:
+Parse the provided positive and negative meeting notes.
+Identify and group key themes from both inputs.
+
+2. Summarize Positive Points:
+Extract the top 5 recurring themes from the positive notes.
+For each theme:
+Provide a concise description (minimum 200 characters).
+Include a specific example and link to the meeting note: &lt;a href=&quot;/{Meeting Note Id}&quot;&gt;Meeting Note&lt;/a&gt;.
+Mention the percentage of meeting notes where the theme appears.
+
+3. Summarize Negative Points:
+
+Extract the top 5 recurring themes from the negative notes.
+For each theme:
+Provide a concise description of the issue (minimum 200 characters).
+Include a specific example and link to the meeting note: &lt;a href=&quot;/{Meeting Note Id}&quot;&gt;Meeting Note&lt;/a&gt;.
+Mention the percentage of meeting notes where the issue appears.
+
+4. Calculate Metrics:
+
+Period: Identify the oldest and most recent meeting dates.
+Number of Positive Meetings: Count the total meetings with positive notes.
+Number of Negative Meetings: Count the total meetings with negative notes.
+Average Score: Calculate an overall score by weighing the number of meetings for each sentiment and their average scores.
+
+
+---
+
+Output Format:
+
+&lt;b&gt;Product:&lt;/b&gt; [Product Name]
+&lt;b&gt;Period:&lt;/b&gt; [Oldest Date - Most Recent Date]
+Number of Positive Meetings: [Number of Positive Meetings]
+Number of Negative Meetings: [Number of Negative Meetings]
+---
+
+Positive Feedbacks:
+
+#1 - [Percentage%] ([Number of Meeting Notes]) - [Main Positive Theme]
+&lt;b&gt;Description:&lt;/b&gt; Concise description of the positive theme.
+&lt;b&gt;Example:&lt;/b&gt; &quot;[Example comment]&quot; &amp; &lt;a href=&quot;/{Meeting Note Id}&quot;&gt;Meeting Note&lt;/a&gt;.
+
+#2 - [Percentage%] ([Number of Meeting Notes]) - [Next Positive Theme]
+&lt;b&gt;Description:&lt;/b&gt; Concise description of the positive theme.
+&lt;b&gt;Example:&lt;/b&gt; &quot;[Example comment]&quot; &amp; &lt;a href=&quot;/{Meeting Note Id}&quot;&gt;Meeting Note&lt;/a&gt;.
+
+[Repeat for up to 5 positive points.]
+
+---
+
+Negative Feedbacks:
+
+#1 - [Percentage%] ([Number of Meeting Notes]) - [Main Negative Theme]
+&lt;b&gt;Description:&lt;/b&gt; Concise description of the negative theme.
+&lt;b&gt;Example:&lt;/b&gt; &quot;[Example comment]&quot; &amp; &lt;a href=&quot;/{Meeting Note Id}&quot;&gt;Meeting Note&lt;/a&gt;.
+
+#2 - [Percentage%] ([Number of Meeting Notes]) - [Next Negative Theme]
+&lt;b&gt;Description:&lt;/b&gt; Concise description of the negative theme.
+&lt;b&gt;Example:&lt;/b&gt; &quot;[Example comment]&quot; &amp; &lt;a href=&quot;/{Meeting Note Id}&quot;&gt;Meeting Note&lt;/a&gt;.
+
+[Repeat for up to 5 negative points.]
+
+---
+</content>
+        <inputs>
+            <apiName>Postive</apiName>
+            <definition>primitive://String</definition>
+            <masterLabel>Postive</masterLabel>
+            <referenceName>Input:Postive</referenceName>
+            <required>true</required>
+        </inputs>
+        <inputs>
+            <apiName>Negative</apiName>
+            <definition>primitive://String</definition>
+            <masterLabel>Negative</masterLabel>
+            <referenceName>Input:Negative</referenceName>
+            <required>true</required>
+        </inputs>
+        <primaryModel>sfdc_ai__DefaultGPT4Omni</primaryModel>
+        <status>Published</status>
+        <versionIdentifier>9+PD0v5/aJmvKUSsaXvgNBPGw/jfKTW77RgqTSMJGuA=_20</versionIdentifier>
+    </templateVersions>
+    <templateVersions>
+        <content>Objective:
+Analyze both the positive and negative aspects of a product based on customer meeting notes. The analysis will:
+
+1. Highlight the top recurring positive themes with examples and their significance.
+2. Identify the top recurring negative themes with examples and their impact.
+
+---
+
+Input Data:
+
+Positive Data:
+{!$Input:Postive}
+
+Negative Data:
+{!$Input:Negative}
+
+1. Combine Positive and Negative Inputs:
+Parse the provided positive and negative meeting notes.
+Identify and group key themes from both inputs.
+
+2. Summarize Positive Points:
+Extract the top 5 recurring themes from the positive notes.
+For each theme:
+Provide a concise description (minimum 200 characters).
+Include a specific example and link to the meeting note: &lt;a href=&quot;/{Meeting Note Id}&quot;&gt;Meeting Note&lt;/a&gt;.
+Mention the percentage of meeting notes where the theme appears.
+
+3. Summarize Negative Points:
+
+Extract the top 5 recurring themes from the negative notes.
+For each theme:
+Provide a concise description of the issue (minimum 200 characters).
+Include a specific example and link to the meeting note: &lt;a href=&quot;/{Meeting Note Id}&quot;&gt;Meeting Note&lt;/a&gt;.
+Mention the percentage of meeting notes where the issue appears.
+
+
+---
+
+Output Format:
+
+&lt;b&gt;Product:&lt;/b&gt; [Product Name]
+&lt;b&gt;Period:&lt;/b&gt; [Oldest Date - Most Recent Date]
+Number of Positive Meetings: [Number of Positive Meetings]
+Number of Negative Meetings: [Number of Negative Meetings]
+---
+
+Positive Feedbacks:
+
+#1 - [Percentage%] ([Number of Meeting Notes]) - [Main Positive Theme]
+&lt;b&gt;Description:&lt;/b&gt; Concise description of the positive theme.
+&lt;b&gt;Example:&lt;/b&gt; &quot;[Example comment]&quot; &amp; &lt;a href=&quot;/{Meeting Note Id}&quot;&gt;Meeting Note&lt;/a&gt;.
+
+#2 - [Percentage%] ([Number of Meeting Notes]) - [Next Positive Theme]
+&lt;b&gt;Description:&lt;/b&gt; Concise description of the positive theme.
+&lt;b&gt;Example:&lt;/b&gt; &quot;[Example comment]&quot; &amp; &lt;a href=&quot;/{Meeting Note Id}&quot;&gt;Meeting Note&lt;/a&gt;.
+
+[Repeat for up to 5 positive points.]
+
+---
+
+Negative Feedbacks:
+
+#1 - [Percentage%] ([Number of Meeting Notes]) - [Main Negative Theme]
+&lt;b&gt;Description:&lt;/b&gt; Concise description of the negative theme.
+&lt;b&gt;Example:&lt;/b&gt; &quot;[Example comment]&quot; &amp; &lt;a href=&quot;/{Meeting Note Id}&quot;&gt;Meeting Note&lt;/a&gt;.
+
+#2 - [Percentage%] ([Number of Meeting Notes]) - [Next Negative Theme]
+&lt;b&gt;Description:&lt;/b&gt; Concise description of the negative theme.
+&lt;b&gt;Example:&lt;/b&gt; &quot;[Example comment]&quot; &amp; &lt;a href=&quot;/{Meeting Note Id}&quot;&gt;Meeting Note&lt;/a&gt;.
+
+[Repeat for up to 5 negative points.]
+
+---
+</content>
+        <inputs>
+            <apiName>Postive</apiName>
+            <definition>primitive://String</definition>
+            <masterLabel>Postive</masterLabel>
+            <referenceName>Input:Postive</referenceName>
+            <required>true</required>
+        </inputs>
+        <inputs>
+            <apiName>Negative</apiName>
+            <definition>primitive://String</definition>
+            <masterLabel>Negative</masterLabel>
+            <referenceName>Input:Negative</referenceName>
+            <required>true</required>
+        </inputs>
+        <primaryModel>sfdc_ai__DefaultGPT4Omni</primaryModel>
+        <status>Published</status>
+        <versionIdentifier>9+PD0v5/aJmvKUSsaXvgNBPGw/jfKTW77RgqTSMJGuA=_21</versionIdentifier>
+    </templateVersions>
+    <templateVersions>
+        <content>Objective:
+Analyze both the positive and negative aspects of a product based on customer meeting notes. The analysis will:
+
+1. Highlight the top recurring positive themes with examples and their significance.
+2. Identify the top recurring negative themes with examples and their impact.
+
+---
+
+Input Data:
+
+Positive Data:
+{!$Input:Postive}
+
+Negative Data:
+{!$Input:Negative}
+
+1. Combine Positive and Negative Inputs:
+Parse the provided positive and negative meeting notes.
+Identify and group key themes from both inputs.
+
+2. Summarize Positive Points:
+Extract the top 5 recurring themes from the positive notes.
+For each theme:
+Provide a concise description (minimum 200 characters).
+Include a specific example and link to the meeting note: &lt;a href=&quot;/{Meeting Note Id}&quot;&gt;Meeting Note&lt;/a&gt;.
+Mention the percentage of meeting notes where the theme appears.
+
+3. Summarize Negative Points:
+
+Extract the top 5 recurring themes from the negative notes.
+For each theme:
+Provide a concise description of the issue (minimum 200 characters).
+Include a specific example and link to the meeting note: &lt;a href=&quot;/{Meeting Note Id}&quot;&gt;Meeting Note&lt;/a&gt;.
+Mention the percentage of meeting notes where the issue appears.
+
+
+---
+
+Output Format:
+
+&lt;b&gt;Product:&lt;/b&gt; [Product Name]
+&lt;b&gt;Period:&lt;/b&gt; [Oldest Date - Most Recent Date]
+&lt;b&gt;Number of Positive Meetings:&lt;/b&gt; [Number of Positive Meetings]
+&lt;b&gt;Number of Negative Meetings:&lt;/b&gt; [Number of Negative Meetings]
+---
+
+Positive Feedbacks:
+
+#1 - [Percentage%] ([Number of Meeting Notes]) - [Main Positive Theme]
+&lt;b&gt;Description:&lt;/b&gt; Concise description of the positive theme.
+&lt;b&gt;Example:&lt;/b&gt; &quot;[Example comment]&quot; &amp; &lt;a href=&quot;/{Meeting Note Id}&quot;&gt;Meeting Note&lt;/a&gt;.
+
+#2 - [Percentage%] ([Number of Meeting Notes]) - [Next Positive Theme]
+&lt;b&gt;Description:&lt;/b&gt; Concise description of the positive theme.
+&lt;b&gt;Example:&lt;/b&gt; &quot;[Example comment]&quot; &amp; &lt;a href=&quot;/{Meeting Note Id}&quot;&gt;Meeting Note&lt;/a&gt;.
+
+[Repeat for up to 5 positive points.]
+
+---
+
+Negative Feedbacks:
+
+#1 - [Percentage%] ([Number of Meeting Notes]) - [Main Negative Theme]
+&lt;b&gt;Description:&lt;/b&gt; Concise description of the negative theme.
+&lt;b&gt;Example:&lt;/b&gt; &quot;[Example comment]&quot; &amp; &lt;a href=&quot;/{Meeting Note Id}&quot;&gt;Meeting Note&lt;/a&gt;.
+
+#2 - [Percentage%] ([Number of Meeting Notes]) - [Next Negative Theme]
+&lt;b&gt;Description:&lt;/b&gt; Concise description of the negative theme.
+&lt;b&gt;Example:&lt;/b&gt; &quot;[Example comment]&quot; &amp; &lt;a href=&quot;/{Meeting Note Id}&quot;&gt;Meeting Note&lt;/a&gt;.
+
+[Repeat for up to 5 negative points.]
+
+---
+</content>
+        <inputs>
+            <apiName>Postive</apiName>
+            <definition>primitive://String</definition>
+            <masterLabel>Postive</masterLabel>
+            <referenceName>Input:Postive</referenceName>
+            <required>true</required>
+        </inputs>
+        <inputs>
+            <apiName>Negative</apiName>
+            <definition>primitive://String</definition>
+            <masterLabel>Negative</masterLabel>
+            <referenceName>Input:Negative</referenceName>
+            <required>true</required>
+        </inputs>
+        <primaryModel>sfdc_ai__DefaultGPT4Omni</primaryModel>
+        <status>Published</status>
+        <versionIdentifier>9+PD0v5/aJmvKUSsaXvgNBPGw/jfKTW77RgqTSMJGuA=_22</versionIdentifier>
+    </templateVersions>
+    <templateVersions>
+        <content>Objective:
+Analyze both the positive and negative aspects of a product based on customer meeting notes. The analysis will:
+
+1. Highlight the top recurring positive themes with examples and their significance.
+2. Identify the top recurring negative themes with examples and their impact.
+
+---
+
+Input Data:
+
+Positive Data:
+{!$Input:Postive}
+
+Negative Data:
+{!$Input:Negative}
+
+1. Combine Positive and Negative Inputs:
+Parse the provided positive and negative meeting notes.
+Identify and group key themes from both inputs.
+
+2. Summarize Positive Points:
+Extract the top 5 recurring themes from the positive notes.
+For each theme:
+Provide a concise description (minimum 200 characters).
+Include a specific example and link to the meeting note: &lt;a href=&quot;/{Meeting Note Id}&quot;&gt;Meeting Note&lt;/a&gt;.
+Mention the percentage of meeting notes where the theme appears.
+
+3. Summarize Negative Points:
+
+Extract the top 5 recurring themes from the negative notes.
+For each theme:
+Provide a concise description of the issue (minimum 200 characters).
+Include a specific example and link to the meeting note: &lt;a href=&quot;/{Meeting Note Id}&quot;&gt;Meeting Note&lt;/a&gt;.
+Mention the percentage of meeting notes where the issue appears.
+
+
+---
+
+Output Format:
+
+&lt;b&gt;Product:&lt;/b&gt; [Product Name]&lt;br&gt;
+&lt;b&gt;Period:&lt;/b&gt; [Oldest Date - Most Recent Date]&lt;br&gt;
+&lt;b&gt;Number of Positive Meetings:&lt;/b&gt; [Number of Positive Meetings]&lt;br&gt;
+&lt;b&gt;Number of Negative Meetings:&lt;/b&gt; [Number of Negative Meetings]&lt;br&gt;
+---
+&lt;br&gt;
+Positive Feedbacks:
+&lt;br&gt;
+#1 - [Percentage%] ([Number of Meeting Notes]) - [Main Positive Theme]&lt;br&gt;
+&lt;b&gt;Description:&lt;/b&gt; Concise description of the positive theme.&lt;br&gt;
+&lt;b&gt;Example:&lt;/b&gt; &quot;[Example comment]&quot; &amp; &lt;a href=&quot;/{Meeting Note Id}&quot;&gt;Meeting Note&lt;/a&gt;.&lt;br&gt;
+&lt;br&gt;
+#2 - [Percentage%] ([Number of Meeting Notes]) - [Next Positive Theme]&lt;br&gt;
+&lt;b&gt;Description:&lt;/b&gt; Concise description of the positive theme.&lt;br&gt;
+&lt;b&gt;Example:&lt;/b&gt; &quot;[Example comment]&quot; &amp; &lt;a href=&quot;/{Meeting Note Id}&quot;&gt;Meeting Note&lt;/a&gt;.&lt;br&gt;
+&lt;br&gt;
+[Repeat for up to 5 positive points.]
+
+---
+&lt;br&gt;
+Negative Feedbacks:
+&lt;br&gt;
+#1 - [Percentage%] ([Number of Meeting Notes]) - [Main Negative Theme]&lt;br&gt;
+&lt;b&gt;Description:&lt;/b&gt; Concise description of the negative theme.&lt;br&gt;
+&lt;b&gt;Example:&lt;/b&gt; &quot;[Example comment]&quot; &amp; &lt;a href=&quot;/{Meeting Note Id}&quot;&gt;Meeting Note&lt;/a&gt;.&lt;br&gt;
+&lt;br&gt;
+#2 - [Percentage%] ([Number of Meeting Notes]) - [Next Negative Theme]&lt;br&gt;
+&lt;b&gt;Description:&lt;/b&gt; Concise description of the negative theme.&lt;br&gt;
+&lt;b&gt;Example:&lt;/b&gt; &quot;[Example comment]&quot; &amp; &lt;a href=&quot;/{Meeting Note Id}&quot;&gt;Meeting Note&lt;/a&gt;.&lt;br&gt;
+&lt;br&gt;
+[Repeat for up to 5 negative points.]
+
+---
+</content>
+        <inputs>
+            <apiName>Postive</apiName>
+            <definition>primitive://String</definition>
+            <masterLabel>Postive</masterLabel>
+            <referenceName>Input:Postive</referenceName>
+            <required>true</required>
+        </inputs>
+        <inputs>
+            <apiName>Negative</apiName>
+            <definition>primitive://String</definition>
+            <masterLabel>Negative</masterLabel>
+            <referenceName>Input:Negative</referenceName>
+            <required>true</required>
+        </inputs>
+        <primaryModel>sfdc_ai__DefaultGPT4Omni</primaryModel>
+        <status>Published</status>
+        <versionIdentifier>9+PD0v5/aJmvKUSsaXvgNBPGw/jfKTW77RgqTSMJGuA=_23</versionIdentifier>
+    </templateVersions>
+    <templateVersions>
+        <content>Objective:
+Analyze both the positive and negative aspects of a product based on customer meeting notes. The analysis will:
+
+1. Highlight the top recurring positive themes with examples and their significance.
+2. Identify the top recurring negative themes with examples and their impact.
+
+---
+
+Input Data:
+
+Positive Data:
+{!$Input:Postive}
+
+Negative Data:
+{!$Input:Negative}
+
+1. Combine Positive and Negative Inputs:
+Parse the provided positive and negative meeting notes.
+Identify and group key themes from both inputs.
+
+2. Summarize Positive Points:
+Extract the top 5 recurring themes from the positive notes.
+For each theme:
+Provide a concise description (minimum 200 characters).
+Include a specific example and link to the meeting note: &lt;a href=&quot;/{Meeting Note Id}&quot;&gt;Meeting Note&lt;/a&gt;.
+Mention the percentage of meeting notes where the theme appears.
+
+3. Summarize Negative Points:
+
+Extract the top 5 recurring themes from the negative notes.
+For each theme:
+Provide a concise description of the issue (minimum 200 characters).
+Include a specific example and link to the meeting note: &lt;a href=&quot;/{Meeting Note Id}&quot;&gt;Meeting Note&lt;/a&gt;.
+Mention the percentage of meeting notes where the issue appears.
+
+
+---
+
+Output Format:
+
+&lt;b&gt;Product:&lt;/b&gt; [Product Name]&lt;br&gt;
+&lt;b&gt;Period:&lt;/b&gt; [Oldest Date - Most Recent Date]&lt;br&gt;
+&lt;b&gt;Number of Positive Meetings:&lt;/b&gt; [Number of Positive Meetings]&lt;br&gt;
+&lt;b&gt;Number of Negative Meetings:&lt;/b&gt; [Number of Negative Meetings]&lt;br&gt;
+---
+&lt;br&gt;&lt;br&gt;
+Positive Feedbacks:
+&lt;br&gt;&lt;br&gt;
+#1 - [Percentage%] ([Number of Meeting Notes]) - [Main Positive Theme]&lt;br&gt;
+&lt;b&gt;Description:&lt;/b&gt; Concise description of the positive theme.&lt;br&gt;
+&lt;b&gt;Example:&lt;/b&gt; &quot;[Example comment]&quot; &amp; &lt;a href=&quot;/{Meeting Note Id}&quot;&gt;Meeting Note&lt;/a&gt;.&lt;br&gt;
+&lt;br&gt;
+#2 - [Percentage%] ([Number of Meeting Notes]) - [Next Positive Theme]&lt;br&gt;
+&lt;b&gt;Description:&lt;/b&gt; Concise description of the positive theme.&lt;br&gt;
+&lt;b&gt;Example:&lt;/b&gt; &quot;[Example comment]&quot; &amp; &lt;a href=&quot;/{Meeting Note Id}&quot;&gt;Meeting Note&lt;/a&gt;.&lt;br&gt;
+&lt;br&gt;
+[Repeat for up to 5 positive points.]
+
+---
+&lt;br&gt;&lt;br&gt;
+Negative Feedbacks:
+&lt;br&gt;&lt;br&gt;
+#1 - [Percentage%] ([Number of Meeting Notes]) - [Main Negative Theme]&lt;br&gt;
+&lt;b&gt;Description:&lt;/b&gt; Concise description of the negative theme.&lt;br&gt;
+&lt;b&gt;Example:&lt;/b&gt; &quot;[Example comment]&quot; &amp; &lt;a href=&quot;/{Meeting Note Id}&quot;&gt;Meeting Note&lt;/a&gt;.&lt;br&gt;
+&lt;br&gt;
+#2 - [Percentage%] ([Number of Meeting Notes]) - [Next Negative Theme]&lt;br&gt;
+&lt;b&gt;Description:&lt;/b&gt; Concise description of the negative theme.&lt;br&gt;
+&lt;b&gt;Example:&lt;/b&gt; &quot;[Example comment]&quot; &amp; &lt;a href=&quot;/{Meeting Note Id}&quot;&gt;Meeting Note&lt;/a&gt;.&lt;br&gt;
+&lt;br&gt;
+[Repeat for up to 5 negative points.]
+
+---
+</content>
+        <inputs>
+            <apiName>Postive</apiName>
+            <definition>primitive://String</definition>
+            <masterLabel>Postive</masterLabel>
+            <referenceName>Input:Postive</referenceName>
+            <required>true</required>
+        </inputs>
+        <inputs>
+            <apiName>Negative</apiName>
+            <definition>primitive://String</definition>
+            <masterLabel>Negative</masterLabel>
+            <referenceName>Input:Negative</referenceName>
+            <required>true</required>
+        </inputs>
+        <primaryModel>sfdc_ai__DefaultGPT4Omni</primaryModel>
+        <status>Published</status>
+        <versionIdentifier>9+PD0v5/aJmvKUSsaXvgNBPGw/jfKTW77RgqTSMJGuA=_24</versionIdentifier>
+    </templateVersions>
+    <templateVersions>
+        <content>Objective:
+Analyze both the positive and negative aspects of a product based on customer meeting notes. The analysis will:
+
+1. Highlight the top recurring positive themes with examples and their significance.
+2. Identify the top recurring negative themes with examples and their impact.
+
+---
+
+Input Data:
+
+Positive Data:
+{!$Input:Postive}
+
+Negative Data:
+{!$Input:Negative}
+
+1. Combine Positive and Negative Inputs:
+Parse the provided positive and negative meeting notes.
+Identify and group key themes from both inputs.
+
+2. Summarize Positive Points:
+Extract the top 5 recurring themes from the positive notes.
+For each theme:
+Provide a concise description (minimum 200 characters).
+Include a specific example and link to the meeting note: &lt;a href=&quot;/{Meeting Note Id}&quot;&gt;Meeting Note&lt;/a&gt;.
+Mention the percentage of meeting notes where the theme appears.
+
+3. Summarize Negative Points:
+
+Extract the top 5 recurring themes from the negative notes.
+For each theme:
+Provide a concise description of the issue (minimum 200 characters).
+Include a specific example and link to the meeting note: &lt;a href=&quot;/{Meeting Note Id}&quot;&gt;Meeting Note&lt;/a&gt;.
+Mention the percentage of meeting notes where the issue appears.
+
+
+---
+
+Output Format:
+
+&lt;b&gt;Product:&lt;/b&gt; [Product Name]&lt;br&gt;
+&lt;b&gt;Period:&lt;/b&gt; [Oldest Date - Most Recent Date]&lt;br&gt;
+&lt;b&gt;Number of Positive Meetings:&lt;/b&gt; [Number of meeting notes where positive insights found]&lt;br&gt;
+&lt;b&gt;Number of Negative Meetings:&lt;/b&gt; [Number of meeting notes where negative insights found]&lt;br&gt;
+&lt;b&gt;Total Number of Meetings:&lt;/b&gt; [Total Number of Meetings]&lt;br&gt;
+---
+&lt;br&gt;&lt;br&gt;
+Positive Feedbacks:
+&lt;br&gt;&lt;br&gt;
+#1 - [Percentage%] ([Number of Meeting Notes]) - [Main Positive Theme]&lt;br&gt;
+&lt;b&gt;Description:&lt;/b&gt; Concise description of the positive theme.&lt;br&gt;
+&lt;b&gt;Example:&lt;/b&gt; &quot;[Example comment]&quot; &amp; &lt;a href=&quot;/{Meeting Note Id}&quot;&gt;Meeting Note&lt;/a&gt;.&lt;br&gt;
+&lt;br&gt;
+#2 - [Percentage%] ([Number of Meeting Notes]) - [Next Positive Theme]&lt;br&gt;
+&lt;b&gt;Description:&lt;/b&gt; Concise description of the positive theme.&lt;br&gt;
+&lt;b&gt;Example:&lt;/b&gt; &quot;[Example comment]&quot; &amp; &lt;a href=&quot;/{Meeting Note Id}&quot;&gt;Meeting Note&lt;/a&gt;.&lt;br&gt;
+&lt;br&gt;
+[Repeat for up to 5 positive points.]
+
+---
+&lt;br&gt;&lt;br&gt;
+Negative Feedbacks:
+&lt;br&gt;&lt;br&gt;
+#1 - [Percentage%] ([Number of Meeting Notes]) - [Main Negative Theme]&lt;br&gt;
+&lt;b&gt;Description:&lt;/b&gt; Concise description of the negative theme.&lt;br&gt;
+&lt;b&gt;Example:&lt;/b&gt; &quot;[Example comment]&quot; &amp; &lt;a href=&quot;/{Meeting Note Id}&quot;&gt;Meeting Note&lt;/a&gt;.&lt;br&gt;
+&lt;br&gt;
+#2 - [Percentage%] ([Number of Meeting Notes]) - [Next Negative Theme]&lt;br&gt;
+&lt;b&gt;Description:&lt;/b&gt; Concise description of the negative theme.&lt;br&gt;
+&lt;b&gt;Example:&lt;/b&gt; &quot;[Example comment]&quot; &amp; &lt;a href=&quot;/{Meeting Note Id}&quot;&gt;Meeting Note&lt;/a&gt;.&lt;br&gt;
+&lt;br&gt;
+[Repeat for up to 5 negative points.]
+
+---
+</content>
+        <inputs>
+            <apiName>Postive</apiName>
+            <definition>primitive://String</definition>
+            <masterLabel>Postive</masterLabel>
+            <referenceName>Input:Postive</referenceName>
+            <required>true</required>
+        </inputs>
+        <inputs>
+            <apiName>Negative</apiName>
+            <definition>primitive://String</definition>
+            <masterLabel>Negative</masterLabel>
+            <referenceName>Input:Negative</referenceName>
+            <required>true</required>
+        </inputs>
+        <primaryModel>sfdc_ai__DefaultGPT4Omni</primaryModel>
+        <status>Published</status>
+        <versionIdentifier>9+PD0v5/aJmvKUSsaXvgNBPGw/jfKTW77RgqTSMJGuA=_25</versionIdentifier>
+    </templateVersions>
+    <templateVersions>
+        <content>Objective:
+Analyze both the positive and negative aspects of a product based on customer meeting notes. The analysis will:
+
+1. Highlight the top recurring positive themes with examples and their significance.
+2. Identify the top recurring negative themes with examples and their impact.
+
+---
+
+Input Data:
+
+Positive Data:
+{!$Input:Postive}
+
+Negative Data:
+{!$Input:Negative}
+
+1. Combine Positive and Negative Inputs:
+Parse the provided positive and negative meeting notes.
+Identify and group key themes from both inputs.
+
+2. Summarize Positive Points:
+Extract the top 5 recurring themes from the positive notes.
+For each theme:
+Provide a concise description (minimum 200 characters).
+Include a specific example and link to the meeting note: &lt;a href=&quot;/{Meeting Note Id}&quot;&gt;Meeting Note&lt;/a&gt;.
+Mention the percentage of meeting notes where the theme appears.
+
+3. Summarize Negative Points:
+
+Extract the top 5 recurring themes from the negative notes.
+For each theme:
+Provide a concise description of the issue (minimum 200 characters).
+Include a specific example and link to the meeting note: &lt;a href=&quot;/{Meeting Note Id}&quot;&gt;Meeting Note&lt;/a&gt;.
+Mention the percentage of meeting notes where the issue appears.
+
+
+---
+
+Output Format:
+
+&lt;b&gt;Product:&lt;/b&gt; [Product Name]&lt;br&gt;
+&lt;b&gt;Period:&lt;/b&gt; [Oldest Date - Most Recent Date]&lt;br&gt;
+&lt;b&gt;Number of Positive Meetings:&lt;/b&gt; [Number of meeting notes where positive insights found]&lt;br&gt;
+&lt;b&gt;Number of Negative Meetings:&lt;/b&gt; [Number of meeting notes where negative insights found]&lt;br&gt;
+&lt;b&gt;Total Number of Meetings where the product was mentioned:&lt;/b&gt; [Total Number of Meetings]&lt;br&gt;
+We detected positive feedback in [Number of meeting notes where positive insights found/Total Number of Meetings * 100]% of the meetings where the product was mentioned
+---
+&lt;br&gt;&lt;br&gt;
+Positive Feedbacks:
+&lt;br&gt;&lt;br&gt;
+#1 - [Percentage%] ([Number of Meeting Notes]) - [Main Positive Theme]&lt;br&gt;
+&lt;b&gt;Description:&lt;/b&gt; Concise description of the positive theme.&lt;br&gt;
+&lt;b&gt;Example:&lt;/b&gt; &quot;[Example comment]&quot; &amp; &lt;a href=&quot;/{Meeting Note Id}&quot;&gt;Meeting Note&lt;/a&gt;.&lt;br&gt;
+&lt;br&gt;
+#2 - [Percentage%] ([Number of Meeting Notes]) - [Next Positive Theme]&lt;br&gt;
+&lt;b&gt;Description:&lt;/b&gt; Concise description of the positive theme.&lt;br&gt;
+&lt;b&gt;Example:&lt;/b&gt; &quot;[Example comment]&quot; &amp; &lt;a href=&quot;/{Meeting Note Id}&quot;&gt;Meeting Note&lt;/a&gt;.&lt;br&gt;
+&lt;br&gt;
+[Repeat for up to 5 positive points.]
+
+---
+&lt;br&gt;&lt;br&gt;
+Negative Feedbacks:
+&lt;br&gt;&lt;br&gt;
+#1 - [Percentage%] ([Number of Meeting Notes]) - [Main Negative Theme]&lt;br&gt;
+&lt;b&gt;Description:&lt;/b&gt; Concise description of the negative theme.&lt;br&gt;
+&lt;b&gt;Example:&lt;/b&gt; &quot;[Example comment]&quot; &amp; &lt;a href=&quot;/{Meeting Note Id}&quot;&gt;Meeting Note&lt;/a&gt;.&lt;br&gt;
+&lt;br&gt;
+#2 - [Percentage%] ([Number of Meeting Notes]) - [Next Negative Theme]&lt;br&gt;
+&lt;b&gt;Description:&lt;/b&gt; Concise description of the negative theme.&lt;br&gt;
+&lt;b&gt;Example:&lt;/b&gt; &quot;[Example comment]&quot; &amp; &lt;a href=&quot;/{Meeting Note Id}&quot;&gt;Meeting Note&lt;/a&gt;.&lt;br&gt;
+&lt;br&gt;
+[Repeat for up to 5 negative points.]
+
+---
+</content>
+        <inputs>
+            <apiName>Postive</apiName>
+            <definition>primitive://String</definition>
+            <masterLabel>Postive</masterLabel>
+            <referenceName>Input:Postive</referenceName>
+            <required>true</required>
+        </inputs>
+        <inputs>
+            <apiName>Negative</apiName>
+            <definition>primitive://String</definition>
+            <masterLabel>Negative</masterLabel>
+            <referenceName>Input:Negative</referenceName>
+            <required>true</required>
+        </inputs>
+        <primaryModel>sfdc_ai__DefaultGPT4Omni</primaryModel>
+        <status>Published</status>
+        <versionIdentifier>9+PD0v5/aJmvKUSsaXvgNBPGw/jfKTW77RgqTSMJGuA=_26</versionIdentifier>
+    </templateVersions>
+    <templateVersions>
+        <content>Objective:
+Analyze both the positive and negative aspects of a product based on customer meeting notes. The analysis will:
+
+1. Highlight the top recurring positive themes with examples and their significance.
+2. Identify the top recurring negative themes with examples and their impact.
+
+---
+
+Input Data:
+
+Positive Data:
+{!$Input:Postive}
+
+Negative Data:
+{!$Input:Negative}
+
+1. Combine Positive and Negative Inputs:
+Parse the provided positive and negative meeting notes.
+Identify and group key themes from both inputs.
+
+2. Summarize Positive Points:
+Extract the top 5 recurring themes from the positive notes.
+For each theme:
+Provide a concise description (minimum 200 characters).
+Include a specific example and link to the meeting note: &lt;a href=&quot;/{Meeting Note Id}&quot;&gt;Meeting Note&lt;/a&gt;.
+Mention the percentage of meeting notes where the theme appears.
+
+3. Summarize Negative Points:
+
+Extract the top 5 recurring themes from the negative notes.
+For each theme:
+Provide a concise description of the issue (minimum 200 characters).
+Include a specific example and link to the meeting note: &lt;a href=&quot;/{Meeting Note Id}&quot;&gt;Meeting Note&lt;/a&gt;.
+Mention the percentage of meeting notes where the issue appears.
+
+
+---
+
+Output Format:
+
+&lt;b&gt;Product:&lt;/b&gt; [Product Name]&lt;br&gt;
+&lt;b&gt;Period:&lt;/b&gt; [Oldest Date - Most Recent Date]&lt;br&gt;
+&lt;b&gt;Number of Positive Meetings:&lt;/b&gt; [Number of meeting notes where positive insights found]&lt;br&gt;
+&lt;b&gt;Number of Negative Meetings:&lt;/b&gt; [Number of meeting notes where negative insights found]&lt;br&gt;
+&lt;b&gt;Total Number of Meetings where the product was mentioned:&lt;/b&gt; [Total Number of Meetings]&lt;br&gt;
+We detected positive feedback in [Number of meeting notes where positive insights found/Total Number of Meetings * 100]% of the meetings where the product was mentioned.
+&lt;br&gt;&lt;br&gt;
+---
+&lt;br&gt;&lt;br&gt;
+Positive Feedbacks:
+&lt;br&gt;&lt;br&gt;
+#1 - [Percentage%] ([Number of Meeting Notes]) - [Main Positive Theme]&lt;br&gt;
+&lt;b&gt;Description:&lt;/b&gt; Concise description of the positive theme.&lt;br&gt;
+&lt;b&gt;Example:&lt;/b&gt; &quot;[Example comment]&quot; &amp; &lt;a href=&quot;/{Meeting Note Id}&quot;&gt;Meeting Note&lt;/a&gt;.&lt;br&gt;
+&lt;br&gt;
+#2 - [Percentage%] ([Number of Meeting Notes]) - [Next Positive Theme]&lt;br&gt;
+&lt;b&gt;Description:&lt;/b&gt; Concise description of the positive theme.&lt;br&gt;
+&lt;b&gt;Example:&lt;/b&gt; &quot;[Example comment]&quot; &amp; &lt;a href=&quot;/{Meeting Note Id}&quot;&gt;Meeting Note&lt;/a&gt;.&lt;br&gt;
+&lt;br&gt;
+[Repeat for up to 5 positive points.]
+
+---
+&lt;br&gt;&lt;br&gt;
+Negative Feedbacks:
+&lt;br&gt;&lt;br&gt;
+#1 - [Percentage%] ([Number of Meeting Notes]) - [Main Negative Theme]&lt;br&gt;
+&lt;b&gt;Description:&lt;/b&gt; Concise description of the negative theme.&lt;br&gt;
+&lt;b&gt;Example:&lt;/b&gt; &quot;[Example comment]&quot; &amp; &lt;a href=&quot;/{Meeting Note Id}&quot;&gt;Meeting Note&lt;/a&gt;.&lt;br&gt;
+&lt;br&gt;
+#2 - [Percentage%] ([Number of Meeting Notes]) - [Next Negative Theme]&lt;br&gt;
+&lt;b&gt;Description:&lt;/b&gt; Concise description of the negative theme.&lt;br&gt;
+&lt;b&gt;Example:&lt;/b&gt; &quot;[Example comment]&quot; &amp; &lt;a href=&quot;/{Meeting Note Id}&quot;&gt;Meeting Note&lt;/a&gt;.&lt;br&gt;
+&lt;br&gt;
+[Repeat for up to 5 negative points.]
+
+---
+</content>
+        <inputs>
+            <apiName>Postive</apiName>
+            <definition>primitive://String</definition>
+            <masterLabel>Postive</masterLabel>
+            <referenceName>Input:Postive</referenceName>
+            <required>true</required>
+        </inputs>
+        <inputs>
+            <apiName>Negative</apiName>
+            <definition>primitive://String</definition>
+            <masterLabel>Negative</masterLabel>
+            <referenceName>Input:Negative</referenceName>
+            <required>true</required>
+        </inputs>
+        <primaryModel>sfdc_ai__DefaultGPT4Omni</primaryModel>
+        <status>Published</status>
+        <versionIdentifier>9+PD0v5/aJmvKUSsaXvgNBPGw/jfKTW77RgqTSMJGuA=_27</versionIdentifier>
+    </templateVersions>
+    <templateVersions>
+        <content>Objective:
+Analyze both the positive and negative aspects of a product based on customer meeting notes. The analysis will:
+
+1. Highlight the top recurring positive themes with examples and their significance.
+2. Identify the top recurring negative themes with examples and their impact.
+
+---
+
+Input Data:
+
+Positive Data:
+{!$Input:Postive}
+
+Negative Data:
+{!$Input:Negative}
+
+1. Combine Positive and Negative Inputs:
+Parse the provided positive and negative meeting notes.
+Identify and group key themes from both inputs.
+
+2. Summarize Positive Points:
+Extract the top 5 recurring themes from the positive notes.
+For each theme:
+Provide a concise description (minimum 200 characters).
+Include a specific example and link to the meeting note: &lt;a href=&quot;/{Meeting Note Id}&quot;&gt;Meeting Note&lt;/a&gt;.
+Mention the percentage of meeting notes where the theme appears.
+
+3. Summarize Negative Points:
+
+Extract the top 5 recurring themes from the negative notes.
+For each theme:
+Provide a concise description of the issue (minimum 200 characters).
+Include a specific example and link to the meeting note: &lt;a href=&quot;/{Meeting Note Id}&quot;&gt;Meeting Note&lt;/a&gt;.
+Mention the percentage of meeting notes where the issue appears.
+
+
+---
+
+Output Format:
+
+&lt;b&gt;Product:&lt;/b&gt; [Product Name]&lt;br&gt;
+&lt;b&gt;Period:&lt;/b&gt; [Oldest Date - Most Recent Date]&lt;br&gt;
+&lt;b&gt;Number of Positive Meetings:&lt;/b&gt; [Number of meeting notes where positive insights found]&lt;br&gt;
+&lt;b&gt;Number of Negative Meetings:&lt;/b&gt; [Number of meeting notes where negative insights found]&lt;br&gt;
+&lt;b&gt;Total number of meeting with positive or negative feedback:&lt;/b&gt; [Total Number of Meetings]&lt;br&gt;
+We detected positive feedback in [Number of meeting notes where positive insights found/Total Number of Meetings * 100]% of the meetings where the product was mentioned.
+&lt;br&gt;&lt;br&gt;
+---
+&lt;br&gt;&lt;br&gt;
+Positive Feedbacks:
+&lt;br&gt;&lt;br&gt;
+#1 - [Percentage%] ([Number of Meeting Notes]) - [Main Positive Theme]&lt;br&gt;
+&lt;b&gt;Description:&lt;/b&gt; Concise description of the positive theme.&lt;br&gt;
+&lt;b&gt;Example:&lt;/b&gt; &quot;[Example comment]&quot; &amp; &lt;a href=&quot;/{Meeting Note Id}&quot;&gt;Meeting Note&lt;/a&gt;.&lt;br&gt;
+&lt;br&gt;
+#2 - [Percentage%] ([Number of Meeting Notes]) - [Next Positive Theme]&lt;br&gt;
+&lt;b&gt;Description:&lt;/b&gt; Concise description of the positive theme.&lt;br&gt;
+&lt;b&gt;Example:&lt;/b&gt; &quot;[Example comment]&quot; &amp; &lt;a href=&quot;/{Meeting Note Id}&quot;&gt;Meeting Note&lt;/a&gt;.&lt;br&gt;
+&lt;br&gt;
+[Repeat for up to 5 positive points.]
+
+---
+&lt;br&gt;&lt;br&gt;
+Negative Feedbacks:
+&lt;br&gt;&lt;br&gt;
+#1 - [Percentage%] ([Number of Meeting Notes]) - [Main Negative Theme]&lt;br&gt;
+&lt;b&gt;Description:&lt;/b&gt; Concise description of the negative theme.&lt;br&gt;
+&lt;b&gt;Example:&lt;/b&gt; &quot;[Example comment]&quot; &amp; &lt;a href=&quot;/{Meeting Note Id}&quot;&gt;Meeting Note&lt;/a&gt;.&lt;br&gt;
+&lt;br&gt;
+#2 - [Percentage%] ([Number of Meeting Notes]) - [Next Negative Theme]&lt;br&gt;
+&lt;b&gt;Description:&lt;/b&gt; Concise description of the negative theme.&lt;br&gt;
+&lt;b&gt;Example:&lt;/b&gt; &quot;[Example comment]&quot; &amp; &lt;a href=&quot;/{Meeting Note Id}&quot;&gt;Meeting Note&lt;/a&gt;.&lt;br&gt;
+&lt;br&gt;
+[Repeat for up to 5 negative points.]
+
+---
+</content>
+        <inputs>
+            <apiName>Postive</apiName>
+            <definition>primitive://String</definition>
+            <masterLabel>Postive</masterLabel>
+            <referenceName>Input:Postive</referenceName>
+            <required>true</required>
+        </inputs>
+        <inputs>
+            <apiName>Negative</apiName>
+            <definition>primitive://String</definition>
+            <masterLabel>Negative</masterLabel>
+            <referenceName>Input:Negative</referenceName>
+            <required>true</required>
+        </inputs>
+        <primaryModel>sfdc_ai__DefaultGPT4Omni</primaryModel>
+        <status>Published</status>
+        <versionIdentifier>9+PD0v5/aJmvKUSsaXvgNBPGw/jfKTW77RgqTSMJGuA=_28</versionIdentifier>
+    </templateVersions>
+    <templateVersions>
+        <content>Objective:
+Analyze both the positive and negative aspects of a product based on customer meeting notes. The analysis will:
+
+1. Highlight the top recurring positive themes with examples and their significance.
+2. Identify the top recurring negative themes with examples and their impact.
+
+---
+
+Input Data:
+
+Positive Data:
+{!$Input:Postive}
+
+Negative Data:
+{!$Input:Negative}
+
+1. Combine Positive and Negative Inputs:
+Parse the provided positive and negative meeting notes.
+Identify and group key themes from both inputs.
+
+2. Summarize Positive Points:
+Extract the top 5 recurring themes from the positive notes.
+For each theme:
+Provide a concise description (minimum 200 characters).
+Include a specific example and link to the meeting note: &lt;a href=&quot;/{Meeting Note Id}&quot; target=&quot;_blank&quot;&gt;Meeting Note&lt;/a&gt;.
+Mention the percentage of meeting notes where the theme appears.
+
+3. Summarize Negative Points:
+
+Extract the top 5 recurring themes from the negative notes.
+For each theme:
+Provide a concise description of the issue (minimum 200 characters).
+Include a specific example and link to the meeting note: &lt;a href=&quot;/{Meeting Note Id}&quot; target=&quot;_blank&quot;&gt;Meeting Note&lt;/a&gt;.
+Mention the percentage of meeting notes where the issue appears.
+
+
+---
+
+Output Format:
+
+&lt;b&gt;Product:&lt;/b&gt; [Product Name]&lt;br&gt;
+&lt;b&gt;Period:&lt;/b&gt; [Oldest Date - Most Recent Date]&lt;br&gt;
+&lt;b&gt;Number of Positive Meetings:&lt;/b&gt; [Number of meeting notes where positive insights found]&lt;br&gt;
+&lt;b&gt;Number of Negative Meetings:&lt;/b&gt; [Number of meeting notes where negative insights found]&lt;br&gt;
+&lt;b&gt;Total number of meeting with positive or negative feedback:&lt;/b&gt; [Total Number of Meetings]&lt;br&gt;
+We detected positive feedback in [Number of meeting notes where positive insights found/Total Number of Meetings * 100]% of the meetings where the product was mentioned.
+&lt;br&gt;&lt;br&gt;
+---
+&lt;br&gt;&lt;br&gt;
+Positive Feedbacks:
+&lt;br&gt;&lt;br&gt;
+#1 - [Percentage%] ([Number of Meeting Notes]) - [Main Positive Theme]&lt;br&gt;
+&lt;b&gt;Description:&lt;/b&gt; Concise description of the positive theme.&lt;br&gt;
+&lt;b&gt;Example:&lt;/b&gt; &quot;[Example comment]&quot; &amp; &lt;a href=&quot;/{Meeting Note Id}&quot; target=&quot;_blank&quot;&gt;Meeting Note&lt;/a&gt;.&lt;br&gt;
+&lt;br&gt;
+#2 - [Percentage%] ([Number of Meeting Notes]) - [Next Positive Theme]&lt;br&gt;
+&lt;b&gt;Description:&lt;/b&gt; Concise description of the positive theme.&lt;br&gt;
+&lt;b&gt;Example:&lt;/b&gt; &quot;[Example comment]&quot; &amp; &lt;a href=&quot;/{Meeting Note Id}&quot; target=&quot;_blank&quot;&gt;Meeting Note&lt;/a&gt;.&lt;br&gt;
+&lt;br&gt;
+[Repeat for up to 5 positive points.]
+
+---
+&lt;br&gt;&lt;br&gt;
+Negative Feedbacks:
+&lt;br&gt;&lt;br&gt;
+#1 - [Percentage%] ([Number of Meeting Notes]) - [Main Negative Theme]&lt;br&gt;
+&lt;b&gt;Description:&lt;/b&gt; Concise description of the negative theme.&lt;br&gt;
+&lt;b&gt;Example:&lt;/b&gt; &quot;[Example comment]&quot; &amp; &lt;a href=&quot;/{Meeting Note Id}&quot; target=&quot;_blank&quot;&gt;Meeting Note&lt;/a&gt;.&lt;br&gt;
+&lt;br&gt;
+#2 - [Percentage%] ([Number of Meeting Notes]) - [Next Negative Theme]&lt;br&gt;
+&lt;b&gt;Description:&lt;/b&gt; Concise description of the negative theme.&lt;br&gt;
+&lt;b&gt;Example:&lt;/b&gt; &quot;[Example comment]&quot; &amp; &lt;a href=&quot;/{Meeting Note Id}&quot; target=&quot;_blank&quot;&gt;Meeting Note&lt;/a&gt;.&lt;br&gt;
+&lt;br&gt;
+[Repeat for up to 5 negative points.]
+
+---
+</content>
+        <inputs>
+            <apiName>Postive</apiName>
+            <definition>primitive://String</definition>
+            <masterLabel>Postive</masterLabel>
+            <referenceName>Input:Postive</referenceName>
+            <required>true</required>
+        </inputs>
+        <inputs>
+            <apiName>Negative</apiName>
+            <definition>primitive://String</definition>
+            <masterLabel>Negative</masterLabel>
+            <referenceName>Input:Negative</referenceName>
+            <required>true</required>
+        </inputs>
+        <primaryModel>sfdc_ai__DefaultGPT4Omni</primaryModel>
+        <status>Published</status>
+        <versionIdentifier>9+PD0v5/aJmvKUSsaXvgNBPGw/jfKTW77RgqTSMJGuA=_29</versionIdentifier>
+    </templateVersions>
+    <templateVersions>
+        <content>Objective:
+Analyze both the positive and negative aspects of a product based on customer meeting notes. The analysis will:
+
+1. Highlight the top recurring positive themes with examples and their significance.
+2. Identify the top recurring negative themes with examples and their impact.
+
+---
+
+Input Data:
+
+Positive Data:
+{!$Input:Postive}
+
+Negative Data:
+{!$Input:Negative}
+
+1. Combine Positive and Negative Inputs:
+Parse the provided positive and negative meeting notes.
+Identify and group key themes from both inputs.
+
+2. Summarize Positive Points:
+Extract the top 5 recurring themes from the positive notes.
+For each theme:
+Provide a concise description (minimum 200 characters).
+Include a specific example and link to the meeting note: &lt;a href=&quot;/{Meeting Note Id}&quot; target=&quot;_blank&quot;&gt;Meeting Note&lt;/a&gt;.
+Mention the percentage of meeting notes where the theme appears.
+
+3. Summarize Negative Points:
+
+Extract the top 5 recurring themes from the negative notes.
+For each theme:
+Provide a concise description of the issue (minimum 200 characters).
+Include a specific example and link to the meeting note: &lt;a href=&quot;/{Meeting Note Id}&quot; target=&quot;_blank&quot;&gt;Meeting Note&lt;/a&gt;.
+Mention the percentage of meeting notes where the issue appears.
+
+NB: Don&apos;t forget to strictly respect the “Output format” and in particular the “&lt;br&gt;”.
+---
+
+Output Format:
+
+&lt;b&gt;Product:&lt;/b&gt; [Product Name]&lt;br&gt;
+&lt;b&gt;Period:&lt;/b&gt; [Oldest Date - Most Recent Date]&lt;br&gt;
+&lt;b&gt;Number of Positive Meetings:&lt;/b&gt; [Number of meeting notes where positive insights found]&lt;br&gt;
+&lt;b&gt;Number of Negative Meetings:&lt;/b&gt; [Number of meeting notes where negative insights found]&lt;br&gt;
+&lt;b&gt;Total number of meeting with positive or negative feedback:&lt;/b&gt; [Total Number of Meetings]&lt;br&gt;
+We detected positive feedback in [Number of meeting notes where positive insights found/Total Number of Meetings * 100]% of the meetings where the product was mentioned.
+&lt;br&gt;&lt;br&gt;
+---
+&lt;br&gt;&lt;br&gt;
+Positive Feedbacks:
+&lt;br&gt;&lt;br&gt;
+#1 - [Percentage%] ([Number of Meeting Notes]) - [Main Positive Theme]&lt;br&gt;
+&lt;b&gt;Description:&lt;/b&gt; Concise description of the positive theme.&lt;br&gt;
+&lt;b&gt;Example:&lt;/b&gt; &quot;[Example comment]&quot; &amp; &lt;a href=&quot;/{Meeting Note Id}&quot; target=&quot;_blank&quot;&gt;Meeting Note&lt;/a&gt;.&lt;br&gt;
+&lt;br&gt;
+#2 - [Percentage%] ([Number of Meeting Notes]) - [Next Positive Theme]&lt;br&gt;
+&lt;b&gt;Description:&lt;/b&gt; Concise description of the positive theme.&lt;br&gt;
+&lt;b&gt;Example:&lt;/b&gt; &quot;[Example comment]&quot; &amp; &lt;a href=&quot;/{Meeting Note Id}&quot; target=&quot;_blank&quot;&gt;Meeting Note&lt;/a&gt;.&lt;br&gt;
+&lt;br&gt;
+[Repeat for up to 5 positive points.]
+
+---
+&lt;br&gt;&lt;br&gt;
+Negative Feedbacks:
+&lt;br&gt;&lt;br&gt;
+#1 - [Percentage%] ([Number of Meeting Notes]) - [Main Negative Theme]&lt;br&gt;
+&lt;b&gt;Description:&lt;/b&gt; Concise description of the negative theme.&lt;br&gt;
+&lt;b&gt;Example:&lt;/b&gt; &quot;[Example comment]&quot; &amp; &lt;a href=&quot;/{Meeting Note Id}&quot; target=&quot;_blank&quot;&gt;Meeting Note&lt;/a&gt;.&lt;br&gt;
+&lt;br&gt;
+#2 - [Percentage%] ([Number of Meeting Notes]) - [Next Negative Theme]&lt;br&gt;
+&lt;b&gt;Description:&lt;/b&gt; Concise description of the negative theme.&lt;br&gt;
+&lt;b&gt;Example:&lt;/b&gt; &quot;[Example comment]&quot; &amp; &lt;a href=&quot;/{Meeting Note Id}&quot; target=&quot;_blank&quot;&gt;Meeting Note&lt;/a&gt;.&lt;br&gt;
+&lt;br&gt;
+[Repeat for up to 5 negative points.]
+
+---
+</content>
+        <inputs>
+            <apiName>Negative</apiName>
+            <definition>primitive://String</definition>
+            <masterLabel>Negative</masterLabel>
+            <referenceName>Input:Negative</referenceName>
+            <required>true</required>
+        </inputs>
+        <inputs>
+            <apiName>Postive</apiName>
+            <definition>primitive://String</definition>
+            <masterLabel>Postive</masterLabel>
+            <referenceName>Input:Postive</referenceName>
+            <required>true</required>
+        </inputs>
+        <primaryModel>sfdc_ai__DefaultGPT4Omni</primaryModel>
+        <status>Published</status>
+        <versionIdentifier>WVN3tZk4o404O8n8M7lvj2vqM7T4xnyoLEatZnrtmCY=_30</versionIdentifier>
+    </templateVersions>
+    <type>einstein_gpt__flex</type>
+    <visibility>Global</visibility>
+</GenAiPromptTemplate>

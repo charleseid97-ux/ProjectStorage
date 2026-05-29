@@ -1,0 +1,41 @@
+<template>
+    <!-- Plus de lightning-card pour éviter la "fenêtre dans la fenêtre" -->
+    <template if:true={isLoading}>
+        <div class="slds-is-relative slds-p-around_medium">
+            <lightning-spinner alternative-text="Loading" size="medium"></lightning-spinner>
+        </div>
+    </template>
+
+    <template if:false={isLoading}>
+        <div class="slds-p-around_medium">
+            <template if:true={allContactShare}>
+                <c-multi-select-search-list
+                    label="Share With"
+                    options={allContactShare}
+                    value={selectedContactShare}
+                    onchange={handleShareOther}>
+                </c-multi-select-search-list>
+            </template>
+
+            <template if:true={contactPills}>
+                <div class="slds-m-top_small">
+                    <lightning-pill-container
+                        items={contactPills}
+                        data-item="Share"
+                        onitemremove={handleItemRemove}
+                        variant="bare">
+                    </lightning-pill-container>
+                </div>
+            </template>
+
+            <!-- Bouton aligné à droite, dans le corps de la modale -->
+            <div class="slds-m-top_medium slds-text-align_right">
+                <lightning-button
+                    variant="neutral"              
+                    label="Share"
+                    onclick={handleShare}>
+                </lightning-button>
+            </div>
+        </div>
+    </template>
+</template>

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>FilterFields__c</fullName>
+    <description>Field API names (one per line) to expose as multi-select filter dropdowns above the matrix. Accepts relationship paths (e.g. ShareClass__r.Fund__r.ProductName__c).</description>
+    <fieldManageability>DeveloperControlled</fieldManageability>
+    <label>Filter Fields</label>
+    <length>32768</length>
+    <type>LongTextArea</type>
+    <visibleLines>5</visibleLines>
+</CustomField>

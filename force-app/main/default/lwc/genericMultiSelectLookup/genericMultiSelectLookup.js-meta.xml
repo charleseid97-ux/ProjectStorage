@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<LightningComponentBundle xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>58.0</apiVersion>
+    <isExposed>true</isExposed>
+    <masterLabel>Generic Multi Select Lookup</masterLabel>
+    <description>Flow screen component: generic multi-select using c-multi-select-search-list. Outputs selected Ids.</description>
+
+    <targets>
+        <target>lightning__FlowScreen</target>
+    </targets>
+
+    <targetConfigs>
+        <targetConfig targets="lightning__FlowScreen">
+            <property name="objectApiName" type="String" role="inputOnly" label="Object API Name (e.g., Contact)" required="true"/>
+            <property name="labelFieldApiName" type="String" role="inputOnly" label="Label Field API Name (e.g., Name)" required="true"/>
+            <property name="valueFieldApiName" type="String" role="inputOnly" label="Value Field API Name (e.g., Id)" required="true"/>
+
+            <property name="picklistLabel" type="String" role="inputOnly" label="Picklist Label (shown on top)"/>
+            <property name="limitSize" type="Integer" role="inputOnly" label="Max records loaded (default 200)"/>
+
+            <property name="filterFieldApiName" type="String" role="inputOnly" label="Filter field (e.g., AccountId)"/>
+            <property name="filterOperator" type="String" role="inputOnly" label="Filter operator (=, !=, IN)"/>
+            <property name="filterValue" type="String" role="inputOnly" label="Filter value (e.g., 001... or CSV for IN)"/>
+
+            <property name="preselectedIdsJson" type="String" role="inputOnly" label="Preselected Ids (JSON array string)"/>
+
+            <property name="selectedIdsJson" type="String" role="outputOnly" label="Selected Ids (JSON array string)"/>
+            <property name="selectedIdsCsv" type="String" role="outputOnly" label="Selected Ids (CSV)"/>
+        </targetConfig>
+    </targetConfigs>
+</LightningComponentBundle>

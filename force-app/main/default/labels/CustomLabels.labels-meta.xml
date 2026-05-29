@@ -1887,5 +1887,167 @@ Il calcolo viene adattato alla data di variazione delle spese effettivamente app
         <shortDescription>seqpwd</shortDescription>
         <value>fPCKUJiXa38Tw7yo!</value>
     </labels>
-    <!-- FLAG: ON -->
+    <labels>
+        <fullName>BaseURL</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>BaseURL</shortDescription>
+        <value>https://carmignac-crm--uatmycrm.sandbox.lightning.force.com</value>
+    </labels>
+    <labels>
+        <fullName>BooklyActivityFlag</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Bookly</shortDescription>
+        <value>True</value>
+    </labels>
+    <labels>
+        <fullName>BooklyAgendaExpiration</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>BooklyAgendaExpiration</shortDescription>
+        <value>10</value>
+    </labels>
+    <labels>
+        <fullName>BooklyApprovedMessage</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Bookly Approved Event Message</shortDescription>
+        <value>Event Approved</value>
+    </labels>
+    <labels>
+        <fullName>BooklyCampaignCreatedMessage</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Bookly Campaign Created Message</shortDescription>
+        <value>&lt;div style=&quot;font-size:14px; line-height:20px;&quot;&gt;
+            Dear all,
+            &lt;br/&gt;&lt;br/&gt;
+
+            We would like to inform you that the event request has been successfully validated.
+            &lt;br/&gt;&lt;br/&gt;
+
+            The event is now fully approved, and the corresponding campaign has been created in Salesforce.
+            &lt;br/&gt;&lt;br/&gt;
+
+            You can access the campaign using the link below:
+            &lt;br/&gt;&lt;br/&gt;
+
+            &lt;a href=&quot;{!campaignUrl}&quot; target=&quot;_blank&quot;&gt;
+                Open Campaign
+            &lt;/a&gt;
+
+            &lt;br/&gt;&lt;br/&gt;
+
+            You may now proceed with adding campaign members.
+            &lt;br/&gt;&lt;br/&gt;
+
+            Thank you.
+        &lt;/div&gt;</value>
+    </labels>
+    <labels>
+        <fullName>BooklyCampaignCreatedSubject</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Bookly Campaign Created Subject</shortDescription>
+        <value>[Bookly] Campaign created - {!campaignName}</value>
+    </labels>
+    <labels>
+        <fullName>BooklyInScopeStrategy</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>BooklyInScopeStrategyException</shortDescription>
+        <value>ESG,BRAND,GLMACRO,IS</value>
+    </labels>
+    <labels>
+        <fullName>BooklyMeetingDaysMessage</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Bookly Meeting Days Message</shortDescription>
+        <value>Meeting Days Approved, 1 to 1 meetings can be booked.</value>
+    </labels>
+    <labels>
+        <fullName>BooklySubmittedMessage</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Bookly Submitted Event Message</shortDescription>
+        <value>Request created</value>
+    </labels>
+    <labels>
+        <fullName>DCR_Website_Teams_Email</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>DCR &amp; Website Teams Email</shortDescription>
+        <value>mira.eid.external@carmignac.com; meid@carmignac.com</value>
+    </labels>
+    <labels>
+        <fullName>DZ</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>DZ</shortDescription>
+        <value>mira.eid.external@carmignac.com,mira.eid.external@carmignac.com</value>
+    </labels>
+    <labels>
+        <fullName>Matrix_Blank</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Matrix Blank Value</shortDescription>
+        <value>(blank)</value>
+    </labels>
+    <labels>
+        <fullName>Matrix_ConfigNotFound</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Matrix Config Not Found</shortDescription>
+        <value>Matrix configuration not found.</value>
+    </labels>
+    <labels>
+        <fullName>Matrix_ConflictStyle</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Matrix Conflict Cell Style</shortDescription>
+        <value>background-color: #ef9a9a; color: #7f0000</value>
+    </labels>
+    <labels>
+        <fullName>Matrix_InvalidField</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Matrix Invalid Field Path</shortDescription>
+        <value>Invalid field path in matrix configuration: &quot;{0}&quot;. Verify the field API name and relationship syntax.</value>
+    </labels>
+    <labels>
+        <fullName>Matrix_LoadSuccess</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Matrix Load Success</shortDescription>
+        <value>Matrix data loaded successfully.</value>
+    </labels>
+    <labels>
+        <fullName>Matrix_NoData</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Matrix No Data</shortDescription>
+        <value>No data to display.</value>
+    </labels>
+    <labels>
+        <fullName>Matrix_QueryError</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Matrix Query Error</shortDescription>
+        <value>An error occurred while loading matrix data.</value>
+    </labels>
+    <labels>
+        <fullName>rawNoteMinChar</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>userd in meetingNoteAI</shortDescription>
+        <value>500</value>
+    </labels>
+    <labels>
+        <fullName>ze_team</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ze team</shortDescription>
+        <value>&quot;mira.eid.external@carmignac.com&quot;,&quot;mira.eid.external@carmignac.com&quot;</value>
+    </labels>
 </CustomLabels>

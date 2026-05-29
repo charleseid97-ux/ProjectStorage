@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>ApprovalDeadline__c</fullName>
+    <description>Calculated deadline for speaker approval based on request type and event start date.</description>
+    <formula>CASE(
+    TEXT(Event__r.category__c),
+    &quot;One to One meeting&quot;, DATEVALUE(CreatedDate) + 1,
+    &quot;Meeting day(s)&quot;, DATEVALUE(CreatedDate) + 3,
+    DATEVALUE(CreatedDate) + 5
+)</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <label>Approval Deadline</label>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Date</type>
+</CustomField>
