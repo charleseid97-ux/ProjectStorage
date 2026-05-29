@@ -103,29 +103,7 @@ public with sharing class GridUtility {
             // Approved (B or D) — three scenarios based on chronology and start date
             if (isB) firstGridFinalMap.put(agr.Id, agr.Grid_Request__c);
             if (isB || isD) {
-                Date activeAgtStart  = activeAgtStartByAgreement.get(agr.Id);
-                Date requestAgtStart = requestAgtStartByAgreement.get(agr.Id);
-                Boolean isChronologicallyValid = activeAgtStart == null || requestAgtStart == null || requestAgtStart > activeAgtStart;
-                Boolean isImmediate            = requestAgtStart == null || requestAgtStart <= Date.today();
-
-                gridApprovalUpdates.put(agr.Grid_Request__c, GRID_STATUS_APPROVED); // Grid ApprovalStatus always updated
-
-                if (isChronologicallyValid) {
-                    approvedAgrToGridIds.put(agr.Id, new List<Id>{ agr.Grid_Request__c });
-
-                    if (agr.Grid__c != null) {
-                        Date endDate = requestAgtStart != null ? requestAgtStart.addDays(-1) : Date.today().addDays(-1);
-                        oldGridEndDates.put(agr.Grid__c, endDate);
-                        if (isImmediate) immediateOldGridIds.add(agr.Grid__c); // Scenario 2: updateTimelines sets old Active AGT → Inactive
-                    }
-                    if (isImmediate) {
-                        setGridOnAgreement(agr); // Scenario 2: swap Agreement fields immediately; new AGT → Active
-                    }
-                    // else Scenario 1: start > today — Agreement keeps Grid_Request__c; new AGT → Approved; batch activates later
-                } else {
-                    // Scenario 3: approved Grid predates active AGT — new AGT → Inactive; no Agreement or old Grid change
-                    historicalAgrToGridIds.put(agr.Id, new List<Id>{ agr.Grid_Request__c });
-                }
+                handleApprovalTransition(agr, activeAgtStartByAgreement, requestAgtStartByAgreement, gridApprovalUpdates, approvedAgrToGridIds, historicalAgrToGridIds, oldGridEndDates, immediateOldGridIds);
             }
             // Rejected (E) — grid + AGT → Rejected
             if (isE) {
@@ -142,6 +120,35 @@ public with sharing class GridUtility {
         AgreementGridTimelineUtility.updateTimelines(submittedAgrToGridIds, approvedAgrToGridIds, rejectedAgrToGridIds, recalledAgrToGridIds, historicalAgrToGridIds, immediateOldGridIds);
         if (!firstGridProgressMap.isEmpty() || !firstGridFinalMap.isEmpty()) {
             System.enqueueJob(new MirrorStandardApprovalQueueable(firstGridProgressMap, progressStepLabels, firstGridFinalMap));
+        }
+    }
+
+    private static void handleApprovalTransition(Convention__c agr,
+        Map<Id, Date> activeAgtStartByAgreement, Map<Id, Date> requestAgtStartByAgreement,
+        Map<Id, String> gridApprovalUpdates, Map<Id, List<Id>> approvedAgrToGridIds,
+        Map<Id, List<Id>> historicalAgrToGridIds, Map<Id, Date> oldGridEndDates, Set<Id> immediateOldGridIds) {
+
+        Date activeAgtStart  = activeAgtStartByAgreement.get(agr.Id);
+        Date requestAgtStart = requestAgtStartByAgreement.get(agr.Id);
+        Boolean isChronologicallyValid = activeAgtStart == null || requestAgtStart == null || requestAgtStart > activeAgtStart;
+        Boolean isImmediate            = requestAgtStart == null || requestAgtStart <= Date.today();
+
+        gridApprovalUpdates.put(agr.Grid_Request__c, GRID_STATUS_APPROVED);
+
+        if (isChronologicallyValid) {
+            approvedAgrToGridIds.put(agr.Id, new List<Id>{ agr.Grid_Request__c });
+            if (agr.Grid__c != null) {
+                Date endDate = requestAgtStart != null ? requestAgtStart.addDays(-1) : Date.today().addDays(-1);
+                oldGridEndDates.put(agr.Grid__c, endDate);
+                if (isImmediate) immediateOldGridIds.add(agr.Grid__c); // Scenario 2: updateTimelines sets old Active AGT → Inactive
+            }
+            if (isImmediate) {
+                setGridOnAgreement(agr); // Scenario 2: swap Agreement fields immediately; new AGT → Active
+            }
+            // else Scenario 1: start > today — Agreement keeps Grid_Request__c; new AGT → Approved; batch activates later
+        } else {
+            // Scenario 3: approved Grid predates active AGT — new AGT → Inactive; no Agreement or old Grid change
+            historicalAgrToGridIds.put(agr.Id, new List<Id>{ agr.Grid_Request__c });
         }
     }
 
@@ -193,49 +200,73 @@ public with sharing class GridUtility {
             workitemsByPi.get(wk.ProcessInstanceId).add(wk);
         }
 
-        for (Id agrId : agreementToGridMap.keySet()) {
-            String gridIdStr    = String.valueOf(agreementToGridMap.get(agrId));
-            String pendingLabel = pendingStepLabels.get(agrId);
-            Id     piId         = agrIdToPiId.get(agrId);
+        // Build approvalId map — bulk query then bulk insert for new records
+        Set<String> allGridIdStrs = new Set<String>();
+        for (Id agrId : agreementToGridMap.keySet()) allGridIdStrs.add(String.valueOf(agreementToGridMap.get(agrId)));
 
-            List<CustomApproval__c> existing = [SELECT Id FROM CustomApproval__c
-                                                 WHERE TargetRecordId__c = :gridIdStr
-                                                   AND ProcessDeveloperName__c = 'AgreementStandardApproval'
-                                                   AND Status__c = 'Pending' LIMIT 1];
-            Id approvalId;
-            if (existing.isEmpty()) {
-                CustomApproval__c ca = CustomApprovalHistoryUtility.createCustomApproval(gridIdStr, 'AgreementStandardApproval', 'Pending', null, null, null, true);
-                insert ca;
-                approvalId = ca.Id;
-            } else {
-                approvalId = existing[0].Id;
-            }
-
-            delete [SELECT Id FROM CustomApprovalStep__c WHERE CustomApproval__c = :approvalId];
-
-            List<CustomApprovalStep__c> steps = new List<CustomApprovalStep__c>();
-            if (piId != null) {
-                for (ProcessInstanceStep pis : stepsByPi.containsKey(piId) ? stepsByPi.get(piId) : new List<ProcessInstanceStep>()) {
-                    Boolean isUser         = String.valueOf(pis.ActorId).startsWith('005');
-                    String  stepName       = pis.StepStatus;
-                    String  stepStatus     = mapStandardStepStatus(pis.StepStatus);
-                    String  assignedToId   = String.valueOf(pis.ActorId);
-                    String  assignedName   = pis.Actor?.Name;
-                    String  origId         = pis.OriginalActorId != null ? String.valueOf(pis.OriginalActorId) : assignedToId;
-                    String  origName       = pis.OriginalActor?.Name != null ? pis.OriginalActor.Name : assignedName;
-                    Id      actualApprover = isUser && (pis.StepStatus == 'Approved' || pis.StepStatus == 'Rejected') ? pis.ActorId : null;
-                    steps.add(CustomApprovalHistoryUtility.createCustomApprovalStep(approvalId, stepName, stepName, stepStatus, false, assignedToId, assignedName, origId, origName, actualApprover, pis.CreatedDate, pis.Comments));
-                }
-                for (ProcessInstanceWorkitem wk : workitemsByPi.containsKey(piId) ? workitemsByPi.get(piId) : new List<ProcessInstanceWorkitem>()) {
-                    String assignedToId = String.valueOf(wk.ActorId);
-                    String assignedName = wk.Actor?.Name;
-                    String origId       = wk.OriginalActorId != null ? String.valueOf(wk.OriginalActorId) : assignedToId;
-                    String origName     = wk.OriginalActor?.Name != null ? wk.OriginalActor.Name : assignedName;
-                    steps.add(CustomApprovalHistoryUtility.createCustomApprovalStep(approvalId, pendingLabel, pendingLabel, 'Pending', true, assignedToId, assignedName, origId, origName, null, null, null));
-                }
-            }
-            if (!steps.isEmpty()) insert steps;
+        Map<String, Id> approvalIdByGridId = new Map<String, Id>();
+        for (CustomApproval__c ca : [SELECT Id, TargetRecordId__c FROM CustomApproval__c
+                                      WHERE TargetRecordId__c IN :allGridIdStrs
+                                        AND ProcessDeveloperName__c = 'AgreementStandardApproval'
+                                        AND Status__c = 'Pending']) {
+            approvalIdByGridId.put(ca.TargetRecordId__c, ca.Id);
         }
+
+        List<CustomApproval__c> newCas     = new List<CustomApproval__c>();
+        List<String>            newCaGrids = new List<String>();
+        for (Id agrId : agreementToGridMap.keySet()) {
+            String gridIdStr = String.valueOf(agreementToGridMap.get(agrId));
+            if (!approvalIdByGridId.containsKey(gridIdStr)) {
+                newCas.add(CustomApprovalHistoryUtility.createCustomApproval(gridIdStr, 'AgreementStandardApproval', 'Pending', null, null, null, true));
+                newCaGrids.add(gridIdStr);
+            }
+        }
+        if (!newCas.isEmpty()) {
+            insert newCas;
+            for (Integer i = 0; i < newCas.size(); i++) approvalIdByGridId.put(newCaGrids[i], newCas[i].Id);
+        }
+
+        delete [SELECT Id FROM CustomApprovalStep__c WHERE CustomApproval__c IN :approvalIdByGridId.values()];
+
+        List<CustomApprovalStep__c> allSteps = new List<CustomApprovalStep__c>();
+        for (Id agrId : agreementToGridMap.keySet()) {
+            String gridIdStr  = String.valueOf(agreementToGridMap.get(agrId));
+            Id     approvalId = approvalIdByGridId.get(gridIdStr);
+            if (approvalId == null) continue;
+            Id piId = agrIdToPiId.get(agrId);
+            allSteps.addAll(buildProgressSteps(approvalId, pendingStepLabels.get(agrId),
+                piId != null ? stepsByPi.get(piId) : null,
+                piId != null ? workitemsByPi.get(piId) : null));
+        }
+        if (!allSteps.isEmpty()) insert allSteps;
+    }
+
+    private static List<CustomApprovalStep__c> buildProgressSteps(Id approvalId, String pendingLabel,
+        List<ProcessInstanceStep> piSteps, List<ProcessInstanceWorkitem> piWorkitems) {
+
+        List<CustomApprovalStep__c> steps = new List<CustomApprovalStep__c>();
+        if (piSteps != null) {
+            for (ProcessInstanceStep pis : piSteps) {
+                Boolean isUser         = String.valueOf(pis.ActorId).startsWith('005');
+                String  stepStatus     = mapStandardStepStatus(pis.StepStatus);
+                String  assignedToId   = String.valueOf(pis.ActorId);
+                String  assignedName   = pis.Actor?.Name;
+                String  origId         = pis.OriginalActorId != null ? String.valueOf(pis.OriginalActorId) : assignedToId;
+                String  origName       = pis.OriginalActor?.Name != null ? pis.OriginalActor.Name : assignedName;
+                Id      actualApprover = isUser && (pis.StepStatus == 'Approved' || pis.StepStatus == 'Rejected') ? pis.ActorId : null;
+                steps.add(CustomApprovalHistoryUtility.createCustomApprovalStep(approvalId, pis.StepStatus, pis.StepStatus, stepStatus, false, assignedToId, assignedName, origId, origName, actualApprover, pis.CreatedDate, pis.Comments));
+            }
+        }
+        if (piWorkitems != null) {
+            for (ProcessInstanceWorkitem wk : piWorkitems) {
+                String assignedToId = String.valueOf(wk.ActorId);
+                String assignedName = wk.Actor?.Name;
+                String origId       = wk.OriginalActorId != null ? String.valueOf(wk.OriginalActorId) : assignedToId;
+                String origName     = wk.OriginalActor?.Name != null ? wk.OriginalActor.Name : assignedName;
+                steps.add(CustomApprovalHistoryUtility.createCustomApprovalStep(approvalId, pendingLabel, pendingLabel, 'Pending', true, assignedToId, assignedName, origId, origName, null, null, null));
+            }
+        }
+        return steps;
     }
 
     private static void finalizeFirstGridApprovalMirror(Map<Id, Id> agreementToGridMap) {
@@ -261,44 +292,53 @@ public with sharing class GridUtility {
             stepsByPi.get(pis.ProcessInstanceId).add(pis);
         }
 
+        // Build approvalId map — bulk query then bulk insert/update for new/existing records
+        Set<String> allGridIdStrs = new Set<String>();
+        for (Id agrId : agreementToGridMap.keySet()) allGridIdStrs.add(String.valueOf(agreementToGridMap.get(agrId)));
+
+        Map<String, CustomApproval__c> existingCaByGridId = new Map<String, CustomApproval__c>();
+        for (CustomApproval__c ca : [SELECT Id, Status__c, TargetRecordId__c FROM CustomApproval__c
+                                      WHERE TargetRecordId__c IN :allGridIdStrs
+                                        AND ProcessDeveloperName__c = 'AgreementStandardApproval']) {
+            existingCaByGridId.put(ca.TargetRecordId__c, ca);
+        }
+
+        Map<String, Id>        approvalIdByGridId = new Map<String, Id>();
+        List<CustomApproval__c> newCas            = new List<CustomApproval__c>();
+        List<String>            newCaGrids        = new List<String>();
+        List<CustomApproval__c> casToUpdate       = new List<CustomApproval__c>();
+
         for (Id agrId : agreementToGridMap.keySet()) {
             String gridIdStr = String.valueOf(agreementToGridMap.get(agrId));
-            Id     piId      = agrIdToPiId.get(agrId);
-
-            List<CustomApproval__c> existing = [SELECT Id, Status__c FROM CustomApproval__c
-                                                 WHERE TargetRecordId__c = :gridIdStr
-                                                   AND ProcessDeveloperName__c = 'AgreementStandardApproval' LIMIT 1];
-            Id approvalId;
-            if (existing.isEmpty()) {
-                CustomApproval__c ca = CustomApprovalHistoryUtility.createCustomApproval(gridIdStr, 'AgreementStandardApproval', 'Approved', null, null, null, true);
-                insert ca;
-                approvalId = ca.Id;
+            if (!existingCaByGridId.containsKey(gridIdStr)) {
+                newCas.add(CustomApprovalHistoryUtility.createCustomApproval(gridIdStr, 'AgreementStandardApproval', 'Approved', null, null, null, true));
+                newCaGrids.add(gridIdStr);
             } else {
-                approvalId = existing[0].Id;
-                if (existing[0].Status__c != 'Approved') {
-                    existing[0].Status__c = 'Approved';
-                    update existing[0];
+                CustomApproval__c ca = existingCaByGridId.get(gridIdStr);
+                approvalIdByGridId.put(gridIdStr, ca.Id);
+                if (ca.Status__c != 'Approved') {
+                    ca.Status__c = 'Approved';
+                    casToUpdate.add(ca);
                 }
             }
-
-            delete [SELECT Id FROM CustomApprovalStep__c WHERE CustomApproval__c = :approvalId];
-
-            List<CustomApprovalStep__c> steps = new List<CustomApprovalStep__c>();
-            if (piId != null) {
-                for (ProcessInstanceStep pis : stepsByPi.containsKey(piId) ? stepsByPi.get(piId) : new List<ProcessInstanceStep>()) {
-                    Boolean isUser         = String.valueOf(pis.ActorId).startsWith('005');
-                    String  stepName       = pis.StepStatus;
-                    String  stepStatus     = mapStandardStepStatus(pis.StepStatus);
-                    String  assignedToId   = String.valueOf(pis.ActorId);
-                    String  assignedName   = pis.Actor?.Name;
-                    String  origId         = pis.OriginalActorId != null ? String.valueOf(pis.OriginalActorId) : assignedToId;
-                    String  origName       = pis.OriginalActor?.Name != null ? pis.OriginalActor.Name : assignedName;
-                    Id      actualApprover = isUser && (pis.StepStatus == 'Approved' || pis.StepStatus == 'Rejected') ? pis.ActorId : null;
-                    steps.add(CustomApprovalHistoryUtility.createCustomApprovalStep(approvalId, stepName, stepName, stepStatus, false, assignedToId, assignedName, origId, origName, actualApprover, pis.CreatedDate, pis.Comments));
-                }
-            }
-            if (!steps.isEmpty()) insert steps;
         }
+        if (!newCas.isEmpty()) {
+            insert newCas;
+            for (Integer i = 0; i < newCas.size(); i++) approvalIdByGridId.put(newCaGrids[i], newCas[i].Id);
+        }
+        if (!casToUpdate.isEmpty()) update casToUpdate;
+
+        delete [SELECT Id FROM CustomApprovalStep__c WHERE CustomApproval__c IN :approvalIdByGridId.values()];
+
+        List<CustomApprovalStep__c> allSteps = new List<CustomApprovalStep__c>();
+        for (Id agrId : agreementToGridMap.keySet()) {
+            String gridIdStr  = String.valueOf(agreementToGridMap.get(agrId));
+            Id     approvalId = approvalIdByGridId.get(gridIdStr);
+            Id     piId       = agrIdToPiId.get(agrId);
+            if (approvalId == null || piId == null) continue;
+            allSteps.addAll(buildProgressSteps(approvalId, null, stepsByPi.get(piId), null));
+        }
+        if (!allSteps.isEmpty()) insert allSteps;
     }
 
     private static String mapStandardStepStatus(String sfStatus) {
