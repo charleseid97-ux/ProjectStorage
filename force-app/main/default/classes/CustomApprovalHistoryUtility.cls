@@ -34,7 +34,7 @@ public without sharing class CustomApprovalHistoryUtility {
 
             Id currentUserId = UserInfo.getUserId();
 
-            CustomApproval__c approval = createCustomApproval(String.valueOf(recordId), processName, 'Pending', currentUserId, initialStep.DeveloperName, comments);
+            CustomApproval__c approval = createCustomApproval(String.valueOf(recordId), processName, 'Pending', currentUserId, initialStep.DeveloperName, comments, false);
             insert approval;
 
             List<CustomApprovalStep__c> steps = new List<CustomApprovalStep__c>();
@@ -369,14 +369,15 @@ public without sharing class CustomApprovalHistoryUtility {
     }
 
         // ─── Record factories ─────────────────────────────────────────────────────────
-    public static CustomApproval__c createCustomApproval(String targetRecordId, String processDevName, String status, Id submittedById, String currentStepDevName, String comments) {
+    public static CustomApproval__c createCustomApproval(String targetRecordId, String processDevName, String status, Id submittedById, String currentStepDevName, String comments, Boolean readOnly) {
         return new CustomApproval__c(
             TargetRecordId__c       = targetRecordId,
             Status__c               = status,
             SubmittedBy__c          = submittedById,
             ProcessDeveloperName__c = processDevName,
             CurrentStepDevName__c   = currentStepDevName,
-            Comments__c             = comments
+            Comments__c             = comments,
+            TECH_ReadOnly__c        = readOnly
         );
     }
 

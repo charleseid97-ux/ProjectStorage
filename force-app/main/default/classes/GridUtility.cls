@@ -204,7 +204,7 @@ public with sharing class GridUtility {
                                                    AND Status__c = 'Pending' LIMIT 1];
             Id approvalId;
             if (existing.isEmpty()) {
-                CustomApproval__c ca = CustomApprovalHistoryUtility.createCustomApproval(gridIdStr, 'AgreementStandardApproval', 'Pending', null, null, null);
+                CustomApproval__c ca = CustomApprovalHistoryUtility.createCustomApproval(gridIdStr, 'AgreementStandardApproval', 'Pending', null, null, null, true);
                 insert ca;
                 approvalId = ca.Id;
             } else {
@@ -270,7 +270,7 @@ public with sharing class GridUtility {
                                                    AND ProcessDeveloperName__c = 'AgreementStandardApproval' LIMIT 1];
             Id approvalId;
             if (existing.isEmpty()) {
-                CustomApproval__c ca = CustomApprovalHistoryUtility.createCustomApproval(gridIdStr, 'AgreementStandardApproval', 'Approved', null, null, null);
+                CustomApproval__c ca = CustomApprovalHistoryUtility.createCustomApproval(gridIdStr, 'AgreementStandardApproval', 'Approved', null, null, null, true);
                 insert ca;
                 approvalId = ca.Id;
             } else {
