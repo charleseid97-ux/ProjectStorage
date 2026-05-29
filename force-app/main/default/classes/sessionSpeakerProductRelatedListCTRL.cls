@@ -9,6 +9,7 @@ public without sharing class sessionSpeakerProductRelatedListCTRL {
         @AuraEnabled public Date recDate;
         @AuraEnabled public String language;
         @AuraEnabled public String speakerLanguage;
+        @AuraEnabled public Decimal sessionNumber;
 
         @AuraEnabled public List<ProductItem> products = new List<ProductItem>();
     }
@@ -42,7 +43,8 @@ public without sharing class sessionSpeakerProductRelatedListCTRL {
                    speakerLanguage__c,
                    startTime__c,
                    endTime__c,
-                   Date__c
+                   Date__c,
+                   sessionNumber__c
 
             FROM sessionSpeakerProduct__c
             WHERE Session__c = :eventId
@@ -55,7 +57,7 @@ public without sharing class sessionSpeakerProductRelatedListCTRL {
 
         List<SpeakerBlock> result = finalizeSpeakerBlocks(
             gb.grouped,
-            gb.speakerOrder,
+            gb.groupOrder,
             approvalsBySpeaker
         );
 
@@ -64,12 +66,15 @@ public without sharing class sessionSpeakerProductRelatedListCTRL {
     }
 
     private class GroupBuild {
-        Map<Id, SpeakerBlock> grouped;
-        List<Id> speakerOrder;
+        // One display block per speaker + sessionNumber.
+        Map<String, SpeakerBlock> grouped;
+
+        // Preserves display order.
+        List<String> groupOrder;
 
         GroupBuild() {
-            grouped = new Map<Id, SpeakerBlock>();
-            speakerOrder = new List<Id>();
+            grouped = new Map<String, SpeakerBlock>();
+            groupOrder = new List<String>();
         }
     }
 
@@ -79,7 +84,13 @@ public without sharing class sessionSpeakerProductRelatedListCTRL {
         for (sessionSpeakerProduct__c r : rows) {
             if (r.speakerContact__c == null) continue;
 
-            SpeakerBlock block = gb.grouped.get(r.speakerContact__c);
+            // Speaker can appear multiple times with different session blocks.
+            String groupKey =
+                String.valueOf(r.speakerContact__c)
+                + '|'
+                + String.valueOf(r.sessionNumber__c);
+
+            SpeakerBlock block = gb.grouped.get(groupKey);
             if (block == null) {
                 block = new SpeakerBlock();
                 block.speakerId = r.speakerContact__c;
@@ -92,8 +103,10 @@ public without sharing class sessionSpeakerProductRelatedListCTRL {
                 block.startTime = formatTime(r.startTime__c);
                 block.endTime = formatTime(r.endTime__c);
                 block.recDate = r.Date__c;
-                gb.grouped.put(r.speakerContact__c, block);
-                gb.speakerOrder.add(r.speakerContact__c);
+                block.sessionNumber = r.sessionNumber__c;
+
+                gb.grouped.put(groupKey, block);
+                gb.groupOrder.add(groupKey);
             }
 
             ProductItem p = toProductItem(r);
@@ -118,20 +131,20 @@ public without sharing class sessionSpeakerProductRelatedListCTRL {
     }
 
     private static List<SpeakerBlock> finalizeSpeakerBlocks(
-        Map<Id, SpeakerBlock> grouped,
-        List<Id> speakerOrder,
+        Map<String, SpeakerBlock> grouped,
+        List<String> groupOrder,
         Map<Id, EventSpeakerApprovals__c> approvalsBySpeaker
-    ) {
+    ){
         List<SpeakerBlock> result = new List<SpeakerBlock>();
 
-        for (Id speakerId : speakerOrder) {
-            SpeakerBlock b = grouped.get(speakerId);
+        for (String groupKey : groupOrder) {
+            SpeakerBlock b = grouped.get(groupKey);
             if (b == null) continue;
 
             b.productCount = b.products.size();
 
             EventSpeakerApprovals__c esa = approvalsBySpeaker != null
-                ? approvalsBySpeaker.get(speakerId)
+                ? approvalsBySpeaker.get(b.speakerId)
                 : null;
 
             
@@ -178,7 +191,7 @@ public without sharing class sessionSpeakerProductRelatedListCTRL {
         if (eventId == null) return '[]';
 
         List<sessionSpeakerProduct__c> rows = [
-            SELECT Id, speakerContact__c, speakerContact__r.Name, strategy__c, strategy__r.Name, Language__c,speakerLanguage__c,startTime__c, endTime__c,Date__c
+            SELECT Id,sessionNumber__c, speakerContact__c, speakerContact__r.Name, strategy__c, strategy__r.Name, Language__c,speakerLanguage__c,startTime__c, endTime__c,Date__c
             FROM sessionSpeakerProduct__c
             WHERE Session__c = :eventId
             ORDER BY speakerContact__r.Name, strategy__r.Name
@@ -207,6 +220,7 @@ public without sharing class sessionSpeakerProductRelatedListCTRL {
         o.put('startTime__c', r.startTime__c);
         o.put('endTime__c', r.endTime__c);
         o.put('Date__c', r.Date__c);
+        o.put('sessionNumber__c', r.sessionNumber__c);
         return o;
     }
 
@@ -221,27 +235,25 @@ public without sharing class sessionSpeakerProductRelatedListCTRL {
 
         List<Object> raw = parseRepeaterJson(payloadJson);
 
-        Map<String, sessionSpeakerProduct__c> existingByKey = loadExistingByKey(eventId);
-        System.debug(LoggingLevel.INFO, 'Existing records for eventId=' + eventId + ' count=' + existingByKey.size());
-
         IncomingBuild incoming = buildIncoming(raw);
-        System.debug(LoggingLevel.INFO, 'Parsed incoming records count=' + incoming.incomingKeys.size());
-        System.debug(LoggingLevel.DEBUG, 'Incoming keys=' + incoming.incomingKeys);
-        System.debug(LoggingLevel.DEBUG, 'Existing keys=' + existingByKey.keySet());
-        System.debug(LoggingLevel.DEBUG, 'Existing =' + existingByKey);
-        System.debug(LoggingLevel.DEBUG, 'Incoming =' + incoming.incomingParts);
 
-        List<sessionSpeakerProduct__c> toInsert = buildToInsert(eventId, incoming, existingByKey);
-        List<sessionSpeakerProduct__c> toDelete = buildToDelete(incoming.incomingKeys, existingByKey);
+        List<sessionSpeakerProduct__c> toInsert = buildToInsert(eventId, incoming);
+        List<sessionSpeakerProduct__c> toUpdate = buildToUpdate(incoming);
+        List<sessionSpeakerProduct__c> toDelete = buildToDelete(eventId, incoming);
 
-        System.debug(LoggingLevel.INFO, 'Insert=' + toInsert.size() + ' Delete=' + toDelete.size());
-
+        System.debug(
+            LoggingLevel.INFO,
+            'Insert=' + toInsert.size() +
+            ' Update=' + toUpdate.size() +
+            ' Delete=' + toDelete.size()
+        );
+        if (!toUpdate.isEmpty()) update toUpdate;
         if (!toDelete.isEmpty()) delete toDelete;
         if (!toInsert.isEmpty()) insert toInsert;
 
         sessionSpeakerProductService.recalcApprovals(eventId);
 
-        Integer impacted = toInsert.size() + toDelete.size();
+        Integer impacted = toInsert.size() + toUpdate.size() + toDelete.size();
         System.debug(LoggingLevel.INFO, 'sessionSpeakerProductRelatedListCTRL.saveFromRepeaterJson - END impacted=' + impacted);
 
         return impacted;
@@ -255,30 +267,15 @@ public without sharing class sessionSpeakerProductRelatedListCTRL {
         }
     }
 
-    private static Map<String, sessionSpeakerProduct__c> loadExistingByKey(Id eventId) {
-        List<sessionSpeakerProduct__c> existing = [
-            SELECT Id, speakerContact__c, strategy__c, Language__c, speakerLanguage__c, Session__c, startTime__c, endTime__c,Date__c
-            FROM sessionSpeakerProduct__c
-            WHERE Session__c = :eventId
-            LIMIT 5000
-        ];
-
-        Map<String, sessionSpeakerProduct__c> existingByKey = new Map<String, sessionSpeakerProduct__c>();
-        for (sessionSpeakerProduct__c r : existing) {
-            existingByKey.put(
-                makeKey(r.speakerContact__c, r.strategy__c, r.Language__c, r.speakerLanguage__c, r.startTime__c, r.endTime__c,r.Date__c)  
-                ,r
-            );
-        }
-        return existingByKey;
-    }
+ 
 
     private class IncomingBuild {
-        Set<String> incomingKeys = new Set<String>();
         List<LinkParts> incomingParts = new List<LinkParts>();
     }
 
     private class LinkParts {
+        Id id;
+        Decimal sessionNumber;
         Id speakerId;
         Id productId;
         String lang;
@@ -296,11 +293,6 @@ public without sharing class sessionSpeakerProductRelatedListCTRL {
         for (Object o : raw) {
             rowIndex++;
             LinkParts parts = parseRowToParts(o, rowIndex);
-            String key = makeKey(parts.speakerId, parts.productId, parts.lang, parts.speakerLanguage, parts.startTime, parts.endTime, parts.recDate);
-            if (incoming.incomingKeys.contains(key)) {
-                continue;
-            }
-            incoming.incomingKeys.add(key);
             incoming.incomingParts.add(parts);
         }
 
@@ -309,7 +301,11 @@ public without sharing class sessionSpeakerProductRelatedListCTRL {
 
     private static LinkParts parseRowToParts(Object o, Integer rowIndex) {
         Map<String, Object> m = (Map<String, Object>) o;
+        Id id = (m.get('Id') != null) ? (Id) String.valueOf(m.get('Id')) : null;
 
+        Decimal sessionNumber = (m.get('sessionNumber__c') != null)
+            ? Decimal.valueOf(String.valueOf(m.get('sessionNumber__c')))
+            : null;
         Id speakerId = (m.get('speakerContact__c') != null) ? (Id) String.valueOf(m.get('speakerContact__c')) : null;
         Id productId = (m.get('strategy__c') != null) ? (Id) String.valueOf(m.get('strategy__c')) : null;
         String lang = (m.get('Language__c') != null) ? String.valueOf(m.get('Language__c')) : null;
@@ -330,20 +326,19 @@ public without sharing class sessionSpeakerProductRelatedListCTRL {
         parts.startTime = parseTimeValue(startTime);
         parts.endTime = parseTimeValue(endTime);
         parts.recDate = (recDate != null) ? Date.valueOf(recDate) : null;
+        parts.id = id;
+        parts.sessionNumber = sessionNumber;
         return parts;
     }
 
     private static List<sessionSpeakerProduct__c> buildToInsert(
         Id eventId,
-        IncomingBuild incoming,
-        Map<String, sessionSpeakerProduct__c> existingByKey
-    ) {
+        IncomingBuild incoming
+    ){
         List<sessionSpeakerProduct__c> toInsert = new List<sessionSpeakerProduct__c>();
 
         for (LinkParts parts : incoming.incomingParts) {
-            String key = makeKey(parts.speakerId, parts.productId, parts.lang, parts.speakerLanguage, parts.startTime, parts.endTime, parts.recDate);
-
-            if (existingByKey.containsKey(key)) continue;
+            if (parts.id != null) continue;
 
             sessionSpeakerProduct__c rec = new sessionSpeakerProduct__c();
             rec.Session__c = eventId;
@@ -354,34 +349,39 @@ public without sharing class sessionSpeakerProductRelatedListCTRL {
             rec.startTime__c = parts.startTime;
             rec.endTime__c = parts.endTime;
             rec.Date__c = parts.recDate;
+            rec.sessionNumber__c = parts.sessionNumber;
             toInsert.add(rec);
         }
 
         return toInsert;
     }
 
-    private static List<sessionSpeakerProduct__c> buildToDelete(
-        Set<String> incomingKeys,
-        Map<String, sessionSpeakerProduct__c> existingByKey
-    ) {
-        List<sessionSpeakerProduct__c> toDelete = new List<sessionSpeakerProduct__c>();
-        for (String key : existingByKey.keySet()) {
-            if (!incomingKeys.contains(key)) {
-                toDelete.add(existingByKey.get(key));
+    private static List<sessionSpeakerProduct__c> buildToDelete(Id eventId,IncomingBuild incoming) {
+        Set<Id> incomingIds = new Set<Id>();
+
+        for (LinkParts parts : incoming.incomingParts) {
+            if (parts.id != null) {
+                incomingIds.add(parts.id);
             }
         }
+
+        List<sessionSpeakerProduct__c> toDelete = new List<sessionSpeakerProduct__c>();
+
+        for (sessionSpeakerProduct__c existing : [
+            SELECT Id
+            FROM sessionSpeakerProduct__c
+            WHERE Session__c = :eventId
+            LIMIT 5000
+        ]) {
+            if (!incomingIds.contains(existing.Id)) {
+                toDelete.add(existing);
+            }
+        }
+
         return toDelete;
     }
 
-    private static String makeKey(Id speakerId, Id productId, String lang, String speakerLanguage, Time startTime, Time endTime, Date recDate) {
-        return String.valueOf(speakerId)
-            + '|' + String.valueOf(productId)
-            + '|' + String.valueOf(lang)
-            + '|' + String.valueOf(speakerLanguage)
-            + '|' + String.valueOf(startTime)
-            + '|' + String.valueOf(endTime)
-            + '|' + String.valueOf(recDate);
-    }
+
 
     @AuraEnabled(cacheable=false)
     public static List<SpeakerBlock> getBySession(Id sessionId) {
@@ -458,5 +458,28 @@ public without sharing class sessionSpeakerProductRelatedListCTRL {
         ];
 
         return !accessRows.isEmpty() && accessRows[0].HasEditAccess;
+    }
+    private static List<sessionSpeakerProduct__c> buildToUpdate(IncomingBuild incoming) {
+        List<sessionSpeakerProduct__c> toUpdate = new List<sessionSpeakerProduct__c>();
+
+        for (LinkParts parts : incoming.incomingParts) {
+            if (parts.id == null) continue;
+
+            // Update existing SSP without recreating it.
+            sessionSpeakerProduct__c rec = new sessionSpeakerProduct__c();
+            rec.Id = parts.id;
+            rec.speakerContact__c = parts.speakerId;
+            rec.strategy__c = parts.productId;
+            rec.Language__c = parts.lang;
+            rec.speakerLanguage__c = parts.speakerLanguage;
+            rec.startTime__c = parts.startTime;
+            rec.endTime__c = parts.endTime;
+            rec.Date__c = parts.recDate;
+            rec.sessionNumber__c = parts.sessionNumber;
+
+            toUpdate.add(rec);
+        }
+
+        return toUpdate;
     }
 }

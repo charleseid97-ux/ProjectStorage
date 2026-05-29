@@ -71,7 +71,7 @@
                 <template if:true={hasData}>
                     <template for:each={groups} for:item="g">
                         <article
-                            key={g.speakerId}
+                            key={g.groupKey}
                             class="speaker-card slds-m-bottom_small"
                         >
                             <!-- LIGNE 1 : Speaker + language + duration + slot -->
@@ -88,9 +88,25 @@
 
                                 <!-- Meta inline -->
                                 <div class="speaker-meta-inline">
-                                    <span class="meta-badge language-badge">
-                                        {g.speakerLanguage}
+                                    <span class="meta-badge language-badge" title="Speaker speech language">
+                                        <lightning-icon
+                                            icon-name="utility:volume_high"
+                                            size="xx-small"
+                                            class="meta-badge__icon">
+                                        </lightning-icon>
+                                        <span>{g.speakerLanguage}</span>
                                     </span>
+
+                                    <template if:true={g.language}>
+                                        <span class="meta-badge slides-language-badge" title="Presentation language">
+                                            <lightning-icon
+                                                icon-name="utility:display_text"
+                                                size="xx-small"
+                                                class="meta-badge__icon">
+                                            </lightning-icon>
+                                            <span>{g.language}</span>
+                                        </span>
+                                    </template>                                
 
                                     <template if:true={g.duration}>
                                         <span class="meta-badge duration-badge">

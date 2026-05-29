@@ -114,6 +114,8 @@ export default class SpeakerProductsBySession extends LightningElement {
 
                 return {
                     speakerId: s.speakerId,
+                    groupKey: `${s.speakerId}-${s.sessionNumber}`,
+                    sessionNumber: s.sessionNumber,
                     speakerName: s.speakerName,
                     productCount: s.productCount,
                     language: s.language,

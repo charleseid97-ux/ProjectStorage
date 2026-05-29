@@ -56,7 +56,10 @@ export default class SessionSpeakerProductRepeater extends LightningElement {
             date: this.defaultSpeakerDate || null, 
             showSlidesLanguage: false,
             speakerPills: [],
-            productPills: []
+            productPills: [],
+            sessionNumber: null,
+            // Stores existing SSP Ids by product Id to preserve records during updates.
+            productLinkIds: {}
         }
     ];
 
@@ -290,6 +293,7 @@ _applyVisibilityRules() {
             if (!normalized) continue;
 
             const {
+                id,
                 speakerId,
                 productId,
                 lang,
@@ -314,7 +318,10 @@ _applyVisibilityRules() {
                 endTime,
                 date
             );
-
+            // Keep the existing SSP Id for each speaker/product pair.
+            if (productId && id) {
+                entry.productLinkIds[productId] = id;
+            }
             if (productId) this._pushUnique(entry.productIds, productId);
         }
 
@@ -322,17 +329,26 @@ _applyVisibilityRules() {
     }
 
     _normalizeRow(r) {
+        const id = r && r.Id ? r.Id : null;
         const speakerId = r && r.speakerContact__c ? r.speakerContact__c : null;
         if (!speakerId) return null;
-        const date = r && r.Date__c ? r.Date__c : this.defaultSpeakerDate || null;
+
         const productId = r && r.strategy__c ? r.strategy__c : null;
         const lang = r && r.Language__c ? r.Language__c : null;
         const speakerLanguage = r && r.speakerLanguage__c ? r.speakerLanguage__c : null;
         const presentationStatus = r && r.presentationStatus__c ? r.presentationStatus__c : null;
-        const sessionNumber = r && r.sessionNumber__c ? r.sessionNumber__c : null;
+
+        // Keep sessionNumber as a primitive number to avoid proxy issues after reload.
+        const sessionNumber = r && r.sessionNumber__c !== undefined && r.sessionNumber__c !== null
+            ? Number(r.sessionNumber__c)
+            : null;
+
         const startTime = r && r.startTime__c ? r.startTime__c : null;
         const endTime = r && r.endTime__c ? r.endTime__c : null;
+        const date = r && r.Date__c ? r.Date__c : this.defaultSpeakerDate || null;
+
         return {
+            id,
             speakerId,
             productId,
             lang,
@@ -343,11 +359,10 @@ _applyVisibilityRules() {
             endTime,
             date,
             key: sessionNumber
-                ? `session|${sessionNumber}`
-                : `${speakerId}|${lang || ''}|${speakerLanguage || ''}|${presentationStatus || ''}|${startTime || ''}|${endTime || ''}|${date || ''}`
+                ? `${speakerId}|session|${sessionNumber}`
+                : `${speakerId}|${lang || ''}|${speakerLanguage || ''}|${startTime || ''}|${endTime || ''}|${date || ''}`
         };
     }
-
     _ensureGroupedEntry(byKey, key, speakerId, lang, speakerLanguage, presentationStatus, sessionNumber, startTime, endTime,date) {        
         if (!byKey.has(key)) {
             byKey.set(key, {
@@ -357,12 +372,14 @@ _applyVisibilityRules() {
                 language: lang,
                 speakerLanguage: speakerLanguage,
                 presentationStatus: presentationStatus,
-                sessionNumber: sessionNumber,
+                sessionNumber: sessionNumber !== null ? Number(sessionNumber) : null,
                 startTime: startTime,
                 endTime: endTime,
                 date: date,
                 showSlidesLanguage: false,
                 speakerPills: [],
+                // Product Id -> SSP Id map used to update existing records instead of recreating them.
+                productLinkIds: {},
                 productPills: []
             });
         }
@@ -392,6 +409,9 @@ _applyVisibilityRules() {
     _emptyEntry() {
         return {
             key: uniq(),
+            sessionNumber: null,
+            // Stores existing SSP Ids by product Id to preserve records during updates.
+            productLinkIds: {},
             speakerId: null,
             productIds: [],
             language: null,
@@ -447,6 +467,9 @@ _applyVisibilityRules() {
 
         const newEntry = {
             key: uniq(),
+            sessionNumber: null,
+            // Stores existing SSP Ids by product Id to preserve records during updates.
+            productLinkIds: {},
             speakerId: null,
             productIds: [],
             language: lastLanguage,
@@ -551,7 +574,7 @@ _applyVisibilityRules() {
     };
 
     _rebuildRecords() {
-        const out = (this.entries || []).flatMap((e) => this._entryToRecords(e));
+        const out = (this.entries || []).flatMap((e, index) => this._entryToRecords(e, index));
         this.outputValue = JSON.stringify(out);
 
         // Flow output
@@ -568,26 +591,31 @@ _applyVisibilityRules() {
         console.log('===[SSPRepeater] defaultSpeakerDate=', this.defaultSpeakerDate);
     }
 
-    _entryToRecords(entry) {
+    _entryToRecords(entry, index) {
+        const sessionNumber = entry && entry.sessionNumber !== undefined && entry.sessionNumber !== null? Number(entry.sessionNumber) : index + 1;
         const speakers = entry && entry.speakerId ? [entry.speakerId] : [];
         const products = this._toArray(entry && entry.productIds ? entry.productIds : []);
-        const lang = entry ? entry.language || null : null;
+        // Slides language is saved only when the field is visible for this speaker.
+        const lang = entry && entry.showSlidesLanguage ? entry.language || null : null;
         const speakerLanguage = entry ? entry.speakerLanguage || null : null;
         const presentationStatus = entry ? entry.presentationStatus || null : null;
         const startTime = entry ? entry.startTime || null : null;
         const endTime = entry ? entry.endTime || null : null;
         const date = entry ? entry.date || null : null;
-        const hasSpeaker = speakers.length > 0;
         const hasProducts = products.length > 0;
 
         // Garder la ligne dans le JSON même si elle est invalide
         if (!hasProducts) {
-            return [this._makeRecord(speakers[0] || null, null, lang, speakerLanguage, presentationStatus, startTime, endTime,date)];
+            return [this._makeRecord(null, speakers[0] || null, null, lang, speakerLanguage, presentationStatus, startTime, endTime, date, sessionNumber)];
         }
 
         return this._pairSelections(speakers, products)
-            .map(({ sid, pid }) => this._makeRecord(sid, pid, lang, speakerLanguage, presentationStatus, startTime, endTime,date));
-        }
+        .map(({ sid, pid }) => {
+            // Existing SSP Id is preserved only when the same product remains selected.
+            const linkId = entry.productLinkIds && pid ? entry.productLinkIds[pid] : null;
+            return this._makeRecord(linkId, sid, pid, lang, speakerLanguage, presentationStatus, startTime, endTime, date, sessionNumber);
+        });
+    }
 
     _toArray(value) {
         if (Array.isArray(value)) return value;
@@ -615,10 +643,12 @@ _applyVisibilityRules() {
         return speakers.flatMap((sid) => products.map((pid) => ({ sid, pid })));
     }
 
-    _makeRecord(contactId, productId, lang, speakerLanguage, presentationStatus, startTime, endTime,date) {
+    _makeRecord(id, contactId, productId, lang, speakerLanguage, presentationStatus, startTime, endTime, date, sessionNumber) {
         return {
+            Id: id,
             attributes: { type: 'sessionSpeakerProduct__c' },
             speakerContact__c: contactId,
+            sessionNumber__c: Number(sessionNumber),
             strategy__c: productId,
             Language__c: lang,
             speakerLanguage__c: speakerLanguage,
