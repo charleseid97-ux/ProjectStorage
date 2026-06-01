@@ -106,19 +106,21 @@ public with sharing class EventSpeakerApprovalsService {
      *   routing basé sur approvalType__c
      */
     public static void submitForSpeakerApproval(List<EventSpeakerApprovals__c> records, Map<Id, EventSpeakerApprovals__c> oldMap) {
+        system.debug('submitForSpeakerApproval===============');
         if (records == null || records.isEmpty()) return;
 
         Boolean isAfterInsert = (oldMap == null || oldMap.isEmpty());
 
         for (EventSpeakerApprovals__c rec : records) {
             if (rec == null || rec.Id == null) continue;
-
+            system.debug('submitForSpeakerApproval===============rec.Id====='+rec.Id);
             // AFTER INSERT
             if (isAfterInsert) {
+                system.debug('submitForSpeakerApproval===============isAfterInsert====rec.Status__c='+rec.Status__c);
 
                 // Only submitted records go to approval
                 if (rec.Status__c != 'Submitted') continue;
-
+                system.debug('submitForSpeakerApproval===============isAfterInsert====rec.approvalType__c='+rec.approvalType__c);
                 if (rec.approvalType__c == 'Speaker') {
                     submitApproval(
                         rec.Id,

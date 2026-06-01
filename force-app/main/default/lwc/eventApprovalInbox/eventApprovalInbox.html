@@ -26,13 +26,25 @@
                     onchange={handleFilterChange}>
                 </lightning-input>
 
-                <lightning-input
-                    type="checkbox"
-                    label="Assigned to other"
-                    name="showAssignedToOther"
-                    checked={showAssignedToOther}
-                    onchange={handleFilterChange}>
-                </lightning-input>
+                <template if:true={showOtherFilter}>
+                    <lightning-input
+                        type="checkbox"
+                        label="Assigned to other"
+                        name="showAssignedToOther"
+                        checked={showAssignedToOther}
+                        onchange={handleFilterChange}>
+                    </lightning-input>
+                </template>
+
+                <template if:true={showOrganizerApprovalFilter}>
+                    <lightning-input
+                        type="checkbox"
+                        label="Organizer approvals"
+                        name="showOrganizerApprovals"
+                        checked={showOrganizerApprovals}
+                        onchange={handleFilterChange}>
+                    </lightning-input>
+                </template>
 
                 <lightning-button
                     label="Approve selected"
@@ -42,33 +54,60 @@
 
             </div>
 
-            <div class="section-title">
-                Event approvals
-            </div>
+            <lightning-tabset>
 
-            <lightning-datatable
-                onsort={handleSort}
-                sorted-by={sortedBy}
-                sorted-direction={sortedDirection}
-                key-field="workItemId"
-                data={filteredEventRows}
-                columns={eventColumns}
-                onrowselection={handleRowSelection}>
-            </lightning-datatable>
+                <lightning-tab
+                    if:true={showEventApprovalTable}
+                    label={eventTabLabel}
+                    value="events">
 
-            <div class="section-title slds-m-top_large">
-                Speaker approvals
-            </div>
+                    <lightning-datatable
+                        onsort={handleSort}
+                        sorted-by={sortedBy}
+                        sorted-direction={sortedDirection}
+                        key-field="workItemId"
+                        data={filteredEventRows}
+                        columns={eventColumns}
+                        onrowselection={handleRowSelection}>
+                    </lightning-datatable>
 
-            <lightning-datatable
-                onsort={handleSort}
-                sorted-by={sortedBy}
-                sorted-direction={sortedDirection}
-                key-field="workItemId"
-                data={filteredSpeakerRows}
-                columns={speakerColumns}
-                onrowselection={handleRowSelection}>
-            </lightning-datatable>
+                </lightning-tab>
+
+                <lightning-tab
+                    if:true={showSpeakerApprovalTable}
+                    label={speakerTabLabel}
+                    value="speakers">
+
+                    <lightning-datatable
+                        onsort={handleSort}
+                        sorted-by={sortedBy}
+                        sorted-direction={sortedDirection}
+                        key-field="workItemId"
+                        data={filteredSpeakerRows}
+                        columns={speakerColumns}
+                        onrowselection={handleRowSelection}>
+                    </lightning-datatable>
+
+                </lightning-tab>
+
+                <lightning-tab
+                    if:true={showOrganizerApprovalTable}
+                    label={organizerTabLabel}
+                    value="organizers">
+
+                    <lightning-datatable
+                        onsort={handleSort}
+                        sorted-by={sortedBy}
+                        sorted-direction={sortedDirection}
+                        key-field="workItemId"
+                        data={filteredOrganizerRows}
+                        columns={organizerColumns}
+                        onrowselection={handleRowSelection}>
+                    </lightning-datatable>
+
+                </lightning-tab>
+
+            </lightning-tabset>
 
         </div>
 

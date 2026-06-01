@@ -5,12 +5,17 @@
     <types>
         <members>SessionSpeakerProduct_InsertFromJson</members>
         <members>sessionSpeakerProductRelatedListCTRL</members>
-        <members>sessionSpeakerProductRepeaterCTRL</members>        
+        <members>sessionSpeakerProductRepeaterCTRL</members>  
+        <members>sessionSpeakerProductHandler</members>  
+        <members>customEventSpeakerApprovalService</members>  
+        <members>EventApprovalInboxController</members>  
+        <members>EventSpeakerApprovalsService</members>                                        
         <name>ApexClass</name>
     </types>
     <types>
         <members>sessionSpeakerProductRepeater</members>
         <members>speakerProductsBySession</members>
+        <members>eventApprovalInbox</members>        
         <name>LightningComponentBundle</name>
     </types>
     <types>

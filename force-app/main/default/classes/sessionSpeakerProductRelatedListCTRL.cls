@@ -251,7 +251,7 @@ public without sharing class sessionSpeakerProductRelatedListCTRL {
         if (!toDelete.isEmpty()) delete toDelete;
         if (!toInsert.isEmpty()) insert toInsert;
 
-        sessionSpeakerProductService.recalcApprovals(eventId);
+        //sessionSpeakerProductService.recalcApprovals(eventId);
 
         Integer impacted = toInsert.size() + toUpdate.size() + toDelete.size();
         System.debug(LoggingLevel.INFO, 'sessionSpeakerProductRelatedListCTRL.saveFromRepeaterJson - END impacted=' + impacted);

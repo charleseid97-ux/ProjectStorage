@@ -212,11 +212,7 @@ public without sharing class customEventSpeakerApprovalService {
             speakerById,
             gr.bestSSPByKey
         );
-        Set<String> validKeys = new Set<String>();
-        for (EventSpeakerApprovals__c a : approvals) {
-            if (a.Key__c != null) validKeys.add(a.Key__c);
-        }
-        deleteOrphanApprovals(eventIdsToProcess, speakerContactIds, validKeys);
+        deleteOrphanApprovals(eventIdsToProcess, speakerContactIds);
 
         upsertApprovals(approvals);
     }
@@ -483,67 +479,43 @@ public without sharing class customEventSpeakerApprovalService {
         return rec;
     }
 
-    /**
+   /**
      * Supprime les EventSpeakerApprovals__c orphelines :
      * - pour les events donnés
-     * - si le Speaker__c n'est plus présent dans speakerContactIds
-     * - ou si le Key__c n'est plus dans validKeys (ex : produit/speaker modifié)
+     * - si le Speaker__c n'est plus présent dans les SSP de l'event
      *
-     * NB : on évite de supprimer les enregistrements déjà 'Approved' par sécurité.
+     * NB : les approvals déjà "Approved" ne sont jamais supprimées.
      */
     private static void deleteOrphanApprovals(
         Set<Id> eventIds,
-        Set<Id> speakerContactIds,
-        Set<String> validKeys
+        Set<Id> speakerContactIds
     ) {
         if (eventIds == null || eventIds.isEmpty()) return;
 
         List<EventSpeakerApprovals__c> toDelete = new List<EventSpeakerApprovals__c>();
 
-        // Query approvals for these events (only fields needed)
-        for (EventSpeakerApprovals__c ex :  [
-            SELECT Id, Key__c, Speaker__c, Status__c, Event__c
+        for (EventSpeakerApprovals__c ex : [
+            SELECT Id, Speaker__c, Status__c,Event__c
             FROM EventSpeakerApprovals__c
             WHERE Event__c IN :eventIds
         ]) {
-            Boolean orphan = false;
-
-            // If approval's speaker is not part of current speaker set -> orphan
-            if (speakerContactIds != null && !speakerContactIds.contains(ex.Speaker__c)) {
-                orphan = true;
+            if (ex.Speaker__c != null && speakerContactIds != null && speakerContactIds.contains(ex.Speaker__c)) {
+                continue;
             }
 
-            // If approval key is not among valid keys -> orphan (handles product/name change)
-            if (!orphan && validKeys != null && !validKeys.contains(ex.Key__c)) {
-                orphan = true;
+            // Ne jamais supprimer une approval déjà approuvée.
+            if (
+                isTerminalApprovalStatus(ex.Status__c)
+            ) {
+                continue;
             }
-
-            // Do not delete already Approved records (safety). If you want to delete them too, remove this check.
-            if (orphan && (ex.Status__c == null || !String.valueOf(ex.Status__c).equalsIgnoreCase(customEventConstants.APPROVAL_STATUS_APPROVED))) {
-                toDelete.add(ex);
-            }
+            system.debug(LoggingLevel.INFO, 'ESA: marking approval for deletion, event=' + ex.Event__c + ', speaker=' + ex.Speaker__c + ', status=' + ex.Status__c);
+            toDelete.add(ex);
         }
 
-        if (toDelete.isEmpty()) {
-            System.debug(LoggingLevel.INFO, 'ESA: no orphan approvals to delete');
-            return;
-        }
-
-        try {
-            delete toDelete;
-            System.debug(LoggingLevel.INFO, 'ESA: deleted orphan approvals count=' + toDelete.size());
-        } catch (DmlException de) {
-            System.debug(LoggingLevel.ERROR, 'ESA: DmlException when deleting orphan approvals: ' + de.getMessage());
-            try {
-                for (EventSpeakerApprovals__c a : toDelete) {
-                    System.debug(LoggingLevel.ERROR, '  toDelete: Id=' + a.Id + ', Key__c=' + a.Key__c + ', Event__c=' + a.Event__c + ', Speaker__c=' + a.Speaker__c + ', Status__c=' + a.Status__c);
-                }
-            } catch (Exception px) {
-                System.debug(LoggingLevel.ERROR, 'ESA: failed to log delete payload: ' + px.getMessage());
-            }
-            // Rethrow to surface the error to calling context
-            throw de;
-        }
+        if (toDelete.isEmpty()) return;
+        system.debug(LoggingLevel.INFO, 'ESA: deleting orphan approvals count=' + toDelete.size());
+        delete toDelete;
     }
 
     private static void upsertApprovals(List<EventSpeakerApprovals__c> approvals) {
@@ -583,8 +555,7 @@ public without sharing class customEventSpeakerApprovalService {
             if (
                 existing != null &&
                 (
-                    String.valueOf(existing.Status__c).equalsIgnoreCase(customEventConstants.APPROVAL_STATUS_APPROVED) ||
-                    String.valueOf(existing.Status__c).equalsIgnoreCase('AutoApproved')
+                    isTerminalApprovalStatus(existing.Status__c)
                 )
             ) {
                 // terminal approved -> do not upsert
@@ -617,7 +588,15 @@ public without sharing class customEventSpeakerApprovalService {
             );
         }
     }
+    // Vérifie si une approval est dans un statut final à ne jamais écraser.
+    private static Boolean isTerminalApprovalStatus(String status) {
+        if (String.isBlank(status)) return false;
 
+        return status.equalsIgnoreCase(customEventConstants.APPROVAL_STATUS_APPROVED)
+            || status.equalsIgnoreCase(customEventConstants.APPROVAL_STATUS_APPROVED_SPEAKER)
+            || status.equalsIgnoreCase(customEventConstants.APPROVAL_STATUS_APPROVED_HOP)
+            || status.equalsIgnoreCase('AutoApproved');
+    }
     private static void logUpsertPayload(List<EventSpeakerApprovals__c> approvals) {
         try {
             System.debug(LoggingLevel.ERROR, 'ESA: upsert payload size=' + approvals.size());
@@ -1170,14 +1149,28 @@ public without sharing class customEventSpeakerApprovalService {
     }
     
     /**
-     * Recharge les SSP d’une ou plusieurs sessions et reconstruit les approvals
-     * en prenant le SSP avec la plus grande durée par speaker.
+     * Recharge les SSP d’une ou plusieurs sessions et synchronise les approvals.
+     * Les approvals ne sont recalculées que pour les events en
+     * WaitingForSpeakerApprovals.
      */
-    private static void refreshApprovalsFromSessions(Set<Id> sessionIds) {
+    public static void refreshApprovalsFromSessions(Set<Id> sessionIds) {
         if (sessionIds == null || sessionIds.isEmpty()) return;
 
-        List<SessionSpeakerProduct__c> lines = querySpeakerProductLines(sessionIds);
-        if (lines.isEmpty()) return;
+        Set<Id> waitingEventIds = new Set<Id>();
+
+        for (Event__c eventRecord : [
+            SELECT Id, Status__c
+            FROM Event__c
+            WHERE Id IN :sessionIds
+        ]) {
+            if (eventRecord.Status__c == customEventConstants.STATUS_WAITING_FOR_SPEAKER_APPROVALS) {
+                waitingEventIds.add(eventRecord.Id);
+            }
+        }
+
+        if (waitingEventIds.isEmpty()) return;
+
+        List<SessionSpeakerProduct__c> lines = querySpeakerProductLines(waitingEventIds);
 
         Set<Id> speakerContactIds = collectSpeakerContactIds(lines);
         Map<Id, Contact> speakerById = loadSpeakers(speakerContactIds);
@@ -1190,7 +1183,25 @@ public without sharing class customEventSpeakerApprovalService {
             gr.bestSSPByKey
         );
 
+        deleteOrphanApprovals(waitingEventIds, speakerContactIds);
         upsertApprovals(approvals);
+    }
+
+    // Garde uniquement les events en attente d'approbation speaker.
+    private static Set<Id> filterWaitingForSpeakerApprovalEvents(Set<Id> eventIds) {
+        Set<Id> result = new Set<Id>();
+
+        for (Event__c eventRecord : [
+            SELECT Id, Status__c
+            FROM Event__c
+            WHERE Id IN :eventIds
+        ]) {
+            if (eventRecord.Status__c == customEventConstants.STATUS_WAITING_FOR_SPEAKER_APPROVALS) {
+                result.add(eventRecord.Id);
+            }
+        }
+
+        return result;
     }
 
     // Calculates target Event status from speaker approvals
