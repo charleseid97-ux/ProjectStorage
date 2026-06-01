@@ -62,7 +62,6 @@
                                 onclick={saveEdit}>
                             </lightning-button>
                         </div>
-
                         <template if:true={error}>
                             <c-inline-error message={errorMessage}></c-inline-error>
                         </template>
@@ -72,12 +71,11 @@
                 <template if:true={hasData}>
                     <template for:each={groups} for:item="g">
                         <article
-                            key={g.sessionNumber}
+                            key={g.groupKey}
                             class="speaker-card slds-m-bottom_small"
                         >
-                            <!-- Header -->
+                            <!-- LIGNE 1 : Speaker + language + duration + slot -->
                             <div class="speaker-header slds-grid slds-grid_vertical-align-center slds-wrap">
-
                                 <!-- Speaker -->
                                 <div class="speaker-name slds-truncate" title={g.speakerName}>
                                     <lightning-icon
@@ -85,31 +83,31 @@
                                         size="x-small"
                                         class="slds-m-right_x-small">
                                     </lightning-icon>
-
                                     <span>{g.speakerName}</span>
                                 </div>
 
-                                <!-- Meta -->
+                                <!-- Meta inline -->
                                 <div class="speaker-meta-inline">
-
-                                    <!-- Presentation language 
-                                    <span class="meta-badge language-badge">
-                                        {g.language}
-                                    </span>-->
-
-                                    <!-- Speaker language -->
-                                    <span class="meta-badge language-badge">
-                                        {g.speakerLanguage}
+                                    <span class="meta-badge language-badge" title="Speaker speech language">
+                                        <lightning-icon
+                                            icon-name="utility:volume_high"
+                                            size="xx-small"
+                                            class="meta-badge__icon">
+                                        </lightning-icon>
+                                        <span>{g.speakerLanguage}</span>
                                     </span>
 
-                                    <!-- Presentation status 
-                                    <template if:true={g.presentationStatus}>
-                                        <span class="meta-badge duration-badge">
-                                            {g.presentationStatus}
+                                    <template if:true={g.language}>
+                                        <span class="meta-badge slides-language-badge" title="Presentation language">
+                                            <lightning-icon
+                                                icon-name="utility:display_text"
+                                                size="xx-small"
+                                                class="meta-badge__icon">
+                                            </lightning-icon>
+                                            <span>{g.language}</span>
                                         </span>
-                                    </template>-->
+                                    </template>                                
 
-                                    <!-- Duration -->
                                     <template if:true={g.duration}>
                                         <span class="meta-badge duration-badge">
                                             <lightning-icon
@@ -117,31 +115,22 @@
                                                 size="xx-small"
                                                 class="meta-badge__icon">
                                             </lightning-icon>
-
                                             <span>{g.duration}</span>
                                         </span>
                                     </template>
 
-                                    <!-- Slot -->
                                     <span class="meta-badge slot-badge">
                                         <lightning-icon
                                             icon-name="utility:clock"
                                             size="xx-small"
                                             class="meta-badge__icon">
                                         </lightning-icon>
-
-                                        <span>{g.startTime} - {g.endTime}</span>
+                                        <span>{g.startTime} - {g.endTime} | {g.date}</span>
                                     </span>
-
-                                    <!-- Date -->
-                                    <span class="meta-badge language-badge">
-                                        {g.date}
-                                    </span>
-
                                 </div>
                             </div>
 
-                            <!-- Products -->
+                            <!-- LIGNE 2 : Products -->
                             <div class="slds-var-m-top_small slds-wrap">
                                 <template for:each={g.products} for:item="p">
                                     <span
@@ -166,26 +155,21 @@
                     <div class="slds-text-color_weak">
                         No speakers/products found for this event.
                     </div>
-                </template>
+                </template>            
 
                 <template if:true={impactedCount}>
                     <div class="slds-m-top_small slds-text-color_success">
                         Updated {impactedCount} record(s).
                     </div>
                 </template>
-
             </div>
         </lightning-card>
     </template>
 
     <template if:false={hasEventId}>
         <lightning-card>
-
             <div class="slds-p-horizontal_small slds-p-top_small slds-grid slds-grid_vertical-align-center">
-                <h2 class="slds-text-heading_small">
-                    Speakers & Products
-                </h2>
-
+                <h2 class="slds-text-heading_small">Speakers & Products</h2>
                 <lightning-button
                     class="slds-m-left_small"
                     label="Edit"
@@ -194,7 +178,6 @@
                     onclick={openEdit}
                     disabled>
                 </lightning-button>
-
                 <lightning-button-icon
                     class="slds-m-left_x-small"
                     icon-name="utility:refresh"
@@ -205,11 +188,9 @@
                     disabled>
                 </lightning-button-icon>
             </div>
-
             <div class="slds-p-around_medium slds-text-color_weak">
                 Provide an Event Id to view related speakers and products.
             </div>
-
         </lightning-card>
     </template>
 </template>

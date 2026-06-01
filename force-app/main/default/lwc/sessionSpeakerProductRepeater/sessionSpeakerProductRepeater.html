@@ -3,7 +3,6 @@
         <template for:each={entries} for:item="entry" for:index="index">
             <div key={entry.key} class="slds-box slds-m-bottom_small slds-theme_default">
                 <div class="slds-grid slds-wrap slds-gutters">
-                    
                     <!-- Speaker -->
                     <div class="slds-col slds-size_1-of-1 slds-large-size_1-of-6">
                         <lightning-combobox
@@ -81,24 +80,30 @@
                     <!-- Start Time -->
                     <template if:true={showTimeSlots}>
                         <div class="slds-col slds-size_1-of-1 slds-large-size_1-of-6">
-                            <lightning-combobox
+                            <lightning-input
+                                type="time"
+                                required
                                 label="Start Time"
                                 value={entry.startTime}
-                                options={timeOptions}
+                                min="07:00"
+                                max="21:00"
                                 onchange={handleStartTimeChange}
                                 data-index={index}>
-                            </lightning-combobox>
+                            </lightning-input>
                         </div>
 
                         <!-- End Time -->
                         <div class="slds-col slds-size_1-of-1 slds-large-size_1-of-6">
-                            <lightning-combobox
+                            <lightning-input
+                                type="time"
+                                required
                                 label="End Time"
                                 value={entry.endTime}
-                                options={timeOptions}
+                                min="07:00"
+                                max="21:00"
                                 onchange={handleEndTimeChange}
                                 data-index={index}>
-                            </lightning-combobox>
+                            </lightning-input>
                         </div>
                         
                     </template>

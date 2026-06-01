@@ -115,16 +115,24 @@ public without sharing class SessionSpeakerProduct_InsertFromJson {
     private static sessionSpeakerProduct__c mapToRecord(Map<String, Object> m, Id sessionId) {
         sessionSpeakerProduct__c rec = new sessionSpeakerProduct__c();
         rec.Session__c = sessionId;
-
+        rec.sessionNumber__c = asDecimal(m.get('sessionNumber__c'));
         rec.speakerContact__c = pickId(m, 'speakerContact__c', 'Speaker__c');
         rec.strategy__c = asId(m.get('strategy__c'));
         rec.Language__c = asString(m.get('Language__c'));
         rec.speakerLanguage__c = asString(m.get('speakerLanguage__c'));
         rec.startTime__c = parseTimeValue(asString(m.get('startTime__c')));
         rec.endTime__c = parseTimeValue(asString(m.get('endTime__c')));
+        rec.Date__c = asDate(m.get('Date__c'));
         return rec;
     }
-
+    private static Date asDate(Object v) {
+        if (v == null) return null;
+        return Date.valueOf(String.valueOf(v));
+    }
+    private static Decimal asDecimal(Object v) {
+        if (v == null) return null;
+        return Decimal.valueOf(String.valueOf(v));
+    }
     private static Boolean isEmptyLine(sessionSpeakerProduct__c rec) {
         return rec.speakerContact__c == null && rec.strategy__c == null;
     }

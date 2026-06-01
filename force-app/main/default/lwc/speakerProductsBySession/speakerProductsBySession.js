@@ -114,12 +114,12 @@ export default class SpeakerProductsBySession extends LightningElement {
 
                 return {
                     speakerId: s.speakerId,
+                    groupKey: `${s.speakerId}-${s.sessionNumber}`,
+                    sessionNumber: s.sessionNumber,
                     speakerName: s.speakerName,
                     productCount: s.productCount,
                     language: s.language,
                     speakerLanguage: s.speakerLanguage,
-                    presentationStatus: s.presentationStatus,
-                    sessionNumber: s.sessionNumber,
                     startTime: formattedStartTime,
                     endTime: formattedEndTime,
                     date: s.recDate,
@@ -194,10 +194,12 @@ export default class SpeakerProductsBySession extends LightningElement {
             const repeater = this.template.querySelector('c-session-speaker-product-repeater');
 
             if (repeater) {
-                const validation = repeater.validate();
+                // Recalculate child validation before save
+                repeater.validate();
 
-                if (!validation.isValid) {
-                    this.error = { message: validation.errorMessage };
+                // Stop save when repeater fields are invalid
+                if (!repeater.formValidated) {
+                    this.error = { message: 'Please complete all required fields.' };
                     return;
                 }
             }
@@ -220,9 +222,10 @@ export default class SpeakerProductsBySession extends LightningElement {
     }
 
     handleEditSlot(event) {
-        const sessionNumber = event.currentTarget.dataset.sessionNumber;
+        const speakerId = event.currentTarget.dataset.speakerId;
+
         this.groups = this.groups.map((group) => {
-            if (group.sessionNumber !== sessionNumber) {
+            if (group.speakerId !== speakerId) {
                 return group;
             }
 
@@ -236,12 +239,12 @@ export default class SpeakerProductsBySession extends LightningElement {
     }
 
     handleSlotChange(event) {
-        const sessionNumber = event.target.dataset.sessionNumber;
+        const speakerId = event.target.dataset.speakerId;
         const field = event.target.dataset.field;
         const value = event.target.value;
 
         this.groups = this.groups.map((group) => {
-            if (group.sessionNumber !== sessionNumber) {
+            if (group.speakerId !== speakerId) {
                 return group;
             }
 
@@ -253,9 +256,10 @@ export default class SpeakerProductsBySession extends LightningElement {
     }
 
     handleCancelSlot(event) {
-        const sessionNumber = event.currentTarget.dataset.sessionNumber;
+        const speakerId = event.currentTarget.dataset.speakerId;
+
         this.groups = this.groups.map((group) => {
-            if (group.sessionNumber !== sessionNumber) {
+            if (group.speakerId !== speakerId) {
                 return group;
             }
 
@@ -270,8 +274,8 @@ export default class SpeakerProductsBySession extends LightningElement {
     }
 
     async handleSaveSlot(event) {
-        const sessionNumber = event.currentTarget.dataset.sessionNumber;
-        const group = this.groups.find((item) => item.sessionNumber == sessionNumber);
+        const speakerId = event.currentTarget.dataset.speakerId;
+        const group = this.groups.find((item) => item.speakerId === speakerId);
 
         if (!group || !this.effectiveEventId) {
             return;
@@ -289,7 +293,7 @@ export default class SpeakerProductsBySession extends LightningElement {
             });
 
             this.groups = this.groups.map((item) => {
-                if (item.sessionNumber != sessionNumber) {
+                if (item.speakerId !== speakerId) {
                     return item;
                 }
 

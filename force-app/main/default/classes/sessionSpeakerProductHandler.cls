@@ -50,6 +50,8 @@ public without sharing class sessionSpeakerProductHandler implements ITriggerHan
         if (sspsToProcess.isEmpty()) return;
 
         sessionSpeakerProductService.updateEventNamesFromSSP(sspsToProcess.values());
+        customEventSpeakerApprovalService.refreshApprovalsFromSessions(collectSessionIds(sspsToProcess.values()));
+        
     }
 
     public void afterUpdate(Map<Id, SObject> newItems, Map<Id, SObject> oldItems) {
@@ -86,6 +88,7 @@ public without sharing class sessionSpeakerProductHandler implements ITriggerHan
         sessionSpeakerProductService.updateEventNamesFromSSP(
             oldSspsToProcess.values()
         );
+        customEventSpeakerApprovalService.refreshApprovalsFromSessions(collectSessionIds(oldSspsToProcess.values()));
     }
 
     public void afterUndelete(Map<Id, SObject> oldItems) {
@@ -179,5 +182,18 @@ public without sharing class sessionSpeakerProductHandler implements ITriggerHan
         }
 
         return result;
+    }
+
+    // Collecte les sessions impactées par les SSP.
+    private static Set<Id> collectSessionIds(List<SessionSpeakerProduct__c> ssps) {
+        Set<Id> sessionIds = new Set<Id>();
+
+        for (SessionSpeakerProduct__c ssp : ssps) {
+            if (ssp != null && ssp.Session__c != null) {
+                sessionIds.add(ssp.Session__c);
+            }
+        }
+
+        return sessionIds;
     }
 }

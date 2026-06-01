@@ -67,7 +67,7 @@ public without sharing class customEventSpeakerApprovalService {
         return v.replace('&','&amp;').replace('<','&lt;').replace('>','&gt;').replace('"','&quot;').replace('\'','&#39;');
     }
     // Construit le format texte des speakers avec leurs produits.
-    private static String buildSpeakersText(List<SessionSpeakerProduct__c> speakers) {
+    public static String buildSpeakersText(List<SessionSpeakerProduct__c> speakers) {
         List<SpeakerHtmlRow> groupedRows = groupSpeakersForHtml(speakers);
         List<String> speakerTexts = new List<String>();
 
@@ -102,6 +102,12 @@ public without sharing class customEventSpeakerApprovalService {
 
         // 1) Déterminer les events concernés (entrants en WaitingForSpeakerApprovals)
         Set<Id> eventIds = collectEventIdsToProcess(newEvents, oldEvents);
+
+        for (Event__c newEvt : newEvents.values()) {
+            if (isOrganizerDecisionApproved(newEvt, oldEvents)) {
+                eventIds.add(newEvt.Id);
+            }
+        }
         if (eventIds.isEmpty()) return;
 
         // 2) Recursion guard (évite double traitement dans la même transaction)
@@ -127,10 +133,19 @@ public without sharing class customEventSpeakerApprovalService {
         for (Id evtId : eventIds) {
             if (!eventsWithSSP.contains(evtId)) {
                 Event__c newEvt = newEvents.get(evtId);
-                if (newEvt == null) {
-                    System.debug(LoggingLevel.WARN, 'markEventFullyApprovedIfNoSSP: event not found in newEvents map, event=' + evtId);
+                if (newEvt == null) continue;
+
+                // Do not bypass organizer approval when it is required.
+                if (
+                    newEvt.OrganizerApprovalRequired__c == true &&
+                    newEvt.OrganizerDecision__c != 'Approved'
+                ) {
+                    System.debug(LoggingLevel.INFO,
+                        'markEventFullyApprovedIfNoSSP: organizer approval required, keep WaitingForSpeakerApprovals event=' + evtId
+                    );
                     continue;
                 }
+                
 
                 String currentStatus = newEvt.Status__c;
                 if (currentStatus == null || !currentStatus.equalsIgnoreCase(customEventConstants.STATUS_FULLY_APPROVED)) {
@@ -197,11 +212,7 @@ public without sharing class customEventSpeakerApprovalService {
             speakerById,
             gr.bestSSPByKey
         );
-        Set<String> validKeys = new Set<String>();
-        for (EventSpeakerApprovals__c a : approvals) {
-            if (a.Key__c != null) validKeys.add(a.Key__c);
-        }
-        deleteOrphanApprovals(eventIdsToProcess, speakerContactIds, validKeys);
+        deleteOrphanApprovals(eventIdsToProcess, speakerContactIds);
 
         upsertApprovals(approvals);
     }
@@ -468,67 +479,43 @@ public without sharing class customEventSpeakerApprovalService {
         return rec;
     }
 
-    /**
+   /**
      * Supprime les EventSpeakerApprovals__c orphelines :
      * - pour les events donnés
-     * - si le Speaker__c n'est plus présent dans speakerContactIds
-     * - ou si le Key__c n'est plus dans validKeys (ex : produit/speaker modifié)
+     * - si le Speaker__c n'est plus présent dans les SSP de l'event
      *
-     * NB : on évite de supprimer les enregistrements déjà 'Approved' par sécurité.
+     * NB : les approvals déjà "Approved" ne sont jamais supprimées.
      */
     private static void deleteOrphanApprovals(
         Set<Id> eventIds,
-        Set<Id> speakerContactIds,
-        Set<String> validKeys
+        Set<Id> speakerContactIds
     ) {
         if (eventIds == null || eventIds.isEmpty()) return;
 
         List<EventSpeakerApprovals__c> toDelete = new List<EventSpeakerApprovals__c>();
 
-        // Query approvals for these events (only fields needed)
-        for (EventSpeakerApprovals__c ex :  [
-            SELECT Id, Key__c, Speaker__c, Status__c, Event__c
+        for (EventSpeakerApprovals__c ex : [
+            SELECT Id, Speaker__c, Status__c,Event__c
             FROM EventSpeakerApprovals__c
             WHERE Event__c IN :eventIds
         ]) {
-            Boolean orphan = false;
-
-            // If approval's speaker is not part of current speaker set -> orphan
-            if (speakerContactIds != null && !speakerContactIds.contains(ex.Speaker__c)) {
-                orphan = true;
+            if (ex.Speaker__c != null && speakerContactIds != null && speakerContactIds.contains(ex.Speaker__c)) {
+                continue;
             }
 
-            // If approval key is not among valid keys -> orphan (handles product/name change)
-            if (!orphan && validKeys != null && !validKeys.contains(ex.Key__c)) {
-                orphan = true;
+            // Ne jamais supprimer une approval déjà approuvée.
+            if (
+                isTerminalApprovalStatus(ex.Status__c)
+            ) {
+                continue;
             }
-
-            // Do not delete already Approved records (safety). If you want to delete them too, remove this check.
-            if (orphan && (ex.Status__c == null || !String.valueOf(ex.Status__c).equalsIgnoreCase(customEventConstants.APPROVAL_STATUS_APPROVED))) {
-                toDelete.add(ex);
-            }
+            system.debug(LoggingLevel.INFO, 'ESA: marking approval for deletion, event=' + ex.Event__c + ', speaker=' + ex.Speaker__c + ', status=' + ex.Status__c);
+            toDelete.add(ex);
         }
 
-        if (toDelete.isEmpty()) {
-            System.debug(LoggingLevel.INFO, 'ESA: no orphan approvals to delete');
-            return;
-        }
-
-        try {
-            delete toDelete;
-            System.debug(LoggingLevel.INFO, 'ESA: deleted orphan approvals count=' + toDelete.size());
-        } catch (DmlException de) {
-            System.debug(LoggingLevel.ERROR, 'ESA: DmlException when deleting orphan approvals: ' + de.getMessage());
-            try {
-                for (EventSpeakerApprovals__c a : toDelete) {
-                    System.debug(LoggingLevel.ERROR, '  toDelete: Id=' + a.Id + ', Key__c=' + a.Key__c + ', Event__c=' + a.Event__c + ', Speaker__c=' + a.Speaker__c + ', Status__c=' + a.Status__c);
-                }
-            } catch (Exception px) {
-                System.debug(LoggingLevel.ERROR, 'ESA: failed to log delete payload: ' + px.getMessage());
-            }
-            // Rethrow to surface the error to calling context
-            throw de;
-        }
+        if (toDelete.isEmpty()) return;
+        system.debug(LoggingLevel.INFO, 'ESA: deleting orphan approvals count=' + toDelete.size());
+        delete toDelete;
     }
 
     private static void upsertApprovals(List<EventSpeakerApprovals__c> approvals) {
@@ -568,8 +555,7 @@ public without sharing class customEventSpeakerApprovalService {
             if (
                 existing != null &&
                 (
-                    String.valueOf(existing.Status__c).equalsIgnoreCase(customEventConstants.APPROVAL_STATUS_APPROVED) ||
-                    String.valueOf(existing.Status__c).equalsIgnoreCase('AutoApproved')
+                    isTerminalApprovalStatus(existing.Status__c)
                 )
             ) {
                 // terminal approved -> do not upsert
@@ -602,7 +588,15 @@ public without sharing class customEventSpeakerApprovalService {
             );
         }
     }
+    // Vérifie si une approval est dans un statut final à ne jamais écraser.
+    private static Boolean isTerminalApprovalStatus(String status) {
+        if (String.isBlank(status)) return false;
 
+        return status.equalsIgnoreCase(customEventConstants.APPROVAL_STATUS_APPROVED)
+            || status.equalsIgnoreCase(customEventConstants.APPROVAL_STATUS_APPROVED_SPEAKER)
+            || status.equalsIgnoreCase(customEventConstants.APPROVAL_STATUS_APPROVED_HOP)
+            || status.equalsIgnoreCase('AutoApproved');
+    }
     private static void logUpsertPayload(List<EventSpeakerApprovals__c> approvals) {
         try {
             System.debug(LoggingLevel.ERROR, 'ESA: upsert payload size=' + approvals.size());
@@ -780,7 +774,7 @@ public without sharing class customEventSpeakerApprovalService {
      * Construit une section HTML (sans titre) pour une liste de SessionSpeakerProduct__c.
      * Signature conservée (sectionTitle, speakers) pour évolution future.
      */
-    private static String buildSpeakersHtmlSingleSection(String sectionTitle, List<SessionSpeakerProduct__c> speakers) {
+    public static String buildSpeakersHtmlSingleSection(String sectionTitle, List<SessionSpeakerProduct__c> speakers) {
         system.debug('======buildSpeakersHtmlSingleSection===========' +speakers  );
         List<String> parts = new List<String>();
         parts.add('<div style="margin:0 0 12px 0;">');
@@ -1155,14 +1149,28 @@ public without sharing class customEventSpeakerApprovalService {
     }
     
     /**
-     * Recharge les SSP d’une ou plusieurs sessions et reconstruit les approvals
-     * en prenant le SSP avec la plus grande durée par speaker.
+     * Recharge les SSP d’une ou plusieurs sessions et synchronise les approvals.
+     * Les approvals ne sont recalculées que pour les events en
+     * WaitingForSpeakerApprovals.
      */
-    private static void refreshApprovalsFromSessions(Set<Id> sessionIds) {
+    public static void refreshApprovalsFromSessions(Set<Id> sessionIds) {
         if (sessionIds == null || sessionIds.isEmpty()) return;
 
-        List<SessionSpeakerProduct__c> lines = querySpeakerProductLines(sessionIds);
-        if (lines.isEmpty()) return;
+        Set<Id> waitingEventIds = new Set<Id>();
+
+        for (Event__c eventRecord : [
+            SELECT Id, Status__c
+            FROM Event__c
+            WHERE Id IN :sessionIds
+        ]) {
+            if (eventRecord.Status__c == customEventConstants.STATUS_WAITING_FOR_SPEAKER_APPROVALS) {
+                waitingEventIds.add(eventRecord.Id);
+            }
+        }
+
+        if (waitingEventIds.isEmpty()) return;
+
+        List<SessionSpeakerProduct__c> lines = querySpeakerProductLines(waitingEventIds);
 
         Set<Id> speakerContactIds = collectSpeakerContactIds(lines);
         Map<Id, Contact> speakerById = loadSpeakers(speakerContactIds);
@@ -1175,58 +1183,130 @@ public without sharing class customEventSpeakerApprovalService {
             gr.bestSSPByKey
         );
 
+        deleteOrphanApprovals(waitingEventIds, speakerContactIds);
         upsertApprovals(approvals);
     }
 
-    // Calculates target Event status from speaker approvals
-public static Map<Id, String> calculateEventStatusFromApprovals(Set<Id> eventIds) {
-    Map<Id, String> result = new Map<Id, String>();
+    // Garde uniquement les events en attente d'approbation speaker.
+    private static Set<Id> filterWaitingForSpeakerApprovalEvents(Set<Id> eventIds) {
+        Set<Id> result = new Set<Id>();
 
-    if (eventIds == null || eventIds.isEmpty()) return result;
-
-    Map<Id, Map<String, Integer>> countsByEventAndStatus = queryApprovalCounts(eventIds);
-
-    // Build target status per Event
-    for (Id evtId : countsByEventAndStatus.keySet()) {
-        Map<String, Integer> statusCounts = countsByEventAndStatus.get(evtId);
-
-        Integer total = 0;
-        Integer approved = 0;
-        Integer rejected = 0;
-        Integer recalled = 0;
-
-        for (String status : statusCounts.keySet()) {
-            Integer countValue = statusCounts.get(status);
-            if (countValue == null) continue;
-
-            if (status != null && status.equalsIgnoreCase(customEventConstants.APPROVAL_STATUS_APPROVED_SPEAKER)) {
-                approved += countValue;
-                total += countValue;
-            } else if (status != null && status.equalsIgnoreCase(customEventConstants.APPROVAL_STATUS_REJECTED)) {
-                rejected += countValue;
-                total += countValue;
-            } else if (status != null && status.equalsIgnoreCase(customEventConstants.APPROVAL_STATUS_SUBMITTED)) {
-                total += countValue;
-            } else if (status != null && status.equalsIgnoreCase(customEventConstants.APPROVAL_STATUS_RECALLED)) {
-                recalled += countValue;
-            } else if (status != null && status.equalsIgnoreCase(customEventConstants.APPROVAL_STATUS_APPROVED_HOP)) {
-                approved += countValue;
-                total += countValue;
-            } else if (status != null && status.equalsIgnoreCase('AutoApproved')) {
-                approved += countValue;
-                total += countValue;
+        for (Event__c eventRecord : [
+            SELECT Id, Status__c
+            FROM Event__c
+            WHERE Id IN :eventIds
+        ]) {
+            if (eventRecord.Status__c == customEventConstants.STATUS_WAITING_FOR_SPEAKER_APPROVALS) {
+                result.add(eventRecord.Id);
             }
         }
 
-        // Store calculated status
-        result.put(
-            evtId,
-            recalled > 0
-                ? customEventConstants.STATUS_WAITING_FOR_SPEAKER_APPROVALS
-                : shouldMarkFullyApproved(total, approved, rejected)
-        );
+        return result;
     }
 
-    return result;
-}
+    // Calculates target Event status from speaker approvals
+    public static Map<Id, String> calculateEventStatusFromApprovals(Set<Id> eventIds) {
+        Map<Id, String> result = new Map<Id, String>();
+
+        if (eventIds == null || eventIds.isEmpty()) return result;
+
+        Map<Id, Map<String, Integer>> countsByEventAndStatus = queryApprovalCounts(eventIds);
+
+        // Build target status per Event
+        for (Id evtId : countsByEventAndStatus.keySet()) {
+            Map<String, Integer> statusCounts = countsByEventAndStatus.get(evtId);
+
+            Integer total = 0;
+            Integer approved = 0;
+            Integer rejected = 0;
+            Integer recalled = 0;
+
+            for (String status : statusCounts.keySet()) {
+                Integer countValue = statusCounts.get(status);
+                if (countValue == null) continue;
+
+                if (status != null && status.equalsIgnoreCase(customEventConstants.APPROVAL_STATUS_APPROVED_SPEAKER)) {
+                    approved += countValue;
+                    total += countValue;
+                } else if (status != null && status.equalsIgnoreCase(customEventConstants.APPROVAL_STATUS_REJECTED)) {
+                    rejected += countValue;
+                    total += countValue;
+                } else if (status != null && status.equalsIgnoreCase(customEventConstants.APPROVAL_STATUS_SUBMITTED)) {
+                    total += countValue;
+                } else if (status != null && status.equalsIgnoreCase(customEventConstants.APPROVAL_STATUS_RECALLED)) {
+                    recalled += countValue;
+                } else if (status != null && status.equalsIgnoreCase(customEventConstants.APPROVAL_STATUS_APPROVED_HOP)) {
+                    approved += countValue;
+                    total += countValue;
+                } else if (status != null && status.equalsIgnoreCase('AutoApproved')) {
+                    approved += countValue;
+                    total += countValue;
+                }
+            }
+
+            // Store calculated status
+            result.put(
+                evtId,
+                recalled > 0
+                    ? customEventConstants.STATUS_WAITING_FOR_SPEAKER_APPROVALS
+                    : shouldMarkFullyApproved(total, approved, rejected)
+            );
+        }
+
+        return result;
+    }
+    /*public static void markFullyApprovedAfterOrganizerApprovalIfNoSSP(List<Event__c> newEvents) {
+        if (newEvents == null || newEvents.isEmpty()) return;
+
+        Set<Id> eventIds = new Set<Id>();
+
+        // Events still waiting after organizer approval path.
+        for (Event__c ev : newEvents) {
+            if (
+                ev != null &&
+                ev.Id != null &&
+                ev.Status__c == customEventConstants.STATUS_WAITING_FOR_SPEAKER_APPROVALS &&
+                ev.OrganizerApprovalRequired__c == true
+            ) {
+                eventIds.add(ev.Id);
+            }
+        }
+
+        if (eventIds.isEmpty()) return;
+
+        Set<Id> eventsWithSSP = new Set<Id>();
+        for (SessionSpeakerProduct__c ssp : [
+            SELECT Session__c
+            FROM SessionSpeakerProduct__c
+            WHERE Session__c IN :eventIds
+            AND SpeakerContact__c != null
+        ]) {
+            eventsWithSSP.add(ssp.Session__c);
+        }
+
+        List<Event__c> toUpdate = new List<Event__c>();
+
+        for (Id eventId : eventIds) {
+            if (!eventsWithSSP.contains(eventId)) {
+                toUpdate.add(new Event__c(
+                    Id = eventId,
+                    Status__c = customEventConstants.STATUS_FULLY_APPROVED
+                ));
+            }
+        }
+
+        if (!toUpdate.isEmpty()) {
+            update toUpdate;
+        }
+    }*/
+
+    private static Boolean isOrganizerDecisionApproved(Event__c newEvt, Map<Id, Event__c> oldEvents) {
+        if (newEvt == null || oldEvents == null) return false;
+
+        Event__c oldEvt = oldEvents.get(newEvt.Id);
+        if (oldEvt == null) return false;
+
+        return oldEvt.OrganizerDecision__c != 'Approved'
+            && newEvt.OrganizerDecision__c == 'Approved';
+    }
 }

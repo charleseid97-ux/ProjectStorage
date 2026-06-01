@@ -46,9 +46,20 @@
 
             <property name="outputValue"
                       type="String"
-                      role="outputOnly"
                       label="Records JSON (sessionSpeakerProduct__c list)"/>
+
+            <property name="formValidated"
+                      type="Boolean"
+                      role="outputOnly"
+                      label="Form Validated"/>
+                      
+            <property name="inputValue"
+                        type="String"
+                        role="inputOnly"
+                        label="Existing Records JSON"/>
+
         </targetConfig>
+
         
     </targetConfigs>
 </LightningComponentBundle>

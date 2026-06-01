@@ -15,6 +15,7 @@ export default class SessionSpeakerProductRepeater extends LightningElement {
     @api showTimeSlots = false;
     @api defaultStartTime;
     @api defaultEndTime;
+    @api formValidated = false;
     _parentEventId = null;
     @api
     set parentEventId(value) {
@@ -55,7 +56,10 @@ export default class SessionSpeakerProductRepeater extends LightningElement {
             date: this.defaultSpeakerDate || null, 
             showSlidesLanguage: false,
             speakerPills: [],
-            productPills: []
+            productPills: [],
+            sessionNumber: null,
+            // Stores existing SSP Ids by product Id to preserve records during updates.
+            productLinkIds: {}
         }
     ];
 
@@ -289,6 +293,7 @@ _applyVisibilityRules() {
             if (!normalized) continue;
 
             const {
+                id,
                 speakerId,
                 productId,
                 lang,
@@ -313,7 +318,10 @@ _applyVisibilityRules() {
                 endTime,
                 date
             );
-
+            // Keep the existing SSP Id for each speaker/product pair.
+            if (productId && id) {
+                entry.productLinkIds[productId] = id;
+            }
             if (productId) this._pushUnique(entry.productIds, productId);
         }
 
@@ -321,17 +329,26 @@ _applyVisibilityRules() {
     }
 
     _normalizeRow(r) {
+        const id = r && r.Id ? r.Id : null;
         const speakerId = r && r.speakerContact__c ? r.speakerContact__c : null;
         if (!speakerId) return null;
-        const date = r && r.Date__c ? r.Date__c : this.defaultSpeakerDate || null;
+
         const productId = r && r.strategy__c ? r.strategy__c : null;
         const lang = r && r.Language__c ? r.Language__c : null;
         const speakerLanguage = r && r.speakerLanguage__c ? r.speakerLanguage__c : null;
         const presentationStatus = r && r.presentationStatus__c ? r.presentationStatus__c : null;
-        const sessionNumber = r && r.sessionNumber__c ? r.sessionNumber__c : null;
+
+        // Keep sessionNumber as a primitive number to avoid proxy issues after reload.
+        const sessionNumber = r && r.sessionNumber__c !== undefined && r.sessionNumber__c !== null
+            ? Number(r.sessionNumber__c)
+            : null;
+
         const startTime = r && r.startTime__c ? r.startTime__c : null;
         const endTime = r && r.endTime__c ? r.endTime__c : null;
+        const date = r && r.Date__c ? r.Date__c : this.defaultSpeakerDate || null;
+
         return {
+            id,
             speakerId,
             productId,
             lang,
@@ -342,11 +359,10 @@ _applyVisibilityRules() {
             endTime,
             date,
             key: sessionNumber
-                ? `session|${sessionNumber}`
-                : `${speakerId}|${lang || ''}|${speakerLanguage || ''}|${presentationStatus || ''}|${startTime || ''}|${endTime || ''}|${date || ''}`
+                ? `${speakerId}|session|${sessionNumber}`
+                : `${speakerId}|${lang || ''}|${speakerLanguage || ''}|${startTime || ''}|${endTime || ''}|${date || ''}`
         };
     }
-
     _ensureGroupedEntry(byKey, key, speakerId, lang, speakerLanguage, presentationStatus, sessionNumber, startTime, endTime,date) {        
         if (!byKey.has(key)) {
             byKey.set(key, {
@@ -356,12 +372,14 @@ _applyVisibilityRules() {
                 language: lang,
                 speakerLanguage: speakerLanguage,
                 presentationStatus: presentationStatus,
-                sessionNumber: sessionNumber,
+                sessionNumber: sessionNumber !== null ? Number(sessionNumber) : null,
                 startTime: startTime,
                 endTime: endTime,
                 date: date,
                 showSlidesLanguage: false,
                 speakerPills: [],
+                // Product Id -> SSP Id map used to update existing records instead of recreating them.
+                productLinkIds: {},
                 productPills: []
             });
         }
@@ -391,6 +409,9 @@ _applyVisibilityRules() {
     _emptyEntry() {
         return {
             key: uniq(),
+            sessionNumber: null,
+            // Stores existing SSP Ids by product Id to preserve records during updates.
+            productLinkIds: {},
             speakerId: null,
             productIds: [],
             language: null,
@@ -446,6 +467,9 @@ _applyVisibilityRules() {
 
         const newEntry = {
             key: uniq(),
+            sessionNumber: null,
+            // Stores existing SSP Ids by product Id to preserve records during updates.
+            productLinkIds: {},
             speakerId: null,
             productIds: [],
             language: lastLanguage,
@@ -550,7 +574,7 @@ _applyVisibilityRules() {
     };
 
     _rebuildRecords() {
-        const out = (this.entries || []).flatMap((e) => this._entryToRecords(e));
+        const out = (this.entries || []).flatMap((e, index) => this._entryToRecords(e, index));
         this.outputValue = JSON.stringify(out);
 
         // Flow output
@@ -558,36 +582,40 @@ _applyVisibilityRules() {
 
         // Parent component output
         this.dispatchEvent(new CustomEvent('jsonchange', { detail: { json: this.outputValue } }));
-
+        
+        // Update validation state
+        this.validate();
+        
         // eslint-disable-next-line no-console
         console.log('===[SSPRepeater] _rebuildRecords - outputValue', this.outputValue);
         console.log('===[SSPRepeater] defaultSpeakerDate=', this.defaultSpeakerDate);
     }
 
-    _entryToRecords(entry) {
+    _entryToRecords(entry, index) {
+        const sessionNumber = entry && entry.sessionNumber !== undefined && entry.sessionNumber !== null? Number(entry.sessionNumber) : index + 1;
         const speakers = entry && entry.speakerId ? [entry.speakerId] : [];
         const products = this._toArray(entry && entry.productIds ? entry.productIds : []);
-        const lang = entry ? entry.language || null : null;
+        // Slides language is saved only when the field is visible for this speaker.
+        const lang = entry && entry.showSlidesLanguage ? entry.language || null : null;
         const speakerLanguage = entry ? entry.speakerLanguage || null : null;
         const presentationStatus = entry ? entry.presentationStatus || null : null;
         const startTime = entry ? entry.startTime || null : null;
         const endTime = entry ? entry.endTime || null : null;
         const date = entry ? entry.date || null : null;
-        const hasSpeaker = speakers.length > 0;
         const hasProducts = products.length > 0;
 
-        // Règle métier
-        if (hasSpeaker && !hasProducts) {
-            return [];
-        }
-
-        if (!hasSpeaker && !hasProducts) {
-            return [];
+        // Garder la ligne dans le JSON même si elle est invalide
+        if (!hasProducts) {
+            return [this._makeRecord(null, speakers[0] || null, null, lang, speakerLanguage, presentationStatus, startTime, endTime, date, sessionNumber)];
         }
 
         return this._pairSelections(speakers, products)
-            .map(({ sid, pid }) => this._makeRecord(sid, pid, lang, speakerLanguage, presentationStatus, startTime, endTime,date));
-        }
+        .map(({ sid, pid }) => {
+            // Existing SSP Id is preserved only when the same product remains selected.
+            const linkId = entry.productLinkIds && pid ? entry.productLinkIds[pid] : null;
+            return this._makeRecord(linkId, sid, pid, lang, speakerLanguage, presentationStatus, startTime, endTime, date, sessionNumber);
+        });
+    }
 
     _toArray(value) {
         if (Array.isArray(value)) return value;
@@ -599,9 +627,9 @@ _applyVisibilityRules() {
         const hasSpeakers = speakers.length > 0;
         const hasProducts = products.length > 0;
 
-        // speaker sans produit = interdit
+        // Garder le speaker même sans produit
         if (hasSpeakers && !hasProducts) {
-            return [];
+            return [{ sid: speakers[0], pid: null }];
         }
 
         if (!hasSpeakers && hasProducts) {
@@ -615,10 +643,12 @@ _applyVisibilityRules() {
         return speakers.flatMap((sid) => products.map((pid) => ({ sid, pid })));
     }
 
-    _makeRecord(contactId, productId, lang, speakerLanguage, presentationStatus, startTime, endTime,date) {
+    _makeRecord(id, contactId, productId, lang, speakerLanguage, presentationStatus, startTime, endTime, date, sessionNumber) {
         return {
+            Id: id,
             attributes: { type: 'sessionSpeakerProduct__c' },
             speakerContact__c: contactId,
+            sessionNumber__c: Number(sessionNumber),
             strategy__c: productId,
             Language__c: lang,
             speakerLanguage__c: speakerLanguage,
@@ -707,38 +737,63 @@ _applyVisibilityRules() {
         this._rebuildRecords(); // refresh output JSON
     };
 
+    // Validate all displayed fields without blocking Flow navigation
     @api
     validate() {
-        let errorMessage = null;
-
         const hasInvalidRow = (this.entries || []).some((e) => {
-            const hasSpeaker = !!e.speakerId;
-            const hasProducts = Array.isArray(e.productIds) && e.productIds.length > 0;
+        const isEmptyRow =
+            !e.speakerId &&
+            (!Array.isArray(e.productIds) || e.productIds.length === 0) &&
+            !e.speakerLanguage &&
+            !e.language &&
+            !e.date &&
+            !e.startTime &&
+            !e.endTime;
 
-            // Si un speaker est renseigné, au moins un produit est obligatoire
-            if (hasSpeaker && !hasProducts) {
-                errorMessage = 'Any line with a speaker must include at least one product.';
-                return true;
-            }
-
-            // Si les time slots sont affichés, les 3 champs sont obligatoires avec un speaker
-            if (this.showTimeSlots && hasSpeaker && (!e.startTime || !e.endTime || !e.date)) {
-                errorMessage = 'Any line with a speaker must include start time, end time and date.';
-                return true;
-            }
-
+        // Ligne totalement vide autorisée
+        if (isEmptyRow) {
             return false;
-        });
-
-        if (hasInvalidRow) {
-            return {
-                isValid: false,
-                errorMessage: errorMessage
-            };
         }
+
+        // Speaker obligatoire
+        if (!e.speakerId) {
+            return true;
+        }
+
+        // Product obligatoire
+        if (!Array.isArray(e.productIds) || e.productIds.length === 0) {
+            return true;
+        }
+
+        // Speaker language obligatoire
+        if (!e.speakerLanguage) {
+            return true;
+        }
+
+        // Language of slides obligatoire si affiché
+        if (e.showSlidesLanguage && !e.language) {
+            return true;
+        }
+
+        // Date + times obligatoires si affichés
+        if (this.showTimeSlots && (!e.date || !e.startTime || !e.endTime)) {
+            return true;
+        }
+
+        return false;
+    });
+
+        // Update Flow output flag
+        this.formValidated = !hasInvalidRow;
+
+        this.dispatchEvent(
+            new FlowAttributeChangeEvent('formValidated', this.formValidated)
+        );
 
         return { isValid: true };
     }
+
+
     get hasError() {
         return false; // ou ta logique
     }
@@ -759,5 +814,6 @@ _applyVisibilityRules() {
         }
         return options;
     }
+    
 
 }
