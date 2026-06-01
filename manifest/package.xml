@@ -1,6 +1,18 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <Package xmlns="http://soap.sforce.com/2006/04/metadata">
 
-    
+    <types>
+        <members>Event__c.logs__c</members>
+        <members>Event__c.MicrosoftEventId__c</members>
+        <name>CustomField</name>
+    </types>
+    <types>
+        <members>BooklyMeetingInvitationQueueable</members>
+        <members>BooklyMeetingInvitationService</members>
+        <members>LogAccumulatorService</members>
+        <name>ApexClass</name>
+    </types>
+
+    <version>65.0</version>
 
 </Package>

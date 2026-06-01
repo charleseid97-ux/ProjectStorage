@@ -72,19 +72,53 @@ public without sharing class BooklyMeetingInvitationQueueable
                 JSON.serializePretty(request)
             );
 
-            MicrosoftGraphMeetingService.MeetingResponse response =
-                MicrosoftGraphMeetingService.createTeamsMeeting(request);
+            List<String> emails = new List<String>();
 
-            System.debug('Bookly meeting response for Event__c ' + eventId + ': ' + JSON.serialize(response));
-
-            /*
-            if (response.success == true && !String.isBlank(response.eventId)) {
-                eventsToUpdate.add(new Event__c(
-                    Id = eventId,
-                    Microsoft_Event_Id__c = response.eventId
-                ));
+            for (MicrosoftGraphMeetingService.Participant participant : request.participants) {
+                emails.add(participant.email);
             }
-            */
+
+            try {
+                MicrosoftGraphMeetingService.MeetingResponse response =
+                    MicrosoftGraphMeetingService.createTeamsMeeting(request);
+
+                String logMessage =
+                    'to: ' + String.join(emails, ',') +
+                    ' | result: ' + (response.success ? 'SUCCESS' : 'FAIL');
+
+                if (response.success == true && !String.isBlank(response.eventId)) {
+                    logMessage += ' | eventId: ' + response.eventId;
+                    eventRecord.MicrosoftEventId__c = response.eventId;
+                }
+
+                if (!String.isBlank(response.errorMessage)) {
+                    logMessage += ' | error: ' + response.errorMessage;
+                }
+
+                eventRecord.Logs__c = LogAccumulatorService.appendLog(
+                    eventRecord.Logs__c,
+                    'GraphInvitationSending',
+                    logMessage
+                );
+
+                System.debug(
+                    'Bookly meeting response for Event__c ' +
+                    eventId +
+                    ': ' +
+                    JSON.serialize(response)
+                );
+            } catch (Exception e) {
+                eventRecord.Logs__c = LogAccumulatorService.appendLog(
+                    eventRecord.Logs__c,
+                    'GraphInvitationSending',
+                    'to: ' + String.join(emails, ',') +
+                    ' | result: EXCEPTION' +
+                    ' | error: ' + e.getMessage()
+                );
+            }
+
+            eventsToUpdate.add(eventRecord);
+            
         }
 
         if (!eventsToUpdate.isEmpty()) {
@@ -114,7 +148,8 @@ public without sharing class BooklyMeetingInvitationQueueable
                    OwnerId,
                    Owner.Name,
                    Owner.Email,
-                   city__c
+                   city__c,
+                   Logs__c
             FROM Event__c
             WHERE Id IN :eventIds
         ]);
