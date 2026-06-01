@@ -8,7 +8,7 @@ export default class AccountContactMultiSelectLookup extends LightningElement {
     // ===== FLOW INPUTS =====
     @api accountLabel = 'Account';
     @api picklistLabel = 'Contacts';
-    @api limitSize = 200;
+    @api limitSize = 1000;
 
     // Optional preselection
     @api preselectedAccountId;

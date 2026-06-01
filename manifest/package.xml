@@ -1,27 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <Package xmlns="http://soap.sforce.com/2006/04/metadata">
 
-    <!-- Apex -->
-    <types>
-        <members>SessionSpeakerProduct_InsertFromJson</members>
-        <members>sessionSpeakerProductRelatedListCTRL</members>
-        <members>sessionSpeakerProductRepeaterCTRL</members>  
-        <members>sessionSpeakerProductHandler</members>  
-        <members>customEventSpeakerApprovalService</members>  
-        <members>EventApprovalInboxController</members>  
-        <members>EventSpeakerApprovalsService</members>                                        
-        <name>ApexClass</name>
-    </types>
-    <types>
-        <members>sessionSpeakerProductRepeater</members>
-        <members>speakerProductsBySession</members>
-        <members>eventApprovalInbox</members>        
-        <name>LightningComponentBundle</name>
-    </types>
-    <types>
-        <members>sessionSpeakerProduct__c.sessionNumber__c</members>
-        <name>customField</name>
-    </types>
-    <version>65.0</version>
+    
 
 </Package>
