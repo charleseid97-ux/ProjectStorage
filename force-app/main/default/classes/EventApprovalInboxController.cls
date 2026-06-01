@@ -154,73 +154,26 @@ public without sharing class EventApprovalInboxController {
         for (ProcessInstanceWorkitem wi : workItems) {
 
             Id targetId = wi.ProcessInstance.TargetObjectId;
-            String processDeveloperName =
-                wi.ProcessInstance.ProcessDefinition.DeveloperName;
 
-            ApprovalRow row = new ApprovalRow();
+            ApprovalRow row = buildApprovalRow(
+                wi,
+                me,
+                myQueues,
+                userNames,
+                hasSpeakerApproverPermission,
+                hasOrganizerApproverPermission
+            );
 
-            row.workItemId = wi.Id;
-            row.status = 'Pending';
-            row.processName = wi.ProcessInstance.ProcessDefinition.Name;
-            row.processDeveloperName = processDeveloperName;
-
-            if (wi.ActorId == me) {
-
-                row.assignmentType = 'ME';
-                row.assignedTo = userNames.get(wi.ActorId);
-
-            } else if (myQueues.contains(wi.ActorId)) {
-
-                row.assignmentType = 'QUEUE';
-                row.assignedTo = 'Queue';
-
-            } else {
-
-                Boolean isSpeakerApproval =
-                    targetId.getSObjectType() == EventSpeakerApprovals__c.SObjectType;
-
-                Boolean isOrganizerApproval =
-                    targetId.getSObjectType() == Event__c.SObjectType;
-
-                Boolean canApproveOtherSpeaker =
-                    hasSpeakerApproverPermission &&
-                    isSpeakerApproval &&
-                    processDeveloperName == SPEAKER_PROCESS_DEVELOPER_NAME;
-
-                Boolean canApproveOtherOrganizer =
-                    hasOrganizerApproverPermission &&
-                    isOrganizerApproval &&
-                    processDeveloperName == ORGANIZER_PROCESS_DEVELOPER_NAME;
-
-                if (canApproveOtherSpeaker || canApproveOtherOrganizer) {
-
-                    row.assignmentType = 'OTHER';
-
-                    if (wi.ActorId != null && userNames.containsKey(wi.ActorId)) {
-                        row.assignedTo = userNames.get(wi.ActorId);
-                    } else {
-                        row.assignedTo = String.valueOf(wi.ActorId);
-                    }
-
-                } else {
-                    continue;
-                }
+            if (row == null) {
+                continue;
             }
 
             if (eventsById.containsKey(targetId)) {
 
-                Event__c evt = eventsById.get(targetId);
-
-                row.eventId = evt.Id;
-                row.eventName = evt.Name;
-                row.type = evt.category__c;
-                row.format = evt.Format__c;
-                row.eventDate = evt.startDate__c;
-                row.speakers = evt.Speakers__c;
-                row.organizer = evt.Organizer__r != null
-                    ? evt.Organizer__r.Name
-                    : null;
-                row.salesTeam = evt.SalesTeam__c;
+                populateEventRow(
+                    row,
+                    eventsById.get(targetId)
+                );
 
                 if (
                     row.assignmentType == 'OTHER' &&
@@ -234,21 +187,10 @@ public without sharing class EventApprovalInboxController {
 
             if (esasById.containsKey(targetId)) {
 
-                EventSpeakerApprovals__c esa = esasById.get(targetId);
-
-                row.eventId = esa.Event__c;
-                row.eventName = esa.Event__r.Name;
-                row.speakerName = esa.Speaker__r != null
-                    ? esa.Speaker__r.Name
-                    : null;
-                row.type = esa.Event__r.category__c;
-                row.format = esa.Event__r.Format__c;
-                row.eventDate = esa.Event__r.startDate__c;
-                row.speakers = esa.Event__r.Speakers__c;
-                row.organizer = esa.Event__r.Organizer__r != null
-                    ? esa.Event__r.Organizer__r.Name
-                    : null;
-                row.salesTeam = esa.Event__r.SalesTeam__c;
+                populateSpeakerRow(
+                    row,
+                    esasById.get(targetId)
+                );
 
                 speakerRows.add(row);
             }
@@ -332,4 +274,107 @@ public without sharing class EventApprovalInboxController {
             Approval.process(req);
         }
     }
+
+
+    // Construit une ligne d'approbation à partir d'un workitem
+    private static ApprovalRow buildApprovalRow(
+        ProcessInstanceWorkitem wi,
+        Id me,
+        Set<Id> myQueues,
+        Map<Id, String> userNames,
+        Boolean hasSpeakerApproverPermission,
+        Boolean hasOrganizerApproverPermission
+    ) {
+        Id targetId = wi.ProcessInstance.TargetObjectId;
+        String processDeveloperName =
+            wi.ProcessInstance.ProcessDefinition.DeveloperName;
+
+        ApprovalRow row = new ApprovalRow();
+
+        row.workItemId = wi.Id;
+        row.status = 'Pending';
+        row.processName = wi.ProcessInstance.ProcessDefinition.Name;
+        row.processDeveloperName = processDeveloperName;
+
+        if (wi.ActorId == me) {
+
+            row.assignmentType = 'ME';
+            row.assignedTo = userNames.get(wi.ActorId);
+
+        } else if (myQueues.contains(wi.ActorId)) {
+
+            row.assignmentType = 'QUEUE';
+            row.assignedTo = 'Queue';
+
+        } else {
+
+            Boolean isSpeakerApproval =
+                targetId.getSObjectType() == EventSpeakerApprovals__c.SObjectType;
+
+            Boolean isOrganizerApproval =
+                targetId.getSObjectType() == Event__c.SObjectType;
+
+            Boolean canApproveOtherSpeaker =
+                hasSpeakerApproverPermission &&
+                isSpeakerApproval &&
+                processDeveloperName == SPEAKER_PROCESS_DEVELOPER_NAME;
+
+            Boolean canApproveOtherOrganizer =
+                hasOrganizerApproverPermission &&
+                isOrganizerApproval &&
+                processDeveloperName == ORGANIZER_PROCESS_DEVELOPER_NAME;
+
+            if (!(canApproveOtherSpeaker || canApproveOtherOrganizer)) {
+                return null;
+            }
+
+            row.assignmentType = 'OTHER';
+
+            if (wi.ActorId != null && userNames.containsKey(wi.ActorId)) {
+                row.assignedTo = userNames.get(wi.ActorId);
+            } else {
+                row.assignedTo = String.valueOf(wi.ActorId);
+            }
+        }
+
+        return row;
+    }
+
+    // Remplit une ligne depuis un Event
+    private static void populateEventRow(
+        ApprovalRow row,
+        Event__c evt
+    ) {
+        row.eventId = evt.Id;
+        row.eventName = evt.Name;
+        row.type = evt.category__c;
+        row.format = evt.Format__c;
+        row.eventDate = evt.startDate__c;
+        row.speakers = evt.Speakers__c;
+        row.organizer = evt.Organizer__r != null
+            ? evt.Organizer__r.Name
+            : null;
+        row.salesTeam = evt.SalesTeam__c;
+    }
+
+    // Remplit une ligne depuis un EventSpeakerApproval
+    private static void populateSpeakerRow(
+        ApprovalRow row,
+        EventSpeakerApprovals__c esa
+    ) {
+        row.eventId = esa.Event__c;
+        row.eventName = esa.Event__r.Name;
+        row.speakerName = esa.Speaker__r != null
+            ? esa.Speaker__r.Name
+            : null;
+        row.type = esa.Event__r.category__c;
+        row.format = esa.Event__r.Format__c;
+        row.eventDate = esa.Event__r.startDate__c;
+        row.speakers = esa.Event__r.Speakers__c;
+        row.organizer = esa.Event__r.Organizer__r != null
+            ? esa.Event__r.Organizer__r.Name
+            : null;
+        row.salesTeam = esa.Event__r.SalesTeam__c;
+    }
+
 }
