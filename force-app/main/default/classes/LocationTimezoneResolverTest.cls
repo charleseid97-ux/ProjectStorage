@@ -1,6 +1,6 @@
 @IsTest
 private class LocationTimezoneResolverTest {
-
+ 
     // Test résolution par pays uniquement
     @IsTest
     static void testResolveByCountryOnly() {
