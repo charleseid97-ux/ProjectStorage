@@ -1,35 +1,28 @@
 /** ──────────────────────────────────────
- * @description Batch triggered on Share_Class__c AfterInsert.
- *              Runs the moteur de calcul (GridDetailBuilder.buildForGrids) for all Standard Grids
- *              so that newly inserted share classes get their StandardGridDetail__c records.
- *              Chains ShareClassCustomGridBatch in finish() to ensure standard details exist
- *              before custom grid evaluation begins.
+ * @description Scheduled daily batch that runs the moteur de calcul (GridDetailBuilder.buildForGrids)
+ *              for all Standard Grids, then unconditionally chains ShareClassCustomGridBatch to reconcile
+ *              Custom Grid Details. Launching the custom batch unconditionally is intentional: standard
+ *              grid details can also be created by the Grid Import Excel module between scheduled runs,
+ *              so we must always reconcile custom grids regardless of whether this batch produced new records.
  * @author Charles EID
  ────────────────────────────────────── */
-public class ShareClassStandardGridBatch implements Database.Batchable<SObject> {
+public class ShareClassStandardGridBatch implements Database.Batchable<SObject>, Schedulable {
 
-    private Set<Id> newShareClassIds;
-
-    public ShareClassStandardGridBatch(Set<Id> newShareClassIds) {
-        this.newShareClassIds = newShareClassIds;
+    public void execute(SchedulableContext sc) {
+        Database.executeBatch(new ShareClassStandardGridBatch(), 50);
     }
 
     public Database.QueryLocator start(Database.BatchableContext bc) {
-        return Database.getQueryLocator([
-            SELECT Id FROM Grid__c
-            WHERE RecordType.DeveloperName = 'StandardGrid'
-        ]);
+        return Database.getQueryLocator([SELECT Id FROM Grid__c WHERE RecordType.DeveloperName = 'StandardGrid']);
     }
 
     public void execute(Database.BatchableContext bc, List<Grid__c> scope) {
         Set<Id> scopeIds = new Set<Id>();
-        for (Grid__c g : scope) {
-            scopeIds.add(g.Id);
-        }
+        for (Grid__c g : scope) scopeIds.add(g.Id);
         GridDetailBuilder.buildForGrids(scopeIds);
     }
 
     public void finish(Database.BatchableContext bc) {
-        Database.executeBatch(new ShareClassCustomGridBatch(newShareClassIds), 50);
+        Database.executeBatch(new ShareClassCustomGridBatch(), 50);
     }
 }

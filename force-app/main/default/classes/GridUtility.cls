@@ -499,14 +499,4 @@ public with sharing class GridUtility {
         }
         if (!toUpdate.isEmpty()) update toUpdate;
     }
-
-    /** ──────────────────────────────────────
-     * @description Called on Share_Class__c AfterInsert. Launches the standard grid batch (moteur de calcul)
-     *              which chains the custom grid batch in its finish() method.
-     ────────────────────────────────────── */
-    public static void handleNewShareClasses(List<Share_Class__c> newShareClasses) {
-        if (newShareClasses == null || newShareClasses.isEmpty()) return;
-        Set<Id> newShareClassIds = new Map<Id, Share_Class__c>(newShareClasses).keySet();
-        Database.executeBatch(new ShareClassStandardGridBatch(newShareClassIds), 50);
-    }
 }

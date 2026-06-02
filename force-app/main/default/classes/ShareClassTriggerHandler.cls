@@ -21,8 +21,7 @@ public class ShareClassTriggerHandler {
 
     public static void handleAfterInsert(List<Share_Class__c> newShareClasses) {
         FieldHistoryLogger.log(newShareClasses, null, 'Share_Class__c');
-        GridUtility.handleNewShareClasses(newShareClasses);
-    }
+}
 
     public static void handleBeforeUpdate(List<Share_Class__c> newShareClasses , Map<Id,Share_Class__c> oldShareClassesMap){
         ShareClassHandler.updateFormattedName(newShareClasses, oldShareClassesMap);
