@@ -1,52 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <Package xmlns="http://soap.sforce.com/2006/04/metadata">
-
     <types>
-        <members>TimezoneMapping__mdt</members>
-        <name>CustomObject</name>
-    </types>
-    <types>
-    <members>TimezoneMapping.Andorra_Default</members>
-    <members>TimezoneMapping.Austria_Default</members>
-    <members>TimezoneMapping.Belgium_Default</members>
-    <members>TimezoneMapping.Canada_Default</members>
-    <members>TimezoneMapping.Digital_Default</members>
-    <members>TimezoneMapping.France_Default</members>
-    <members>TimezoneMapping.Germany_Default</members>
-    <members>TimezoneMapping.Hungary_Default</members>
-    <members>TimezoneMapping.Ireland_Default</members>
-    <members>TimezoneMapping.Italy_Default</members>
-    <members>TimezoneMapping.Japan_Default</members>
-    <members>TimezoneMapping.Latvia_Default</members>
-    <members>TimezoneMapping.Lithuania_Default</members>
-    <members>TimezoneMapping.Luxembourg_Default</members>
-    <members>TimezoneMapping.Monaco_Default</members>
-    <members>TimezoneMapping.Netherlands_Default</members>
-    <members>TimezoneMapping.Norway_Default</members>
-    <members>TimezoneMapping.Portugal_Default</members>
-    <members>TimezoneMapping.Singapore_Default</members>
-    <members>TimezoneMapping.Spain_Default</members>
-    <members>TimezoneMapping.Sweden_Default</members>
-    <members>TimezoneMapping.Switzerland_Default</members>
-    <members>TimezoneMapping.UAE_Default</members>
-    <members>TimezoneMapping.UK_Default</members>
-    <members>TimezoneMapping.Uruguay_Default</members>
-    <members>TimezoneMapping.USA_Default</members>
-    <members>TimezoneMapping.Liechtenstein_Default</members>
-    <members>TimezoneMapping.Spain_Canary</members>
-    <members>TimezoneMapping.USA_Central</members>
-    <members>TimezoneMapping.USA_Mountain</members>
-    <members>TimezoneMapping.USA_Pacific</members>
-    <members>TimezoneMapping.USA_Alaska</members>
-    <members>TimezoneMapping.USA_Hawaii</members>
-    <name>CustomMetadata</name>
-</types>
-    <types>
-        <members>LocationTimezoneResolver</members>
-        <members>LocationTimezoneResolverTest</members>        
+        <members>customEventSpeakerApprovalService</members>
         <name>ApexClass</name>
     </types>
-
     <version>65.0</version>
 
 </Package>

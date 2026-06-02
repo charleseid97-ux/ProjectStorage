@@ -458,6 +458,10 @@ public without sharing class customEventSpeakerApprovalService {
             (best != null && best.Session__r != null ? best.Session__r.RecordType.Name : '') + ' - ' +
             (best != null ? best.Language__c : '');
 
+        if (nameValue.length() > 80) {
+            nameValue = nameValue.substring(0, 80);
+        }
+
         EventSpeakerApprovals__c rec = new EventSpeakerApprovals__c(
             Name            = nameValue,
             Key__c          = fullKey,
