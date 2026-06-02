@@ -23,6 +23,6 @@ public class ShareClassStandardGridBatch implements Database.Batchable<SObject>,
     }
 
     public void finish(Database.BatchableContext bc) {
-        Database.executeBatch(new ShareClassCustomGridBatch(), 50);
+        Database.executeBatch(new ShareClassCustomGridBatch(), 1);
     }
 }

@@ -139,7 +139,7 @@ public with sharing class GridValidationController {
         }
     }
 
-    private static void insertGridDetails(GridSaveRequest request, Map<String, GridCriteria__c> criteriaRefToRecordMap, Map<String, String> shareClassGridIdMap) {
+    public static void insertGridDetails(GridSaveRequest request, Map<String, GridCriteria__c> criteriaRefToRecordMap, Map<String, String> shareClassGridIdMap) {
         Map<Id, GridBuilderHelper.StandardGridDetailInfo> stdGridDetailInfoByShareClass = (shareClassGridIdMap != null && !shareClassGridIdMap.isEmpty()) ? GridBuilderHelper.buildStandardGridDetailInfoByShareClass(shareClassGridIdMap) : new Map<Id, GridBuilderHelper.StandardGridDetailInfo>();
         List<GridDetail__c> gridDetailsToInsert = new List<GridDetail__c>();
         Id customGridDetailRtId = Schema.SObjectType.GridDetail__c.getRecordTypeInfosByDeveloperName().get(GridBuilderHelper.RT_CUSTOM_GRID_DETAIL).getRecordTypeId();

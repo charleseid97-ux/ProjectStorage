@@ -48,49 +48,6 @@ public with sharing class GridDetailBuilder {
     }
 
     /** ──────────────────────────────────────
-     * @description Builds a field-value index from the given share classes, keyed by each fieldPath.
-     *              Used by ShareClassCustomGridBatch to evaluate GridCriteria conditions in memory.
-     ────────────────────────────────────── */
-    public static Map<String, Map<String, Set<Id>>> buildShareClassIndex(List<Share_Class__c> shareClasses, Set<String> fieldPaths) {
-        Map<String, Map<String, Set<Id>>> indexByField = new Map<String, Map<String, Set<Id>>>();
-        for (String fieldPath : fieldPaths) {
-            indexByField.put(fieldPath, new Map<String, Set<Id>>());
-        }
-        for (Share_Class__c share : shareClasses) {
-            for (String fieldPath : fieldPaths) {
-                String value = getShareFieldValue(share, fieldPath);
-                if (String.isBlank(value)) continue;
-                Map<String, Set<Id>> valueMap = indexByField.get(fieldPath);
-                if (!valueMap.containsKey(value)) valueMap.put(value, new Set<Id>());
-                valueMap.get(value).add(share.Id);
-            }
-        }
-        return indexByField;
-    }
-
-    /** ──────────────────────────────────────
-     * @description Evaluates a list of GridCriteriaDetail__c conditions against the share class index
-     *              and returns the Set of matching share class Ids.
-     *              Used by ShareClassCustomGridBatch to avoid duplicating the postfix evaluation logic.
-     ────────────────────────────────────── */
-    public static Set<Id> evaluateCriteriaDetails(List<GridCriteriaDetail__c> details, String filterLogicExpression, Map<String, Map<String, Set<Id>>> indexByField, Set<Id> allShareClassIds) {
-        BuildResult result = new BuildResult();
-        result.errors = new List<BuildError>();
-        Map<Integer, Set<Id>> conditionSets = new Map<Integer, Set<Id>>();
-        for (GridCriteriaDetail__c detail : details) {
-            Integer filterNumber = detail.FilterNumber__c != null ? detail.FilterNumber__c.intValue() : null;
-            if (filterNumber == null) continue;
-            String fieldPath = resolveFieldPath(detail.Object__c, detail.Field__c);
-            if (fieldPath == null) continue;
-            Set<Id> conditionSet = buildConditionSet(detail, fieldPath, indexByField, allShareClassIds, result, null);
-            if (conditionSet != null) conditionSets.put(filterNumber, conditionSet);
-        }
-        if (conditionSets.isEmpty()) return new Set<Id>(allShareClassIds);
-        if (String.isBlank(filterLogicExpression)) return new Set<Id>();
-        return evaluateExpression(filterLogicExpression, conditionSets, result, null);
-    }
-
-    /** ──────────────────────────────────────
      * @description Runs the full rule-evaluation and rebate-computation pipeline for the given grids
      *              but stops before inserting/upserting any GridDetail__c records.
      *              Used by GridUtility.refreshGridDetailsForShareClasses to obtain new rates
