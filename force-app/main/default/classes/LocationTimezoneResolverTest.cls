@@ -14,15 +14,15 @@ private class LocationTimezoneResolverTest {
         System.assertNotEquals(null, result.gmtOffsetNow);
     }
 
-    // Test résolution par ville uniquement
+    // Test résolution par ville + pays
     @IsTest
     static void testResolveByCityOnly() {
         Test.startTest();
         LocationTimezoneResolver.Result result =
-            LocationTimezoneResolver.resolve(null, 'London');
+            LocationTimezoneResolver.resolve('Spain', 'Las Palmas');
         Test.stopTest();
 
-        System.assertEquals('Europe/London', result.timezoneId);
+        System.assertEquals('Atlantic/Canary', result.timezoneId);
         System.assertEquals('city', result.matchedBy);
     }
 
@@ -62,7 +62,7 @@ private class LocationTimezoneResolverTest {
         System.assertEquals(null, result.matchedBy);
     }
 
-    // Test normalisation accents
+    // Test normalisation accents avec fallback pays
     @IsTest
     static void testResolveWithAccents() {
         Test.startTest();
@@ -71,7 +71,7 @@ private class LocationTimezoneResolverTest {
         Test.stopTest();
 
         System.assertEquals('Europe/Paris', result.timezoneId);
-        System.assertEquals('city', result.matchedBy);
+        System.assertEquals('country', result.matchedBy);
     }
 
     // Test toString
