@@ -369,6 +369,12 @@
 		<name>CustomObject</name>
 	</types>
 	<types>
+		<members>Product__c.GridManualUpdate__c</members>
+		<members>ProjectProduct__c.GridManualUpdate__c</members>
+		<members>ProjectProductChild__c.GridManualUpdate__c</members>
+		<name>CustomField</name>
+	</types>
+	<types>
 		<members>BuildNewGrid</members>
 		<members>GridCriteriaDetail__c</members>
 		<members>GridCriteria__c</members>
