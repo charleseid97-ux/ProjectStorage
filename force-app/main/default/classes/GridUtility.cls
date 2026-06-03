@@ -493,8 +493,7 @@ public with sharing class GridUtility {
         for (GridDetail__c gd : [SELECT Id, Grid__c
                                   FROM GridDetail__c
                                   WHERE Grid__c IN :gridEndDateById.keySet()
-                                    AND RecordType.DeveloperName = :GridBuilderHelper.RT_CUSTOM_GRID_DETAIL
-                                    AND StandardGridDetail__r.TECH_EffMgtFeesAuditHistory__c = null]) {
+                                  AND StandardGridDetail__r.TECH_EffMgtFeesAuditHistory__c = null]) {
             toUpdate.add(new GridDetail__c(Id = gd.Id, EndDate__c = gridEndDateById.get(gd.Grid__c)));
         }
         if (!toUpdate.isEmpty()) update toUpdate;
