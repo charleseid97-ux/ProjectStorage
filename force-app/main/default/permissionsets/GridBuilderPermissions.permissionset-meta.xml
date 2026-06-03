@@ -153,6 +153,18 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>ShareClassCustomGridBatch</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>ShareClassGridBatchTest</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>ShareClassStandardGridBatch</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>SM034_AgreementService</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -484,6 +496,11 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Grid__c.AutomaticGridUpdate__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Product__c.GridManualUpdate__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
