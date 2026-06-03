@@ -457,7 +457,8 @@ public with sharing class GridBuilderHelper {
 
     public static String getAdditionalQueryColumns() {
         return '\nShare_Class__c => ISIN__c' +
-        '\nShare_Class__c => EffectiveManagementFees__c';
+        '\nShare_Class__c => EffectiveManagementFees__c' +
+        '\nProduct__c => GridManualUpdate__c';
     }
 
     private static FilterObjectWrapper labelOnly(String objectApiName, String fieldApiName) {
