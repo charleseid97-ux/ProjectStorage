@@ -92,7 +92,7 @@ public class ShareClassCustomGridBatch implements Database.Batchable<SObject> {
             List<Id> missingScIds = new List<Id>();
             for (GridBuilderHelper.ProductWrapper pw : result.products) {
                 for (GridBuilderHelper.ShareClassWrapper scw : pw.shareClasses) {
-                    if (scw.isSelected && (alreadyExists == null || !alreadyExists.contains(scw.shareClassId))) {
+                    if (scw.isSelected && scw.recordResults.get('Fund__r.GridManualUpdate__c') == 'No' && (alreadyExists == null || !alreadyExists.contains(scw.shareClassId))) {
                         missingScIds.add(scw.shareClassId);
                         shareClassGridIdMap.put(String.valueOf(scw.shareClassId), String.valueOf(gc.StandardGrid__c));
                     }
