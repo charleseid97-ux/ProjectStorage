@@ -1,6 +1,31 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomLabels xmlns="http://soap.sforce.com/2006/04/metadata">
     <labels>
+        <fullName>Grid_REG_CountryMapping</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Grid REG Country Mapping</shortDescription>
+        <value>AD->ES
+DK->SE
+GG->UK
+MC->FR
+AE->LU
+AR->LU
+BR->LU
+CL->LU
+CZ->LU
+GR->LU
+HK->LU
+KY->LU
+LT->LU
+MU->LU
+PR->LU
+XL->LU
+XU->LU
+US->LU
+UY->LU</value>
+    </labels>
+    <labels>
         <fullName>ADD_TO_EVENT_CAMPAIGN</fullName>
         <language>en_US</language>
         <protected>false</protected>
