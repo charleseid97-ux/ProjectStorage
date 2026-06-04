@@ -412,60 +412,6 @@ public without sharing class EventApprovalInboxController {
         row.salesTeam = esa.Event__r.SalesTeam__c;
     }
 
-    @TestVisible
-private static ApprovalRow buildApprovalRowForTest(
-    Id workItemId,
-    Id actorId,
-    Id targetId,
-    String processName,
-    String processDeveloperName,
-    Id me,
-    Set<Id> myQueues,
-    Map<Id, String> userNames,
-    Boolean hasSpeakerApproverPermission,
-    Boolean hasOrganizerApproverPermission
-) {
-    ApprovalRow row = new ApprovalRow();
-
-    row.workItemId = String.valueOf(workItemId);
-    row.status = 'Pending';
-    row.processName = processName;
-    row.processDeveloperName = processDeveloperName;
-
-    
-        Boolean isSpeakerApproval =
-            targetId.getSObjectType() == EventSpeakerApprovals__c.SObjectType;
-
-        Boolean isOrganizerApproval =
-            targetId.getSObjectType() == Event__c.SObjectType;
-
-        Boolean canApproveOtherSpeaker =
-            hasSpeakerApproverPermission &&
-            isSpeakerApproval &&
-            processDeveloperName == SPEAKER_PROCESS_DEVELOPER_NAME;
-
-        Boolean canApproveOtherOrganizer =
-            hasOrganizerApproverPermission &&
-            isOrganizerApproval &&
-            processDeveloperName == ORGANIZER_PROCESS_DEVELOPER_NAME;
-
-        if (!(canApproveOtherSpeaker || canApproveOtherOrganizer)) {
-            return null;
-        }
-
-        row.assignmentType = 'OTHER';
-        row.assignmentType = 'OTHER';
-        row.assignmentType = 'OTHER';
-        row.assignmentType = 'OTHER';
-        row.assignmentType = 'OTHER';
-
-        if (actorId != null && userNames.containsKey(actorId)) {
-            row.assignedTo = userNames.get(actorId);
-        } 
-    
-
-    return row;
-}
 
 
 }
