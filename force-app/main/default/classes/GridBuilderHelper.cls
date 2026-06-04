@@ -138,7 +138,6 @@ public with sharing class GridBuilderHelper {
             }
         }
         Map<String, Map<String, Map<String, String>>> mapObjectToFieldToValues = new Map<String, Map<String, Map<String, String>>>();
-        Map<String, Map<String, String>> mapFieldToValues = new Map<String, Map<String, String>>();
         String objectApiName, fieldApiName;
         for(String objectField : mapObjectFieldToValuesInList.keySet()) {
             objectApiName = objectField.split('_-_')[0];
@@ -146,6 +145,7 @@ public with sharing class GridBuilderHelper {
             if(!mapObjectToFieldToValues.containsKey(objectApiName)) {
                 mapObjectToFieldToValues.put(objectApiName, new Map<String, Map<String, String>>());
             }
+            Map<String, Map<String, String>> mapFieldToValues = mapObjectToFieldToValues.get(objectApiName);
             mapObjectFieldToValuesInList.get(objectField).sort();
             for(String value : mapObjectFieldToValuesInList.get(objectField)) {
                 if(!mapFieldToValues.containsKey(fieldApiName)) {
@@ -153,7 +153,6 @@ public with sharing class GridBuilderHelper {
                 }
                 mapFieldToValues.get(fieldApiName).put(value, value);
             }
-            mapObjectToFieldToValues.get(objectApiName).put(fieldApiName, mapFieldToValues.get(fieldApiName));
         }
         return mapObjectToFieldToValues;
     }
