@@ -450,9 +450,36 @@ public with sharing class GridBuilderHelper {
     }
 
     private static String getRegisteredCountriesCondition(String countriesOfDistribution) {
-        String countriesInListLiteral = toSoqlInListLiteral(countriesOfDistribution, ';');
+        String mappedCountries = applyREGCountryMapping(countriesOfDistribution, ';');
+        String countriesInListLiteral = toSoqlInListLiteral(mappedCountries, ';');
         String condition = String.isNotBlank(countriesInListLiteral) ? 'Id IN (SELECT ShareClass__c FROM Country__c WHERE (RegistrationStatus__c = \'REG\' OR RegistrationStatus__c = \'INSTITUTIONAL_ONLY\') and ShareClass__c != null AND Country__c IN '+countriesInListLiteral+')' : '';
         return condition;
+    }
+
+    private static String applyREGCountryMapping(String countries, String separator) {
+        if (String.isBlank(countries)) { return countries; }
+        Map<String, String> mapping = parseREGCountryMapping();
+        Set<String> mappedSet = new Set<String>();
+        for (String country : countries.split(separator)) {
+            String trimmed = country.trim();
+            if (String.isNotBlank(trimmed)) {
+                mappedSet.add(mapping.containsKey(trimmed) ? mapping.get(trimmed) : trimmed);
+            }
+        }
+        return String.join(new List<String>(mappedSet), separator);
+    }
+
+    private static Map<String, String> parseREGCountryMapping() {
+        Map<String, String> mapping = new Map<String, String>();
+        String labelValue = System.Label.Grid_REG_CountryMapping;
+        if (String.isBlank(labelValue)) { return mapping; }
+        for (String line : labelValue.split('\n')) {
+            List<String> parts = line.trim().split('->');
+            if (parts.size() == 2 && String.isNotBlank(parts[0].trim())) {
+                mapping.put(parts[0].trim(), parts[1].trim());
+            }
+        }
+        return mapping;
     }
 
     public static String getAdditionalQueryColumns() {
