@@ -21,16 +21,17 @@ public with sharing class GridRecapHelper {
         Map<Id, List<RuleEntry>> ruleMap                = new Map<Id, List<RuleEntry>>();
 
         for (GridDetail__c gd : [SELECT StandardGridDetail__c, StandardGridDetail__r.Grid__c, StandardGridDetail__r.Grid__r.Name,
-                                        StandardGridDetail__r.ShareClass__r.Fund__c, StandardGridDetail__r.ShareClass__r.Fund__r.InternalShortName__c,
+                                        StandardGridDetail__r.ShareClass__r.Fund__c, StandardGridDetail__r.ShareClass__r.Fund__r.Name,
                                         StandardGridDetail__r.ShareClass__r.Name__c, StandardGridDetail__r.RebateRate__c
                                  FROM GridDetail__c
                                  WHERE Grid__c = :gridId
                                  AND StandardGridDetail__c != null
                                  AND StandardGridDetail__r.ShareClass__r.Fund__c != null
-                                 ORDER BY StandardGridDetail__r.Grid__r.Name, StandardGridDetail__r.ShareClass__r.Fund__r.InternalShortName__c, StandardGridDetail__r.ShareClass__r.Name__c]) {
+                                 AND EndDate__c = null
+                                 ORDER BY StandardGridDetail__r.Grid__r.Name, StandardGridDetail__r.ShareClass__r.Fund__r.Name, StandardGridDetail__r.ShareClass__r.Name__c]) {
             Id sgId          = gd.StandardGridDetail__r.Grid__c;
             String sgName    = gd.StandardGridDetail__r.Grid__r.Name;
-            String shortName = gd.StandardGridDetail__r.ShareClass__r.Fund__r.InternalShortName__c;
+            String shortName = gd.StandardGridDetail__r.ShareClass__r.Fund__r.Name;
             String prodRef   = String.isNotBlank(shortName) ? shortName : gd.StandardGridDetail__r.ShareClass__r.Fund__c;
             String scName    = gd.StandardGridDetail__r.ShareClass__r.Name__c;
 

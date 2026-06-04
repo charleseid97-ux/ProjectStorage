@@ -34,13 +34,13 @@ public with sharing class StandardGridProductAndRulesController {
         Map<String, Set<String>> unrestrictedMap = new Map<String, Set<String>>();
         Set<String> inGridShortNames = new Set<String>();
 
-        for (GridDetail__c detail : [SELECT ShareClass__r.Type__c, ShareClass__r.Fund__r.InternalShortName__c,
+        for (GridDetail__c detail : [SELECT ShareClass__r.Type__c, ShareClass__r.Fund__r.Name,
                                             GridCriteria__r.SelectedShareTypes__c
                                      FROM GridDetail__c
                                      WHERE Grid__c = :gridId
                                      AND ShareClass__c != null]) {
             String type = detail.ShareClass__r.Type__c;
-            String shortName = detail.ShareClass__r.Fund__r?.InternalShortName__c;
+            String shortName = detail.ShareClass__r.Fund__r?.Name;
             Set<String> criteriaTypes = new Set<String>(GridBuilderHelper.stringToList(detail.GridCriteria__r?.SelectedShareTypes__c, ','));
 
             if (String.isNotBlank(shortName)) {
@@ -97,9 +97,9 @@ public with sharing class StandardGridProductAndRulesController {
         GridBuilderHelper.ShareTypeWrapper shareTypeWrp = new GridBuilderHelper.ShareTypeWrapper(null, definitiveShareTypeExclusion, new List<Map<String, String>>(), new List<String>());
         List<String> conditions = GridBuilderHelper.buildDefaultConditions(true, true, countriesOfDistribution, shareTypeWrp, false, availableGridIds);
         String whereClause = String.join(conditions, ' AND ');
-        for (Share_Class__c sc : Database.query('SELECT Type__c, Fund__r.InternalShortName__c FROM Share_Class__c WHERE ' + whereClause)) {
+        for (Share_Class__c sc : Database.query('SELECT Type__c, Fund__r.Name FROM Share_Class__c WHERE ' + whereClause)) {
             String type = sc.Type__c;
-            String shortName = sc.Fund__r?.InternalShortName__c;
+            String shortName = sc.Fund__r?.Name;
             if (String.isBlank(type) || String.isBlank(shortName)) continue;
             if (!result.containsKey(type)) {
                 result.put(type, new Set<String>());

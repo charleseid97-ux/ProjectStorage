@@ -364,6 +364,7 @@ public with sharing class GridBuilderHelper {
     public static List<String> buildDefaultConditions(Boolean excludeJPY, Boolean onlyAddSharesFromRegisteredCountries, String countriesOfDistribution, ShareTypeWrapper shareTypeWrp, Boolean alwaysIncludeDefaultShareTypeInclusion, List<String> availableGridIds) {
         List<String> whereFragments = new List<String>();
         whereFragments.add('Fund__c != null');
+        whereFragments.add('Fund__r.InternalShortName__c != null');
         whereFragments.add('Fund__r.FundStrategy__c != null');
         whereFragments.add('Status__c != \'Active - Lab\'');
         if(excludeJPY) {
