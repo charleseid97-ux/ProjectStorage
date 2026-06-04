@@ -145,7 +145,7 @@ public without sharing class CustomApprovalHistoryUtility {
             recallSteps(siblings, ctx.currentUserId, null);
         }
 
-        List<ApprovalStepConfig__mdt> nextSteps = [SELECT Id, DeveloperName, StepLabel__c, ApprovalMode__c
+        List<ApprovalStepConfig__mdt> nextSteps = [SELECT Id, DeveloperName, StepLabel__c, ApprovalMode__c, StepOrder__c
                                                    FROM ApprovalStepConfig__mdt
                                                    WHERE ProcessConfig__r.DeveloperName = :ctx.processName
                                                      AND StepOrder__c > :stepCfg.StepOrder__c
@@ -218,7 +218,7 @@ public without sharing class CustomApprovalHistoryUtility {
     // ─── resolveApprovers ────────────────────────────────────────────────────────
     private static List<ApproverAssignment> resolveApprovers(String processName, ApprovalStepConfig__mdt step, Id targetObjectId, List<Id> userInputIds) {
         List<ApproverAssignment> result = new List<ApproverAssignment>();
-        for (ApprovalStepApproverConfig__mdt cfg : [SELECT ApproverSource__c, ApproverType__c, ApproverValue__c, ApproverResolverClass__c
+        for (ApprovalStepApproverConfig__mdt cfg : [SELECT ApproverSource__c, ApproverType__c, ApproverValue__c, ApproverResolverClass__c, ExecutionOrder__c
                                                     FROM ApprovalStepApproverConfig__mdt
                                                     WHERE StepConfig__r.DeveloperName = :step.DeveloperName
                                                     ORDER BY ExecutionOrder__c ASC]) {
@@ -319,7 +319,7 @@ public without sharing class CustomApprovalHistoryUtility {
         String filterField = String.isNotBlank(stepDevName) ? 'StepConfig__r.DeveloperName' : 'ProcessConfig__r.DeveloperName';
         String filterValue = String.isNotBlank(stepDevName) ? stepDevName : processDevName;
 
-        String approvalActionConfigQuery = 'SELECT ActionKind__c, TargetFieldApiName__c, FieldValue__c, ' +
+        String approvalActionConfigQuery = 'SELECT ActionKind__c, TargetFieldApiName__c, FieldValue__c, ExecutionOrder__c, ' +
                                                 'EmailTemplateName__c, NotifyCurrentStepApprovers__c, NotifyNextStepApprovers__c, ' +
                                                 'NotifySubmitter__c, NotifyRecordOwner__c, AdditionalQueues__c, ' +
                                                 'AdditionalUsers__c, ActionClass__c ' +
