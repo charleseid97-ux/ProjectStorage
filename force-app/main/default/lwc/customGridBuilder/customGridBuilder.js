@@ -9,6 +9,8 @@ import getAgreementSelectionPageSettingsByGridId from '@salesforce/apex/GridBuil
 import getApprovedGridData from '@salesforce/apex/GridBuilderController.getApprovedGridData';
 import getAllProductsForSelection from '@salesforce/apex/GridBuilderController.getAllProductsForSelection';
 import getProductsAndShareClasses from '@salesforce/apex/GridBuilderController.getProductsAndShareClasses';
+import submitAgreementForApproval from '@salesforce/apex/GridBuilderController.submitAgreementForApproval';
+import submitForApproval from '@salesforce/apex/CustomApprovalHistoryUtility.submitForApproval';
 import {LABELS, reduceError, showToast, buildShareTypesKey, getProductNameFromRows, getQueryParam, getRecordIdFromPageRef, getGridIdFromPageRef, getSystemProductExclusionDetail,
     applySystemProductExclusion, mergeSystemDetail, addIsinExclusionsFromRows, pruneOrphanedCriteria, executeGridSave} from 'c/gridBuilderUtils';
 
@@ -40,7 +42,11 @@ export default class CustomGridBuilder extends NavigationMixin(LightningElement)
     @track existingGridInfo = { hasExistingGrid: false, kind: null, type: null, endDate: null };
     @track hasDraftGrid = false;
     @track hasPendingGrid = false;
-    
+
+    // Submit for approval modal
+    @track showApprovalModal = false;
+    @track approvalComments  = '';
+
     // Second Page: Grid Builder
     @track gridRequestData = {};
 
@@ -1062,16 +1068,8 @@ export default class CustomGridBuilder extends NavigationMixin(LightningElement)
         if (result.success) {
             this.draftGridId = result.gridId;
             showToast(this, this.labels.UI_Success, this.labels.Grid_Saved_Success.replace('{0}', result.gridName), 'success');
-            const agreementId = result.agreementId;
-            if (agreementId) {
-                this[NavigationMixin.Navigate]({
-                    type: 'standard__recordPage',
-                    attributes: {
-                        recordId: agreementId,
-                        objectApiName: 'Convention__c',
-                        actionName: 'view'
-                    }
-                });
+            if (result.agreementId) {
+                this.navigateToAgreement(result.agreementId);
             }
         }
     }
@@ -1088,9 +1086,59 @@ export default class CustomGridBuilder extends NavigationMixin(LightningElement)
         }, this.labels);
         this.isLoading = false;
         if (result.success) {
-            this.draftGridId = result.gridId;
-            showToast(this, this.labels.UI_Success, this.labels.Grid_Saved_Success.replace('{0}', result.gridName), 'success');
+            this.draftGridId       = result.gridId;
+            this.approvalComments  = '';
+            this.showApprovalModal = true;
         }
+    }
+
+    handleApprovalCommentsChange(event) {
+        this.approvalComments = event.target.value;
+    }
+
+    handleApprovalCancel() {
+        this.showApprovalModal = false;
+    }
+
+    async handleApprovalSubmit() {
+        this.isLoading = true;
+        this.showApprovalModal = false;
+        try {
+            let result;
+            if (this.existingGridInfo.hasExistingGrid) {
+                result = await submitForApproval({
+                    recordId:    this.draftGridId,
+                    processName: 'GridAmendment',
+                    comments:    this.approvalComments || null
+                });
+            } else {
+                result = await submitAgreementForApproval({
+                    agreementId: this.recId || this.selectedAgreements[0],
+                    comments:    this.approvalComments || null
+                });
+            }
+            if (result.success) {
+                this.showApprovalModal = false;
+                showToast(this, this.labels.UI_Success, this.labels.Grid_SubmittedForApproval, 'success');
+                this.navigateToAgreement(this.recId || this.selectedAgreements[0]);
+            } else {
+                showToast(this, this.labels.UI_Error, result.errorMessage, 'error');
+            }
+        } catch(e) {
+            showToast(this, this.labels.UI_Error, e.body?.message || e.message, 'error');
+        }
+        this.isLoading = false;
+    }
+
+    navigateToAgreement(recordId) {
+        this[NavigationMixin.Navigate]({
+            type: 'standard__recordPage',
+            attributes: {
+                recordId,
+                objectApiName: 'Convention__c',
+                actionName: 'view'
+            }
+        });
     }
 
     handlePages(showGridAgreementSelectionP, showGridBuilderP, showValidationP) {
