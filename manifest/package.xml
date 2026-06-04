@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <Package xmlns="http://soap.sforce.com/2006/04/metadata">
     <types>
-        <members>customEventSpeakerApprovalService</members>
+        <members>BooklyMeetingInvitationQueueable</members>
+        <members>BooklyMeetingInvitationService</members>
+        <members>MicrosoftGraphMeetingService</members>
+        <members>customEventHandler</members>
         <name>ApexClass</name>
     </types>
-    <version>65.0</version>
-
+    <version>66.0</version>
 </Package>

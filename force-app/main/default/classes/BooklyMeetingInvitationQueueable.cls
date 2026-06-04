@@ -18,9 +18,15 @@ public without sharing class BooklyMeetingInvitationQueueable
     private static final String META_LOCAL_MARKETING_EVENT_TEAM = 'LocalMarketing';
 
     private final Set<Id> eventIds;
-
+    private final Boolean isUpdate;
+    
     public BooklyMeetingInvitationQueueable(Set<Id> eventIds) {
+        this(eventIds, false);
+    }
+
+    public BooklyMeetingInvitationQueueable(Set<Id> eventIds, Boolean isUpdate) {
         this.eventIds = eventIds == null ? new Set<Id>() : new Set<Id>(eventIds);
+        this.isUpdate = isUpdate == true;
     }
 
     public void execute(QueueableContext context) {
@@ -47,7 +53,7 @@ public without sharing class BooklyMeetingInvitationQueueable
             List<MicrosoftGraphMeetingService.Participant> participants =
                 participantsByEventId.get(eventId);
 
-            if (participants == null || participants.isEmpty()) {
+            if ((participants == null || participants.isEmpty()) && eventRecord.Status__c != 'Cancelled') {
                 System.debug('No participants found for Event__c: ' + eventId);
                 continue;
             }
@@ -77,13 +83,48 @@ public without sharing class BooklyMeetingInvitationQueueable
             for (MicrosoftGraphMeetingService.Participant participant : request.participants) {
                 emails.add(participant.email);
             }
+            String logAction =
+                eventRecord.Status__c == 'Cancelled'
+                    ? 'GraphInvitationCancelling'
+                    : (
+                        isUpdate
+                            ? 'GraphInvitationUpdating'
+                            : 'GraphInvitationSending'
+                    );
 
             try {
-                MicrosoftGraphMeetingService.MeetingResponse response =
-                    MicrosoftGraphMeetingService.createTeamsMeeting(request);
+                MicrosoftGraphMeetingService.MeetingResponse response;
+
+                if (isUpdate) {
+                    if (String.isBlank(eventRecord.MicrosoftEventId__c)) {
+                        continue;
+                    }
+
+                    if (eventRecord.Status__c == 'Cancelled') {
+                        response =
+                            MicrosoftGraphMeetingService.cancelTeamsMeeting(
+                                request,
+                                eventRecord.MicrosoftEventId__c
+                            );
+                    } else {
+                        response =
+                            MicrosoftGraphMeetingService.updateTeamsMeeting(
+                                request,
+                                eventRecord.MicrosoftEventId__c
+                            );
+                    }
+                } else {
+                    response =
+                        MicrosoftGraphMeetingService.createTeamsMeeting(request);
+                }
 
                 String logMessage =
                     'to: ' + String.join(emails, ',') +
+                    ' | sentDateTime: ' + Datetime.now().format('yyyy-MM-dd HH:mm:ss') +
+                    ' | eventStart: ' + String.valueOf(eventRecord.StartDate__c) + ' ' + String.valueOf(eventRecord.StartTime__c) +
+                    ' | eventEnd: ' + String.valueOf(eventRecord.EndDate__c) + ' ' + String.valueOf(eventRecord.EndTime__c) +
+                    ' | timeZone: ' + safeString(eventRecord.TimeZone__c) +
+                    ' | location: ' + safeString(eventRecord.City__c) +
                     ' | result: ' + (response.success ? 'SUCCESS' : 'FAIL');
 
                 if (response.success == true && !String.isBlank(response.eventId)) {
@@ -97,7 +138,7 @@ public without sharing class BooklyMeetingInvitationQueueable
 
                 eventRecord.Logs__c = LogAccumulatorService.appendLog(
                     eventRecord.Logs__c,
-                    'GraphInvitationSending',
+                    logAction,
                     logMessage
                 );
 
@@ -110,8 +151,13 @@ public without sharing class BooklyMeetingInvitationQueueable
             } catch (Exception e) {
                 eventRecord.Logs__c = LogAccumulatorService.appendLog(
                     eventRecord.Logs__c,
-                    'GraphInvitationSending',
+                    logAction,
                     'to: ' + String.join(emails, ',') +
+                    ' | sentDateTime: ' + Datetime.now().format('yyyy-MM-dd HH:mm:ss') +
+                    ' | eventStart: ' + String.valueOf(eventRecord.StartDate__c) + ' ' + String.valueOf(eventRecord.StartTime__c) +
+                    ' | eventEnd: ' + String.valueOf(eventRecord.EndDate__c) + ' ' + String.valueOf(eventRecord.EndTime__c) +
+                    ' | timeZone: ' + safeString(eventRecord.TimeZone__c) +
+                    ' | location: ' + safeString(eventRecord.City__c) +
                     ' | result: EXCEPTION' +
                     ' | error: ' + e.getMessage()
                 );
@@ -149,6 +195,8 @@ public without sharing class BooklyMeetingInvitationQueueable
                    Owner.Name,
                    Owner.Email,
                    city__c,
+                   MicrosoftEventId__c,
+                   Status__c,
                    Logs__c
             FROM Event__c
             WHERE Id IN :eventIds
