@@ -2,6 +2,7 @@ public without sharing class EventApprovalInboxController {
 
     private static final String SPEAKER_PROCESS_DEVELOPER_NAME = 'SpeakerApproval';
     private static final String ORGANIZER_PROCESS_DEVELOPER_NAME = 'OrganizerApprovalProcess';
+    private static final String HOP_PROCESS_DEVELOPER_NAME = 'SpeakerApprovalHOP';
 
     public class ApprovalRow {
         @AuraEnabled public String workItemId;
@@ -29,6 +30,7 @@ public without sharing class EventApprovalInboxController {
         List<ApprovalRow> eventRows = new List<ApprovalRow>();
         List<ApprovalRow> speakerRows = new List<ApprovalRow>();
         List<ApprovalRow> organizerRows = new List<ApprovalRow>();
+        List<ApprovalRow> hopRows = new List<ApprovalRow>();
 
         Id me = UserInfo.getUserId();
 
@@ -37,6 +39,9 @@ public without sharing class EventApprovalInboxController {
 
         Boolean hasOrganizerApproverPermission =
             FeatureManagement.checkPermission('BooklyApproveAnyOrganizer');
+
+        Boolean hasHopApproverPermission =
+            FeatureManagement.checkPermission('ApproveForHOP');
 
         List<ProcessInstanceWorkitem> workItems = [
             SELECT Id,
@@ -161,7 +166,8 @@ public without sharing class EventApprovalInboxController {
                 myQueues,
                 userNames,
                 hasSpeakerApproverPermission,
-                hasOrganizerApproverPermission
+                hasOrganizerApproverPermission,
+                hasHopApproverPermission
             );
 
             if (row == null) {
@@ -176,6 +182,10 @@ public without sharing class EventApprovalInboxController {
                 );
 
                 if (
+                    row.processDeveloperName == HOP_PROCESS_DEVELOPER_NAME
+                ) {
+                    hopRows.add(row);
+                } else if (
                     row.assignmentType == 'OTHER' &&
                     row.processDeveloperName == ORGANIZER_PROCESS_DEVELOPER_NAME
                 ) {
@@ -198,9 +208,11 @@ public without sharing class EventApprovalInboxController {
 
         result.put('hasSpeakerApproverPermission', hasSpeakerApproverPermission);
         result.put('hasOrganizerApproverPermission', hasOrganizerApproverPermission);
+        result.put('hasHopApproverPermission', hasHopApproverPermission);
         result.put('eventRows', eventRows);
         result.put('speakerRows', speakerRows);
         result.put('organizerRows', organizerRows);
+        result.put('hopRows', hopRows);
 
         return result;
     }
@@ -220,6 +232,9 @@ public without sharing class EventApprovalInboxController {
         Boolean hasOrganizerApproverPermission =
             FeatureManagement.checkPermission('BooklyApproveAnyOrganizer');
 
+        Boolean hasHopApproverPermission =
+            FeatureManagement.checkPermission('ApproveForHOP');
+
         List<ProcessInstanceWorkitem> workItems = [
             SELECT Id,
                 ActorId,
@@ -234,6 +249,14 @@ public without sharing class EventApprovalInboxController {
             Id targetId = wi.ProcessInstance.TargetObjectId;
             String processDeveloperName =
                 wi.ProcessInstance.ProcessDefinition.DeveloperName;
+
+            Boolean isHopApproval =
+                targetId.getSObjectType() == Event__c.SObjectType &&
+                processDeveloperName == HOP_PROCESS_DEVELOPER_NAME;
+
+            if (isHopApproval && !hasHopApproverPermission) {
+                continue;
+            }
 
             Boolean isAssignedToMe = wi.ActorId == me;
 
@@ -251,11 +274,16 @@ public without sharing class EventApprovalInboxController {
                 targetId.getSObjectType() == Event__c.SObjectType &&
                 processDeveloperName == ORGANIZER_PROCESS_DEVELOPER_NAME;
 
+            Boolean canApproveOtherHop =
+                hasHopApproverPermission &&
+                isHopApproval;
+
             if (
                 !isAssignedToMe &&
                 !isAssignedToQueue &&
                 !canApproveOtherSpeaker &&
-                !canApproveOtherOrganizer
+                !canApproveOtherOrganizer &&
+                !canApproveOtherHop
             ) {
                 continue;
             }
@@ -283,7 +311,8 @@ public without sharing class EventApprovalInboxController {
         Set<Id> myQueues,
         Map<Id, String> userNames,
         Boolean hasSpeakerApproverPermission,
-        Boolean hasOrganizerApproverPermission
+        Boolean hasOrganizerApproverPermission,
+        Boolean hasHopApproverPermission
     ) {
         Id targetId = wi.ProcessInstance.TargetObjectId;
         String processDeveloperName =
@@ -324,7 +353,12 @@ public without sharing class EventApprovalInboxController {
                 isOrganizerApproval &&
                 processDeveloperName == ORGANIZER_PROCESS_DEVELOPER_NAME;
 
-            if (!(canApproveOtherSpeaker || canApproveOtherOrganizer)) {
+            Boolean canApproveOtherHop =
+                hasHopApproverPermission &&
+                isOrganizerApproval &&
+                processDeveloperName == HOP_PROCESS_DEVELOPER_NAME;
+
+            if (!(canApproveOtherSpeaker || canApproveOtherOrganizer || canApproveOtherHop)) {
                 return null;
             }
 
@@ -341,6 +375,7 @@ public without sharing class EventApprovalInboxController {
     }
 
     // Remplit une ligne depuis un Event
+    @TestVisible
     private static void populateEventRow(
         ApprovalRow row,
         Event__c evt

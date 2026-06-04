@@ -1,11 +1,21 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <Package xmlns="http://soap.sforce.com/2006/04/metadata">
     <types>
-        <members>BooklyMeetingInvitationQueueable</members>
-        <members>BooklyMeetingInvitationService</members>
-        <members>MicrosoftGraphMeetingService</members>
-        <members>customEventHandler</members>
+        <members>EventApprovalInboxController</members>
+        <members>EventApprovalInboxControllerTest</members>
         <name>ApexClass</name>
     </types>
-    <version>66.0</version>
+
+    <types>
+        <members>eventApprovalInbox</members>
+        <name>LightningComponentBundle</name>
+    </types>
+
+    <types>
+        <members>ApproveForHOP</members>
+        <name>CustomPermission</name>
+    </types>
+
+    <version>64.0</version>
+
 </Package>
