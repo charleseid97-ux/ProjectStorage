@@ -1119,7 +1119,8 @@ export default class CustomGridBuilder extends NavigationMixin(LightningElement)
             }
             if (result.success) {
                 this.showApprovalModal = false;
-                showToast(this, this.labels.UI_Success, this.labels.Grid_SubmittedForApproval, 'success');
+                const submittedLabel = this.existingGridInfo.hasExistingGrid ? this.labels.Grid_SubmittedForApproval : this.labels.Agreement_SubmittedForApproval;
+                showToast(this, this.labels.UI_Success, submittedLabel, 'success');
                 this.navigateToAgreement(this.recId || this.selectedAgreements[0]);
             } else {
                 showToast(this, this.labels.UI_Error, result.errorMessage, 'error');
