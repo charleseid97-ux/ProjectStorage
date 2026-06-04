@@ -139,6 +139,9 @@ import Grid_Team from '@salesforce/label/c.Grid_Team';
 import Grid_Title from '@salesforce/label/c.Grid_Title';
 import Grid_SaveGrid from '@salesforce/label/c.Grid_SaveGrid';
 import Grid_SubmitForApproval from '@salesforce/label/c.Grid_SubmitForApproval';
+import Grid_SubmittedForApproval from '@salesforce/label/c.Grid_SubmittedForApproval';
+import Grid_Comments from '@salesforce/label/c.Grid_Comments';
+import Grid_CommentsPlaceholder from '@salesforce/label/c.Grid_CommentsPlaceholder';
 import Grid_ValidateGrid from '@salesforce/label/c.Grid_ValidateGrid';
 import Grid_ValidationErrors from '@salesforce/label/c.Grid_ValidationErrors';
 import Grid_ViewExcludedProducts from '@salesforce/label/c.Grid_ViewExcludedProducts';
@@ -188,7 +191,9 @@ export const LABELS = {
     Grid_SelectExcelFile, Grid_SelectGrid, Grid_SelectShareTypes, Grid_Selection, Grid_SettingNotFound,
     Grid_ShareClassesAdded, Grid_ShareClassesAddedTitle, Grid_ShareClassesNotAdded_DifferentGrid, Grid_ShareClassesNotAdded_NotInGrid,
     Grid_ShareTypeFilterIndependentInfo, Grid_ShareTypesLabel, Grid_SomeRowsFailed, Grid_SortedBy,
-    Grid_StandardGridsSelected, Grid_StartDate, Grid_SystemFilters, Grid_Team, Grid_Title, Grid_SaveGrid, Grid_SubmitForApproval, Grid_ValidateGrid, Grid_ValidationErrors,
+    Grid_StandardGridsSelected, Grid_StartDate, Grid_SystemFilters, Grid_Team, Grid_Title, Grid_SaveGrid,
+    Grid_SubmitForApproval, Grid_SubmittedForApproval, Grid_Comments, Grid_CommentsPlaceholder,
+    Grid_ValidateGrid, Grid_ValidationErrors,
     Grid_ViewExcludedProducts, Grid_ViewRecap,
     Grid_SimExport_Header_EN, Grid_SimExport_Header_FR, Grid_SimExport_Header_IT,
     Grid_SimExport_Footer_EN, Grid_SimExport_Footer_FR, Grid_SimExport_Footer_IT,
