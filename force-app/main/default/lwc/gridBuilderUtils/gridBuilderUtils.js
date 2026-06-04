@@ -36,6 +36,8 @@ import UI_UnknownField from '@salesforce/label/c.UI_UnknownField';
 import UI_UnknownObject from '@salesforce/label/c.UI_UnknownObject';
 import UI_Value from '@salesforce/label/c.UI_Value';
 import UI_Warning from '@salesforce/label/c.UI_Warning';
+//Import Labels - Agreement
+import Agreement_SubmittedForApproval from '@salesforce/label/c.Agreement_SubmittedForApproval';
 //Import Labels - Grid
 import Grid_AddFilter from '@salesforce/label/c.Grid_AddFilter';
 import Grid_AddRestrictedShareTypes from '@salesforce/label/c.Grid_AddRestrictedShareTypes';
@@ -172,6 +174,7 @@ export const LABELS = {
     UI_Add, UI_Back, UI_Cancel, UI_Close, UI_CollapseAll, UI_Confirm, UI_Error, UI_ErrorMessage, UI_Errors,
     UI_Excluded, UI_ExpandAll, UI_Field, UI_Import, UI_Included, UI_Loading, UI_NA, UI_Next, UI_Object,
     UI_Off, UI_On, UI_Operator, UI_Refresh, UI_Remove, UI_SelectOption, UI_Success, UI_UnknownField, UI_UnknownObject, UI_Value, UI_Warning,
+    Agreement_SubmittedForApproval,
     Grid_AddFilter, Grid_AddRestrictedShareTypes, Grid_AddToGrid, Grid_AgreementErrorLoadingSettings, Grid_Agreements,
     Grid_AllRowsImported, Grid_AlreadySelected, Grid_ApplyFilters, Grid_AutoIncludeHelpText, Grid_AutoIncludeLabel,
     Grid_AutomaticUpdate, Grid_Builder, Grid_Comparison_ActiveGridIsCurrent, Grid_Comparison_NoActiveGrid, Grid_CreatedSuccess, Grid_CriteriaCreated, Grid_CriteriaDetailsCreated, Grid_CriteriaHistory,
