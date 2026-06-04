@@ -36,6 +36,8 @@ import UI_UnknownField from '@salesforce/label/c.UI_UnknownField';
 import UI_UnknownObject from '@salesforce/label/c.UI_UnknownObject';
 import UI_Value from '@salesforce/label/c.UI_Value';
 import UI_Warning from '@salesforce/label/c.UI_Warning';
+//Import Labels - Agreement
+import Agreement_SubmittedForApproval from '@salesforce/label/c.Agreement_SubmittedForApproval';
 //Import Labels - Grid
 import Grid_AddFilter from '@salesforce/label/c.Grid_AddFilter';
 import Grid_AddRestrictedShareTypes from '@salesforce/label/c.Grid_AddRestrictedShareTypes';
@@ -139,6 +141,9 @@ import Grid_Team from '@salesforce/label/c.Grid_Team';
 import Grid_Title from '@salesforce/label/c.Grid_Title';
 import Grid_SaveGrid from '@salesforce/label/c.Grid_SaveGrid';
 import Grid_SubmitForApproval from '@salesforce/label/c.Grid_SubmitForApproval';
+import Grid_SubmittedForApproval from '@salesforce/label/c.Grid_SubmittedForApproval';
+import Grid_Comments from '@salesforce/label/c.Grid_Comments';
+import Grid_CommentsPlaceholder from '@salesforce/label/c.Grid_CommentsPlaceholder';
 import Grid_ValidateGrid from '@salesforce/label/c.Grid_ValidateGrid';
 import Grid_ValidationErrors from '@salesforce/label/c.Grid_ValidationErrors';
 import Grid_ViewExcludedProducts from '@salesforce/label/c.Grid_ViewExcludedProducts';
@@ -169,6 +174,7 @@ export const LABELS = {
     UI_Add, UI_Back, UI_Cancel, UI_Close, UI_CollapseAll, UI_Confirm, UI_Error, UI_ErrorMessage, UI_Errors,
     UI_Excluded, UI_ExpandAll, UI_Field, UI_Import, UI_Included, UI_Loading, UI_NA, UI_Next, UI_Object,
     UI_Off, UI_On, UI_Operator, UI_Refresh, UI_Remove, UI_SelectOption, UI_Success, UI_UnknownField, UI_UnknownObject, UI_Value, UI_Warning,
+    Agreement_SubmittedForApproval,
     Grid_AddFilter, Grid_AddRestrictedShareTypes, Grid_AddToGrid, Grid_AgreementErrorLoadingSettings, Grid_Agreements,
     Grid_AllRowsImported, Grid_AlreadySelected, Grid_ApplyFilters, Grid_AutoIncludeHelpText, Grid_AutoIncludeLabel,
     Grid_AutomaticUpdate, Grid_Builder, Grid_Comparison_ActiveGridIsCurrent, Grid_Comparison_NoActiveGrid, Grid_CreatedSuccess, Grid_CriteriaCreated, Grid_CriteriaDetailsCreated, Grid_CriteriaHistory,
@@ -188,7 +194,9 @@ export const LABELS = {
     Grid_SelectExcelFile, Grid_SelectGrid, Grid_SelectShareTypes, Grid_Selection, Grid_SettingNotFound,
     Grid_ShareClassesAdded, Grid_ShareClassesAddedTitle, Grid_ShareClassesNotAdded_DifferentGrid, Grid_ShareClassesNotAdded_NotInGrid,
     Grid_ShareTypeFilterIndependentInfo, Grid_ShareTypesLabel, Grid_SomeRowsFailed, Grid_SortedBy,
-    Grid_StandardGridsSelected, Grid_StartDate, Grid_SystemFilters, Grid_Team, Grid_Title, Grid_SaveGrid, Grid_SubmitForApproval, Grid_ValidateGrid, Grid_ValidationErrors,
+    Grid_StandardGridsSelected, Grid_StartDate, Grid_SystemFilters, Grid_Team, Grid_Title, Grid_SaveGrid,
+    Grid_SubmitForApproval, Grid_SubmittedForApproval, Grid_Comments, Grid_CommentsPlaceholder,
+    Grid_ValidateGrid, Grid_ValidationErrors,
     Grid_ViewExcludedProducts, Grid_ViewRecap,
     Grid_SimExport_Header_EN, Grid_SimExport_Header_FR, Grid_SimExport_Header_IT,
     Grid_SimExport_Footer_EN, Grid_SimExport_Footer_FR, Grid_SimExport_Footer_IT,

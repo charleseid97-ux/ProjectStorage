@@ -138,7 +138,6 @@ public with sharing class GridBuilderHelper {
             }
         }
         Map<String, Map<String, Map<String, String>>> mapObjectToFieldToValues = new Map<String, Map<String, Map<String, String>>>();
-        Map<String, Map<String, String>> mapFieldToValues = new Map<String, Map<String, String>>();
         String objectApiName, fieldApiName;
         for(String objectField : mapObjectFieldToValuesInList.keySet()) {
             objectApiName = objectField.split('_-_')[0];
@@ -146,6 +145,7 @@ public with sharing class GridBuilderHelper {
             if(!mapObjectToFieldToValues.containsKey(objectApiName)) {
                 mapObjectToFieldToValues.put(objectApiName, new Map<String, Map<String, String>>());
             }
+            Map<String, Map<String, String>> mapFieldToValues = mapObjectToFieldToValues.get(objectApiName);
             mapObjectFieldToValuesInList.get(objectField).sort();
             for(String value : mapObjectFieldToValuesInList.get(objectField)) {
                 if(!mapFieldToValues.containsKey(fieldApiName)) {
@@ -153,7 +153,6 @@ public with sharing class GridBuilderHelper {
                 }
                 mapFieldToValues.get(fieldApiName).put(value, value);
             }
-            mapObjectToFieldToValues.get(objectApiName).put(fieldApiName, mapFieldToValues.get(fieldApiName));
         }
         return mapObjectToFieldToValues;
     }
@@ -364,6 +363,7 @@ public with sharing class GridBuilderHelper {
     public static List<String> buildDefaultConditions(Boolean excludeJPY, Boolean onlyAddSharesFromRegisteredCountries, String countriesOfDistribution, ShareTypeWrapper shareTypeWrp, Boolean alwaysIncludeDefaultShareTypeInclusion, List<String> availableGridIds) {
         List<String> whereFragments = new List<String>();
         whereFragments.add('Fund__c != null');
+        whereFragments.add('Fund__r.InternalShortName__c != null');
         whereFragments.add('Fund__r.FundStrategy__c != null');
         whereFragments.add('Status__c != \'Active - Lab\'');
         if(excludeJPY) {
@@ -457,7 +457,8 @@ public with sharing class GridBuilderHelper {
 
     public static String getAdditionalQueryColumns() {
         return '\nShare_Class__c => ISIN__c' +
-        '\nShare_Class__c => EffectiveManagementFees__c';
+        '\nShare_Class__c => EffectiveManagementFees__c' +
+        '\nProduct__c => GridManualUpdate__c';
     }
 
     private static FilterObjectWrapper labelOnly(String objectApiName, String fieldApiName) {

@@ -3,12 +3,16 @@
  *              Processes ONE Custom Grid per execute() (batch size = 1).
  *
  *              For each GridCriteria, calls GridBuilderController.getProductsAndShareClasses with
- *              getAllProductsWithSelection=true and availableGridIds=[StandardGrid__c] to obtain the share
+ *              getAllProductsWithSelection=true and availableGridIds=[StandardGrid__c] to obtain share
  *              classes that match the criteria AND already have an active StandardGridDetail in the referenced
- *              standard grid. Those not yet covered by an active CustomGridDetail are inserted via
- *              GridValidationController.insertGridDetails — the same path used by the Grid Builder UI.
+ *              standard grid (isSelected=true). Those not yet covered by an active CustomGridDetail
+ *              (EndDate__c = null) are inserted via GridValidationController.insertGridDetails —
+ *              the same path used by the Grid Builder UI, ensuring consistency.
+ *
+ *              Grids with AutomaticGridUpdate__c = false are skipped (V2: email notification placeholder).
  *
  * @author Charles EID
+ * @testClass ShareClassGridBatchTest
  ────────────────────────────────────── */
 public class ShareClassCustomGridBatch implements Database.Batchable<SObject> {
 
@@ -88,7 +92,7 @@ public class ShareClassCustomGridBatch implements Database.Batchable<SObject> {
             List<Id> missingScIds = new List<Id>();
             for (GridBuilderHelper.ProductWrapper pw : result.products) {
                 for (GridBuilderHelper.ShareClassWrapper scw : pw.shareClasses) {
-                    if (scw.isSelected && (alreadyExists == null || !alreadyExists.contains(scw.shareClassId))) {
+                    if (scw.isSelected && scw.recordResults.get('Fund__r.GridManualUpdate__c') == 'No' && (alreadyExists == null || !alreadyExists.contains(scw.shareClassId))) {
                         missingScIds.add(scw.shareClassId);
                         shareClassGridIdMap.put(String.valueOf(scw.shareClassId), String.valueOf(gc.StandardGrid__c));
                     }

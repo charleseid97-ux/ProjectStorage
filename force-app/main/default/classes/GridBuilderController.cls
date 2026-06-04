@@ -278,6 +278,24 @@ public with sharing class GridBuilderController {
         }
     }
 
+    @AuraEnabled
+    public static CustomApprovalHistoryUtility.ProcessResult submitAgreementForApproval(Id agreementId, String comments) {
+        CustomApprovalHistoryUtility.ProcessResult result = new CustomApprovalHistoryUtility.ProcessResult();
+        result.success = false;
+        try {
+            Approval.ProcessSubmitRequest req = new Approval.ProcessSubmitRequest();
+            req.setObjectId(agreementId);
+            if (String.isNotBlank(comments)) req.setComments(comments);
+            Approval.ProcessResult approvalResult = Approval.process(req);
+            result.success = approvalResult.isSuccess();
+            if (!result.success) result.errorMessage = approvalResult.getErrors()[0].getMessage();
+        } catch (Exception e) {
+            result.success      = false;
+            result.errorMessage = e.getMessage();
+        }
+        return result;
+    }
+
     private static Map<String, String> buildShareClassGridIdMap(Set<Id> shareClassIds, Id gridId) {
         Map<String, String> shareClassGridIdMap = new Map<String, String>();
         for (Id shareClassId : shareClassIds) {

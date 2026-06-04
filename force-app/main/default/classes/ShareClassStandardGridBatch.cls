@@ -1,10 +1,16 @@
 /** ──────────────────────────────────────
  * @description Scheduled daily batch that runs the moteur de calcul (GridDetailBuilder.buildForGrids)
- *              for all Standard Grids, then unconditionally chains ShareClassCustomGridBatch to reconcile
- *              Custom Grid Details. Launching the custom batch unconditionally is intentional: standard
- *              grid details can also be created by the Grid Import Excel module between scheduled runs,
- *              so we must always reconcile custom grids regardless of whether this batch produced new records.
+ *              for all Standard Grids, 50 grids per chunk, then unconditionally chains
+ *              ShareClassCustomGridBatch to reconcile Custom Grid Details.
+ *
+ *              Chaining is unconditional because StandardGridDetails can also be created by the Grid Import
+ *              Excel module between scheduled runs — gating the custom batch on "something was created here"
+ *              would silently miss those cases.
+ *
+ *              Schedule: System.schedule('Grid Reconciliation', '0 0 1 * * ?', new ShareClassStandardGridBatch());
+ *
  * @author Charles EID
+ * @testClass ShareClassGridBatchTest
  ────────────────────────────────────── */
 public class ShareClassStandardGridBatch implements Database.Batchable<SObject>, Schedulable {
 

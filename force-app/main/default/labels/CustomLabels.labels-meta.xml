@@ -1137,6 +1137,34 @@ Il calcolo viene adattato alla data di variazione delle spese effettivamente app
         <value>Submit for Approval</value>
     </labels>
     <labels>
+        <fullName>Grid_SubmittedForApproval</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Success message after grid submitted for approval</shortDescription>
+        <value>Grid submitted for approval successfully.</value>
+    </labels>
+    <labels>
+        <fullName>Agreement_SubmittedForApproval</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Success message after agreement submitted for approval</shortDescription>
+        <value>Agreement submitted for approval successfully.</value>
+    </labels>
+    <labels>
+        <fullName>Grid_Comments</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Label for approval comments field</shortDescription>
+        <value>Comments</value>
+    </labels>
+    <labels>
+        <fullName>Grid_CommentsPlaceholder</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Placeholder text for approval comments field</shortDescription>
+        <value>Enter approval comments (optional)</value>
+    </labels>
+    <labels>
         <fullName>Grid_SystemFilters</fullName>
         <language>en_US</language>
         <protected>false</protected>
