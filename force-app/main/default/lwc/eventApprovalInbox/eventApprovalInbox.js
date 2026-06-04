@@ -208,12 +208,11 @@ export default class EventApprovalInbox extends LightningElement {
                 row.processDeveloperName === SPEAKER_PROCESS_DEVELOPER_NAME;
         });
 
-        this.filteredOrganizerRows = this.organizerRows.filter(row => {
+                this.filteredOrganizerRows = this.organizerRows.filter(row => {
             return this.showOrganizerApprovals &&
                 this.hasOrganizerApproverPermission &&
                 row.processDeveloperName === ORGANIZER_PROCESS_DEVELOPER_NAME;
         });
-
         this.filteredHopRows = this.hopRows.filter(row => {
             return this.showHopApprovals &&
                 this.hasHopApproverPermission &&

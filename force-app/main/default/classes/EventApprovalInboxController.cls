@@ -182,11 +182,6 @@ public without sharing class EventApprovalInboxController {
                 );
 
                 if (
-                    row.processDeveloperName == HOP_PROCESS_DEVELOPER_NAME
-                ) {
-                    hopRows.add(row);
-                } else if (
-                    row.assignmentType == 'OTHER' &&
                     row.processDeveloperName == ORGANIZER_PROCESS_DEVELOPER_NAME
                 ) {
                     organizerRows.add(row);
@@ -202,7 +197,13 @@ public without sharing class EventApprovalInboxController {
                     esasById.get(targetId)
                 );
 
-                speakerRows.add(row);
+                if (
+                    row.processDeveloperName == HOP_PROCESS_DEVELOPER_NAME
+                ) {
+                    hopRows.add(row);
+                } else {
+                    speakerRows.add(row);
+                }
             }
         }
 
@@ -251,7 +252,7 @@ public without sharing class EventApprovalInboxController {
                 wi.ProcessInstance.ProcessDefinition.DeveloperName;
 
             Boolean isHopApproval =
-                targetId.getSObjectType() == Event__c.SObjectType &&
+                targetId.getSObjectType() == EventSpeakerApprovals__c.SObjectType &&
                 processDeveloperName == HOP_PROCESS_DEVELOPER_NAME;
 
             if (isHopApproval && !hasHopApproverPermission) {
@@ -355,7 +356,7 @@ public without sharing class EventApprovalInboxController {
 
             Boolean canApproveOtherHop =
                 hasHopApproverPermission &&
-                isOrganizerApproval &&
+                isSpeakerApproval &&
                 processDeveloperName == HOP_PROCESS_DEVELOPER_NAME;
 
             if (!(canApproveOtherSpeaker || canApproveOtherOrganizer || canApproveOtherHop)) {
