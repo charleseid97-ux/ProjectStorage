@@ -46,6 +46,16 @@
                     </lightning-input>
                 </template>
 
+                <template if:true={showHopApprovalFilter}>
+                    <lightning-input
+                        type="checkbox"
+                        label="Head of Product approvals"
+                        name="showHopApprovals"
+                        checked={showHopApprovals}
+                        onchange={handleFilterChange}>
+                    </lightning-input>
+                </template>
+
                 <lightning-button
                     label="Approve selected"
                     variant="brand"
@@ -102,6 +112,23 @@
                         key-field="workItemId"
                         data={filteredOrganizerRows}
                         columns={organizerColumns}
+                        onrowselection={handleRowSelection}>
+                    </lightning-datatable>
+
+                </lightning-tab>
+                
+                <lightning-tab
+                    if:true={showHopApprovalTable}
+                    label={hopTabLabel}
+                    value="hop">
+
+                    <lightning-datatable
+                        onsort={handleSort}
+                        sorted-by={sortedBy}
+                        sorted-direction={sortedDirection}
+                        key-field="workItemId"
+                        data={filteredHopRows}
+                        columns={hopColumns}
                         onrowselection={handleRowSelection}>
                     </lightning-datatable>
 

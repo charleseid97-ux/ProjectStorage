@@ -7,6 +7,7 @@ import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 
 const ORGANIZER_PROCESS_DEVELOPER_NAME = 'OrganizerApprovalProcess';
 const SPEAKER_PROCESS_DEVELOPER_NAME = 'SpeakerApproval';
+const HOP_PROCESS_DEVELOPER_NAME = 'SpeakerApprovalHOP';
 
 const EVENT_COLUMNS = [
     {
@@ -59,10 +60,12 @@ export default class EventApprovalInbox extends LightningElement {
     eventRows = [];
     speakerRows = [];
     organizerRows = [];
+    hopRows = [];
 
     filteredEventRows = [];
     filteredSpeakerRows = [];
     filteredOrganizerRows = [];
+    filteredHopRows = [];
 
     selectedRows = [];
 
@@ -72,18 +75,23 @@ export default class EventApprovalInbox extends LightningElement {
     showAssignedToQueue = true;
     showAssignedToOther = false;
     showOrganizerApprovals = false;
+    showHopApprovals = false;
 
     hasSpeakerApproverPermission = false;
     hasOrganizerApproverPermission = false;
+    hasHopApproverPermission = false;
 
     eventColumns = EVENT_COLUMNS;
     speakerColumns = SPEAKER_COLUMNS;
     organizerColumns = EVENT_COLUMNS;
+    hopColumns = EVENT_COLUMNS;
 
+    // Charge les approbations au chargement du composant
     connectedCallback() {
         this.load();
     }
 
+    // Récupère les approbations et prépare les lignes pour les tableaux
     async load() {
         this.isLoading = true;
 
@@ -96,6 +104,10 @@ export default class EventApprovalInbox extends LightningElement {
             this.hasOrganizerApproverPermission =
                 result?.hasOrganizerApproverPermission || false;
 
+            this.hasHopApproverPermission =
+                result?.hasHopApproverPermission || false;
+
+            // Ajoute l'URL Salesforce utilisée par les colonnes de type lien
             this.eventRows = (result?.eventRows || []).map(row => ({
                 ...row,
                 eventUrl: '/' + row.eventId
@@ -107,6 +119,11 @@ export default class EventApprovalInbox extends LightningElement {
             }));
 
             this.organizerRows = (result?.organizerRows || []).map(row => ({
+                ...row,
+                eventUrl: '/' + row.eventId
+            }));
+
+            this.hopRows = (result?.hopRows || []).map(row => ({
                 ...row,
                 eventUrl: '/' + row.eventId
             }));
@@ -125,10 +142,23 @@ export default class EventApprovalInbox extends LightningElement {
         }
     }
 
+    // Affiche la checkbox HOP uniquement si l'utilisateur a la permission
+    get showHopApprovalFilter() {
+        return this.hasHopApproverPermission;
+    }
+
+    // Affiche l'onglet HOP uniquement si le filtre est coché
+    get showHopApprovalTable() {
+        return this.showHopApprovals &&
+            this.hasHopApproverPermission;
+    }
+
+    // Affiche la checkbox Other uniquement si l'utilisateur a la permission Speaker
     get showOtherFilter() {
         return this.hasSpeakerApproverPermission;
     }
 
+    // Affiche la checkbox Organizer uniquement si l'utilisateur a la permission Organizer
     get showOrganizerApprovalFilter() {
         return this.hasOrganizerApproverPermission;
     }
@@ -149,7 +179,7 @@ export default class EventApprovalInbox extends LightningElement {
             this.hasOrganizerApproverPermission;
     }
 
-    // Apply assignment filters
+    // Applique les filtres de checkbox sur chaque type d'approbation
     applyFilters() {
         const allowed = [];
 
@@ -161,6 +191,7 @@ export default class EventApprovalInbox extends LightningElement {
             allowed.push('QUEUE');
         }
 
+        // Event : affiche uniquement mes demandes ou celles de mes queues
         this.filteredEventRows = this.eventRows.filter(row => {
             return row.assignmentType !== 'OTHER' &&
                 allowed.includes(row.assignmentType);
@@ -171,6 +202,7 @@ export default class EventApprovalInbox extends LightningElement {
                 return allowed.includes(row.assignmentType);
             }
 
+            // Speaker OTHER : visible uniquement avec la permission dédiée
             return this.showAssignedToOther &&
                 this.hasSpeakerApproverPermission &&
                 row.processDeveloperName === SPEAKER_PROCESS_DEVELOPER_NAME;
@@ -181,9 +213,15 @@ export default class EventApprovalInbox extends LightningElement {
                 this.hasOrganizerApproverPermission &&
                 row.processDeveloperName === ORGANIZER_PROCESS_DEVELOPER_NAME;
         });
+
+        this.filteredHopRows = this.hopRows.filter(row => {
+            return this.showHopApprovals &&
+                this.hasHopApproverPermission &&
+                row.processDeveloperName === HOP_PROCESS_DEVELOPER_NAME;
+        });
     }
 
-    // Handle checkbox filters
+    // Met à jour les filtres quand une checkbox change
     handleFilterChange(event) {
         const field = event.target.name;
 
@@ -192,14 +230,14 @@ export default class EventApprovalInbox extends LightningElement {
         this.applyFilters();
     }
 
-    // Store selected rows
+    // Stocke les work items sélectionnés dans les tableaux
     handleRowSelection(event) {
         this.selectedRows = event.detail.selectedRows.map(
             row => row.workItemId
         );
     }
 
-    // Bulk approve selected rows
+    // Approuve en masse les lignes sélectionnées
     async handleApproveSelected() {
         if (!this.selectedRows.length) {
             this.showToast(
@@ -237,7 +275,7 @@ export default class EventApprovalInbox extends LightningElement {
         }
     }
 
-    // Display toast message
+    // Affiche un message toast
     showToast(title, message, variant) {
         this.dispatchEvent(
             new ShowToastEvent({
@@ -248,7 +286,7 @@ export default class EventApprovalInbox extends LightningElement {
         );
     }
 
-    // Handle datatable sorting
+    // Trie le tableau actif selon la colonne sélectionnée
     handleSort(event) {
         const { fieldName, sortDirection } = event.detail;
 
@@ -280,8 +318,14 @@ export default class EventApprovalInbox extends LightningElement {
             return 0;
         });
 
+        // Réinjecte les données triées dans le bon tableau
         if (cloneData.length && cloneData[0].speakerName) {
             this.filteredSpeakerRows = cloneData;
+        } else if (
+            cloneData.length &&
+            cloneData[0].processDeveloperName === HOP_PROCESS_DEVELOPER_NAME
+        ) {
+            this.filteredHopRows = cloneData;
         } else if (
             cloneData.length &&
             cloneData[0].processDeveloperName === ORGANIZER_PROCESS_DEVELOPER_NAME
@@ -292,7 +336,12 @@ export default class EventApprovalInbox extends LightningElement {
         }
     }
 
-        // Label de l'onglet Event avec compteur
+    // Label de l'onglet HOP avec compteur
+    get hopTabLabel() {
+        return `Head of Product approvals (${this.filteredHopRows.length})`;
+    }
+
+    // Label de l'onglet Event avec compteur
     get eventTabLabel() {
         return `Event approvals (${this.filteredEventRows.length})`;
     }
