@@ -3,7 +3,6 @@
     relatedToType="Grid__c">
 
 <messaging:htmlEmailBody>
-<!DOCTYPE html>
 <html>
 <body style="margin:0;padding:0;background-color:#f0f4f8;font-family:Arial,Helvetica,sans-serif;">
 
@@ -141,7 +140,7 @@
     <table width="100%" border="0" cellpadding="0" cellspacing="0" bgcolor="#ffffff">
       <tr>
         <td style="padding:24px 32px;text-align:center;border-top:2px solid #e8edf3;">
-          <a href="{!relatedTo.Link}" style="display:inline-block;background-color:#1b3a5c;color:#ffffff;text-decoration:none;font-size:14px;font-weight:700;padding:13px 36px;border-radius:6px;letter-spacing:0.5px;">View and Compare &#8594;</a>
+          <a href="{!URLFOR($Action.Grid__c.View, relatedTo.Id)}" style="display:inline-block;background-color:#1b3a5c;color:#ffffff;text-decoration:none;font-size:14px;font-weight:700;padding:13px 36px;border-radius:6px;letter-spacing:0.5px;">View and Compare &#8594;</a>
         </td>
       </tr>
     </table>
@@ -205,7 +204,7 @@ Start Date:            {!relatedTo.StartDate__c}
 End Date:              {!relatedTo.EndDate__c}
 Automatic Grid Update: {!relatedTo.AutomaticGridUpdate__c}
 
-View and Compare: {!relatedTo.Link}
+View and Compare: {!URLFOR($Action.Grid__c.View, relatedTo.Id)}
 
 This is an automated notification - please do not reply to this email.
 </messaging:plainTextEmailBody>
