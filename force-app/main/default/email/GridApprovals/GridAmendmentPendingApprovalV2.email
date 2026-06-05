@@ -4,21 +4,93 @@
 
 <messaging:htmlEmailBody>
 <html>
-<body style="margin:0;padding:0;background-color:#f0f4f8;font-family:Arial,Helvetica,sans-serif;">
+<head>
+<style>
+  body          { margin:0; padding:0; background-color:#f0f4f8; font-family:Arial,Helvetica,sans-serif; }
+
+  /* ── Layout ── */
+  .wrapper      { padding:32px 16px; }
+  .spacer       { padding:0 32px 8px 32px; font-size:0; }
+
+  /* ── Header ── */
+  .header       { border-radius:8px 8px 0 0; }
+  .header-cell  { padding:28px 32px; text-align:center; }
+  .header-eyebrow { margin:0 0 6px 0; color:#7fb3d3; font-size:11px; font-weight:700; letter-spacing:3px; text-transform:uppercase; }
+  .header-title { margin:0; color:#ffffff; font-size:20px; font-weight:700; line-height:1.3; }
+
+  /* ── Intro ── */
+  .intro-cell   { padding:24px 32px 20px 32px; border-bottom:2px solid #e8edf3; }
+  .intro-text   { margin:0; font-size:14px; color:#4a5568; line-height:1.7; }
+
+  /* ── Section wrapper ── */
+  .section-cell    { padding:24px 32px 0 32px; }
+  .section-cell-sm { padding:16px 32px 0 32px; }
+  .section-title   { margin:0 0 10px 0; font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:2px; }
+  .section-title-blue  { color:#1b3a5c; }
+  .section-title-amber { color:#b7791f; }
+  .section-title-green { color:#276749; }
+
+  /* ── Data tables ── */
+  .data-table       { border-collapse:collapse; border:1px solid #dde3ec; border-radius:6px; overflow:hidden; }
+  .data-table-amber { border-collapse:collapse; border:1px solid #f6e05e; border-radius:6px; overflow:hidden; }
+  .data-table-green { border-collapse:collapse; border:1px solid #9ae6b4; border-radius:6px; overflow:hidden; }
+
+  /* Table column header cells */
+  .th-col       { padding:10px 16px; font-size:11px; font-weight:700; color:#1b3a5c; text-transform:uppercase; letter-spacing:1px; border-bottom:1px solid #dde3ec; }
+  .th-col-field { width:38%; }
+
+  /* Main section cells */
+  .td-field      { padding:12px 16px; font-size:13px; color:#718096; border-bottom:1px solid #eef1f6; }
+  .td-field-last { padding:12px 16px; font-size:13px; color:#718096; }
+  .td-value      { padding:12px 16px; font-size:13px; color:#1a202c; border-bottom:1px solid #eef1f6; }
+  .td-value-bold { padding:12px 16px; font-size:13px; color:#1a202c; font-weight:600; border-bottom:1px solid #eef1f6; }
+  .td-value-last { padding:12px 16px; font-size:13px; color:#1a202c; }
+
+  /* Threshold section cells */
+  .td-field-amber      { padding:12px 16px; font-size:13px; color:#718096; border-bottom:1px solid #fefcbf; }
+  .td-value-amber      { padding:12px 16px; font-size:13px; color:#1a202c; border-bottom:1px solid #fefcbf; }
+  .td-value-amber-bold { padding:12px 16px; font-size:13px; color:#1a202c; font-weight:600; border-bottom:1px solid #fefcbf; }
+  .td-field-amber-last { padding:12px 16px; font-size:13px; color:#718096; }
+  .td-value-amber-last { padding:12px 16px; font-size:13px; color:#1a202c; }
+
+  /* Minimum section cells */
+  .td-field-green      { padding:12px 16px; font-size:13px; color:#718096; border-bottom:1px solid #c6f6d5; }
+  .td-value-green      { padding:12px 16px; font-size:13px; color:#1a202c; border-bottom:1px solid #c6f6d5; }
+  .td-value-green-bold { padding:12px 16px; font-size:13px; color:#1a202c; font-weight:600; border-bottom:1px solid #c6f6d5; }
+  .td-field-green-last { padding:12px 16px; font-size:13px; color:#718096; }
+  .td-value-green-last { padding:12px 16px; font-size:13px; color:#1a202c; }
+
+  /* ── View and Compare link ── */
+  .link-cell  { padding:24px 32px; text-align:center; border-top:2px solid #e8edf3; }
+  .view-link  { color:#0563c1; font-size:14px; text-decoration:underline; }
+
+  /* ── Draft action buttons ── */
+  .actions-cell  { padding:0 32px 28px 32px; border-top:1px solid #eef1f6; }
+  .actions-label { margin:16px 0 14px 0; font-size:12px; color:#a0aec0; text-align:center; font-style:italic; }
+  .btn-approve   { display:inline-block; background-color:#c6f6d5; color:#22543d; font-size:14px; font-weight:700; padding:12px 36px; border-radius:6px; opacity:0.6; cursor:default; }
+  .btn-reject    { display:inline-block; background-color:#fed7d7; color:#742a2a; font-size:14px; font-weight:700; padding:12px 36px; border-radius:6px; opacity:0.6; cursor:default; }
+
+  /* ── Footer ── */
+  .footer      { border-radius:0 0 8px 8px; border-top:1px solid #e2e8f0; }
+  .footer-cell { padding:16px 32px; text-align:center; }
+  .footer-text { margin:0; font-size:11px; color:#a0aec0; }
+</style>
+</head>
+<body>
 
 <table width="100%" border="0" cellpadding="0" cellspacing="0" bgcolor="#f0f4f8">
-<tr><td align="center" style="padding:32px 16px;">
+<tr><td align="center" class="wrapper">
 
   <!-- 600px card container -->
   <table width="600" border="0" cellpadding="0" cellspacing="0">
   <tr><td>
 
     <!-- ───── HEADER ───── -->
-    <table width="100%" border="0" cellpadding="0" cellspacing="0" bgcolor="#1b3a5c" style="border-radius:8px 8px 0 0;">
+    <table width="100%" border="0" cellpadding="0" cellspacing="0" bgcolor="#1b3a5c" class="header">
       <tr>
-        <td style="padding:28px 32px;text-align:center;">
-          <p style="margin:0 0 6px 0;color:#7fb3d3;font-size:11px;font-weight:700;letter-spacing:3px;text-transform:uppercase;">Action Required</p>
-          <h1 style="margin:0;color:#ffffff;font-size:20px;font-weight:700;line-height:1.3;">Grid Amendment &mdash; Approval Request</h1>
+        <td class="header-cell">
+          <p class="header-eyebrow">Action Required</p>
+          <h1 class="header-title">Grid Amendment &mdash; Approval Request</h1>
         </td>
       </tr>
     </table>
@@ -26,8 +98,8 @@
     <!-- ───── INTRO ───── -->
     <table width="100%" border="0" cellpadding="0" cellspacing="0" bgcolor="#ffffff">
       <tr>
-        <td style="padding:24px 32px 20px 32px;border-bottom:2px solid #e8edf3;">
-          <p style="margin:0;font-size:14px;color:#4a5568;line-height:1.7;">
+        <td class="intro-cell">
+          <p class="intro-text">
             Hello,<br/><br/>
             The following <strong>Grid Amendment</strong> has been submitted and is pending your approval.
             Please review the details carefully and take action at your earliest convenience.
@@ -39,74 +111,74 @@
     <!-- ───── GRID DETAILS ───── -->
     <table width="100%" border="0" cellpadding="0" cellspacing="0" bgcolor="#ffffff">
       <tr>
-        <td style="padding:24px 32px 0 32px;">
-          <p style="margin:0 0 10px 0;font-size:11px;font-weight:700;color:#1b3a5c;text-transform:uppercase;letter-spacing:2px;">Grid Information</p>
-          <table width="100%" border="0" cellpadding="0" cellspacing="0" style="border-collapse:collapse;border:1px solid #dde3ec;border-radius:6px;overflow:hidden;">
+        <td class="section-cell">
+          <p class="section-title section-title-blue">Grid Information</p>
+          <table width="100%" border="0" cellpadding="0" cellspacing="0" class="data-table">
             <tr bgcolor="#e8edf3">
-              <td style="padding:10px 16px;font-size:11px;font-weight:700;color:#1b3a5c;text-transform:uppercase;letter-spacing:1px;width:38%;border-bottom:1px solid #dde3ec;">Field</td>
-              <td style="padding:10px 16px;font-size:11px;font-weight:700;color:#1b3a5c;text-transform:uppercase;letter-spacing:1px;border-bottom:1px solid #dde3ec;">Value</td>
+              <td class="th-col th-col-field">Field</td>
+              <td class="th-col">Value</td>
             </tr>
             <tr bgcolor="#ffffff">
-              <td style="padding:12px 16px;font-size:13px;color:#718096;border-bottom:1px solid #eef1f6;">Agreement Name</td>
-              <td style="padding:12px 16px;font-size:13px;color:#1a202c;font-weight:600;border-bottom:1px solid #eef1f6;">{!relatedTo.Agreement__r.Name}</td>
+              <td class="td-field">Agreement Name</td>
+              <td class="td-value-bold">{!relatedTo.Agreement__r.Name}</td>
             </tr>
             <tr bgcolor="#f7f9fc">
-              <td style="padding:12px 16px;font-size:13px;color:#718096;border-bottom:1px solid #eef1f6;">Company Name</td>
-              <td style="padding:12px 16px;font-size:13px;color:#1a202c;border-bottom:1px solid #eef1f6;">{!relatedTo.Agreement__r.Company_Name__c}</td>
+              <td class="td-field">Company Name</td>
+              <td class="td-value">{!relatedTo.Agreement__r.Company_Name__c}</td>
             </tr>
             <tr bgcolor="#ffffff">
-              <td style="padding:12px 16px;font-size:13px;color:#718096;border-bottom:1px solid #eef1f6;">Team</td>
-              <td style="padding:12px 16px;font-size:13px;color:#1a202c;border-bottom:1px solid #eef1f6;">{!relatedTo.Agreement__r.Team__c}</td>
+              <td class="td-field">Team</td>
+              <td class="td-value">{!relatedTo.Agreement__r.Team__c}</td>
             </tr>
             <tr bgcolor="#f7f9fc">
-              <td style="padding:12px 16px;font-size:13px;color:#718096;border-bottom:1px solid #eef1f6;">Agreement Owner</td>
-              <td style="padding:12px 16px;font-size:13px;color:#1a202c;border-bottom:1px solid #eef1f6;">{!relatedTo.Agreement__r.Owner.Name}</td>
+              <td class="td-field">Agreement Owner</td>
+              <td class="td-value">{!relatedTo.Agreement__r.Owner.Name}</td>
             </tr>
             <tr bgcolor="#ffffff">
-              <td style="padding:12px 16px;font-size:13px;color:#718096;border-bottom:1px solid #eef1f6;">Kind</td>
-              <td style="padding:12px 16px;font-size:13px;color:#1a202c;border-bottom:1px solid #eef1f6;">{!relatedTo.Kind__c}</td>
+              <td class="td-field">Kind</td>
+              <td class="td-value">{!relatedTo.Kind__c}</td>
             </tr>
             <tr bgcolor="#f7f9fc">
-              <td style="padding:12px 16px;font-size:13px;color:#718096;border-bottom:1px solid #eef1f6;">Start Date</td>
-              <td style="padding:12px 16px;font-size:13px;color:#1a202c;border-bottom:1px solid #eef1f6;">{!IF(ISBLANK(relatedTo.StartDate__c), "", TEXT(YEAR(relatedTo.StartDate__c)) & "-" & IF(MONTH(relatedTo.StartDate__c) < 10, "0" & TEXT(MONTH(relatedTo.StartDate__c)), TEXT(MONTH(relatedTo.StartDate__c))) & "-" & IF(DAY(relatedTo.StartDate__c) < 10, "0" & TEXT(DAY(relatedTo.StartDate__c)), TEXT(DAY(relatedTo.StartDate__c))))}</td>
+              <td class="td-field">Start Date</td>
+              <td class="td-value">{!IF(ISBLANK(relatedTo.StartDate__c), "", TEXT(YEAR(relatedTo.StartDate__c)) & "-" & IF(MONTH(relatedTo.StartDate__c) < 10, "0" & TEXT(MONTH(relatedTo.StartDate__c)), TEXT(MONTH(relatedTo.StartDate__c))) & "-" & IF(DAY(relatedTo.StartDate__c) < 10, "0" & TEXT(DAY(relatedTo.StartDate__c)), TEXT(DAY(relatedTo.StartDate__c))))}</td>
             </tr>
             <tr bgcolor="#ffffff">
-              <td style="padding:12px 16px;font-size:13px;color:#718096;border-bottom:1px solid #eef1f6;">End Date</td>
-              <td style="padding:12px 16px;font-size:13px;color:#1a202c;border-bottom:1px solid #eef1f6;">{!IF(ISBLANK(relatedTo.EndDate__c), "", TEXT(YEAR(relatedTo.EndDate__c)) & "-" & IF(MONTH(relatedTo.EndDate__c) < 10, "0" & TEXT(MONTH(relatedTo.EndDate__c)), TEXT(MONTH(relatedTo.EndDate__c))) & "-" & IF(DAY(relatedTo.EndDate__c) < 10, "0" & TEXT(DAY(relatedTo.EndDate__c)), TEXT(DAY(relatedTo.EndDate__c))))}</td>
+              <td class="td-field">End Date</td>
+              <td class="td-value">{!IF(ISBLANK(relatedTo.EndDate__c), "", TEXT(YEAR(relatedTo.EndDate__c)) & "-" & IF(MONTH(relatedTo.EndDate__c) < 10, "0" & TEXT(MONTH(relatedTo.EndDate__c)), TEXT(MONTH(relatedTo.EndDate__c))) & "-" & IF(DAY(relatedTo.EndDate__c) < 10, "0" & TEXT(DAY(relatedTo.EndDate__c)), TEXT(DAY(relatedTo.EndDate__c))))}</td>
             </tr>
             <tr bgcolor="#f7f9fc">
-              <td style="padding:12px 16px;font-size:13px;color:#718096;">Automatic Grid Update</td>
-              <td style="padding:12px 16px;font-size:13px;color:#1a202c;">{!relatedTo.AutomaticGridUpdate__c}</td>
+              <td class="td-field-last">Automatic Grid Update</td>
+              <td class="td-value-last">{!relatedTo.AutomaticGridUpdate__c}</td>
             </tr>
           </table>
         </td>
       </tr>
-      <tr><td style="padding:0 32px 8px 32px;font-size:0;">&nbsp;</td></tr>
+      <tr><td class="spacer">&nbsp;</td></tr>
     </table>
 
     <!-- ───── THRESHOLD SECTION (conditional) ───── -->
     <apex:outputPanel layout="block" rendered="{!NOT(ISBLANK(relatedTo.ThresholdAmount__c))}">
       <table width="100%" border="0" cellpadding="0" cellspacing="0" bgcolor="#ffffff">
         <tr>
-          <td style="padding:16px 32px 0 32px;">
-            <p style="margin:0 0 10px 0;font-size:11px;font-weight:700;color:#b7791f;text-transform:uppercase;letter-spacing:2px;">Threshold Information</p>
-            <table width="100%" border="0" cellpadding="0" cellspacing="0" style="border-collapse:collapse;border:1px solid #f6e05e;border-radius:6px;overflow:hidden;">
+          <td class="section-cell-sm">
+            <p class="section-title section-title-amber">Threshold Information</p>
+            <table width="100%" border="0" cellpadding="0" cellspacing="0" class="data-table-amber">
               <tr bgcolor="#fffff0">
-                <td style="padding:12px 16px;font-size:13px;color:#718096;border-bottom:1px solid #fefcbf;width:38%;">Threshold Amount</td>
-                <td style="padding:12px 16px;font-size:13px;color:#1a202c;font-weight:600;border-bottom:1px solid #fefcbf;">{!relatedTo.ThresholdAmount__c}</td>
+                <td class="td-field-amber th-col-field">Threshold Amount</td>
+                <td class="td-value-amber-bold">{!relatedTo.ThresholdAmount__c}</td>
               </tr>
               <tr bgcolor="#fefce8">
-                <td style="padding:12px 16px;font-size:13px;color:#718096;border-bottom:1px solid #fefcbf;">Threshold Currency</td>
-                <td style="padding:12px 16px;font-size:13px;color:#1a202c;border-bottom:1px solid #fefcbf;">{!relatedTo.ThresholdAmountCurrency__c}</td>
+                <td class="td-field-amber">Threshold Currency</td>
+                <td class="td-value-amber">{!relatedTo.ThresholdAmountCurrency__c}</td>
               </tr>
               <tr bgcolor="#fffff0">
-                <td style="padding:12px 16px;font-size:13px;color:#718096;">Threshold Mode</td>
-                <td style="padding:12px 16px;font-size:13px;color:#1a202c;">{!relatedTo.ThresholdMode__c}</td>
+                <td class="td-field-amber-last">Threshold Mode</td>
+                <td class="td-value-amber-last">{!relatedTo.ThresholdMode__c}</td>
               </tr>
             </table>
           </td>
         </tr>
-        <tr><td style="padding:0 32px 8px 32px;font-size:0;">&nbsp;</td></tr>
+        <tr><td class="spacer">&nbsp;</td></tr>
       </table>
     </apex:outputPanel>
 
@@ -114,33 +186,33 @@
     <apex:outputPanel layout="block" rendered="{!NOT(ISBLANK(relatedTo.MinimumAmount__c))}">
       <table width="100%" border="0" cellpadding="0" cellspacing="0" bgcolor="#ffffff">
         <tr>
-          <td style="padding:16px 32px 0 32px;">
-            <p style="margin:0 0 10px 0;font-size:11px;font-weight:700;color:#276749;text-transform:uppercase;letter-spacing:2px;">Minimum Information</p>
-            <table width="100%" border="0" cellpadding="0" cellspacing="0" style="border-collapse:collapse;border:1px solid #9ae6b4;border-radius:6px;overflow:hidden;">
+          <td class="section-cell-sm">
+            <p class="section-title section-title-green">Minimum Information</p>
+            <table width="100%" border="0" cellpadding="0" cellspacing="0" class="data-table-green">
               <tr bgcolor="#f0fff4">
-                <td style="padding:12px 16px;font-size:13px;color:#718096;border-bottom:1px solid #c6f6d5;width:38%;">Minimum Amount</td>
-                <td style="padding:12px 16px;font-size:13px;color:#1a202c;font-weight:600;border-bottom:1px solid #c6f6d5;">{!relatedTo.MinimumAmount__c}</td>
+                <td class="td-field-green th-col-field">Minimum Amount</td>
+                <td class="td-value-green-bold">{!relatedTo.MinimumAmount__c}</td>
               </tr>
               <tr bgcolor="#f7fff9">
-                <td style="padding:12px 16px;font-size:13px;color:#718096;border-bottom:1px solid #c6f6d5;">Minimum Currency</td>
-                <td style="padding:12px 16px;font-size:13px;color:#1a202c;border-bottom:1px solid #c6f6d5;">{!relatedTo.MinimumAmountCurrency__c}</td>
+                <td class="td-field-green">Minimum Currency</td>
+                <td class="td-value-green">{!relatedTo.MinimumAmountCurrency__c}</td>
               </tr>
               <tr bgcolor="#f0fff4">
-                <td style="padding:12px 16px;font-size:13px;color:#718096;">Minimum Frequency</td>
-                <td style="padding:12px 16px;font-size:13px;color:#1a202c;">{!relatedTo.MinimumAmountFrequency__c}</td>
+                <td class="td-field-green-last">Minimum Frequency</td>
+                <td class="td-value-green-last">{!relatedTo.MinimumAmountFrequency__c}</td>
               </tr>
             </table>
           </td>
         </tr>
-        <tr><td style="padding:0 32px 8px 32px;font-size:0;">&nbsp;</td></tr>
+        <tr><td class="spacer">&nbsp;</td></tr>
       </table>
     </apex:outputPanel>
 
-    <!-- ───── VIEW AND COMPARE BUTTON ───── -->
+    <!-- ───── VIEW AND COMPARE ───── -->
     <table width="100%" border="0" cellpadding="0" cellspacing="0" bgcolor="#ffffff">
       <tr>
-        <td style="padding:24px 32px;text-align:center;border-top:2px solid #e8edf3;">
-          <a href="{!LEFT($Api.Partner_Server_URL_260, FIND('/services', $Api.Partner_Server_URL_260))}{!relatedTo.Id}" style="color:#0563c1;font-size:14px;text-decoration:underline;">View and Compare</a>
+        <td class="link-cell">
+          <a href="{!LEFT($Api.Partner_Server_URL_260, FIND('/services', $Api.Partner_Server_URL_260))}{!relatedTo.Id}" class="view-link">View and Compare</a>
         </td>
       </tr>
     </table>
@@ -148,15 +220,15 @@
     <!-- ───── DRAFT ACTION BUTTONS ───── -->
     <table width="100%" border="0" cellpadding="0" cellspacing="0" bgcolor="#ffffff">
       <tr>
-        <td style="padding:0 32px 28px 32px;border-top:1px solid #eef1f6;">
-          <p style="margin:16px 0 14px 0;font-size:12px;color:#a0aec0;text-align:center;font-style:italic;">Quick actions &mdash; coming soon</p>
+        <td class="actions-cell">
+          <p class="actions-label">Quick actions &mdash; coming soon</p>
           <table width="100%" border="0" cellpadding="0" cellspacing="0">
             <tr>
               <td width="50%" align="right" style="padding-right:8px;">
-                <span style="display:inline-block;background-color:#c6f6d5;color:#22543d;font-size:14px;font-weight:700;padding:12px 36px;border-radius:6px;opacity:0.6;cursor:default;">&#10003; Approve</span>
+                <span class="btn-approve">&#10003; Approve</span>
               </td>
               <td width="50%" align="left" style="padding-left:8px;">
-                <span style="display:inline-block;background-color:#fed7d7;color:#742a2a;font-size:14px;font-weight:700;padding:12px 36px;border-radius:6px;opacity:0.6;cursor:default;">&#10007; Reject</span>
+                <span class="btn-reject">&#10007; Reject</span>
               </td>
             </tr>
           </table>
@@ -165,10 +237,10 @@
     </table>
 
     <!-- ───── FOOTER ───── -->
-    <table width="100%" border="0" cellpadding="0" cellspacing="0" bgcolor="#f7f9fc" style="border-radius:0 0 8px 8px;border-top:1px solid #e2e8f0;">
+    <table width="100%" border="0" cellpadding="0" cellspacing="0" bgcolor="#f7f9fc" class="footer">
       <tr>
-        <td style="padding:16px 32px;text-align:center;">
-          <p style="margin:0;font-size:11px;color:#a0aec0;">This is an automated notification &mdash; please do not reply to this email.</p>
+        <td class="footer-cell">
+          <p class="footer-text">This is an automated notification &mdash; please do not reply to this email.</p>
         </td>
       </tr>
     </table>
