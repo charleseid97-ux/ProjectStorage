@@ -1,6 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomLabels xmlns="http://soap.sforce.com/2006/04/metadata">
     <labels>
+        <fullName>Grid_EmailApprovalNotEligible</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Grid Email Approval Not Eligible</shortDescription>
+        <value>You are not currently authorized to take action on this request. The approval may have already been completed, you may not be the designated approver for this step, or the request may have been recalled. Please contact your administrator if you believe this is an error.</value>
+    </labels>
+    <labels>
         <fullName>Grid_REG_CountryMapping</fullName>
         <language>en_US</language>
         <protected>false</protected>
