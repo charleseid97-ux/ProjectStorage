@@ -76,28 +76,6 @@
   .footer-cell { padding:16px 32px; text-align:center; }
   .footer-text { margin:0; font-size:11px; color:#a0aec0; }
 
-  /* ── Shared badges (used by both VF components) ── */
-  .badge      { display:inline-block; font-size:11px; font-weight:600; padding:3px 10px; border-radius:999px; margin:2px 4px 2px 0; }
-  .badge-gray  { background-color:#e2e8f0; color:#2d3748;  border:1px solid #cbd5e0; }
-  .badge-red   { background-color:#fed7d7; color:#742a2a;  border:1px solid #feb2b2; }
-  .badge-amber { background-color:#fef3c7; color:#92400e;  border:1px solid #fbd38d; }
-  .badge-green { background-color:#c6f6d5; color:#22543d;  border:1px solid #9ae6b4; }
-
-  /* ── GridEmailStandardRules component ── */
-  .sgr-group       { margin-bottom:14px; }
-  .sgr-title       { margin:0 0 6px 0; font-size:13px; font-weight:700; color:#1b3a5c; }
-  .sgr-count       { color:#718096; font-weight:400; }
-  .sgr-empty       { color:#a0aec0; font-size:13px; font-style:italic; margin:0; }
-
-  /* ── GridEmailShareClassOverview component ── */
-  .sco-title       { margin:0 0 8px 0; font-size:12px; font-weight:700; color:#718096; text-transform:uppercase; letter-spacing:1px; }
-  .sco-title-sub   { font-size:11px; font-style:italic; font-weight:400; }
-  .sco-divider     { border-top:1px solid #e2e8f0; margin:18px 0; }
-  .sco-group       { margin-bottom:8px; }
-  .sco-type        { font-size:12px; font-weight:600; color:#1a202c; }
-  .sco-dash        { color:#a0aec0; margin:0 4px; }
-  .sco-empty       { color:#a0aec0; font-size:12px; font-style:italic; margin:0 0 6px 0; }
-  .sco-empty-last  { color:#a0aec0; font-size:12px; font-style:italic; margin:0; }
 </style>
 </head>
 <body>
