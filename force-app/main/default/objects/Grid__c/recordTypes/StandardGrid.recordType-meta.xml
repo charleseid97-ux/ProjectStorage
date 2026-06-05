@@ -26,23 +26,23 @@
     <picklistValues>
         <picklist>Kind__c</picklist>
         <values>
-            <fullName>IX FEE</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Mandates</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Platform</fullName>
-            <default>false</default>
-        </values>
-        <values>
             <fullName>Rebates</fullName>
             <default>false</default>
         </values>
         <values>
-            <fullName>STEC fees</fullName>
+            <fullName>Investment Solution - Rebates</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Platform Fees</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Other Fees</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>No Remuneration</fullName>
             <default>false</default>
         </values>
     </picklistValues>
