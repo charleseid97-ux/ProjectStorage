@@ -3,13 +3,13 @@
 
     <apex:outputPanel rendered="{!hasGroups}">
         <apex:repeat value="{!groups}" var="grp">
-            <div style="margin-bottom:14px;">
-                <p style="margin:0 0 6px 0;font-size:13px;font-weight:700;color:#1b3a5c;">
-                    {!grp.gridName}<span style="color:#718096;font-weight:400;"> ({!grp.productCount})</span>
+            <div class="sgr-group">
+                <p class="sgr-title">
+                    {!grp.gridName}<span class="sgr-count"> ({!grp.productCount})</span>
                 </p>
                 <div>
                     <apex:repeat value="{!grp.products}" var="prod">
-                        <span style="display:inline-block;background-color:#e2e8f0;color:#2d3748;font-size:11px;font-weight:600;padding:3px 10px;border-radius:999px;border:1px solid #cbd5e0;margin:2px 4px 2px 0;">{!prod.shortName}</span>
+                        <span class="badge badge-gray">{!prod.shortName}</span>
                     </apex:repeat>
                 </div>
             </div>
@@ -17,6 +17,6 @@
     </apex:outputPanel>
 
     <apex:outputPanel rendered="{!NOT(hasGroups)}">
-        <p style="color:#a0aec0;font-size:13px;font-style:italic;margin:0;">No products found.</p>
+        <p class="sgr-empty">No products found.</p>
     </apex:outputPanel>
 </apex:component>
