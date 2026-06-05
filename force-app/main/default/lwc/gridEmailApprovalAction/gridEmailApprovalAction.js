@@ -1,6 +1,6 @@
 import { LightningElement, track, wire } from 'lwc';
 import { NavigationMixin, CurrentPageReference } from 'lightning/navigation';
-import { getRecord, getFieldValue }      from 'lightning/uiRecordApi';
+import { getRecord, getFieldValue } from 'lightning/uiRecordApi';
 import getApprovalHistory from '@salesforce/apex/CustomApprovalHistoryController.getApprovalHistory';
 import processApproval    from '@salesforce/apex/CustomApprovalHistoryController.processApproval';
 import LABEL_NOT_ELIGIBLE from '@salesforce/label/c.Grid_EmailApprovalNotEligible';
@@ -10,29 +10,15 @@ export default class GridEmailApprovalAction extends NavigationMixin(LightningEl
 
     label = { notEligible: LABEL_NOT_ELIGIBLE };
 
-    // Set from URL state
     recordId;
     action = 'Approve';
+    workItemId;
 
     @track isLoading    = true;
     @track isEligible   = false;
     @track isProcessing = false;
     @track isDone       = false;
     @track comments     = '';
-    workItemId;
-
-    // ── Read URL params ────────────────────────────────────────────────────────
-    @wire(CurrentPageReference)
-    wiredPageRef(pageRef) {
-        if (pageRef?.state) {
-            this.recordId = pageRef.state.c__recordId || null;
-            this.action   = pageRef.state.c__action   || 'Approve';
-            if (!this.recordId) {
-                this.isLoading  = false;
-                this.isEligible = false;
-            }
-        }
-    }
 
     // ── Grid record name ───────────────────────────────────────────────────────
     @wire(getRecord, { recordId: '$recordId', fields: [NAME_FIELD] })
@@ -42,26 +28,52 @@ export default class GridEmailApprovalAction extends NavigationMixin(LightningEl
         return getFieldValue(this.gridRecord?.data, NAME_FIELD) || '';
     }
 
-    // ── Eligibility check ──────────────────────────────────────────────────────
-    @wire(getApprovalHistory, { recordId: '$recordId' })
-    wiredHistory({ data, error }) {
-        if (data) {
-            this.isLoading = false;
-            if (!data.canApproveOrReject || data.processStatus !== 'Pending') {
-                this.isEligible = false;
-                return;
-            }
-            const eligible = data.rows.find(r => r.canApproveOrReject && r.workItemId);
-            if (!eligible) {
-                this.isEligible = false;
-                return;
-            }
-            this.workItemId = eligible.workItemId;
-            this.isEligible = true;
-        } else if (error) {
+    // ── Read URL params then imperatively check eligibility ────────────────────
+    @wire(CurrentPageReference)
+    wiredPageRef(pageRef) {
+        if (!pageRef?.state) return;
+
+        const rid = pageRef.state.c__recordId;
+        const act = pageRef.state.c__action || 'Approve';
+
+        if (!rid) {
+            // URL has no recordId — nothing useful to do
             this.isLoading  = false;
             this.isEligible = false;
+            return;
         }
+
+        // Guard against the wire firing again with the same values
+        if (rid === this.recordId) return;
+
+        this.recordId   = rid;
+        this.action     = act;
+        this.isLoading  = true;
+        this.isEligible = false;
+
+        this.checkEligibility(rid);
+    }
+
+    checkEligibility(rid) {
+        getApprovalHistory({ recordId: rid })
+            .then(data => {
+                this.isLoading = false;
+                if (!data.canApproveOrReject || data.processStatus !== 'Pending') {
+                    this.isEligible = false;
+                    return;
+                }
+                const eligible = data.rows.find(r => r.canApproveOrReject && r.workItemId);
+                if (!eligible) {
+                    this.isEligible = false;
+                    return;
+                }
+                this.workItemId = eligible.workItemId;
+                this.isEligible = true;
+            })
+            .catch(() => {
+                this.isLoading  = false;
+                this.isEligible = false;
+            });
     }
 
     // ── Derived getters ────────────────────────────────────────────────────────
