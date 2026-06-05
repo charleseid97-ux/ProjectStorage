@@ -224,6 +224,7 @@
 		<members>UI_UnknownObject</members>
 		<members>UI_Value</members>
 		<members>UI_Warning</members>
+		<members>Grid_EmailApprovalNotEligible</members>
 		<name>CustomLabel</name>
 	</types>
 	<types>
@@ -389,6 +390,7 @@
 	</types>
 	<types>
 		<members>BuildNewGrid</members>
+		<members>GridApprovalAction</members>
 		<members>GridCriteriaDetail__c</members>
 		<members>GridCriteria__c</members>
 		<members>GridDetail__c</members>
@@ -401,6 +403,7 @@
 	<types>
 		<members>AgreementGridTimelineItemRecordPage</members>
 		<members>BuildNewGrid</members>
+		<members>GridApprovalAction</members>
 		<!-- <members>Convention_Record_Page</members> -->
 		<members>CustomApprovalRecordPage</members>
 		<members>CustomApprovalStepRecordPage</members>
@@ -461,6 +464,7 @@
 		<members>customGridBuilder</members>
 		<members>standardGridGroupList</members>
 		<members>standardGridProductsAndRules</members>
+		<members>gridEmailApprovalAction</members>
 		<name>LightningComponentBundle</name>
 	</types>
 	<types>

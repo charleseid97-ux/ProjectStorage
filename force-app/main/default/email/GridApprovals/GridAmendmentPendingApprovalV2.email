@@ -65,11 +65,10 @@
   .link-cell  { padding:24px 32px; text-align:center; border-top:2px solid #e8edf3; }
   .view-link  { color:#0563c1; font-size:14px; text-decoration:underline; }
 
-  /* ── Draft action buttons ── */
-  .actions-cell  { padding:0 32px 28px 32px; border-top:1px solid #eef1f6; }
-  .actions-label { margin:16px 0 14px 0; font-size:12px; color:#a0aec0; text-align:center; font-style:italic; }
-  .btn-approve   { display:inline-block; background-color:#c6f6d5; color:#22543d; font-size:14px; font-weight:700; padding:12px 36px; border-radius:6px; opacity:0.6; cursor:default; }
-  .btn-reject    { display:inline-block; background-color:#fed7d7; color:#742a2a; font-size:14px; font-weight:700; padding:12px 36px; border-radius:6px; opacity:0.6; cursor:default; }
+  /* ── Action buttons ── */
+  .actions-cell  { padding:16px 32px 28px 32px; border-top:1px solid #eef1f6; }
+  .btn-approve   { display:inline-block; background-color:#c6f6d5; color:#22543d; font-size:14px; font-weight:700; padding:12px 36px; border-radius:6px; text-decoration:none; }
+  .btn-reject    { display:inline-block; background-color:#fed7d7; color:#742a2a; font-size:14px; font-weight:700; padding:12px 36px; border-radius:6px; text-decoration:none; }
 
   /* ── Footer ── */
   .footer      { border-radius:0 0 8px 8px; border-top:1px solid #e2e8f0; }
@@ -252,18 +251,17 @@
       </tr>
     </table>
 
-    <!-- ───── DRAFT ACTION BUTTONS ───── -->
+    <!-- ───── ACTION BUTTONS ───── -->
     <table width="100%" border="0" cellpadding="0" cellspacing="0" bgcolor="#ffffff">
       <tr>
         <td class="actions-cell">
-          <p class="actions-label">Quick actions &mdash; coming soon</p>
           <table width="100%" border="0" cellpadding="0" cellspacing="0">
             <tr>
               <td width="50%" align="right" style="padding-right:8px;">
-                <span class="btn-approve">&#10003; Approve</span>
+                <a href="{!LEFT($Api.Partner_Server_URL_260, FIND('/services', $Api.Partner_Server_URL_260))}lightning/n/GridApprovalAction?c__recordId={!relatedTo.Id}&amp;c__action=Approve" class="btn-approve">&#10003; Approve</a>
               </td>
               <td width="50%" align="left" style="padding-left:8px;">
-                <span class="btn-reject">&#10007; Reject</span>
+                <a href="{!LEFT($Api.Partner_Server_URL_260, FIND('/services', $Api.Partner_Server_URL_260))}lightning/n/GridApprovalAction?c__recordId={!relatedTo.Id}&amp;c__action=Reject" class="btn-reject">&#10007; Reject</a>
               </td>
             </tr>
           </table>
