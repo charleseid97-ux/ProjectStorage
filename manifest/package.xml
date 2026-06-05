@@ -54,6 +54,8 @@
 		<members>ShareClassStandardGridBatch</members>
 		<members>StandardGridProductAndRulesController</members>
 		<members>StdGridProductAndRulesControllerTest</members>
+		<members>GridEmailStandardRulesController</members>
+		<members>GridEmailShareClassOverviewController</members>
 		<name>ApexClass</name>
 	</types>
 	<types>
@@ -489,7 +491,17 @@
 	<types>
 		<members>Agreements/GridReviewEmailTemplate</members>
 		<members>GridApprovals/GridAmendmentPendingApproval</members>
+		<members>GridApprovals/GridAmendmentPendingApprovalV2</members>
 		<name>EmailTemplate</name>
+	</types>
+	<types>
+		<members>GridApprovals</members>
+		<name>EmailFolder</name>
+	</types>
+	<types>
+		<members>GridEmailStandardRules</members>
+		<members>GridEmailShareClassOverview</members>
+		<name>ApexComponent</name>
 	</types>
 	<!-- FLAG ON -->
 	<version>66.0</version>
