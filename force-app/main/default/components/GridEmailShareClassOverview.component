@@ -4,14 +4,14 @@
     <!-- ── Funds not included ── -->
     <p style="margin:0 0 8px 0;font-size:12px;font-weight:700;color:#718096;text-transform:uppercase;letter-spacing:1px;">Funds not included</p>
     <apex:outputPanel layout="block" rendered="{!hasExcluded}">
-        <div style="margin-bottom:6px;">
+        <div style="margin-bottom:14px;">
             <apex:repeat value="{!excluded}" var="fund">
                 <span style="display:inline-block;background-color:#fed7d7;color:#742a2a;font-size:11px;font-weight:600;padding:3px 10px;border-radius:999px;border:1px solid #feb2b2;margin:2px 4px 2px 0;">{!fund}</span>
             </apex:repeat>
         </div>
     </apex:outputPanel>
     <apex:outputPanel layout="block" rendered="{!NOT(hasExcluded)}">
-        <p style="color:#a0aec0;font-size:12px;font-style:italic;margin:0 0 6px 0;">None</p>
+        <p style="color:#a0aec0;font-size:12px;font-style:italic;margin:0 0 14px 0;">None</p>
     </apex:outputPanel>
 
     <div style="border-top:1px solid #e2e8f0;margin:18px 0;"></div>
@@ -20,7 +20,7 @@
     <p style="margin:0 0 8px 0;font-size:12px;font-weight:700;color:#718096;text-transform:uppercase;letter-spacing:1px;">Restricted Share Classes</p>
     <apex:outputPanel layout="block" rendered="{!hasRestricted}">
         <apex:repeat value="{!restricted}" var="grp">
-            <div style="margin-bottom:8px;">
+            <div style="margin-bottom:14px;">
                 <span style="font-size:12px;font-weight:600;color:#1a202c;">{!grp.shareType}</span>
                 <span style="color:#a0aec0;margin:0 4px;">&mdash;</span>
                 <apex:repeat value="{!grp.productShortNames}" var="name">
@@ -30,7 +30,7 @@
         </apex:repeat>
     </apex:outputPanel>
     <apex:outputPanel layout="block" rendered="{!NOT(hasRestricted)}">
-        <p style="color:#a0aec0;font-size:12px;font-style:italic;margin:0 0 6px 0;">None</p>
+        <p style="color:#a0aec0;font-size:12px;font-style:italic;margin:0 0 14px 0;">None</p>
     </apex:outputPanel>
 
     <div style="border-top:1px solid #e2e8f0;margin:18px 0;"></div>
@@ -42,7 +42,7 @@
     </p>
     <apex:outputPanel layout="block" rendered="{!hasUnrestricted}">
         <apex:repeat value="{!filteredUnrestricted}" var="grp">
-            <div style="margin-bottom:8px;">
+            <div style="margin-bottom:14px;">
                 <span style="font-size:12px;font-weight:600;color:#1a202c;">{!grp.shareType}</span>
                 <span style="color:#a0aec0;margin:0 4px;">&mdash;</span>
                 <apex:outputPanel rendered="{!grp.isAllFunds}">
