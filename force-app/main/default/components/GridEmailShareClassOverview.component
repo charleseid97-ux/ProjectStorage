@@ -2,64 +2,64 @@
     <apex:attribute name="recordId" type="Id" description="The Grid__c record Id" assignTo="{!gridId}" />
 
     <!-- ── Funds not included ── -->
-    <p style="margin:0 0 6px 0;font-size:12px;font-weight:700;color:#718096;text-transform:uppercase;letter-spacing:1px;">Funds not included</p>
-    <apex:outputPanel rendered="{!hasExcluded}">
-        <div style="margin-bottom:4px;">
+    <p style="margin:0 0 8px 0;font-size:12px;font-weight:700;color:#718096;text-transform:uppercase;letter-spacing:1px;">Funds not included</p>
+    <apex:outputPanel layout="block" rendered="{!hasExcluded}">
+        <div style="margin-bottom:14px;">
             <apex:repeat value="{!excluded}" var="fund">
-                <span style="display:inline-block;background-color:#fed7d7;color:#742a2a;font-size:11px;padding:2px 8px;border-radius:12px;margin:2px 3px 2px 0;">{!fund}</span>
+                <span style="display:inline-block;background-color:#fed7d7;color:#742a2a;font-size:11px;font-weight:600;padding:3px 10px;border-radius:999px;border:1px solid #feb2b2;margin:2px 4px 2px 0;">{!fund}</span>
             </apex:repeat>
         </div>
     </apex:outputPanel>
-    <apex:outputPanel rendered="{!NOT(hasExcluded)}">
-        <p style="color:#a0aec0;font-size:12px;font-style:italic;margin:0 0 4px 0;">None</p>
+    <apex:outputPanel layout="block" rendered="{!NOT(hasExcluded)}">
+        <p style="color:#a0aec0;font-size:12px;font-style:italic;margin:0 0 14px 0;">None</p>
     </apex:outputPanel>
 
-    <div style="border-top:1px solid #e2e8f0;margin:10px 0;"></div>
+    <div style="border-top:1px solid #e2e8f0;margin:18px 0;"></div>
 
     <!-- ── Restricted Share Classes ── -->
-    <p style="margin:0 0 6px 0;font-size:12px;font-weight:700;color:#718096;text-transform:uppercase;letter-spacing:1px;">Restricted Share Classes</p>
-    <apex:outputPanel rendered="{!hasRestricted}">
+    <p style="margin:0 0 8px 0;font-size:12px;font-weight:700;color:#718096;text-transform:uppercase;letter-spacing:1px;">Restricted Share Classes</p>
+    <apex:outputPanel layout="block" rendered="{!hasRestricted}">
         <apex:repeat value="{!restricted}" var="grp">
-            <div style="margin-bottom:6px;">
+            <div style="margin-bottom:14px;">
                 <span style="font-size:12px;font-weight:600;color:#1a202c;">{!grp.shareType}</span>
-                <span style="color:#718096;"> &mdash; </span>
+                <span style="color:#a0aec0;margin:0 4px;">&mdash;</span>
                 <apex:repeat value="{!grp.productShortNames}" var="name">
-                    <span style="display:inline-block;background-color:#fef3c7;color:#92400e;font-size:11px;padding:2px 8px;border-radius:12px;margin:2px 3px 2px 0;">{!name}</span>
+                    <span style="display:inline-block;background-color:#fef3c7;color:#92400e;font-size:11px;font-weight:600;padding:3px 10px;border-radius:999px;border:1px solid #fbd38d;margin:2px 4px 2px 0;">{!name}</span>
                 </apex:repeat>
             </div>
         </apex:repeat>
     </apex:outputPanel>
-    <apex:outputPanel rendered="{!NOT(hasRestricted)}">
-        <p style="color:#a0aec0;font-size:12px;font-style:italic;margin:0 0 4px 0;">None</p>
+    <apex:outputPanel layout="block" rendered="{!NOT(hasRestricted)}">
+        <p style="color:#a0aec0;font-size:12px;font-style:italic;margin:0 0 14px 0;">None</p>
     </apex:outputPanel>
 
-    <div style="border-top:1px solid #e2e8f0;margin:10px 0;"></div>
+    <div style="border-top:1px solid #e2e8f0;margin:18px 0;"></div>
 
     <!-- ── Unrestricted Share Classes ── -->
-    <p style="margin:0 0 6px 0;font-size:12px;font-weight:700;color:#718096;text-transform:uppercase;letter-spacing:1px;">
+    <p style="margin:0 0 8px 0;font-size:12px;font-weight:700;color:#718096;text-transform:uppercase;letter-spacing:1px;">
         Unrestricted Share Classes
         <span style="font-size:11px;font-style:italic;font-weight:400;"> (Added automatically)</span>
     </p>
-    <apex:outputPanel rendered="{!hasUnrestricted}">
+    <apex:outputPanel layout="block" rendered="{!hasUnrestricted}">
         <apex:repeat value="{!filteredUnrestricted}" var="grp">
-            <div style="margin-bottom:6px;">
+            <div style="margin-bottom:14px;">
                 <span style="font-size:12px;font-weight:600;color:#1a202c;">{!grp.shareType}</span>
-                <span style="color:#718096;"> &mdash; </span>
+                <span style="color:#a0aec0;margin:0 4px;">&mdash;</span>
                 <apex:outputPanel rendered="{!grp.isAllFunds}">
-                    <span style="display:inline-block;background-color:#c6f6d5;color:#22543d;font-size:11px;padding:2px 8px;border-radius:12px;margin:2px 3px 2px 0;">All Funds</span>
+                    <span style="display:inline-block;background-color:#c6f6d5;color:#22543d;font-size:11px;font-weight:600;padding:3px 10px;border-radius:999px;border:1px solid #9ae6b4;margin:2px 4px 2px 0;">All Funds</span>
                 </apex:outputPanel>
                 <apex:outputPanel rendered="{!NOT(grp.isAllFunds)}">
                     <apex:repeat value="{!grp.products}" var="name">
-                        <span style="display:inline-block;background-color:#c6f6d5;color:#22543d;font-size:11px;padding:2px 8px;border-radius:12px;margin:2px 3px 2px 0;">{!name}</span>
+                        <span style="display:inline-block;background-color:#c6f6d5;color:#22543d;font-size:11px;font-weight:600;padding:3px 10px;border-radius:999px;border:1px solid #9ae6b4;margin:2px 4px 2px 0;">{!name}</span>
                     </apex:repeat>
                     <apex:repeat value="{!grp.missing}" var="name">
-                        <span style="display:inline-block;background-color:#fed7d7;color:#742a2a;font-size:11px;padding:2px 8px;border-radius:12px;margin:2px 3px 2px 0;">{!name}</span>
+                        <span style="display:inline-block;background-color:#fed7d7;color:#742a2a;font-size:11px;font-weight:600;padding:3px 10px;border-radius:999px;border:1px solid #feb2b2;margin:2px 4px 2px 0;">{!name}</span>
                     </apex:repeat>
                 </apex:outputPanel>
             </div>
         </apex:repeat>
     </apex:outputPanel>
-    <apex:outputPanel rendered="{!NOT(hasUnrestricted)}">
+    <apex:outputPanel layout="block" rendered="{!NOT(hasUnrestricted)}">
         <p style="color:#a0aec0;font-size:12px;font-style:italic;margin:0;">None</p>
     </apex:outputPanel>
 </apex:component>
