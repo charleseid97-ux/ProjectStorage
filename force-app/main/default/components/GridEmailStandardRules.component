@@ -12,13 +12,6 @@
                         <span style="display:inline-block;background-color:#e2e8f0;color:#2d3748;font-size:11px;padding:2px 8px;border-radius:12px;margin:2px 3px 2px 0;">{!prod.shortName}</span>
                     </apex:repeat>
                 </div>
-                <apex:outputPanel rendered="{!grp.hasRules}">
-                    <ul style="margin:5px 0 0 14px;padding:0;font-size:11px;color:#718096;line-height:1.6;">
-                        <apex:repeat value="{!grp.rules}" var="rule">
-                            <li>{!rule.text}</li>
-                        </apex:repeat>
-                    </ul>
-                </apex:outputPanel>
             </div>
         </apex:repeat>
     </apex:outputPanel>
