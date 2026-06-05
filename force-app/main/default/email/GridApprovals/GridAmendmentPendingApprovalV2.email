@@ -68,11 +68,11 @@
             </tr>
             <tr bgcolor="#f7f9fc">
               <td style="padding:12px 16px;font-size:13px;color:#718096;border-bottom:1px solid #eef1f6;">Start Date</td>
-              <td style="padding:12px 16px;font-size:13px;color:#1a202c;border-bottom:1px solid #eef1f6;">{!TEXT(YEAR(relatedTo.StartDate__c)) & "-" & IF(MONTH(relatedTo.StartDate__c) < 10, "0" & TEXT(MONTH(relatedTo.StartDate__c)), TEXT(MONTH(relatedTo.StartDate__c))) & "-" & IF(DAY(relatedTo.StartDate__c) < 10, "0" & TEXT(DAY(relatedTo.StartDate__c)), TEXT(DAY(relatedTo.StartDate__c)))}</td>
+              <td style="padding:12px 16px;font-size:13px;color:#1a202c;border-bottom:1px solid #eef1f6;">{!IF(ISBLANK(relatedTo.StartDate__c), "", TEXT(YEAR(relatedTo.StartDate__c)) & "-" & IF(MONTH(relatedTo.StartDate__c) < 10, "0" & TEXT(MONTH(relatedTo.StartDate__c)), TEXT(MONTH(relatedTo.StartDate__c))) & "-" & IF(DAY(relatedTo.StartDate__c) < 10, "0" & TEXT(DAY(relatedTo.StartDate__c)), TEXT(DAY(relatedTo.StartDate__c))))}</td>
             </tr>
             <tr bgcolor="#ffffff">
               <td style="padding:12px 16px;font-size:13px;color:#718096;border-bottom:1px solid #eef1f6;">End Date</td>
-              <td style="padding:12px 16px;font-size:13px;color:#1a202c;border-bottom:1px solid #eef1f6;">{!TEXT(YEAR(relatedTo.EndDate__c)) & "-" & IF(MONTH(relatedTo.EndDate__c) < 10, "0" & TEXT(MONTH(relatedTo.EndDate__c)), TEXT(MONTH(relatedTo.EndDate__c))) & "-" & IF(DAY(relatedTo.EndDate__c) < 10, "0" & TEXT(DAY(relatedTo.EndDate__c)), TEXT(DAY(relatedTo.EndDate__c)))}</td>
+              <td style="padding:12px 16px;font-size:13px;color:#1a202c;border-bottom:1px solid #eef1f6;">{!IF(ISBLANK(relatedTo.EndDate__c), "", TEXT(YEAR(relatedTo.EndDate__c)) & "-" & IF(MONTH(relatedTo.EndDate__c) < 10, "0" & TEXT(MONTH(relatedTo.EndDate__c)), TEXT(MONTH(relatedTo.EndDate__c))) & "-" & IF(DAY(relatedTo.EndDate__c) < 10, "0" & TEXT(DAY(relatedTo.EndDate__c)), TEXT(DAY(relatedTo.EndDate__c))))}</td>
             </tr>
             <tr bgcolor="#f7f9fc">
               <td style="padding:12px 16px;font-size:13px;color:#718096;">Automatic Grid Update</td>
