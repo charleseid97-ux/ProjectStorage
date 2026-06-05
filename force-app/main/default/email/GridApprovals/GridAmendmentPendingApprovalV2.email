@@ -40,7 +40,7 @@
     <table width="100%" border="0" cellpadding="0" cellspacing="0" bgcolor="#ffffff">
       <tr>
         <td style="padding:24px 32px 0 32px;">
-          <p style="margin:0 0 10px 0;font-size:11px;font-weight:700;color:#1b3a5c;text-transform:uppercase;letter-spacing:2px;">Grid Details</p>
+          <p style="margin:0 0 10px 0;font-size:11px;font-weight:700;color:#1b3a5c;text-transform:uppercase;letter-spacing:2px;">Grid Information</p>
           <table width="100%" border="0" cellpadding="0" cellspacing="0" style="border-collapse:collapse;border:1px solid #dde3ec;border-radius:6px;overflow:hidden;">
             <tr bgcolor="#e8edf3">
               <td style="padding:10px 16px;font-size:11px;font-weight:700;color:#1b3a5c;text-transform:uppercase;letter-spacing:1px;width:38%;border-bottom:1px solid #dde3ec;">Field</td>
@@ -68,11 +68,11 @@
             </tr>
             <tr bgcolor="#f7f9fc">
               <td style="padding:12px 16px;font-size:13px;color:#718096;border-bottom:1px solid #eef1f6;">Start Date</td>
-              <td style="padding:12px 16px;font-size:13px;color:#1a202c;border-bottom:1px solid #eef1f6;">{!relatedTo.StartDate__c}</td>
+              <td style="padding:12px 16px;font-size:13px;color:#1a202c;border-bottom:1px solid #eef1f6;">{!TEXT(YEAR(relatedTo.StartDate__c)) & "-" & IF(MONTH(relatedTo.StartDate__c) < 10, "0" & TEXT(MONTH(relatedTo.StartDate__c)), TEXT(MONTH(relatedTo.StartDate__c))) & "-" & IF(DAY(relatedTo.StartDate__c) < 10, "0" & TEXT(DAY(relatedTo.StartDate__c)), TEXT(DAY(relatedTo.StartDate__c)))}</td>
             </tr>
             <tr bgcolor="#ffffff">
               <td style="padding:12px 16px;font-size:13px;color:#718096;border-bottom:1px solid #eef1f6;">End Date</td>
-              <td style="padding:12px 16px;font-size:13px;color:#1a202c;border-bottom:1px solid #eef1f6;">{!relatedTo.EndDate__c}</td>
+              <td style="padding:12px 16px;font-size:13px;color:#1a202c;border-bottom:1px solid #eef1f6;">{!TEXT(YEAR(relatedTo.EndDate__c)) & "-" & IF(MONTH(relatedTo.EndDate__c) < 10, "0" & TEXT(MONTH(relatedTo.EndDate__c)), TEXT(MONTH(relatedTo.EndDate__c))) & "-" & IF(DAY(relatedTo.EndDate__c) < 10, "0" & TEXT(DAY(relatedTo.EndDate__c)), TEXT(DAY(relatedTo.EndDate__c)))}</td>
             </tr>
             <tr bgcolor="#f7f9fc">
               <td style="padding:12px 16px;font-size:13px;color:#718096;">Automatic Grid Update</td>
@@ -140,7 +140,7 @@
     <table width="100%" border="0" cellpadding="0" cellspacing="0" bgcolor="#ffffff">
       <tr>
         <td style="padding:24px 32px;text-align:center;border-top:2px solid #e8edf3;">
-          <a href="{!LEFT($Api.Partner_Server_URL_260, FIND('/services', $Api.Partner_Server_URL_260))}{!relatedTo.Id}" style="display:inline-block;background-color:#1b3a5c;color:#ffffff;text-decoration:none;font-size:14px;font-weight:700;padding:13px 36px;border-radius:6px;letter-spacing:0.5px;">View and Compare &#8594;</a>
+          <a href="{!LEFT($Api.Partner_Server_URL_260, FIND('/services', $Api.Partner_Server_URL_260))}{!relatedTo.Id}" style="color:#0563c1;font-size:14px;text-decoration:underline;">View and Compare</a>
         </td>
       </tr>
     </table>
