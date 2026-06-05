@@ -3,14 +3,14 @@
 
     <!-- ── Funds not included ── -->
     <p class="sco-title">Funds not included</p>
-    <apex:outputPanel rendered="{!hasExcluded}">
+    <apex:outputPanel layout="block" rendered="{!hasExcluded}">
         <div>
             <apex:repeat value="{!excluded}" var="fund">
                 <span class="badge badge-red">{!fund}</span>
             </apex:repeat>
         </div>
     </apex:outputPanel>
-    <apex:outputPanel rendered="{!NOT(hasExcluded)}">
+    <apex:outputPanel layout="block" rendered="{!NOT(hasExcluded)}">
         <p class="sco-empty">None</p>
     </apex:outputPanel>
 
@@ -18,7 +18,7 @@
 
     <!-- ── Restricted Share Classes ── -->
     <p class="sco-title">Restricted Share Classes</p>
-    <apex:outputPanel rendered="{!hasRestricted}">
+    <apex:outputPanel layout="block" rendered="{!hasRestricted}">
         <apex:repeat value="{!restricted}" var="grp">
             <div class="sco-group">
                 <span class="sco-type">{!grp.shareType}</span>
@@ -29,7 +29,7 @@
             </div>
         </apex:repeat>
     </apex:outputPanel>
-    <apex:outputPanel rendered="{!NOT(hasRestricted)}">
+    <apex:outputPanel layout="block" rendered="{!NOT(hasRestricted)}">
         <p class="sco-empty">None</p>
     </apex:outputPanel>
 
@@ -37,7 +37,7 @@
 
     <!-- ── Unrestricted Share Classes ── -->
     <p class="sco-title">Unrestricted Share Classes <span class="sco-title-sub">(Added automatically)</span></p>
-    <apex:outputPanel rendered="{!hasUnrestricted}">
+    <apex:outputPanel layout="block" rendered="{!hasUnrestricted}">
         <apex:repeat value="{!filteredUnrestricted}" var="grp">
             <div class="sco-group">
                 <span class="sco-type">{!grp.shareType}</span>
@@ -56,7 +56,7 @@
             </div>
         </apex:repeat>
     </apex:outputPanel>
-    <apex:outputPanel rendered="{!NOT(hasUnrestricted)}">
+    <apex:outputPanel layout="block" rendered="{!NOT(hasUnrestricted)}">
         <p class="sco-empty-last">None</p>
     </apex:outputPanel>
 </apex:component>
