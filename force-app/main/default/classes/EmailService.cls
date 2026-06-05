@@ -28,6 +28,8 @@ public without sharing class EmailService {
             }
         }
 
+        OrgWideEmailAddress[] owea = [select Id from OrgWideEmailAddress where Address = 'noreplysalesforce@carmignac.com'];
+        
         List<Messaging.SingleEmailMessage> emailList = new List<Messaging.SingleEmailMessage>();
         for (Id userId : recipientUserIds) {
             String email = userEmails.get(userId);
@@ -42,6 +44,9 @@ public without sharing class EmailService {
             mail.setHtmlBody(rendered.getHtmlBody());
             mail.setPlainTextBody(rendered.getPlainTextBody());
             mail.setSaveAsActivity(false);
+            if (owea.size() > 0) {
+                mail.setOrgWideEmailAddressId(owea.get(0).Id);
+            }
             emailList.add(mail);
         }
 

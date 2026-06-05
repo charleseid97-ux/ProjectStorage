@@ -1,4 +1,4 @@
-<messaging:emailTemplate subject="[{!relatedTo.Agreement__r.Name} ({!relatedTo.Agreement__r.Agreement_Code__c})] - Grid Approval Request"
+<messaging:emailTemplate subject="[{!relatedTo.Agreement__r.ConventionName__c} ({!relatedTo.Agreement__r.Name})] - Grid Approval Request"
     recipientType="User"
     relatedToType="Grid__c">
 
@@ -140,7 +140,7 @@
     <table width="100%" border="0" cellpadding="0" cellspacing="0" bgcolor="#ffffff">
       <tr>
         <td style="padding:24px 32px;text-align:center;border-top:2px solid #e8edf3;">
-          <a href="{!URLFOR($Action.Grid__c.View, relatedTo.Id)}" style="display:inline-block;background-color:#1b3a5c;color:#ffffff;text-decoration:none;font-size:14px;font-weight:700;padding:13px 36px;border-radius:6px;letter-spacing:0.5px;">View and Compare &#8594;</a>
+          <a href="{!LEFT($Api.Partner_Server_URL_260, FIND('/services', $Api.Partner_Server_URL_260))}{!relatedTo.Id}" style="display:inline-block;background-color:#1b3a5c;color:#ffffff;text-decoration:none;font-size:14px;font-weight:700;padding:13px 36px;border-radius:6px;letter-spacing:0.5px;">View and Compare &#8594;</a>
         </td>
       </tr>
     </table>
@@ -204,7 +204,7 @@ Start Date:            {!relatedTo.StartDate__c}
 End Date:              {!relatedTo.EndDate__c}
 Automatic Grid Update: {!relatedTo.AutomaticGridUpdate__c}
 
-View and Compare: {!URLFOR($Action.Grid__c.View, relatedTo.Id)}
+View and Compare: {!LEFT($Api.Partner_Server_URL_260, FIND('/services', $Api.Partner_Server_URL_260))}{!relatedTo.Id}
 
 This is an automated notification - please do not reply to this email.
 </messaging:plainTextEmailBody>
