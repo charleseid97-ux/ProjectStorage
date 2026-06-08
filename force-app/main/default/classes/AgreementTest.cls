@@ -10,113 +10,112 @@ public class AgreementTest {
     private static final Id recTypeId       = Schema.SObjectType.Convention__c.getRecordTypeInfosByName().get('Sub-distributor via Platforms').getRecordTypeId();
     private static final Id masterRecTypeId = Schema.SObjectType.Convention__c.getRecordTypeInfosByName().get('Intermediary Agreement').getRecordTypeId();
 
-    // ─── Keys used to retrieve @TestSetup records ─────────────────────────────
-    private static final String MASTER_AGR_NAME = 'TestMasterAgreement';
-    private static final String SUB_AGR_NAME    = 'TestSubAgreement';
-    private static final String SECOND_AGR_NAME = 'TestSecondAgreement';
-    private static final String LE_NAME         = 'Legal Entity Test';
-    private static final String CONTACT_EMAIL   = 'agr.test@carmignac.com';
-
     // ─── @TestSetup ───────────────────────────────────────────────────────────
     @TestSetup
     static void setupTestData() {
         Map<String, Id> accRtMap = RecordTypeUtil.GetRecordTypeIdsByDeveloperName(Account.SObjectType);
         Map<String, Id> agmRtMap = RecordTypeUtil.GetRecordTypeIdsByDeveloperName(Convention__c.SObjectType);
-        User u = TestFactory.getCarmignacUserTestApex();
 
-        System.runAs(u) {
-            List<Account> accList = new List<Account>{
-                new Account(Name = 'Account FR Test',
-                    BusinessDevelopmentRegion__c = 'BP_FR', Distributor_Type__c = 'Bank', Sub_Type__c = 'Retail Banking',
-                    RecordTypeId = accRtMap.get('Account_Distributor'),
-                    Billingcity = 'Chicago', BillingStreet = 'asd123', BillingPostalCode = '60606',
-                    BillingCountry = 'United States', In__c = 'Retail', Final_Distribution__c = 'Retail'),
-                new Account(Name = 'Account ES Test',
-                    BusinessDevelopmentRegion__c = 'BP_ES', Distributor_Type__c = 'Bank', Sub_Type__c = 'Retail Banking',
-                    RecordTypeId = accRtMap.get('Account_Distributor'),
-                    Billingcity = 'Barcelona', BillingStreet = 'xyz456', BillingPostalCode = '70301',
-                    BillingCountry = 'Spain', In__c = 'Retail', Final_Distribution__c = 'Retail')
-            };
-            insert accList;
+        List<Account> accList = new List<Account>{
+            new Account(Name = 'Account FR Test',
+                BusinessDevelopmentRegion__c = 'BP_FR', Distributor_Type__c = 'Bank', Sub_Type__c = 'Retail Banking',
+                RecordTypeId = accRtMap.get('Account_Distributor'),
+                Billingcity = 'Chicago', BillingStreet = 'asd123', BillingPostalCode = '60606',
+                BillingCountry = 'United States', In__c = 'Retail', Final_Distribution__c = 'Retail'),
+            new Account(Name = 'Account ES Test',
+                BusinessDevelopmentRegion__c = 'BP_ES', Distributor_Type__c = 'Bank', Sub_Type__c = 'Retail Banking',
+                RecordTypeId = accRtMap.get('Account_Distributor'),
+                Billingcity = 'Barcelona', BillingStreet = 'xyz456', BillingPostalCode = '70301',
+                BillingCountry = 'Spain', In__c = 'Retail', Final_Distribution__c = 'Retail')
+        };
+        insert accList;
 
-            Grid__c franceGrid = new Grid__c(Name = 'France S5');
-            insert franceGrid;
+        Grid__c franceGrid = new Grid__c(Name = 'France S5');
+        insert franceGrid;
 
-            Convention__c masterAgreement = new Convention__c(
-                Name = MASTER_AGR_NAME, Grid__c = franceGrid.Id, Company__c = accList[0].Id,
-                Countries_of_Distribution__c = 'AL', Code_Type__c = 'Distribution Agreement', Agreement_Type__c = 'Master',
+        // Master inserted first so sub can reference it
+        Convention__c masterAgreement = new Convention__c(
+            Grid__c = franceGrid.Id, Company__c = accList[0].Id,
+            Countries_of_Distribution__c = 'AL', Code_Type__c = 'Distribution Agreement', Agreement_Type__c = 'Master',
+            RecordTypeId = agmRtMap.get('Request_Agreement')
+        );
+        insert masterAgreement;
+
+        List<SObject> aggList = new List<SObject>{
+            new Convention__c(
+                Grid__c = franceGrid.Id, Company__c = accList[0].Id,
+                Countries_of_Distribution__c = 'AL', Code_Type__c = 'Direct Investor', Agreement_Type__c = 'Standard',
+                RecordTypeId = agmRtMap.get('Investor_without_Agreement_Request')
+            ),
+            new Convention__c(
+                Grid__c = franceGrid.Id, Company__c = accList[1].Id,
+                MasterConvention__c = masterAgreement.Id,
+                Countries_of_Distribution__c = 'AL', Code_Type__c = 'Distribution Agreement',
+                Amendment_Approval_Status__c = 'Approved', Grid_Request_Approved__c = true,
                 RecordTypeId = agmRtMap.get('Request_Agreement')
-            );
-            insert masterAgreement;
+            ),
+            new Legal_Entity__c(Name = 'Legal Entity Test')
+        };
+        insert aggList;
 
-            List<SObject> aggList = new List<SObject>{
-                new Convention__c(
-                    Name = SECOND_AGR_NAME, Grid__c = franceGrid.Id, Company__c = accList[0].Id,
-                    Countries_of_Distribution__c = 'AL', Code_Type__c = 'Direct Investor', Agreement_Type__c = 'Standard',
-                    RecordTypeId = agmRtMap.get('Investor_without_Agreement_Request')
-                ),
-                new Convention__c(
-                    Name = SUB_AGR_NAME, Grid__c = franceGrid.Id, Company__c = accList[1].Id,
-                    MasterConvention__c = masterAgreement.Id,
-                    Countries_of_Distribution__c = 'AL', Code_Type__c = 'Distribution Agreement',
-                    Amendment_Approval_Status__c = 'Approved', Grid_Request_Approved__c = true,
-                    RecordTypeId = agmRtMap.get('Request_Agreement')
-                ),
-                new Legal_Entity__c(Name = LE_NAME)
-            };
-            insert aggList;
+        Contact newContact = new Contact(
+            Email = 'agr.test@carmignac.com', Salutation = 'Ms', LastName = 'User', MOIS_Default_Contact__c = true
+        );
+        insert newContact;
 
-            Contact newContact = new Contact(
-                Email = CONTACT_EMAIL, Salutation = 'Ms', LastName = 'User', MOIS_Default_Contact__c = true
-            );
-            insert newContact;
-
-            Convention__c masterRef = [SELECT Id FROM Convention__c WHERE Name = :MASTER_AGR_NAME LIMIT 1];
-            insert new List<ConventionRelatedContact__c>{
-                new ConventionRelatedContact__c(Contact__c = newContact.Id, Role__c = 'Rebate/ IS Contact',        Convention__c = masterRef.Id),
-                new ConventionRelatedContact__c(Contact__c = newContact.Id, Role__c = 'Reallocation / IS Contact', Convention__c = masterRef.Id)
-            };
-        }
+        insert new List<ConventionRelatedContact__c>{
+            new ConventionRelatedContact__c(Contact__c = newContact.Id, Role__c = 'Rebate/ IS Contact',        Convention__c = masterAgreement.Id),
+            new ConventionRelatedContact__c(Contact__c = newContact.Id, Role__c = 'Reallocation / IS Contact', Convention__c = masterAgreement.Id)
+        };
     }
 
     // ─── Query helpers ────────────────────────────────────────────────────────
+    // Identified by: Code_Type__c = 'Distribution Agreement' + Agreement_Type__c = 'Master'
     private static Convention__c getMasterAgreement() {
         return [SELECT Id, Status__c, Company__c, RecordTypeId, Grid__c, Grid__r.Name, Agreement_Type__c, Code_Type__c,
                        MasterConvention__c, Primary_Rebate_Contact__c, Carmignac_Legal_Entity__c,
                        SignedDate__c, Amendment_Approval_Status__c, Agreement_Termination_Status__c
-                FROM Convention__c WHERE Name = :MASTER_AGR_NAME LIMIT 1];
+                FROM Convention__c
+                WHERE Code_Type__c = 'Distribution Agreement' AND Agreement_Type__c = 'Master'
+                LIMIT 1];
     }
 
+    // Identified by: Code_Type__c = 'Distribution Agreement' + MasterConvention__c != null
     private static Convention__c getSubAgreement() {
         return [SELECT Id, Status__c, Company__c, RecordTypeId, Grid__c, Agreement_Type__c, Code_Type__c,
                        MasterConvention__c, Primary_Rebate_Contact__c,
                        Amendment_Approval_Status__c, Grid_Request_Approved__c, Agreement_Termination_Status__c
-                FROM Convention__c WHERE Name = :SUB_AGR_NAME LIMIT 1];
+                FROM Convention__c
+                WHERE Code_Type__c = 'Distribution Agreement' AND MasterConvention__c != null
+                LIMIT 1];
     }
 
+    // Identified by: Code_Type__c = 'Direct Investor'
     private static Convention__c getSecondAgreement() {
         return [SELECT Id, Status__c, Company__c, RecordTypeId, Grid__c, Agreement_Type__c, Code_Type__c
-                FROM Convention__c WHERE Name = :SECOND_AGR_NAME LIMIT 1];
+                FROM Convention__c
+                WHERE Code_Type__c = 'Direct Investor'
+                LIMIT 1];
     }
 
     private static Legal_Entity__c getLegalEntity() {
-        return [SELECT Id FROM Legal_Entity__c WHERE Name = :LE_NAME LIMIT 1];
+        return [SELECT Id FROM Legal_Entity__c WHERE Name = 'Legal Entity Test' LIMIT 1];
     }
 
     // ─── testRollupAccount ────────────────────────────────────────────────────
     @isTest
     static void testRollupAccount() {
         Account testAcc = TestFactory.getSimpleAccount();
-        testAcc.Client_Tier__c          = 'Titanium (Tier 0)';
+        testAcc.Client_Tier__c               = 'Titanium (Tier 0)';
         testAcc.BusinessDevelopmentRegion__c = 'BP_FR';
-        testAcc.Distributor_Type__c     = 'Bank';
-        testAcc.Sub_Type__c             = 'Retail Banking';
-        testAcc.Billingcity             = 'Paris';
-        testAcc.BillingStreet           = '12 rue test';
-        testAcc.BillingPostalCode       = '75001';
-        testAcc.BillingCountry          = 'France';
-        testAcc.In__c                   = 'Retail';
-        testAcc.Final_Distribution__c   = 'Retail';
+        testAcc.Distributor_Type__c          = 'Bank';
+        testAcc.Sub_Type__c                  = 'Retail Banking';
+        testAcc.Billingcity                  = 'Paris';
+        testAcc.BillingStreet                = '12 rue test';
+        testAcc.BillingPostalCode            = '75001';
+        testAcc.BillingCountry               = 'France';
+        testAcc.In__c                        = 'Retail';
+        testAcc.Final_Distribution__c        = 'Retail';
         insert testAcc;
 
         Grid__c grid = new Grid__c(Name = 'France grid', ActiveGrid__c = true);
@@ -148,98 +147,80 @@ public class AgreementTest {
     // ─── testHandleBeforeUpdate ───────────────────────────────────────────────
     @isTest
     static void testHandleBeforeUpdate() {
-        User u = TestFactory.getCarmignacUserTestApex();
         Convention__c subAgreement = getSubAgreement();
 
-        System.runAs(u) {
-            Test.startTest();
-            SM034_AgreementService.handleBeforeUpdate(
-                new List<Convention__c>{ subAgreement },
-                new Map<Id, Convention__c>{ subAgreement.Id => subAgreement }
-            );
-            Test.stopTest();
-        }
+        Test.startTest();
+        SM034_AgreementService.handleBeforeUpdate(
+            new List<Convention__c>{ subAgreement },
+            new Map<Id, Convention__c>{ subAgreement.Id => subAgreement }
+        );
+        Test.stopTest();
     }
 
     // ─── testServiceValidations ───────────────────────────────────────────────
     @isTest
     static void testServiceValidations() {
-        User u = TestFactory.getCarmignacUserTestApex();
         Convention__c masterAgreement = getMasterAgreement();
         Convention__c subAgreement    = getSubAgreement();
 
-        System.runAs(u) {
-            Test.startTest();
-            SM034_AgreementService.isAgreementRoleValidated(masterAgreement, subAgreement);
-            SM034_AgreementService.validateRequestISApprovalKYD(masterAgreement, subAgreement);
-            SM034_AgreementService.validateRequestISApprovalRiskLevel(masterAgreement);
-            SM034_AgreementService.validateRequestComplianceApproval(masterAgreement);
-            Test.stopTest();
-        }
+        Test.startTest();
+        SM034_AgreementService.isAgreementRoleValidated(masterAgreement, subAgreement);
+        SM034_AgreementService.validateRequestISApprovalKYD(masterAgreement, subAgreement);
+        SM034_AgreementService.validateRequestISApprovalRiskLevel(masterAgreement);
+        SM034_AgreementService.validateRequestComplianceApproval(masterAgreement);
+        Test.stopTest();
     }
 
     // ─── testApprovedAction ───────────────────────────────────────────────────
     @isTest
     static void testApprovedAction() {
-        User u = TestFactory.getCarmignacUserTestApex();
         Convention__c masterAgreement = getMasterAgreement();
         Convention__c subAgreement    = getSubAgreement();
 
-        System.runAs(u) {
-            Test.startTest();
-            SM034_AgreementService.approvedAction(masterAgreement, subAgreement, 'Status 1', 'Status 2');
-            Test.stopTest();
-        }
+        Test.startTest();
+        SM034_AgreementService.approvedAction(masterAgreement, subAgreement, 'Status 1', 'Status 2');
+        Test.stopTest();
     }
 
     // ─── testCreateRoles ──────────────────────────────────────────────────────
     @isTest
     static void testCreateRoles() {
-        User u = TestFactory.getCarmignacUserTestApex();
         Convention__c masterAgreement = getMasterAgreement();
         Convention__c secondAgreement = getSecondAgreement();
         Convention__c subAgreement    = getSubAgreement();
         Legal_Entity__c le            = getLegalEntity();
 
-        System.runAs(u) {
-            Test.startTest();
-            SM034_AgreementService.createRole(secondAgreement, le.Id);
-            SM034_AgreementService.createDefaultLegalEntityAgreementRole(
-                new List<Convention__c>{ masterAgreement, secondAgreement, subAgreement }
-            );
-            Test.stopTest();
-        }
+        Test.startTest();
+        SM034_AgreementService.createRole(secondAgreement, le.Id);
+        SM034_AgreementService.createDefaultLegalEntityAgreementRole(
+            new List<Convention__c>{ masterAgreement, secondAgreement, subAgreement }
+        );
+        Test.stopTest();
     }
 
     // ─── testDeleteRelatedContacts ────────────────────────────────────────────
     @isTest
     static void testDeleteRelatedContacts() {
-        User u = TestFactory.getCarmignacUserTestApex();
         List<ConventionRelatedContact__c> CRCList = [SELECT Id FROM ConventionRelatedContact__c];
 
-        System.runAs(u) {
-            Test.startTest();
-            delete CRCList;
-            Test.stopTest();
-        }
+        Test.startTest();
+        delete CRCList;
+        Test.stopTest();
     }
 
     // ─── testTerminated ───────────────────────────────────────────────────────
     @isTest
     static void testTerminated() {
         Map<String, Id> agmRtMap = RecordTypeUtil.GetRecordTypeIdsByDeveloperName(Convention__c.SObjectType);
-        User u = TestFactory.getCarmignacUserTestApex();
         Convention__c masterAgreement = getMasterAgreement();
 
-        System.runAs(u) {
-            masterAgreement.Status__c    = 'Terminated';
-            masterAgreement.RecordTypeId = agmRtMap.get('Agreement');
-            masterAgreement.SignedDate__c = Date.today();
+        masterAgreement.Status__c     = 'Terminated';
+        masterAgreement.RecordTypeId  = agmRtMap.get('Agreement');
+        masterAgreement.SignedDate__c = Date.today();
 
-            Test.startTest();
-            update masterAgreement;
-            Test.stopTest();
-        }
+        Test.startTest();
+        update masterAgreement;
+        Test.stopTest();
     }
 
     // ─── doTestUnusedHandler ──────────────────────────────────────────────────
