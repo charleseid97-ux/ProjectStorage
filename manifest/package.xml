@@ -405,6 +405,7 @@
 		<members>BuildNewGrid</members>
 		<members>GridApprovalAction</members>
 		<!-- <members>Convention_Record_Page</members> -->
+		<!-- <members>Agreement_Record_Page</members> -->
 		<members>CustomApprovalRecordPage</members>
 		<members>CustomApprovalStepRecordPage</members>
 		<members>CustomGridRecordPage</members>
@@ -424,9 +425,9 @@
 		<members>ApprovalProcessConfig__mdt-Approval Process Config Layout</members>
 		<members>ApprovalStepApproverConfig__mdt-Approval Step Approver Config Layout</members>
 		<members>ApprovalStepConfig__mdt-Approval Step Config Layout</members>
-		<members>Convention__c-Intermediary Agreement Layout</members>
-		<members>Convention__c-Intermediary Agreement Request Full Layout</members>
-		<members>Convention__c-Sub-distributor Agreement Layout</members>
+		<!-- <members>Convention__c-Intermediary Agreement Layout</members> -->
+		<!-- <members>Convention__c-Intermediary Agreement Request Full Layout</members> -->
+		<!-- <members>Convention__c-Sub-distributor Agreement Layout</members> -->
 		<members>CustomApproval__c-Custom Approval Layout</members>
 		<members>CustomApprovalStep__c-Custom Approval Step Layout</members>
 		<members>GridBuilderSetting__mdt-Grid Builder Setting Layout</members>
@@ -488,10 +489,10 @@
 		<members>GridTrigger</members>
 		<name>ApexTrigger</name>
 	</types>
-	<types>
+	<!-- <types>
 		<members>Grid__c</members>
 		<name>Workflow</name>
-	</types>
+	</types> -->
 	<types>
 		<members>Agreements/GridReviewEmailTemplate</members>
 		<members>GridApprovals/GridAmendmentPendingApprovalV2</members>
