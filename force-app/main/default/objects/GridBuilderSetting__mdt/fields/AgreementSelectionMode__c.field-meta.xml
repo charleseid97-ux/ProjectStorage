@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>AgreementSelectionMode__c</fullName>
+    <description>Controls whether users can select a single agreement or multiple agreements during the agreement selection step.</description>
+    <externalId>false</externalId>
+    <fieldManageability>DeveloperControlled</fieldManageability>
+    <inlineHelpText>Select “Single” to restrict users to one agreement selection. 
+Select “Multiple” to allow selecting more than one agreement.</inlineHelpText>
+    <label>Agreement Selection Mode</label>
+    <required>true</required>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Single</fullName>
+                <default>true</default>
+                <label>Single</label>
+            </value>
+            <value>
+                <fullName>Multiple</fullName>
+                <default>false</default>
+                <label>Multiple</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

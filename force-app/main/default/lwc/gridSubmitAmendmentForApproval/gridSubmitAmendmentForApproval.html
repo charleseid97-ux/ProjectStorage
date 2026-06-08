@@ -1,0 +1,15 @@
+<template>
+    <div class="slds-p-around_medium">
+        <template if:true={isLoading}>
+            <lightning-spinner alternative-text="Submitting" size="small"></lightning-spinner>
+        </template>
+        <template if:true={errorMessage}>
+            <p class="slds-text-color_error slds-m-bottom_small">{errorMessage}</p>
+        </template>
+        <lightning-textarea label="Comments" placeholder="Enter approval comments (optional)" value={comments} onchange={handleCommentsChange} rows="6"></lightning-textarea>
+    </div>
+    <div class="slds-modal__footer">
+        <lightning-button label="Cancel" onclick={handleCancel}></lightning-button>
+        <lightning-button class="slds-m-left_small" label="Submit" variant="brand" onclick={handleSubmit} disabled={isLoading}></lightning-button>
+    </div>
+</template>

@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Object__c</fullName>
+    <description>The object on which the filter applies.</description>
+    <externalId>false</externalId>
+    <label>Object</label>
+    <required>true</required>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Strategy__c</fullName>
+                <default>false</default>
+                <label>Strategy</label>
+            </value>
+            <value>
+                <fullName>Product__c</fullName>
+                <default>false</default>
+                <label>Product</label>
+            </value>
+            <value>
+                <fullName>Share_Class__c</fullName>
+                <default>false</default>
+                <label>Share Class</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

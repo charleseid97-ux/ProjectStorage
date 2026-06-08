@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>ApexClass__c</fullName>
+    <description>Apex class name implementing ICustomAlerter. Instantiated dynamically via Type.forName() at runtime by the CustomAlertScheduler.</description>
+    <externalId>false</externalId>
+    <fieldManageability>SubscriberControlled</fieldManageability>
+    <inlineHelpText>Enter the exact API name of the class (e.g. GridReviewBatch). The class must implement ICustomAlerter and be deployed to the org.</inlineHelpText>
+    <label>Apex Class</label>
+    <length>80</length>
+    <required>true</required>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

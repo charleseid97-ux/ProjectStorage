@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>AllGridCriteriaSettings</fullName>
+    <columns>ObjectApiName__c</columns>
+    <columns>FieldApiNames__c</columns>
+    <columns>SortOrder__c</columns>
+    <columns>AllowedOperators__c</columns>
+    <columns>IsActive__c</columns>
+    <columns>GridBuilderSetting__c</columns>
+    <filterScope>Everything</filterScope>
+    <label>All Grid Criteria Settings</label>
+    <language>en_US</language>
+</ListView>

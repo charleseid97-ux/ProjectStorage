@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>NotifySubmitter__c</fullName>
+    <defaultValue>false</defaultValue>
+    <description>When checked, the email alert is sent to the user who originally submitted the record for approval (CustomApproval__c.SubmittedBy__c). Used only when ActionKind__c = EmailAlert.</description>
+    <externalId>false</externalId>
+    <fieldManageability>SubscriberControlled</fieldManageability>
+    <inlineHelpText>Sends to the user who clicked Submit for Approval. Useful for FinalApproval, FinalRejection, and Recall notifications so the submitter is informed of the outcome.</inlineHelpText>
+    <label>Notify Submitter</label>
+    <type>Checkbox</type>
+</CustomField>

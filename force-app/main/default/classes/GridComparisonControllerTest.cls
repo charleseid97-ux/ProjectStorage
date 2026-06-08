@@ -1,0 +1,228 @@
+/** ──────────────────────────────────────
+ * @description Test class for GridComparisonController.
+ *              Covers grid/agreement search, active-grid resolution,
+ *              and comparison data retrieval.
+ * @author Charles EID
+ * @testCoverage GridComparisonController
+────────────────────────────────────── */
+@IsTest
+private with sharing class GridComparisonControllerTest {
+
+    private static final String APPROVED_CUSTOM_GRID_NAME   = 'ApprovedCustomGrid';
+    private static final String CUSTOM_AGR_NAME             = 'CUSTOM-AGR';
+    private static final String SPECIFIC_STD_GRID_NAME      = 'SpecificStdGrid';
+    private static final String CURRENT_GRID_WITH_AGR_NAME  = 'CurrentGridWithAgreement';
+    private static final String SAME_AGR_GRID_NAME          = 'SameAgreementGrid';
+    private static final String PRIORITY_AGR_NAME           = 'PRIORITY-AGR';
+    private static final String NO_ACTIVE_GRID_NAME         = 'GridWithNoActiveGrid';
+    private static final String NO_ACTIVE_AGR_NAME          = 'NO-ACTIVE-AGR';
+
+    private static final String STATUS_IS_CURRENT = 'IS_CURRENT';
+    private static final String STATUS_NONE       = 'NONE';
+    private static final String STATUS_HAS_ACTIVE = 'HAS_ACTIVE';
+
+    @TestSetup
+    static void makeData() {
+        GridTestSetupHelper.setupTestData();
+
+        // setupTestData() inserts a User (setup object); subsequent non-setup DML must run inside System.runAs
+        System.runAs(new User(Id = UserInfo.getUserId())) {
+            Map<String, Id> agmRtMap = RecordTypeUtil.GetRecordTypeIdsByDeveloperName(Convention__c.SObjectType);
+            List<Account> accounts   = GridTestSetupHelper.getTestAccounts();
+
+            // An approved custom grid (needed for searchGrids/searchAgreements custom-grid paths)
+            Grid__c approvedCustomGrid = GridTestSetupHelper.createGrid(APPROVED_CUSTOM_GRID_NAME, '', true, GridBuilderHelper.RT_CUSTOM_GRID);
+            approvedCustomGrid.ApprovalStatus__c = 'Approved';
+            insert approvedCustomGrid;
+
+            // Agreement linked to that approved custom grid (needed for searchAgreements)
+            AgreementTriggerHandler.triggerDisabled = true;
+            insert GridTestSetupHelper.createAgreement(CUSTOM_AGR_NAME, 'Custom Agreement', 'CUSTOM-AGR-001', accounts[0].Id, approvedCustomGrid.Id, 'FR', agmRtMap);
+            AgreementTriggerHandler.triggerDisabled = false;
+
+            // A specific standard grid (Tech_SpecificStandardGrid__c = true) — must be hidden from comparison filter
+            Grid__c specificStdGrid = GridTestSetupHelper.createGrid(SPECIFIC_STD_GRID_NAME, '', true, GridBuilderHelper.RT_STANDARD_GRID);
+            specificStdGrid.Tech_SpecificStandardGrid__c = true;
+            insert specificStdGrid;
+
+            // A custom grid that acts as "current grid" and belongs to an agreement (for group-2 priority test)
+            Grid__c currentGridWithAgreement = GridTestSetupHelper.createGrid(CURRENT_GRID_WITH_AGR_NAME, '', true, GridBuilderHelper.RT_CUSTOM_GRID);
+            insert currentGridWithAgreement;
+
+            AgreementTriggerHandler.triggerDisabled = true;
+            Convention__c priorityAgreement = GridTestSetupHelper.createAgreement(PRIORITY_AGR_NAME, 'Priority Test Agreement', 'PRIO-AGR-001', accounts[0].Id, currentGridWithAgreement.Id, 'FR', agmRtMap);
+            insert priorityAgreement;
+            AgreementTriggerHandler.triggerDisabled = false;
+
+            // Link the current grid back to the agreement (Agreement__c on Grid__c)
+            currentGridWithAgreement.Agreement__c = priorityAgreement.Id;
+            update currentGridWithAgreement;
+
+            // A second grid from the same agreement — must appear in group 2 (before other custom grids)
+            Grid__c sameAgreementGrid = GridTestSetupHelper.createGrid(SAME_AGR_GRID_NAME, '', true, GridBuilderHelper.RT_CUSTOM_GRID);
+            sameAgreementGrid.Agreement__c = priorityAgreement.Id;
+            insert sameAgreementGrid;
+
+            // A grid linked to an agreement that has no active grid (Grid__c = null on Convention__c)
+            Grid__c noActiveGrid = GridTestSetupHelper.createGrid(NO_ACTIVE_GRID_NAME, '', true, GridBuilderHelper.RT_CUSTOM_GRID);
+            insert noActiveGrid;
+
+            AgreementTriggerHandler.triggerDisabled = true;
+            Convention__c noActiveAgreement = GridTestSetupHelper.createAgreement(NO_ACTIVE_AGR_NAME, 'No Active Grid Agreement', 'NO-ACTIVE-001', accounts[0].Id, null, 'FR', agmRtMap);
+            insert noActiveAgreement;
+            AgreementTriggerHandler.triggerDisabled = false;
+
+            noActiveGrid.Agreement__c = noActiveAgreement.Id;
+            update noActiveGrid;
+
+            // Data for testGetComparisonData_withCountryFilter
+            // Two new share classes: one registered only in FR, one only in IT
+            List<Product__c> products = GridTestSetupHelper.getTestProducts();
+            Share_Class__c scFr = GridTestSetupHelper.createShareClass(products[0].Id, 'SC-FR-ONLY', 'ISIN-FR0001', GridTestSetupHelper.SHARE_TYPE_A, 1.5, GridTestSetupHelper.CURRENCY_EUR);
+            Share_Class__c scIt = GridTestSetupHelper.createShareClass(products[0].Id, 'SC-IT-ONLY', 'ISIN-IT0001', GridTestSetupHelper.SHARE_TYPE_A, 1.5, GridTestSetupHelper.CURRENCY_EUR);
+            insert new List<Share_Class__c>{ scFr, scIt };
+
+            insert new List<Country__c>{
+                GridTestSetupHelper.createCountry(scFr.Id, 'FR', 'REG', 'ISIN-FR0001'),
+                GridTestSetupHelper.createCountry(scIt.Id, 'IT', 'REG', 'ISIN-IT0001')
+            };
+
+            // Add GridDetail rows on S5+ for both new share classes
+            Grid__c s5Grid = GridTestSetupHelper.getTestGridByName(GridTestSetupHelper.GRID_NAME_S5_PLUS);
+            GridCriteria__c cmpCriteria = GridTestSetupHelper.createCriteria(s5Grid.Id, 'AND', '1', 'CmpCriteria');
+            insert cmpCriteria;
+            GridRule__c cmpRule = GridTestSetupHelper.createGridRule(s5Grid.Id, cmpCriteria.Id, 'Percentage of Fees', 'EffectiveManagementFees__c', 50, null, null, null);
+            insert cmpRule;
+            insert new List<GridDetail__c>{
+                GridTestSetupHelper.createGridDetail(s5Grid.Id, cmpRule.Id, cmpCriteria.Id, scFr.Id, 0.5, Date.today(), Date.newInstance(2099, 12, 31), GridBuilderHelper.RT_STANDARD_GRID_DETAIL),
+                GridTestSetupHelper.createGridDetail(s5Grid.Id, cmpRule.Id, cmpCriteria.Id, scIt.Id, 0.5, Date.today(), Date.newInstance(2099, 12, 31), GridBuilderHelper.RT_STANDARD_GRID_DETAIL)
+            };
+
+            // AUM for both share classes linked to priorityAgreement (FR agreement)
+            insert new List<AUM__c>{
+                GridTestSetupHelper.createAUM(scFr.Id, priorityAgreement.Id, accounts[0].Id, 100000, Date.today().addDays(-30)),
+                GridTestSetupHelper.createAUM(scIt.Id, priorityAgreement.Id, accounts[0].Id, 75000, Date.today().addDays(-30))
+            };
+        }
+    }
+
+    @IsTest
+    static void testSearchGrids() {
+        Grid__c currentGrid = GridTestSetupHelper.getTestGridByName(GridTestSetupHelper.GRID_NAME_S1);
+
+        Test.startTest();
+        GridComparisonController.searchGrids('S5', currentGrid.Id);
+        List<GridComparisonController.LookupResult> allResults = GridComparisonController.searchGrids('', currentGrid.Id);
+        Test.stopTest();
+
+        // Specific standard grids must never appear
+        for (GridComparisonController.LookupResult r : allResults) {
+            System.assertNotEquals(SPECIFIC_STD_GRID_NAME, r.name, 'Specific standard grid must be hidden from comparison filter');
+        }
+
+        // Standard grids (no subtitle) must all precede custom grids (subtitle present)
+        Boolean seenCustom = false;
+        for (GridComparisonController.LookupResult r : allResults) {
+            if (r.subtitle != null) {
+                seenCustom = true;
+            } else {
+                System.assert(!seenCustom, 'Standard grid "' + r.name + '" appeared after a custom grid — ordering is wrong');
+            }
+        }
+    }
+
+    @IsTest
+    static void testSearchGrids_sameAgreementPriority() {
+        Grid__c currentGrid = [SELECT Id FROM Grid__c WHERE Name = :CURRENT_GRID_WITH_AGR_NAME LIMIT 1];
+
+        Test.startTest();
+        List<GridComparisonController.LookupResult> results = GridComparisonController.searchGrids('', currentGrid.Id);
+        Test.stopTest();
+
+        Integer sameAgrIdx    = -1;
+        Integer otherCustIdx  = -1;
+        for (Integer i = 0; i < results.size(); i++) {
+            if (results[i].name == SAME_AGR_GRID_NAME)       sameAgrIdx   = i;
+            if (results[i].name == APPROVED_CUSTOM_GRID_NAME) otherCustIdx = i;
+        }
+
+        System.assert(sameAgrIdx   > -1, 'Same-agreement grid must appear in results');
+        System.assert(otherCustIdx > -1, 'Other custom grid must appear in results');
+        System.assert(sameAgrIdx < otherCustIdx, 'Same-agreement grid must appear before other custom grids');
+
+        // Current grid must not appear in results
+        for (GridComparisonController.LookupResult r : results) {
+            System.assertNotEquals(CURRENT_GRID_WITH_AGR_NAME, r.name, 'Current grid must be excluded from comparison options');
+        }
+    }
+
+    @IsTest
+    static void testSearchAgreements() {
+        Test.startTest();
+        List<GridComparisonController.LookupResult> results = GridComparisonController.searchAgreements('CUSTOM');
+        Test.stopTest();
+    }
+
+    @IsTest
+    static void testGetActiveGridForCurrentGrid() {
+        Grid__c currentGrid      = [SELECT Id FROM Grid__c WHERE Name = :CURRENT_GRID_WITH_AGR_NAME LIMIT 1];
+        Grid__c sameAgrGrid      = [SELECT Id FROM Grid__c WHERE Name = :SAME_AGR_GRID_NAME         LIMIT 1];
+        Grid__c noActiveGrid     = [SELECT Id FROM Grid__c WHERE Name = :NO_ACTIVE_GRID_NAME        LIMIT 1];
+        Grid__c unlinkedGrid     = GridTestSetupHelper.getTestGridByName(GridTestSetupHelper.GRID_NAME_S1);
+
+        Test.startTest();
+
+        // null input → NONE
+        GridComparisonController.ActiveGridInfo infoNull = GridComparisonController.getActiveGridForCurrentGrid(null);
+
+        // Grid with no agreement → NONE
+        GridComparisonController.ActiveGridInfo infoUnlinked = GridComparisonController.getActiveGridForCurrentGrid(unlinkedGrid.Id);
+
+        // Grid linked to agreement with no active grid → NONE
+        GridComparisonController.ActiveGridInfo infoNoActive = GridComparisonController.getActiveGridForCurrentGrid(noActiveGrid.Id);
+
+        // Grid IS the active grid of its agreement → IS_CURRENT
+        GridComparisonController.ActiveGridInfo infoIsCurrent = GridComparisonController.getActiveGridForCurrentGrid(currentGrid.Id);
+
+        // Grid belongs to agreement whose active grid is a different grid → HAS_ACTIVE
+        GridComparisonController.ActiveGridInfo infoHasActive = GridComparisonController.getActiveGridForCurrentGrid(sameAgrGrid.Id);
+
+        Test.stopTest();
+    }
+
+    @IsTest
+    static void testGetComparisonData() {
+        Grid__c currentGrid  = GridTestSetupHelper.getTestGridByName(GridTestSetupHelper.GRID_NAME_S1);
+        Grid__c selectedGrid = GridTestSetupHelper.getTestGridByName(GridTestSetupHelper.GRID_NAME_S5_PLUS);
+
+        Test.startTest();
+
+        GridComparisonController.getComparisonData(currentGrid.Id, selectedGrid.Id);
+
+        Test.stopTest();
+    }
+
+    @IsTest
+    static void testGetComparisonData_withCountryFilter() {
+        Grid__c currentGrid  = [SELECT Id FROM Grid__c WHERE Name = :CURRENT_GRID_WITH_AGR_NAME LIMIT 1];
+        Grid__c selectedGrid = GridTestSetupHelper.getTestGridByName(GridTestSetupHelper.GRID_NAME_S5_PLUS);
+
+        Test.startTest();
+        GridComparisonController.ComparisonData result = GridComparisonController.getComparisonData(currentGrid.Id, selectedGrid.Id);
+        Test.stopTest();
+
+        Set<String> returnedIsins = new Set<String>();
+        for (GridDetailTableController.GridDetailRow row : result.selected.rows) {
+            returnedIsins.add(row.isin);
+        }
+
+        System.assert(returnedIsins.contains('ISIN-FR0001'), 'ShareClass registered in FR must appear in selected grid rows');
+        System.assert(!returnedIsins.contains('ISIN-IT0001'), 'ShareClass not registered in FR must be filtered out');
+
+        for (GridDetailTableController.GridDetailRow row : result.selected.rows) {
+            if ('ISIN-FR0001'.equals(row.isin)) {
+                System.assertNotEquals('0', row.aum, 'AUM must be populated from current agreement for FR-registered share class');
+            }
+        }
+    }
+}
