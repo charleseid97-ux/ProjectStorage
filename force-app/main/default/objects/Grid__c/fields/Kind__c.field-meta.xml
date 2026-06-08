@@ -17,23 +17,47 @@
                 <label>Rebates</label>
             </value>
             <value>
+                <fullName>Investment Solution - Rebates</fullName>
+                <default>false</default>
+                <label>Investment Solution - Rebates</label>
+            </value>
+            <value>
+                <fullName>Platform Fees</fullName>
+                <default>false</default>
+                <label>Platform Fees</label>
+            </value>
+            <value>
+                <fullName>Other Fees</fullName>
+                <default>false</default>
+                <label>Other Fees</label>
+            </value>
+            <value>
+                <fullName>No Remuneration</fullName>
+                <default>false</default>
+                <label>No Remuneration</label>
+            </value>
+            <value>
                 <fullName>Mandates</fullName>
                 <default>false</default>
+                <isActive>false</isActive>
                 <label>Mandates</label>
             </value>
             <value>
                 <fullName>Platform</fullName>
                 <default>false</default>
+                <isActive>false</isActive>
                 <label>Platform</label>
             </value>
             <value>
                 <fullName>STEC fees</fullName>
                 <default>false</default>
+                <isActive>false</isActive>
                 <label>STEC fees</label>
             </value>
             <value>
                 <fullName>IX FEE</fullName>
                 <default>false</default>
+                <isActive>false</isActive>
                 <label>IX FEE</label>
             </value>
         </valueSetDefinition>
