@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>CustomApproval__c</fullName>
+    <description>Parent approval workflow. Steps cascade-delete with the parent.</description>
+    <inlineHelpText>Set automatically. Do not modify.</inlineHelpText>
+    <label>Custom Approval</label>
+    <referenceTo>CustomApproval__c</referenceTo>
+    <relationshipLabel>Custom Approval Steps</relationshipLabel>
+    <relationshipName>CustomApprovalSteps</relationshipName>
+    <relationshipOrder>0</relationshipOrder>
+    <reparentableMasterDetail>false</reparentableMasterDetail>
+    <trackTrending>false</trackTrending>
+    <type>MasterDetail</type>
+    <writeRequiresMasterRead>false</writeRequiresMasterRead>
+</CustomField>

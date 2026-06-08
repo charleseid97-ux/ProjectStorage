@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <description>Grid Review notification sent to CGL and CGF Top Management queues listing all grids whose review date has been reached.</description>
+    <encodingKey>UTF-8</encodingKey>
+    <letterhead>Carmignac</letterhead>
+    <name>Grid Review Email Template</name>
+    <style>freeForm</style>
+    <subject>Agreement Grid Review</subject>
+    <textOnly>Hello,
+
+You have requested a review of agreement grids. Below is the table with the details:
+
+Grid Name | Agreement Name | Company Name | Business Background
+
+Please log in and take any action necessary.
+
+Regards,
+Salesforce Automation</textOnly>
+    <type>html</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

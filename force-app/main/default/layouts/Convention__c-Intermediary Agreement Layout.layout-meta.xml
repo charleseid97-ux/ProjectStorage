@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Layout xmlns="http://soap.sforce.com/2006/04/metadata">
+    <customButtons>GridRequest</customButtons>
     <customButtons>AUMFlowReport</customButtons>
     <customButtons>TransactionsReport</customButtons>
     <excludeButtons>OpenSlackRecordChannel</excludeButtons>
@@ -465,29 +466,34 @@
             <sortOrder>2</sortOrder>
         </platformActionListItems>
         <platformActionListItems>
+            <actionName>GridRequest</actionName>
+            <actionType>CustomButton</actionType>
+            <sortOrder>3</sortOrder>
+        </platformActionListItems>
+        <platformActionListItems>
             <actionName>Submit</actionName>
             <actionType>StandardButton</actionType>
-            <sortOrder>3</sortOrder>
+            <sortOrder>4</sortOrder>
         </platformActionListItems>
         <platformActionListItems>
             <actionName>Convention__c.Code_Type_Definitions</actionName>
             <actionType>QuickAction</actionType>
-            <sortOrder>4</sortOrder>
+            <sortOrder>5</sortOrder>
         </platformActionListItems>
         <platformActionListItems>
             <actionName>FeedItem.TextPost</actionName>
             <actionType>QuickAction</actionType>
-            <sortOrder>5</sortOrder>
+            <sortOrder>6</sortOrder>
         </platformActionListItems>
         <platformActionListItems>
             <actionName>NewTask</actionName>
             <actionType>QuickAction</actionType>
-            <sortOrder>6</sortOrder>
+            <sortOrder>7</sortOrder>
         </platformActionListItems>
         <platformActionListItems>
             <actionName>Convention__c.NewAgreementRole</actionName>
             <actionType>QuickAction</actionType>
-            <sortOrder>7</sortOrder>
+            <sortOrder>8</sortOrder>
         </platformActionListItems>
     </platformActionList>
     <relatedLists>
@@ -509,9 +515,9 @@
     </relatedLists>
     <relatedLists>
         <fields>NAME</fields>
-        <fields>Grid_Start_Date__c</fields>
-        <fields>Grid_End_Date__c</fields>
-        <relatedList>Agreement_Grid_History__c.Agreement__c</relatedList>
+        <fields>GridStartDate__c</fields>
+        <fields>GridEndDate__c</fields>
+        <relatedList>AgreementGridTimeline__c.Agreement__c</relatedList>
     </relatedLists>
     <relatedLists>
         <fields>Document__c</fields>

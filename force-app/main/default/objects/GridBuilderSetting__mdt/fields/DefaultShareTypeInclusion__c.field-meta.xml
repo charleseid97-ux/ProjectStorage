@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>DefaultShareTypeInclusion__c</fullName>
+    <description>Defines the share types that are included by default when the grid is first loaded.</description>
+    <externalId>false</externalId>
+    <fieldManageability>DeveloperControlled</fieldManageability>
+    <inlineHelpText>Comma-separated list of Share Type API names to include by default. Exclusion settings, if defined, take precedence.</inlineHelpText>
+    <label>Default Share Type Inclusion</label>
+    <length>255</length>
+    <required>false</required>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

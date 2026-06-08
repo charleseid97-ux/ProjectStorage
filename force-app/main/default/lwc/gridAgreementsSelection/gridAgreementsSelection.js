@@ -1,0 +1,516 @@
+import { LightningElement, api, track, wire } from 'lwc';
+import { LABELS } from 'c/gridBuilderUtils';
+import getGridPicklistOptions from '@salesforce/apex/GridBuilderController.getGridPicklistOptions';
+import getAvailableGrids from '@salesforce/apex/GridBuilderController.getAvailableGrids';
+import getCurrentUserProfile from '@salesforce/apex/GridBuilderController.getCurrentUserProfile';
+
+export default class GridAgreementsSelection extends LightningElement {
+    @api hasTeamSelection = false;
+    @api multiAgreementSelection = false;
+    @api agreementSelectionMode;
+
+    @api availableTeams = [];
+    @api primaryTeam;
+    _selectedTeam;
+    @api
+    set selectedTeam(val) {
+        this._selectedTeam = val;
+    }
+    get selectedTeam() { return this._selectedTeam; }
+    @api recId;
+
+    labels = LABELS;
+    _options = [];
+    optionsByValue = {};
+    @api
+    set options(val) {
+        this._options = Array.isArray(val) ? val : [];
+        this.optionsByValue = this.getOptionsByValue();
+        this.finalOptionsList = this.getFinalOptionsList();
+        this.pills = this.getPills();
+    }
+    get options() {
+        return this._options;
+    }
+
+    @track selectedValues = [];
+    @track finalOptionsList = [];
+    @track pills = [];
+    @track userProfile = null;
+
+    @api
+    set value(val) {
+        this.selectedValues = Array.isArray(val) ? [...val] : [];
+        this.pills = this.getPills();
+    }
+    get value() {
+        return this.selectedValues;
+    }
+
+    // ── AG data: picklist options from Apex ──
+    @track kindOptions = [];
+    @track typeOptions = [];
+    @track ccyOptions  = [];
+    @track salesOwnerId = null;
+
+    // ── AG data fields ──
+    @track agKind           = '';    // AG2 — Kind__c
+    @track agType           = '';    // AG3 — Type__c
+    @track isAutoGridUpdate = true;  // AG4 — AutomaticGridUpdate__c
+    @track agStartDate      = '';    // AG5 — StartDate__c
+    @track agEndDate        = '';    // AG6 — EndDate__c
+    @track agThreshold      = null;  // AG7 — ThresholdAmount__c
+    @track agThreshCcy      = '';    // AG8 — ThresholdAmountCurrency__c
+    @track agOtherFees          = false; // AG9 — OtherFees__c
+    @track agComment            = '';    // AG10 — Comment__c
+    @track agNextReviewDate     = null;  // NextReviewDate__c
+    @track agBusinessBackground = '';    // BusinessBackground__c
+
+    @track singleRuleGridOptions = [];
+    @track selectedSingleRuleGrid = null;
+
+    @api
+    set gridData(val) {
+        if (!val || !Object.keys(val).length) return;
+        this.agKind           = val.kind || '';
+        this.agType           = val.gridType || '';
+        this.isAutoGridUpdate = val.isAutoGridUpdate ?? true;
+        this.agStartDate      = val.startDate || '';
+        this.agEndDate        = val.endDate || '';
+        this.agThreshold      = val.thresholdAmount;
+        this.agThreshCcy      = val.thresholdAmountCurrency || '';
+        this.agOtherFees          = val.otherFees ?? false;
+        this.agComment            = val.comment || '';
+        this.salesOwnerId         = val.salesOwnerId || null;
+        this.agNextReviewDate     = val.nextReviewDate || null;
+        this.agBusinessBackground = val.businessBackground || '';
+        this.selectedSingleRuleGrid = val.singleRuleGrid || null;
+        if (this.agType === 'SINGLE RULE') {
+            this.loadSingleRuleGridOptions();
+        }
+    }
+    get gridData() { return null; }
+
+    @api hasDraftGrid = false;
+    @track loadPreviousGrid = false;
+
+    @api
+    set initialLoadPreviousGrid(val) { this.loadPreviousGrid = val || false; }
+    get initialLoadPreviousGrid()    { return this.loadPreviousGrid; }
+    _existingGridInfo = { hasExistingGrid: false, kind: null, type: null, startDate: null, endDate: null, singleRuleGridSelection: null };
+
+    @api
+    set existingGridInfo(val) {
+        this._existingGridInfo = val || { hasExistingGrid: false, kind: null, type: null, startDate: null, endDate: null, singleRuleGridSelection: null };
+        // Auto-set Kind on first load if not yet chosen
+        if (this._existingGridInfo.kind && !this.agKind) {
+            this.agKind = this._existingGridInfo.kind;
+        }
+    }
+    get existingGridInfo() { return this._existingGridInfo; }
+
+    get hasExistingGrid()                { return this._existingGridInfo.hasExistingGrid; }
+    get existingGridStartDate()          { return this._existingGridInfo.startDate; }
+    get existingGridEndDate()            { return this._existingGridInfo.endDate; }
+    get existingGridType()               { return this._existingGridInfo.type; }
+    get existingGridSingleRuleSelection(){ return this._existingGridInfo.singleRuleGridSelection; }
+
+    formatDate(dateStr) {
+        const months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+        const [y, m, d] = dateStr.split('-').map(Number);
+        return `${String(d).padStart(2, '0')}-${months[m - 1]}-${y}`;
+    }
+
+    shiftDate(dateStr, days) {
+        const [y, m, d] = dateStr.split('-').map(Number);
+        const dt = new Date(Date.UTC(y, m - 1, d + days));
+        return dt.toISOString().split('T')[0];
+    }
+
+    get minStartDate() {
+        return this.existingGridStartDate ? this.shiftDate(this.existingGridStartDate, 1) : null;
+    }
+
+    get maxStartDate() {
+        return this.existingGridEndDate ? this.shiftDate(this.existingGridEndDate, 1) : null;
+    }
+
+    get showEndDateChangeWarning() {
+        if (!this.hasExistingGrid || !this.existingGridEndDate || !this.agStartDate) return false;
+        return new Date(this.agStartDate) <= new Date(this.existingGridEndDate);
+    }
+
+    get expectedApprovedGridEndDate() {
+        return this.agStartDate ? this.shiftDate(this.agStartDate, -1) : null;
+    }
+
+    get startDateConstraintInfo() {
+        if (!this.hasExistingGrid) return null;
+        const minPart = this.minStartDate ? `Earliest allowed: ${this.formatDate(this.minStartDate)}\nMust start after the last approved grid's start date` : '';
+        const maxPart = this.maxStartDate ? `Latest allowed: ${this.formatDate(this.maxStartDate)}\nCannot exceed the last approved grid's end date` : '';
+        return [minPart, maxPart].filter(Boolean).join('\n\n');
+    }
+
+    get isLoadPreviousToggleDisabled() {
+        if (!this.isSingleRule) return false;
+        return !(
+            this.existingGridType === 'SINGLE RULE' &&
+            this.existingGridSingleRuleSelection &&
+            this.selectedSingleRuleGrid?.label &&
+            this.existingGridSingleRuleSelection === this.selectedSingleRuleGrid.label
+        );
+    }
+
+    get isMultiAgreementSelection() {
+        return this.agreementSelectionMode === 'Multiple' || this.multiAgreementSelection;
+    }
+
+    get effectiveHasTeamSelection() {
+        return this.hasTeamSelection || this.isMultiAgreementSelection;
+    }
+
+    get isMonoSelect() {
+        return !this.isMultiAgreementSelection;
+    }
+
+    get showTeamPicker() {
+        return this.effectiveHasTeamSelection && (this.availableTeams || []).length > 1;
+    }
+
+    get isSingleRule()             { return this.agType === 'SINGLE RULE'; }
+    get isSingleRuleGridDisabled() { return !(this.selectedValues || []).length; }
+    get isSingleRuleGridRequired() { return this.isSingleRule; }
+    get singleRuleGridValue()      { return this.selectedSingleRuleGrid?.value || ''; }
+
+    get gridNamePreview() {
+        const firstId     = this.selectedValues?.length ? this.selectedValues[0] : null;
+        const opt         = firstId ? this.findOptionById(firstId) : null;
+        const region      = opt?.regionCode ?? '…';
+        const agCode      = opt?.name       ?? '…';
+        const kind        = this.agKind || '…';
+        const typeSegment = this.isSingleRule ? (this.selectedSingleRuleGrid?.label || '…') : (this.agType || '…');
+        const update      = this.isAutoGridUpdate ? 'AUTOMATIC' : 'MANUAL';
+        const date        = this.agStartDate || '…';
+        return kind + ' – ' + region + ' – ' + agCode + ' – ' + typeSegment + ' – ' + update + ' – ' + date;
+    }
+
+    get isThreshAboveZero()    { return this.agThreshold != null && Number.parseFloat(this.agThreshold) > 0; }
+    get isAutoUpdateDisabled() { return this.agType === 'MULTI RULE'; }
+
+    get isEndDateBeforeStartDate() {
+        if (!this.agEndDate || !this.agStartDate) return false;
+        return new Date(this.agEndDate) < new Date(this.agStartDate);
+    }
+
+    get isNextDisabled() {
+        const hasAgreements         = (this.selectedValues || []).length > 0;
+        const hasDate               = this.agStartDate != null;
+        const hasTeam               = !this.showTeamPicker || !!this.selectedTeam;
+        const hasMeta               = !!this.agKind && !!this.agType;
+        const hasThreshCcy          = !this.isThreshAboveZero || !!this.agThreshCcy;
+        const hasSingleRuleGrid     = !this.isSingleRule || !!this.selectedSingleRuleGrid;
+        const hasBusinessBackground = !this.agNextReviewDate || !!this.agBusinessBackground;
+        const isStartDateOutOfRange = (this.minStartDate && this.agStartDate < this.minStartDate) || (this.maxStartDate && this.agStartDate > this.maxStartDate);
+        return !(hasAgreements && hasDate && hasTeam && hasMeta && hasThreshCcy && hasSingleRuleGrid && hasBusinessBackground) || this.isEndDateBeforeStartDate || isStartDateOutOfRange;
+    }
+
+    get showLoadPreviousToggle()    { return !this.hasDraftGrid && this.hasExistingGrid; }
+    get loadPreviousToggleLabel()   { return this.loadPreviousGrid ? this.labels.UI_On : this.labels.UI_Off; }
+
+    get isKindDisabled()         { return this.hasExistingGrid && !!this._existingGridInfo.kind; }
+    get isTypeDisabled()         { return this.loadPreviousGrid && !!this.existingGridType; }
+    get isAgreementDisabled()   { return !!this.recId; }
+    get agreementSectionClass() { return this.isAgreementDisabled ? 'agreement-section agreement-section--disabled' : 'agreement-section'; }
+    get isSalesOwnerDisabled()  { return !((this.selectedValues?.length > 0) || !!this.recId || !!this.selectedTeam); }
+    get salesOwnerFilter() {
+        const criteria = [{ fieldPath: 'IsActive', operator: 'eq', value: true }];
+        if (this.userProfile && !this.userProfile.includes('Admin')) {
+            criteria.push({ fieldPath: 'Profile.Name', operator: 'eq', value: this.userProfile });
+            if (this.userProfile === 'Carmignac - CRM' && this.selectedTeam) {
+                criteria.push({ fieldPath: 'Team__c', operator: 'eq', value: this.selectedTeam });
+            }
+        }
+        return { criteria };
+    }
+    get isBusinessBackgroundRequired() { return !!this.agNextReviewDate; }
+    get isThreshCcyDisabled()          { return !this.isThreshAboveZero; }
+    get toggleLabel()           { return this.isAutoGridUpdate ? this.labels.UI_On : this.labels.UI_Off; }
+
+    @wire(getGridPicklistOptions)
+    wiredPicklists({ data }) {
+        if (data) {
+            this.kindOptions = data['Kind__c']                    || [];
+            this.typeOptions = data['Type__c']                    || [];
+            this.ccyOptions  = data['ThresholdAmountCurrency__c'] || [];
+            if (this.kindOptions.length === 1 && !this.agKind) { // Auto-select Kind if only one option and not yet set
+                this.agKind = this.kindOptions[0].value;
+            }
+        }
+    }
+
+    connectedCallback() {
+        this.loadUserProfile();
+        if (this.recId) {
+            this.selectedValues = [this.recId];
+            this.pills = this.getPills();
+            this.notifyValidity();
+        }
+        // When mounting with a pre-set SINGLE RULE type (e.g. editing a draft), the gridData
+        // setter fires before connectedCallback so selectedValues is still empty at that point.
+        // Re-trigger loading here now that selectedValues is populated.
+        if (this.isSingleRule && (this.selectedValues || []).length) {
+            this.loadSingleRuleGridOptions();
+        }
+    }
+
+    async loadUserProfile() {
+        try {
+            this.userProfile = await getCurrentUserProfile();
+        } catch (error) {
+            console.error('Failed to load user profile', error);
+            this.userProfile = null;
+        }
+    }
+
+    getOptionsByValue() {
+        let optionsByValue = {};
+        for (let i = 0; i < (this._options || []).length; i++) {
+            let o = this._options[i];
+            if (o && o.value) {
+                optionsByValue[o.value] = o;
+            }
+        }
+        return optionsByValue;
+    }
+
+    findOptionById(id) {
+        if (!id) return null;
+        if (this.optionsByValue[id]) { // Direct match (same length IDs)
+            return this.optionsByValue[id];
+        }
+        const id15 = id.substring(0, 15); // Fallback: compare first 15 characters (handles 15 vs 18 char ID mismatch)
+        for (const key of Object.keys(this.optionsByValue)) {
+            if (key.substring(0, 15) === id15) {
+                return this.optionsByValue[key];
+            }
+        }
+        return null;
+    }
+
+    getFinalOptionsList() {
+        let finalOptionsList = [];
+        if (this.effectiveHasTeamSelection) {
+            let team = this.selectedTeam || this.primaryTeam || (this.availableTeams && this.availableTeams[0]);
+            if (!team) {
+                finalOptionsList = this._options || [];
+            }
+            else { // Filter can stay as-is; it's O(n) once per team change, which is fine
+                finalOptionsList = (this._options || []).filter(function (opt) {
+                    return opt.teamCountry === team;
+                });
+            }
+            if(refreshChild) {
+                let child = this.template.querySelector('c-multi-select-search-list');
+                if (child) {
+                    child.refreshOptions(finalOptionsList);
+                }
+            }
+        }
+        else {
+            finalOptionsList = this._options || [];
+        }
+        return finalOptionsList;
+    }
+
+    getPills() {
+        let res = [];
+        let selected = this.selectedValues || [];
+
+        for (let i = 0; i < selected.length; i++) {
+            let val = selected[i];
+            let opt = this.findOptionById(val);
+
+            res.push({
+                type: 'icon',
+                label: opt ? opt.label : val,
+                name: val,
+                iconName: 'custom:custom16',
+                alternativeText: this.labels.Grid_Agreements,
+                isLink: true,
+                href: '/' + val
+            });
+        }
+        return res;
+    }
+
+    notifyValidity() {
+        this.dispatchEvent(new CustomEvent('formvaliditychange', { detail: { isValid: !this.isNextDisabled } }));
+    }
+
+    @api triggerNext() {
+        if (!this.isNextDisabled) this.handleNext();
+    }
+
+    handleAgreementsChange(event) {
+        let isSearchChange = event.detail && event.detail.isSearchChange;
+        if (!isSearchChange) {
+            let selected = (event.detail && event.detail.selectedValues) ? event.detail.selectedValues : [];
+            this.selectedValues = selected? (Array.isArray(selected)? selected : [selected]) : [];
+            this.pills = this.getPills();
+            if (this.isSingleRule) {
+                this.loadSingleRuleGridOptions();
+            }
+            this.notifyValidity();
+        }
+    }
+
+    handleTeamChange(event) {
+        this.salesOwnerId = null;
+        this.selectedTeam = event.detail.value;
+        this.selectedValues = [];
+        this.finalOptionsList = this.getFinalOptionsList();
+        this.pills = this.getPills();
+        this.notifyValidity();
+    }
+
+    handlePillRemove(event) {
+        let name = event.detail?.item?.name;
+        if (!name) return;
+        this.selectedValues = (this.selectedValues || []).filter(v => v !== name);
+        this.pills = this.getPills();
+    }
+
+    handleLoadPreviousToggle(e) {
+        this.loadPreviousGrid = e.target.checked;
+        if (this.loadPreviousGrid && this.existingGridType) {
+            this.agType = this.existingGridType;
+            if (this.agType === 'MULTI RULE') {
+                this.isAutoGridUpdate = false;
+            } 
+            else if (this.agType === 'SINGLE RULE') {
+                if (this.existingGridSingleRuleSelection) {
+                    this.selectedSingleRuleGrid = { label: this.existingGridSingleRuleSelection, value: this.existingGridSingleRuleSelection };
+                }
+                this.loadSingleRuleGridOptions();
+            }
+        }
+        this.dispatchEvent(new CustomEvent('loadpreviouschange', { detail: { value: this.loadPreviousGrid } }));
+        this.notifyValidity();
+    }
+
+    async loadSingleRuleGridOptions() {
+        if (!this.isSingleRule || !(this.selectedValues || []).length) return;
+        const prevLabel = this.selectedSingleRuleGrid?.label || null;
+        const countriesOfDistribution = this.buildCountriesOfDistribution();
+        const agreementNames = (this.selectedValues || [])
+            .map(id => { const o = this.findOptionById(id); return o ? o.name : null; })
+            .filter(Boolean)
+            .join(',');
+        try {
+            const result = await getAvailableGrids({ countriesOfDistribution, agreementNames });
+            this.singleRuleGridOptions = (result?.gridOptions || []).map(o => ({ label: o.label, value: o.label }));
+            // Restore previously selected grid if still available; otherwise clear
+            this.selectedSingleRuleGrid = prevLabel ? (this.singleRuleGridOptions.find(o => o.label === prevLabel) || null) : null;
+        } catch (e) {
+            this.singleRuleGridOptions = [];
+            this.selectedSingleRuleGrid = null;
+            console.error('Failed to load single rule grid options', e);
+        }
+        this.notifyValidity();
+    }
+
+    // ── AG field handlers ──
+    handleAgKind(e) { this.agKind = e.detail.value; this.notifyValidity(); }
+    handleAgType(e) {
+        this.agType = e.detail.value;
+        if (this.agType === 'MULTI RULE') {
+            this.isAutoGridUpdate = false;
+            this.selectedSingleRuleGrid = null;
+            this.singleRuleGridOptions = [];
+        } else if (this.agType === 'SINGLE RULE') {
+            // A1: auto-clear "Load previous" when switching to SINGLE RULE
+            if (this.loadPreviousGrid) {
+                this.loadPreviousGrid = false;
+                this.dispatchEvent(new CustomEvent('loadpreviouschange', { detail: { value: false } }));
+            }
+            this.loadSingleRuleGridOptions();
+        }
+        this.notifyValidity();
+    }
+    handleSalesOwnerChange(e) {
+        this.salesOwnerId = e.detail?.recordId || null;
+        this.notifyValidity();
+    }
+    handleSingleRuleGridChange(e) {
+        const val = e.detail.value;
+        const opt = this.singleRuleGridOptions.find(o => o.value === val);
+        this.selectedSingleRuleGrid = opt || null;
+        // A2: auto-clear "Load previous" if conditions no longer met
+        if (this.isLoadPreviousToggleDisabled && this.loadPreviousGrid) {
+            this.loadPreviousGrid = false;
+            this.dispatchEvent(new CustomEvent('loadpreviouschange', { detail: { value: false } }));
+        }
+        this.notifyValidity();
+    }
+    handleAutoUpdateToggle(e) { this.isAutoGridUpdate = e.target.checked; }
+    handleAgStartDate(event)  { this.agStartDate = event.detail.value; this.notifyValidity(); }
+    handleAgEndDate(e)        { this.agEndDate = e.detail.value; this.notifyValidity(); }
+    handleAgThreshold(e)      { this.agThreshold = e.detail.value; if (!this.isThreshAboveZero) { this.agThreshCcy = ''; } this.notifyValidity(); }
+    handleAgThreshCcy(e)      { this.agThreshCcy = e.detail.value; this.notifyValidity(); }
+    handleAgOtherFees(e)          { this.agOtherFees = e.target.checked; }
+    handleAgComment(e)            { this.agComment = e.detail.value; }
+    handleAgNextReviewDate(e)     { this.agNextReviewDate = e.detail.value || null; }
+    handleAgBusinessBackground(e) { this.agBusinessBackground = e.detail.value; }
+
+    handleNext() {
+        let derivedTeam = null;
+        if (!this.effectiveHasTeamSelection) {
+            let firstId = (this.selectedValues && this.selectedValues.length) ? this.selectedValues[0] : null;
+            let option = this.findOptionById(firstId);
+            derivedTeam = option ? option.teamCountry : '';
+        }
+
+        let countriesOfDistribution = this.buildCountriesOfDistribution();
+
+        this.dispatchEvent(new CustomEvent('agreementsnext', {
+            detail: {
+                agreements:              this.selectedValues,
+                team:                    this.effectiveHasTeamSelection ? this.selectedTeam : derivedTeam,
+                countriesOfDistribution: countriesOfDistribution,
+                kind:                    this.agKind,
+                gridType:                this.agType,
+                isAutoGridUpdate:        this.isAutoGridUpdate,
+                startDate:               this.agStartDate,
+                endDate:                 this.agEndDate,
+                thresholdAmount:         this.agThreshold,
+                thresholdAmountCurrency: this.agThreshCcy,
+                otherFees:               this.agOtherFees,
+                comment:                 this.agComment,
+                gridName:                this.gridNamePreview,
+                loadPreviousGrid:        this.loadPreviousGrid,
+                singleRuleGrid:          this.selectedSingleRuleGrid,
+                salesOwnerId:            this.salesOwnerId,
+                nextReviewDate:          this.agNextReviewDate,
+                businessBackground:      this.agBusinessBackground
+            }
+        }));
+    }
+
+    buildCountriesOfDistribution() {
+        let allCountries = new Set();
+        let selected = this.selectedValues || [];
+        for (let i = 0; i < selected.length; i++) {
+            let option = this.findOptionById(selected[i]);
+            if (option && option.countriesOfDistribution) {
+                let parts = option.countriesOfDistribution.split(';');
+                for (let j = 0; j < parts.length; j++) {
+                    let trimmed = parts[j].trim();
+                    if (trimmed) {
+                        allCountries.add(trimmed);
+                    }
+                }
+            }
+        }
+        return Array.from(allCountries).join(';');
+    }
+}

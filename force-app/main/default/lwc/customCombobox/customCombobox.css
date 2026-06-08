@@ -1,0 +1,19 @@
+.input-class {
+    cursor: pointer;
+}
+
+.slds-is-disabled {
+    opacity: 0.5;
+    pointer-events: none;
+    cursor: not-allowed;
+}
+
+.slds-listbox__option{
+    margin: 0px 3px 0px 3px;
+}
+
+.slds-listbox__option:hover:not(.slds-is-disabled) {
+    background-color: var(--slds-g-color-neutral-base-95, #f3f3f3);
+    outline: 3px solid #0176d3;
+    outline-offset: -3px;
+}

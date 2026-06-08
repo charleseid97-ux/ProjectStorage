@@ -1,0 +1,36 @@
+.filtersDiv {
+    row-gap: 5px;
+    display: flex;
+    flex-direction: column;
+    width: calc(100% - 75px);
+}
+
+.displayFlex_ColumnGap {
+    display: flex;
+    column-gap: 15px;
+}
+
+.granularColumn {
+    display: flex;
+    column-gap: 15px;
+    padding-right: 15px;
+}
+
+.filterNumber {
+    min-width: 50px;
+    max-width: 50px;
+}
+
+.removeBtn {
+    display: flex;
+    align-items: flex-end;
+    margin-bottom: 2px;
+}
+
+.applyResetFilterBtns {
+    margin-bottom: 2px;
+    align-self: flex-end;
+    min-width: 220px;
+    display: flex;
+    column-gap: 5px;
+}

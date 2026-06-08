@@ -347,6 +347,11 @@
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <field>Persona__c</field>
+            <table>Contact</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
             <field>HardBounced_Mandrill_Reason__c</field>
             <table>Contact</table>
         </columns>

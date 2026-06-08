@@ -1,0 +1,317 @@
+<messaging:emailTemplate subject="[{!relatedTo.Agreement__r.ConventionName__c} ({!relatedTo.Agreement__r.Name})] - Grid Approval Request"
+    recipientType="User"
+    relatedToType="Grid__c">
+
+<messaging:htmlEmailBody>
+<html>
+<head>
+<style>
+  body          { margin:0; padding:0; background-color:#f0f4f8; font-family:Arial,Helvetica,sans-serif; }
+
+  /* ── Layout ── */
+  .wrapper      { padding:32px 16px; }
+  .spacer       { padding:0 32px 8px 32px; font-size:0; }
+
+  /* ── Header ── */
+  .header       { border-radius:8px 8px 0 0; }
+  .header-cell  { padding:28px 32px; text-align:center; }
+  .header-eyebrow { margin:0 0 6px 0; color:#7fb3d3; font-size:11px; font-weight:700; letter-spacing:3px; text-transform:uppercase; }
+  .header-title { margin:0; color:#ffffff; font-size:20px; font-weight:700; line-height:1.3; }
+
+  /* ── Intro ── */
+  .intro-cell   { padding:24px 32px 20px 32px; border-bottom:2px solid #e8edf3; }
+  .intro-text   { margin:0; font-size:14px; color:#4a5568; line-height:1.7; }
+
+  /* ── Section wrapper ── */
+  .section-cell    { padding:24px 32px 0 32px; }
+  .section-cell-sm { padding:16px 32px 0 32px; }
+  .section-title   { margin:0 0 10px 0; font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:2px; }
+  .section-title-blue  { color:#1b3a5c; }
+  .section-title-amber { color:#b7791f; }
+  .section-title-green { color:#276749; }
+
+  /* ── Data tables ── */
+  .data-table       { border-collapse:collapse; border:1px solid #dde3ec; border-radius:6px; overflow:hidden; }
+  .data-table-amber { border-collapse:collapse; border:1px solid #f6e05e; border-radius:6px; overflow:hidden; }
+  .data-table-green { border-collapse:collapse; border:1px solid #9ae6b4; border-radius:6px; overflow:hidden; }
+  .box-cell         { padding:14px 16px; }
+
+  /* Table column header cells */
+  .th-col       { padding:10px 16px; font-size:11px; font-weight:700; color:#1b3a5c; text-transform:uppercase; letter-spacing:1px; border-bottom:1px solid #dde3ec; }
+  .th-col-field { width:38%; }
+
+  /* Main section cells */
+  .td-field      { padding:12px 16px; font-size:13px; color:#718096; border-bottom:1px solid #eef1f6; }
+  .td-field-last { padding:12px 16px; font-size:13px; color:#718096; }
+  .td-value      { padding:12px 16px; font-size:13px; color:#1a202c; border-bottom:1px solid #eef1f6; }
+  .td-value-bold { padding:12px 16px; font-size:13px; color:#1a202c; font-weight:600; border-bottom:1px solid #eef1f6; }
+  .td-value-last { padding:12px 16px; font-size:13px; color:#1a202c; }
+
+  /* Threshold section cells */
+  .td-field-amber      { padding:12px 16px; font-size:13px; color:#718096; border-bottom:1px solid #fefcbf; }
+  .td-value-amber      { padding:12px 16px; font-size:13px; color:#1a202c; border-bottom:1px solid #fefcbf; }
+  .td-value-amber-bold { padding:12px 16px; font-size:13px; color:#1a202c; font-weight:600; border-bottom:1px solid #fefcbf; }
+  .td-field-amber-last { padding:12px 16px; font-size:13px; color:#718096; }
+  .td-value-amber-last { padding:12px 16px; font-size:13px; color:#1a202c; }
+
+  /* Minimum section cells */
+  .td-field-green      { padding:12px 16px; font-size:13px; color:#718096; border-bottom:1px solid #c6f6d5; }
+  .td-value-green      { padding:12px 16px; font-size:13px; color:#1a202c; border-bottom:1px solid #c6f6d5; }
+  .td-value-green-bold { padding:12px 16px; font-size:13px; color:#1a202c; font-weight:600; border-bottom:1px solid #c6f6d5; }
+  .td-field-green-last { padding:12px 16px; font-size:13px; color:#718096; }
+  .td-value-green-last { padding:12px 16px; font-size:13px; color:#1a202c; }
+
+  /* ── View and Compare link ── */
+  .link-cell  { padding:24px 32px; text-align:center; }
+  .view-link  { color:#0563c1; font-size:14px; text-decoration:underline; }
+
+  /* ── Action buttons ── */
+  .actions-cell  { padding:28px 32px 28px 32px; border-top:2px solid #eef1f6; border-bottom:2px solid #e8edf3; }
+  .btn-approve   { display:inline-block; background-color:#c6f6d5; color:#22543d; font-size:14px; font-weight:700; padding:12px 36px; border-radius:6px; text-decoration:none; }
+  .btn-reject    { display:inline-block; background-color:#fed7d7; color:#742a2a; font-size:14px; font-weight:700; padding:12px 36px; border-radius:6px; text-decoration:none; }
+
+  /* ── Footer ── */
+  .footer      { border-radius:0 0 8px 8px; border-top:1px solid #e2e8f0; }
+  .footer-cell { padding:16px 32px; text-align:center; }
+  .footer-text { margin:0; font-size:11px; color:#a0aec0; }
+</style>
+</head>
+<body>
+
+<table width="100%" border="0" cellpadding="0" cellspacing="0" bgcolor="#f0f4f8">
+<tr><td align="center" class="wrapper">
+
+  <!-- 600px card container -->
+  <table width="600" border="0" cellpadding="0" cellspacing="0">
+  <tr><td>
+
+    <!-- ───── HEADER ───── -->
+    <table width="100%" border="0" cellpadding="0" cellspacing="0" bgcolor="#1b3a5c" class="header">
+      <tr>
+        <td class="header-cell">
+          <p class="header-eyebrow">Action Required</p>
+          <h1 class="header-title">Grid Amendment &mdash; Approval Request</h1>
+        </td>
+      </tr>
+    </table>
+
+    <!-- ───── INTRO ───── -->
+    <table width="100%" border="0" cellpadding="0" cellspacing="0" bgcolor="#ffffff">
+      <tr>
+        <td class="intro-cell">
+          <p class="intro-text">
+            Hello,<br/><br/>
+            The following <strong>Grid Amendment</strong> has been submitted and is pending your approval.
+            Please review the details carefully and take action at your earliest convenience.
+          </p>
+        </td>
+      </tr>
+    </table>
+
+    <!-- ───── GRID INFORMATION ───── -->
+    <table width="100%" border="0" cellpadding="0" cellspacing="0" bgcolor="#ffffff">
+      <tr>
+        <td class="section-cell">
+          <p class="section-title section-title-blue">Grid Information</p>
+          <table width="100%" border="0" cellpadding="0" cellspacing="0" class="data-table">
+            <tr bgcolor="#e8edf3">
+              <td class="th-col th-col-field">Field</td>
+              <td class="th-col">Value</td>
+            </tr>
+            <tr bgcolor="#ffffff">
+              <td class="td-field">Agreement Name</td>
+              <td class="td-value-bold">{!relatedTo.Agreement__r.Name}</td>
+            </tr>
+            <tr bgcolor="#f7f9fc">
+              <td class="td-field">Company Name</td>
+              <td class="td-value">{!relatedTo.Agreement__r.Company_Name__c}</td>
+            </tr>
+            <tr bgcolor="#ffffff">
+              <td class="td-field">Team</td>
+              <td class="td-value">{!relatedTo.Agreement__r.Team__c}</td>
+            </tr>
+            <tr bgcolor="#f7f9fc">
+              <td class="td-field">Agreement Owner</td>
+              <td class="td-value">{!relatedTo.Agreement__r.Owner.Name}</td>
+            </tr>
+            <tr bgcolor="#ffffff">
+              <td class="td-field">Kind</td>
+              <td class="td-value">{!relatedTo.Kind__c}</td>
+            </tr>
+            <tr bgcolor="#f7f9fc">
+              <td class="td-field">Start Date</td>
+              <td class="td-value">{!IF(ISBLANK(relatedTo.StartDate__c), "", TEXT(YEAR(relatedTo.StartDate__c)) & "-" & IF(MONTH(relatedTo.StartDate__c) < 10, "0" & TEXT(MONTH(relatedTo.StartDate__c)), TEXT(MONTH(relatedTo.StartDate__c))) & "-" & IF(DAY(relatedTo.StartDate__c) < 10, "0" & TEXT(DAY(relatedTo.StartDate__c)), TEXT(DAY(relatedTo.StartDate__c))))}</td>
+            </tr>
+            <tr bgcolor="#ffffff">
+              <td class="td-field">End Date</td>
+              <td class="td-value">{!IF(ISBLANK(relatedTo.EndDate__c), "", TEXT(YEAR(relatedTo.EndDate__c)) & "-" & IF(MONTH(relatedTo.EndDate__c) < 10, "0" & TEXT(MONTH(relatedTo.EndDate__c)), TEXT(MONTH(relatedTo.EndDate__c))) & "-" & IF(DAY(relatedTo.EndDate__c) < 10, "0" & TEXT(DAY(relatedTo.EndDate__c)), TEXT(DAY(relatedTo.EndDate__c))))}</td>
+            </tr>
+            <tr bgcolor="#f7f9fc">
+              <td class="td-field-last">Automatic Grid Update</td>
+              <td class="td-value-last">{!relatedTo.AutomaticGridUpdate__c}</td>
+            </tr>
+          </table>
+        </td>
+      </tr>
+      <tr><td class="spacer">&nbsp;</td></tr>
+    </table>
+
+    <!-- ───── VIEW AND COMPARE ───── -->
+    <table width="100%" border="0" cellpadding="0" cellspacing="0" bgcolor="#ffffff">
+      <tr>
+        <td class="link-cell">
+          <a href="{!LEFT($Api.Partner_Server_URL_260, FIND('/services', $Api.Partner_Server_URL_260))}{!relatedTo.Id}" class="view-link">View and Compare</a>
+        </td>
+      </tr>
+    </table>
+
+    <!-- ───── ACTION BUTTONS ───── -->
+    <table width="100%" border="0" cellpadding="0" cellspacing="0" bgcolor="#ffffff">
+      <tr>
+        <td class="actions-cell">
+          <table width="100%" border="0" cellpadding="0" cellspacing="0">
+            <tr>
+              <td width="50%" align="right" style="padding-right:8px;">
+                <a href="{!LEFT($Api.Partner_Server_URL_260, FIND('/services', $Api.Partner_Server_URL_260))}lightning/n/GridApprovalAction?c__recordId={!relatedTo.Id}&amp;c__action=Approve" class="btn-approve">&#10003; Approve</a>
+              </td>
+              <td width="50%" align="left" style="padding-left:8px;">
+                <a href="{!LEFT($Api.Partner_Server_URL_260, FIND('/services', $Api.Partner_Server_URL_260))}lightning/n/GridApprovalAction?c__recordId={!relatedTo.Id}&amp;c__action=Reject" class="btn-reject">&#10007; Reject</a>
+              </td>
+            </tr>
+          </table>
+        </td>
+      </tr>
+    </table>
+
+    <!-- ───── THRESHOLD SECTION (conditional) ───── -->
+    <apex:outputPanel layout="block" rendered="{!NOT(ISBLANK(relatedTo.ThresholdAmount__c))}">
+      <table width="100%" border="0" cellpadding="0" cellspacing="0" bgcolor="#ffffff">
+        <tr>
+          <td class="section-cell-sm">
+            <p class="section-title section-title-amber">Threshold Information</p>
+            <table width="100%" border="0" cellpadding="0" cellspacing="0" class="data-table-amber">
+              <tr bgcolor="#fffff0">
+                <td class="td-field-amber th-col-field">Threshold Amount</td>
+                <td class="td-value-amber-bold">{!relatedTo.ThresholdAmount__c}</td>
+              </tr>
+              <tr bgcolor="#fefce8">
+                <td class="td-field-amber">Threshold Currency</td>
+                <td class="td-value-amber">{!relatedTo.ThresholdAmountCurrency__c}</td>
+              </tr>
+              <tr bgcolor="#fffff0">
+                <td class="td-field-amber-last">Threshold Mode</td>
+                <td class="td-value-amber-last">{!relatedTo.ThresholdMode__c}</td>
+              </tr>
+            </table>
+          </td>
+        </tr>
+        <tr><td class="spacer">&nbsp;</td></tr>
+      </table>
+    </apex:outputPanel>
+
+    <!-- ───── MINIMUM SECTION (conditional) ───── -->
+    <apex:outputPanel layout="block" rendered="{!NOT(ISBLANK(relatedTo.MinimumAmount__c))}">
+      <table width="100%" border="0" cellpadding="0" cellspacing="0" bgcolor="#ffffff">
+        <tr>
+          <td class="section-cell-sm">
+            <p class="section-title section-title-green">Minimum Information</p>
+            <table width="100%" border="0" cellpadding="0" cellspacing="0" class="data-table-green">
+              <tr bgcolor="#f0fff4">
+                <td class="td-field-green th-col-field">Minimum Amount</td>
+                <td class="td-value-green-bold">{!relatedTo.MinimumAmount__c}</td>
+              </tr>
+              <tr bgcolor="#f7fff9">
+                <td class="td-field-green">Minimum Currency</td>
+                <td class="td-value-green">{!relatedTo.MinimumAmountCurrency__c}</td>
+              </tr>
+              <tr bgcolor="#f0fff4">
+                <td class="td-field-green-last">Minimum Frequency</td>
+                <td class="td-value-green-last">{!relatedTo.MinimumAmountFrequency__c}</td>
+              </tr>
+            </table>
+          </td>
+        </tr>
+        <tr><td class="spacer">&nbsp;</td></tr>
+      </table>
+    </apex:outputPanel>
+
+    <!-- ───── STANDARD GRID RULES ───── -->
+    <table width="100%" border="0" cellpadding="0" cellspacing="0" bgcolor="#ffffff">
+      <tr>
+        <td class="section-cell">
+          <p class="section-title section-title-blue">Standard Grid Rules</p>
+          <table width="100%" border="0" cellpadding="0" cellspacing="0" class="data-table">
+            <tr bgcolor="#ffffff">
+              <td class="box-cell">
+                <c:GridEmailStandardRules recordId="{!relatedTo.Id}" />
+              </td>
+            </tr>
+          </table>
+        </td>
+      </tr>
+      <tr><td class="spacer">&nbsp;</td></tr>
+    </table>
+
+    <!-- ───── SHARE CLASS OVERVIEW ───── -->
+    <table width="100%" border="0" cellpadding="0" cellspacing="0" bgcolor="#ffffff">
+      <tr>
+        <td class="section-cell">
+          <p class="section-title section-title-blue">Share Class Overview</p>
+          <table width="100%" border="0" cellpadding="0" cellspacing="0" class="data-table">
+            <tr bgcolor="#ffffff">
+              <td class="box-cell">
+                <c:GridEmailShareClassOverview recordId="{!relatedTo.Id}" />
+              </td>
+            </tr>
+          </table>
+        </td>
+      </tr>
+      <tr><td class="spacer">&nbsp;</td></tr>
+    </table>
+
+    <!-- ───── FOOTER ───── -->
+    <table width="100%" border="0" cellpadding="0" cellspacing="0" bgcolor="#f7f9fc" class="footer">
+      <tr>
+        <td class="footer-cell">
+          <p class="footer-text">This is an automated notification &mdash; please do not reply to this email.</p>
+        </td>
+      </tr>
+    </table>
+
+  </td></tr>
+  </table>
+
+</td></tr>
+</table>
+
+</body>
+</html>
+</messaging:htmlEmailBody>
+
+<messaging:plainTextEmailBody>
+====================================
+  GRID AMENDMENT - APPROVAL REQUEST
+====================================
+
+Hello,
+
+A Grid Amendment has been submitted and is pending your approval.
+Please review the details below and take action.
+
+GRID DETAILS
+------------------------------------
+Agreement Name:        {!relatedTo.Agreement__r.Name}
+Company Name:          {!relatedTo.Agreement__r.Company_Name__c}
+Team:                  {!relatedTo.Agreement__r.Team__c}
+Agreement Owner:       {!relatedTo.Agreement__r.Owner.Name}
+Kind:                  {!relatedTo.Kind__c}
+Start Date:            {!relatedTo.StartDate__c}
+End Date:              {!relatedTo.EndDate__c}
+Automatic Grid Update: {!relatedTo.AutomaticGridUpdate__c}
+
+View and Compare: {!LEFT($Api.Partner_Server_URL_260, FIND('/services', $Api.Partner_Server_URL_260))}{!relatedTo.Id}
+
+This is an automated notification - please do not reply to this email.
+</messaging:plainTextEmailBody>
+
+</messaging:emailTemplate>

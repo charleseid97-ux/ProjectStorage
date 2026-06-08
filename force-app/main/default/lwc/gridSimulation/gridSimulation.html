@@ -1,0 +1,362 @@
+<template>
+    <div class="sim-container">
+
+        <template if:true={isLoading}>
+            <div class="centerSpinner">
+                <lightning-spinner alternative-text="Loading" size="medium"></lightning-spinner>
+            </div>
+        </template>
+
+        <template if:true={hasError}>
+            <div class="slds-notify slds-notify_alert slds-theme_error slds-m-around_small" role="alert">
+                {error}
+            </div>
+        </template>
+
+        <!-- Header actions -->
+        <div class="sim-header">
+            <div></div>
+            <div class="sim-buttons">
+                <template if:false={isRecordPage}>
+                    <lightning-button label={labels.Grid_SaveGrid} variant="brand" onclick={handleSaveGrid}></lightning-button>
+                    <lightning-button label={labels.Grid_SubmitForApproval} variant="brand" onclick={handleSubmitForApproval}></lightning-button>
+                </template>
+                <lightning-button label="Export Excel" icon-name="utility:download" variant="neutral" onclick={handleExport}></lightning-button>
+            </div>
+        </div>
+
+        <template if:true={hasRows}>
+
+            <!-- ── Summary + Analysis table (above main data) ── -->
+            <div class="table-scroll">
+                <table class="sim-table">
+                    <colgroup>
+                        <col style="width:80px"/>
+                        <col style="width:80px"/>
+                        <col style="width:100px"/>
+                        <col style="width:80px"/>
+                        <col style="width:16px"/>
+                        <col style="width:100px"/>
+                        <col style="width:90px"/>
+                        <col style="width:100px"/>
+                        <col style="width:100px"/>
+                        <col style="width:100px"/>
+                        <col style="width:16px"/>
+                        <col style="width:110px"/>
+                        <col style="width:100px"/>
+                        <col style="width:90px"/>
+                        <col style="width:100px"/>
+                        <col style="width:100px"/>
+                        <col style="width:100px"/>
+                        <col style="width:32px"/>
+                    </colgroup>
+
+                    <!-- ── Summary tbody ── -->
+                    <tbody class="summary-body">
+                        <tr>
+                            <td colspan="4" class="td-empty"></td>
+                            <td class="section-gap"></td>
+                            <td colspan="12" class="section-title summary-title" title="SUMMARY">SUMMARY</td>
+                            <td class="td-empty"></td>
+                        </tr>
+                        <tr>
+                            <td colspan="4" class="td-empty"></td>
+                            <td class="section-gap"></td>
+                            <td colspan="5" class="th-group th-current" title="CURRENT">CURRENT</td>
+                            <td class="section-gap"></td>
+                            <td class="td-empty"></td>
+                            <td colspan="5" class="th-group th-simulated" title="SIMULATED">SIMULATED</td>
+                            <td class="td-empty"></td>
+                        </tr>
+                        <tr>
+                            <td colspan="4" class="td-empty"></td>
+                            <td class="section-gap"></td>
+                            <td colspan="2" class="th-col th-cur td-right" title="Total AUM">Total AUM</td>
+                            <td class="th-col th-cur td-right" title="Current Gross Fees (% of AUM)">MgtFees (%)</td>
+                            <td class="th-col th-cur td-right" title="Current Rebates (% of AUM)">Rebates (%)</td>
+                            <td class="th-col th-cur td-right" title="Current Net Fees (% of AUM)">NetFees (%)</td>
+                            <td class="section-gap"></td>
+                            <td class="td-empty"></td>
+                            <td colspan="2" class="th-col th-sim td-right" title="Total New AUM">Total New AUM</td>
+                            <td class="th-col th-sim td-right" title="Simulated Gross Fees (% of New AUM)">MgtFees (%)</td>
+                            <td class="th-col th-sim td-right" title="Simulated Rebates (% of New AUM)">Rebates (%)</td>
+                            <td class="th-col th-sim td-right" title="Simulated Net Fees (% of New AUM)">NetFees (%)</td>
+                            <td class="td-empty"></td>
+                        </tr>
+                        <!-- TOTAL row -->
+                        <tr class="summary-row">
+                            <td colspan="4" class="td-empty"></td>
+                            <td class="section-gap"></td>
+                            <td class="td-row-label td-summary-cur">TOTAL</td>
+                            <td class="td-right td-summary-cur" title={totals.curAumFmt}>{totals.curAumFmt}</td>
+                            <td class="td-right td-summary-cur" title={totals.curGrossFmt}>{totals.curGrossFmt}</td>
+                            <td class="td-right td-summary-cur" title={totals.curRebatesFmt}>{totals.curRebatesFmt}</td>
+                            <td class="td-right td-summary-cur" title={totals.curNetFmt}>{totals.curNetFmt}</td>
+                            <td class="section-gap"></td>
+                            <td class="td-empty"></td>
+                            <td class="td-row-label td-summary-sim">TOTAL</td>
+                            <td class="td-right td-summary-sim" title={totals.newAumFmt}>{totals.newAumFmt}</td>
+                            <td class="td-right td-summary-sim" title={totals.simGrossFmt}>{totals.simGrossFmt}</td>
+                            <td class="td-right td-summary-sim" title={totals.simRebatesFmt}>{totals.simRebatesFmt}</td>
+                            <td class="td-right td-summary-sim" title={totals.simNetFmt}>{totals.simNetFmt}</td>
+                            <td class="td-empty"></td>
+                        </tr>
+                        <!-- TOTAL % row -->
+                        <tr class="summary-row">
+                            <td colspan="4" class="td-empty"></td>
+                            <td class="section-gap"></td>
+                            <td class="td-row-label td-summary-cur">TOTAL %</td>
+                            <td class="td-summary-cur"></td>
+                            <td class="td-right td-summary-cur" title={summary.curGrossFmt}>{summary.curGrossFmt}</td>
+                            <td class="td-right td-summary-cur" title={summary.curRebatesFmt}>{summary.curRebatesFmt}</td>
+                            <td class="td-right td-summary-cur" title={summary.curNetFmt}>{summary.curNetFmt}</td>
+                            <td class="section-gap"></td>
+                            <td class="td-empty"></td>
+                            <td class="td-row-label td-summary-sim">TOTAL %</td>
+                            <td class="td-summary-sim"></td>
+                            <td class="td-right td-summary-sim" title={summary.simGrossFmt}>{summary.simGrossFmt}</td>
+                            <td class="td-right td-summary-sim" title={summary.simRebatesFmt}>{summary.simRebatesFmt}</td>
+                            <td class="td-right td-summary-sim" title={summary.simNetFmt}>{summary.simNetFmt}</td>
+                            <td class="td-empty"></td>
+                        </tr>
+                    </tbody>
+
+                    <!-- ── Analysis tbody ── -->
+                    <tbody class="analysis-body">
+                        <tr class="section-spacer"><td colspan="18"></td></tr>
+                        <tr>
+                            <td colspan="4" class="td-empty"></td>
+                            <td class="section-gap"></td>
+                            <td colspan="5" class="td-empty"></td>
+                            <td class="section-gap"></td>
+                            <td class="td-empty"></td>
+                            <td colspan="5" class="th-group th-analysis" title="CURRENT & SIMULATED CHANGE">CURRENT &amp; SIMULATED CHANGE</td>
+                            <td class="td-empty"></td>
+                        </tr>
+                        <tr>
+                            <td colspan="4" class="td-empty"></td>
+                            <td class="section-gap"></td>
+                            <td colspan="5" class="td-empty"></td>
+                            <td class="section-gap"></td>
+                            <td class="td-empty"></td>
+                            <td class="th-col th-anl"></td>
+                            <td class="th-col th-anl td-right" title="AUM Change">AUM</td>
+                            <td class="th-col th-anl td-right" title="Gross Fees Change">MgtFees</td>
+                            <td class="th-col th-anl td-right" title="Rebates Change">Rebates</td>
+                            <td class="th-col th-anl td-right" title="Net Fees Change">NetFees</td>
+                            <td class="td-empty"></td>
+                        </tr>
+                        <!-- TOTAL row: absolute integer changes -->
+                        <tr class="analysis-row">
+                            <td colspan="4" class="td-empty"></td>
+                            <td class="section-gap"></td>
+                            <td colspan="5" class="td-empty"></td>
+                            <td class="section-gap"></td>
+                            <td class="td-empty"></td>
+                            <td class="td-row-label td-analysis">TOTAL</td>
+                            <td class="td-right td-analysis" title={analysis.aumChgAbsFmt}>{analysis.aumChgAbsFmt}</td>
+                            <td class="td-right td-analysis" title={analysis.grossChgAbsFmt}>{analysis.grossChgAbsFmt}</td>
+                            <td class="td-right td-analysis" title={analysis.rebatesChgAbsFmt}>{analysis.rebatesChgAbsFmt}</td>
+                            <td class="td-right td-analysis" title={analysis.netChgAbsFmt}>{analysis.netChgAbsFmt}</td>
+                            <td class="td-empty"></td>
+                        </tr>
+                        <!-- TOTAL % row: AUM evo % + BP changes -->
+                        <tr class="analysis-row">
+                            <td colspan="4" class="td-empty"></td>
+                            <td class="section-gap"></td>
+                            <td colspan="5" class="td-empty"></td>
+                            <td class="section-gap"></td>
+                            <td class="td-empty"></td>
+                            <td class="td-row-label td-analysis">TOTAL %</td>
+                            <td class="td-right td-analysis" title={analysis.aumEvoFmt}>{analysis.aumEvoFmt}</td>
+                            <td class="td-right td-analysis" title={analysis.grossChgFmt}>{analysis.grossChgFmt}</td>
+                            <td class="td-right td-analysis" title={analysis.rebatesChgFmt}>{analysis.rebatesChgFmt}</td>
+                            <td class="td-right td-analysis" title={analysis.netChgFmt}>{analysis.netChgFmt}</td>
+                            <td class="td-empty"></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- ── Main data table ── -->
+            <div class="table-scroll sim-table-gap">
+                <table class="sim-table">
+                    <colgroup>
+                        <col style="width:80px"/>
+                        <col style="width:80px"/>
+                        <col style="width:100px"/>
+                        <col style="width:80px"/>
+                        <col style="width:16px"/>
+                        <col style="width:100px"/>
+                        <col style="width:90px"/>
+                        <col style="width:100px"/>
+                        <col style="width:100px"/>
+                        <col style="width:100px"/>
+                        <col style="width:16px"/>
+                        <col style="width:110px"/>
+                        <col style="width:100px"/>
+                        <col style="width:90px"/>
+                        <col style="width:100px"/>
+                        <col style="width:100px"/>
+                        <col style="width:100px"/>
+                        <col style="width:32px"/>
+                    </colgroup>
+                    <thead>
+                        <!-- AUM change input row -->
+                        <tr class="aum-change-row">
+                            <td colspan="4" class="aum-empty"></td>
+                            <td class="section-gap"></td>
+                            <td colspan="5" class="aum-empty"></td>
+                            <td class="section-gap"></td>
+                            <td class="aum-change-cell">
+                                <div class="slds-form-element">
+                                    <label class="slds-form-element__label aum-label">AUM change (%)</label>
+                                    <div class="slds-form-element__control">
+                                        <input type="number" class="slds-input custom-input" value={aumChangePercent} step="0.01" onchange={handleAumChange}/>
+                                    </div>
+                                </div>
+                            </td>
+                            <td colspan="6" class="aum-empty"></td>
+                        </tr>
+                        <!-- Group header row -->
+                        <tr>
+                            <th colspan="4" class="th-group th-info" title="Share Class Info">Share Class Info</th>
+                            <th class="section-gap"></th>
+                            <th colspan="5" class="th-group th-current" title="CURRENT">CURRENT</th>
+                            <th class="section-gap"></th>
+                            <th colspan="6" class="th-group th-simulated" title="SIMULATED">SIMULATED</th>
+                            <th class="td-empty"></th>
+                        </tr>
+                        <!-- Column header row -->
+                        <tr>
+                            <th class="th-col sortable" title="Range" onclick={handleSort} data-sort="range">Range<span class="sort-icon">{sortIndicators.range}</span></th>
+                            <th class="th-col sortable" title="Portfolio Code" onclick={handleSort} data-sort="ptfCode">PtfCode<span class="sort-icon">{sortIndicators.ptfCode}</span></th>
+                            <th class="th-col sortable" title="Share Class Type" onclick={handleSort} data-sort="type">Type<span class="sort-icon">{sortIndicators.type}</span></th>
+                            <th class="th-col sortable td-right" title="Effective Management Fees" onclick={handleSort} data-sort="effMgtFees">EffMgtFees<span class="sort-icon">{sortIndicators.effMgtFees}</span></th>
+                            <th class="section-gap"></th>
+                            <th class="th-col th-cur sortable td-right" title="Current AUM" onclick={handleSort} data-sort="curAum">AUM<span class="sort-icon">{sortIndicators.curAum}</span></th>
+                            <th class="th-col th-cur sortable td-right" title="Current Rebate Rate" onclick={handleSort} data-sort="curRebRate">RebateRate<span class="sort-icon">{sortIndicators.curRebRate}</span></th>
+                            <th class="th-col th-cur sortable td-right" title="Current Gross Fees" onclick={handleSort} data-sort="curGross">MgtFees<span class="sort-icon">{sortIndicators.curGross}</span></th>
+                            <th class="th-col th-cur sortable td-right" title="Current Rebates" onclick={handleSort} data-sort="curRebates">Rebates<span class="sort-icon">{sortIndicators.curRebates}</span></th>
+                            <th class="th-col th-cur sortable td-right" title="Current Net Fees" onclick={handleSort} data-sort="curNet">NetFees<span class="sort-icon">{sortIndicators.curNet}</span></th>
+                            <th class="section-gap"></th>
+                            <th class="th-col th-sim sortable" title="Additional Money input" onclick={handleSort} data-sort="additionalMoney">Additional Money<span class="sort-icon">{sortIndicators.additionalMoney}</span></th>
+                            <th class="th-col th-sim sortable td-right" title="New AUM = Current AUM + Additional Money" onclick={handleSort} data-sort="newAum">New AUM<span class="sort-icon">{sortIndicators.newAum}</span></th>
+                            <th class="th-col th-sim sortable td-right" title="Rebate Rate (read-only)" onclick={handleSort} data-sort="simRebRate">RebateRate<span class="sort-icon">{sortIndicators.simRebRate}</span></th>
+                            <th class="th-col th-sim sortable td-right" title="Simulated Gross Fees" onclick={handleSort} data-sort="simGross">MgtFees<span class="sort-icon">{sortIndicators.simGross}</span></th>
+                            <th class="th-col th-sim sortable td-right" title="Simulated Rebates" onclick={handleSort} data-sort="simRebates">Rebates<span class="sort-icon">{sortIndicators.simRebates}</span></th>
+                            <th class="th-col th-sim sortable td-right" title="Simulated Net Fees" onclick={handleSort} data-sort="simNet">NetFees<span class="sort-icon">{sortIndicators.simNet}</span></th>
+                            <th class="td-empty"></th>
+                        </tr>
+                    </thead>
+
+                    <!-- ── Main data tbody (real rows) ── -->
+                    <tbody>
+                        <template for:each={processedRows} for:item="row">
+                            <tr key={row.key} class={row.rowClass}>
+                                <!-- Share Class Info -->
+                                <td class="td-info" title={row.range}>{row.range}</td>
+                                <td class="td-info" title={row.productName}>{row.ptfCode}</td>
+                                <td class="td-info" title={row.isin}>{row.type}</td>
+                                <td class="td-info td-right" title={row.effMgtFeesFmt}>{row.effMgtFeesFmt}</td>
+                                <td class="section-gap"></td>
+                                <!-- CURRENT -->
+                                <td class="td-right td-current" title={row.curAumFmt}>{row.curAumFmt}</td>
+                                <td class="td-right td-current" title={row.curRebRateFmt}>{row.curRebRateFmt}</td>
+                                <td class="td-right td-current" title={row.curGrossFmt}>{row.curGrossFmt}</td>
+                                <td class="td-right td-current" title={row.curRebatesFmt}>{row.curRebatesFmt}</td>
+                                <td class="td-right td-current" title={row.curNetFmt}>{row.curNetFmt}</td>
+                                <td class="section-gap"></td>
+                                <!-- SIMULATED -->
+                                <td class={row.newMoneyCellClass}>
+                                    <template if:false={row.isEditingNewMoney}>
+                                        <span class="new-money-display" data-id={row.shareClassId} onclick={handleNewMoneyClick}>{row.additionalMoneyFmt}</span>
+                                    </template>
+                                    <template if:true={row.isEditingNewMoney}>
+                                        <input type="text" class="slds-input custom-input" value={row.additionalMoney} data-id={row.shareClassId} data-field="newMoney" onchange={handleNewMoney} onblur={handleNewMoneyBlur} onfocus={handleNewMoneyFocus}/>
+                                    </template>
+                                </td>
+                                <td class="td-right td-sim" title={row.newAumFmt}>{row.newAumFmt}</td>
+                                <td class="td-right td-sim" title={row.simRebRateFmt}>{row.simRebRateFmt}</td>
+                                <td class="td-right td-sim" title={row.simGrossFmt}>{row.simGrossFmt}</td>
+                                <td class="td-right td-sim" title={row.simRebatesFmt}>{row.simRebatesFmt}</td>
+                                <td class="td-right td-sim" title={row.simNetFmt}>{row.simNetFmt}</td>
+                                <td class="td-actions"></td>
+                            </tr>
+                        </template>
+                    </tbody>
+
+                    <!-- ── Custom rows tbody ── -->
+                    <tbody class="custom-rows-body">
+                        <template for:each={processedCustomRows} for:item="row">
+                            <tr key={row.key} class="custom-row">
+                                <!-- INFO: editable inputs -->
+                                <td class="td-input"><input type="text" class="slds-input custom-input" value={row.range} data-id={row.shareClassId} data-field="range" onchange={handleCustomField}/></td>
+                                <td class="td-input"><input type="text" class="slds-input custom-input" value={row.ptfCode} data-id={row.shareClassId} data-field="ptfCode" onchange={handleCustomField}/></td>
+                                <td class="td-input"><input type="text" class="slds-input custom-input" value={row.type} data-id={row.shareClassId} data-field="type" onchange={handleCustomField}/></td>
+                                <td class="td-input"><input type="number" class="slds-input custom-input" value={row.effMgtFees} step="0.01" data-id={row.shareClassId} data-field="effMgtFees" onchange={handleCustomField}/></td>
+                                <td class="section-gap"></td>
+                                <!-- CURRENT: blank -->
+                                <td colspan="5" class="td-custom-blank"></td>
+                                <td class="section-gap"></td>
+                                <!-- SIMULATED -->
+                                <td class={row.newMoneyCellClass}>
+                                    <template if:false={row.isEditingNewMoney}>
+                                        <span class="new-money-display" data-id={row.shareClassId} onclick={handleNewMoneyClick}>{row.additionalMoneyFmt}</span>
+                                    </template>
+                                    <template if:true={row.isEditingNewMoney}>
+                                        <input type="text" class="slds-input custom-input" value={row.additionalMoney} data-id={row.shareClassId} data-field="newMoney" onchange={handleCustomField} onblur={handleNewMoneyBlur} onfocus={handleNewMoneyFocus}/>
+                                    </template>
+                                </td>
+                                <td class="td-right td-sim" title={row.newAumFmt}>{row.newAumFmt}</td>
+                                <td class="td-input td-sim"><input type="number" class="slds-input custom-input" value={row.rebateRate} step="0.01" data-id={row.shareClassId} data-field="rebateRate" onchange={handleCustomField}/></td>
+                                <td class="td-right td-sim" title={row.simGrossFmt}>{row.simGrossFmt}</td>
+                                <td class="td-right td-sim" title={row.simRebatesFmt}>{row.simRebatesFmt}</td>
+                                <td class="td-right td-sim" title={row.simNetFmt}>{row.simNetFmt}</td>
+                                <td class="td-actions">
+                                    <button class="delete-btn" data-id={row.shareClassId} onclick={handleRemoveRow}>×</button>
+                                </td>
+                            </tr>
+                        </template>
+                    </tbody>
+
+                    <!-- ── Totals tbody ── -->
+                    <tbody class="totals-body">
+                        <tr class="totals-row">
+                            <td colspan="4" class="totals-label" title="TOTAL">
+                                <button class="add-row-btn" onclick={handleAddRow} title="Add Simulated Row">+</button>
+                                TOTAL
+                            </td>
+                            <td class="section-gap"></td>
+                            <!-- CURRENT -->
+                            <td class="td-right td-total" title={totals.curAumFmt}>{totals.curAumFmt}</td>
+                            <td class="td-total"></td>
+                            <td class="td-right td-total" title={totals.curGrossFmt}>{totals.curGrossFmt}</td>
+                            <td class="td-right td-total" title={totals.curRebatesFmt}>{totals.curRebatesFmt}</td>
+                            <td class="td-right td-total" title={totals.curNetFmt}>{totals.curNetFmt}</td>
+                            <td class="section-gap"></td>
+                            <!-- SIMULATED -->
+                            <td class="td-right td-total" title={totals.additionalMoneyFmt}>{totals.additionalMoneyFmt}</td>
+                            <td class="td-right td-total" title={totals.newAumFmt}>{totals.newAumFmt}</td>
+                            <td class="td-total"></td>
+                            <td class="td-right td-total" title={totals.simGrossFmt}>{totals.simGrossFmt}</td>
+                            <td class="td-right td-total" title={totals.simRebatesFmt}>{totals.simRebatesFmt}</td>
+                            <td class="td-right td-total" title={totals.simNetFmt}>{totals.simNetFmt}</td>
+                            <td class="td-empty"></td>
+                        </tr>
+                    </tbody>
+
+                </table>
+            </div>
+        </template>
+
+        <template if:false={hasRows}>
+            <template if:false={isLoading}>
+                <template if:false={hasError}>
+                    <div class="slds-p-around_medium slds-text-color_weak">No share classes to simulate.</div>
+                </template>
+            </template>
+        </template>
+
+    </div>
+</template>
