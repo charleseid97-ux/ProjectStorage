@@ -10,8 +10,10 @@ public with sharing class CustomApprovalHistoryUtilityTest {
 
     private static final String STEP_DEV_HOC    = 'GridAmendment_HOC';
     private static final String STEP_DEV_DCO    = 'GridAmendment_DCO_DO';
+    private static final String STEP_DEV_LEGAL  = 'GridAmendment_Legal';
     private static final String STEP_LABEL_HOC  = 'HOC Approval';
     private static final String STEP_LABEL_DCO  = 'DCO-DO Approval';
+    private static final String STEP_LABEL_LEGAL = 'Legal Approval';
     private static final String TEST_USER_NAME  = 'Test User';
     private static final String PROCESS_NAME    = 'GridAmendment';
     private static final String STATUS_PENDING  = 'Pending';
@@ -94,8 +96,8 @@ public with sharing class CustomApprovalHistoryUtilityTest {
     @IsTest
     static void testProcessApproval_Approve_NoNextStep() {
         Grid__c grid = GridTestSetupHelper.getTestGridByName(GridTestSetupHelper.GRID_NAME_S1);
-        CustomApproval__c approval = createApproval(grid.Id, STEP_DEV_DCO);
-        CustomApprovalStep__c step = createStep(approval.Id, STEP_DEV_DCO, STEP_LABEL_DCO, TEST_USER_NAME);
+        CustomApproval__c approval = createApproval(grid.Id, STEP_DEV_LEGAL);
+        CustomApprovalStep__c step = createStep(approval.Id, STEP_DEV_LEGAL, STEP_LABEL_LEGAL, TEST_USER_NAME);
 
         Test.startTest();
         CustomApprovalHistoryUtility.ProcessResult result = CustomApprovalHistoryUtility.processApproval(step.Id, 'Approve', 'Final approved', null);

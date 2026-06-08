@@ -374,19 +374,26 @@ matchingLegalEntityByCompany.put(le.Company__c, le);
     }
     
     public static void handleBeforeUpdate(List<Convention__c> newAgreements, map<id, Convention__c> oldAgreements) {
-        
+
         List<Id> accountIds = new List<Id>();
         List<Id> gridIds = new List<Id>();
-        
+
         Map<Id, Convention__c> mConvIds_withSubAgreements = new Map<Id, Convention__c>();
         Map<Id, List<Convention__c>> accAgreement = new Map<Id, List<Convention__c>>();
-        
+
+        Set<Id> newAgreementIds = new Set<Id>();
+        for (Convention__c agr : newAgreements) newAgreementIds.add(agr.Id);
+        Set<Id> agrIdsInApproval = new Set<Id>();
+        for (ProcessInstance pi : [SELECT TargetObjectId FROM ProcessInstance WHERE TargetObjectId IN :newAgreementIds AND status = 'Started']) {
+            agrIdsInApproval.add(pi.TargetObjectId);
+        }
+
         for(Convention__c agr : newAgreements) {
             accountIds.add(agr.Company__c);
             gridIds.add(agr.Grid__c);
-            
+
             Convention__c oldConv = oldAgreements.get(agr.Id);
-            if (checkIfApprovalProcess(agr.id, 'Started')) {
+            if (agrIdsInApproval.contains(agr.Id)) {
                 if (accAgreement.containsKey(oldConv.Company__c)) {
                     accAgreement.get(agr.Company__c).add(agr);
                 }
@@ -451,12 +458,12 @@ matchingLegalEntityByCompany.put(le.Company__c, le);
         GridUtility.handleAgreementGridTransitions(newAgreements, oldAgreements); // ──── Grid__c + Agreement field swaps + AgreementGridTimeline__c lifecycle ────
     }
     
-    public static boolean checkIfApprovalProcess(Id recordId, String statusString) {
-        List<ProcessInstance> existingApprovals = [SELECT Id, TargetObjectId
-                                                   FROM ProcessInstance
-                                                   WHERE TargetObjectId=:recordId AND status=:statusString];
-        return existingApprovals.size() > 0;
-    }
+    // public static boolean checkIfApprovalProcess(Id recordId, String statusString) {
+    //     List<ProcessInstance> existingApprovals = [SELECT Id, TargetObjectId
+    //                                                FROM ProcessInstance
+    //                                                WHERE TargetObjectId=:recordId AND status=:statusString];
+    //     return existingApprovals.size() > 0;
+    // }
     
     public static void attachedKYD_DD(List<Convention__c> conventions) {
         

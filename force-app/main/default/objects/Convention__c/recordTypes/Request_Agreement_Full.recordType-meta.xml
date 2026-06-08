@@ -79,6 +79,10 @@
             <fullName>Need Submission</fullName>
             <default>false</default>
         </values>
+        <values>
+            <fullName>Approval Rejected</fullName>
+            <default>false</default>
+        </values>
     </picklistValues>
     <picklistValues>
         <picklist>Approval_Status__c</picklist>
