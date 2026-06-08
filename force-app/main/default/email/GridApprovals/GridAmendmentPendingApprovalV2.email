@@ -156,6 +156,33 @@
       <tr><td class="spacer">&nbsp;</td></tr>
     </table>
 
+    <!-- ───── VIEW AND COMPARE ───── -->
+    <table width="100%" border="0" cellpadding="0" cellspacing="0" bgcolor="#ffffff">
+      <tr>
+        <td class="link-cell">
+          <a href="{!LEFT($Api.Partner_Server_URL_260, FIND('/services', $Api.Partner_Server_URL_260))}{!relatedTo.Id}" class="view-link">View and Compare</a>
+        </td>
+      </tr>
+    </table>
+
+    <!-- ───── ACTION BUTTONS ───── -->
+    <table width="100%" border="0" cellpadding="0" cellspacing="0" bgcolor="#ffffff">
+      <tr>
+        <td class="actions-cell">
+          <table width="100%" border="0" cellpadding="0" cellspacing="0">
+            <tr>
+              <td width="50%" align="right" style="padding-right:8px;">
+                <a href="{!LEFT($Api.Partner_Server_URL_260, FIND('/services', $Api.Partner_Server_URL_260))}lightning/n/GridApprovalAction?c__recordId={!relatedTo.Id}&amp;c__action=Approve" class="btn-approve">&#10003; Approve</a>
+              </td>
+              <td width="50%" align="left" style="padding-left:8px;">
+                <a href="{!LEFT($Api.Partner_Server_URL_260, FIND('/services', $Api.Partner_Server_URL_260))}lightning/n/GridApprovalAction?c__recordId={!relatedTo.Id}&amp;c__action=Reject" class="btn-reject">&#10007; Reject</a>
+              </td>
+            </tr>
+          </table>
+        </td>
+      </tr>
+    </table>
+
     <!-- ───── THRESHOLD SECTION (conditional) ───── -->
     <apex:outputPanel layout="block" rendered="{!NOT(ISBLANK(relatedTo.ThresholdAmount__c))}">
       <table width="100%" border="0" cellpadding="0" cellspacing="0" bgcolor="#ffffff">
@@ -240,33 +267,6 @@
         </td>
       </tr>
       <tr><td class="spacer">&nbsp;</td></tr>
-    </table>
-
-    <!-- ───── VIEW AND COMPARE ───── -->
-    <table width="100%" border="0" cellpadding="0" cellspacing="0" bgcolor="#ffffff">
-      <tr>
-        <td class="link-cell">
-          <a href="{!LEFT($Api.Partner_Server_URL_260, FIND('/services', $Api.Partner_Server_URL_260))}{!relatedTo.Id}" class="view-link">View and Compare</a>
-        </td>
-      </tr>
-    </table>
-
-    <!-- ───── ACTION BUTTONS ───── -->
-    <table width="100%" border="0" cellpadding="0" cellspacing="0" bgcolor="#ffffff">
-      <tr>
-        <td class="actions-cell">
-          <table width="100%" border="0" cellpadding="0" cellspacing="0">
-            <tr>
-              <td width="50%" align="right" style="padding-right:8px;">
-                <a href="{!LEFT($Api.Partner_Server_URL_260, FIND('/services', $Api.Partner_Server_URL_260))}lightning/n/GridApprovalAction?c__recordId={!relatedTo.Id}&amp;c__action=Approve" class="btn-approve">&#10003; Approve</a>
-              </td>
-              <td width="50%" align="left" style="padding-left:8px;">
-                <a href="{!LEFT($Api.Partner_Server_URL_260, FIND('/services', $Api.Partner_Server_URL_260))}lightning/n/GridApprovalAction?c__recordId={!relatedTo.Id}&amp;c__action=Reject" class="btn-reject">&#10007; Reject</a>
-              </td>
-            </tr>
-          </table>
-        </td>
-      </tr>
     </table>
 
     <!-- ───── FOOTER ───── -->
