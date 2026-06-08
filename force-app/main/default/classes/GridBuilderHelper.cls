@@ -266,7 +266,7 @@ public with sharing class GridBuilderHelper {
         gridSettings = gridSettings != null? gridSettings : getGridSettings(gridBuilderSettingName, countriesOfDistribution, false, new List<String>());
         fieldsApiToInfoMap = fieldsApiToInfoMap != null? fieldsApiToInfoMap : buildFieldsApiToInfoMap(gridSettings.fieldsToDisplay + getAdditionalQueryColumns(), includeRebateRate);
 
-        Set<String> selectFields = new Set<String>{'Id', 'Fund__c', 'Fund__r.ProductName__c', 'Fund__r.InternalShortName__c'};
+        Set<String> selectFields = new Set<String>{'Id', 'Fund__c', 'Fund__r.Name', 'Fund__r.ProductName__c', 'Fund__r.InternalShortName__c'};
         selectFields.addAll(getSelectableFieldSet(fieldsApiToInfoMap));
         finalWhere = String.isNotBlank(finalWhere)? finalWhere : String.join(buildDefaultConditions(true, true, countriesOfDistribution, gridSettings.shareTypeWrp, false, availableGridIds), ' AND ');
         String finalOrderBy = buildOrderByClause(gridSettings.sortingFields);
@@ -291,8 +291,8 @@ public with sharing class GridBuilderHelper {
             prodId = (Id)sc.get('Fund__c');
             if ((onlyIncludeSCInAgreement && aumByShareClass.containsKey(sc.Id) || !onlyIncludeSCInAgreement || filteredIds.contains(sc.Id))) {
                 if (!productIdToWrapper.containsKey(prodId)) {
-                    productLabel = (String)sc.getSObject('Fund__r')?.get('ProductName__c')+' ('+(String)sc.getSObject('Fund__r')?.get('InternalShortName__c')+')';
-                    productLabel = String.isNotBlank(productLabel) ? productLabel : 'Unnamed Product. Internal Short Name: ' + (String)sc.getSObject('Fund__r')?.get('InternalShortName__c');
+                    productLabel = (String)sc.getSObject('Fund__r')?.get('ProductName__c')+' ('+(String)sc.getSObject('Fund__r')?.get('Name')+')';
+                    productLabel = String.isNotBlank(productLabel) ? productLabel : 'Unnamed Product. Internal Short Name: ' + (String)sc.getSObject('Fund__r')?.get('Name');
                     productIdToWrapper.put(prodId, new ProductWrapper(prodId, productLabel));
                 }
                 productIdToWrapper.get(prodId).shareClasses.add(new ShareClassWrapper(sc, filteredIds, fieldsApiToInfoMap, aumByShareClass, rebateByShareClass));
