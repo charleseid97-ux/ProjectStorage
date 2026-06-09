@@ -115,6 +115,7 @@ public with sharing class VFC16_SequantisGenerateDraft {
                                 LeveragedReturn__c, PensionSchemeGer__c, MayTerminateEarlier__c, ExecutionOnly__c, AppropTest__c, InvestAdvice__c, PortfolioManagement__c,
                                 ProjectProduct__c, ShareclassInvestmentObjective__c, InvestorType__c,PerformanceFeeUCITSKIID__c,PerformanceFeeEPTKID__c, MaxPerfFees__c,
                                 PerformanceFeeMethod__c,MaxRedemptionFeesSubfund__c,MaxRedemptionFeesManCo__c,OngoingCostsExante__c,OngoingChargesKIID__c,ReasonforRHPRedemptionShareclass__c
+                                ,MaxConversionFee__c
                                 FROM projectShareClass__c
                                 WHERE id = :projectShareClassId];
         
@@ -169,12 +170,7 @@ public with sharing class VFC16_SequantisGenerateDraft {
         if (ProjectProductRec.internalShortName__c == null ){
             errorMsg += '<br/> Internal Short Name is required. ';            
         }
-        if (ProjectProductRec.RecommendedHoldingPeriod__c == null ){
-            errorMsg += '<br/> Recommended Holding Period is required. ';
-        }
-        if (ProjectProductRec.RecommendedHoldingPeriodUnit__c == null ){
-            errorMsg += '<br/> Recommended Holding Period Unit is required. ';
-        }   
+          
         if (errorMsg != ''){
             errorMsg = '<br/> generation failed due to missing required fields '+projectShareClassRec.Name__c+' : '+errorMsg;
             return errorMsg;
@@ -248,6 +244,8 @@ public with sharing class VFC16_SequantisGenerateDraft {
         payload.put('fundName',ProjectProductRec.ProductName__c);
         payload.put('isin',projectShareClassRec.ISIN__c);
         payload.put('shareClassId','');
+        payload.put('conversionFees',projectShareClassRec.MaxConversionFee__c);
+        
         payload.put('productId',ProjectProductRec.Product__c);
         payload.put('projectShareClassId',projectShareClassRec.Id);
         payload.put('projectId',ProjectProductRec.Id);
@@ -278,6 +276,12 @@ public with sharing class VFC16_SequantisGenerateDraft {
         Id rtId = ProjectProductRec.RecordTypeId;
 
         if (rtId == fundCreationRecordTypeId) {
+            if (ProjectProductRec.RecommendedHoldingPeriod__c == null ){
+                errorMsg += '<br/> Recommended Holding Period is required. ';
+            }
+            if (ProjectProductRec.RecommendedHoldingPeriodUnit__c == null ){
+                errorMsg += '<br/> Recommended Holding Period Unit is required. ';
+            } 
             payload.put('rhp', ProjectProductRec.RecommendedHoldingPeriod__c);
             payload.put('rhpUnit', escapeHTML(ProjectProductRec.RecommendedHoldingPeriodUnit__c));
             payload.put('reasonForRedemptionShareClass',projectShareClassRec.ReasonforRHPRedemptionShareclass__c );
