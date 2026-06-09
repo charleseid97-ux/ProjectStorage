@@ -402,10 +402,36 @@ export default class CustomCalendar extends NavigationMixin(LightningElement) {
   };
 
   openPrintVF = () => {
+    const params = new URLSearchParams();
+
+    if (this.selectedTimezone) {
+      params.set("timezone", this.selectedTimezone);
+    }
+
+    if ((this.selectedCountries || []).length) {
+      params.set("salesTeams", this.selectedCountries.join(","));
+    }
+
+    if ((this.selectedSpeakerContactIds || []).length) {
+      params.set("speakerIds", this.selectedSpeakerContactIds.join(","));
+    }
+
+    if ((this.selectedJobTitles || []).length) {
+      params.set("jobTitles", this.selectedJobTitles.join(","));
+    }
+
+    if (this.startDate) {
+      params.set("start", this.startDate);
+    }
+
+    if (this.endDate) {
+      params.set("end", this.endDate);
+    }
+
     this[NavigationMixin.Navigate]({
       type: "standard__webPage",
       attributes: {
-        url: "/apex/VFP17_PrintEvents"
+        url: `/apex/VFP17_PrintEvents?${params.toString()}`
       }
     });
   };

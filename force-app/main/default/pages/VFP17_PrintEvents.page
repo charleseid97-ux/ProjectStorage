@@ -18,7 +18,7 @@
         }
 
         .page-shell {
-            max-width: 1280px;
+            max-width: 1600px;
             margin: 0 auto;
             padding: 16px;
         }
@@ -122,14 +122,18 @@
             color: #111827;
             border-bottom: 1px solid #e5e7eb;
         }
-
         .eventRow {
             display: grid;
-            grid-template-columns: 120px 130px 18px 1fr;
+            grid-template-columns: 250px 180px 18px 1fr;
             gap: 10px;
             padding: 7px 12px;
             border-bottom: 1px solid #f1f3f5;
             align-items: center;
+        }
+        .eventHeader {
+            font-weight: 700;
+            color: #374151;
+            background: #f9fafb;
         }
 
         .eventRow:last-child {
@@ -139,13 +143,20 @@
         .timeCol {
             font-weight: 600;
             color: #374151;
-            white-space: nowrap;
+            white-space: normal;
+            line-height: 18px;
+        }
+
+        .timezoneLabel {
+            display: inline-block;
+            width: 110px;
         }
 
         .tzCol {
             color: #6b7280;
             font-size: 11px;
-            white-space: nowrap;
+            white-space: normal;
+            word-break: break-word;
         }
 
         .dotCol {
@@ -168,6 +179,7 @@
             align-items: center;
             min-width: 0;
             width: 100%;
+            flex-wrap: wrap;
         }
 
         .titleLink {
@@ -198,7 +210,7 @@
 
         .strategies {
             color: #4b5563;
-            white-space: nowrap;
+            white-space: normal;
             flex-shrink: 0;
         }
 
@@ -224,15 +236,33 @@
         }
 
         .truncate {
-            overflow: hidden;
-            text-overflow: ellipsis;
-            white-space: nowrap;
+            white-space: normal;
+            word-break: break-word;
             min-width: 0;
         }
 
+        .legend {
+                margin-top: 6pt;
+                font-size: 8pt;
+            }
+
+            .legendItem {
+                display: inline-block;
+                margin-right: 10pt;
+                margin-bottom: 3pt;
+            }
+
+            .legendDot {
+                display: inline-block;
+                width: 7pt;
+                height: 7pt;
+                border-radius: 50%;
+                margin-right: 3pt;
+            }
+
         @media screen and (max-width: 1100px) {
             .eventRow {
-                grid-template-columns: 110px 110px 18px 1fr;
+                grid-template-columns: 110px 110px 160px 18px 1fr;
             }
         }
 
@@ -279,11 +309,30 @@
 
                     <div class="filter">
                         <label>Sales Team</label>
-                        <apex:selectList value="{!selectedSalesTeam}" size="1" onchange="refreshNow();">
+                        <apex:selectList value="{!selectedSalesTeams}" size="4" multiselect="true" onchange="refreshNow();">
                             <apex:selectOptions value="{!salesTeamOptions}"/>
                         </apex:selectList>
                     </div>
+                    
+                    <div class="filter">
+                        <label>Speakers</label>
+                        <apex:selectList value="{!selectedSpeakerIds}" size="6" multiselect="true" onchange="refreshNow();">
+                            <apex:selectOptions value="{!speakerOptions}"/>
+                        </apex:selectList>
+                    </div>
 
+                    <div class="filter">
+                        <label>Job Titles</label>
+                        <apex:selectList value="{!selectedJobTitles}" size="6" multiselect="true" onchange="refreshNow();">
+                            <apex:selectOptions value="{!jobTitleOptions}"/>
+                        </apex:selectList>
+                    </div>
+                    <div class="filter">
+                        <label>Display Timezone</label>
+                        <apex:selectList value="{!selectedTimezone}" size="1" onchange="refreshNow();">
+                            <apex:selectOptions value="{!timezoneOptions}"/>
+                        </apex:selectList>
+                    </div>
                     <div>
                         <apex:commandButton value="Apply"
                                             action="{!applyDates}"
@@ -298,7 +347,22 @@
                     </div>
                 </div>
             </div>
+            <details class="card">
+                <summary class="header">
+                    <h1>Colors Legend</h1>
+                </summary>
 
+                <div style="padding:12px;">
+                    <apex:repeat value="{!colorLegend}" var="c">
+
+                        <span class="legendItem">
+                            <span class="legendDot" style="{!'background-color:#' + c.eventColor + ';'}">&nbsp;</span>
+                            {!c.label}
+                        </span>
+
+                    </apex:repeat>
+                </div>
+            </details>
             <apex:outputPanel id="printArea">
                 <div class="card">
                     <div class="agenda">
@@ -312,16 +376,23 @@
                                             <span>{!g.dayLabel}</span>
                                             <span>{!g.fullDateLabel}</span>
                                         </div>
+                                        <div class="eventRow eventHeader">
+                                            <div>Time</div>
+                                            <div>Location</div>
+                                            <div></div>
+                                            <div>Event</div>
+                                        </div>
 
                                         <apex:repeat value="{!g.events}" var="e">
                                             <div class="eventRow">
-
                                                 <div class="timeCol">
-                                                    {!e.timeRangeLabel}
+                                                    <span class="timezoneLabel">{!e.displayTimezone}</span> : {!e.timeRangeLabel}
+                                                    <br/>
+                                                    <span class="timezoneLabel">{!selectedTimezone}</span> : {!e.convertedTimeRangeLabel}
                                                 </div>
 
                                                 <div class="tzCol">
-                                                    {!e.displayTimezone}
+                                                    {!e.locationLabel}
                                                 </div>
 
                                                 <div class="dotCol">
