@@ -205,13 +205,13 @@ export default class CustomCalendar extends NavigationMixin(LightningElement) {
         jobTitle: c.jobTitle
       }));
 
-      const titles = [
+       const titles = [
         ...new Set(
           (data || [])
             .map((c) => c.jobTitle)
             .filter((v) => !!v)
         )
-      ].sort();
+      ].sort((a, b) => a.localeCompare(b));
 
       this.allJobTitles = titles.map((title) => ({
         label: title,
