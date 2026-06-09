@@ -51,9 +51,7 @@
             }
 
             .contentCard {
-                border: 1px solid #e5e7eb;
-                border-radius: 8px;
-                padding: 8pt;
+                padding: 0;
             }
 
             .page {
@@ -65,10 +63,7 @@
             }
 
             .dayGroup {
-                border: 1px solid #e5e7eb;
-                border-radius: 6px;
-                margin-bottom: 8pt;
-                overflow: hidden;
+                margin-bottom: 2pt;
             }
 
             .dayHeader {
@@ -77,7 +72,11 @@
                 padding: 6pt 8pt;
                 font-weight: bold;
             }
-
+            
+            .timezoneLabel {
+                display: inline-block;
+                width: 58pt;
+            }
             .dayHeaderLeft {
                 float: left;
             }
@@ -109,19 +108,63 @@
             .eventTable td {
                 vertical-align: middle;
             }
+            .legend {
+                font-size: 8pt;
+            }
 
-            .timeCol {
-                width: 78pt;
+            .legendItem {
+                display: inline-block;
+                margin-right: 10pt;
+                margin-bottom: 3pt;
+            }
+
+            .legendDot {
+                display: inline-block;
+                width: 7pt;
+                height: 7pt;
+                border-radius: 50%;
+                margin-right: 3pt;
+            }
+            .eventHeader td {
                 font-weight: bold;
                 color: #374151;
-                white-space: nowrap;
+                background: #f9fafb;
+                font-size: 8.5pt;
+                padding-bottom: 4pt;
+            }
+
+            .timeCol {
+                width: 110pt;
+                font-weight: bold;
+                color: #374151;
+                white-space: normal;
+                font-size: 7pt;
+                line-height: 11pt;
             }
 
             .tzCol {
-                width: 78pt;
+                width: 55pt;
                 color: #6b7280;
-                white-space: nowrap;
-                font-size: 8.5pt;
+                white-space: normal;
+                word-wrap: break-word;
+                font-size: 7.5pt;
+            }
+
+            .convertedTzCol {
+                width: 65pt;
+                color: #374151;
+                white-space: normal;
+                word-wrap: break-word;
+                font-size: 7.5pt;
+                font-weight: bold;
+            }
+
+            .locationCol {
+                width: 110pt;
+                color: #6b7280;
+                white-space: normal;
+                word-wrap: break-word;
+                font-size: 7.5pt;
             }
 
             .dotCol {
@@ -187,14 +230,33 @@
                             <apex:param value="{!endDate}" />
                         </apex:outputText>
 
-                        <apex:outputPanel rendered="{!selectedSalesTeam = '__ALL__'}" layout="none">
-                            for all sales teams
-                        </apex:outputPanel>
+                        <br/>
+                        Sales Teams: {!selectedSalesTeams}
+                        <br/>
+                        Speakers: {!selectedSpeakerIds}
+                        <br/>
+                        Job Titles: {!selectedJobTitles}
 
-                        <apex:outputPanel rendered="{!selectedSalesTeam != '__ALL__'}" layout="none">
-                            for {!selectedSalesTeam}
+                        <apex:outputPanel rendered="{!NOT(ISBLANK(selectedTimezone))}" layout="none">
+                            <br/>
+                            Converted to: {!selectedTimezone}
                         </apex:outputPanel>
                     </div>
+                </div>
+            </div>
+
+            <div class="card legend">
+                <div class="header">
+                    <div class="headerTitle">Colors Legend</div>
+                </div>
+
+                <div style="padding:8pt 10pt;">
+                    <apex:repeat value="{!colorLegend}" var="c">
+                        <span class="legendItem">
+                            <span class="legendDot" style="{!'background-color:#' + c.eventColor + ';'}">&nbsp;</span>
+                            {!c.label}
+                        </span>
+                    </apex:repeat>
                 </div>
             </div>
 
@@ -212,12 +274,27 @@
                                         <div class="clear"></div>
                                     </div>
 
+                                    <div class="eventRow">
+                                        <table class="eventTable eventHeader">
+                                            <tr>
+                                                <td class="timeCol">Time</td>
+                                                <td class="locationCol">Location</td>
+                                                <td class="dotCol"></td>
+                                                <td class="contentCol">Event</td>
+                                            </tr>
+                                        </table>
+                                    </div>
+
                                     <apex:repeat value="{!g.events}" var="e">
                                         <div class="eventRow">
                                             <table class="eventTable">
                                                 <tr>
-                                                    <td class="timeCol">{!e.timeRangeLabel}</td>
-                                                    <td class="tzCol">{!e.displayTimezone}</td>
+                                                    <td class="timeCol">
+                                                        <span class="timezoneLabel">{!e.displayTimezone}</span> : {!e.timeRangeLabel}
+                                                        <br/>
+                                                        <span class="timezoneLabel">{!selectedTimezone}</span> : {!e.convertedTimeRangeLabel}
+                                                    </td>
+                                                    <td class="locationCol">{!e.locationLabel}</td>
                                                     <td class="dotCol">
                                                         <span class="eventDot" style="background:{!e.eventColor};"></span>
                                                     </td>
