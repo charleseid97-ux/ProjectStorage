@@ -16,7 +16,9 @@
                             <lightning-progress-step label="Agreement" value="1" data-step="1" onclick={handlePathStepClick} class={step1Enabled}></lightning-progress-step>
                             <lightning-progress-step label="Grid Builder" value="2" data-step="2" onclick={handlePathStepClick} class={step2Enabled}></lightning-progress-step>
                             <lightning-progress-step label="Grid Validation" value="3" data-step="3" onclick={handlePathStepClick} class={step3Enabled}></lightning-progress-step>
-                            <lightning-progress-step label="Grid Simulation" value="4" data-step="4" onclick={handlePathStepClick} class={step4Enabled}></lightning-progress-step>
+                            <template if:true={hasSimulationAccess}>
+                                <lightning-progress-step label="Grid Simulation" value="4" data-step="4" onclick={handlePathStepClick} class={step4Enabled}></lightning-progress-step>
+                            </template>
                         </lightning-progress-indicator>
                     </div>
                     <button class="nav-btn nav-btn-next" onclick={handleGlobalNext} disabled={isGlobalNextDisabled}>
@@ -125,11 +127,14 @@
                                                     agreement-names={selectedAgreementNames}
                                                     grid-share-class-map={gridShareClassMap}
                                                     existing-grid-id={draftGridId}
+                                                    simulation-access-denied={simulationAccessDenied}
                                                     onselectionchange={handleValidationSelectionChange}
                                                     onremoveproduct={handleRemoveProductFromSelection}
                                                     onviewrecap={handleOpenSelectedPanelFromValidation}
                                                     onback={handleBackToBuilder}
-                                                    onsimulationrequested={handleSimulationRequested}>
+                                                    onsimulationrequested={handleSimulationRequested}
+                                                    onsavegrid={handleSaveGrid}
+                                                    onsubmitforapproval={handleSubmitForApproval}>
                             </c-grid-validation-page>
                         </template>
                     </template>

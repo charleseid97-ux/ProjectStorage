@@ -766,4 +766,8 @@
         <tab>Grid__c</tab>
         <visibility>Visible</visibility>
     </tabSettings>
+    <customPermissions>
+        <enabled>true</enabled>
+        <name>Grid_AccessGridSimulation</name>
+    </customPermissions>
 </PermissionSet>

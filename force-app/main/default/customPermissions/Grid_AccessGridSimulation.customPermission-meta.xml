@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomPermission xmlns="http://soap.sforce.com/2006/04/metadata">
+    <description>Grants access to the Grid Simulation on the record page as well as a final step in the Grid Builder. Users with this permission can view the simulation page, simulate AUM changes, and export the grid to Excel from the simulation step. Without this permission, the grid builder flow stops at the Grid Validation step, where Save, Submit for Approval, and Export Excel actions are available instead.</description>
+    <isLicensed>false</isLicensed>
+    <label>Grid - Access Grid Simulation</label>
+</CustomPermission>
