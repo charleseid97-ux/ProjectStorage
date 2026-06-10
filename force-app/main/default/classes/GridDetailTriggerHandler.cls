@@ -45,7 +45,7 @@ public with sharing class GridDetailTriggerHandler implements ITriggerHandler {
         if (gridIds.isEmpty()) return;
 
         Id customGridRtId = Schema.SObjectType.Grid__c.getRecordTypeInfosByDeveloperName().get(GridBuilderHelper.RT_CUSTOM_GRID).getRecordTypeId();
-        Map<Id, Grid__c> customGridMap = new Map<Id, Grid__c>([SELECT Id, StartDate__c FROM Grid__c WHERE Id IN :gridIds AND RecordTypeId = :customGridRtId]);
+        Map<Id, Grid__c> customGridMap = new Map<Id, Grid__c>([SELECT Id, StartDate__c, EndDate__c FROM Grid__c WHERE Id IN :gridIds AND RecordTypeId = :customGridRtId]);
         Set<Id> customGridIds = customGridMap.keySet();
         if (customGridIds.isEmpty()) return;
 
@@ -53,19 +53,21 @@ public with sharing class GridDetailTriggerHandler implements ITriggerHandler {
                                                                        FROM GridDetail__c 
                                                                        WHERE Id IN :stdDetIds]);
 
-        Date gridStart, srcStart;
+        Date gridStart, gridEnd, srcStart, srcEnd;
         for (GridDetail__c d : gdToUpdate) {
             if (!customGridIds.contains(d.Grid__c)) continue;
             GridDetail__c src = sourceMap.get(d.StandardGridDetail__c);
             if (src != null) {
                 gridStart = customGridMap.get(d.Grid__c)?.StartDate__c;
+                gridEnd = customGridMap.get(d.Grid__c)?.EndDate__c;
                 srcStart  = src.StartDate__c;
+                srcEnd = src.EndDate__c;
 
                 d.ShareClass__c              = src.ShareClass__c;
                 d.RebateRate__c              = src.RebateRate__c;
                 d.EffectiveManagementFees__c = src.EffectiveManagementFees__c;
                 d.StartDate__c               = (gridStart != null && (srcStart == null || gridStart > srcStart)) ? gridStart : srcStart;
-                d.EndDate__c                 = src.EndDate__c;
+                d.EndDate__c                 = (gridEnd != null && (srcEnd == null || gridEnd < srcEnd)) ? gridEnd : srcEnd;
             }
         }
     }

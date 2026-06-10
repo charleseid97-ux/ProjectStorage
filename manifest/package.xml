@@ -229,6 +229,7 @@
 		<name>CustomLabel</name>
 	</types>
 	<types>
+		<members>ApprovalLockConfig.Grid</members>
 		<members>ApprovalActionConfig.GridAmendment_DCODOApprovalAlert</members>
 		<members>ApprovalActionConfig.GridAmendment_FinalApproval</members>
 		<members>ApprovalActionConfig.GridAmendment_FinalRejection</members>
@@ -361,6 +362,7 @@
 		<name>CustomMetadata</name>
 	</types>
 	<types>
+		<members>ApprovalLockConfig__mdt</members>
 		<members>ApprovalActionConfig__mdt</members>
 		<members>ApprovalProcessConfig__mdt</members>
 		<members>ApprovalStepApproverConfig__mdt</members>
