@@ -433,18 +433,13 @@ public without sharing class CustomApprovalHistoryUtility {
     }
 
     // ─── Approval lock enforcement ────────────────────────────────────────────────
-    private static Map<String, ApprovalLockConfig__mdt> lockConfigCache;
-
     private static ApprovalLockConfig__mdt getLockConfig(String objectApiName) {
-        if (lockConfigCache == null) {
-            lockConfigCache = new Map<String, ApprovalLockConfig__mdt>();
-            for (ApprovalLockConfig__mdt cfg : [SELECT ObjectApiName__c, StatusFieldApiName__c, LockedStatuses__c, ExemptFields__c, Active__c
-                                                FROM ApprovalLockConfig__mdt
-                                                WHERE Active__c = true]) {
-                lockConfigCache.put(cfg.ObjectApiName__c, cfg);
-            }
-        }
-        return lockConfigCache.get(objectApiName);
+        List<ApprovalLockConfig__mdt> configs = [SELECT StatusFieldApiName__c, LockedStatuses__c, ExemptFields__c
+                                                 FROM ApprovalLockConfig__mdt
+                                                 WHERE ObjectApiName__c = :objectApiName
+                                                   AND Active__c = true
+                                                 LIMIT 1];
+        return configs.isEmpty() ? null : configs[0];
     }
 
     private static Set<String> splitCSV(String csv) {
