@@ -17,6 +17,9 @@ public without sharing class GridTriggerHandler implements ITriggerHandler {
 
     public void BeforeUpdate(Map<Id, SObject> newItems, Map<Id, SObject> oldItems) {
         syncReviewedFlag((List<Grid__c>) newItems.values(), (Map<Id, Grid__c>) oldItems);
+        if (PAD.canTrigger('GridApprovalLock')) {
+            CustomApprovalHistoryUtility.enforceApprovalLock(newItems.values(), oldItems);
+        }
     }
     public void BeforeDelete(Map<Id, SObject> oldItems) { }
 

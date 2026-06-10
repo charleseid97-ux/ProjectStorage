@@ -9,6 +9,8 @@
  ────────────────────────────────────── */
 public without sharing class CustomApprovalHistoryUtility {
 
+    private static final Set<String> LOCK_SYSTEM_FIELDS = new Set<String>{'id', 'createdbyid', 'createddate', 'lastmodifiedbyid', 'lastmodifieddate', 'systemmodstamp', 'isdeleted', 'lastactivitydate', 'lastreferenceddate', 'lastvieweddate'};
+
     // ─── submitForApproval ────────────────────────────────────────────────────────
     @AuraEnabled(cacheable=false)
     public static ProcessResult submitForApproval(Id recordId, String processName, String comments) {
@@ -427,6 +429,61 @@ public without sharing class CustomApprovalHistoryUtility {
             this.submittedById  = step.CustomApproval__r.SubmittedBy__c;
             this.stepDevName    = step.StepDeveloperName__c;
             this.currentUserId  = UserInfo.getUserId();
+        }
+    }
+
+    // ─── Approval lock enforcement ────────────────────────────────────────────────
+    private static Map<String, ApprovalLockConfig__mdt> lockConfigCache;
+
+    private static ApprovalLockConfig__mdt getLockConfig(String objectApiName) {
+        if (lockConfigCache == null) {
+            lockConfigCache = new Map<String, ApprovalLockConfig__mdt>();
+            for (ApprovalLockConfig__mdt cfg : [SELECT ObjectApiName__c, StatusFieldApiName__c, LockedStatuses__c, ExemptFields__c, Active__c
+                                                FROM ApprovalLockConfig__mdt
+                                                WHERE Active__c = true]) {
+                lockConfigCache.put(cfg.ObjectApiName__c, cfg);
+            }
+        }
+        return lockConfigCache.get(objectApiName);
+    }
+
+    private static Set<String> splitCSV(String csv) {
+        Set<String> result = new Set<String>();
+        if (String.isBlank(csv)) return result;
+        for (String entry : csv.split(',')) {
+            String trimmed = entry.trim();
+            if (String.isNotBlank(trimmed)) result.add(trimmed.toLowerCase());
+        }
+        return result;
+    }
+
+    public static void enforceApprovalLock(List<SObject> newRecords, Map<Id, SObject> oldRecords) {
+        if (newRecords == null || newRecords.isEmpty()) return;
+
+        String objectApiName = newRecords[0].getSObjectType().getDescribe().getName();
+        ApprovalLockConfig__mdt config = getLockConfig(objectApiName);
+        if (config == null) return;
+
+        Set<String> lockedStatuses = splitCSV(config.LockedStatuses__c);
+        Set<String> exemptFields   = splitCSV(config.ExemptFields__c);
+        exemptFields.addAll(LOCK_SYSTEM_FIELDS);
+        String statusField = config.StatusFieldApiName__c;
+
+        for (SObject newRecord : newRecords) {
+            SObject oldRecord  = oldRecords.get((Id) newRecord.get('Id'));
+            String  oldStatus  = (String) oldRecord.get(statusField);
+            String  newStatus  = (String) newRecord.get(statusField);
+
+            if (!lockedStatuses.contains(oldStatus)) continue; // not in a locked status
+            if (newStatus != oldStatus) continue;              // approval transition itself — allow
+
+            for (String fieldName : newRecord.getPopulatedFieldsAsMap().keySet()) {
+                if (exemptFields.contains(fieldName.toLowerCase())) continue;
+                if (newRecord.get(fieldName) != oldRecord.get(fieldName)) {
+                    newRecord.addError('This record is locked while in \'' + oldStatus + '\' status and cannot be edited.');
+                    break;
+                }
+            }
         }
     }
 }
