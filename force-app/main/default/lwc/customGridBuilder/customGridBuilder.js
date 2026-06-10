@@ -10,6 +10,7 @@ import getApprovedGridData from '@salesforce/apex/GridBuilderController.getAppro
 import getAllProductsForSelection from '@salesforce/apex/GridBuilderController.getAllProductsForSelection';
 import getProductsAndShareClasses from '@salesforce/apex/GridBuilderController.getProductsAndShareClasses';
 import submitAgreementForApproval from '@salesforce/apex/GridBuilderController.submitAgreementForApproval';
+import hasGridSimulationPermission from '@salesforce/apex/GridBuilderController.hasGridSimulationPermission';
 import submitForApproval from '@salesforce/apex/CustomApprovalHistoryUtility.submitForApproval';
 import {LABELS, reduceError, showToast, buildShareTypesKey, getProductNameFromRows, getQueryParam, getRecordIdFromPageRef, getGridIdFromPageRef, getSystemProductExclusionDetail,
     applySystemProductExclusion, mergeSystemDetail, addIsinExclusionsFromRows, pruneOrphanedCriteria, executeGridSave} from 'c/gridBuilderUtils';
@@ -18,6 +19,7 @@ export default class CustomGridBuilder extends NavigationMixin(LightningElement)
     @api gridBuilderSettingName = 'CustomGridBuilderSetting';
 
     @track isLoading = true;
+    @track hasSimulationAccess = true;
     labels = LABELS;
 
     @track showAgreementsPage = false;
@@ -111,6 +113,7 @@ export default class CustomGridBuilder extends NavigationMixin(LightningElement)
     }
 
     isStepEnabled(step) {
+        if (step === 4 && !this.hasSimulationAccess) return false;
         const current = parseInt(this.currentStep, 10);
         if (step === current) return false;
         if (step < current)  return true;
@@ -159,6 +162,10 @@ export default class CustomGridBuilder extends NavigationMixin(LightningElement)
             this.handlePages(false, false, true);
             this.showSimulation = true;
         }
+    }
+
+    get simulationAccessDenied() {
+        return !this.hasSimulationAccess;
     }
 
     get isGridBuilderOrValidationPage() {
@@ -236,6 +243,12 @@ export default class CustomGridBuilder extends NavigationMixin(LightningElement)
             const gridId    = getQueryParam('c__gridId');
             const recordId  = getQueryParam('c__recordId');
             let agreementSettings;
+
+            // Check permission in parallel with agreement settings load
+            const [simPermission] = await Promise.all([
+                hasGridSimulationPermission()
+            ]);
+            this.hasSimulationAccess = simPermission === true;
 
             if (gridId) {
                 // ── Entry from Grid__c "Edit Grid Details" button ──
@@ -1046,6 +1059,7 @@ export default class CustomGridBuilder extends NavigationMixin(LightningElement)
     }
 
     handleSimulationRequested() {
+        if (!this.hasSimulationAccess) return;
         this.maxReachedStep = Math.max(4, this.maxReachedStep);
         this.showSimulation = true;
     }

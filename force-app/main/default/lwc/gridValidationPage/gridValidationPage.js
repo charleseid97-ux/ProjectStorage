@@ -1,7 +1,12 @@
 import { LightningElement, api, track } from 'lwc';
+import { loadScript } from 'lightning/platformResourceLoader';
 import getProducts from '@salesforce/apex/GridValidationController.getProducts';
+import getSimulationData from '@salesforce/apex/GridSimulationController.getSimulationData';
+import getAgreementRegion from '@salesforce/apex/GridSimulationController.getAgreementRegion';
+import XlsxJsStyle from '@salesforce/resourceUrl/xlsxjsstyle';
+import ExcelJs from '@salesforce/resourceUrl/exceljs';
 import {LABELS, reduceError, showToast, buildShareClassGridIdMap, buildProductGridOptions, buildResultColumnsList, updateCriteriaListWithIsins,
-    addIsinExclusionsFromRows} from 'c/gridBuilderUtils';
+    addIsinExclusionsFromRows, exportGridDetailsExcel} from 'c/gridBuilderUtils';
 
 export default class GridValidationPage extends LightningElement {
     @api gridBuilderSettingName = 'CustomGridBuilderSetting';
@@ -13,6 +18,10 @@ export default class GridValidationPage extends LightningElement {
     @api agreementNames;
     @api gridShareClassMap = {};
     @api existingGridId = null;
+    @api simulationAccessDenied = false;
+
+    _sheetJsLoaded = false;
+    _excelJsLoaded = false;
 
     @track validationProducts = [];
     @track validationColumns = [];
@@ -57,6 +66,18 @@ export default class GridValidationPage extends LightningElement {
         this.runValidation();
     }
 
+    // ── Script loading for Excel export (only when simulation step is hidden) ──
+    renderedCallback() {
+        if (!this.simulationAccessDenied) return;
+        if (!this._sheetJsLoaded) {
+            this._sheetJsLoaded = true;
+            loadScript(this, XlsxJsStyle).catch(e => console.error('XlsxJsStyle load error:', e));
+        }
+        if (!this._excelJsLoaded) {
+            this._excelJsLoaded = true;
+            loadScript(this, ExcelJs).catch(e => console.error('ExcelJS load error:', e));
+        }
+    }
 
     async runValidation() {
         const idsKey = (this.selectedShareClasses || []).map(r => `${r.id}:${r.gridId || ''}`).join(',') + '|' + (this.selectedAgreements || []).join(',');
@@ -414,5 +435,62 @@ export default class GridValidationPage extends LightningElement {
 
     handleViewRecap() {
         this.dispatchEvent(new CustomEvent('viewrecap'));
+    }
+
+    // ── Action buttons (Save / Submit / Export) shown when sim step is hidden ──
+    handleSaveGrid() {
+        this.dispatchEvent(new CustomEvent('savegrid'));
+    }
+
+    handleSubmitForApproval() {
+        this.dispatchEvent(new CustomEvent('submitforapproval'));
+    }
+
+    async handleExportFromValidation() {
+        this.isLoading = true;
+        try {
+            const shareClassIds = (this.selectedShareClasses || []).map(sc => sc.id);
+            const scGridMap = {};
+            const map = this.gridShareClassMap || {};
+            Object.keys(map).forEach(gridId => {
+                (map[gridId] || []).forEach(scId => { scGridMap[scId] = gridId; });
+            });
+
+            const [raw, region] = await Promise.all([
+                getSimulationData({
+                    shareClassIds,
+                    agreementIds: this.selectedAgreements || [],
+                    shareClassGridIdMapJson: JSON.stringify(scGridMap)
+                }),
+                getAgreementRegion({ agreementIds: this.selectedAgreements || [] })
+            ]);
+
+            const rows = (raw || []).map(r => {
+                const effFee = parseFloat(r.effMgtFees) || 0;
+                const rebRate = parseFloat(r.rebateRate) || 0;
+                const aum = parseFloat(r.aum) || 0;
+                return {
+                    ...r,
+                    rowStatus: 'both',
+                    hasSimulatedData: true,
+                    simEffFee: effFee,
+                    simRebRate: rebRate,
+                    newAum: aum,
+                    additionalMoney: 0
+                };
+            });
+
+            await exportGridDetailsExcel({
+                component: this,
+                agreementRegion: region,
+                rows,
+                source: 'simulation',
+                labels: this.labels
+            });
+        } catch (e) {
+            showToast(this, this.labels.UI_Error, e?.body?.message || e?.message, 'error');
+        } finally {
+            this.isLoading = false;
+        }
     }
 }
