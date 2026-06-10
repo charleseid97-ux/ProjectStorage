@@ -161,6 +161,10 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>SM034_AgreementService</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>ShareClassCustomGridBatch</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -170,10 +174,6 @@
     </classAccesses>
     <classAccesses>
         <apexClass>ShareClassStandardGridBatch</apexClass>
-        <enabled>true</enabled>
-    </classAccesses>
-    <classAccesses>
-        <apexClass>SM034_AgreementService</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
@@ -220,6 +220,14 @@
         <enabled>true</enabled>
         <name>StandardGridRecapRule__mdt</name>
     </customMetadataTypeAccesses>
+    <customPermissions>
+        <enabled>true</enabled>
+        <name>Grid_AccessGridComparison</name>
+    </customPermissions>
+    <customPermissions>
+        <enabled>true</enabled>
+        <name>Grid_AccessGridSimulation</name>
+    </customPermissions>
     <description>Grants full access to the Grid Builder feature, including the Grid app, related objects, Apex classes, and supporting components</description>
     <fieldPermissions>
         <editable>true</editable>

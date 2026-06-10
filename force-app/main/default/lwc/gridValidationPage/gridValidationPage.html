@@ -11,6 +11,11 @@
                 <lightning-button label={toggleAllLabel} variant="neutral" onclick={handleToggleAllSections}></lightning-button>
             </div>
             <div class="validation-controls-right">
+                <template if:true={simulationAccessDenied}>
+                    <lightning-button label={labels.Grid_SaveGrid} variant="brand" onclick={handleSaveGrid}></lightning-button>
+                    <lightning-button label={labels.Grid_SubmitForApproval} variant="brand" onclick={handleSubmitForApproval}></lightning-button>
+                    <lightning-button label="Export Excel" icon-name="utility:download" variant="neutral" onclick={handleExportFromValidation}></lightning-button>
+                </template>
                 <lightning-button label={labels.Grid_ViewExcludedProducts} variant="neutral" onclick={handleViewRecap}></lightning-button>
             </div>
         </div>

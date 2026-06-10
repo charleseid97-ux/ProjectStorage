@@ -470,6 +470,11 @@
 		<name>LightningComponentBundle</name>
 	</types>
 	<types>
+		<members>Grid_AccessGridSimulation</members>
+		<members>Grid_AccessGridComparison</members>
+		<name>CustomPermission</name>
+	</types>
+	<types>
 		<members>GridBuilderPermissions</members>
 		<members>GridImportPermissions</members>
 		<members>GridDataReadPermission</members>

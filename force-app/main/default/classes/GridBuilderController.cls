@@ -89,6 +89,11 @@ public with sharing class GridBuilderController {
         return [SELECT Name FROM Profile WHERE Id = :UserInfo.getProfileId() LIMIT 1].Name;
     }
 
+    @AuraEnabled(cacheable=true)
+    public static Boolean hasGridSimulationPermission() {
+        return FeatureManagement.checkPermission('Grid_AccessGridSimulation');
+    }
+
     private static String buildAgreementWhereClause(String agreementId, String userPrimaryTeam, List<String> userSecondaryTeams, String agreementQueryConditions) {
         String agreementWhere = '';
         // Redirection from Agreement directly
