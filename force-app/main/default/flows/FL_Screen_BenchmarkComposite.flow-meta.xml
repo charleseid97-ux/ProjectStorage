@@ -1,18 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Flow xmlns="http://soap.sforce.com/2006/04/metadata">
     <apiVersion>63.0</apiVersion>
+    <areMetricsLoggedToDataCloud>false</areMetricsLoggedToDataCloud>
     <assignments>
         <name>Assign_Values</name>
         <label>Assign Values</label>
-        <locationX>182</locationX>
+        <locationX>446</locationX>
         <locationY>350</locationY>
-        <assignmentItems>
-            <assignToReference>tempBenchmark.RebalancingFrequency__c</assignToReference>
-            <operator>Assign</operator>
-            <value>
-                <elementReference>RebalancingFrequency</elementReference>
-            </value>
-        </assignmentItems>
         <assignmentItems>
             <assignToReference>tempBenchmark.Name</assignToReference>
             <operator>Assign</operator>
@@ -42,14 +36,43 @@
             </value>
         </assignmentItems>
         <connector>
-            <targetReference>Decision_1</targetReference>
+            <targetReference>Number_of_index_filled</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <name>Assign_Values_Rebalancing_Frequency</name>
+        <label>Assign Values Rebalancing Frequency to NONE</label>
+        <locationX>314</locationX>
+        <locationY>566</locationY>
+        <assignmentItems>
+            <assignToReference>tempBenchmark.RebalancingFrequency__c</assignToReference>
+            <operator>Assign</operator>
+        </assignmentItems>
+        <connector>
+            <targetReference>SC02BenchmarkName</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <name>Copy_2_of_Assign_Values_Rebalancing_Frequency</name>
+        <label>Assign Values Rebalancing Frequency to QUARTERLY</label>
+        <locationX>578</locationX>
+        <locationY>566</locationY>
+        <assignmentItems>
+            <assignToReference>tempBenchmark.RebalancingFrequency__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <stringValue>Quarterly</stringValue>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>SC02BenchmarkName</targetReference>
         </connector>
     </assignments>
     <assignments>
         <name>EmplyVAR</name>
         <label>EmplyVAR</label>
         <locationX>50</locationX>
-        <locationY>674</locationY>
+        <locationY>458</locationY>
         <assignmentItems>
             <assignToReference>tempBenchmark</assignToReference>
             <operator>Assign</operator>
@@ -59,61 +82,73 @@
             <targetReference>SC01_INPUTS</targetReference>
         </connector>
     </assignments>
-    <choices>
-        <name>Annually</name>
-        <choiceText>Annually</choiceText>
-        <dataType>String</dataType>
-        <value>
-            <stringValue>Annually</stringValue>
-        </value>
-    </choices>
-    <choices>
-        <name>Daily</name>
-        <choiceText>Daily</choiceText>
-        <dataType>String</dataType>
-        <value>
-            <stringValue>Daily</stringValue>
-        </value>
-    </choices>
-    <choices>
-        <name>Monthly</name>
-        <choiceText>Monthly</choiceText>
-        <dataType>String</dataType>
-        <value>
-            <stringValue>Monthly</stringValue>
-        </value>
-    </choices>
-    <choices>
-        <name>Quarterly</name>
-        <choiceText>Quarterly</choiceText>
-        <dataType>String</dataType>
-        <value>
-            <stringValue>Quarterly</stringValue>
-        </value>
-    </choices>
-    <choices>
-        <name>Weekly</name>
-        <choiceText>Weekly</choiceText>
-        <dataType>String</dataType>
-        <value>
-            <stringValue>Weekly</stringValue>
-        </value>
-    </choices>
-    <choices>
-        <name>Yearly</name>
-        <choiceText>Yearly</choiceText>
-        <dataType>String</dataType>
-        <value>
-            <stringValue>Yearly</stringValue>
-        </value>
-    </choices>
     <decisions>
-        <name>Decision_1</name>
-        <label>Decision 1</label>
-        <locationX>182</locationX>
+        <name>Number_of_index_filled</name>
+        <label>Number of index filled</label>
+        <locationX>446</locationX>
         <locationY>458</locationY>
         <defaultConnector>
-            <targetReference>Create_Benchmark_Record</targetReference>
+            <targetReference>Copy_2_of_Assign_Values_Rebalancing_Frequency</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>More than 1</defaultConnectorLabel>
+        <rules>
+            <name>equal_1</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>SearchIndexrep.recordId</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>SearchIndexrep2.recordId</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>SearchIndexrep3.recordId</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>SearchIndexrep4.recordId</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>SearchIndexrep5.recordId</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>SearchIndexrep6.recordId</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Assign_Values_Rebalancing_Frequency</targetReference>
+            </connector>
+            <label>equal 1</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <name>Weight_Sum</name>
+        <label>Weight Sum</label>
+        <locationX>248</locationX>
+        <locationY>242</locationY>
+        <defaultConnector>
+            <targetReference>Assign_Values</targetReference>
         </defaultConnector>
         <defaultConnectorLabel>= 100%</defaultConnectorLabel>
         <rules>
@@ -138,32 +173,32 @@ It guides the user step-by-step to select components, assign weights, and genera
     <formulas>
         <name>Comp3</name>
         <dataType>String</dataType>
-        <expression>TEXT({!Weight3})&amp;&apos;%&apos; &amp;&quot; &quot;&amp; {!SearchIndexrep3.recordName}</expression>
+        <expression>TEXT({!Weight3})&amp;&apos;%&apos; &amp;&quot;-&quot;&amp; {!SearchIndexrep3.recordName}</expression>
     </formulas>
     <formulas>
         <name>Comp4</name>
         <dataType>String</dataType>
-        <expression>TEXT({!Weight4})&amp;&apos;%&apos; &amp;&quot; &quot;&amp; {!SearchIndexrep4.recordName}</expression>
+        <expression>TEXT({!Weight4})&amp;&apos;%&apos; &amp;&quot;-&quot;&amp; {!SearchIndexrep4.recordName}</expression>
     </formulas>
     <formulas>
         <name>Comp5</name>
         <dataType>String</dataType>
-        <expression>TEXT({!Weight5})&amp;&apos;%&apos; &amp;&quot; &quot;&amp; {!SearchIndexrep5.recordName}</expression>
+        <expression>TEXT({!Weight5})&amp;&apos;%&apos; &amp;&quot;-&quot;&amp; {!SearchIndexrep5.recordName}</expression>
     </formulas>
     <formulas>
         <name>Comp6</name>
         <dataType>String</dataType>
-        <expression>TEXT({!Weight6})&amp;&apos;%&apos; &amp;&quot; &quot;&amp; {!SearchIndexrep6.recordName}</expression>
+        <expression>TEXT({!Weight6})&amp;&apos;%&apos; &amp;&quot;-&quot;&amp; {!SearchIndexrep6.recordName}</expression>
     </formulas>
     <formulas>
         <name>Compo1</name>
         <dataType>String</dataType>
-        <expression>TEXT({!Weight1})&amp;&apos;%&apos; &amp;&quot; &quot;&amp; {!SearchIndexrep.recordName}</expression>
+        <expression>TEXT({!Weight1})&amp;&apos;%&apos; &amp;&quot;-&quot;&amp; {!SearchIndexrep.recordName}</expression>
     </formulas>
     <formulas>
         <name>Compo2</name>
         <dataType>String</dataType>
-        <expression>TEXT({!Weight2})&amp;&apos;%&apos; &amp;&quot; &quot;&amp; {!SearchIndexrep2.recordName}</expression>
+        <expression>TEXT({!Weight2})&amp;&apos;%&apos; &amp;&quot;-&quot;&amp; {!SearchIndexrep2.recordName}</expression>
     </formulas>
     <formulas>
         <description>index recordid + weight</description>
@@ -225,8 +260,8 @@ NOT (ISBLANK( {!Weight6})), ( {!Weight1}+{!Weight2}+ {!Weight3} +{!Weight4}+{!We
     <recordCreates>
         <name>Create_Benchmark_Record</name>
         <label>Create Benchmark Record</label>
-        <locationX>314</locationX>
-        <locationY>566</locationY>
+        <locationX>446</locationX>
+        <locationY>866</locationY>
         <connector>
             <targetReference>Link_to_Project</targetReference>
         </connector>
@@ -235,8 +270,8 @@ NOT (ISBLANK( {!Weight6})), ( {!Weight1}+{!Weight2}+ {!Weight3} +{!Weight4}+{!We
     <recordUpdates>
         <name>Link_to_Project</name>
         <label>Link to Project</label>
-        <locationX>314</locationX>
-        <locationY>674</locationY>
+        <locationX>446</locationX>
+        <locationY>974</locationY>
         <connector>
             <targetReference>Success_Screen</targetReference>
         </connector>
@@ -260,7 +295,7 @@ NOT (ISBLANK( {!Weight6})), ( {!Weight1}+{!Weight2}+ {!Weight3} +{!Weight4}+{!We
         <name>Error_Screen</name>
         <label>Error Screen</label>
         <locationX>50</locationX>
-        <locationY>566</locationY>
+        <locationY>350</locationY>
         <allowBack>false</allowBack>
         <allowFinish>true</allowFinish>
         <allowPause>false</allowPause>
@@ -271,6 +306,14 @@ NOT (ISBLANK( {!Weight6})), ( {!Weight1}+{!Weight2}+ {!Weight3} +{!Weight4}+{!We
             <name>Errormessage</name>
             <fieldText>&lt;p&gt;&lt;strong style=&quot;background-color: rgb(255, 255, 255); color: rgb(68, 68, 68);&quot;&gt;The sum of the provided Weights does not equal 100%, please try again.&lt;/strong&gt;&lt;/p&gt;</fieldText>
             <fieldType>DisplayText</fieldType>
+            <styleProperties>
+                <verticalAlignment>
+                    <stringValue>top</stringValue>
+                </verticalAlignment>
+                <width>
+                    <stringValue>12</stringValue>
+                </width>
+            </styleProperties>
         </fields>
         <nextOrFinishButtonLabel>Try Again</nextOrFinishButtonLabel>
         <showFooter>true</showFooter>
@@ -279,18 +322,26 @@ NOT (ISBLANK( {!Weight6})), ( {!Weight1}+{!Weight2}+ {!Weight3} +{!Weight4}+{!We
     <screens>
         <name>SC01_INPUTS</name>
         <label>SC01_INPUTS</label>
-        <locationX>182</locationX>
+        <locationX>248</locationX>
         <locationY>134</locationY>
         <allowBack>false</allowBack>
         <allowFinish>true</allowFinish>
         <allowPause>false</allowPause>
         <connector>
-            <targetReference>SC02BenchmarkName</targetReference>
+            <targetReference>Weight_Sum</targetReference>
         </connector>
         <fields>
             <name>Guidelines</name>
-            <fieldText>&lt;p&gt;&lt;strong style=&quot;color: rgb(218, 44, 44);&quot;&gt;﻿&lt;/strong&gt;&lt;strong&gt;Please compose your benchmark :&lt;/strong&gt;&lt;/p&gt;&lt;ul&gt;&lt;li&gt;&lt;strong&gt;Search the correct Index&lt;/strong&gt;&lt;/li&gt;&lt;li&gt;&lt;strong&gt;Assign the weight&lt;/strong&gt;&lt;/li&gt;&lt;li&gt;&lt;strong&gt;Provide the Start Date, End Date and Rebalancing Fraquency&lt;/strong&gt;&lt;/li&gt;&lt;/ul&gt;&lt;p&gt;&lt;strong style=&quot;color: rgb(224, 33, 33);&quot;&gt;Please note the sum of all weights must equal 100%.&lt;/strong&gt;&lt;/p&gt;</fieldText>
+            <fieldText>&lt;p&gt;&lt;strong style=&quot;color: rgb(218, 44, 44);&quot;&gt;﻿&lt;/strong&gt;&lt;strong&gt;Please compose your benchmark :&lt;/strong&gt;&lt;/p&gt;&lt;ul&gt;&lt;li&gt;&lt;strong&gt;Search the correct Index&lt;/strong&gt;&lt;/li&gt;&lt;li&gt;&lt;strong&gt;Assign the weight&lt;/strong&gt;&lt;/li&gt;&lt;/ul&gt;&lt;p&gt;&lt;strong style=&quot;color: rgb(224, 33, 33);&quot;&gt;Please note the sum of all weights must equal 100%.&lt;/strong&gt;&lt;/p&gt;</fieldText>
             <fieldType>DisplayText</fieldType>
+            <styleProperties>
+                <verticalAlignment>
+                    <stringValue>top</stringValue>
+                </verticalAlignment>
+                <width>
+                    <stringValue>12</stringValue>
+                </width>
+            </styleProperties>
         </fields>
         <fields>
             <name>General_Information</name>
@@ -300,25 +351,19 @@ NOT (ISBLANK( {!Weight6})), ( {!Weight1}+{!Weight2}+ {!Weight3} +{!Weight4}+{!We
                 <name>General_Information_Column1</name>
                 <fieldType>Region</fieldType>
                 <fields>
-                    <name>RebalancingFrequency</name>
-                    <choiceReferences>Yearly</choiceReferences>
-                    <choiceReferences>Quarterly</choiceReferences>
-                    <choiceReferences>Monthly</choiceReferences>
-                    <choiceReferences>Weekly</choiceReferences>
-                    <choiceReferences>Daily</choiceReferences>
-                    <dataType>String</dataType>
-                    <fieldText>Rebalancing Frequency</fieldText>
-                    <fieldType>DropdownBox</fieldType>
-                    <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
-                    <isRequired>true</isRequired>
-                </fields>
-                <fields>
                     <name>DescriptionField</name>
                     <dataType>String</dataType>
                     <fieldText>Description</fieldText>
                     <fieldType>InputField</fieldType>
-                    <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
                     <isRequired>false</isRequired>
+                    <styleProperties>
+                        <verticalAlignment>
+                            <stringValue>top</stringValue>
+                        </verticalAlignment>
+                        <width>
+                            <stringValue>12</stringValue>
+                        </width>
+                    </styleProperties>
                 </fields>
                 <inputParameters>
                     <name>width</name>
@@ -330,6 +375,14 @@ NOT (ISBLANK( {!Weight6})), ( {!Weight1}+{!Weight2}+ {!Weight3} +{!Weight4}+{!We
             </fields>
             <isRequired>false</isRequired>
             <regionContainerType>SectionWithHeader</regionContainerType>
+            <styleProperties>
+                <verticalAlignment>
+                    <stringValue>top</stringValue>
+                </verticalAlignment>
+                <width>
+                    <stringValue>12</stringValue>
+                </width>
+            </styleProperties>
         </fields>
         <fields>
             <name>Details</name>
@@ -360,9 +413,23 @@ NOT (ISBLANK( {!Weight6})), ( {!Weight1}+{!Weight2}+ {!Weight3} +{!Weight4}+{!We
                             <stringValue>Benchmark__c</stringValue>
                         </value>
                     </inputParameters>
+                    <inputParameters>
+                        <name>recordId</name>
+                        <value>
+                            <elementReference>SearchIndexrep.recordId</elementReference>
+                        </value>
+                    </inputParameters>
                     <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
                     <isRequired>true</isRequired>
                     <storeOutputAutomatically>true</storeOutputAutomatically>
+                    <styleProperties>
+                        <verticalAlignment>
+                            <stringValue>top</stringValue>
+                        </verticalAlignment>
+                        <width>
+                            <stringValue>12</stringValue>
+                        </width>
+                    </styleProperties>
                 </fields>
                 <fields>
                     <name>SearchIndexrep2</name>
@@ -386,9 +453,23 @@ NOT (ISBLANK( {!Weight6})), ( {!Weight1}+{!Weight2}+ {!Weight3} +{!Weight4}+{!We
                             <stringValue>Benchmark__c</stringValue>
                         </value>
                     </inputParameters>
+                    <inputParameters>
+                        <name>recordId</name>
+                        <value>
+                            <elementReference>SearchIndexrep2.recordId</elementReference>
+                        </value>
+                    </inputParameters>
                     <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
                     <isRequired>true</isRequired>
                     <storeOutputAutomatically>true</storeOutputAutomatically>
+                    <styleProperties>
+                        <verticalAlignment>
+                            <stringValue>top</stringValue>
+                        </verticalAlignment>
+                        <width>
+                            <stringValue>12</stringValue>
+                        </width>
+                    </styleProperties>
                     <visibilityRule>
                         <conditionLogic>and</conditionLogic>
                         <conditions>
@@ -419,9 +500,23 @@ NOT (ISBLANK( {!Weight6})), ( {!Weight1}+{!Weight2}+ {!Weight3} +{!Weight4}+{!We
                             <stringValue>Benchmark__c</stringValue>
                         </value>
                     </inputParameters>
+                    <inputParameters>
+                        <name>recordId</name>
+                        <value>
+                            <elementReference>SearchIndexrep3.recordId</elementReference>
+                        </value>
+                    </inputParameters>
                     <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
                     <isRequired>true</isRequired>
                     <storeOutputAutomatically>true</storeOutputAutomatically>
+                    <styleProperties>
+                        <verticalAlignment>
+                            <stringValue>top</stringValue>
+                        </verticalAlignment>
+                        <width>
+                            <stringValue>12</stringValue>
+                        </width>
+                    </styleProperties>
                     <visibilityRule>
                         <conditionLogic>and</conditionLogic>
                         <conditions>
@@ -452,9 +547,23 @@ NOT (ISBLANK( {!Weight6})), ( {!Weight1}+{!Weight2}+ {!Weight3} +{!Weight4}+{!We
                             <stringValue>Benchmark__c</stringValue>
                         </value>
                     </inputParameters>
+                    <inputParameters>
+                        <name>recordId</name>
+                        <value>
+                            <elementReference>SearchIndexrep4.recordId</elementReference>
+                        </value>
+                    </inputParameters>
                     <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
                     <isRequired>true</isRequired>
                     <storeOutputAutomatically>true</storeOutputAutomatically>
+                    <styleProperties>
+                        <verticalAlignment>
+                            <stringValue>top</stringValue>
+                        </verticalAlignment>
+                        <width>
+                            <stringValue>12</stringValue>
+                        </width>
+                    </styleProperties>
                     <visibilityRule>
                         <conditionLogic>and</conditionLogic>
                         <conditions>
@@ -485,9 +594,23 @@ NOT (ISBLANK( {!Weight6})), ( {!Weight1}+{!Weight2}+ {!Weight3} +{!Weight4}+{!We
                             <stringValue>Benchmark__c</stringValue>
                         </value>
                     </inputParameters>
+                    <inputParameters>
+                        <name>recordId</name>
+                        <value>
+                            <elementReference>SearchIndexrep5.recordId</elementReference>
+                        </value>
+                    </inputParameters>
                     <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
                     <isRequired>true</isRequired>
                     <storeOutputAutomatically>true</storeOutputAutomatically>
+                    <styleProperties>
+                        <verticalAlignment>
+                            <stringValue>top</stringValue>
+                        </verticalAlignment>
+                        <width>
+                            <stringValue>12</stringValue>
+                        </width>
+                    </styleProperties>
                     <visibilityRule>
                         <conditionLogic>and</conditionLogic>
                         <conditions>
@@ -518,9 +641,23 @@ NOT (ISBLANK( {!Weight6})), ( {!Weight1}+{!Weight2}+ {!Weight3} +{!Weight4}+{!We
                             <stringValue>Benchmark__c</stringValue>
                         </value>
                     </inputParameters>
+                    <inputParameters>
+                        <name>recordId</name>
+                        <value>
+                            <elementReference>SearchIndexrep6.recordId</elementReference>
+                        </value>
+                    </inputParameters>
                     <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
                     <isRequired>true</isRequired>
                     <storeOutputAutomatically>true</storeOutputAutomatically>
+                    <styleProperties>
+                        <verticalAlignment>
+                            <stringValue>top</stringValue>
+                        </verticalAlignment>
+                        <width>
+                            <stringValue>12</stringValue>
+                        </width>
+                    </styleProperties>
                     <visibilityRule>
                         <conditionLogic>and</conditionLogic>
                         <conditions>
@@ -543,20 +680,40 @@ NOT (ISBLANK( {!Weight6})), ( {!Weight1}+{!Weight2}+ {!Weight3} +{!Weight4}+{!We
                 <fields>
                     <name>Weight1</name>
                     <dataType>Number</dataType>
+                    <defaultValue>
+                        <elementReference>Weight1</elementReference>
+                    </defaultValue>
                     <fieldText>Weight (in %)</fieldText>
                     <fieldType>InputField</fieldType>
-                    <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
-                    <isRequired>false</isRequired>
+                    <isRequired>true</isRequired>
                     <scale>0</scale>
+                    <styleProperties>
+                        <verticalAlignment>
+                            <stringValue>top</stringValue>
+                        </verticalAlignment>
+                        <width>
+                            <stringValue>12</stringValue>
+                        </width>
+                    </styleProperties>
                 </fields>
                 <fields>
                     <name>Weight2</name>
                     <dataType>Number</dataType>
+                    <defaultValue>
+                        <elementReference>Weight2</elementReference>
+                    </defaultValue>
                     <fieldText>Weight (in %)</fieldText>
                     <fieldType>InputField</fieldType>
-                    <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
                     <isRequired>false</isRequired>
                     <scale>0</scale>
+                    <styleProperties>
+                        <verticalAlignment>
+                            <stringValue>top</stringValue>
+                        </verticalAlignment>
+                        <width>
+                            <stringValue>12</stringValue>
+                        </width>
+                    </styleProperties>
                     <visibilityRule>
                         <conditionLogic>and</conditionLogic>
                         <conditions>
@@ -568,11 +725,21 @@ NOT (ISBLANK( {!Weight6})), ( {!Weight1}+{!Weight2}+ {!Weight3} +{!Weight4}+{!We
                 <fields>
                     <name>Weight3</name>
                     <dataType>Number</dataType>
+                    <defaultValue>
+                        <elementReference>Weight3</elementReference>
+                    </defaultValue>
                     <fieldText>Weight (in %)</fieldText>
                     <fieldType>InputField</fieldType>
-                    <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
                     <isRequired>false</isRequired>
                     <scale>0</scale>
+                    <styleProperties>
+                        <verticalAlignment>
+                            <stringValue>top</stringValue>
+                        </verticalAlignment>
+                        <width>
+                            <stringValue>12</stringValue>
+                        </width>
+                    </styleProperties>
                     <visibilityRule>
                         <conditionLogic>and</conditionLogic>
                         <conditions>
@@ -584,11 +751,21 @@ NOT (ISBLANK( {!Weight6})), ( {!Weight1}+{!Weight2}+ {!Weight3} +{!Weight4}+{!We
                 <fields>
                     <name>Weight4</name>
                     <dataType>Number</dataType>
+                    <defaultValue>
+                        <elementReference>Weight4</elementReference>
+                    </defaultValue>
                     <fieldText>Weight (in %)</fieldText>
                     <fieldType>InputField</fieldType>
-                    <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
                     <isRequired>false</isRequired>
                     <scale>0</scale>
+                    <styleProperties>
+                        <verticalAlignment>
+                            <stringValue>top</stringValue>
+                        </verticalAlignment>
+                        <width>
+                            <stringValue>12</stringValue>
+                        </width>
+                    </styleProperties>
                     <visibilityRule>
                         <conditionLogic>and</conditionLogic>
                         <conditions>
@@ -600,11 +777,21 @@ NOT (ISBLANK( {!Weight6})), ( {!Weight1}+{!Weight2}+ {!Weight3} +{!Weight4}+{!We
                 <fields>
                     <name>Weight5</name>
                     <dataType>Number</dataType>
+                    <defaultValue>
+                        <elementReference>Weight5</elementReference>
+                    </defaultValue>
                     <fieldText>Weight (in %)</fieldText>
                     <fieldType>InputField</fieldType>
-                    <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
                     <isRequired>false</isRequired>
                     <scale>0</scale>
+                    <styleProperties>
+                        <verticalAlignment>
+                            <stringValue>top</stringValue>
+                        </verticalAlignment>
+                        <width>
+                            <stringValue>12</stringValue>
+                        </width>
+                    </styleProperties>
                     <visibilityRule>
                         <conditionLogic>and</conditionLogic>
                         <conditions>
@@ -616,11 +803,21 @@ NOT (ISBLANK( {!Weight6})), ( {!Weight1}+{!Weight2}+ {!Weight3} +{!Weight4}+{!We
                 <fields>
                     <name>Weight6</name>
                     <dataType>Number</dataType>
+                    <defaultValue>
+                        <elementReference>Weight6</elementReference>
+                    </defaultValue>
                     <fieldText>Weight (in %)</fieldText>
                     <fieldType>InputField</fieldType>
-                    <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
                     <isRequired>false</isRequired>
                     <scale>0</scale>
+                    <styleProperties>
+                        <verticalAlignment>
+                            <stringValue>top</stringValue>
+                        </verticalAlignment>
+                        <width>
+                            <stringValue>12</stringValue>
+                        </width>
+                    </styleProperties>
                     <visibilityRule>
                         <conditionLogic>and</conditionLogic>
                         <conditions>
@@ -639,6 +836,14 @@ NOT (ISBLANK( {!Weight6})), ( {!Weight1}+{!Weight2}+ {!Weight3} +{!Weight4}+{!We
             </fields>
             <isRequired>false</isRequired>
             <regionContainerType>SectionWithHeader</regionContainerType>
+            <styleProperties>
+                <verticalAlignment>
+                    <stringValue>top</stringValue>
+                </verticalAlignment>
+                <width>
+                    <stringValue>12</stringValue>
+                </width>
+            </styleProperties>
         </fields>
         <helpText>&lt;p&gt;Please &lt;/p&gt;</helpText>
         <showFooter>true</showFooter>
@@ -647,18 +852,26 @@ NOT (ISBLANK( {!Weight6})), ( {!Weight1}+{!Weight2}+ {!Weight3} +{!Weight4}+{!We
     <screens>
         <name>SC02BenchmarkName</name>
         <label>SC02BenchmarkName</label>
-        <locationX>182</locationX>
-        <locationY>242</locationY>
+        <locationX>446</locationX>
+        <locationY>758</locationY>
         <allowBack>true</allowBack>
         <allowFinish>true</allowFinish>
         <allowPause>false</allowPause>
         <connector>
-            <targetReference>Assign_Values</targetReference>
+            <targetReference>Create_Benchmark_Record</targetReference>
         </connector>
         <fields>
             <name>NameCheck</name>
             <fieldText>&lt;p&gt;&lt;strong&gt;Please check the Benchmark Label and make corrections if required : &lt;/strong&gt;&lt;/p&gt;</fieldText>
             <fieldType>DisplayText</fieldType>
+            <styleProperties>
+                <verticalAlignment>
+                    <stringValue>top</stringValue>
+                </verticalAlignment>
+                <width>
+                    <stringValue>12</stringValue>
+                </width>
+            </styleProperties>
         </fields>
         <fields>
             <name>Benchmark_Label</name>
@@ -668,8 +881,15 @@ NOT (ISBLANK( {!Weight6})), ( {!Weight1}+{!Weight2}+ {!Weight3} +{!Weight4}+{!We
             </defaultValue>
             <fieldText>Benchmark Label</fieldText>
             <fieldType>InputField</fieldType>
-            <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
             <isRequired>true</isRequired>
+            <styleProperties>
+                <verticalAlignment>
+                    <stringValue>top</stringValue>
+                </verticalAlignment>
+                <width>
+                    <stringValue>12</stringValue>
+                </width>
+            </styleProperties>
         </fields>
         <showFooter>true</showFooter>
         <showHeader>false</showHeader>
@@ -677,8 +897,8 @@ NOT (ISBLANK( {!Weight6})), ( {!Weight1}+{!Weight2}+ {!Weight3} +{!Weight4}+{!We
     <screens>
         <name>Success_Screen</name>
         <label>Success Screen</label>
-        <locationX>314</locationX>
-        <locationY>782</locationY>
+        <locationX>446</locationX>
+        <locationY>1082</locationY>
         <allowBack>false</allowBack>
         <allowFinish>true</allowFinish>
         <allowPause>false</allowPause>
@@ -686,18 +906,26 @@ NOT (ISBLANK( {!Weight6})), ( {!Weight1}+{!Weight2}+ {!Weight3} +{!Weight4}+{!We
             <name>SuccessMessage</name>
             <fieldText>&lt;p&gt;Success! The new benchmark was created : &lt;strong&gt;{!Benchmark_Label}&lt;/strong&gt;&lt;/p&gt;</fieldText>
             <fieldType>DisplayText</fieldType>
+            <styleProperties>
+                <verticalAlignment>
+                    <stringValue>top</stringValue>
+                </verticalAlignment>
+                <width>
+                    <stringValue>12</stringValue>
+                </width>
+            </styleProperties>
         </fields>
         <showFooter>true</showFooter>
         <showHeader>false</showHeader>
     </screens>
     <start>
-        <locationX>56</locationX>
+        <locationX>122</locationX>
         <locationY>0</locationY>
         <connector>
             <targetReference>SC01_INPUTS</targetReference>
         </connector>
     </start>
-    <status>Active</status>
+    <status>Obsolete</status>
     <textTemplates>
         <name>BenchmarkLabelTemplate</name>
         <isViewedAsPlainText>true</isViewedAsPlainText>
@@ -748,14 +976,6 @@ NOT (ISBLANK( {!Weight6})), ( {!Weight1}+{!Weight2}+ {!Weight3} +{!Weight4}+{!We
         <isCollection>false</isCollection>
         <isInput>true</isInput>
         <isOutput>true</isOutput>
-    </variables>
-    <variables>
-        <name>SumofWeight</name>
-        <dataType>Number</dataType>
-        <isCollection>false</isCollection>
-        <isInput>false</isInput>
-        <isOutput>false</isOutput>
-        <scale>0</scale>
     </variables>
     <variables>
         <name>tempBenchmark</name>
