@@ -31,6 +31,7 @@ public with sharing class GridValidationController {
             for (AggregateResult ar : [SELECT ShareClass__c scId, SUM(AmountEUR__c) totalAmount
                                        FROM AUM__c
                                        WHERE Convention__c IN :agreementIds
+                                       AND Last_AUM__c = true
                                        GROUP BY ShareClass__c]) {
                 aumByShareClass.put((Id)ar.get('scId'), GridBuilderHelper.formatAum((Decimal)ar.get('totalAmount')));
             }
