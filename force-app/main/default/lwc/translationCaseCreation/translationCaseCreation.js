@@ -342,7 +342,7 @@ export default class TranslationCaseCreation extends NavigationMixin(
 
         this.sourceLanguageValue = "English";
 
-        const languages = ["English", "Dutch", "Spanish"];
+        const languages = ["German", "Italian", "Spanish"];
         let tmpSelectedTLang = [];
 
         this.pickListTargetLang.forEach((element) => {
