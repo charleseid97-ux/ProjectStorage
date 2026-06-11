@@ -336,7 +336,30 @@ export default class TranslationCaseCreation extends NavigationMixin(
     }
     this.docType = event.target.value;
 
-    if (
+    if (this.docType === "Pitchbook") {
+        this.isPressRelease = false;
+        this.isMonthlyComm = false;
+
+        this.sourceLanguageValue = "English";
+
+        const languages = ["English", "Dutch", "Spanish"];
+        let tmpSelectedTLang = [];
+
+        this.pickListTargetLang.forEach((element) => {
+            if (languages.includes(element.value)) {
+                tmpSelectedTLang.push(element.value);
+            }
+        });
+
+        if (this.isTransOnly) {
+            this.selectedLanguagesTrans = [...tmpSelectedTLang];
+            this.selectedLanguages = [];
+        } else {
+            this.selectedLanguages = [...tmpSelectedTLang];
+            this.selectedLanguagesTrans = [];
+        }
+
+    } else if (
       this.docType === "Press Release" &&
       (this.isTransOnly || this.isPubAndTrans)
     ) {
