@@ -475,12 +475,20 @@
 	<types>
 		<members>Grid_AccessGridSimulation</members>
 		<members>Grid_AccessGridComparison</members>
+		<members>Grid_AccessGridDetails</members>
+		<members>Grid_AccessGridBuilder</members>
+		<members>Grid_AcessGridAmendmentRequest</members>
 		<name>CustomPermission</name>
 	</types>
 	<types>
 		<members>GridBuilderPermissions</members>
 		<members>GridImportPermissions</members>
 		<members>GridDataReadPermission</members>
+		<members>Grid_BaseAccess</members>
+		<members>Grid_AccessGridSimulation</members>
+		<members>Grid_AccessGridComparison</members>
+		<members>Grid_AccessGridBuilder</members>
+		<members>Grid_AccessGridAmendment</members>
 		<name>PermissionSet</name>
 	</types>
 	<types>
