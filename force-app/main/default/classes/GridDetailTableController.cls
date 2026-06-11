@@ -164,7 +164,8 @@ public with sharing class GridDetailTableController {
         Set<Id> agreementIdsSet = selection.agreementIds;
         String aumQuery = 'SELECT ShareClass__c scId, SUM(AmountEUR__c) totalAmount ' +
                           ' FROM AUM__c ' +
-                          ' WHERE ShareClass__c IN :shareClassIds ';
+                          ' WHERE ShareClass__c IN :shareClassIds '+
+                          ' AND Last_AUM__c = true ';
         aumQuery += selection.all ? '' : 'AND Convention__c IN :agreementIdsSet ';
         aumQuery += ' GROUP BY ShareClass__c';
 
