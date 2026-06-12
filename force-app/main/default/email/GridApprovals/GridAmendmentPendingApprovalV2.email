@@ -120,6 +120,10 @@
             </tr>
             <tr bgcolor="#ffffff">
               <td class="td-field">Agreement Name</td>
+              <td class="td-value-bold">{!relatedTo.Agreement__r.ConventionName__c}</td>
+            </tr>
+            <tr bgcolor="#ffffff">
+              <td class="td-field">Agreement Code</td>
               <td class="td-value-bold">{!relatedTo.Agreement__r.Name}</td>
             </tr>
             <tr bgcolor="#f7f9fc">

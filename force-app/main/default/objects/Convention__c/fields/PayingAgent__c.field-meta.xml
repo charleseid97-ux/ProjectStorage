@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
-    <fullName>CalculationMode__c</fullName>
-    <label>Calculation Mode</label>
+    <fullName>PayingAgent__c</fullName>
+    <label>Paying Agent</label>
     <required>false</required>
     <trackFeedHistory>false</trackFeedHistory>
     <trackHistory>false</trackHistory>
@@ -12,9 +12,9 @@
         <valueSetDefinition>
             <sorted>false</sorted>
             <value>
-                <fullName>Assets</fullName>
-                <default>true</default>
-                <label>Assets</label>
+                <fullName>BNP</fullName>
+                <default>false</default>
+                <label>BNP</label>
             </value>
         </valueSetDefinition>
     </valueSet>

@@ -14,6 +14,13 @@
                         </valueListItems>
                         <valueListItems>
                             <value>CustomButton.Convention__c.GridRequest</value>
+                            <visibilityRule>
+                                <criteria>
+                                    <leftValue>{!$Permission.CustomPermission.Grid_AccessGridBuilder}</leftValue>
+                                    <operator>EQUAL</operator>
+                                    <rightValue>true</rightValue>
+                                </criteria>
+                            </visibilityRule>
                         </valueListItems>
                         <valueListItems>
                             <value>Submit</value>
@@ -140,6 +147,36 @@
                 </fieldInstanceProperties>
                 <fieldItem>Record.LegalEntity__c</fieldItem>
                 <identifier>RecordLegalEntity__cField</identifier>
+            </fieldInstance>
+        </itemInstances>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>none</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.ParentAgreement__c</fieldItem>
+                <identifier>RecordParentAgreement__cField</identifier>
+            </fieldInstance>
+        </itemInstances>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>none</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.LastLegalAmendment__c</fieldItem>
+                <identifier>RecordLastLegalAmendment__cField</identifier>
+            </fieldInstance>
+        </itemInstances>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>none</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.PayingAgent__c</fieldItem>
+                <identifier>RecordPayingAgent__cField</identifier>
             </fieldInstance>
         </itemInstances>
         <name>Facet-14a7e944-9365-4a8c-8b59-e7e1c122ea61</name>

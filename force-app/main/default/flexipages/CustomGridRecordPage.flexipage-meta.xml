@@ -9,7 +9,7 @@
                         <valueListItems>
                             <value>CustomButton.Grid__c.EditGridDetails</value>
                             <visibilityRule>
-                                <booleanFilter>1 OR 2</booleanFilter>
+                                <booleanFilter>(1 OR 2) AND 3</booleanFilter>
                                 <criteria>
                                     <leftValue>{!Record.ApprovalStatus__c}</leftValue>
                                     <operator>EQUAL</operator>
@@ -20,12 +20,17 @@
                                     <operator>EQUAL</operator>
                                     <rightValue>Rejected</rightValue>
                                 </criteria>
+                                <criteria>
+                                    <leftValue>{!$Permission.CustomPermission.Grid_AccessGridBuilder}</leftValue>
+                                    <operator>EQUAL</operator>
+                                    <rightValue>true</rightValue>
+                                </criteria>
                             </visibilityRule>
                         </valueListItems>
                         <valueListItems>
                             <value>Grid__c.SubmitGridAmendment</value>
                             <visibilityRule>
-                                <booleanFilter>1 AND (2 OR 3)</booleanFilter>
+                                <booleanFilter>1 AND (2 OR 3) AND 4</booleanFilter>
                                 <criteria>
                                     <leftValue>{!Record.IsFirstGrid__c}</leftValue>
                                     <operator>EQUAL</operator>
@@ -40,6 +45,11 @@
                                     <leftValue>{!Record.ApprovalStatus__c}</leftValue>
                                     <operator>EQUAL</operator>
                                     <rightValue>Rejected</rightValue>
+                                </criteria>
+                                <criteria>
+                                    <leftValue>{!$Permission.CustomPermission.Grid_AccessGridAmendmentRequest}</leftValue>
+                                    <operator>EQUAL</operator>
+                                    <rightValue>true</rightValue>
                                 </criteria>
                             </visibilityRule>
                         </valueListItems>
@@ -80,6 +90,10 @@
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>hideChatterActions</name>
+                    <value>false</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>hideSlackAction</name>
                     <value>false</value>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
@@ -966,6 +980,13 @@
                 </componentInstanceProperties>
                 <componentName>flexipage:tab</componentName>
                 <identifier>flexipage_tab</identifier>
+                <visibilityRule>
+                    <criteria>
+                        <leftValue>{!$Permission.CustomPermission.Grid_AccessGridDetails}</leftValue>
+                        <operator>EQUAL</operator>
+                        <rightValue>true</rightValue>
+                    </criteria>
+                </visibilityRule>
             </componentInstance>
         </itemInstances>
         <itemInstances>
