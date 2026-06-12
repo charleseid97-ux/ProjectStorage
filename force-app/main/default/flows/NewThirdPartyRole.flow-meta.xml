@@ -5,7 +5,7 @@
         <name>AssignmentValues</name>
         <label>Assignment Values</label>
         <locationX>176</locationX>
-        <locationY>242</locationY>
+        <locationY>350</locationY>
         <assignmentItems>
             <assignToReference>NewTPR.TECH_RecordTypeName__c</assignToReference>
             <operator>Assign</operator>
@@ -31,7 +31,7 @@
             <assignToReference>NewTPR.SubType__c</assignToReference>
             <operator>Assign</operator>
             <value>
-                <elementReference>Role</elementReference>
+                <elementReference>CleanedRole</elementReference>
             </value>
         </assignmentItems>
         <assignmentItems>
@@ -55,16 +55,31 @@
                 <elementReference>NarrativeName</elementReference>
             </value>
         </assignmentItems>
+        <assignmentItems>
+            <assignToReference>NewTPR.Project__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>get_Project_Parent.ProjectProductParent__c</elementReference>
+            </value>
+        </assignmentItems>
         <connector>
             <targetReference>Create_Records_1</targetReference>
         </connector>
     </assignments>
     <choices>
-        <name>Central_Admin</name>
-        <choiceText>Central Admin</choiceText>
+        <name>Central_Admin1</name>
+        <choiceText>Central Admin 1</choiceText>
         <dataType>String</dataType>
         <value>
-            <stringValue>Central Admin</stringValue>
+            <stringValue>Central Admin 1</stringValue>
+        </value>
+    </choices>
+    <choices>
+        <name>Central_Admin2</name>
+        <choiceText>Central Admin 2</choiceText>
+        <dataType>String</dataType>
+        <value>
+            <stringValue>Central Admin 2</stringValue>
         </value>
     </choices>
     <choices>
@@ -73,6 +88,31 @@
         <dataType>String</dataType>
         <value>
             <stringValue>Custodian</stringValue>
+        </value>
+    </choices>
+    <choices>
+        <name>Delegated_Investment_Management_1</name>
+        <choiceText>Delegated Investment Management 1</choiceText>
+        <dataType>String</dataType>
+        <value>
+            <stringValue>Delegated Investment Management 1</stringValue>
+        </value>
+    </choices>
+    <choices>
+        <description>Delegated_Investment_Management_2</description>
+        <name>Delegated_Investment_Management_2</name>
+        <choiceText>Delegated_Investment_Management 2</choiceText>
+        <dataType>String</dataType>
+        <value>
+            <stringValue>Delegated Investment Management 2</stringValue>
+        </value>
+    </choices>
+    <choices>
+        <name>Delegated_Investment_Management_3</name>
+        <choiceText>Delegated_Investment_Management 3</choiceText>
+        <dataType>String</dataType>
+        <value>
+            <stringValue>Delegated_Investment_Management_3</stringValue>
         </value>
     </choices>
     <choices>
@@ -132,11 +172,19 @@
         </value>
     </choices>
     <choices>
-        <name>Prime_Agent</name>
-        <choiceText>Prime Agent</choiceText>
+        <name>PreCentralAdmin</name>
+        <choiceText>&lt;span style=&quot;font-size: inherit;&quot;&gt;Pre-central admin&lt;/span&gt;</choiceText>
         <dataType>String</dataType>
         <value>
-            <stringValue>Prime_Agent</stringValue>
+            <stringValue>Pre-central admin</stringValue>
+        </value>
+    </choices>
+    <choices>
+        <name>Prime_Transfer_Agent</name>
+        <choiceText>&lt;span style=&quot;font-size: 14.6667px; font-family: &amp;quot;Aptos Narrow&amp;quot;, sans-serif; color: rgb(0, 0, 0);&quot;&gt;Prime Transfer Agent&lt;/span&gt;</choiceText>
+        <dataType>String</dataType>
+        <value>
+            <stringValue>Prime Transfer Agent</stringValue>
         </value>
     </choices>
     <choices>
@@ -151,9 +199,22 @@
 The association is initially made at the project level only. Once the project reaches Go Live, the Third Party record will be linked to the corresponding product code via a batch process that transfers data from PMT to the Product Catalog.</description>
     <environments>Default</environments>
     <formulas>
+        <name>CleanedRole</name>
+        <dataType>String</dataType>
+        <expression>SUBSTITUTE(
+    SUBSTITUTE(
+        {!Role},
+        &quot;&lt;span style=\&quot;font-size: inherit;\&quot;&gt;&quot;,
+        &quot;&quot;
+    ),
+    &quot;&lt;/span&gt;&quot;,
+    &quot;&quot;
+)</expression>
+    </formulas>
+    <formulas>
         <name>NarrativeName</name>
         <dataType>String</dataType>
-        <expression>{!ThirdParty.recordName}&amp;&apos; - &apos;&amp;{!Role}</expression>
+        <expression>{!ThirdParty.recordName} &amp; &quot; - &quot; &amp; {!CleanedRole}</expression>
     </formulas>
     <interviewLabel>New Third Party Role {!$Flow.CurrentDateTime}</interviewLabel>
     <label>PMT - Third Party &amp; Role Assignment</label>
@@ -180,9 +241,30 @@ The association is initially made at the project level only. Once the project re
         <name>Create_Records_1</name>
         <label>Create Records 1</label>
         <locationX>176</locationX>
-        <locationY>350</locationY>
+        <locationY>458</locationY>
         <inputReference>NewTPR</inputReference>
     </recordCreates>
+    <recordLookups>
+        <name>get_Project_Parent</name>
+        <label>get Project Parent</label>
+        <locationX>176</locationX>
+        <locationY>242</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>AssignmentValues</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>Id</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>recordId</elementReference>
+            </value>
+        </filters>
+        <getFirstRecordOnly>true</getFirstRecordOnly>
+        <object>ProjectProductChild__c</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
     <screens>
         <description>This Screen Flow is used within the Product Management Tool (PMT) to assign a Third Party and its corresponding role to a PMT project.
 The association is initially made at the project level only. Once the project reaches Go Live, the Third Party record will be linked to the corresponding product code via a batch process that transfers data from PMT to the Product Catalog.</description>
@@ -194,7 +276,7 @@ The association is initially made at the project level only. Once the project re
         <allowFinish>true</allowFinish>
         <allowPause>false</allowPause>
         <connector>
-            <targetReference>AssignmentValues</targetReference>
+            <targetReference>get_Project_Parent</targetReference>
         </connector>
         <fields>
             <name>SC01_Create_Third_Party_Role_Section1</name>
@@ -205,7 +287,6 @@ The association is initially made at the project level only. Once the project re
                 <fields>
                     <name>Role</name>
                     <choiceReferences>Transfer_Agent</choiceReferences>
-                    <choiceReferences>Central_Admin</choiceReferences>
                     <choiceReferences>Fund_Admin</choiceReferences>
                     <choiceReferences>Custodian</choiceReferences>
                     <choiceReferences>Fund_Auditor</choiceReferences>
@@ -214,7 +295,13 @@ The association is initially made at the project level only. Once the project re
                     <choiceReferences>Investment_Man_Comp_1</choiceReferences>
                     <choiceReferences>Investment_Man_Comp_2</choiceReferences>
                     <choiceReferences>Investment_Man_Comp_3</choiceReferences>
-                    <choiceReferences>Prime_Agent</choiceReferences>
+                    <choiceReferences>Prime_Transfer_Agent</choiceReferences>
+                    <choiceReferences>Central_Admin1</choiceReferences>
+                    <choiceReferences>Central_Admin2</choiceReferences>
+                    <choiceReferences>Delegated_Investment_Management_1</choiceReferences>
+                    <choiceReferences>Delegated_Investment_Management_2</choiceReferences>
+                    <choiceReferences>Delegated_Investment_Management_3</choiceReferences>
+                    <choiceReferences>PreCentralAdmin</choiceReferences>
                     <dataType>String</dataType>
                     <fieldText>Role</fieldText>
                     <fieldType>DropdownBox</fieldType>

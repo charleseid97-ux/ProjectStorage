@@ -202,6 +202,19 @@
         </connector>
     </assignments>
     <assignments>
+        <name>Copy_1_of_empty_errMsg</name>
+        <label>empty errMsg</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <assignmentItems>
+            <assignToReference>ErrorMessage</assignToReference>
+            <operator>Assign</operator>
+        </assignmentItems>
+        <connector>
+            <targetReference>Copy_1_of_Speakers_Products</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
         <name>Copy_1_of_Set_Error_MSG</name>
         <label>Set Error MSG</label>
         <locationX>0</locationX>
@@ -216,6 +229,23 @@
         <connector>
             <isGoTo>true</isGoTo>
             <targetReference>Event_Details</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <name>Copy_1_of_setErrorMsg</name>
+        <label>setErrorMsg</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <assignmentItems>
+            <assignToReference>ErrorMessage</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <stringValue>Please fill in all required fields.</stringValue>
+            </value>
+        </assignmentItems>
+        <connector>
+            <isGoTo>true</isGoTo>
+            <targetReference>Copy_1_of_Speakers_Products</targetReference>
         </connector>
     </assignments>
     <assignments>
@@ -265,6 +295,19 @@
         </connector>
     </assignments>
     <assignments>
+        <name>Copy_2_of_empty_errMsg</name>
+        <label>empty errMsg</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <assignmentItems>
+            <assignToReference>ErrorMessage</assignToReference>
+            <operator>Assign</operator>
+        </assignmentItems>
+        <connector>
+            <targetReference>Copy_2_of_Speakers_Products</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
         <name>Copy_2_of_Set_Error_MSG</name>
         <label>Set Error MSG</label>
         <locationX>0</locationX>
@@ -279,6 +322,23 @@
         <connector>
             <isGoTo>true</isGoTo>
             <targetReference>Copy_1_of_Event_Details</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <name>Copy_2_of_setErrorMsg</name>
+        <label>setErrorMsg</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <assignmentItems>
+            <assignToReference>ErrorMessage</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <stringValue>Please fill in all required fields.</stringValue>
+            </value>
+        </assignmentItems>
+        <connector>
+            <isGoTo>true</isGoTo>
+            <targetReference>Copy_2_of_Speakers_Products</targetReference>
         </connector>
     </assignments>
     <assignments>
@@ -340,6 +400,23 @@
         <connector>
             <isGoTo>true</isGoTo>
             <targetReference>Copy_1_of_Meeting_Meeting_days_Details</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <name>Copy_3_of_setErrorMsg</name>
+        <label>etErrorMsg SSPs</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <assignmentItems>
+            <assignToReference>ErrorMessage</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <stringValue>Please fill in all required fields.</stringValue>
+            </value>
+        </assignmentItems>
+        <connector>
+            <isGoTo>true</isGoTo>
+            <targetReference>Copy_1_of_Meeting_details</targetReference>
         </connector>
     </assignments>
     <assignments>
@@ -449,6 +526,32 @@
         </assignmentItems>
         <connector>
             <targetReference>Decision_9</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <name>empty_errMsg</name>
+        <label>empty errMsg</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <assignmentItems>
+            <assignToReference>ErrorMessage</assignToReference>
+            <operator>Assign</operator>
+        </assignmentItems>
+        <connector>
+            <targetReference>SpeakersEvents</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <name>InitEvent</name>
+        <label>InitEvent</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <assignmentItems>
+            <assignToReference>MasterEvent.timezone__c</assignToReference>
+            <operator>Assign</operator>
+        </assignmentItems>
+        <connector>
+            <targetReference>Can_Create</targetReference>
         </connector>
     </assignments>
     <assignments>
@@ -659,12 +762,12 @@
             </value>
         </assignmentItems>
         <connector>
-            <targetReference>Copy_1_of_Speakers_Products</targetReference>
+            <targetReference>Copy_1_of_empty_errMsg</targetReference>
         </connector>
     </assignments>
     <assignments>
         <name>Set_Error_MSG</name>
-        <label>Set Error MSG</label>
+        <label>Set Error MSG User inputs</label>
         <locationX>0</locationX>
         <locationY>0</locationY>
         <assignmentItems>
@@ -677,6 +780,23 @@
         <connector>
             <isGoTo>true</isGoTo>
             <targetReference>Copy_1_of_Meeting_details</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <name>setErrorMsg</name>
+        <label>setErrorMsg</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <assignmentItems>
+            <assignToReference>ErrorMessage</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <stringValue>Please fill in all required fields.</stringValue>
+            </value>
+        </assignmentItems>
+        <connector>
+            <isGoTo>true</isGoTo>
+            <targetReference>SpeakersEvents</targetReference>
         </connector>
     </assignments>
     <assignments>
@@ -1267,6 +1387,31 @@
         </rules>
     </decisions>
     <decisions>
+        <name>Copy_1_of_is_Speakers_form_Valid</name>
+        <label>is Speakers form Valid ?</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <defaultConnector>
+            <targetReference>Copy_1_of_CreateEventRec</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>Copy_1_of_missign_Inputs</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>SpeakersFormOK</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Copy_1_of_setErrorMsg</targetReference>
+            </connector>
+            <label>Copy 1 of missign Inputs</label>
+        </rules>
+    </decisions>
+    <decisions>
         <name>Copy_1_of_Mandatory_Users_check</name>
         <label>Mandatory Users check</label>
         <locationX>0</locationX>
@@ -1295,7 +1440,47 @@
             <connector>
                 <targetReference>Set_Error_MSG</targetReference>
             </connector>
-            <label>back to screen</label>
+            <label>back to screen (UserFields missing)</label>
+        </rules>
+        <rules>
+            <name>SSPS_not_compleated</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>SpeakersFormOK</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Copy_3_of_setErrorMsg</targetReference>
+            </connector>
+            <label>SSPS not compleated</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <name>Copy_3_of_is_Speakers_form_Valid</name>
+        <label>is Speakers form Valid ?</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <defaultConnector>
+            <targetReference>Copy_3_of_CreateEventRec</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>Copy_2_of_Copy_1_of_missign_Inputs</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>SpeakersFormOK</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Copy_2_of_setErrorMsg</targetReference>
+            </connector>
+            <label>Copy 2 of Copy 1 of missign Inputs</label>
         </rules>
     </decisions>
     <decisions>
@@ -1304,7 +1489,7 @@
         <locationX>0</locationX>
         <locationY>0</locationY>
         <defaultConnector>
-            <targetReference>Copy_1_of_Speakers_Products</targetReference>
+            <targetReference>Copy_1_of_empty_errMsg</targetReference>
         </defaultConnector>
         <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
         <rules>
@@ -1354,7 +1539,7 @@
         <locationX>0</locationX>
         <locationY>0</locationY>
         <defaultConnector>
-            <targetReference>SpeakersEvents</targetReference>
+            <targetReference>empty_errMsg</targetReference>
         </defaultConnector>
         <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
         <rules>
@@ -1418,7 +1603,7 @@
         <locationX>0</locationX>
         <locationY>0</locationY>
         <defaultConnector>
-            <targetReference>Copy_2_of_Speakers_Products</targetReference>
+            <targetReference>Copy_2_of_empty_errMsg</targetReference>
         </defaultConnector>
         <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
         <rules>
@@ -1494,6 +1679,31 @@
                 <targetReference>Copy_2_of_setRT_Meeting</targetReference>
             </connector>
             <label>Meeting day(s) Path</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <name>is_Speakers_form_Valid</name>
+        <label>is Speakers form Valid ?</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <defaultConnector>
+            <targetReference>createEventRec</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>missignInputs</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>SpeakersFormOK</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>setErrorMsg</targetReference>
+            </connector>
+            <label>missign Inputs</label>
         </rules>
     </decisions>
     <decisions>
@@ -1598,8 +1808,7 @@
             <label>MeetingDay(s)</label>
         </rules>
     </decisions>
-    <description>mandatory Fields + insert HTML speakers for 1to1MD 
-V1</description>
+    <description>add Validation for SSP inputs</description>
     <environments>Default</environments>
     <formulas>
         <name>clickedDateToText</name>
@@ -3183,11 +3392,21 @@ LPAD(TEXT(DAY({!clickedDate})), 2, &quot;0&quot;)</expression>
                             <elementReference>clickedDateToText</elementReference>
                         </value>
                     </inputParameters>
+                    <inputParameters>
+                        <name>inputValue</name>
+                        <value>
+                            <elementReference>SSPs</elementReference>
+                        </value>
+                    </inputParameters>
                     <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
                     <isRequired>true</isRequired>
                     <outputParameters>
                         <assignToReference>SSPs</assignToReference>
                         <name>outputValue</name>
+                    </outputParameters>
+                    <outputParameters>
+                        <assignToReference>SpeakersFormOK</assignToReference>
+                        <name>formValidated</name>
                     </outputParameters>
                     <styleProperties>
                         <verticalAlignment>
@@ -3822,7 +4041,7 @@ LPAD(TEXT(DAY({!clickedDate})), 2, &quot;0&quot;)</expression>
         <allowFinish>true</allowFinish>
         <allowPause>true</allowPause>
         <connector>
-            <targetReference>Copy_1_of_CreateEventRec</targetReference>
+            <targetReference>Copy_1_of_is_Speakers_form_Valid</targetReference>
         </connector>
         <fields>
             <name>Copy_1_of_SSP_LWC</name>
@@ -3852,12 +4071,35 @@ LPAD(TEXT(DAY({!clickedDate})), 2, &quot;0&quot;)</expression>
                     <elementReference>Start1</elementReference>
                 </value>
             </inputParameters>
+            <inputParameters>
+                <name>inputValue</name>
+                <value>
+                    <elementReference>SSPs</elementReference>
+                </value>
+            </inputParameters>
             <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
             <isRequired>true</isRequired>
             <outputParameters>
                 <assignToReference>SSPs</assignToReference>
                 <name>outputValue</name>
             </outputParameters>
+            <outputParameters>
+                <assignToReference>SpeakersFormOK</assignToReference>
+                <name>formValidated</name>
+            </outputParameters>
+            <styleProperties>
+                <verticalAlignment>
+                    <stringValue>top</stringValue>
+                </verticalAlignment>
+                <width>
+                    <stringValue>12</stringValue>
+                </width>
+            </styleProperties>
+        </fields>
+        <fields>
+            <name>sspsErr</name>
+            <fieldText>&lt;p&gt;&lt;strong style=&quot;color: rgb(205, 0, 0); background-color: rgb(255, 255, 255);&quot;&gt;{!ErrorMessage}&lt;/strong&gt;&lt;/p&gt;</fieldText>
+            <fieldType>DisplayText</fieldType>
             <styleProperties>
                 <verticalAlignment>
                     <stringValue>top</stringValue>
@@ -3879,7 +4121,7 @@ LPAD(TEXT(DAY({!clickedDate})), 2, &quot;0&quot;)</expression>
         <allowFinish>true</allowFinish>
         <allowPause>true</allowPause>
         <connector>
-            <targetReference>Copy_3_of_CreateEventRec</targetReference>
+            <targetReference>Copy_3_of_is_Speakers_form_Valid</targetReference>
         </connector>
         <fields>
             <name>Copy_1_of_Copy_1_of_SSP_LWC</name>
@@ -3897,12 +4139,35 @@ LPAD(TEXT(DAY({!clickedDate})), 2, &quot;0&quot;)</expression>
                     <booleanValue>false</booleanValue>
                 </value>
             </inputParameters>
+            <inputParameters>
+                <name>inputValue</name>
+                <value>
+                    <elementReference>SSPs</elementReference>
+                </value>
+            </inputParameters>
             <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
             <isRequired>true</isRequired>
             <outputParameters>
                 <assignToReference>SSPs</assignToReference>
                 <name>outputValue</name>
             </outputParameters>
+            <outputParameters>
+                <assignToReference>SpeakersFormOK</assignToReference>
+                <name>formValidated</name>
+            </outputParameters>
+            <styleProperties>
+                <verticalAlignment>
+                    <stringValue>top</stringValue>
+                </verticalAlignment>
+                <width>
+                    <stringValue>12</stringValue>
+                </width>
+            </styleProperties>
+        </fields>
+        <fields>
+            <name>ErrmsgSSps</name>
+            <fieldText>&lt;p&gt;&lt;strong style=&quot;color: rgb(205, 0, 0);&quot;&gt;{!ErrorMessage}&lt;/strong&gt;&lt;/p&gt;</fieldText>
+            <fieldType>DisplayText</fieldType>
             <styleProperties>
                 <verticalAlignment>
                     <stringValue>top</stringValue>
@@ -4669,7 +4934,7 @@ LPAD(TEXT(DAY({!clickedDate})), 2, &quot;0&quot;)</expression>
         <allowFinish>true</allowFinish>
         <allowPause>true</allowPause>
         <connector>
-            <targetReference>createEventRec</targetReference>
+            <targetReference>is_Speakers_form_Valid</targetReference>
         </connector>
         <fields>
             <name>SSP_LWC</name>
@@ -4687,12 +4952,35 @@ LPAD(TEXT(DAY({!clickedDate})), 2, &quot;0&quot;)</expression>
                     <booleanValue>true</booleanValue>
                 </value>
             </inputParameters>
+            <inputParameters>
+                <name>inputValue</name>
+                <value>
+                    <elementReference>SSPs</elementReference>
+                </value>
+            </inputParameters>
             <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
             <isRequired>true</isRequired>
             <outputParameters>
                 <assignToReference>SSPs</assignToReference>
                 <name>outputValue</name>
             </outputParameters>
+            <outputParameters>
+                <assignToReference>SpeakersFormOK</assignToReference>
+                <name>formValidated</name>
+            </outputParameters>
+            <styleProperties>
+                <verticalAlignment>
+                    <stringValue>top</stringValue>
+                </verticalAlignment>
+                <width>
+                    <stringValue>12</stringValue>
+                </width>
+            </styleProperties>
+        </fields>
+        <fields>
+            <name>todel</name>
+            <fieldText>&lt;p&gt;&lt;strong style=&quot;color: rgb(208, 3, 3);&quot;&gt;{!ErrorMessage}&lt;/strong&gt;&lt;/p&gt;</fieldText>
+            <fieldType>DisplayText</fieldType>
             <styleProperties>
                 <verticalAlignment>
                     <stringValue>top</stringValue>
@@ -4739,7 +5027,7 @@ LPAD(TEXT(DAY({!clickedDate})), 2, &quot;0&quot;)</expression>
         <locationX>0</locationX>
         <locationY>0</locationY>
         <connector>
-            <targetReference>Can_Create</targetReference>
+            <targetReference>InitEvent</targetReference>
         </connector>
     </start>
     <status>Active</status>
@@ -4873,6 +5161,16 @@ LPAD(TEXT(DAY({!clickedDate})), 2, &quot;0&quot;)</expression>
         <isCollection>false</isCollection>
         <isInput>true</isInput>
         <isOutput>false</isOutput>
+    </variables>
+    <variables>
+        <name>SpeakersFormOK</name>
+        <dataType>Boolean</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+        <value>
+            <booleanValue>false</booleanValue>
+        </value>
     </variables>
     <variables>
         <name>speakersHTML</name>

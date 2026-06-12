@@ -258,7 +258,7 @@
         <dataType>Boolean</dataType>
         <expression>AND(CONTAINS({!myVariable_current.RecordType.Name} , &quot;Data Solution&quot;), !{!$User.BypassProcessBuilders__c})</expression>
     </formulas>
-    <interviewLabel>WorkTogether_PB002_AssignToQeueu-34_InterviewLabel</interviewLabel>
+    <interviewLabel>WorkTogether_PB002_AssignToQeueu-36_InterviewLabel</interviewLabel>
     <label>WorkTogether_PB002_New</label>
     <processMetadataValues>
         <name>ObjectType</name>
@@ -373,7 +373,7 @@
         <object>Case</object>
     </recordUpdates>
     <startElementReference>myDecision</startElementReference>
-    <status>Active</status>
+    <status>Draft</status>
     <variables>
         <name>myVariable_current</name>
         <dataType>SObject</dataType>

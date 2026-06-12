@@ -24,5 +24,8 @@
         <isTokenExchangeFlowEnabled>false</isTokenExchangeFlowEnabled>
         <refreshTokenPolicy>zero</refreshTokenPolicy>
     </oauthPolicy>
+    <permissionSetName>PS_ConnectedApp_MuleSoft</permissionSetName>
     <profileName>Salesforce API Only System Integrations</profileName>
+    <profileName>System Administrator</profileName>
+    <profileName>Carmignac - System Administrator</profileName>
 </ConnectedApp>

@@ -643,6 +643,11 @@
             <field>LastOpenedDate__c</field>
             <table>Multi_Contact__c.Work_Together_Processes__r</table>
         </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>ProcessedByMuleSoft__c</field>
+            <table>Multi_Contact__c.Work_Together_Processes__r</table>
+        </columns>
         <masterLabel>Work Together Processes</masterLabel>
     </sections>
 </ReportType>

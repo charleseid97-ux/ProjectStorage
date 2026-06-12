@@ -1597,6 +1597,20 @@ datasolutions@carmignac.com</authorizedSenders>
         <localPart>emailtosalesforce</localPart>
         <runAsUser>robin.perritaz-crm@carmignac.com</runAsUser>
     </emailServicesAddresses>
+    <emailServicesAddresses>
+        <authorizedSenders>silvia.forni@carmignac.com</authorizedSenders>
+        <developerName>emailtosalesforce91</developerName>
+        <isActive>true</isActive>
+        <localPart>emailtosalesforce</localPart>
+        <runAsUser>silvia.forni-crm@carmignac.com</runAsUser>
+    </emailServicesAddresses>
+    <emailServicesAddresses>
+        <authorizedSenders>oliver.hack@carmignac.com</authorizedSenders>
+        <developerName>emailtosalesforce92</developerName>
+        <isActive>true</isActive>
+        <localPart>emailtosalesforce</localPart>
+        <runAsUser>oliver.hack-crm@carmignac.com</runAsUser>
+    </emailServicesAddresses>
     <functionInactiveAction>Bounce</functionInactiveAction>
     <functionName>EmailToSalesforce</functionName>
     <isActive>true</isActive>

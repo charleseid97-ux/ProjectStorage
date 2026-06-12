@@ -234,6 +234,94 @@
             <label>Belgium</label>
             <orgDefault>false</orgDefault>
             <standard>true</standard>
+            <states>
+                <active>true</active>
+                <integrationValue>Antwerp</integrationValue>
+                <isoCode>ANT</isoCode>
+                <label>Antwerp</label>
+                <standard>false</standard>
+                <visible>true</visible>
+            </states>
+            <states>
+                <active>true</active>
+                <integrationValue>Brussels</integrationValue>
+                <isoCode>BRU</isoCode>
+                <label>Brussels</label>
+                <standard>false</standard>
+                <visible>true</visible>
+            </states>
+            <states>
+                <active>true</active>
+                <integrationValue>East Flanders</integrationValue>
+                <isoCode>EFLA</isoCode>
+                <label>East Flanders</label>
+                <standard>false</standard>
+                <visible>true</visible>
+            </states>
+            <states>
+                <active>true</active>
+                <integrationValue>Flemish Brabant</integrationValue>
+                <isoCode>FBRA</isoCode>
+                <label>Flemish Brabant</label>
+                <standard>false</standard>
+                <visible>true</visible>
+            </states>
+            <states>
+                <active>true</active>
+                <integrationValue>Hainaut</integrationValue>
+                <isoCode>HAI</isoCode>
+                <label>Hainaut</label>
+                <standard>false</standard>
+                <visible>true</visible>
+            </states>
+            <states>
+                <active>true</active>
+                <integrationValue>Liège</integrationValue>
+                <isoCode>LIE</isoCode>
+                <label>Liège</label>
+                <standard>false</standard>
+                <visible>true</visible>
+            </states>
+            <states>
+                <active>true</active>
+                <integrationValue>Limburg</integrationValue>
+                <isoCode>LIM</isoCode>
+                <label>Limburg</label>
+                <standard>false</standard>
+                <visible>true</visible>
+            </states>
+            <states>
+                <active>true</active>
+                <integrationValue>Luxembourg</integrationValue>
+                <isoCode>LUX</isoCode>
+                <label>Luxembourg</label>
+                <standard>false</standard>
+                <visible>true</visible>
+            </states>
+            <states>
+                <active>true</active>
+                <integrationValue>Namur</integrationValue>
+                <isoCode>NAM</isoCode>
+                <label>Namur</label>
+                <standard>false</standard>
+                <visible>true</visible>
+            </states>
+            <states>
+                <active>true</active>
+                <integrationValue>Walloon Brabant</integrationValue>
+                <isoCode>WBRA</isoCode>
+                <label>Walloon Brabant</label>
+                <standard>false</standard>
+                <visible>true</visible>
+            </states>
+            <states>
+                <active>true</active>
+                <integrationValue>West Flanders</integrationValue>
+                <isoCode>WFLA</isoCode>
+                <label>West Flanders</label>
+                <standard>false</standard>
+                <visible>true</visible>
+            </states>
             <visible>true</visible>
         </countries>
         <countries>

@@ -67,11 +67,11 @@
     <dashboardFilters>
         <dashboardFilterOptions>
             <operator>equals</operator>
-            <values>Required</values>
+            <values>requested</values>
         </dashboardFilterOptions>
         <dashboardFilterOptions>
             <operator>equals</operator>
-            <values>Due</values>
+            <values>required</values>
         </dashboardFilterOptions>
         <name>Presentation Status</name>
     </dashboardFilters>
@@ -96,7 +96,7 @@
                     <column>Event__c.SpeakersProducts__r$speakerContact__c.JobTitle__c</column>
                 </dashboardFilterColumns>
                 <dashboardFilterColumns>
-                    <column>Event__c.SpeakersProducts__r$PresentationStatusFormula__c</column>
+                    <column>Event__c.SpeakersProducts__r$presentationStatus__c</column>
                 </dashboardFilterColumns>
                 <decimalPrecision>-1</decimalPrecision>
                 <displayUnits>Auto</displayUnits>
@@ -130,7 +130,7 @@
                     <column>Event__c.SpeakersProducts__r$speakerContact__c.JobTitle__c</column>
                 </dashboardFilterColumns>
                 <dashboardFilterColumns>
-                    <column>Event__c.SpeakersProducts__r$PresentationStatusFormula__c</column>
+                    <column>Event__c.SpeakersProducts__r$presentationStatus__c</column>
                 </dashboardFilterColumns>
                 <flexComponentProperties>
                     <decimalPrecision>-1</decimalPrecision>
@@ -147,7 +147,7 @@
                         <type>detail</type>
                     </flexTableColumn>
                     <flexTableColumn>
-                        <reportColumn>sessionSpeakerProduct__c.PresentationStatusFormula__c</reportColumn>
+                        <reportColumn>sessionSpeakerProduct__c.presentationStatus__c</reportColumn>
                         <showSubTotal>false</showSubTotal>
                         <showTotal>false</showTotal>
                         <type>detail</type>
@@ -215,7 +215,7 @@
                     <column>Event__c.SpeakersProducts__r$speakerContact__c.JobTitle__c</column>
                 </dashboardFilterColumns>
                 <dashboardFilterColumns>
-                    <column>Event__c.SpeakersProducts__r$PresentationStatusFormula__c</column>
+                    <column>Event__c.SpeakersProducts__r$presentationStatus__c</column>
                 </dashboardFilterColumns>
                 <decimalPrecision>-1</decimalPrecision>
                 <displayUnits>Auto</displayUnits>
@@ -251,7 +251,7 @@
                     <column>Event__c.SpeakersProducts__r$speakerContact__c.JobTitle__c</column>
                 </dashboardFilterColumns>
                 <dashboardFilterColumns>
-                    <column>Event__c.SpeakersProducts__r$PresentationStatusFormula__c</column>
+                    <column>Event__c.SpeakersProducts__r$presentationStatus__c</column>
                 </dashboardFilterColumns>
                 <decimalPrecision>-1</decimalPrecision>
                 <displayUnits>Auto</displayUnits>
@@ -289,7 +289,7 @@
                     <column>Event__c.SpeakersProducts__r$speakerContact__c.JobTitle__c</column>
                 </dashboardFilterColumns>
                 <dashboardFilterColumns>
-                    <column>Event__c.SpeakersProducts__r$PresentationStatusFormula__c</column>
+                    <column>Event__c.SpeakersProducts__r$presentationStatus__c</column>
                 </dashboardFilterColumns>
                 <decimalPrecision>-1</decimalPrecision>
                 <displayUnits>Auto</displayUnits>
@@ -343,7 +343,7 @@
                     <column>Event__c.SpeakersProducts__r$speakerContact__c.JobTitle__c</column>
                 </dashboardFilterColumns>
                 <dashboardFilterColumns>
-                    <column>Event__c.SpeakersProducts__r$PresentationStatusFormula__c</column>
+                    <column>Event__c.SpeakersProducts__r$presentationStatus__c</column>
                 </dashboardFilterColumns>
                 <decimalPrecision>-1</decimalPrecision>
                 <displayUnits>Auto</displayUnits>
@@ -393,7 +393,7 @@
                     <column>Event__c.SpeakersProducts__r$speakerContact__c.JobTitle__c</column>
                 </dashboardFilterColumns>
                 <dashboardFilterColumns>
-                    <column>Event__c.SpeakersProducts__r$PresentationStatusFormula__c</column>
+                    <column>Event__c.SpeakersProducts__r$presentationStatus__c</column>
                 </dashboardFilterColumns>
                 <decimalPrecision>-1</decimalPrecision>
                 <displayUnits>Auto</displayUnits>

@@ -1729,6 +1729,11 @@
             <field>Visitor_Id__c</field>
             <table>Campaign.Digital_Interactions__r.Digital_Interactions_Details__r</table>
         </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>DownloadedDocumentName__c</field>
+            <table>Campaign.Digital_Interactions__r.Digital_Interactions_Details__r</table>
+        </columns>
         <masterLabel>Digital Interactions Details</masterLabel>
     </sections>
 </ReportType>

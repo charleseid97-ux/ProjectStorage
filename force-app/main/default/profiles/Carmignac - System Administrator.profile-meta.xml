@@ -56,6 +56,16 @@
         <visible>true</visible>
     </applicationVisibilities>
     <applicationVisibilities>
+        <application>standard__AIWorkbench</application>
+        <default>false</default>
+        <visible>true</visible>
+    </applicationVisibilities>
+    <applicationVisibilities>
+        <application>standard__AgentforceStudio</application>
+        <default>false</default>
+        <visible>true</visible>
+    </applicationVisibilities>
+    <applicationVisibilities>
         <application>standard__AllTabSet</application>
         <default>false</default>
         <visible>true</visible>
@@ -76,6 +86,11 @@
         <visible>true</visible>
     </applicationVisibilities>
     <applicationVisibilities>
+        <application>standard__CommerceStarter</application>
+        <default>false</default>
+        <visible>false</visible>
+    </applicationVisibilities>
+    <applicationVisibilities>
         <application>standard__Community</application>
         <default>false</default>
         <visible>true</visible>
@@ -91,6 +106,11 @@
         <visible>true</visible>
     </applicationVisibilities>
     <applicationVisibilities>
+        <application>standard__DigitalWallet</application>
+        <default>false</default>
+        <visible>true</visible>
+    </applicationVisibilities>
+    <applicationVisibilities>
         <application>standard__EasyMarketing</application>
         <default>false</default>
         <visible>true</visible>
@@ -102,6 +122,11 @@
     </applicationVisibilities>
     <applicationVisibilities>
         <application>standard__Insights</application>
+        <default>false</default>
+        <visible>true</visible>
+    </applicationVisibilities>
+    <applicationVisibilities>
+        <application>standard__Integration</application>
         <default>false</default>
         <visible>true</visible>
     </applicationVisibilities>
@@ -184,6 +209,11 @@
         <application>standard__ServiceConsole</application>
         <default>false</default>
         <visible>false</visible>
+    </applicationVisibilities>
+    <applicationVisibilities>
+        <application>standard__Shield</application>
+        <default>false</default>
+        <visible>true</visible>
     </applicationVisibilities>
     <classAccesses>
         <apexClass>AccountHierarchyCtrl</apexClass>
@@ -527,6 +557,14 @@
     </classAccesses>
     <classAccesses>
         <apexClass>CTL_MeetingNotes_AIOrchestratorTest</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>CTL_MeetingNotes_UpdateFromRawText</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>CTL_MeetingNotes_UpdateFromRawTextTest</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
@@ -891,6 +929,14 @@
     </classAccesses>
     <classAccesses>
         <apexClass>DecisionMakerPDFController</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>DeleteStaleVideoCalls</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>DeleteStaleVideoCallsTest</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
@@ -1390,6 +1436,14 @@
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>MeetingNoteShareController</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>MeetingNoteShareControllerTest</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>MeetingNoteTH</apexClass>
         <enabled>false</enabled>
     </classAccesses>
@@ -1591,6 +1645,22 @@
     </classAccesses>
     <classAccesses>
         <apexClass>ProjectDocumentController</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>ProjectFeederController</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>ProjectFeederControllerTest</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>ProjectFeederFlowAction</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>ProjectFeederFlowActionTest</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
@@ -1950,12 +2020,16 @@
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>SM029_WebComResponseParser_Test</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>SM029_WebCommunication</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
         <apexClass>SM029_WebCommunicationResponseParser</apexClass>
-        <enabled>false</enabled>
+        <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
         <apexClass>SM029_WebCommunicationTest</apexClass>
@@ -2370,6 +2444,14 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>VFC16_SequantisGenerateDraft</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>VFC16_SequantisGenerateDraftTest</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>WS006_EtouchesProcess</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -2490,6 +2572,18 @@
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>WTP_Notify</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>WTP_NotifyBuffer</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>WTP_NotifyQueueable</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>WTP_PhraseApiUtil</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -2508,6 +2602,14 @@
     <classAccesses>
         <apexClass>mockGLEIF</apexClass>
         <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>newTaskCTRL</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>newTaskCTRLTest</apexClass>
+        <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
         <apexClass>productHierarchyController</apexClass>
@@ -5446,6 +5548,21 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
+        <field>CampaignMember.EventCall__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>CampaignMember.EventFeedback__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>CampaignMember.EventScore__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
         <field>CampaignMember.Event_Email__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -6337,6 +6454,11 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Case.Priority</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Case.ProcessedByMuleSoft__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -8498,6 +8620,26 @@
         <editable>false</editable>
         <field>Contact.Team__c</field>
         <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Contact.TechEventCall__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Contact.TechEventFeedback__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Contact.TechEventId__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Contact.TechEventScore__c</field>
+        <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
@@ -12206,6 +12348,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>Data_Solutions_Report_Type__c.Description__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>Data_Solutions_Report_Type__c.Report_Category__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -12242,6 +12389,11 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Digital_Interaction_Details__c.Device__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Digital_Interaction_Details__c.DownloadedDocumentName__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -14205,6 +14357,11 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
+        <editable>false</editable>
+        <field>Event.IsVisibleInSelfService</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
         <editable>true</editable>
         <field>Event.Last_Session__c</field>
         <readable>true</readable>
@@ -14758,6 +14915,11 @@
         <editable>false</editable>
         <field>FundManager__c.PictureURL__c</field>
         <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>FundManager__c.Picture__c</field>
+        <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
@@ -16697,12 +16859,12 @@
     <fieldPermissions>
         <editable>false</editable>
         <field>Meeting_Note_Insight__c.Country__c</field>
-        <readable>false</readable>
+        <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
         <field>Meeting_Note_Insight__c.Date__c</field>
-        <readable>false</readable>
+        <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
@@ -16710,9 +16872,9 @@
         <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>false</editable>
+        <editable>true</editable>
         <field>Meeting_Note_Insight__c.Meeting_Note__c</field>
-        <readable>false</readable>
+        <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
@@ -16725,9 +16887,9 @@
         <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>false</editable>
+        <editable>true</editable>
         <field>Meeting_Note_Insight__c.Sentiment__c</field>
-        <readable>false</readable>
+        <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
@@ -16812,6 +16974,11 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Meeting_Note__c.Purpose__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Meeting_Note__c.Raw_Note__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -18306,11 +18473,6 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
-        <field>Product__c.Benchmark_Name__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
         <field>Product__c.Benchmark__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -18387,11 +18549,6 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Product__c.Dedicated_Fund__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>Product__c.Domicile__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -18596,22 +18753,12 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
-        <field>Product__c.InvestmentStyle__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
         <field>Product__c.InvestmentUniverseReduction__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
         <field>Product__c.Investment_Style__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
-        <field>Product__c.InvestorsRegion__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -18761,6 +18908,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
+        <field>Product__c.PRIIPSCategory__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
         <field>Product__c.PRIIPSEligible__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -18846,11 +18998,6 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
-        <field>Product__c.Registration_Mapping__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
         <field>Product__c.Regulator__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -18862,11 +19009,6 @@
     <fieldPermissions>
         <editable>false</editable>
         <field>Product__c.RegulatoryNumber__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
-        <field>Product__c.ReviewByThrisdParty__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -20821,11 +20963,6 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
-        <field>ProjectProductChild__c.IsUSEligible__c</field>
-        <readable>false</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
         <field>ProjectProductChild__c.IsUsingPAI__c</field>
         <readable>false</readable>
     </fieldPermissions>
@@ -21012,6 +21149,11 @@
     <fieldPermissions>
         <editable>false</editable>
         <field>ProjectProductChild__c.OverduePercent__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>ProjectProductChild__c.PRIIPSCategory__c</field>
         <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -21461,6 +21603,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
+        <field>ProjectProduct__c.CommentaireLettre__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
         <field>ProjectProduct__c.Communication__c</field>
         <readable>false</readable>
     </fieldPermissions>
@@ -21528,6 +21675,11 @@
         <editable>false</editable>
         <field>ProjectProduct__c.DatadicURL__c</field>
         <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>ProjectProduct__c.DefaultLanguage__c</field>
+        <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
@@ -22961,6 +23113,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
+        <field>ProjectProduct__c.LettreRequise__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
         <field>ProjectProduct__c.LeveragewithIRD__c</field>
         <readable>false</readable>
     </fieldPermissions>
@@ -23062,6 +23219,11 @@
     <fieldPermissions>
         <editable>false</editable>
         <field>ProjectProduct__c.OTCClearerDetails__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>ProjectProduct__c.PRIIPSCategory__c</field>
         <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -23551,6 +23713,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
+        <field>ProjectShareclassChild__c.DisseminationRecipient__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
         <field>ProjectShareclassChild__c.Dissemination__c</field>
         <readable>false</readable>
     </fieldPermissions>
@@ -23661,6 +23828,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
+        <field>ProjectShareclassChild__c.Feeder__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
         <field>ProjectShareclassChild__c.HasDilutionLevy__c</field>
         <readable>false</readable>
     </fieldPermissions>
@@ -23741,6 +23913,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
+        <field>ProjectShareclassChild__c.InvestorSubType__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
         <field>ProjectShareclassChild__c.InvestorType__c</field>
         <readable>false</readable>
     </fieldPermissions>
@@ -23817,6 +23994,11 @@
     <fieldPermissions>
         <editable>false</editable>
         <field>ProjectShareclassChild__c.MaxRedemptionFee__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>ProjectShareclassChild__c.MaxRedemptionFeesManCo__c</field>
         <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -23903,6 +24085,11 @@
         <editable>false</editable>
         <field>ProjectShareclassChild__c.OverPerformanceCondition__c</field>
         <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>ProjectShareclassChild__c.PRIIPSKIDRedemptionFee__c</field>
+        <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
@@ -24221,6 +24408,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
+        <field>ProjectShareclass__c.DisseminationRecipient__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
         <field>ProjectShareclass__c.Dissemination__c</field>
         <readable>false</readable>
     </fieldPermissions>
@@ -24336,6 +24528,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
+        <field>ProjectShareclass__c.Feeder__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
         <field>ProjectShareclass__c.Fund__c</field>
         <readable>false</readable>
     </fieldPermissions>
@@ -24407,6 +24604,11 @@
     <fieldPermissions>
         <editable>false</editable>
         <field>ProjectShareclass__c.InvestmentStatusInvestors__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>ProjectShareclass__c.InvestorSubType__c</field>
         <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -24501,6 +24703,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
+        <field>ProjectShareclass__c.MaxRedemptionFeesManCo__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
         <field>ProjectShareclass__c.MaxRedemptionFeesSubfund__c</field>
         <readable>false</readable>
     </fieldPermissions>
@@ -24577,6 +24784,11 @@
     <fieldPermissions>
         <editable>false</editable>
         <field>ProjectShareclass__c.OverPerformanceCondition__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>ProjectShareclass__c.PRIIPSKIDRedemptionFee__c</field>
         <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -25007,6 +25219,31 @@
     <fieldPermissions>
         <editable>false</editable>
         <field>QuoteLineItem.TotalPrice</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>RegDocs__c.Checksum__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>RegDocs__c.Country__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>RegDocs__c.FileSize__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>RegDocs__c.Language__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>RegDocs__c.URL__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -25535,7 +25772,7 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>false</editable>
+        <editable>true</editable>
         <field>Share_Class__c.Currency__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -25557,6 +25794,11 @@
     <fieldPermissions>
         <editable>false</editable>
         <field>Share_Class__c.DecimalsMaxShares__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Share_Class__c.DisseminationRecipient__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -25637,6 +25879,11 @@
     <fieldPermissions>
         <editable>false</editable>
         <field>Share_Class__c.ExpertGermany__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Share_Class__c.Feeder__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -25722,6 +25969,11 @@
     <fieldPermissions>
         <editable>false</editable>
         <field>Share_Class__c.InvestmentStatusInvestors__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Share_Class__c.InvestorSubType__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -25822,6 +26074,11 @@
     <fieldPermissions>
         <editable>false</editable>
         <field>Share_Class__c.MaxRedemptionFee__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Share_Class__c.MaxRedemptionFeesManCo__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -25932,6 +26189,11 @@
     <fieldPermissions>
         <editable>false</editable>
         <field>Share_Class__c.OverPerformanceCondition__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Share_Class__c.PRIIPSKIDRedemptionFee__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -26061,6 +26323,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
+        <field>Share_Class__c.SRRIDate__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
         <field>Share_Class__c.SRRI__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -26097,6 +26364,21 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Share_Class__c.Synthetic_Risk_and_Reward_Indicator__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Share_Class__c.TERDate__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Share_Class__c.TERExclPerfFee__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Share_Class__c.TERInclPerfFee__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -26980,6 +27262,11 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
+        <editable>false</editable>
+        <field>Task.IsVisibleInSelfService</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
         <editable>true</editable>
         <field>Task.Last_Session__c</field>
         <readable>true</readable>
@@ -27810,6 +28097,16 @@
         <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
+        <editable>false</editable>
+        <field>dupcheck__dc3Duplicate__c.dupcheck__AIDuplicateRecommendationExplanation__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>dupcheck__dc3Duplicate__c.dupcheck__AIDuplicateRecommendationStatus__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
         <editable>true</editable>
         <field>dupcheck__dc3Duplicate__c.dupcheck__Display__c</field>
         <readable>true</readable>
@@ -28140,6 +28437,16 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
+        <editable>false</editable>
+        <field>dupcheck__dcGroup__c.dupcheck__AIDuplicateGroupStatus__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>dupcheck__dcGroup__c.dupcheck__AIStatusCount__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
         <editable>true</editable>
         <field>dupcheck__dcGroup__c.dupcheck__Display__c</field>
         <readable>true</readable>
@@ -28158,6 +28465,11 @@
         <editable>true</editable>
         <field>dupcheck__dcGroup__c.dupcheck__avgScore__c</field>
         <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>dupcheck__dcGroup__c.dupcheck__duplicateAIStatusCount__c</field>
+        <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
@@ -28215,6 +28527,11 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
+        <editable>false</editable>
+        <field>dupcheck__dcGroup__c.dupcheck__uniqueAIStatusCount__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
         <editable>true</editable>
         <field>dupcheck__dcIndex__c.dupcheck__RecordType__c</field>
         <readable>true</readable>
@@ -28233,6 +28550,21 @@
         <editable>true</editable>
         <field>dupcheck__dcIndex__c.dupcheck__recordTypeId__c</field>
         <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>dupcheck__dcJob__c.dupcheck__AIDataStewardLowerBoundThreshold__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>dupcheck__dcJob__c.dupcheck__AIDataStewardUpperBoundThreshold__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>dupcheck__dcJob__c.dupcheck__AIMergeRecommendationEnabled__c</field>
+        <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
@@ -28268,6 +28600,11 @@
         <editable>true</editable>
         <field>dupcheck__dcJob__c.dupcheck__autoProcessGroupFilter__c</field>
         <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>dupcheck__dcJob__c.dupcheck__autoProcessPairFilter__c</field>
+        <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
@@ -28405,6 +28742,11 @@
         <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
+        <editable>false</editable>
+        <field>dupcheck__dcJob__c.dupcheck__pairFilter__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
         <editable>true</editable>
         <field>dupcheck__dcJob__c.dupcheck__parent__c</field>
         <readable>true</readable>
@@ -28422,6 +28764,11 @@
     <fieldPermissions>
         <editable>false</editable>
         <field>dupcheck__dcJob__c.dupcheck__result__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>dupcheck__dcJob__c.dupcheck__runAIrecommendation__c</field>
         <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -28631,6 +28978,14 @@
     </fieldPermissions>
     <flowAccesses>
         <enabled>false</enabled>
+        <flow>AI_Meeting_Note_RawText</flow>
+    </flowAccesses>
+    <flowAccesses>
+        <enabled>false</enabled>
+        <flow>AL_RawText_GeneratePromptsResponses</flow>
+    </flowAccesses>
+    <flowAccesses>
+        <enabled>false</enabled>
         <flow>AL_VideoCall_GeneratePlatformEvent</flow>
     </flowAccesses>
     <flowAccesses>
@@ -28723,6 +29078,10 @@
     </flowAccesses>
     <flowAccesses>
         <enabled>false</enabled>
+        <flow>CampaignMember_OptOutValidation</flow>
+    </flowAccesses>
+    <flowAccesses>
+        <enabled>false</enabled>
         <flow>CampaignMember_PO006</flow>
     </flowAccesses>
     <flowAccesses>
@@ -28812,6 +29171,10 @@
     <flowAccesses>
         <enabled>false</enabled>
         <flow>Contact_deactivate_the_related_web_communication_on_Email_optout</flow>
+    </flowAccesses>
+    <flowAccesses>
+        <enabled>false</enabled>
+        <flow>Copy_Tech_Event_fields_from_Contact_to_Campaign_Member</flow>
     </flowAccesses>
     <flowAccesses>
         <enabled>false</enabled>
@@ -29039,6 +29402,10 @@
     </flowAccesses>
     <flowAccesses>
         <enabled>false</enabled>
+        <flow>FundFieldApplicabilityHistoryProduct</flow>
+    </flowAccesses>
+    <flowAccesses>
+        <enabled>false</enabled>
         <flow>Fund_Field_ApplicabilityHistoryFlow</flow>
     </flowAccesses>
     <flowAccesses>
@@ -29179,7 +29546,23 @@
     </flowAccesses>
     <flowAccesses>
         <enabled>false</enabled>
+        <flow>PMT_FundManagerAssignment_RepOrder_Control</flow>
+    </flowAccesses>
+    <flowAccesses>
+        <enabled>false</enabled>
         <flow>PMT_NarrativeName</flow>
+    </flowAccesses>
+    <flowAccesses>
+        <enabled>false</enabled>
+        <flow>PMT_Narratives_Duplicates</flow>
+    </flowAccesses>
+    <flowAccesses>
+        <enabled>false</enabled>
+        <flow>PMT_Narratives_Duplicates_Biography</flow>
+    </flowAccesses>
+    <flowAccesses>
+        <enabled>false</enabled>
+        <flow>PMT_ProductManagerAssignment_Prevent_Duplicate_PM_by_Period</flow>
     </flowAccesses>
     <flowAccesses>
         <enabled>false</enabled>
@@ -29260,6 +29643,10 @@
     <flowAccesses>
         <enabled>false</enabled>
         <flow>RelationshipStatus_PB002_ChatterPostOverallRelationship</flow>
+    </flowAccesses>
+    <flowAccesses>
+        <enabled>false</enabled>
+        <flow>Reminder_Notice_to_Shareholders_J_60</flow>
     </flowAccesses>
     <flowAccesses>
         <enabled>false</enabled>
@@ -29351,6 +29738,14 @@
     </flowAccesses>
     <flowAccesses>
         <enabled>false</enabled>
+        <flow>WTP_FLO</flow>
+    </flowAccesses>
+    <flowAccesses>
+        <enabled>false</enabled>
+        <flow>WTP_FLO_OnCreate_SendHumanTranslationEmail</flow>
+    </flowAccesses>
+    <flowAccesses>
+        <enabled>false</enabled>
         <flow>WorkTogether_PB002_AssignToQeueu</flow>
     </flowAccesses>
     <flowAccesses>
@@ -29428,6 +29823,9 @@
         <recordType>Account.Ultimate_Parent</recordType>
     </layoutAssignments>
     <layoutAssignments>
+        <layout>AccountBrand-Account Brand Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
         <layout>AccountContactRelation-Account Contact Relationship Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
@@ -29501,6 +29899,9 @@
         <layout>AlertType__c-AlertType Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
+        <layout>AlternativePaymentMethod-Alternative Payment Method Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
         <layout>Asset-Asset Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
@@ -29565,6 +29966,9 @@
     </layoutAssignments>
     <layoutAssignments>
         <layout>CampaignMemberStatus-Campaign Member Status Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>CardPaymentMethod-Card Payment Method Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
         <layout>CarmignacProduct__c-Product Layout</layout>
@@ -29807,6 +30211,12 @@
         <recordType>Country__c.TaxRegistration</recordType>
     </layoutAssignments>
     <layoutAssignments>
+        <layout>CreditMemo-Credit Memo Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>CreditMemoLine-Credit Memo Line Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
         <layout>CspTrustedSite-Trusted URL Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
@@ -29847,6 +30257,9 @@
     </layoutAssignments>
     <layoutAssignments>
         <layout>DelegatedAccount-External Managed Account Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>DigitalWallet-Digital Wallet Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
         <layout>Digital_Interaction_Details__c-Digital Interaction Details Layout</layout>
@@ -29982,6 +30395,12 @@
     </layoutAssignments>
     <layoutAssignments>
         <layout>InternalOrganizationUnit-Internal Organization Unit Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Invoice-Invoice Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>InvoiceLine-Invoice Line Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
         <layout>KYC_Document_Configuration__c-KYD Document Configuration Layout</layout>
@@ -30181,6 +30600,27 @@
         <layout>PMTExclusionsField__mdt-PMT Clone Exclusion Field Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
+        <layout>Payment-Payment Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>PaymentAuthAdjustment-Payment Authorization Adjustment Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>PaymentAuthorization-Payment Authorization Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>PaymentGateway-Payment Gateway Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>PaymentGatewayLog-Payment Gateway Log Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>PaymentGroup-Payment Group Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>PaymentLineInvoice-Payment Line Invoice Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
         <layout>Platform_Flow_AUM__c-Platform Flow %26 AUM Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
@@ -30350,6 +30790,15 @@
     </layoutAssignments>
     <layoutAssignments>
         <layout>QuoteLineItem-Quote Line Item Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Refund-Refund Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>RefundLinePayment-Refund Line Payment Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>RegDocs__c-RegDocument Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
         <layout>RelatedCompany__c-Related Company Layout</layout>
@@ -32020,6 +32469,15 @@
         <allowEdit>true</allowEdit>
         <allowRead>true</allowRead>
         <modifyAllRecords>true</modifyAllRecords>
+        <object>RegDocs__c</object>
+        <viewAllRecords>true</viewAllRecords>
+    </objectPermissions>
+    <objectPermissions>
+        <allowCreate>true</allowCreate>
+        <allowDelete>true</allowDelete>
+        <allowEdit>true</allowEdit>
+        <allowRead>true</allowRead>
+        <modifyAllRecords>true</modifyAllRecords>
         <object>RelatedCompany__c</object>
         <viewAllRecords>true</viewAllRecords>
     </objectPermissions>
@@ -32793,6 +33251,10 @@
     </pageAccesses>
     <pageAccesses>
         <apexPage>VFP12_DeleteAllProspaceAlerts</apexPage>
+        <enabled>true</enabled>
+    </pageAccesses>
+    <pageAccesses>
+        <apexPage>VFP16_SequantisDraftProjectShareClass</apexPage>
         <enabled>true</enabled>
     </pageAccesses>
     <recordTypeVisibilities>
@@ -33614,6 +34076,10 @@
         <visibility>Hidden</visibility>
     </tabVisibilities>
     <tabVisibilities>
+        <tab>standard-DelegatedAccount</tab>
+        <visibility>DefaultOff</visibility>
+    </tabVisibilities>
+    <tabVisibilities>
         <tab>standard-DuplicateRecordSet</tab>
         <visibility>DefaultOn</visibility>
     </tabVisibilities>
@@ -33760,7 +34226,15 @@
     </userPermissions>
     <userPermissions>
         <enabled>true</enabled>
+        <name>AllowUniversalSearch</name>
+    </userPermissions>
+    <userPermissions>
+        <enabled>true</enabled>
         <name>AllowViewEditConvertedLeads</name>
+    </userPermissions>
+    <userPermissions>
+        <enabled>true</enabled>
+        <name>AllowViewKnowledge</name>
     </userPermissions>
     <userPermissions>
         <enabled>true</enabled>
@@ -34089,6 +34563,10 @@
     <userPermissions>
         <enabled>true</enabled>
         <name>ManageContentTypes</name>
+    </userPermissions>
+    <userPermissions>
+        <enabled>true</enabled>
+        <name>ManageCssUsers</name>
     </userPermissions>
     <userPermissions>
         <enabled>true</enabled>

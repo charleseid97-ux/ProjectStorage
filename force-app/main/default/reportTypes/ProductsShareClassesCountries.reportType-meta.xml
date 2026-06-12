@@ -6,10 +6,10 @@
     <description>Products with ShareClasses and Countries</description>
     <join>
         <join>
-            <outerJoin>true</outerJoin>
+            <outerJoin>false</outerJoin>
             <relationship>Countries__r</relationship>
         </join>
-        <outerJoin>true</outerJoin>
+        <outerJoin>false</outerJoin>
         <relationship>Share_Classes__r</relationship>
     </join>
     <label>Products with ShareClasses and Countries</label>
@@ -116,11 +116,6 @@
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
-            <field>Domicile__c</field>
-            <table>Product__c</table>
-        </columns>
-        <columns>
-            <checkedByDefault>false</checkedByDefault>
             <field>Fiscal_Year_End__c</field>
             <table>Product__c</table>
         </columns>
@@ -182,11 +177,6 @@
         <columns>
             <checkedByDefault>false</checkedByDefault>
             <field>Reference_Indicator__c</field>
-            <table>Product__c</table>
-        </columns>
-        <columns>
-            <checkedByDefault>false</checkedByDefault>
-            <field>Registration_Mapping__c</field>
             <table>Product__c</table>
         </columns>
         <columns>
@@ -351,11 +341,6 @@
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
-            <field>Benchmark_Name__c</field>
-            <table>Product__c</table>
-        </columns>
-        <columns>
-            <checkedByDefault>false</checkedByDefault>
             <field>NAVCalculationDate__c</field>
             <table>Product__c</table>
         </columns>
@@ -512,11 +497,6 @@
         <columns>
             <checkedByDefault>false</checkedByDefault>
             <field>InvestmentUniverseReduction__c</field>
-            <table>Product__c</table>
-        </columns>
-        <columns>
-            <checkedByDefault>false</checkedByDefault>
-            <field>InvestorsRegion__c</field>
             <table>Product__c</table>
         </columns>
         <columns>
@@ -696,11 +676,6 @@
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
-            <field>ReviewByThrisdParty__c</field>
-            <table>Product__c</table>
-        </columns>
-        <columns>
-            <checkedByDefault>false</checkedByDefault>
             <field>RiskAssociated__c</field>
             <table>Product__c</table>
         </columns>
@@ -756,11 +731,6 @@
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
-            <field>InvestmentStyle__c</field>
-            <table>Product__c</table>
-        </columns>
-        <columns>
-            <checkedByDefault>false</checkedByDefault>
             <field>IsThematic__c</field>
             <table>Product__c</table>
         </columns>
@@ -797,6 +767,11 @@
         <columns>
             <checkedByDefault>false</checkedByDefault>
             <field>Count_SC__c</field>
+            <table>Product__c</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>PRIIPSCategory__c</field>
             <table>Product__c</table>
         </columns>
         <masterLabel>Products</masterLabel>
@@ -1585,6 +1560,51 @@
         <columns>
             <checkedByDefault>false</checkedByDefault>
             <field>MaxRedemptionFeesSubfund__c</field>
+            <table>Product__c.Share_Classes__r</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>DisseminationRecipient__c</field>
+            <table>Product__c.Share_Classes__r</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>TERExclPerfFee__c</field>
+            <table>Product__c.Share_Classes__r</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>TERInclPerfFee__c</field>
+            <table>Product__c.Share_Classes__r</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>TERDate__c</field>
+            <table>Product__c.Share_Classes__r</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>InvestorSubType__c</field>
+            <table>Product__c.Share_Classes__r</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>MaxRedemptionFeesManCo__c</field>
+            <table>Product__c.Share_Classes__r</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>PRIIPSKIDRedemptionFee__c</field>
+            <table>Product__c.Share_Classes__r</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>SRRIDate__c</field>
+            <table>Product__c.Share_Classes__r</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>Feeder__c</field>
             <table>Product__c.Share_Classes__r</table>
         </columns>
         <masterLabel>Share Classes</masterLabel>

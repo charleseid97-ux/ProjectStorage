@@ -36,7 +36,7 @@
         <field>Contact.Subscriber__c</field>
     </columns>
     <currency>EUR</currency>
-    <description>PLZ Munster: 48/49/44/59
+    <description>PLZ Münster: 48/49/44/59
 Opt out</description>
     <filter>
         <booleanFilter>1 AND 2 AND (3 OR 4) AND 5 AND 6 AND 7</booleanFilter>
@@ -97,7 +97,7 @@ Opt out</description>
         <field>ADDRESS2_CITY</field>
         <sortOrder>Asc</sortOrder>
     </groupingsDown>
-    <name>Ingo Roundtable Munster</name>
+    <name>Ingo Roundtable Münster</name>
     <params>
         <name>co</name>
         <value>1</value>

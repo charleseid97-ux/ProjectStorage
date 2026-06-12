@@ -28,7 +28,7 @@
         <field>EMAIL</field>
     </columns>
     <currency>EUR</currency>
-    <description>PLZ Dusseldorf: 40/42/41/46/47/45/44</description>
+    <description>PLZ Düsseldorf: 40/42/41/46/47/45/44</description>
     <filter>
         <booleanFilter>1 AND 2 AND 3 AND 4 AND 5 AND 6 AND 7</booleanFilter>
         <criteriaItems>
@@ -88,7 +88,7 @@
         <field>ADDRESS2_CITY</field>
         <sortOrder>Asc</sortOrder>
     </groupingsDown>
-    <name>Ingo Roundtable Dusseldorf</name>
+    <name>Ingo Roundtable Düsseldorf</name>
     <params>
         <name>co</name>
         <value>1</value>

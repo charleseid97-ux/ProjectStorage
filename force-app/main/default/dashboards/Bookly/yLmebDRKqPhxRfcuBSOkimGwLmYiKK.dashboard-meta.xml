@@ -72,25 +72,23 @@
     <dashboardFilters>
         <dashboardFilterOptions>
             <operator>equals</operator>
-            <values>Event conference</values>
+            <values>012bd0000017q9P</values>
         </dashboardFilterOptions>
+        <name>Event Type</name>
+    </dashboardFilters>
+    <dashboardFilters>
         <dashboardFilterOptions>
             <operator>equals</operator>
-            <values>Sponsorship</values>
+            <values>CAELS</values>
         </dashboardFilterOptions>
+        <name>Product</name>
+    </dashboardFilters>
+    <dashboardFilters>
         <dashboardFilterOptions>
-            <operator>equals</operator>
-            <values>Incentive</values>
+            <operator>contains</operator>
+            <values>Alexis</values>
         </dashboardFilterOptions>
-        <dashboardFilterOptions>
-            <operator>equals</operator>
-            <values>One to One meeting</values>
-        </dashboardFilterOptions>
-        <dashboardFilterOptions>
-            <operator>equals</operator>
-            <values>Meeting day(s)</values>
-        </dashboardFilterOptions>
-        <name>Type</name>
+        <name>Speaker Name</name>
     </dashboardFilters>
     <dashboardGridLayout>
         <dashboardGridComponents>
@@ -123,7 +121,13 @@
                     <column>Event__c.salesTeam__c</column>
                 </dashboardFilterColumns>
                 <dashboardFilterColumns>
-                    <column>Event__c.category__c</column>
+                    <column>CUST_RECORDTYPE</column>
+                </dashboardFilterColumns>
+                <dashboardFilterColumns>
+                    <column>sessionSpeakerProduct__c.Product__c</column>
+                </dashboardFilterColumns>
+                <dashboardFilterColumns>
+                    <column>sessionSpeakerProduct__c.speakerContact__c</column>
                 </dashboardFilterColumns>
                 <decimalPrecision>-1</decimalPrecision>
                 <displayUnits>Auto</displayUnits>
@@ -156,7 +160,13 @@
                     <column>Event__c.salesTeam__c</column>
                 </dashboardFilterColumns>
                 <dashboardFilterColumns>
-                    <column>Event__c.category__c</column>
+                    <column>CUST_RECORDTYPE</column>
+                </dashboardFilterColumns>
+                <dashboardFilterColumns>
+                    <column>sessionSpeakerProduct__c.Product__c</column>
+                </dashboardFilterColumns>
+                <dashboardFilterColumns>
+                    <column>sessionSpeakerProduct__c.speakerContact__c</column>
                 </dashboardFilterColumns>
                 <decimalPrecision>-1</decimalPrecision>
                 <displayUnits>Auto</displayUnits>
@@ -189,7 +199,13 @@
                     <column>Event__c.salesTeam__c</column>
                 </dashboardFilterColumns>
                 <dashboardFilterColumns>
-                    <column>Event__c.category__c</column>
+                    <column>CUST_RECORDTYPE</column>
+                </dashboardFilterColumns>
+                <dashboardFilterColumns>
+                    <column>sessionSpeakerProduct__c.Product__c</column>
+                </dashboardFilterColumns>
+                <dashboardFilterColumns>
+                    <column>sessionSpeakerProduct__c.speakerContact__c</column>
                 </dashboardFilterColumns>
                 <decimalPrecision>-1</decimalPrecision>
                 <displayUnits>Auto</displayUnits>
@@ -222,7 +238,13 @@
                     <column>Event__c.salesTeam__c</column>
                 </dashboardFilterColumns>
                 <dashboardFilterColumns>
-                    <column>Event__c.category__c</column>
+                    <column>CUST_RECORDTYPE</column>
+                </dashboardFilterColumns>
+                <dashboardFilterColumns>
+                    <column>sessionSpeakerProduct__c.Product__c</column>
+                </dashboardFilterColumns>
+                <dashboardFilterColumns>
+                    <column>sessionSpeakerProduct__c.speakerContact__c</column>
                 </dashboardFilterColumns>
                 <decimalPrecision>-1</decimalPrecision>
                 <displayUnits>Auto</displayUnits>
@@ -271,7 +293,13 @@
                     <column>Event__c.salesTeam__c</column>
                 </dashboardFilterColumns>
                 <dashboardFilterColumns>
-                    <column>Event__c.category__c</column>
+                    <column>CUST_RECORDTYPE</column>
+                </dashboardFilterColumns>
+                <dashboardFilterColumns>
+                    <column>sessionSpeakerProduct__c.Product__c</column>
+                </dashboardFilterColumns>
+                <dashboardFilterColumns>
+                    <column>sessionSpeakerProduct__c.speakerContact__c</column>
                 </dashboardFilterColumns>
                 <displayUnits>Auto</displayUnits>
                 <drillEnabled>false</drillEnabled>
@@ -316,7 +344,13 @@
                     <column>Event__c.salesTeam__c</column>
                 </dashboardFilterColumns>
                 <dashboardFilterColumns>
-                    <column>Event__c.category__c</column>
+                    <column>CUST_RECORDTYPE</column>
+                </dashboardFilterColumns>
+                <dashboardFilterColumns>
+                    <column>sessionSpeakerProduct__c.Product__c</column>
+                </dashboardFilterColumns>
+                <dashboardFilterColumns>
+                    <column>sessionSpeakerProduct__c.speakerContact__c</column>
                 </dashboardFilterColumns>
                 <decimalPrecision>-1</decimalPrecision>
                 <displayUnits>Auto</displayUnits>
@@ -363,7 +397,13 @@
                     <column>Event__c.salesTeam__c</column>
                 </dashboardFilterColumns>
                 <dashboardFilterColumns>
-                    <column>Event__c.category__c</column>
+                    <column>CUST_RECORDTYPE</column>
+                </dashboardFilterColumns>
+                <dashboardFilterColumns>
+                    <column>sessionSpeakerProduct__c.Product__c</column>
+                </dashboardFilterColumns>
+                <dashboardFilterColumns>
+                    <column>sessionSpeakerProduct__c.speakerContact__c</column>
                 </dashboardFilterColumns>
                 <displayUnits>Auto</displayUnits>
                 <drillEnabled>false</drillEnabled>
@@ -409,7 +449,13 @@
                     <column>Event__c.salesTeam__c</column>
                 </dashboardFilterColumns>
                 <dashboardFilterColumns>
-                    <column>Event__c.category__c</column>
+                    <column>CUST_RECORDTYPE</column>
+                </dashboardFilterColumns>
+                <dashboardFilterColumns>
+                    <column>sessionSpeakerProduct__c.Product__c</column>
+                </dashboardFilterColumns>
+                <dashboardFilterColumns>
+                    <column>sessionSpeakerProduct__c.speakerContact__c</column>
                 </dashboardFilterColumns>
                 <displayUnits>Auto</displayUnits>
                 <drillEnabled>false</drillEnabled>
@@ -454,7 +500,13 @@
                     <column>Event__c.salesTeam__c</column>
                 </dashboardFilterColumns>
                 <dashboardFilterColumns>
-                    <column>Event__c.category__c</column>
+                    <column>CUST_RECORDTYPE</column>
+                </dashboardFilterColumns>
+                <dashboardFilterColumns>
+                    <column>sessionSpeakerProduct__c.Product__c</column>
+                </dashboardFilterColumns>
+                <dashboardFilterColumns>
+                    <column>sessionSpeakerProduct__c.speakerContact__c</column>
                 </dashboardFilterColumns>
                 <decimalPrecision>-1</decimalPrecision>
                 <displayUnits>Auto</displayUnits>
@@ -500,7 +552,13 @@
                     <column>Event__c.salesTeam__c</column>
                 </dashboardFilterColumns>
                 <dashboardFilterColumns>
-                    <column>Event__c.category__c</column>
+                    <column>CUST_RECORDTYPE</column>
+                </dashboardFilterColumns>
+                <dashboardFilterColumns>
+                    <column>sessionSpeakerProduct__c.Product__c</column>
+                </dashboardFilterColumns>
+                <dashboardFilterColumns>
+                    <column>sessionSpeakerProduct__c.speakerContact__c</column>
                 </dashboardFilterColumns>
                 <displayUnits>Auto</displayUnits>
                 <drillEnabled>false</drillEnabled>
@@ -559,7 +617,13 @@
                     <column>Event__c.salesTeam__c</column>
                 </dashboardFilterColumns>
                 <dashboardFilterColumns>
-                    <column>Event__c.category__c</column>
+                    <column>CUST_RECORDTYPE</column>
+                </dashboardFilterColumns>
+                <dashboardFilterColumns>
+                    <column>sessionSpeakerProduct__c.Product__c</column>
+                </dashboardFilterColumns>
+                <dashboardFilterColumns>
+                    <column>sessionSpeakerProduct__c.speakerContact__c</column>
                 </dashboardFilterColumns>
                 <decimalPrecision>-1</decimalPrecision>
                 <displayUnits>Auto</displayUnits>
@@ -606,7 +670,13 @@
                     <column>Event__c.salesTeam__c</column>
                 </dashboardFilterColumns>
                 <dashboardFilterColumns>
-                    <column>Event__c.category__c</column>
+                    <column>CUST_RECORDTYPE</column>
+                </dashboardFilterColumns>
+                <dashboardFilterColumns>
+                    <column>sessionSpeakerProduct__c.Product__c</column>
+                </dashboardFilterColumns>
+                <dashboardFilterColumns>
+                    <column>sessionSpeakerProduct__c.speakerContact__c</column>
                 </dashboardFilterColumns>
                 <decimalPrecision>-1</decimalPrecision>
                 <displayUnits>Auto</displayUnits>
@@ -653,7 +723,13 @@
                     <column>Event__c$salesTeam__c</column>
                 </dashboardFilterColumns>
                 <dashboardFilterColumns>
-                    <column>Event__c$category__c</column>
+                    <column>Event__c$RecordType</column>
+                </dashboardFilterColumns>
+                <dashboardFilterColumns>
+                    <column>Event__c.SpeakersProducts__r$Product__c</column>
+                </dashboardFilterColumns>
+                <dashboardFilterColumns>
+                    <column>Event__c.SpeakersProducts__r$speakerContact__c</column>
                 </dashboardFilterColumns>
                 <decimalPrecision>-1</decimalPrecision>
                 <displayUnits>Auto</displayUnits>
@@ -700,7 +776,13 @@
                     <column>Event__c$salesTeam__c</column>
                 </dashboardFilterColumns>
                 <dashboardFilterColumns>
-                    <column>Event__c$category__c</column>
+                    <column>Event__c$RecordType</column>
+                </dashboardFilterColumns>
+                <dashboardFilterColumns>
+                    <column>Event__c.SpeakersProducts__r$Product__c</column>
+                </dashboardFilterColumns>
+                <dashboardFilterColumns>
+                    <column>Event__c.SpeakersProducts__r$speakerContact__c</column>
                 </dashboardFilterColumns>
                 <decimalPrecision>-1</decimalPrecision>
                 <displayUnits>Auto</displayUnits>
@@ -745,7 +827,13 @@
                     <column>Event__c$salesTeam__c</column>
                 </dashboardFilterColumns>
                 <dashboardFilterColumns>
-                    <column>Event__c$category__c</column>
+                    <column>Event__c$RecordType</column>
+                </dashboardFilterColumns>
+                <dashboardFilterColumns>
+                    <column>Event__c.SpeakersProducts__r$Product__c</column>
+                </dashboardFilterColumns>
+                <dashboardFilterColumns>
+                    <column>Event__c.SpeakersProducts__r$speakerContact__c</column>
                 </dashboardFilterColumns>
                 <decimalPrecision>-1</decimalPrecision>
                 <displayUnits>Auto</displayUnits>
@@ -792,7 +880,13 @@
                     <column>Event__c$salesTeam__c</column>
                 </dashboardFilterColumns>
                 <dashboardFilterColumns>
-                    <column>Event__c$category__c</column>
+                    <column>Event__c$RecordType</column>
+                </dashboardFilterColumns>
+                <dashboardFilterColumns>
+                    <column>Event__c.SpeakersProducts__r$Product__c</column>
+                </dashboardFilterColumns>
+                <dashboardFilterColumns>
+                    <column>Event__c.SpeakersProducts__r$speakerContact__c</column>
                 </dashboardFilterColumns>
                 <decimalPrecision>-1</decimalPrecision>
                 <displayUnits>Auto</displayUnits>
