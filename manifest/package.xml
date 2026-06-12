@@ -2,21 +2,20 @@
 <Package xmlns="http://soap.sforce.com/2006/04/metadata">
 	<types>
 		<members>AgreementGridRecapController</members>
+		<members>AgreementGridRecapControllerTest</members>
 		<members>AgreementTest</members>
+		<members>AgreementGridTimelineScheduler</members>
+		<members>AgreementGridTimelineBatch</members>
+		<members>AgreementGridTimelineUtility</members>
+		<members>AgreementUtil</members>
 		<members>CustomApprovalHistoryController</members>
 		<members>CustomApprovalHistoryControllerTest</members>
 		<members>CustomApprovalHistoryUtility</members>
 		<members>CustomApprovalHistoryUtilityTest</members>
+		<members>CustomAlertScheduler</members>
+		<members>CustomAlertSchedulerTest</members>
 		<members>EmailService</members>
 		<members>EmailServiceTest</members>
-		<members>IApprovalAction</members>
-		<members>QueueMemberService</members>
-		<members>QueueMemberServiceTest</members>
-		<members>AgreementGridRecapControllerTest</members>
-		<members>AgreementGridTimelineBatch</members>
-		<members>AgreementGridTimelineScheduler</members>
-		<members>AgreementGridTimelineUtility</members>
-		<members>AgreementUtil</members>
 		<members>GridBuilderController</members>
 		<members>GridBuilderControllerTest</members>
 		<members>GridBuilderHelper</members>
@@ -38,25 +37,26 @@
 		<members>GridHOCApproverResolver</members>
 		<members>GridTestSetupHelper</members>
 		<members>GridTopManagementApproverResolver</members>
-		<members>IApproverResolver</members>
-		<members>CustomAlertScheduler</members>
-		<members>CustomAlertSchedulerTest</members>
 		<members>GridReviewBatch</members>
 		<members>GridReviewBatchTest</members>
-		<members>ICustomAlerter</members>
 		<members>GridValidationController</members>
 		<members>GridLifecycleTest</members>
 		<members>GridTriggerHandler</members>
 		<members>GridUtility</members>
 		<members>GridValidationControllerTest</members>
+		<members>GridEmailStandardRulesController</members>
+		<members>GridEmailShareClassOverviewController</members>
+		<members>IApprovalAction</members>
+		<members>IApproverResolver</members>
+		<members>ICustomAlerter</members>
+		<members>QueueMemberService</members>
+		<members>QueueMemberServiceTest</members>
 		<members>SM034_AgreementService</members>
 		<members>ShareClassCustomGridBatch</members>
 		<members>ShareClassGridBatchTest</members>
 		<members>ShareClassStandardGridBatch</members>
 		<members>StandardGridProductAndRulesController</members>
 		<members>StdGridProductAndRulesControllerTest</members>
-		<members>GridEmailStandardRulesController</members>
-		<members>GridEmailShareClassOverviewController</members>
 		<name>ApexClass</name>
 	</types>
 	<types>
@@ -407,8 +407,9 @@
 		<members>AgreementGridTimelineItemRecordPage</members>
 		<members>BuildNewGrid</members>
 		<members>GridApprovalAction</members>
-		<!-- <members>Convention_Record_Page</members> -->
-		<!-- <members>Agreement_Record_Page</members> -->
+		<members>Convention_Record_Page</members>
+		<members>Agreement_Record_Page</members>
+		<members>IS_Agreement</members>
 		<members>CustomApprovalRecordPage</members>
 		<members>CustomApprovalStepRecordPage</members>
 		<members>CustomGridRecordPage</members>
@@ -475,12 +476,20 @@
 	<types>
 		<members>Grid_AccessGridSimulation</members>
 		<members>Grid_AccessGridComparison</members>
+		<members>Grid_AccessGridDetails</members>
+		<members>Grid_AccessGridBuilder</members>
+		<members>Grid_AccessGridAmendmentRequest</members>
 		<name>CustomPermission</name>
 	</types>
 	<types>
 		<members>GridBuilderPermissions</members>
 		<members>GridImportPermissions</members>
 		<members>GridDataReadPermission</members>
+		<members>Grid_BaseAccess</members>
+		<members>Grid_AccessGridSimulation</members>
+		<members>Grid_AccessGridComparison</members>
+		<members>Grid_AccessGridBuilder</members>
+		<members>Grid_AccessGridAmendment</members>
 		<name>PermissionSet</name>
 	</types>
 	<types>
