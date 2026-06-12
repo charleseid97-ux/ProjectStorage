@@ -1,0 +1,165 @@
+.centerSpinner {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(255, 255, 255, 0.4);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 20;
+}
+
+.validationPage {
+    row-gap: 15px;
+    display: flex;
+    flex-direction: column;
+}
+
+.table-scroll-container {
+    max-width: 100%;
+    overflow-x: auto;
+}
+
+.validation-table {
+    table-layout: fixed;
+    width: 100%;
+}
+
+.validation-table th,
+.validation-table td {
+    white-space: nowrap;
+}
+
+.accordion-header-messages {
+    display: inline-flex;
+    gap: 8px;
+    align-items: center;
+}
+
+.remove-product-button {
+    margin-left: 6px;
+}
+.accordion-message {
+    color: #ba0517;
+    font-weight: 600;
+}
+
+.accordion-badge {
+    background: #ffffff;
+    border-radius: 12px;
+    padding: 2px 8px;
+    font-weight: 600;
+}
+
+.custom-accordion {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.custom-accordion-item {
+    border: 1px solid #d8dde6;
+    border-radius: 6px;
+    overflow: hidden;
+}
+
+.custom-accordion-header {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    padding: 4px 10px;
+    background: #f3f2f2;
+    border: none;
+    cursor: pointer;
+    text-align: left;
+}
+
+.main-header-left {
+    display: flex;
+    align-items: center;
+    column-gap: 10px;
+}
+
+.header-left {
+    display: flex;
+    flex-direction: row;
+    align-items: baseline;
+    column-gap: 15px;
+}
+
+.header-title {
+    font-weight: 600;
+}
+
+.header-grids {
+    display: flex;
+    column-gap: 10px;
+}
+
+.header-sep {
+    color: #5f7387;
+}
+
+.header-grids-label {
+    color: #16325c;
+    font-weight: 600;
+    border-radius: 25px;
+    background-color: #ffffff;
+    padding: 0px 10px;
+}
+
+.header-title--large {
+    font-size: 1.05rem;
+}
+
+.header-counts {
+    font-size: 0.8rem;
+    color: #3e3e3c;
+}
+
+.accordion-toggle-icon {
+    margin-right: 4px;
+    color: #3e3e3c;
+}
+
+.centerButtons {
+    display: flex;
+    justify-content: center;
+    padding: 15px;
+}
+
+.granularColumn {
+    display: flex;
+    column-gap: 15px;
+    padding-right: 15px;
+}
+
+.missing-share-class {
+    background-color: #ffc8c8;
+}
+
+.custom-button {
+    --slds-c-button-line-height: 20px;
+}
+
+.alignCenter {
+    text-align: center;
+}
+
+.alignRight {
+    text-align: right;
+}
+
+.validation-controls {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    --slds-c-button-line-height: 25px;
+}
+
+.validation-controls-right {
+    display: flex;
+    column-gap: 10px;
+}

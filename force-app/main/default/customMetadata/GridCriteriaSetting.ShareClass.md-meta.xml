@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomMetadata xmlns="http://soap.sforce.com/2006/04/metadata" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <label>ShareClass</label>
+    <protected>false</protected>
+    <values>
+        <field>AllowedOperators__c</field>
+        <value xsi:type="xsd:string">IN, NOT IN</value>
+    </values>
+    <values>
+        <field>FieldApiNames__c</field>
+        <value xsi:type="xsd:string">Currency__c,DividendPolicy__c</value>
+    </values>
+    <values>
+        <field>GridBuilderSetting__c</field>
+        <value xsi:type="xsd:string">CustomGridBuilderSetting</value>
+    </values>
+    <values>
+        <field>IsActive__c</field>
+        <value xsi:type="xsd:boolean">false</value>
+    </values>
+    <values>
+        <field>ObjectApiName__c</field>
+        <value xsi:type="xsd:string">Share_Class__c</value>
+    </values>
+    <values>
+        <field>SortOrder__c</field>
+        <value xsi:type="xsd:double">3.0</value>
+    </values>
+</CustomMetadata>

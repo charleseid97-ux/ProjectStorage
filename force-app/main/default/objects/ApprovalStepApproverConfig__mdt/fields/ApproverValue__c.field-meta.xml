@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>ApproverValue__c</fullName>
+    <description>The lookup value interpreted according to ApproverType__c. Not used when ApproverSource__c is Dynamic or UserInput.</description>
+    <externalId>false</externalId>
+    <fieldManageability>SubscriberControlled</fieldManageability>
+    <inlineHelpText>User: enter the Salesforce username in email format (e.g. john.doe@company.com). Queue: enter the queue developer name (e.g. HOC_Belgium). RelatedUser: enter the field API name on the record being approved (e.g. OwnerId, DCOOwner__c).</inlineHelpText>
+    <label>Approver Value</label>
+    <length>255</length>
+    <required>false</required>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

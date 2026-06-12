@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>HOC_DA_Queue_Grid</fullName>
+    <filterScope>Queue</filterScope>
+    <label>HOC DA</label>
+    <queue>HOC_DA_Queue</queue>
+    <sharedTo>
+        <allInternalUsers></allInternalUsers>
+    </sharedTo>
+</ListView>

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>AdditionalQueues__c</fullName>
+    <description>Comma-separated developer names of queues to include as email recipients. Used only when ActionKind__c = EmailAlert.</description>
+    <externalId>false</externalId>
+    <fieldManageability>SubscriberControlled</fieldManageability>
+    <inlineHelpText>Example: HOC_Belgium,DCO_KYD. All members of each listed queue receive the email. These are sent in addition to any RecipientType__c selections.</inlineHelpText>
+    <label>Additional Queues</label>
+    <length>255</length>
+    <required>false</required>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

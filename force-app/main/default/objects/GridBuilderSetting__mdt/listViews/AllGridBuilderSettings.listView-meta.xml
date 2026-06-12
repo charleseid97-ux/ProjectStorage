@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>AllGridBuilderSettings</fullName>
+    <columns>MasterLabel</columns>
+    <columns>AgreementSelectionMode__c</columns>
+    <columns>AgreementQueryConditions__c</columns>
+    <columns>FilterLimit__c</columns>
+    <columns>FilterValueSeparator__c</columns>
+    <columns>FilterDefaultLogic__c</columns>
+    <columns>AllShareTypeOptions__c</columns>
+    <columns>DefaultShareTypeInclusion__c</columns>
+    <columns>DefinitiveShareTypeExclusion__c</columns>
+    <columns>FieldsToDisplay__c</columns>
+    <columns>DefaultSortFields__c</columns>
+    <filterScope>Everything</filterScope>
+    <label>All Grid Builder Settings</label>
+    <language>en_US</language>
+</ListView>

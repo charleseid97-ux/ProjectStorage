@@ -1,0 +1,86 @@
+.custom-accordion {
+    border: 1px solid #d8dde6;
+    border-radius: 0.25rem;
+}
+
+.custom-accordion-item + .custom-accordion-item {
+    border-top: 1px solid #d8dde6;
+}
+
+.custom-accordion-header {
+    background: #f3f3f3;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 2px 10px;
+}
+
+.accordion-toggle-button {
+    background: transparent;
+    border: 0;
+    width: 100%;
+    text-align: left;
+    padding: 5px 0;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+}
+
+.main-header-left {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.header-left {
+    display: flex;
+    flex-direction: row;
+    align-items: baseline;
+    column-gap: 15px;
+}
+
+.header-title {
+    font-weight: 600;
+}
+
+.header-title--large {
+    font-size: 0.95rem;
+}
+
+.already-selected-warning {
+    font-size: 0.8rem;
+}
+
+.warning-label {
+    color: #c23934;
+    font-weight: 700;
+}
+
+.selection-status {
+    color: #c23934;
+    font-style: italic;
+}
+
+.header-counts {
+    color: #5f7387;
+    font-size: 0.8rem;
+}
+
+.accordion-toggle-icon {
+    margin-right: 0.25rem;
+}
+
+.remove-product-button {
+    margin-left: 10px;
+}
+
+.table-scroll-container {
+    overflow: auto;
+}
+
+.accordion-controls {
+    display: flex;
+    margin-bottom: 8px;
+    --slds-c-button-line-height: 25px;
+}

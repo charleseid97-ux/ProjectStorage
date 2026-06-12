@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>DefinitiveShareTypeExclusion__c</fullName>
+    <description>Defines share types that are definitively excluded from the grid building process and cannot be included by any other configuration.</description>
+    <externalId>false</externalId>
+    <fieldManageability>DeveloperControlled</fieldManageability>
+    <inlineHelpText>Comma-separated list of Share Type API names that are always excluded. These exclusions override the inclusion settings.</inlineHelpText>
+    <label>Definitive Share Type Exclusion</label>
+    <length>255</length>
+    <required>false</required>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>
