@@ -2,7 +2,6 @@
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>ApproverType__c</fullName>
     <description>How ApproverValue__c is interpreted. User = the value is a Salesforce username. Queue = the value is a queue developer name. RelatedUser = the value is a field API name on the record being approved whose value is read at runtime as the approver ID. Required when ApproverSource__c = Configured.</description>
-    <externalId>false</externalId>
     <fieldManageability>SubscriberControlled</fieldManageability>
     <inlineHelpText>Leave blank when ApproverSource__c is Dynamic or UserInput. For RelatedUser, the field must hold a User ID (e.g. OwnerId, CreatedById, or a custom lookup to User). Cross-object field paths are not supported.</inlineHelpText>
     <label>Approver Type</label>

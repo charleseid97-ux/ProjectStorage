@@ -3,7 +3,6 @@
     <fullName>IsActive__c</fullName>
     <defaultValue>true</defaultValue>
     <description>When unchecked, this action is skipped during execution without needing to delete the record. Default: true (checked).</description>
-    <externalId>false</externalId>
     <fieldManageability>SubscriberControlled</fieldManageability>
     <inlineHelpText>Use to temporarily disable an action during testing or configuration. Inactive actions are ignored by the approval engine.</inlineHelpText>
     <label>Is Active</label>

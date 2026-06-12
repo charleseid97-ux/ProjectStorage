@@ -26,15 +26,11 @@
     <picklistValues>
         <picklist>Kind__c</picklist>
         <values>
-            <fullName>Rebates</fullName>
-            <default>false</default>
-        </values>
-        <values>
             <fullName>Investment Solution - Rebates</fullName>
             <default>false</default>
         </values>
         <values>
-            <fullName>Platform Fees</fullName>
+            <fullName>No Remuneration</fullName>
             <default>false</default>
         </values>
         <values>
@@ -42,7 +38,11 @@
             <default>false</default>
         </values>
         <values>
-            <fullName>No Remuneration</fullName>
+            <fullName>Platform Fees</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Rebates</fullName>
             <default>false</default>
         </values>
     </picklistValues>

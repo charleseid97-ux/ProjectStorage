@@ -2,7 +2,6 @@
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>StepConfig__c</fullName>
     <description>Step-level scope. Required for ActionType__c = StepApproval, StepRejection. Mutually exclusive with ProcessConfig__c.</description>
-    <externalId>false</externalId>
     <fieldManageability>SubscriberControlled</fieldManageability>
     <inlineHelpText>Leave blank if this is a process-level action. Required for step-level action types: StepApproval, StepRejection.</inlineHelpText>
     <label>Step Config</label>

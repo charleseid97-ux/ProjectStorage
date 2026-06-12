@@ -7,8 +7,12 @@
         <value xsi:type="xsd:string">GridReviewBatch</value>
     </values>
     <values>
-        <field>IsActive__c</field>
-        <value xsi:type="xsd:boolean">true</value>
+        <field>BatchSize__c</field>
+        <value xsi:type="xsd:double">200.0</value>
+    </values>
+    <values>
+        <field>Description__c</field>
+        <value xsi:type="xsd:string">Sends a review alert email to CGL and CGF Top Management queues listing all grids whose review date has been reached, at the frequency configured on this record</value>
     </values>
     <values>
         <field>EmailTemplate__c</field>
@@ -19,11 +23,7 @@
         <value xsi:type="xsd:string">Weekly</value>
     </values>
     <values>
-        <field>Description__c</field>
-        <value xsi:type="xsd:string">Sends a review alert email to CGL and CGF Top Management queues listing all grids whose review date has been reached, at the frequency configured on this record</value>
-    </values>
-    <values>
-        <field>BatchSize__c</field>
-        <value xsi:type="xsd:double">200.0</value>
+        <field>IsActive__c</field>
+        <value xsi:type="xsd:boolean">true</value>
     </values>
 </CustomMetadata>

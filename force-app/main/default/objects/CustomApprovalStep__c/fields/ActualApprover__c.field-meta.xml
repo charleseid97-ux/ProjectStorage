@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>ActualApprover__c</fullName>
-    <description>The user who performed the approve, reject, or recall action. Null while pending.</description>
     <deleteConstraint>SetNull</deleteConstraint>
+    <description>The user who performed the approve, reject, or recall action. Null while pending.</description>
     <inlineHelpText>Set automatically when an action is taken.</inlineHelpText>
     <label>Actual Approver</label>
     <referenceTo>User</referenceTo>
     <relationshipName>ActualApproverSteps</relationshipName>
     <required>false</required>
+    <trackTrending>false</trackTrending>
     <type>Lookup</type>
 </CustomField>

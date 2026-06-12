@@ -3,7 +3,6 @@
     <fullName>GridIsReviewed__c</fullName>
     <defaultValue>false</defaultValue>
     <description>When checked, marks this grid as manually reviewed and bypasses it from the automated Grid Review alert. Checking this field clears the Next Review Date. Setting a Next Review Date automatically unchecks this field.</description>
-    <externalId>false</externalId>
     <inlineHelpText>Check this box to mark the grid as reviewed and exclude it from the next scheduled review alert. Setting a new Next Review Date will automatically uncheck this box.</inlineHelpText>
     <label>Grid is Reviewed</label>
     <trackFeedHistory>false</trackFeedHistory>

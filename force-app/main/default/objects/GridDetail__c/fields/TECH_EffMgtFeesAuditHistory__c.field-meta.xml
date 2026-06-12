@@ -3,7 +3,6 @@
     <fullName>TECH_EffMgtFeesAuditHistory__c</fullName>
     <deleteConstraint>SetNull</deleteConstraint>
     <description>Populated on historical Grid Details. References the Fund Field Applicability History record that defines the EffMgtFees period for this detail.</description>
-    <externalId>false</externalId>
     <inlineHelpText>Populated on historical Grid Details. References the Fund Field Applicability History record that defines the EffMgtFees period for this detail.</inlineHelpText>
     <label>Eff Mgt Fees Audit History</label>
     <referenceTo>Fund_Field_ApplicabilityHistory__c</referenceTo>

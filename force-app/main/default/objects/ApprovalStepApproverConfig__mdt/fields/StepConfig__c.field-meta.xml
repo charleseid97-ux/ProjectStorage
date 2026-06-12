@@ -2,7 +2,6 @@
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>StepConfig__c</fullName>
     <description>The step this approver assignment belongs to.</description>
-    <externalId>false</externalId>
     <fieldManageability>SubscriberControlled</fieldManageability>
     <inlineHelpText>Link this record to its parent step configuration. One record per approver per step.</inlineHelpText>
     <label>Step Config</label>

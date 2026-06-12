@@ -3,7 +3,6 @@
     <fullName>ShareClass__c</fullName>
     <deleteConstraint>Restrict</deleteConstraint>
     <description>The share class record this detail points to.</description>
-    <externalId>false</externalId>
     <label>Share Class</label>
     <referenceTo>Share_Class__c</referenceTo>
     <relationshipLabel>Grid Details</relationshipLabel>

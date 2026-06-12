@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>BlockForRelease</fullName>
+    <active>false</active>
+    <errorConditionFormula>OR(
+				ISNEW(), 
+				NOT(ISNEW())
+)</errorConditionFormula>
+    <errorMessage>🚧 Temporary maintenance in progress — Our team is currently performing a system update. This record cannot be saved at this time. Please try again later. Thank you for your patience!</errorMessage>
+</ValidationRule>

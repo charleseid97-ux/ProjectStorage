@@ -2,7 +2,6 @@
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>StandardGridConfig__c</fullName>
     <description>Links this rule to the Standard Grid Recap Config it belongs to.</description>
-    <externalId>false</externalId>
     <fieldManageability>DeveloperControlled</fieldManageability>
     <label>Standard Grid Config</label>
     <referenceTo>StandardGridRecapConfig__mdt</referenceTo>

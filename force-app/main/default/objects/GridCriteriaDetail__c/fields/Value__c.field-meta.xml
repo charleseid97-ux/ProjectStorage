@@ -3,7 +3,6 @@
     <fullName>Value__c</fullName>
     <description>The value(s) used in the filter.</description>
     <encryptionScheme>None</encryptionScheme>
-    <externalId>false</externalId>
     <inlineHelpText>For IN/NOT IN, values are separated by semicolons (example: “FR;DE;IT”)</inlineHelpText>
     <label>Value</label>
     <length>8192</length>

@@ -2,10 +2,13 @@
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>OriginalAssignedToName__c</fullName>
     <description>Display name of the originally assigned user or queue.</description>
+    <encryptionScheme>None</encryptionScheme>
+    <externalId>false</externalId>
     <inlineHelpText>Set at creation alongside OriginalAssignedTo__c.</inlineHelpText>
     <label>Original Assigned To Name</label>
     <length>255</length>
     <required>false</required>
+    <trackTrending>false</trackTrending>
     <type>Text</type>
     <unique>false</unique>
 </CustomField>

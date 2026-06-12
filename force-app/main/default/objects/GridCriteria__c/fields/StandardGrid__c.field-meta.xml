@@ -3,7 +3,6 @@
     <fullName>StandardGrid__c</fullName>
     <deleteConstraint>SetNull</deleteConstraint>
     <description>Stores a lookup to the standard grid when the main Grid field references a custom grid</description>
-    <externalId>false</externalId>
     <inlineHelpText>Stores a lookup to the standard grid when the main Grid field references a custom grid</inlineHelpText>
     <label>Standard Grid</label>
     <referenceTo>Grid__c</referenceTo>

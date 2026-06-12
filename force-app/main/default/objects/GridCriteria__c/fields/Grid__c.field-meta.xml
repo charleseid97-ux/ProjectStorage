@@ -3,7 +3,6 @@
     <fullName>Grid__c</fullName>
     <deleteConstraint>Restrict</deleteConstraint>
     <description>The parent Grid record this rule belongs to.</description>
-    <externalId>false</externalId>
     <label>Grid</label>
     <referenceTo>Grid__c</referenceTo>
     <relationshipLabel>Grid Criteria</relationshipLabel>
