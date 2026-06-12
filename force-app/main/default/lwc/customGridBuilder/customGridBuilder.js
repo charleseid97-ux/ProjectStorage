@@ -10,7 +10,7 @@ import getApprovedGridData from '@salesforce/apex/GridBuilderController.getAppro
 import getAllProductsForSelection from '@salesforce/apex/GridBuilderController.getAllProductsForSelection';
 import getProductsAndShareClasses from '@salesforce/apex/GridBuilderController.getProductsAndShareClasses';
 import submitAgreementForApproval from '@salesforce/apex/GridBuilderController.submitAgreementForApproval';
-import hasGridSimulationPermission from '@salesforce/apex/GridBuilderController.hasGridSimulationPermission';
+import hasGridSimulationCustPermission from '@salesforce/apex/GridBuilderController.hasGridSimulationCustPermission';
 import submitForApproval from '@salesforce/apex/CustomApprovalHistoryUtility.submitForApproval';
 import {LABELS, reduceError, showToast, buildShareTypesKey, getProductNameFromRows, getQueryParam, getRecordIdFromPageRef, getGridIdFromPageRef, getSystemProductExclusionDetail,
     applySystemProductExclusion, mergeSystemDetail, addIsinExclusionsFromRows, pruneOrphanedCriteria, executeGridSave} from 'c/gridBuilderUtils';
@@ -246,7 +246,7 @@ export default class CustomGridBuilder extends NavigationMixin(LightningElement)
 
             // Check permission in parallel with agreement settings load
             const [simPermission] = await Promise.all([
-                hasGridSimulationPermission()
+                hasGridSimulationCustPermission()
             ]);
             this.hasSimulationAccess = simPermission === true;
 
