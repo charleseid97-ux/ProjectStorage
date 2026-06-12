@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <PermissionSetGroup xmlns="http://soap.sforce.com/2006/04/metadata">
-    <description>Minimum PermSet for SF users</description>
+    <description>Minimum PermSet for SF users. Except if the user has the profil Carmignac - Minimum Access.</description>
     <hasActivationRequired>false</hasActivationRequired>
     <label>SF Minimum Acces</label>
     <permissionSets>AUM_Flows_Read_access</permissionSets>

@@ -3,7 +3,6 @@
     <fullName>TECH_ReadOnly__c</fullName>
     <defaultValue>false</defaultValue>
     <description>When true, the approval history is read-only — approve/reject/recall buttons are hidden regardless of the current user&apos;s permissions.</description>
-    <externalId>false</externalId>
     <label>Read Only</label>
     <trackTrending>false</trackTrending>
     <type>Checkbox</type>

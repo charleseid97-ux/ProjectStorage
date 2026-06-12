@@ -8,7 +8,7 @@
         <outerJoin>false</outerJoin>
         <relationship>CampaignMembers</relationship>
     </join>
-    <label>Campaign with Campaign members</label>
+    <label>Campaign with Campaign members and Leads</label>
     <sections>
         <columns>
             <checkedByDefault>false</checkedByDefault>
@@ -845,86 +845,6 @@
             <field>LyytiURL__c</field>
             <table>Campaign</table>
         </columns>
-        <columns>
-            <checkedByDefault>false</checkedByDefault>
-            <field>Initially_invited__c</field>
-            <table>Campaign</table>
-        </columns>
-        <columns>
-            <checkedByDefault>false</checkedByDefault>
-            <field>Initially_registered__c</field>
-            <table>Campaign</table>
-        </columns>
-        <columns>
-            <checkedByDefault>false</checkedByDefault>
-            <field>Ultimate_Parents_Attended__c</field>
-            <table>Campaign</table>
-        </columns>
-        <columns>
-            <checkedByDefault>false</checkedByDefault>
-            <field>New_Person_Attendees_3M__c</field>
-            <table>Campaign</table>
-        </columns>
-        <columns>
-            <checkedByDefault>false</checkedByDefault>
-            <field>Attended_Count__c</field>
-            <table>Campaign</table>
-        </columns>
-        <columns>
-            <checkedByDefault>false</checkedByDefault>
-            <field>NoShow_Count__c</field>
-            <table>Campaign</table>
-        </columns>
-        <columns>
-            <checkedByDefault>false</checkedByDefault>
-            <field>Cancelled_Count__c</field>
-            <table>Campaign</table>
-        </columns>
-        <columns>
-            <checkedByDefault>false</checkedByDefault>
-            <field>Noshow_rate__c</field>
-            <table>Campaign</table>
-        </columns>
-        <columns>
-            <checkedByDefault>false</checkedByDefault>
-            <field>Dropoff_rate__c</field>
-            <table>Campaign</table>
-        </columns>
-        <columns>
-            <checkedByDefault>false</checkedByDefault>
-            <field>Attendees_Invested_Count__c</field>
-            <table>Campaign</table>
-        </columns>
-        <columns>
-            <checkedByDefault>false</checkedByDefault>
-            <field>Attendees_Invested_Rate__c</field>
-            <table>Campaign</table>
-        </columns>
-        <columns>
-            <checkedByDefault>false</checkedByDefault>
-            <field>Budget_spent__c</field>
-            <table>Campaign</table>
-        </columns>
-        <columns>
-            <checkedByDefault>false</checkedByDefault>
-            <field>Cost_per_attendee__c</field>
-            <table>Campaign</table>
-        </columns>
-        <columns>
-            <checkedByDefault>false</checkedByDefault>
-            <field>Attendees_Loyalty_Rate__c</field>
-            <table>Campaign</table>
-        </columns>
-        <columns>
-            <checkedByDefault>false</checkedByDefault>
-            <field>New_Person_Attendees_3M_Rate__c</field>
-            <table>Campaign</table>
-        </columns>
-        <columns>
-            <checkedByDefault>false</checkedByDefault>
-            <field>Attendees_Open_Opportunities_Amount__c</field>
-            <table>Campaign</table>
-        </columns>
         <masterLabel>Campaigns</masterLabel>
     </sections>
     <sections>
@@ -1383,29 +1303,6 @@
             <field>Contact.VIP__c</field>
             <table>Campaign.CampaignMembers</table>
         </columns>
-        <columns>
-            <checkedByDefault>false</checkedByDefault>
-            <field>Attendance_duration__c</field>
-            <table>Campaign.CampaignMembers</table>
-        </columns>
-        <columns>
-            <checkedByDefault>false</checkedByDefault>
-            <field>Attendance_rate__c</field>
-            <table>Campaign.CampaignMembers</table>
-        </columns>
         <masterLabel>Campaign Members</masterLabel>
-    </sections>
-    <sections>
-        <columns>
-            <checkedByDefault>false</checkedByDefault>
-            <field>Assigned_to__c.Team__c</field>
-            <table>Campaign</table>
-        </columns>
-        <columns>
-            <checkedByDefault>false</checkedByDefault>
-            <field>Company__c.Name</field>
-            <table>Campaign</table>
-        </columns>
-        <masterLabel>Contact Owner Team</masterLabel>
     </sections>
 </ReportType>

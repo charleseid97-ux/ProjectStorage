@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ConnectedApp xmlns="http://soap.sforce.com/2006/04/metadata">
+    <contactEmail>achraf.el-hitary.external@carmignac.com</contactEmail>
+    <label>devops Azure</label>
+    <oauthConfig>
+        <callbackUrl>http://localhost:1717/OauthRedirect</callbackUrl>
+        <certificate>MIIDiTCCAnGgAwIBAgIUSPZHvG6JLeheJFWeMZcrANmQVJswDQYJKoZIhvcNAQELBQAwVDELMAkGA1UEBhMCRlIxDjAMBgNVBAgMBVBhcmlzMQ4wDAYDVQQHDAVQYXJpczEKMAgGA1UECgwBQzEKMAgGA1UECwwBQzENMAsGA1UEAwwEU0ZEQzAeFw0yNTExMDYxMzU2MTJaFw0yNjExMDYxMzU2MTJaMFQxCzAJBgNVBAYTAkZSMQ4wDAYDVQQIDAVQYXJpczEOMAwGA1UEBwwFUGFyaXMxCjAIBgNVBAoMAUMxCjAIBgNVBAsMAUMxDTALBgNVBAMMBFNGREMwggEiMA0GCSqGSIb3DQEBAQUAA4IBDwAwggEKAoIBAQC79TmJztK+bh3QB3Avug5r1UTfgjhLAx4nqHibmOL1mL+qFcLgKZgizFnMwSnkcMyQdqWzop5QMMY/Tbf71BA8gtzwvwk/yUJyXpsyeAAZMHt88xsfOWO6Z9sK6MMqKCYkTYuOv6NlYWG3uCjbGqKvWy+W2rpsO+60rxT7YqR1V1j1zjcWyyY8nqIGNT77mXD0e1X/TTlgDUxX2jGaOpAUS/H36k/aFuYfeNmDVgaqC4Ksk/59f+UI31ezwgF0Izilrc8Kz5R99GHbnoInijm3yKGEeiR0LeyuXNMXJa4TLNO+ZQlcwpoNtRvmZObxqi0Q3mh0yCi+F/CFqiheIe+JAgMBAAGjUzBRMB0GA1UdDgQWBBS7fv9lrT7wvMDv7xphfRXxN1uJNDAfBgNVHSMEGDAWgBS7fv9lrT7wvMDv7xphfRXxN1uJNDAPBgNVHRMBAf8EBTADAQH/MA0GCSqGSIb3DQEBCwUAA4IBAQAE8Jvb5bIsV8+kq6gEgqqw2vVKM1yhGwYAHqLEaH49r1+JviEeoud5VeNGy3gZpGbUMytsSaXRclkhozyUUuVFcdw08IIYPJUyoPWlaRJGDmxNM1RjohAbBx/eLSOwZZT1UdVGsPGzofEuluhdtKgp261t4PolOnGTL5Yfq09th1V1nKf7oHPKfi5IbTc8I0Q3aGV0Pd7MUX8ZrMuKQEOpOW3KxFdfIsQ481PpQBzQdWWzNS164ye3JPILNgjiSfU01e+EwtZ2PQRwRqG6TqetxdZfWFK8I6TYk++ySXroynHEJLLioR1gJhcuS/vk6dU98+Oz6a61A3h+ixU5Cb0h</certificate>
+        <consumerKey>3MVG98_Psg5cppyagUaZtwGwCkRspSUwsHdD0Xs97KH8kjLHJGo13walf5Ib_koVzgUgME8ejLgBHGKLFB0uS</consumerKey>
+        <isAdminApproved>true</isAdminApproved>
+        <isClientCredentialEnabled>false</isClientCredentialEnabled>
+        <isCodeCredentialEnabled>false</isCodeCredentialEnabled>
+        <isCodeCredentialPostOnly>false</isCodeCredentialPostOnly>
+        <isConsumerSecretOptional>false</isConsumerSecretOptional>
+        <isIntrospectAllTokens>false</isIntrospectAllTokens>
+        <isNamedUserJwtEnabled>false</isNamedUserJwtEnabled>
+        <isPkceRequired>true</isPkceRequired>
+        <isRefreshTokenRotationEnabled>false</isRefreshTokenRotationEnabled>
+        <isSecretRequiredForRefreshToken>true</isSecretRequiredForRefreshToken>
+        <isSecretRequiredForTokenExchange>false</isSecretRequiredForTokenExchange>
+        <isTokenExchangeEnabled>false</isTokenExchangeEnabled>
+        <scopes>Api</scopes>
+        <scopes>Web</scopes>
+        <scopes>RefreshToken</scopes>
+    </oauthConfig>
+    <oauthPolicy>
+        <ipRelaxation>ENFORCE</ipRelaxation>
+        <isTokenExchangeFlowEnabled>false</isTokenExchangeFlowEnabled>
+        <refreshTokenPolicy>infinite</refreshTokenPolicy>
+    </oauthPolicy>
+    <profileName>Minimum Access - API Only Integrations</profileName>
+    <profileName>Carmignac - System Administrator</profileName>
+</ConnectedApp>

@@ -2,7 +2,6 @@
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>ActionKind__c</fullName>
     <description>What type of action to execute. FieldUpdate: sets a field on the target record. EmailAlert: sends an email using an email template. CustomApex: delegates to an Apex class implementing IApprovalAction (advanced, optional extensibility).</description>
-    <externalId>false</externalId>
     <fieldManageability>SubscriberControlled</fieldManageability>
     <inlineHelpText>FieldUpdate requires TargetFieldApiName__c and FieldValue__c. EmailAlert requires EmailTemplateName__c; recipients controlled via RecipientType__c, AdditionalQueues__c, and AdditionalUsers__c. CustomApex requires ActionClass__c.</inlineHelpText>
     <label>Action Kind</label>

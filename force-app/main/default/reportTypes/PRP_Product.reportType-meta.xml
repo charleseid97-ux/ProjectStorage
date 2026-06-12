@@ -108,11 +108,6 @@
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
-            <field>Domicile__c</field>
-            <table>Product__c</table>
-        </columns>
-        <columns>
-            <checkedByDefault>false</checkedByDefault>
             <field>Fiscal_Year_End__c</field>
             <table>Product__c</table>
         </columns>
@@ -174,11 +169,6 @@
         <columns>
             <checkedByDefault>false</checkedByDefault>
             <field>Reference_Indicator__c</field>
-            <table>Product__c</table>
-        </columns>
-        <columns>
-            <checkedByDefault>false</checkedByDefault>
-            <field>Registration_Mapping__c</field>
             <table>Product__c</table>
         </columns>
         <columns>
@@ -289,11 +279,6 @@
         <columns>
             <checkedByDefault>false</checkedByDefault>
             <field>AssetClass__c</field>
-            <table>Product__c</table>
-        </columns>
-        <columns>
-            <checkedByDefault>false</checkedByDefault>
-            <field>InvestmentStyle__c</field>
             <table>Product__c</table>
         </columns>
         <columns>
@@ -434,11 +419,6 @@
         <columns>
             <checkedByDefault>false</checkedByDefault>
             <field>InternalShortName__c</field>
-            <table>Product__c</table>
-        </columns>
-        <columns>
-            <checkedByDefault>false</checkedByDefault>
-            <field>InvestorsRegion__c</field>
             <table>Product__c</table>
         </columns>
         <columns>
@@ -668,11 +648,6 @@
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
-            <field>ReviewByThrisdParty__c</field>
-            <table>Product__c</table>
-        </columns>
-        <columns>
-            <checkedByDefault>false</checkedByDefault>
             <field>EET20190__c</field>
             <table>Product__c</table>
         </columns>
@@ -774,6 +749,11 @@
         <columns>
             <checkedByDefault>false</checkedByDefault>
             <field>Count_SC__c</field>
+            <table>Product__c</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>PRIIPSCategory__c</field>
             <table>Product__c</table>
         </columns>
         <masterLabel>Products</masterLabel>

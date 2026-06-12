@@ -90,7 +90,7 @@ public with sharing class GridBuilderController {
     }
 
     @AuraEnabled(cacheable=true)
-    public static Boolean hasGridSimulationPermission() {
+    public static Boolean hasGridSimulationCustPermission() {
         return FeatureManagement.checkPermission('Grid_AccessGridSimulation');
     }
 

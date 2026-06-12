@@ -302,7 +302,7 @@
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
-            <displayNameOverride>Strategy</displayNameOverride>
+            <displayNameOverride>Strategy Old</displayNameOverride>
             <field>Product__c.Name</field>
             <table>Meeting_Note__c.ClientInterestMeeting__r</table>
         </columns>
@@ -318,14 +318,22 @@
             <field>Product__c.Asset_Class__c</field>
             <table>Meeting_Note__c.ClientInterestMeeting__r</table>
         </columns>
-        <masterLabel>Clients Interests</masterLabel>
-    </sections>
-    <sections>
         <columns>
             <checkedByDefault>false</checkedByDefault>
             <field>Strategy__c</field>
             <table>Meeting_Note__c.ClientInterestMeeting__r</table>
         </columns>
-        <masterLabel>Client Interests</masterLabel>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Strategy</displayNameOverride>
+            <field>Strategy__c.Code__c</field>
+            <table>Meeting_Note__c.ClientInterestMeeting__r</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>Strategy__c.AssetClass__c</field>
+            <table>Meeting_Note__c.ClientInterestMeeting__r</table>
+        </columns>
+        <masterLabel>Clients Interests</masterLabel>
     </sections>
 </ReportType>

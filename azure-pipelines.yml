@@ -272,7 +272,7 @@ stages:
               - task: NodeTool@0
                 displayName: 'Install Node.js'
                 inputs:
-                  versionSpec: '20.x'
+                  versionSpec: '24.x'
 
               - script: |
                   npm i -g @salesforce/cli

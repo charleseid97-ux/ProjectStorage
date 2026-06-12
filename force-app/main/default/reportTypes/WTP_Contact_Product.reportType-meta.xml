@@ -1623,6 +1623,11 @@
             <field>LastOpenedDate__c</field>
             <table>Contact.Cases</table>
         </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>ProcessedByMuleSoft__c</field>
+            <table>Contact.Cases</table>
+        </columns>
         <masterLabel>Work Together Processes</masterLabel>
     </sections>
 </ReportType>

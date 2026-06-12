@@ -59,13 +59,6 @@
             <operator>equals</operator>
             <value>ready</value>
         </criteriaItems>
-        <criteriaItems>
-            <column>Event__c.SpeakersProducts__r$speakerContact__c</column>
-            <columnToColumn>false</columnToColumn>
-            <isUnlocked>true</isUnlocked>
-            <operator>notEqual</operator>
-            <value></value>
-        </criteriaItems>
         <language>en_US</language>
     </filter>
     <format>Summary</format>

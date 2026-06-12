@@ -827,6 +827,11 @@
             <field>LastOpenedDate__c</field>
             <table>Case</table>
         </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>ProcessedByMuleSoft__c</field>
+            <table>Case</table>
+        </columns>
         <masterLabel>Work Together Processes</masterLabel>
     </sections>
 </ReportType>

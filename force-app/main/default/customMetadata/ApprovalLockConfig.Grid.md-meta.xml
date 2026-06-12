@@ -3,23 +3,23 @@
     <label>Grid</label>
     <protected>false</protected>
     <values>
-        <field>ObjectApiName__c</field>
-        <value xsi:type="xsd:string">Grid__c</value>
-    </values>
-    <values>
-        <field>StatusFieldApiName__c</field>
-        <value xsi:type="xsd:string">ApprovalStatus__c</value>
-    </values>
-    <values>
-        <field>LockedStatuses__c</field>
-        <value xsi:type="xsd:string">Pending Approval,Approved</value>
+        <field>Active__c</field>
+        <value xsi:type="xsd:boolean">true</value>
     </values>
     <values>
         <field>ExemptFields__c</field>
         <value xsi:type="xsd:string">Comment__c,BusinessBackground__c,GridIsReviewed__c,NextReviewDate__c,LastReviewSentDate__c</value>
     </values>
     <values>
-        <field>Active__c</field>
-        <value xsi:type="xsd:boolean">true</value>
+        <field>LockedStatuses__c</field>
+        <value xsi:type="xsd:string">Pending Approval,Approved</value>
+    </values>
+    <values>
+        <field>ObjectApiName__c</field>
+        <value xsi:type="xsd:string">Grid__c</value>
+    </values>
+    <values>
+        <field>StatusFieldApiName__c</field>
+        <value xsi:type="xsd:string">ApprovalStatus__c</value>
     </values>
 </CustomMetadata>

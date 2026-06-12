@@ -3,7 +3,6 @@
     <fullName>Tech_SpecificStandardGrid__c</fullName>
     <defaultValue>false</defaultValue>
     <description>When checked, this standard grid is a specific/exception grid (e.g. CTS - S4 except X=60%). Leave unchecked for general standard grids (S1, S2, S3...).</description>
-    <externalId>false</externalId>
     <label>Specific Standard Grid</label>
     <trackFeedHistory>false</trackFeedHistory>
     <trackTrending>false</trackTrending>

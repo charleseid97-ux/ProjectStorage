@@ -56,7 +56,7 @@
             <column>Event__c$startDate__c</column>
             <columnToColumn>false</columnToColumn>
             <isUnlocked>true</isUnlocked>
-            <operator>greaterOrEqual</operator>
+            <operator>lessOrEqual</operator>
             <value>TODAY</value>
         </criteriaItems>
         <criteriaItems>
@@ -72,13 +72,6 @@
             <isUnlocked>true</isUnlocked>
             <operator>notEqual</operator>
             <value>,notRequired</value>
-        </criteriaItems>
-        <criteriaItems>
-            <column>Event__c.SpeakersProducts__r$speakerContact__c</column>
-            <columnToColumn>false</columnToColumn>
-            <isUnlocked>true</isUnlocked>
-            <operator>notEqual</operator>
-            <value></value>
         </criteriaItems>
         <language>en_US</language>
     </filter>

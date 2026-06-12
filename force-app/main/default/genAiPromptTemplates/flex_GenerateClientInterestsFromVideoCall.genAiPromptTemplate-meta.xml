@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <GenAiPromptTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
-    <activeVersionIdentifier>WVN3tZk4o404O8n8M7lvj2vqM7T4xnyoLEatZnrtmCY=_4</activeVersionIdentifier>
     <description>Use this prompt template to generate a json formated client interests data</description>
     <developerName>flex_GenerateClientInterestsFromVideoCall</developerName>
     <masterLabel>flex_GenerateClientInterestsFromVideoCall</masterLabel>
@@ -59,7 +58,6 @@ From the transcript below, identify the products mentioned during the call,these
             <required>true</required>
         </inputs>
         <primaryModel>sfdc_ai__DefaultGPT5</primaryModel>
-        <responseFormat>JSON</responseFormat>
         <status>Published</status>
         <templateDataProviders>
             <definition>flow://PT_GenerateVideoCallTranscript</definition>
@@ -75,181 +73,6 @@ From the transcript below, identify the products mentioned during the call,these
             <definition>flow://PT_RetrieveProducts</definition>
             <referenceName>Flow:PT_RetrieveProducts</referenceName>
         </templateDataProviders>
-        <versionIdentifier>S+W5ua7c5EHD5EpeRljbEENzEry32G3OFylu3fZry3o=_1</versionIdentifier>
-    </templateVersions>
-    <templateVersions>
-        <content>Here are all the Strategy, Funds, and Share Classes at Carmignac:
-
-&lt;Strategy&gt;
-{!$Flow:PT_RetrieveProducts.Prompt}
-&lt;/Strategy&gt;
--------------------------------------
-From the transcript below:
-Identify all products mentioned during the call.
-Product names or codes may sometimes appear with typos, missing letters, or separated characters. Try to match them with the exact product name or code when possible.
-If the strategy name or code is not mentioned, do not improvise or invent.
-For each product, assess the client’s actual investment appetite using a rating from 1 to 5:
-1 = Clearly not interested / rejects the product
-2 = Low appetite / product acknowledged but no intention to invest
-3 = Neutral / acknowledges product but no clear stance or action
-4 = Interested / positive remarks, potential openness to invest
-5 = Strong appetite / explicit interest, intention, or conditions for investment
-In addition to the score, explain briefly the client’s position by highlighting:
-Expressed willingness or reluctance to invest
-Any capacity to invest (budget, allocation room, timing if mentioned)
-Obstacles or concerns (volatility, overlap with existing positions, performance doubts, regulation)
-Levers that could increase interest (specific features, thematic appeal, peer usage, ESG, etc.)
-
-&lt;Transcript&gt;
-{!$Flow:PT_GenerateVideoCallTranscript.Prompt}
-&lt;/Transcript&gt;
-
-
-*Output Requirements:*
-1. The response must strictly be in *valid JSON format*.
-2. Each identified product should include:
- - ProductId (string): The unique identifier of the product.( Product Id related to the Product Name)
- - ProductName (string): The Name of the product.( Product Name)
- - Rating (integer): A value from 1 to 5 indicating the client&apos;s sentiment.
- - Why&quot;: &quot;why you give me this record and from where in the summary&quot; 
-
-3. The output must be an array of objects, where each object represents a product and its associated rating.
-4. If no products are identified, return an empty JSON array: [].
-
-*Important Note:* The response must contain *only the JSON output* without any additional text, commentary, or formatting.
-
-*Example Output:*
-[
- {
- &quot;ProductId&quot;: &quot;123SQF54...&quot;,
- &quot;ProductName&quot;: &quot;CC27&quot;,
- &quot;Rating&quot;: 3,
- &quot;Why&quot;: &quot;why you give me this record&quot;
- },
- {
- &quot;ProductId&quot;: &quot;1223SFQEG454...&quot;,
- &quot;ProductName&quot;: &quot;CPEG&quot;,
- &quot;Rating&quot;: 4,
- &quot;Why&quot;: &quot;why you give me this record&quot;
-
- }
-]
-</content>
-        <generationTemplateConfigs>
-            <generationConfigDeveloperName>einstein_gpt__enUsLanguageStyle</generationConfigDeveloperName>
-        </generationTemplateConfigs>
-        <inputs>
-            <apiName>VideoCall</apiName>
-            <definition>SOBJECT://VideoCall</definition>
-            <masterLabel>VideoCall</masterLabel>
-            <referenceName>Input:VideoCall</referenceName>
-            <required>true</required>
-        </inputs>
-        <primaryModel>sfdc_ai__DefaultGPT5</primaryModel>
-        <responseFormat>JSON</responseFormat>
-        <status>Published</status>
-        <templateDataProviders>
-            <definition>flow://PT_RetrieveProducts</definition>
-            <referenceName>Flow:PT_RetrieveProducts</referenceName>
-        </templateDataProviders>
-        <templateDataProviders>
-            <definition>flow://PT_GenerateVideoCallTranscript</definition>
-            <parameters>
-                <definition>SOBJECT://VideoCall</definition>
-                <isRequired>true</isRequired>
-                <parameterName>VideoCall</parameterName>
-                <valueExpression>{!$Input:VideoCall}</valueExpression>
-            </parameters>
-            <referenceName>Flow:PT_GenerateVideoCallTranscript</referenceName>
-        </templateDataProviders>
-        <versionIdentifier>S+W5ua7c5EHD5EpeRljbEENzEry32G3OFylu3fZry3o=_2</versionIdentifier>
-    </templateVersions>
-    <templateVersions>
-        <content>Here are all the Strategy, Funds, and Share Classes at Carmignac:
-
-&lt;Strategy&gt;
-{!$Flow:PT_RetrieveProducts.Prompt}
-&lt;/Strategy&gt;
--------------------------------------
-From the transcript below:
-Identify all products mentioned during the call.
-Product names or codes may sometimes appear with typos, missing letters, or separated characters. Try to match them with the exact product name or code when possible.
-If the strategy name or code is not mentioned, do not improvise or invent.
-For each product, assess the client’s actual investment appetite using a rating from 1 to 5:
-1 = Clearly not interested / rejects the product
-2 = Low appetite / product acknowledged but no intention to invest
-3 = Neutral / acknowledges product but no clear stance or action
-4 = Interested / positive remarks, potential openness to invest
-5 = Strong appetite / explicit interest, intention, or conditions for investment
-In addition to the score, explain briefly the client’s position by highlighting:
-Expressed willingness or reluctance to invest
-Any capacity to invest (budget, allocation room, timing if mentioned)
-Obstacles or concerns (volatility, overlap with existing positions, performance doubts, regulation)
-Levers that could increase interest (specific features, thematic appeal, peer usage, ESG, etc.)
-
-&lt;Transcript&gt;
-{!$Flow:PT_GenerateVideoCallTranscript.Prompt}
-&lt;/Transcript&gt;
-
-
-*Output Requirements:*
-1. The response must strictly be in *valid JSON format*.
-2. Each identified product should include:
- - ProductId (string): The unique identifier of the product.( Product Id related to the Product Name)
- - ProductName (string): The Name of the product.( Product Name)
- - Rating (integer): A value from 1 to 5 indicating the client&apos;s sentiment.
- - Why&quot;: &quot;why you give me this record and from where in the summary&quot; 
-
-3. The output must be an array of objects, where each object represents a product and its associated rating.
-4. If no products are identified, return an empty JSON array: [].
-
-*Important Note:* The response must contain *only the JSON output* without any additional text, commentary, or formatting.
-
-*Example Output:*
-[
- {
- &quot;ProductId&quot;: &quot;123SQF54...&quot;,
- &quot;ProductName&quot;: &quot;CC27&quot;,
- &quot;Rating&quot;: 3,
- &quot;Why&quot;: &quot;why you give me this record&quot;
- },
- {
- &quot;ProductId&quot;: &quot;1223SFQEG454...&quot;,
- &quot;ProductName&quot;: &quot;CPEG&quot;,
- &quot;Rating&quot;: 4,
- &quot;Why&quot;: &quot;why you give me this record&quot;
-
- }
-]
-</content>
-        <generationTemplateConfigs>
-            <generationConfigDeveloperName>einstein_gpt__enUsLanguageStyle</generationConfigDeveloperName>
-        </generationTemplateConfigs>
-        <inputs>
-            <apiName>VideoCall</apiName>
-            <definition>SOBJECT://VideoCall</definition>
-            <masterLabel>VideoCall</masterLabel>
-            <referenceName>Input:VideoCall</referenceName>
-            <required>true</required>
-        </inputs>
-        <primaryModel>sfdc_ai__DefaultGPT5</primaryModel>
-        <responseFormat>JSON</responseFormat>
-        <status>Published</status>
-        <templateDataProviders>
-            <definition>flow://PT_RetrieveProducts</definition>
-            <referenceName>Flow:PT_RetrieveProducts</referenceName>
-        </templateDataProviders>
-        <templateDataProviders>
-            <definition>flow://PT_GenerateVideoCallTranscript</definition>
-            <parameters>
-                <definition>SOBJECT://VideoCall</definition>
-                <isRequired>true</isRequired>
-                <parameterName>VideoCall</parameterName>
-                <valueExpression>{!$Input:VideoCall}</valueExpression>
-            </parameters>
-            <referenceName>Flow:PT_GenerateVideoCallTranscript</referenceName>
-        </templateDataProviders>
-        <versionIdentifier>WVN3tZk4o404O8n8M7lvj2vqM7T4xnyoLEatZnrtmCY=_3</versionIdentifier>
     </templateVersions>
     <templateVersions>
         <content>Here are all the Strategy, Funds, and Share Classes at Carmignac:
@@ -335,7 +158,176 @@ Levers that could increase interest (specific features, thematic appeal, peer us
             </parameters>
             <referenceName>Flow:PT_GenerateVideoCallTranscript</referenceName>
         </templateDataProviders>
-        <versionIdentifier>WVN3tZk4o404O8n8M7lvj2vqM7T4xnyoLEatZnrtmCY=_4</versionIdentifier>
+    </templateVersions>
+    <templateVersions>
+        <content>Here are all the Strategy, Funds, and Share Classes at Carmignac:
+
+&lt;Strategy&gt;
+{!$Flow:PT_RetrieveProducts.Prompt}
+&lt;/Strategy&gt;
+-------------------------------------
+From the transcript below:
+Identify all products mentioned during the call.
+Product names or codes may sometimes appear with typos, missing letters, or separated characters. Try to match them with the exact product name or code when possible.
+If the strategy name or code is not mentioned, do not improvise or invent.
+For each product, assess the client’s actual investment appetite using a rating from 1 to 5:
+1 = Clearly not interested / rejects the product
+2 = Low appetite / product acknowledged but no intention to invest
+3 = Neutral / acknowledges product but no clear stance or action
+4 = Interested / positive remarks, potential openness to invest
+5 = Strong appetite / explicit interest, intention, or conditions for investment
+In addition to the score, explain briefly the client’s position by highlighting:
+Expressed willingness or reluctance to invest
+Any capacity to invest (budget, allocation room, timing if mentioned)
+Obstacles or concerns (volatility, overlap with existing positions, performance doubts, regulation)
+Levers that could increase interest (specific features, thematic appeal, peer usage, ESG, etc.)
+
+&lt;Transcript&gt;
+{!$Flow:PT_GenerateVideoCallTranscript.Prompt}
+&lt;/Transcript&gt;
+
+
+*Output Requirements:*
+1. The response must strictly be in *valid JSON format*.
+2. Each identified product should include:
+ - ProductId (string): The unique identifier of the product.( Product Id related to the Product Name)
+ - ProductName (string): The Name of the product.( Product Name)
+ - Rating (integer): A value from 1 to 5 indicating the client&apos;s sentiment.
+ - Why&quot;: &quot;why you give me this record and from where in the summary&quot; 
+
+3. The output must be an array of objects, where each object represents a product and its associated rating.
+4. If no products are identified, return an empty JSON array: [].
+
+*Important Note:* The response must contain *only the JSON output* without any additional text, commentary, or formatting.
+
+*Example Output:*
+[
+ {
+ &quot;ProductId&quot;: &quot;123SQF54...&quot;,
+ &quot;ProductName&quot;: &quot;CC27&quot;,
+ &quot;Rating&quot;: 3,
+ &quot;Why&quot;: &quot;why you give me this record&quot;
+ },
+ {
+ &quot;ProductId&quot;: &quot;1223SFQEG454...&quot;,
+ &quot;ProductName&quot;: &quot;CPEG&quot;,
+ &quot;Rating&quot;: 4,
+ &quot;Why&quot;: &quot;why you give me this record&quot;
+
+ }
+]
+</content>
+        <generationTemplateConfigs>
+            <generationConfigDeveloperName>einstein_gpt__enUsLanguageStyle</generationConfigDeveloperName>
+        </generationTemplateConfigs>
+        <inputs>
+            <apiName>VideoCall</apiName>
+            <definition>SOBJECT://VideoCall</definition>
+            <masterLabel>VideoCall</masterLabel>
+            <referenceName>Input:VideoCall</referenceName>
+            <required>true</required>
+        </inputs>
+        <primaryModel>sfdc_ai__DefaultGPT5</primaryModel>
+        <status>Published</status>
+        <templateDataProviders>
+            <definition>flow://PT_RetrieveProducts</definition>
+            <referenceName>Flow:PT_RetrieveProducts</referenceName>
+        </templateDataProviders>
+        <templateDataProviders>
+            <definition>flow://PT_GenerateVideoCallTranscript</definition>
+            <parameters>
+                <definition>SOBJECT://VideoCall</definition>
+                <isRequired>true</isRequired>
+                <parameterName>VideoCall</parameterName>
+                <valueExpression>{!$Input:VideoCall}</valueExpression>
+            </parameters>
+            <referenceName>Flow:PT_GenerateVideoCallTranscript</referenceName>
+        </templateDataProviders>
+    </templateVersions>
+    <templateVersions>
+        <content>Here are all the Strategy, Funds, and Share Classes at Carmignac:
+
+&lt;Strategy&gt;
+{!$Flow:PT_RetrieveProducts.Prompt}
+&lt;/Strategy&gt;
+-------------------------------------
+From the transcript below:
+Identify all products mentioned during the call.
+Product names or codes may sometimes appear with typos, missing letters, or separated characters. Try to match them with the exact product name or code when possible.
+If the strategy name or code is not mentioned, do not improvise or invent.
+For each product, assess the client’s actual investment appetite using a rating from 1 to 5:
+1 = Clearly not interested / rejects the product
+2 = Low appetite / product acknowledged but no intention to invest
+3 = Neutral / acknowledges product but no clear stance or action
+4 = Interested / positive remarks, potential openness to invest
+5 = Strong appetite / explicit interest, intention, or conditions for investment
+In addition to the score, explain briefly the client’s position by highlighting:
+Expressed willingness or reluctance to invest
+Any capacity to invest (budget, allocation room, timing if mentioned)
+Obstacles or concerns (volatility, overlap with existing positions, performance doubts, regulation)
+Levers that could increase interest (specific features, thematic appeal, peer usage, ESG, etc.)
+
+&lt;Transcript&gt;
+{!$Flow:PT_GenerateVideoCallTranscript.Prompt}
+&lt;/Transcript&gt;
+
+
+*Output Requirements:*
+1. The response must strictly be in *valid JSON format*.
+2. Each identified product should include:
+ - ProductId (string): The unique identifier of the product.( Product Id related to the Product Name)
+ - ProductName (string): The Name of the product.( Product Name)
+ - Rating (integer): A value from 1 to 5 indicating the client&apos;s sentiment.
+ - Why&quot;: &quot;why you give me this record and from where in the summary&quot; 
+
+3. The output must be an array of objects, where each object represents a product and its associated rating.
+4. If no products are identified, return an empty JSON array: [].
+
+*Important Note:* The response must contain *only the JSON output* without any additional text, commentary, or formatting.
+
+*Example Output:*
+[
+ {
+ &quot;ProductId&quot;: &quot;123SQF54...&quot;,
+ &quot;ProductName&quot;: &quot;CC27&quot;,
+ &quot;Rating&quot;: 3,
+ &quot;Why&quot;: &quot;why you give me this record&quot;
+ },
+ {
+ &quot;ProductId&quot;: &quot;1223SFQEG454...&quot;,
+ &quot;ProductName&quot;: &quot;CPEG&quot;,
+ &quot;Rating&quot;: 4,
+ &quot;Why&quot;: &quot;why you give me this record&quot;
+
+ }
+]
+</content>
+        <generationTemplateConfigs>
+            <generationConfigDeveloperName>einstein_gpt__enUsLanguageStyle</generationConfigDeveloperName>
+        </generationTemplateConfigs>
+        <inputs>
+            <apiName>VideoCall</apiName>
+            <definition>SOBJECT://VideoCall</definition>
+            <masterLabel>VideoCall</masterLabel>
+            <referenceName>Input:VideoCall</referenceName>
+            <required>true</required>
+        </inputs>
+        <primaryModel>sfdc_ai__DefaultGPT5</primaryModel>
+        <status>Published</status>
+        <templateDataProviders>
+            <definition>flow://PT_RetrieveProducts</definition>
+            <referenceName>Flow:PT_RetrieveProducts</referenceName>
+        </templateDataProviders>
+        <templateDataProviders>
+            <definition>flow://PT_GenerateVideoCallTranscript</definition>
+            <parameters>
+                <definition>SOBJECT://VideoCall</definition>
+                <isRequired>true</isRequired>
+                <parameterName>VideoCall</parameterName>
+                <valueExpression>{!$Input:VideoCall}</valueExpression>
+            </parameters>
+            <referenceName>Flow:PT_GenerateVideoCallTranscript</referenceName>
+        </templateDataProviders>
     </templateVersions>
     <templateVersions>
         <content>You are analyzing a client meeting transcript on behalf of Carmignac.
@@ -510,7 +502,6 @@ DATA
             </parameters>
             <referenceName>Flow:PT_GenerateVideoCallTranscript</referenceName>
         </templateDataProviders>
-        <versionIdentifier>WVN3tZk4o404O8n8M7lvj2vqM7T4xnyoLEatZnrtmCY=_5</versionIdentifier>
     </templateVersions>
     <type>einstein_gpt__flex</type>
     <visibility>Global</visibility>

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<GlobalValueSet xmlns="http://soap.sforce.com/2006/04/metadata">
+    <customValue>
+        <fullName>Bloomberg</fullName>
+        <default>false</default>
+        <label>Bloomberg</label>
+    </customValue>
+    <customValue>
+        <fullName>Factset</fullName>
+        <default>false</default>
+        <label>Factset</label>
+    </customValue>
+    <customValue>
+        <fullName>Morningstar</fullName>
+        <default>false</default>
+        <label>Morningstar</label>
+    </customValue>
+    <customValue>
+        <fullName>Morningstar (EET Only)</fullName>
+        <default>false</default>
+        <label>Morningstar (EET Only)</label>
+    </customValue>
+    <customValue>
+        <fullName>Others</fullName>
+        <default>false</default>
+        <label>Others</label>
+    </customValue>
+    <masterLabel>Dissemination Recipient</masterLabel>
+    <sorted>false</sorted>
+</GlobalValueSet>

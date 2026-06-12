@@ -1,10 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Queue xmlns="http://soap.sforce.com/2006/04/metadata">
+    <doesIncludeBosses>false</doesIncludeBosses>
     <doesSendEmailToMembers>false</doesSendEmailToMembers>
-    <name>Bookly Head of product Team</name>
+    <name>Bookly Head of Product</name>
     <queueMembers>
         <users>
             <user>achraf.el-hitary.external-crm@carmignac.com</user>
+            <user>cemre.demirkazik-crm@carmignac.com</user>
             <user>coullon.thomas-crm@carmignac.com</user>
             <user>vanessa.moris-crm@carmignac.com</user>
         </users>

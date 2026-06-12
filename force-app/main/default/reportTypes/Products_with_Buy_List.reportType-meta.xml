@@ -72,11 +72,6 @@
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
-            <field>Domicile__c</field>
-            <table>Product__c</table>
-        </columns>
-        <columns>
-            <checkedByDefault>false</checkedByDefault>
             <field>Fiscal_Year_End__c</field>
             <table>Product__c</table>
         </columns>
@@ -207,11 +202,6 @@
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
-            <field>Registration_Mapping__c</field>
-            <table>Product__c</table>
-        </columns>
-        <columns>
-            <checkedByDefault>false</checkedByDefault>
             <field>SRI__c</field>
             <table>Product__c</table>
         </columns>
@@ -278,6 +268,11 @@
         <columns>
             <checkedByDefault>false</checkedByDefault>
             <field>Count_SC__c</field>
+            <table>Product__c</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>PRIIPSCategory__c</field>
             <table>Product__c</table>
         </columns>
         <masterLabel>Products</masterLabel>
