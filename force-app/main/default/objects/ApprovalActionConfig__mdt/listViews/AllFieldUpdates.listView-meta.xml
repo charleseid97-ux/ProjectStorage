@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>AllFieldUpdates</fullName>
+    <columns>MasterLabel</columns>
+    <columns>ActionType__c</columns>
+    <columns>ProcessConfig__c</columns>
+    <columns>StepConfig__c</columns>
+    <columns>IsActive__c</columns>
+    <columns>TargetFieldApiName__c</columns>
+    <columns>FieldValue__c</columns>
+    <columns>ExecutionOrder__c</columns>
+    <filterScope>Everything</filterScope>
+    <filters>
+        <field>ActionKind__c</field>
+        <operation>equals</operation>
+        <value>FieldUpdate</value>
+    </filters>
+    <label>All Field Updates</label>
+    <language>en_US</language>
+</ListView>

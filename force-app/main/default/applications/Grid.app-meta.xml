@@ -1,0 +1,314 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomApplication xmlns="http://soap.sforce.com/2006/04/metadata">
+    <brand>
+        <headerColor>#0070D2</headerColor>
+        <shouldOverrideOrgTheme>false</shouldOverrideOrgTheme>
+    </brand>
+    <description>Provides a centralized workspace for creating, configuring, and managing all Grid-related objects and business rules, including criteria, filters, agreements, and product mappings.</description>
+    <formFactors>Small</formFactors>
+    <formFactors>Large</formFactors>
+    <isNavAutoTempTabsDisabled>false</isNavAutoTempTabsDisabled>
+    <isNavPersonalizationDisabled>false</isNavPersonalizationDisabled>
+    <isNavTabPersistenceDisabled>false</isNavTabPersistenceDisabled>
+    <isOmniPinnedViewEnabled>false</isOmniPinnedViewEnabled>
+    <label>Grid</label>
+    <navType>Standard</navType>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>CustomGridRecordPage</content>
+        <formFactor>Small</formFactor>
+        <pageOrSobjectType>Grid__c</pageOrSobjectType>
+        <recordType>Grid__c.CustomGrid</recordType>
+        <type>Flexipage</type>
+        <profile>Carmignac - Business Developer</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>CustomGridRecordPage</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>Grid__c</pageOrSobjectType>
+        <recordType>Grid__c.CustomGrid</recordType>
+        <type>Flexipage</type>
+        <profile>Carmignac - Business Developer</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>CustomGridRecordPage</content>
+        <formFactor>Small</formFactor>
+        <pageOrSobjectType>Grid__c</pageOrSobjectType>
+        <recordType>Grid__c.CustomGrid</recordType>
+        <type>Flexipage</type>
+        <profile>Carmignac - Campaign Automation</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>CustomGridRecordPage</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>Grid__c</pageOrSobjectType>
+        <recordType>Grid__c.CustomGrid</recordType>
+        <type>Flexipage</type>
+        <profile>Carmignac - Campaign Automation</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>CustomGridRecordPage</content>
+        <formFactor>Small</formFactor>
+        <pageOrSobjectType>Grid__c</pageOrSobjectType>
+        <recordType>Grid__c.CustomGrid</recordType>
+        <type>Flexipage</type>
+        <profile>Carmignac - Contributor</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>CustomGridRecordPage</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>Grid__c</pageOrSobjectType>
+        <recordType>Grid__c.CustomGrid</recordType>
+        <type>Flexipage</type>
+        <profile>Carmignac - Contributor</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>CustomGridRecordPage</content>
+        <formFactor>Small</formFactor>
+        <pageOrSobjectType>Grid__c</pageOrSobjectType>
+        <recordType>Grid__c.CustomGrid</recordType>
+        <type>Flexipage</type>
+        <profile>Carmignac - CRM</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>CustomGridRecordPage</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>Grid__c</pageOrSobjectType>
+        <recordType>Grid__c.CustomGrid</recordType>
+        <type>Flexipage</type>
+        <profile>Carmignac - CRM</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>CustomGridRecordPage</content>
+        <formFactor>Small</formFactor>
+        <pageOrSobjectType>Grid__c</pageOrSobjectType>
+        <recordType>Grid__c.CustomGrid</recordType>
+        <type>Flexipage</type>
+        <profile>Carmignac - Event</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>CustomGridRecordPage</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>Grid__c</pageOrSobjectType>
+        <recordType>Grid__c.CustomGrid</recordType>
+        <type>Flexipage</type>
+        <profile>Carmignac - Event</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>CustomGridRecordPage</content>
+        <formFactor>Small</formFactor>
+        <pageOrSobjectType>Grid__c</pageOrSobjectType>
+        <recordType>Grid__c.CustomGrid</recordType>
+        <type>Flexipage</type>
+        <profile>Carmignac - Interface</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>CustomGridRecordPage</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>Grid__c</pageOrSobjectType>
+        <recordType>Grid__c.CustomGrid</recordType>
+        <type>Flexipage</type>
+        <profile>Carmignac - Interface</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>CustomGridRecordPage</content>
+        <formFactor>Small</formFactor>
+        <pageOrSobjectType>Grid__c</pageOrSobjectType>
+        <recordType>Grid__c.CustomGrid</recordType>
+        <type>Flexipage</type>
+        <profile>Carmignac - Interface Etouches</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>CustomGridRecordPage</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>Grid__c</pageOrSobjectType>
+        <recordType>Grid__c.CustomGrid</recordType>
+        <type>Flexipage</type>
+        <profile>Carmignac - Interface Etouches</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>CustomGridRecordPage</content>
+        <formFactor>Small</formFactor>
+        <pageOrSobjectType>Grid__c</pageOrSobjectType>
+        <recordType>Grid__c.CustomGrid</recordType>
+        <type>Flexipage</type>
+        <profile>Carmignac - Investment Solutions</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>CustomGridRecordPage</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>Grid__c</pageOrSobjectType>
+        <recordType>Grid__c.CustomGrid</recordType>
+        <type>Flexipage</type>
+        <profile>Carmignac - Investment Solutions</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>CustomGridRecordPage</content>
+        <formFactor>Small</formFactor>
+        <pageOrSobjectType>Grid__c</pageOrSobjectType>
+        <recordType>Grid__c.CustomGrid</recordType>
+        <type>Flexipage</type>
+        <profile>Carmignac - Investor Services</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>CustomGridRecordPage</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>Grid__c</pageOrSobjectType>
+        <recordType>Grid__c.CustomGrid</recordType>
+        <type>Flexipage</type>
+        <profile>Carmignac - Investor Services</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>CustomGridRecordPage</content>
+        <formFactor>Small</formFactor>
+        <pageOrSobjectType>Grid__c</pageOrSobjectType>
+        <recordType>Grid__c.CustomGrid</recordType>
+        <type>Flexipage</type>
+        <profile>Carmignac - Legal and Compliance</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>CustomGridRecordPage</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>Grid__c</pageOrSobjectType>
+        <recordType>Grid__c.CustomGrid</recordType>
+        <type>Flexipage</type>
+        <profile>Carmignac - Legal and Compliance</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>CustomGridRecordPage</content>
+        <formFactor>Small</formFactor>
+        <pageOrSobjectType>Grid__c</pageOrSobjectType>
+        <recordType>Grid__c.CustomGrid</recordType>
+        <type>Flexipage</type>
+        <profile>Carmignac - Market Intelligence</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>CustomGridRecordPage</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>Grid__c</pageOrSobjectType>
+        <recordType>Grid__c.CustomGrid</recordType>
+        <type>Flexipage</type>
+        <profile>Carmignac - Market Intelligence</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>CustomGridRecordPage</content>
+        <formFactor>Small</formFactor>
+        <pageOrSobjectType>Grid__c</pageOrSobjectType>
+        <recordType>Grid__c.CustomGrid</recordType>
+        <type>Flexipage</type>
+        <profile>Carmignac - Minimum Access</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>CustomGridRecordPage</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>Grid__c</pageOrSobjectType>
+        <recordType>Grid__c.CustomGrid</recordType>
+        <type>Flexipage</type>
+        <profile>Carmignac - Minimum Access</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>CustomGridRecordPage</content>
+        <formFactor>Small</formFactor>
+        <pageOrSobjectType>Grid__c</pageOrSobjectType>
+        <recordType>Grid__c.CustomGrid</recordType>
+        <type>Flexipage</type>
+        <profile>Carmignac - PE</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>CustomGridRecordPage</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>Grid__c</pageOrSobjectType>
+        <recordType>Grid__c.CustomGrid</recordType>
+        <type>Flexipage</type>
+        <profile>Carmignac - PE</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>CustomGridRecordPage</content>
+        <formFactor>Small</formFactor>
+        <pageOrSobjectType>Grid__c</pageOrSobjectType>
+        <recordType>Grid__c.CustomGrid</recordType>
+        <type>Flexipage</type>
+        <profile>Carmignac - Standard User</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>CustomGridRecordPage</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>Grid__c</pageOrSobjectType>
+        <recordType>Grid__c.CustomGrid</recordType>
+        <type>Flexipage</type>
+        <profile>Carmignac - Standard User</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>CustomGridRecordPage</content>
+        <formFactor>Small</formFactor>
+        <pageOrSobjectType>Grid__c</pageOrSobjectType>
+        <recordType>Grid__c.CustomGrid</recordType>
+        <type>Flexipage</type>
+        <profile>Carmignac - System Administrator</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>CustomGridRecordPage</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>Grid__c</pageOrSobjectType>
+        <recordType>Grid__c.CustomGrid</recordType>
+        <type>Flexipage</type>
+        <profile>Carmignac - System Administrator</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>CustomGridRecordPage</content>
+        <formFactor>Small</formFactor>
+        <pageOrSobjectType>Grid__c</pageOrSobjectType>
+        <recordType>Grid__c.CustomGrid</recordType>
+        <type>Flexipage</type>
+        <profile>Carmignac - WebHelp</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>CustomGridRecordPage</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>Grid__c</pageOrSobjectType>
+        <recordType>Grid__c.CustomGrid</recordType>
+        <type>Flexipage</type>
+        <profile>Carmignac - WebHelp</profile>
+    </profileActionOverrides>
+    <tabs>Grid__c</tabs>
+    <tabs>GridScope__c</tabs>
+    <tabs>GridCriteria__c</tabs>
+    <tabs>Convention__c</tabs>
+    <tabs>Strategy__c</tabs>
+    <tabs>Product__c</tabs>
+    <tabs>Share_Class__c</tabs>
+    <tabs>GridExcelImport</tabs>
+    <uiType>Lightning</uiType>
+    <utilityBar>Grid_UtilityBar</utilityBar>
+</CustomApplication>

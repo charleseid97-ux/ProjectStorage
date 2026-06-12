@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>StepLabel__c</fullName>
+    <description>Display name stamped on CustomApprovalStep__c records at creation time, eliminating runtime label lookups. Shown in the approval history table.</description>
+    <externalId>false</externalId>
+    <fieldManageability>SubscriberControlled</fieldManageability>
+    <inlineHelpText>The label shown in the approval history table. Example: HOC Approval, DCO-DO Approval.</inlineHelpText>
+    <label>Step Label</label>
+    <length>80</length>
+    <required>false</required>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

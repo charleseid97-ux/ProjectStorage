@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObject xmlns="http://soap.sforce.com/2006/04/metadata">
+    <description>This metadata type lists all objects that can appear in the filter builder of a Grid Criteria. Administrators can activate or deactivate objects without changing code, allowing the Grid Builder to dynamically adapt to evolving business requirements.</description>
+    <label>Grid Criteria Setting</label>
+    <pluralLabel>Grid Criteria Settings</pluralLabel>
+    <visibility>Public</visibility>
+</CustomObject>

@@ -2,7 +2,7 @@
     recipientType="User"
     relatedToType="Grid__c">
 
-<messaging:htmlEmailBody>
+<messaging:htmlEmailBody >
 <html>
 <head>
 <style>
@@ -292,7 +292,7 @@
 </html>
 </messaging:htmlEmailBody>
 
-<messaging:plainTextEmailBody>
+<messaging:plainTextEmailBody >
 ====================================
   GRID AMENDMENT - APPROVAL REQUEST
 ====================================

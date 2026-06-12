@@ -1,0 +1,122 @@
+<template>
+    <div class={sectionClass}>
+
+        <!-- Section header — full-width, matches native SF field section header -->
+        <h3 class="slds-section__title">
+            <button
+                class="slds-button slds-section__title-action"
+                onclick={handleToggle}
+                aria-expanded={isOpen}>
+                <lightning-icon
+                    icon-name="utility:switch"
+                    class="slds-section__title-action-icon slds-button__icon slds-button__icon_left"
+                    size="x-small">
+                </lightning-icon>
+                <span class="slds-truncate" title={labels.Grid_AgreementGridRecap}>
+                    {labels.Grid_AgreementGridRecap}
+                </span>
+            </button>
+        </h3>
+
+        <!-- Section content — hidden/shown by aria-hidden -->
+        <div aria-hidden={sectionHidden} class="slds-section__content">
+            <template if:true={isLoading}>
+                <lightning-spinner alternative-text={labels.UI_Loading} size="small">
+                </lightning-spinner>
+            </template>
+            <template if:false={isLoading}>
+                <div class="col-container">
+
+                    <!-- ── Column 1: Current Grid Recap ── -->
+                    <div class="col-left" style={leftColStyle}>
+                        <div class="slds-card">
+                            <div class="card-header slds-card__header slds-grid">
+                                <header class="slds-media slds-media_center slds-has-flexi-truncate">
+                                    <div class="slds-media__figure">
+                                        <lightning-icon icon-name="standard:product" size="small"></lightning-icon>
+                                    </div>
+                                    <div class="slds-media__body">
+                                        <h2 class="slds-card__header-title">
+                                            <span class="slds-truncate" title={labels.Grid_CurrentGridRecap}>
+                                                {labels.Grid_CurrentGridRecap}
+                                            </span>
+                                        </h2>
+                                    </div>
+                                </header>
+                            </div>
+                            <div class="card-body sectionPadding slds-card__body">
+                                <template if:true={hasGrid}>
+                                    <div class="slds-form slds-form_stacked">
+                                        <div class="slds-form-element slds-form-element_stacked slds-hint-parent">
+                                            <span class="slds-form-element__label">{labels.Grid_GridName}</span>
+                                            <div class="slds-form-element__control">
+                                                <a href={gridUrl}>{recap.gridName}</a>
+                                            </div>
+                                        </div>
+                                        <div class="slds-form-element slds-form-element_stacked slds-hint-parent">
+                                            <span class="slds-form-element__label">{labels.Grid_AutomaticUpdate}</span>
+                                            <div class="slds-form-element__control">
+                                                <span class="slds-form-element__static">{automaticUpdateLabel}</span>
+                                            </div>
+                                        </div>
+                                        <div class="slds-form-element slds-form-element_stacked slds-hint-parent">
+                                            <span class="slds-form-element__label">
+                                                {labels.Grid_StandardGridsSelected} ({standardGridCount})
+                                            </span>
+                                            <div class="slds-form-element__control">
+                                                <c-standard-grid-group-list groups={rawStandardGridGroups}></c-standard-grid-group-list>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </template>
+                                <template if:false={hasGrid}>
+                                    <p class="slds-text-color_weak slds-p-around_small">
+                                        {labels.Grid_NoActiveGridAssigned}
+                                    </p>
+                                </template>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- ── Resizer ── -->
+                    <div class="col-resizer" onmousedown={handleResizerMouseDown}></div>
+
+                    <!-- ── Column 2: Grid Timeline ── -->
+                    <div class="col-right">
+                        <div class="slds-card">
+                            <div class="card-header slds-card__header slds-grid">
+                                <header class="slds-media slds-media_center slds-has-flexi-truncate">
+                                    <div class="slds-media__figure">
+                                        <lightning-icon icon-name="standard:event" size="small"></lightning-icon>
+                                    </div>
+                                    <div class="slds-media__body">
+                                        <h2 class="slds-card__header-title">
+                                            <span class="slds-truncate" title={labels.Grid_AgreementGridTimeline}>
+                                                {labels.Grid_AgreementGridTimeline} ({timelineCount})
+                                            </span>
+                                        </h2>
+                                    </div>
+                                </header>
+                            </div>
+                            <div class="card-body slds-card__body">
+                                <template if:true={hasTimeline}>
+                                    <lightning-datatable
+                                        key-field="recordId"
+                                        data={timelineRows}
+                                        columns={timelineColumns}
+                                        hide-checkbox-column>
+                                    </lightning-datatable>
+                                </template>
+                                <template if:false={hasTimeline}>
+                                    <p class="slds-text-color_weak slds-p-around_small">No timeline found.</p>
+                                </template>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </template>
+            <div class="col-resize-overlay" style={overlayStyle}></div>
+        </div>
+    </div>
+</template>

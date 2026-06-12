@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>AllEmailAlerts</fullName>
+    <columns>MasterLabel</columns>
+    <columns>ProcessConfig__c</columns>
+    <columns>StepConfig__c</columns>
+    <columns>ActionType__c</columns>
+    <columns>IsActive__c</columns>
+    <columns>EmailTemplateName__c</columns>
+    <columns>AdditionalQueues__c</columns>
+    <columns>AdditionalUsers__c</columns>
+    <columns>NotifyCurrentStepApprovers__c</columns>
+    <columns>NotifyNextStepApprovers__c</columns>
+    <columns>NotifyRecordOwner__c</columns>
+    <columns>NotifySubmitter__c</columns>
+    <filterScope>Everything</filterScope>
+    <filters>
+        <field>ActionKind__c</field>
+        <operation>equals</operation>
+        <value>EmailAlert</value>
+    </filters>
+    <label>All Email Alerts</label>
+    <language>en_US</language>
+</ListView>
