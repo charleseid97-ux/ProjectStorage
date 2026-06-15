@@ -158,7 +158,7 @@
     <enableSearch>true</enableSearch>
     <enableSharing>true</enableSharing>
     <enableStreamingApi>true</enableStreamingApi>
-    <externalSharingModel>ReadWrite</externalSharingModel>
+    <externalSharingModel>Private</externalSharingModel>
     <label>Grid</label>
     <nameField>
         <encryptionScheme>None</encryptionScheme>
@@ -169,6 +169,6 @@
     <pluralLabel>Grids</pluralLabel>
     <recordTypeTrackFeedHistory>true</recordTypeTrackFeedHistory>
     <searchLayouts></searchLayouts>
-    <sharingModel>ReadWrite</sharingModel>
+    <sharingModel>Private</sharingModel>
     <visibility>Public</visibility>
 </CustomObject>
