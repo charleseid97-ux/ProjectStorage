@@ -463,27 +463,10 @@ public with sharing class GridUtility {
     }
 
     /** ──────────────────────────────────────
-     * @description Merges TECH_Business_Region__c and TECH_All_concerned_Business_Regions__c
-     *              into a single deduplicated comma-separated string for Grid__c.TECH_AllConcernedBusinessRegions__c.
-     ────────────────────────────────────── */
-    public static String computeAllConcernedBusinessRegions(String businessRegion, String allConcernedRegions) {
-        Set<String> regions = new Set<String>();
-        if (String.isNotBlank(businessRegion)) {
-            regions.add(businessRegion.trim());
-        }
-        if (String.isNotBlank(allConcernedRegions)) {
-            for (String r : allConcernedRegions.split(',')) {
-                String trimmed = r.trim();
-                if (String.isNotBlank(trimmed)) regions.add(trimmed);
-            }
-        }
-        return regions.isEmpty() ? null : String.join(new List<String>(regions), ',');
-    }
-
-    /** ──────────────────────────────────────
      * @description Called from AgreementTriggerHandler on AfterUpdate.
-     *              Queries all CustomGrid__c records linked to the updated agreements
-     *              and recalculates TECH_AllConcernedBusinessRegions__c from the agreement's region fields.
+     *              Queries all CustomGrid records linked to the updated agreements
+     *              and mirrors TECH_Business_Region__c → TECH_BusinessRegion__c
+     *              and TECH_All_concerned_Business_Regions__c → TECH_AllConcernedBusinessRegions__c.
      ────────────────────────────────────── */
     public static void syncBusinessRegionsFromAgreements(Map<Id, Convention__c> newAgreements, Map<Id, Convention__c> oldAgreements) {
         Set<Id> changedAgreementIds = new Set<Id>();
@@ -498,12 +481,12 @@ public with sharing class GridUtility {
         Id customGridRtId = Schema.SObjectType.Grid__c.getRecordTypeInfosByDeveloperName().get(GridBuilderHelper.RT_CUSTOM_GRID).getRecordTypeId();
 
         List<Grid__c> toUpdate = new List<Grid__c>();
-        for (Grid__c grid : [SELECT Id, Agreement__c, Agreement__r.TECH_Business_Region__c, Agreement__r.TECH_All_concerned_Business_Regions__c
+        for (Grid__c grid : [SELECT Id, Agreement__c
                              FROM Grid__c
                              WHERE Agreement__c IN :changedAgreementIds
                              AND RecordTypeId = :customGridRtId]) {
             Convention__c agr = newAgreements.get(grid.Agreement__c);
-            toUpdate.add(new Grid__c(Id = grid.Id, TECH_AllConcernedBusinessRegions__c = computeAllConcernedBusinessRegions(agr.TECH_Business_Region__c, agr.TECH_All_concerned_Business_Regions__c)));
+            toUpdate.add(new Grid__c(Id = grid.Id, TECH_BusinessRegion__c = agr.TECH_Business_Region__c, TECH_AllConcernedBusinessRegions__c = agr.TECH_All_concerned_Business_Regions__c));
         }
         if (!toUpdate.isEmpty()) update toUpdate;
     }

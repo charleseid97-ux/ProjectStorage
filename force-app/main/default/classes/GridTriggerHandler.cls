@@ -109,7 +109,8 @@ public without sharing class GridTriggerHandler implements ITriggerHandler {
             if (grid.RecordTypeId != customGridRtId || grid.Agreement__c == null) continue;
             Convention__c agr = agreementsById.get(grid.Agreement__c);
             if (agr == null) continue;
-            grid.TECH_AllConcernedBusinessRegions__c = GridUtility.computeAllConcernedBusinessRegions(agr.TECH_Business_Region__c, agr.TECH_All_concerned_Business_Regions__c);
+            grid.TECH_BusinessRegion__c              = agr.TECH_Business_Region__c;
+            grid.TECH_AllConcernedBusinessRegions__c = agr.TECH_All_concerned_Business_Regions__c;
         }
     }
 
