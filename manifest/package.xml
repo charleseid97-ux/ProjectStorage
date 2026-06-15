@@ -525,6 +525,10 @@
 		<members>GridEmailShareClassOverview</members>
 		<name>ApexComponent</name>
 	</types>
+	<types>
+		<members>Grid__c.*</members>
+		<name>SharingCriteriaRule</name>
+	</types>
 	<!-- FLAG ON -->
 	<version>66.0</version>
 </Package>
