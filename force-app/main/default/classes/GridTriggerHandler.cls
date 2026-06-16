@@ -23,7 +23,7 @@ public without sharing class GridTriggerHandler implements ITriggerHandler {
         if (PAD.canTrigger('syncGridBusinessRegions')) {
             syncAllConcernedBusinessRegions((List<Grid__c>) newItems.values(), (Map<Id, Grid__c>) oldItems);
         }
-        if (PAD.canTrigger('GridApprovalLock')) {
+        if (PAD.canTrigger('GridApprovalLock') && !GridUtility.isUpdatingGridsFromAgreementTrigger) {
             CustomApprovalHistoryUtility.enforceApprovalLock(newItems.values(), oldItems);
         }
     }
