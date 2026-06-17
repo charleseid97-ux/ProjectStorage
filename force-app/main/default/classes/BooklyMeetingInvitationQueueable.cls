@@ -54,6 +54,22 @@ public without sharing class BooklyMeetingInvitationQueueable
                 participantsByEventId.get(eventId);
 
             if ((participants == null || participants.isEmpty()) && eventRecord.Status__c != 'Cancelled') {
+                logGraphInvitation(
+                    OperationLogService.Level.INFO,
+                    eventRecord,
+                    'GraphInvitationSkipped',
+                    buildGraphInvitationLogMessage(
+                        eventRecord,
+                        new List<String>(),
+                        'SKIPPED',
+                        null,
+                        'No participants found for this Event__c.'
+                    ),
+                    null,
+                    null,
+                    null
+                );
+
                 System.debug('No participants found for Event__c: ' + eventId);
                 continue;
             }
@@ -83,6 +99,7 @@ public without sharing class BooklyMeetingInvitationQueueable
             for (MicrosoftGraphMeetingService.Participant participant : request.participants) {
                 emails.add(participant.email);
             }
+
             String logAction =
                 eventRecord.Status__c == 'Cancelled'
                     ? 'GraphInvitationCancelling'
@@ -97,6 +114,22 @@ public without sharing class BooklyMeetingInvitationQueueable
 
                 if (isUpdate) {
                     if (String.isBlank(eventRecord.MicrosoftEventId__c)) {
+                        logGraphInvitation(
+                            OperationLogService.Level.ERROR,
+                            eventRecord,
+                            logAction,
+                            buildGraphInvitationLogMessage(
+                                eventRecord,
+                                emails,
+                                'ERROR',
+                                null,
+                                'Missing MicrosoftEventId__c.'
+                            ),
+                            request,
+                            null,
+                            null
+                        );
+
                         continue;
                     }
 
@@ -118,28 +151,31 @@ public without sharing class BooklyMeetingInvitationQueueable
                         MicrosoftGraphMeetingService.createTeamsMeeting(request);
                 }
 
-                String logMessage =
-                    'to: ' + String.join(emails, ',') +
-                    ' | sentDateTime: ' + Datetime.now().format('yyyy-MM-dd HH:mm:ss') +
-                    ' | eventStart: ' + String.valueOf(eventRecord.StartDate__c) + ' ' + String.valueOf(eventRecord.StartTime__c) +
-                    ' | eventEnd: ' + String.valueOf(eventRecord.EndDate__c) + ' ' + String.valueOf(eventRecord.EndTime__c) +
-                    ' | timeZone: ' + safeString(eventRecord.TimeZone__c) +
-                    ' | location: ' + safeString(eventRecord.City__c) +
-                    ' | result: ' + (response.success ? 'SUCCESS' : 'FAIL');
+                String result = response.success == true ? 'SUCCESS' : 'FAIL';
+
+                String logMessage = buildGraphInvitationLogMessage(
+                    eventRecord,
+                    emails,
+                    result,
+                    response,
+                    response.errorMessage
+                );
 
                 if (response.success == true && !String.isBlank(response.eventId)) {
-                    logMessage += ' | eventId: ' + response.eventId;
-                    eventRecord.MicrosoftEventId__c = response.eventId;
+                    if (eventRecord.MicrosoftEventId__c != response.eventId) {
+                        eventRecord.MicrosoftEventId__c = response.eventId;
+                        eventsToUpdate.add(eventRecord);
+                    }
                 }
 
-                if (!String.isBlank(response.errorMessage)) {
-                    logMessage += ' | error: ' + response.errorMessage;
-                }
-
-                eventRecord.Logs__c = LogAccumulatorService.appendLog(
-                    eventRecord.Logs__c,
+                logGraphInvitation(
+                    response.success == true ? OperationLogService.Level.INFO : OperationLogService.Level.ERROR,
+                    eventRecord,
                     logAction,
-                    logMessage
+                    logMessage,
+                    request,
+                    response,
+                    null
                 );
 
                 System.debug(
@@ -149,27 +185,147 @@ public without sharing class BooklyMeetingInvitationQueueable
                     JSON.serialize(response)
                 );
             } catch (Exception e) {
-                eventRecord.Logs__c = LogAccumulatorService.appendLog(
-                    eventRecord.Logs__c,
+                logGraphInvitation(
+                    OperationLogService.Level.ERROR,
+                    eventRecord,
                     logAction,
-                    'to: ' + String.join(emails, ',') +
-                    ' | sentDateTime: ' + Datetime.now().format('yyyy-MM-dd HH:mm:ss') +
-                    ' | eventStart: ' + String.valueOf(eventRecord.StartDate__c) + ' ' + String.valueOf(eventRecord.StartTime__c) +
-                    ' | eventEnd: ' + String.valueOf(eventRecord.EndDate__c) + ' ' + String.valueOf(eventRecord.EndTime__c) +
-                    ' | timeZone: ' + safeString(eventRecord.TimeZone__c) +
-                    ' | location: ' + safeString(eventRecord.City__c) +
-                    ' | result: EXCEPTION' +
-                    ' | error: ' + e.getMessage()
+                    buildGraphInvitationLogMessage(
+                        eventRecord,
+                        emails,
+                        'EXCEPTION',
+                        null,
+                        e.getMessage()
+                    ),
+                    request,
+                    null,
+                    e
                 );
             }
-
-            eventsToUpdate.add(eventRecord);
-            
         }
 
-        if (!eventsToUpdate.isEmpty()) {
-            update eventsToUpdate;
+        try {
+            if (!eventsToUpdate.isEmpty()) {
+                Database.SaveResult[] updateResults = Database.update(eventsToUpdate, false);
+
+                for (Integer index = 0; index < updateResults.size(); index++) {
+                    if (updateResults[index].isSuccess()) {
+                        continue;
+                    }
+
+                    logGraphInvitation(
+                        OperationLogService.Level.ERROR,
+                        eventsToUpdate[index],
+                        'GraphInvitationEventUpdate',
+                        'Unable to update Event__c with MicrosoftEventId__c: ' +
+                        joinDatabaseErrors(updateResults[index].getErrors()),
+                        null,
+                        null,
+                        null
+                    );
+                }
+            }
+        } catch (Exception e) {
+            logGraphInvitation(
+                OperationLogService.Level.ERROR,
+                null,
+                'GraphInvitationEventUpdate',
+                'Unexpected error while updating Event__c records with MicrosoftEventId__c.',
+                null,
+                null,
+                e
+            );
         }
+
+        OperationLogService.flush();
+    }
+
+    // Creates an OperationLog__c entry without updating the source Event__c record.
+    private static void logGraphInvitation(
+        OperationLogService.Level level,
+        Event__c eventRecord,
+        String operation,
+        String message,
+        MicrosoftGraphMeetingService.MeetingRequest request,
+        MicrosoftGraphMeetingService.MeetingResponse response,
+        Exception exceptionValue
+    ) {
+        OperationLogService.Entry entry = new OperationLogService.Entry();
+        entry.level = level;
+        entry.sourceRecordId = eventRecord == null ? null : String.valueOf(eventRecord.Id);
+        entry.sourceObjectApiName = 'Event__c';
+        entry.operation = operation;
+        entry.message = message;
+        entry.contextJson = buildGraphInvitationLogContext(eventRecord, request, response);
+        entry.apexClass = 'BooklyMeetingInvitationQueueable';
+        entry.methodName = 'execute';
+        entry.exceptionValue = exceptionValue;
+
+        OperationLogService.log(entry);
+    }
+
+    // Builds the visible message shown to admins in the Operation Logs component.
+    private static String buildGraphInvitationLogMessage(
+        Event__c eventRecord,
+        List<String> emails,
+        String result,
+        MicrosoftGraphMeetingService.MeetingResponse response,
+        String errorMessage
+    ) {
+        String recipients = emails == null ? '' : String.join(emails, ',');
+
+        String logMessage =
+            'to: ' + recipients +
+            ' | sentDateTime: ' + Datetime.now().format('yyyy-MM-dd HH:mm:ss') +
+            ' | eventStart: ' + String.valueOf(eventRecord.StartDate__c) + ' ' + String.valueOf(eventRecord.StartTime__c) +
+            ' | eventEnd: ' + String.valueOf(eventRecord.EndDate__c) + ' ' + String.valueOf(eventRecord.EndTime__c) +
+            ' | timeZone: ' + safeString(eventRecord.TimeZone__c) +
+            ' | location: ' + safeString(eventRecord.City__c) +
+            ' | result: ' + result;
+
+        if (response != null && response.success == true && !String.isBlank(response.eventId)) {
+            logMessage += ' | eventId: ' + response.eventId;
+        }
+
+        if (!String.isBlank(errorMessage)) {
+            logMessage += ' | error: ' + errorMessage;
+        }
+
+        return logMessage;
+    }
+
+    // Builds a compact JSON context for troubleshooting without adding lookups to Event__c.
+    private static String buildGraphInvitationLogContext(
+        Event__c eventRecord,
+        MicrosoftGraphMeetingService.MeetingRequest request,
+        MicrosoftGraphMeetingService.MeetingResponse response
+    ) {
+        Map<String, Object> context = new Map<String, Object>();
+        context.put('eventId', eventRecord == null ? null : String.valueOf(eventRecord.Id));
+        context.put('eventStatus', eventRecord == null ? null : eventRecord.Status__c);
+        context.put('microsoftEventId', eventRecord == null ? null : eventRecord.MicrosoftEventId__c);
+        context.put('requestSubject', request == null ? null : request.subject);
+        context.put('participantCount', request == null || request.participants == null ? 0 : request.participants.size());
+        context.put('generateTeamsLink', request == null ? null : request.generateTeamsLink);
+        context.put('responseSuccess', response == null ? null : response.success);
+        context.put('responseEventId', response == null ? null : response.eventId);
+        context.put('responseErrorMessage', response == null ? null : response.errorMessage);
+
+        return JSON.serialize(context);
+    }
+
+    // Converts Database.SaveResult errors into one readable log message.
+    private static String joinDatabaseErrors(Database.Error[] errors) {
+        List<String> messages = new List<String>();
+
+        if (errors == null || errors.isEmpty()) {
+            return '';
+        }
+
+        for (Database.Error error : errors) {
+            messages.add(String.valueOf(error.getStatusCode()) + ': ' + error.getMessage());
+        }
+
+        return String.join(messages, ' | ');
     }
 
     private static Map<Id, Event__c> getEvents(Set<Id> eventIds) {
@@ -196,8 +352,7 @@ public without sharing class BooklyMeetingInvitationQueueable
                    Owner.Email,
                    city__c,
                    MicrosoftEventId__c,
-                   Status__c,
-                   Logs__c
+                   Status__c
             FROM Event__c
             WHERE Id IN :eventIds
         ]);
@@ -269,16 +424,17 @@ public without sharing class BooklyMeetingInvitationQueueable
         return jobTitle.trim().toLowerCase() != JOB_TITLE_SALES.toLowerCase();
     }
 
+    // Ajoute les participants communs : speakers, assistants et users liés aux stratégies.
     private static void addCommonParticipants(
         Set<Id> eventIds,
         Map<Id, List<MicrosoftGraphMeetingService.Participant>> participantsByEventId,
         Map<Id, Set<String>> emailsByEventId,
         Map<Id, Boolean> hasTopSpeakerByEventId
     ) {
-        Map<String, String> strategyToGroupName = loadStrategyToGroupNameMap();
+        Map<String, Set<String>> strategyToUsernames = loadStrategyToUsernamesMap();
 
-        Map<Id, Set<String>> groupNamesByEventId = new Map<Id, Set<String>>();
-        Set<String> allGroupNames = new Set<String>();
+        Map<Id, Set<String>> usernamesByEventId = new Map<Id, Set<String>>();
+        Set<String> allUsernames = new Set<String>();
 
         for (SessionSpeakerProduct__c speakerLink : [
             SELECT Session__c,
@@ -292,6 +448,7 @@ public without sharing class BooklyMeetingInvitationQueueable
             WHERE Session__c IN :eventIds
             AND SpeakerContact__c != null
         ]) {
+            // Le speaker et son assistant restent toujours invités.
             addParticipant(
                 participantsByEventId.get(speakerLink.Session__c),
                 emailsByEventId.get(speakerLink.Session__c),
@@ -308,51 +465,48 @@ public without sharing class BooklyMeetingInvitationQueueable
                 false
             );
 
+            // Les users par stratégie ne sont ajoutés que s'il y a un top speaker.
             if (hasTopSpeakerByEventId.get(speakerLink.Session__c) != true) {
                 continue;
             }
 
-            String strategyName = speakerLink.Strategy__r == null
+            String strategyCode = speakerLink.Strategy__r == null
                 ? null
                 : speakerLink.Strategy__r.Code__c;
 
-            System.debug('strategyName : ' + strategyName);
+            Set<String> usernames = strategyToUsernames.get(normalizeKey(strategyCode));
 
-            String groupName = strategyToGroupName.get(normalizeKey(strategyName));
-
-            System.debug('groupName : ' + groupName);
-
-            if (String.isBlank(groupName)) {
+            if (usernames == null || usernames.isEmpty()) {
                 continue;
             }
 
-            if (!groupNamesByEventId.containsKey(speakerLink.Session__c)) {
-                groupNamesByEventId.put(speakerLink.Session__c, new Set<String>());
+            // On regroupe les usernames par événement pour éviter les doublons.
+            if (!usernamesByEventId.containsKey(speakerLink.Session__c)) {
+                usernamesByEventId.put(speakerLink.Session__c, new Set<String>());
             }
 
-            groupNamesByEventId.get(speakerLink.Session__c).add(groupName);
-            allGroupNames.add(groupName);
+            usernamesByEventId.get(speakerLink.Session__c).addAll(usernames);
+            allUsernames.addAll(usernames);
         }
 
-        Map<String, List<User>> usersByGroupName = loadUsersByGroupName(allGroupNames);
+        Map<String, User> usersByUsername = loadUsersByUsername(allUsernames);
 
-        for (Id eventId : groupNamesByEventId.keySet()) {
-            for (String groupName : groupNamesByEventId.get(eventId)) {
-                List<User> users = usersByGroupName.get(groupName);
+        for (Id eventId : usernamesByEventId.keySet()) {
+            for (String username : usernamesByEventId.get(eventId)) {
+                User userRecord = usersByUsername.get(username);
 
-                if (users == null) {
+                if (userRecord == null) {
                     continue;
                 }
 
-                for (User userRecord : users) {
-                    addParticipant(
-                        participantsByEventId.get(eventId),
-                        emailsByEventId.get(eventId),
-                        userRecord.Email,
-                        userRecord.Name,
-                        false
-                    );
-                }
+                // L'invitation est envoyée à l'email du User Salesforce trouvé.
+                addParticipant(
+                    participantsByEventId.get(eventId),
+                    emailsByEventId.get(eventId),
+                    userRecord.Email,
+                    userRecord.Name,
+                    false
+                );
             }
         }
     }
@@ -563,88 +717,53 @@ public without sharing class BooklyMeetingInvitationQueueable
         return String.isBlank(value) ? '' : value.trim();
     }
 
-    private static Map<String, String> loadStrategyToGroupNameMap() {
-        Map<String, String> result = new Map<String, String>();
+        // Charge le mapping Strategy Code -> usernames depuis BooklyStrategiesByUsers__mdt.
+    private static Map<String, Set<String>> loadStrategyToUsernamesMap() {
+        Map<String, Set<String>> result = new Map<String, Set<String>>();
 
-        for (strategyNotificationGroups__mdt config : strategyNotificationGroups__mdt.getAll().values()) {
-            if (String.isBlank(config.strategies__c) || String.isBlank(config.userGroupName__c)) {
+        for (BooklyStrategiesByUsers__mdt config : BooklyStrategiesByUsers__mdt.getAll().values()) {
+            if (String.isBlank(config.Username__c) || String.isBlank(config.StrategyCodes__c)) {
                 continue;
             }
 
-            for (String strategyName : config.strategies__c.split(',')) {
-                String normalizedStrategy = normalizeKey(strategyName);
+            String username = config.Username__c.trim();
 
-                if (!String.isBlank(normalizedStrategy)) {
-                    result.put(normalizedStrategy, config.userGroupName__c.trim());
+            // StrategyCodes__c contient les codes séparés par des points-virgules.
+            for (String strategyCode : config.StrategyCodes__c.split(';')) {
+                String normalizedStrategy = normalizeKey(strategyCode);
+
+                if (String.isBlank(normalizedStrategy)) {
+                    continue;
                 }
+
+                if (!result.containsKey(normalizedStrategy)) {
+                    result.put(normalizedStrategy, new Set<String>());
+                }
+
+                result.get(normalizedStrategy).add(username);
             }
         }
 
         return result;
     }
 
-    private static Map<String, List<User>> loadUsersByGroupName(Set<String> groupNames) {
-        Map<String, List<User>> result = new Map<String, List<User>>();
+    // Charge les users actifs correspondant aux usernames déclarés dans le metadata.
+    private static Map<String, User> loadUsersByUsername(Set<String> usernames) {
+        Map<String, User> result = new Map<String, User>();
 
-        if (groupNames == null || groupNames.isEmpty()) {
+        if (usernames == null || usernames.isEmpty()) {
             return result;
         }
 
-        for (String groupName : groupNames) {
-            result.put(groupName, new List<User>());
-        }
-
-        Map<Id, String> groupNameById = new Map<Id, String>();
-
-        for (Group groupRecord : [
-            SELECT Id, DeveloperName
-            FROM Group
-            WHERE DeveloperName IN :groupNames
-        ]) {
-            groupNameById.put(groupRecord.Id, groupRecord.DeveloperName);
-        }
-
-        if (groupNameById.isEmpty()) {
-            return result;
-        }
-
-        Set<Id> userIds = new Set<Id>();
-        List<GroupMember> groupMembers = [
-            SELECT GroupId, UserOrGroupId
-            FROM GroupMember
-            WHERE GroupId IN :groupNameById.keySet()
-        ];
-
-        for (GroupMember member : groupMembers) {
-            if (member.UserOrGroupId != null && String.valueOf(member.UserOrGroupId).startsWith('005')) {
-                userIds.add(member.UserOrGroupId);
-            }
-        }
-
-        if (userIds.isEmpty()) {
-            return result;
-        }
-
-        Map<Id, User> usersById = new Map<Id, User>([
-            SELECT Id, Name, Email, IsActive
+        for (User userRecord : [
+            SELECT Id, Name, Email, Username, IsActive
             FROM User
-            WHERE Id IN :userIds
+            WHERE Username IN :usernames
             AND IsActive = true
             AND Email != null
-        ]);
-
-        for (GroupMember member : groupMembers) {
-            User userRecord = usersById.get(member.UserOrGroupId);
-
-            if (userRecord == null) {
-                continue;
-            }
-
-            String groupName = groupNameById.get(member.GroupId);
-
-            if (!String.isBlank(groupName) && result.containsKey(groupName)) {
-                result.get(groupName).add(userRecord);
-            }
+        ]) {
+            // La clé reste le Username pour matcher avec Username__c.
+            result.put(userRecord.Username, userRecord);
         }
 
         return result;

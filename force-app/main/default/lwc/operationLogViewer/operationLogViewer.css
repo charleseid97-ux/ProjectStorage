@@ -1,0 +1,149 @@
+.card-title {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-weight: 700;
+}
+
+.title-icon {
+    --slds-c-icon-color-foreground-default: #1b5297;
+}
+
+.toolbar {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 8rem;
+    gap: 0.75rem;
+}
+
+.spinner-wrapper {
+    min-height: 4rem;
+    position: relative;
+}
+
+.log-list {
+    padding: 0 1rem 1rem;
+}
+
+.log-row {
+    border: 1px solid #d8dde6;
+    border-radius: 0.75rem;
+    background: #ffffff;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.06);
+    margin-bottom: 0.75rem;
+    overflow: hidden;
+}
+
+.log-main {
+    padding: 0.875rem 1rem;
+}
+
+.log-header {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+}
+
+.log-name {
+    font-weight: 700;
+}
+
+.log-date {
+    color: #5c6f82;
+    margin-left: auto;
+    font-size: 0.75rem;
+}
+
+.log-operation {
+    font-weight: 700;
+    margin-top: 0.55rem;
+}
+
+.log-message {
+    color: #2e2e2e;
+    margin-top: 0.25rem;
+    white-space: pre-wrap;
+}
+
+.log-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    color: #5c6f82;
+    font-size: 0.75rem;
+    margin-top: 0.6rem;
+}
+
+.log-meta span {
+    background: #f3f6f9;
+    border-radius: 999px;
+    padding: 0.125rem 0.5rem;
+}
+
+.log-details {
+    border-top: 1px solid #eef1f6;
+    margin-top: 0.75rem;
+    padding-top: 0.75rem;
+}
+
+.log-details summary {
+    cursor: pointer;
+    font-weight: 700;
+}
+
+.log-details pre {
+    background: #f7f9fb;
+    border-radius: 0.5rem;
+    margin: 0.5rem 0 0;
+    max-height: 14rem;
+    overflow: auto;
+    padding: 0.75rem;
+    white-space: pre-wrap;
+}
+
+.level-badge {
+    border-radius: 999px;
+    color: #ffffff;
+    display: inline-flex;
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.03rem;
+    line-height: 1;
+    padding: 0.35rem 0.55rem;
+}
+
+.level-debug {
+    background: #706e6b;
+}
+
+.level-info {
+    background: #0176d3;
+}
+
+.level-warn {
+    background: #dd7a01;
+}
+
+.level-error {
+    background: #ba0517;
+}
+
+.empty-state {
+    align-items: center;
+    color: #5c6f82;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    text-align: center;
+}
+
+@media (max-width: 640px) {
+    .toolbar {
+        grid-template-columns: 1fr;
+    }
+
+    .log-date {
+        margin-left: 0;
+        width: 100%;
+    }
+}
