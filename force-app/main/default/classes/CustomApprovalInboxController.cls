@@ -22,15 +22,15 @@ public without sharing class CustomApprovalInboxController {
 
         Map<String, Boolean> stepDevNameHasUserInput = CustomApprovalHistoryUtility.buildStepConfigMap(collectProcessDevNames(approvable));
         Map<Id, String> submittedByPerApproval       = buildSubmittedByMap(collectApprovalIds(approvable));
-        TargetRecordInfo targetInfo                  = resolveTargetInfo(approvable);
 
-        return buildResult(approvable, stepDevNameHasUserInput, submittedByPerApproval, targetInfo);
+        return buildResult(approvable, stepDevNameHasUserInput, submittedByPerApproval);
     }
 
     // ─── Query ───────────────────────────────────────────────────────────────────
     private static List<CustomApprovalStep__c> queryPendingSteps() {
         return [SELECT Id, StepLabel__c, StepDeveloperName__c, AssignedTo__c, AssignedToName__c, CreatedDate,
-                       CustomApproval__c, CustomApproval__r.TargetRecordId__c, CustomApproval__r.ProcessDeveloperName__c,
+                       CustomApproval__c, CustomApproval__r.TargetRecordId__c, CustomApproval__r.RelatedToLabel__c,
+                       CustomApproval__r.ProcessDeveloperName__c,
                        CustomApproval__r.SubmittedBy__r.Name, CustomApproval__r.TECH_ReadOnly__c, CustomApproval__r.CreatedDate
                 FROM CustomApprovalStep__c
                 WHERE IsCurrentStep__c = true
@@ -107,56 +107,28 @@ public without sharing class CustomApprovalInboxController {
         return result;
     }
 
-    // ─── Target record name + label resolution ────────────────────────────────────
-    private static TargetRecordInfo resolveTargetInfo(List<CustomApprovalStep__c> approvable) {
-        TargetRecordInfo info = new TargetRecordInfo();
-        Map<String, Set<Id>> idsByType = new Map<String, Set<Id>>();
-
-        for (CustomApprovalStep__c s : approvable) {
-            String rawId = s.CustomApproval__r?.TargetRecordId__c;
-            if (String.isBlank(rawId)) continue;
-            try {
-                Id recId = (Id) rawId;
-                String objType = recId.getSObjectType().getDescribe().getName();
-                if (!idsByType.containsKey(objType)) {
-                    idsByType.put(objType, new Set<Id>());
-                    info.typeLabel.put(objType, recId.getSObjectType().getDescribe().getLabel());
-                }
-                idsByType.get(objType).add(recId);
-            } catch (Exception e) { /* skip malformed Id */ }
-        }
-
-        for (String objType : idsByType.keySet()) {
-            Set<Id> ids = idsByType.get(objType);
-            for (SObject rec : Database.query('SELECT Id, Name FROM ' + objType + ' WHERE Id IN :ids')) {
-                info.idToName.put(String.valueOf(rec.get('Id')), (String) rec.get('Name'));
-            }
-        }
-        return info;
-    }
-
     // ─── Result builder ───────────────────────────────────────────────────────────
-    private static List<ItemToApprove> buildResult(List<CustomApprovalStep__c> approvable, Map<String, Boolean> stepDevNameHasUserInput, Map<Id, String> submittedByPerApproval, TargetRecordInfo targetInfo) {
+    private static List<ItemToApprove> buildResult(List<CustomApprovalStep__c> approvable, Map<String, Boolean> stepDevNameHasUserInput, Map<Id, String> submittedByPerApproval) {
         List<ItemToApprove> result = new List<ItemToApprove>();
         for (CustomApprovalStep__c s : approvable) {
-            result.add(buildItem(s, stepDevNameHasUserInput, submittedByPerApproval, targetInfo));
+            result.add(buildItem(s, stepDevNameHasUserInput, submittedByPerApproval));
         }
         return result;
     }
 
-    private static ItemToApprove buildItem(CustomApprovalStep__c s, Map<String, Boolean> stepDevNameHasUserInput, Map<Id, String> submittedByPerApproval, TargetRecordInfo targetInfo) {
+    private static ItemToApprove buildItem(CustomApprovalStep__c s, Map<String, Boolean> stepDevNameHasUserInput, Map<Id, String> submittedByPerApproval) {
         ItemToApprove item = new ItemToApprove();
         item.stepId    = s.Id;
         item.stepLabel = String.isNotBlank(s.StepLabel__c) ? s.StepLabel__c : s.StepDeveloperName__c;
         item.nextApproverSource = stepDevNameHasUserInput.get(s.StepDeveloperName__c) == true ? 'UserInput' : null;
 
         String rawId = s.CustomApproval__r?.TargetRecordId__c;
-        item.targetRecordId = rawId;
+        item.targetRecordId   = rawId;
+        item.targetRecordName = s.CustomApproval__r?.RelatedToLabel__c;
 
         if (String.isNotBlank(rawId)) {
-            item.targetRecordName = targetInfo.idToName.get(rawId);
             try {
-                item.objectLabel = targetInfo.typeLabel.get(((Id) rawId).getSObjectType().getDescribe().getName());
+                item.objectLabel = ((Id) rawId).getSObjectType().getDescribe().getLabel();
             } catch (Exception e) { /* skip malformed Id */ }
         }
 
@@ -165,12 +137,6 @@ public without sharing class CustomApprovalInboxController {
         item.stepDateFormatted = s.CreatedDate != null ? s.CreatedDate.format('dd/MM/yyyy HH:mm') : '';
 
         return item;
-    }
-
-    // ─── Inner classes ────────────────────────────────────────────────────────────
-    private class TargetRecordInfo {
-        Map<String, String> idToName  = new Map<String, String>();
-        Map<String, String> typeLabel = new Map<String, String>();
     }
 
     public class ItemToApprove {
