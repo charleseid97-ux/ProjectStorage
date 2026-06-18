@@ -420,6 +420,30 @@ public without sharing class CustomApprovalHistoryUtility {
         }
     }
 
+    // ─── Shared permission helpers (used by history + inbox controllers) ─────────
+    public static Boolean isAdministrator(Id userId) {
+        for (PermissionSetAssignment psa : [SELECT Id
+                                            FROM PermissionSetAssignment
+                                            WHERE AssigneeId = :userId
+                                              AND PermissionSet.IsOwnedByProfile = true
+                                              AND PermissionSet.Profile.Name LIKE '%Administrator%' LIMIT 1]) {
+            return true;
+        }
+        return false;
+    }
+
+    public static Map<String, Boolean> buildStepConfigMap(Set<String> processDevNames) {
+        Map<String, Boolean> result = new Map<String, Boolean>();
+        for (ApprovalStepApproverConfig__mdt cfg : [SELECT StepConfig__r.DeveloperName, ApproverSource__c
+                                                    FROM ApprovalStepApproverConfig__mdt
+                                                    WHERE StepConfig__r.ProcessConfig__r.DeveloperName IN :processDevNames]) {
+            if (cfg.ApproverSource__c == 'UserInput') {
+                result.put(cfg.StepConfig__r.DeveloperName, true);
+            }
+        }
+        return result;
+    }
+
     // ─── Record factories ─────────────────────────────────────────────────────────
     public static CustomApproval__c createCustomApproval(String targetRecordId, String processDevName, String status, Id submittedById, String currentStepDevName, String comments, Boolean readOnly) {
         return new CustomApproval__c(

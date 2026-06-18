@@ -28,7 +28,7 @@ public without sharing class CustomApprovalHistoryController {
 
         Set<Id> approvalIds = new Map<Id, CustomApproval__c>(approvals).keySet();
         Id currentUserId    = UserInfo.getUserId();
-        Boolean isAdmin     = isAdministrator(currentUserId);
+        Boolean isAdmin     = CustomApprovalHistoryUtility.isAdministrator(currentUserId);
 
         List<CustomApprovalStep__c> steps = [SELECT Id, CustomApproval__c, StepLabel__c, StepDeveloperName__c, Status__c,
                                                     AssignedTo__c, AssignedToName__c, OriginalAssignedTo__c, OriginalAssignedToName__c,
@@ -53,7 +53,7 @@ public without sharing class CustomApprovalHistoryController {
         for (CustomApproval__c a : approvals) {
             processDevNames.add(a.ProcessDeveloperName__c);
         }
-        Map<String, Boolean> stepDevNameHasUserInput = buildStepConfigMap(processDevNames);
+        Map<String, Boolean> stepDevNameHasUserInput = CustomApprovalHistoryUtility.buildStepConfigMap(processDevNames);
 
         for (CustomApprovalStep__c s : steps) {
             ApprovalRow row = buildRow(s);
@@ -75,6 +75,7 @@ public without sharing class CustomApprovalHistoryController {
                     }
                 }
                 row.canApproveOrReject = rowCanApprove;
+                row.nextApproverSource = stepDevNameHasUserInput.get(s.StepDeveloperName__c) == true ? 'UserInput' : null;
                 if (rowCanApprove) canApproveOrReject = true;
             } else {
                 row.canApproveOrReject = false;
@@ -106,35 +107,11 @@ public without sharing class CustomApprovalHistoryController {
         return CustomApprovalHistoryUtility.submitForApproval(recordId, processName, comments);
     }
 
-    // ─── Permissions ────────────────────────────────────────────────────────────
-    private static Boolean isAdministrator(Id userId) {
-        for (PermissionSetAssignment psa : [SELECT Id
-                                            FROM PermissionSetAssignment
-                                            WHERE AssigneeId = :userId
-                                              AND PermissionSet.IsOwnedByProfile = true
-                                              AND PermissionSet.Profile.Name LIKE '%Administrator%' LIMIT 1]) {
-            return true;
-        }
-        return false;
-    }
-
-    private static Map<String, Boolean> buildStepConfigMap(Set<String> processDevNames) {
-        Map<String, Boolean> result = new Map<String, Boolean>();
-        for (ApprovalStepApproverConfig__mdt cfg : [SELECT StepConfig__r.DeveloperName, ApproverSource__c
-                                                    FROM ApprovalStepApproverConfig__mdt
-                                                    WHERE StepConfig__r.ProcessConfig__r.DeveloperName IN :processDevNames]) {
-            if (cfg.ApproverSource__c == 'UserInput') {
-                result.put(cfg.StepConfig__r.DeveloperName, true);
-            }
-        }
-        return result;
-    }
-
     // ─── Row builder ────────────────────────────────────────────────────────────
     private static ApprovalRow buildRow(CustomApprovalStep__c s) {
         ApprovalRow row       = new ApprovalRow();
         row.id                = s.Id;
-        row.workItemId        = s.IsCurrentStep__c ? s.Id : null;
+        row.stepId            = s.IsCurrentStep__c ? s.Id : null;
         row.stepName          = String.isNotBlank(s.StepLabel__c) ? s.StepLabel__c : s.StepDeveloperName__c;
         row.stepDate          = s.ActionDate__c != null ? s.ActionDate__c : s.CreatedDate;
         row.stepDateFormatted = formatDatetime(row.stepDate);
@@ -144,7 +121,6 @@ public without sharing class CustomApprovalHistoryController {
         row.comments          = s.Comments__c;
         row.isPending         = s.IsCurrentStep__c;
         row.processName       = s.CustomApproval__r?.ProcessDeveloperName__c;
-        row.nextApproverSource = null;
         return row;
     }
 
@@ -156,7 +132,7 @@ public without sharing class CustomApprovalHistoryController {
     // ─── Wrapper classes ────────────────────────────────────────────────────────
     public class ApprovalRow {
         @AuraEnabled public String   id;
-        @AuraEnabled public String   workItemId;
+        @AuraEnabled public String   stepId;
         @AuraEnabled public String   stepName;
         @AuraEnabled public Datetime stepDate;
         @AuraEnabled public String   stepDateFormatted;
