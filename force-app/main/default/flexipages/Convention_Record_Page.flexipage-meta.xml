@@ -27,6 +27,44 @@
                         </valueListItems>
                         <valueListItems>
                             <value>Submit</value>
+                            <visibilityRule>
+                                <booleanFilter>(1 AND 2 AND 3 AND 4 AND 5 AND 6) OR 7</booleanFilter>
+                                <criteria>
+                                    <leftValue>{!Record.RecordType.DeveloperName}</leftValue>
+                                    <operator>NE</operator>
+                                    <rightValue>Request_Agreement</rightValue>
+                                </criteria>
+                                <criteria>
+                                    <leftValue>{!Record.RecordType.DeveloperName}</leftValue>
+                                    <operator>NE</operator>
+                                    <rightValue>Request_Agreement_Full</rightValue>
+                                </criteria>
+                                <criteria>
+                                    <leftValue>{!Record.RecordType.DeveloperName}</leftValue>
+                                    <operator>NE</operator>
+                                    <rightValue>Sub_distributor_Agreement_Request</rightValue>
+                                </criteria>
+                                <criteria>
+                                    <leftValue>{!Record.RecordType.DeveloperName}</leftValue>
+                                    <operator>NE</operator>
+                                    <rightValue>Sub_distributor_Agreement_Request_Full</rightValue>
+                                </criteria>
+                                <criteria>
+                                    <leftValue>{!Record.RecordType.DeveloperName}</leftValue>
+                                    <operator>NE</operator>
+                                    <rightValue>Investor_without_Agreement_Request</rightValue>
+                                </criteria>
+                                <criteria>
+                                    <leftValue>{!Record.RecordType.DeveloperName}</leftValue>
+                                    <operator>NE</operator>
+                                    <rightValue>Investor_without_Agreement_Request_Full</rightValue>
+                                </criteria>
+                                <criteria>
+                                    <leftValue>{!Record.GridRequested__c}</leftValue>
+                                    <operator>EQUAL</operator>
+                                    <rightValue>true</rightValue>
+                                </criteria>
+                            </visibilityRule>
                         </valueListItems>
                         <valueListItems>
                             <value>Convention__c.Code_Type_Definitions</value>
@@ -155,23 +193,6 @@
                     <name>uiBehavior</name>
                     <value>none</value>
                 </fieldInstanceProperties>
-                <fieldItem>Record.Platform__c</fieldItem>
-                <identifier>RecordPlatform_cField</identifier>
-                <visibilityRule>
-                    <criteria>
-                        <leftValue>{!Record.RecordType.DeveloperName}</leftValue>
-                        <operator>EQUAL</operator>
-                        <rightValue>Sub_distributor_Agreement</rightValue>
-                    </criteria>
-                </visibilityRule>
-            </fieldInstance>
-        </itemInstances>
-        <itemInstances>
-            <fieldInstance>
-                <fieldInstanceProperties>
-                    <name>uiBehavior</name>
-                    <value>none</value>
-                </fieldInstanceProperties>
                 <fieldItem>Record.EffectiveDate__c</fieldItem>
                 <identifier>RecordEffectiveDate_cField</identifier>
             </fieldInstance>
@@ -194,6 +215,40 @@
                 </fieldInstanceProperties>
                 <fieldItem>Record.SignedDate__c</fieldItem>
                 <identifier>RecordSignedDate_cField</identifier>
+            </fieldInstance>
+        </itemInstances>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>none</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.MasterConvention__c</fieldItem>
+                <identifier>RecordMasterConvention_cField</identifier>
+                <visibilityRule>
+                    <criteria>
+                        <leftValue>{!Record.Code_Type__c}</leftValue>
+                        <operator>EQUAL</operator>
+                        <rightValue>Sub-distributor via Platforms</rightValue>
+                    </criteria>
+                </visibilityRule>
+            </fieldInstance>
+        </itemInstances>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>none</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.Platform__c</fieldItem>
+                <identifier>RecordPlatform_cField</identifier>
+                <visibilityRule>
+                    <criteria>
+                        <leftValue>{!Record.Code_Type__c}</leftValue>
+                        <operator>EQUAL</operator>
+                        <rightValue>Sub-distributor via Platforms</rightValue>
+                    </criteria>
+                </visibilityRule>
             </fieldInstance>
         </itemInstances>
         <name>Facet-e2ae795d-665a-4e0f-882c-b0b0e645dcc9</name>
@@ -281,6 +336,16 @@
                 </fieldInstanceProperties>
                 <fieldItem>Record.AUM_To_Date__c</fieldItem>
                 <identifier>RecordAUM_To_Date_cField</identifier>
+            </fieldInstance>
+        </itemInstances>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>none</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.NoGridRequired__c</fieldItem>
+                <identifier>RecordNoGridRequired_cField2</identifier>
             </fieldInstance>
         </itemInstances>
         <name>Facet-e70f4b89-9a71-4b58-8c44-682bd30f333e</name>
@@ -961,13 +1026,6 @@
                 </componentInstanceProperties>
                 <componentName>flexipage:fieldSection</componentName>
                 <identifier>flexipage_fieldSection9</identifier>
-                <visibilityRule>
-                    <criteria>
-                        <leftValue>{!$User.UserRole.DeveloperName}</leftValue>
-                        <operator>EQUAL</operator>
-                        <rightValue>XX</rightValue>
-                    </criteria>
-                </visibilityRule>
             </componentInstance>
         </itemInstances>
         <itemInstances>
@@ -1775,14 +1833,9 @@
                 <componentName>flexipage:richText</componentName>
                 <identifier>flexipage_richText</identifier>
                 <visibilityRule>
-                    <booleanFilter>1 OR 2 OR 3</booleanFilter>
+                    <booleanFilter>1 OR 2</booleanFilter>
                     <criteria>
                         <leftValue>{!Record.Agreement_Termination_Status__c}</leftValue>
-                        <operator>EQUAL</operator>
-                        <rightValue>Need Submission</rightValue>
-                    </criteria>
-                    <criteria>
-                        <leftValue>{!Record.Amendment_Approval_Status__c}</leftValue>
                         <operator>EQUAL</operator>
                         <rightValue>Need Submission</rightValue>
                     </criteria>
