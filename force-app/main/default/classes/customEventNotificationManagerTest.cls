@@ -105,7 +105,7 @@ private class customEventNotificationManagerTest {
 
         System.assertNotEquals(
             null,
-            customEventNotificationManager.loadStrategyToGroupNameMap()
+            customEventNotificationManager.loadStrategyToUsernamesMap()
         );
     }
 
@@ -139,7 +139,7 @@ private class customEventNotificationManagerTest {
     }
 
     @IsTest
-    static void testMapSspsToGroupsCoverage() {
+    static void testMapSspsToUsernamesCoverage() {
         Map<String, SObject> data = BooklyDataFactory.setupForBookly();
 
         Event__c evt = BooklyDataFactory.createEvent(
@@ -162,17 +162,17 @@ private class customEventNotificationManagerTest {
         );
 
         Map<String, List<SessionSpeakerProduct__c>> matched =
-            customEventNotificationManager.mapSspsToGroups(
+            customEventNotificationManager.mapSspsToUsernames(
                 new List<SessionSpeakerProduct__c>{ ssp },
-                new Map<String, String>{ 'CODE_TEST' => 'Bookly_Test_Group' }
+                new Map<String, Set<String>>{ 'code_test' => new Set<String>{ 'user@test.com' } }
             );
 
-        System.assertEquals(true, matched.containsKey('Bookly_Test_Group'));
+        System.assertEquals(true, matched.containsKey('user@test.com'));
 
         Map<String, List<SessionSpeakerProduct__c>> notMatched =
-            customEventNotificationManager.mapSspsToGroups(
+            customEventNotificationManager.mapSspsToUsernames(
                 new List<SessionSpeakerProduct__c>{ ssp },
-                new Map<String, String>{ 'OTHER_CODE' => 'Bookly_Test_Group' }
+                new Map<String, Set<String>>{ 'other_code' => new Set<String>{ 'user@test.com' } }
             );
 
         System.assertEquals(0, notMatched.size());
@@ -280,27 +280,29 @@ static void testSendPresentationEmailsSkipUserNoEmail() {
     );
 
     SessionSpeakerProduct__c loadedSsp = [
-        SELECT Id, Session__c, Strategy__r.Name, SpeakerContact__r.Name
+        SELECT Id, Session__c, Strategy__r.Name, Strategy__r.Code__c, SpeakerContact__r.Name
         FROM SessionSpeakerProduct__c
         WHERE Id = :ssp.Id
     ];
 
     User currentUser = [
-        SELECT Id, Email, IsActive
+        SELECT Id, Email, Username, IsActive
         FROM User
         WHERE Id = :UserInfo.getUserId()
     ];
-
-    currentUser.Email = null;
 
     Test.startTest();
 
     customEventNotificationManager.sendPresentationEmails(
         new Map<String, List<SessionSpeakerProduct__c>>{
-            'TestGroup' => new List<SessionSpeakerProduct__c>{ loadedSsp }
+            currentUser.Username => new List<SessionSpeakerProduct__c>{ loadedSsp }
         },
-        new Map<String, List<User>>{
-            'TestGroup' => new List<User>{ currentUser }
+        new Map<String, User>{
+            currentUser.Username => new User(
+                Id = currentUser.Id,
+                Username = currentUser.Username,
+                IsActive = true
+            )
         }
     );
 
