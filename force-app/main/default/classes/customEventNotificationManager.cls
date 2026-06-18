@@ -1,6 +1,9 @@
+// Runs without sharing intentionally because notification delivery must not depend on
+// the triggering user's access to Users, Contacts or recipient email fields.
 public without sharing class customEventNotificationManager {
 
-    
+    private static String SUBJECT_PLACEHOLDER = '[!subject]';
+    private static String MESSAGE_PLACEHOLDER = '[!message]';
     // Lance l'envoi des demandes de présentation selon les stratégies configurées.
     public static void requestPresentation(List<SessionSpeakerProduct__c> ssps) {
 
@@ -201,6 +204,7 @@ public without sharing class customEventNotificationManager {
 
         Map<Id, User> uniqueUsersById = new Map<Id, User>();
         Map<Id, SessionSpeakerProduct__c> uniqueSspsById = new Map<Id, SessionSpeakerProduct__c>();
+        Map<String, Set<String>> strategiesByUsername = new Map<String, Set<String>>();
         Id eventId;
 
         // Build one unique recipients list from all configured usernames.
@@ -231,13 +235,14 @@ public without sharing class customEventNotificationManager {
             uniqueUsersById.put(u.Id, u);
             System.debug('NOTIF EMAIL STEP 6 - user added/deduplicated = ' + u.Id + ' / ' + u.Email);
 
-            // Deduplicate SSP rows because one SSP can match several usernames.
+            // Deduplicate SSP rows and keep the strategies that explain each notification.
             for (SessionSpeakerProduct__c ssp : sspsByUsername.get(username)) {
 
                 if (ssp == null) {
                     continue;
                 }
 
+                addPresentationStrategyReason(strategiesByUsername, username, ssp);
                 uniqueSspsById.put(ssp.Id, ssp);
             }
         }
@@ -349,10 +354,12 @@ public without sharing class customEventNotificationManager {
                         OperationLogService.Level.INFO,
                         eventId,
                         'PresentationRequestEmailSent',
-                        'Presentation request notification sent to: ' + String.join(recipients, ','),
+                        'Presentation request notification sent to: '
+                            + formatPresentationNotificationReasons(strategiesByUsername),
                         sspsByUsername.keySet(),
                         recipients,
                         sspIds,
+                        strategiesByUsername,
                         null
                     );
 
@@ -368,6 +375,7 @@ public without sharing class customEventNotificationManager {
                     sspsByUsername.keySet(),
                     recipients,
                     sspIds,
+                    strategiesByUsername,
                     null
                 );
             }
@@ -384,6 +392,7 @@ public without sharing class customEventNotificationManager {
                 sspsByUsername.keySet(),
                 recipients,
                 new List<Id>(uniqueSspsById.keySet()),
+                strategiesByUsername,
                 e
             );
         }
@@ -588,11 +597,11 @@ public without sharing class customEventNotificationManager {
                 Messaging.renderStoredEmailTemplate(template.Id, anyUserId, evt.Id);
 
             // Replace placeholders
-            String finalSubject = rendered.getSubject().replace('[!subject]', subjectValue);
+            String finalSubject = rendered.getSubject().replace(SUBJECT_PLACEHOLDER , subjectValue);
 
             String finalBody = rendered.getHtmlBody()
-                .replace('[!subject]', subjectValue)
-                .replace('[!message]', message);
+                .replace(SUBJECT_PLACEHOLDER , subjectValue)
+                .replace(MESSAGE_PLACEHOLDER , message);
 
             // Build final email
             Messaging.SingleEmailMessage mail = new Messaging.SingleEmailMessage();
@@ -777,11 +786,11 @@ public without sharing class customEventNotificationManager {
                 );
 
             String finalSubject =
-                rendered.getSubject().replace('[!subject]', subjectValue);
+                rendered.getSubject().replace(SUBJECT_PLACEHOLDER , subjectValue);
 
             String finalBody = rendered.getHtmlBody()
-                .replace('[!subject]', subjectValue)
-                .replace('[!message]', message);
+                .replace(SUBJECT_PLACEHOLDER , subjectValue)
+                .replace(MESSAGE_PLACEHOLDER , message);
 
             Messaging.SingleEmailMessage mail = new Messaging.SingleEmailMessage();
 
@@ -1170,7 +1179,7 @@ public without sharing class customEventNotificationManager {
     }
 
 
-    // Crée une entrée OperationLog__c pour les notifications de présentation.
+        // Crée une entrée OperationLog__c pour les notifications de présentation.
     private static void logPresentationRequest(
         OperationLogService.Level level,
         Id eventId,
@@ -1182,6 +1191,33 @@ public without sharing class customEventNotificationManager {
         Exception exceptionValue
     ) {
 
+        logPresentationRequest(
+            level,
+            eventId,
+            operation,
+            message,
+            usernames,
+            recipients,
+            sspIds,
+            null,
+            exceptionValue
+        );
+    }
+
+
+    // Crée une entrée OperationLog__c avec le détail des stratégies par username notifié.
+    private static void logPresentationRequest(
+        OperationLogService.Level level,
+        Id eventId,
+        String operation,
+        String message,
+        Set<String> usernames,
+        List<String> recipients,
+        List<Id> sspIds,
+        Map<String, Set<String>> strategiesByUsername,
+        Exception exceptionValue
+    ) {
+
         OperationLogService.Entry entry = new OperationLogService.Entry();
         entry.level = level;
         entry.sourceRecordId = eventId == null ? null : String.valueOf(eventId);
@@ -1190,7 +1226,7 @@ public without sharing class customEventNotificationManager {
 
         // Le message reste lisible dans le composant Operation Logs.
         entry.message = message;
-        entry.contextJson = buildPresentationLogContext(usernames, recipients, sspIds);
+        entry.contextJson = buildPresentationLogContext(usernames, recipients, sspIds, strategiesByUsername);
         entry.apexClass = 'customEventNotificationManager';
         entry.methodName = 'requestPresentation';
         entry.exceptionValue = exceptionValue;
@@ -1206,6 +1242,95 @@ public without sharing class customEventNotificationManager {
         List<Id> sspIds
     ) {
 
+        return buildPresentationLogContext(usernames, recipients, sspIds, null);
+    }
+
+    // Ajoute la stratégie du SSP comme raison de notification pour un username.
+    private static void addPresentationStrategyReason(
+        Map<String, Set<String>> strategiesByUsername,
+        String username,
+        SessionSpeakerProduct__c ssp
+    ) {
+
+        if (strategiesByUsername == null || String.isBlank(username) || ssp == null) {
+            return;
+        }
+
+        String strategy = null;
+
+        if (ssp.Strategy__r != null) {
+            strategy = String.isNotBlank(ssp.Strategy__r.Code__c)
+                ? ssp.Strategy__r.Code__c
+                : ssp.Strategy__r.Name;
+        }
+
+        if (String.isBlank(strategy)) {
+            strategy = 'Unknown strategy';
+        }
+
+        if (!strategiesByUsername.containsKey(username)) {
+            strategiesByUsername.put(username, new Set<String>());
+        }
+
+        strategiesByUsername.get(username).add(strategy);
+    }
+
+
+    // Formate les raisons sous la forme username(StrategyA,StrategyB).
+    private static String formatPresentationNotificationReasons(
+        Map<String, Set<String>> strategiesByUsername
+    ) {
+
+        if (strategiesByUsername == null || strategiesByUsername.isEmpty()) {
+            return '';
+        }
+
+        List<String> formattedReasons = new List<String>();
+        List<String> usernames = new List<String>(strategiesByUsername.keySet());
+        usernames.sort();
+
+        for (String username : usernames) {
+
+            List<String> strategies = new List<String>(strategiesByUsername.get(username));
+            strategies.sort();
+
+            formattedReasons.add(username + '(' + String.join(strategies, ',') + ')');
+        }
+
+        return String.join(formattedReasons, ', ');
+    }
+
+
+    // Convertit les Set en List pour avoir un JSON propre et lisible.
+    private static Map<String, List<String>> buildPresentationNotificationReasonMap(
+        Map<String, Set<String>> strategiesByUsername
+    ) {
+
+        Map<String, List<String>> notificationReasons = new Map<String, List<String>>();
+
+        if (strategiesByUsername == null || strategiesByUsername.isEmpty()) {
+            return notificationReasons;
+        }
+
+        for (String username : strategiesByUsername.keySet()) {
+
+            List<String> strategies = new List<String>(strategiesByUsername.get(username));
+            strategies.sort();
+
+            notificationReasons.put(username, strategies);
+        }
+
+        return notificationReasons;
+    }
+    
+    // Construit le JSON de contexte avec les stratégies qui justifient chaque notification.
+    private static String buildPresentationLogContext(
+        Set<String> usernames,
+        List<String> recipients,
+        List<Id> sspIds,
+        Map<String, Set<String>> strategiesByUsername
+    ) {
+
         Map<String, Object> context = new Map<String, Object>();
         List<String> usernameValues = usernames == null ? new List<String>() : new List<String>(usernames);
         List<String> recipientValues = recipients == null ? new List<String>() : recipients;
@@ -1217,6 +1342,8 @@ public without sharing class customEventNotificationManager {
         context.put('recipientCount', recipientValues.size());
         context.put('sessionSpeakerProductIds', sspIdValues);
         context.put('sessionSpeakerProductCount', sspIdValues.size());
+        context.put('notificationReasons', buildPresentationNotificationReasonMap(strategiesByUsername));
+        context.put('notificationReasonsText', formatPresentationNotificationReasons(strategiesByUsername));
 
         return JSON.serialize(context);
     }
