@@ -1,0 +1,78 @@
+<template>
+    <section class="slds-card cardContainer">
+        <!-- Header -->
+        <div class="slds-card__header slds-grid headerClass">
+            <header class="slds-media slds-media_center slds-has-flexi-truncate">
+                <div class="slds-media__figure">
+                    <lightning-icon icon-name="utility:approval" size="x-small" class="relatedIcon"></lightning-icon>
+                </div>
+                <div class="slds-media__body">
+                    <h2 class="slds-card__header-title">
+                        <span class="slds-truncate">Items to Approve</span>
+                    </h2>
+                </div>
+            </header>
+            <div class="slds-no-flex">
+                <lightning-button-icon icon-name="utility:refresh" variant="border" alternative-text="Refresh" title="Refresh" onclick={handleRefresh}></lightning-button-icon>
+            </div>
+        </div>
+
+        <!-- Body -->
+        <div class="bodyContainer">
+            <template if:true={isLoading}>
+                <div class="centerSpinner">
+                    <lightning-spinner alternative-text="Loading" size="medium"></lightning-spinner>
+                </div>
+            </template>
+
+            <template if:true={hasError}>
+                <p class="slds-text-color_error slds-p-horizontal_medium slds-p-vertical_small">{errorMessage}</p>
+            </template>
+
+            <template if:true={isEmpty}>
+                <p class="slds-text-color_weak slds-p-horizontal_medium slds-p-vertical_small">No items pending your approval.</p>
+            </template>
+
+            <template if:true={hasItems}>
+                <ul class="items-list">
+                    <template for:each={items} for:item="item">
+                        <li key={item.stepId} class="item-row">
+                            <div class="item-left">
+                                <div class="item-title-line">
+                                    <button
+                                        data-record-id={item.targetRecordId}
+                                        onclick={handleRecordNavigate}
+                                        class="record-link">
+                                        {item.targetRecordName}
+                                    </button>
+                                    <span class="separator"> &bull; </span>
+                                    <span class="object-label">{item.objectLabel}</span>
+                                </div>
+                                <div class="submitted-by">Submitted by {item.submittedByName}</div>
+                            </div>
+                            <div class="item-right">
+                                <lightning-button-menu alternative-text="Actions" variant="border-filled" icon-name="utility:down" data-step-id={item.stepId} onselect={handleActionSelect}>
+                                    <lightning-menu-item value="Approve" label="Approve"></lightning-menu-item>
+                                    <lightning-menu-item value="Reject"  label="Reject"></lightning-menu-item>
+                                </lightning-button-menu>
+                            </div>
+                        </li>
+                    </template>
+                </ul>
+            </template>
+        </div>
+
+        <!-- Footer -->
+        <div class="footer">
+            <button class="view-all-btn" onclick={handleViewAll}>View All</button>
+        </div>
+    </section>
+
+    <!-- Shared approval action modal -->
+    <c-custom-approval-action-modal selected-row={selectedRow}
+                                    can-recall={noRecall}
+                                    is-open={isModalOpen}
+                                    onclose={handleModalClose}
+                                    onactioncomplete={handleActionComplete}>
+    </c-custom-approval-action-modal>
+</template>
