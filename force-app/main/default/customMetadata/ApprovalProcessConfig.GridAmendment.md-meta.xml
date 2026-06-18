@@ -6,4 +6,8 @@
         <field>ObjectType__c</field>
         <value xsi:type="xsd:string">Grid__c</value>
     </values>
+    <values>
+        <field>TargetLabelFieldApiName__c</field>
+        <value xsi:type="xsd:string">Name</value>
+    </values>
 </CustomMetadata>

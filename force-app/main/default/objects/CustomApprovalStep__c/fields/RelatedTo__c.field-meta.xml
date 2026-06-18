@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
-    <fullName>ObjectLink__c</fullName>
+    <fullName>RelatedTo__c</fullName>
     <externalId>false</externalId>
     <formula>HYPERLINK(
     &quot;/&quot; &amp; CustomApproval__r.TargetRecordId__c,
     &quot;View&quot;,
     &quot;_blank&quot;
 )</formula>
-    <label>Object Link</label>
+    <label>Related To</label>
     <required>false</required>
     <trackTrending>false</trackTrending>
     <type>Text</type>
