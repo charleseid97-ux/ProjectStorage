@@ -73,7 +73,15 @@ export default class CustomApprovalInbox extends NavigationMixin(LightningElemen
             displayTitle       : item.targetRecordName + (item.stepLabel ? ' — ' + item.stepLabel : ''),
             isPending          : true,
             canApproveOrReject : true,
-            nextApproverSource : item.nextApproverSource || null
+            nextApproverSource : item.nextApproverSource || null,
+            // detail fields shown in modal body
+            stepName           : item.stepLabel,
+            stepDateFormatted  : item.stepDateFormatted,
+            status             : 'Pending',
+            statusClass        : 'status-pending',
+            assignedTo         : item.assignedToName,
+            actualApprover     : null,
+            comments           : null
         };
         this.isModalOpen = true;
     }
