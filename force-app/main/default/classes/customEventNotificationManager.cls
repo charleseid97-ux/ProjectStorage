@@ -4,14 +4,116 @@ public without sharing class customEventNotificationManager {
 
     private static String SUBJECT_PLACEHOLDER = '[!subject]';
     private static String MESSAGE_PLACEHOLDER = '[!message]';
+    private static String PRESENTATION_GLOBAL_GROUP = 'BooklyAlertProductAll';
     // Lance l'envoi des demandes de présentation selon les stratégies configurées.
     public static void requestPresentation(List<SessionSpeakerProduct__c> ssps) {
 
         System.debug('NOTIF STEP 1 - requestPresentation START, SSP count = ' + (ssps == null ? 0 : ssps.size()));
 
-        if (ssps == null || ssps.isEmpty()) {
-            System.debug('NOTIF STOP - no SSP provided');
-            return;
+        try {
+
+            if (ssps == null || ssps.isEmpty()) {
+                System.debug('NOTIF STOP - no SSP provided');
+
+                // Warning non bloquant : aucune demande de présentation à traiter.
+                logPresentationRequest(
+                    OperationLogService.Level.WARN,
+                    null,
+                    'PresentationRequestSkipped',
+                    'No SessionSpeakerProduct__c provided.',
+                    null,
+                    null,
+                    null,
+                    null
+                );
+
+                return;
+            }
+
+            Map<String, Set<String>> strategyToUsernames = loadStrategyToUsernamesMap();
+            System.debug('NOTIF STEP 2 - strategyToUsernames map = ' + strategyToUsernames);
+
+            if (strategyToUsernames.isEmpty()) {
+                System.debug('NOTIF WARN - no metadata configuration found');
+
+                // Warning non bloquant : le groupe global peut encore être notifié.
+                logPresentationRequest(
+                    OperationLogService.Level.WARN,
+                    null,
+                    'PresentationRequestMetadataMissing',
+                    'No BooklyStrategiesByUsers__mdt configuration found. Global group will still be checked.',
+                    null,
+                    null,
+                    null,
+                    null
+                );
+            }
+
+            Map<String, List<SessionSpeakerProduct__c>> sspsByUsername = mapSspsToUsernames(ssps, strategyToUsernames);
+
+            // Le groupe global reçoit toutes les présentations, même sans match metadata.
+            addGlobalPresentationGroupRecipients(ssps, sspsByUsername);
+
+            if (sspsByUsername.isEmpty()) {
+                System.debug('NOTIF STOP - no username matched and no global group recipient found');
+
+                // Warning non bloquant : aucun destinataire spécifique ou global n'a été trouvé.
+                logPresentationRequest(
+                    OperationLogService.Level.WARN,
+                    null,
+                    'PresentationRequestNoMatch',
+                    'No username matched the SSP Strategy Code and no active user was found in BooklyAlertProductAll.',
+                    null,
+                    null,
+                    null,
+                    null
+                );
+
+                return;
+            }
+
+            Set<String> usernames = new Set<String>(sspsByUsername.keySet());
+            System.debug('NOTIF STEP 3 - final usernames = ' + usernames);
+
+            Map<String, User> usersByUsername = loadUsersByUsername(usernames);
+            System.debug('NOTIF STEP 4 - usersByUsername = ' + usersByUsername);
+
+            if (usersByUsername.isEmpty()) {
+                System.debug('NOTIF STOP - no users found');
+
+                // Erreur bloquante : aucun User actif avec email trouvé.
+                logPresentationRequest(
+                    OperationLogService.Level.ERROR,
+                    null,
+                    'PresentationRequestNoActiveUser',
+                    'No active Salesforce User with email found for configured usernames.',
+                    usernames,
+                    null,
+                    collectPresentationSspIds(sspsByUsername),
+                    null
+                );
+
+                return;
+            }
+
+            sendPresentationEmails(sspsByUsername, usersByUsername);
+
+            System.debug('NOTIF END - requestPresentation FINISHED');
+        } catch (Exception e) {
+
+            // Erreur bloquante inattendue pendant le traitement complet.
+            logPresentationRequest(
+                OperationLogService.Level.ERROR,
+                null,
+                'PresentationRequestUnexpectedError',
+                'Unexpected error while processing presentation request notifications.',
+                null,
+                null,
+                null,
+                e
+            );
+        } finally {
+            OperationLogService.flush();
         }
 
         Map<String, String> strategyToGroupName = loadStrategyToGroupNameMap();
@@ -52,6 +154,8 @@ public without sharing class customEventNotificationManager {
     ) {
 
         Map<String, List<SessionSpeakerProduct__c>> result = new Map<String, List<SessionSpeakerProduct__c>>();
+        Set<String> missingStrategyCodes = new Set<String>();
+        List<Id> missingStrategySspIds = new List<Id>();
 
         for (SessionSpeakerProduct__c ssp : [
             SELECT Id, session__c, Strategy__r.Name,Strategy__r.Code__c, speakerContact__r.Name
@@ -67,7 +171,11 @@ public without sharing class customEventNotificationManager {
 
             String groupName = strategyToGroupName.get(strategyCode.trim());
 
-            if (String.isBlank(groupName)) {
+            if (usernames == null || usernames.isEmpty()) {
+
+                // Trace les stratégies présentes sur les SSP mais absentes de la matrice.
+                missingStrategyCodes.add(strategyCode.trim());
+                missingStrategySspIds.add(ssp.Id);
                 continue;
             }
 
@@ -78,11 +186,96 @@ public without sharing class customEventNotificationManager {
             result.get(groupName).add(ssp);
         }
 
-        System.debug('NOTIF MAP RESULT - sspsByGroup = ' + result);
+        if (!missingStrategyCodes.isEmpty()) {
+
+            List<String> missingStrategies = new List<String>(missingStrategyCodes);
+            missingStrategies.sort();
+
+            // Warning non bloquant : le groupe global peut quand même recevoir ces présentations.
+            logPresentationRequest(
+                OperationLogService.Level.WARN,
+                null,
+                'PresentationRequestStrategyNotMapped',
+                'No username configured in BooklyStrategiesByUsers__mdt for Strategy Code(s): ' + String.join(missingStrategies, ', '),
+                null,
+                null,
+                missingStrategySspIds,
+                null
+            );
+        }
+
+        System.debug('NOTIF MAP RESULT - sspsByUsername = ' + result);
 
         return result;
     }
 
+    // Ajoute les users actifs du groupe global à toutes les demandes de présentation.
+    private static void addGlobalPresentationGroupRecipients(
+        List<SessionSpeakerProduct__c> ssps,
+        Map<String, List<SessionSpeakerProduct__c>> sspsByUsername
+    ) {
+
+        if (ssps == null || ssps.isEmpty() || sspsByUsername == null) {
+            return;
+        }
+
+        // Charge le groupe global depuis son DeveloperName.
+        List<Group> groups = [
+            SELECT Id
+            FROM Group
+            WHERE DeveloperName = :PRESENTATION_GLOBAL_GROUP
+            LIMIT 1
+        ];
+
+        if (groups.isEmpty()) {
+            System.debug('NOTIF GLOBAL GROUP SKIP - group not found: ' + PRESENTATION_GLOBAL_GROUP);
+            return;
+        }
+
+        Set<Id> userIds = new Set<Id>();
+
+        // Collecte les membres directs du groupe global.
+        for (GroupMember gm : [
+            SELECT UserOrGroupId
+            FROM GroupMember
+            WHERE GroupId = :groups[0].Id
+        ]) {
+            userIds.add(gm.UserOrGroupId);
+        }
+
+        if (userIds.isEmpty()) {
+            System.debug('NOTIF GLOBAL GROUP SKIP - no member found');
+            return;
+        }
+
+        // Recharge tous les SSP pour avoir les champs nécessaires au template.
+        List<SessionSpeakerProduct__c> allSsps = [
+            SELECT Id, session__c, Strategy__r.Name,Strategy__r.Code__c, speakerContact__r.Name
+            FROM SessionSpeakerProduct__c
+            WHERE Id IN :new Map<Id, SessionSpeakerProduct__c>(ssps).keySet()
+            AND session__c != null
+        ];
+
+        if (allSsps.isEmpty()) {
+            return;
+        }
+
+        // Ajoute toutes les présentations à chaque user actif du groupe global.
+        for (User u : [
+            SELECT Id, Username, Email, IsActive
+            FROM User
+            WHERE Id IN :userIds
+            AND IsActive = true
+            AND Email != null
+        ]) {
+
+            if (!sspsByUsername.containsKey(u.Username)) {
+                sspsByUsername.put(u.Username, new List<SessionSpeakerProduct__c>());
+            }
+
+            sspsByUsername.get(u.Username).addAll(allSsps);
+        }
+    }
 
     /**
      * Build and send one email per group and per user
