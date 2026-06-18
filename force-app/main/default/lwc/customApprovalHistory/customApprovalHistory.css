@@ -97,35 +97,3 @@
 .status-started  { color: #0070d2; }
 .status-recalled { color: #706e6b; }
 
-/* ── Modal header layout ── */
-.modal-header-grid {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-}
-
-.modal-header-actions {
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    flex-shrink: 0;
-}
-
-/* ── Modal field labels ── */
-.modal-field-label {
-    font-size: 11px;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.0625rem;
-    margin-bottom: 2px;
-}
-
-.modal-field-value {
-    font-size: 13px;
-}
-
-/* ── Modal spinner ── */
-.modal-spinner {
-    position: relative;
-    min-height: 2rem;
-}
