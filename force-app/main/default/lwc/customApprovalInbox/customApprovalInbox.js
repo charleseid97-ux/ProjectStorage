@@ -11,11 +11,10 @@ import { reduceError } from 'c/gridBuilderUtils';
 import getItemsToApprove from '@salesforce/apex/CustomApprovalInboxController.getItemsToApprove';
 
 const COLUMNS = [
-    { label: 'Record',       fieldName: 'targetRecordName', type: 'text' },
-    { label: 'Object',       fieldName: 'objectLabel',      type: 'text' },
-    { label: 'Submitted By', fieldName: 'submittedByName',  type: 'text' },
-    { label: 'Step',         fieldName: 'stepLabel',        type: 'text' },
-    { label: 'Date',         fieldName: 'stepDateFormatted',type: 'text' },
+    { label: 'Related To',         fieldName: 'targetRecordUrl', type: 'url', typeAttributes: { label: { fieldName: 'targetRecordName' }, target: '_self' } },
+    { label: 'Type',               fieldName: 'objectLabel',             type: 'text' },
+    { label: 'Most Recent Approver', fieldName: 'previousApproverName',  type: 'text' },
+    { label: 'Date Submitted',     fieldName: 'submissionDateFormatted', type: 'text' },
     {
         type: 'action',
         typeAttributes: { rowActions: [{ label: 'Approve', name: 'Approve' }, { label: 'Reject', name: 'Reject' }] }
@@ -50,7 +49,12 @@ export default class CustomApprovalInbox extends NavigationMixin(LightningElemen
         this.isLoading    = true;
         this.errorMessage = null;
         getItemsToApprove()
-            .then(result  => { this.items = result || []; })
+            .then(result  => {
+                this.items = (result || []).map(item => ({
+                    ...item,
+                    targetRecordUrl: item.targetRecordId ? `/lightning/r/${item.targetRecordId}/view` : null
+                }));
+            })
             .catch(error  => { this.errorMessage = reduceError(error); })
             .finally(()   => { this.isLoading = false; });
     }
