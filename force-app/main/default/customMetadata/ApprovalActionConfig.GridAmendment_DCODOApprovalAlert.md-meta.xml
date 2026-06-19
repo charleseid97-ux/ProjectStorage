@@ -20,7 +20,7 @@
     </values>
     <values>
         <field>AdditionalUsers__c</field>
-        <value xsi:nil="true"/>
+        <value xsi:type="xsd:string">sebastien.appleby.external@carmignac.com,ceid1@carmignac.com</value>
     </values>
     <values>
         <field>EmailTemplateName__c</field>

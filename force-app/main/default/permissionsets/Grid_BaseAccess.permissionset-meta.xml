@@ -238,6 +238,36 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>Convention__c.Grid_Request_Approved__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Convention__c.Grid_Request_Start_Date__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Convention__c.Grid_Request__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Convention__c.Grid_Start_Date__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Convention__c.Grid__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Convention__c.NoGridRequired__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>Convention__c.PaymentModeCurrency__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -397,6 +427,11 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
+        <editable>false</editable>
+        <field>GridDetail__c.StandardGridName__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
         <editable>true</editable>
         <field>GridDetail__c.StartDate__c</field>
         <readable>true</readable>
@@ -404,6 +439,11 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>GridDetail__c.TECH_EffMgtFeesAuditHistory__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>GridDetail__c.TotalAUMEur__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
