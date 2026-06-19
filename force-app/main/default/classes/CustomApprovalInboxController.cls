@@ -123,7 +123,7 @@ public without sharing class CustomApprovalInboxController {
 
         String rawId = s.CustomApproval__r?.TargetRecordId__c;
         item.targetRecordId   = rawId;
-        item.targetRecordName = s.CustomApproval__r?.RelatedToLabel__c;
+        item.targetRecordName = String.isNotBlank(s.CustomApproval__r?.RelatedToLabel__c) ? s.CustomApproval__r?.RelatedToLabel__c : 'View Record';
 
         if (String.isNotBlank(rawId)) {
             try {

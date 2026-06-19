@@ -8,7 +8,7 @@
                 </div>
                 <div class="slds-media__body">
                     <h2 class="slds-card__header-title">
-                        <span class="slds-truncate">Items to Approve</span>
+                        <span class="slds-truncate">Custom Items to Approve</span>
                     </h2>
                 </div>
             </header>
@@ -40,10 +40,12 @@
                             <div class="item-left">
                                 <div class="item-title-line">
                                     <button data-record-id={item.targetRecordId} onclick={handleRecordNavigate} class="record-link">{item.targetRecordName}</button>
-                                    <span class="separator"> &bull; </span>
-                                    <span class="object-label">{item.objectLabel}</span>
                                 </div>
-                                <div class="submitted-by">Submitted by {item.submittedByName}</div>
+                                <div>
+                                    <span class="object-label">{item.objectLabel}</span>
+                                    <span class="separator"> &bull; </span>
+                                    <span class="submitted-by">Submitted by {item.submittedByName}</span>
+                                </div>
                             </div>
                             <div class="item-right">
                                 <lightning-button-menu alternative-text="Actions" variant="border-filled" icon-name="utility:down" data-step-id={item.stepId} onselect={handleActionSelect}>
