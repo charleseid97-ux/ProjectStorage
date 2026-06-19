@@ -468,11 +468,11 @@ public with sharing class GridUtility {
      *              and mirrors TECH_Business_Region__c → TECH_BusinessRegion__c
      *              and TECH_All_concerned_Business_Regions__c → TECH_AllConcernedBusinessRegions__c.
      ────────────────────────────────────── */
-    public static void syncBusinessRegionsFromAgreements(Map<Id, Convention__c> newAgreements, Map<Id, Convention__c> oldAgreements) {
+    public static void syncInformationFromAgreements(Map<Id, Convention__c> newAgreements, Map<Id, Convention__c> oldAgreements) {
         Set<Id> changedAgreementIds = new Set<Id>();
         for (Convention__c agr : newAgreements.values()) {
             Convention__c oldAgr = oldAgreements.get(agr.Id);
-            if (agr.TECH_Business_Region__c != oldAgr.TECH_Business_Region__c || agr.TECH_All_concerned_Business_Regions__c != oldAgr.TECH_All_concerned_Business_Regions__c) {
+            if (agr.TECH_Business_Region__c != oldAgr.TECH_Business_Region__c || agr.TECH_All_concerned_Business_Regions__c != oldAgr.TECH_All_concerned_Business_Regions__c || agr.Carmignac_Legal_Entity__c != oldAgr.Carmignac_Legal_Entity__c) {
                 changedAgreementIds.add(agr.Id);
             }
         }
@@ -486,7 +486,7 @@ public with sharing class GridUtility {
                              WHERE Agreement__c IN :changedAgreementIds
                              AND RecordTypeId = :customGridRtId]) {
             Convention__c agr = newAgreements.get(grid.Agreement__c);
-            toUpdate.add(new Grid__c(Id = grid.Id, TECH_BusinessRegion__c = agr.TECH_Business_Region__c, TECH_AllConcernedBusinessRegions__c = agr.TECH_All_concerned_Business_Regions__c));
+            toUpdate.add(new Grid__c(Id = grid.Id, TECH_BusinessRegion__c = agr.TECH_Business_Region__c, TECH_AllConcernedBusinessRegions__c = agr.TECH_All_concerned_Business_Regions__c, TECH_CarmignacLegalEntity__c = agr.Carmignac_Legal_Entity__c));
         }
         if (!toUpdate.isEmpty()) update toUpdate;
     }
