@@ -12,6 +12,7 @@
 		<members>CustomApprovalHistoryControllerTest</members>
 		<members>CustomApprovalHistoryUtility</members>
 		<members>CustomApprovalHistoryUtilityTest</members>
+        <members>CustomApprovalInboxController</members>
 		<members>CustomAlertScheduler</members>
 		<members>CustomAlertSchedulerTest</members>
 		<members>EmailService</members>
@@ -452,6 +453,8 @@
 	</types>
 	<types>
 		<members>customApprovalHistory</members>
+        <members>customApprovalActionModal</members>
+        <members>customApprovalInbox</members>
 		<members>gridSubmitAmendmentForApproval</members>
 		<members>agreementGridRecap</members>
 		<members>customCombobox</members>
