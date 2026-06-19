@@ -35,7 +35,7 @@
 
             <template if:true={hasItems}>
                 <ul class="items-list">
-                    <template for:each={items} for:item="item">
+                    <template for:each={visibleItems} for:item="item">
                         <li key={item.stepId} class="item-row">
                             <div class="item-left">
                                 <div class="item-title-line">
@@ -67,6 +67,29 @@
             <button class="view-all-btn" onclick={handleViewAll}>View All</button>
         </div>
     </section>
+
+    <!-- All Items modal -->
+    <template if:true={isAllModalOpen}>
+        <section role="dialog" tabindex="-1" class="slds-modal slds-fade-in-open slds-modal_large">
+            <div class="slds-modal__container">
+                <header class="slds-modal__header">
+                    <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse" title="Close" onclick={handleAllModalClose}>
+                        <lightning-icon icon-name="utility:close" size="x-small"></lightning-icon>
+                    </button>
+                    <h2 class="slds-modal__title slds-hyphenate">All Items to Approve</h2>
+                </header>
+                <div class="slds-modal__content slds-p-around_medium">
+                    <lightning-datatable key-field="stepId"
+                                         data={items}
+                                         columns={columns}
+                                         hide-checkbox-column
+                                         onrowaction={handleRowAction}>
+                    </lightning-datatable>
+                </div>
+            </div>
+        </section>
+        <div class="slds-backdrop slds-backdrop_open"></div>
+    </template>
 
     <!-- Shared approval action modal -->
     <c-custom-approval-action-modal selected-row={selectedRow}
