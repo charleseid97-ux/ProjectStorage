@@ -29,6 +29,7 @@ public without sharing class CustomApprovalInboxController {
     // ─── Query ───────────────────────────────────────────────────────────────────
     private static List<CustomApprovalStep__c> queryPendingSteps() {
         return [SELECT Id, StepLabel__c, StepDeveloperName__c, AssignedTo__c, AssignedToName__c, CreatedDate,
+                       PreviousApprover__r.Name,
                        CustomApproval__c, CustomApproval__r.TargetRecordId__c, CustomApproval__r.RelatedToLabel__c,
                        CustomApproval__r.ProcessDeveloperName__c,
                        CustomApproval__r.SubmittedBy__r.Name, CustomApproval__r.TECH_ReadOnly__c, CustomApproval__r.CreatedDate
@@ -131,9 +132,11 @@ public without sharing class CustomApprovalInboxController {
             } catch (Exception e) { /* skip malformed Id */ }
         }
 
-        item.submittedByName   = submittedByPerApproval.containsKey(s.CustomApproval__c) ? submittedByPerApproval.get(s.CustomApproval__c) : s.CustomApproval__r?.SubmittedBy__r?.Name;
-        item.assignedToName    = s.AssignedToName__c;
-        item.stepDateFormatted = s.CreatedDate != null ? s.CreatedDate.format('dd/MM/yyyy HH:mm') : '';
+        item.submittedByName        = submittedByPerApproval.containsKey(s.CustomApproval__c) ? submittedByPerApproval.get(s.CustomApproval__c) : s.CustomApproval__r?.SubmittedBy__r?.Name;
+        item.assignedToName         = s.AssignedToName__c;
+        item.stepDateFormatted      = s.CreatedDate != null ? s.CreatedDate.format('dd/MM/yyyy HH:mm') : '';
+        item.previousApproverName   = s.PreviousApprover__r?.Name;
+        item.submissionDateFormatted = s.CustomApproval__r?.CreatedDate != null ? s.CustomApproval__r.CreatedDate.format('dd/MM/yyyy HH:mm') : '';
 
         return item;
     }
@@ -148,5 +151,7 @@ public without sharing class CustomApprovalInboxController {
         @AuraEnabled public String stepLabel;
         @AuraEnabled public String assignedToName;
         @AuraEnabled public String stepDateFormatted;
+        @AuraEnabled public String previousApproverName;
+        @AuraEnabled public String submissionDateFormatted;
     }
 }
