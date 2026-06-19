@@ -8,7 +8,7 @@
     </values>
     <values>
         <field>ExemptFields__c</field>
-        <value xsi:type="xsd:string">Comment__c,BusinessBackground__c,GridIsReviewed__c,NextReviewDate__c,LastReviewSentDate__c</value>
+        <value xsi:type="xsd:string">Comment__c, BusinessBackground__c, GridIsReviewed__c, NextReviewDate__c, LastReviewSentDate__c, TECH_BusinessRegion__c, TECH_AllConcernedBusinessRegions__c, TECH_CarmignacLegalEntity__c</value>
     </values>
     <values>
         <field>LockedStatuses__c</field>

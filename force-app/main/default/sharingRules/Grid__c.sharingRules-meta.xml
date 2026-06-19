@@ -1,6 +1,34 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <SharingRules xmlns="http://soap.sforce.com/2006/04/metadata">
     <sharingCriteriaRules>
+        <fullName>CGF_ReadWrite</fullName>
+        <accessLevel>Edit</accessLevel>
+        <label>CGF ReadWrite</label>
+        <sharedTo>
+            <group>CGF_Top_Management</group>
+        </sharedTo>
+        <criteriaItems>
+            <field>TECH_CarmignacLegalEntity__c</field>
+            <operation>equals</operation>
+            <value>CGF</value>
+        </criteriaItems>
+        <includeRecordsOwnedByAll>true</includeRecordsOwnedByAll>
+    </sharingCriteriaRules>
+    <sharingCriteriaRules>
+        <fullName>CGL_ReadWrite</fullName>
+        <accessLevel>Edit</accessLevel>
+        <label>CGL ReadWrite</label>
+        <sharedTo>
+            <group>CGL_Top_Management</group>
+        </sharedTo>
+        <criteriaItems>
+            <field>TECH_CarmignacLegalEntity__c</field>
+            <operation>equals</operation>
+            <value>CGL</value>
+        </criteriaItems>
+        <includeRecordsOwnedByAll>true</includeRecordsOwnedByAll>
+    </sharingCriteriaRules>
+    <sharingCriteriaRules>
         <fullName>RegionBENELUX_RO</fullName>
         <accessLevel>Read</accessLevel>
         <label>Region BENELUX RO</label>
