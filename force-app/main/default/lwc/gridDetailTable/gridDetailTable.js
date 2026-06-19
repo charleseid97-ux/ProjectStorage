@@ -10,7 +10,7 @@ const COLUMNS = [
     { key: 'assetType',         label: 'Asset Type',        group: '' },
     { key: 'strategy',          label: 'Strategy',          group: '' },
     { key: 'legalStatus',       label: 'Legal Status',      group: '' },
-    { key: 'internalShortName', label: 'Code',              group: '' },
+    { key: 'shortName',         label: 'Code',              group: '' },
     { key: 'portfolio',         label: 'Portfolio',         group: 'blue' },
     { key: 'shareClass',        label: 'Class',             group: 'blue' },
     { key: 'isin',              label: 'ISIN',              group: 'blue' },
