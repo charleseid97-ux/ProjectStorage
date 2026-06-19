@@ -53,7 +53,6 @@ public without sharing class CustomApprovalInboxController {
     private static List<CustomApprovalStep__c> filterToApprovable(List<CustomApprovalStep__c> allPending, Boolean isAdmin, Id currentUserId, Map<Id, List<Id>> resolvedQueueMembers) {
         List<CustomApprovalStep__c> approvable = new List<CustomApprovalStep__c>();
         for (CustomApprovalStep__c s : allPending) {
-            if (approvable.size() == 10) break;
             if (s.CustomApproval__r?.TECH_ReadOnly__c == true) continue;
             if (canUserApprove(s, isAdmin, currentUserId, resolvedQueueMembers)) {
                 approvable.add(s);
