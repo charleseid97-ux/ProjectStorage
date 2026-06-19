@@ -14,14 +14,14 @@ public without sharing class GridTriggerHandler implements ITriggerHandler {
     public void BeforeInsert(List<SObject> newItems) {
         syncReviewedFlag((List<Grid__c>) newItems, null);
         if (PAD.canTrigger('syncGridBusinessRegions')) {
-            syncAllConcernedBusinessRegions((List<Grid__c>) newItems, null);
+            syncAgreementInformation((List<Grid__c>) newItems, null);
         }
     }
 
     public void BeforeUpdate(Map<Id, SObject> newItems, Map<Id, SObject> oldItems) {
         syncReviewedFlag((List<Grid__c>) newItems.values(), (Map<Id, Grid__c>) oldItems);
         if (PAD.canTrigger('syncGridBusinessRegions')) {
-            syncAllConcernedBusinessRegions((List<Grid__c>) newItems.values(), (Map<Id, Grid__c>) oldItems);
+            syncAgreementInformation((List<Grid__c>) newItems.values(), (Map<Id, Grid__c>) oldItems);
         }
         if (PAD.canTrigger('GridApprovalLock') && !GridUtility.isUpdatingGridsFromAgreementTrigger) {
             CustomApprovalHistoryUtility.enforceApprovalLock(newItems.values(), oldItems);
@@ -90,7 +90,7 @@ public without sharing class GridTriggerHandler implements ITriggerHandler {
         if (!agreementsToUpdate.isEmpty()) update agreementsToUpdate;
     }
 
-    private static void syncAllConcernedBusinessRegions(List<Grid__c> newGrids, Map<Id, Grid__c> oldGrids) {
+    private static void syncAgreementInformation(List<Grid__c> newGrids, Map<Id, Grid__c> oldGrids) {
         Id customGridRtId = Schema.SObjectType.Grid__c.getRecordTypeInfosByDeveloperName().get(GridBuilderHelper.RT_CUSTOM_GRID).getRecordTypeId();
 
         Set<Id> agreementIds = new Set<Id>();
@@ -101,7 +101,7 @@ public without sharing class GridTriggerHandler implements ITriggerHandler {
         }
         if (agreementIds.isEmpty()) return;
 
-        Map<Id, Convention__c> agreementsById = new Map<Id, Convention__c>([SELECT Id, TECH_Business_Region__c, TECH_All_concerned_Business_Regions__c
+        Map<Id, Convention__c> agreementsById = new Map<Id, Convention__c>([SELECT Id, TECH_Business_Region__c, TECH_All_concerned_Business_Regions__c, Carmignac_Legal_Entity__c
                                                                             FROM Convention__c
                                                                             WHERE Id IN :agreementIds]);
 
@@ -111,6 +111,7 @@ public without sharing class GridTriggerHandler implements ITriggerHandler {
             if (agr == null) continue;
             grid.TECH_BusinessRegion__c              = agr.TECH_Business_Region__c;
             grid.TECH_AllConcernedBusinessRegions__c = agr.TECH_All_concerned_Business_Regions__c;
+            grid.TECH_CarmignacLegalEntity__c        = agr.Carmignac_Legal_Entity__c;
         }
     }
 

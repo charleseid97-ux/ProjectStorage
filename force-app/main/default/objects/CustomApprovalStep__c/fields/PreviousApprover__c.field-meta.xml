@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>PreviousApprover__c</fullName>
+    <deleteConstraint>SetNull</deleteConstraint>
+    <description>The user who acted on the approval immediately before this step was created — the submitter for the first step, the approver of the preceding step for subsequent steps.</description>
+    <inlineHelpText>Set automatically when this step is created. Shows who submitted or approved before this step.</inlineHelpText>
+    <label>Previous Approver</label>
+    <referenceTo>User</referenceTo>
+    <relationshipName>PreviousApproverSteps</relationshipName>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Lookup</type>
+</CustomField>

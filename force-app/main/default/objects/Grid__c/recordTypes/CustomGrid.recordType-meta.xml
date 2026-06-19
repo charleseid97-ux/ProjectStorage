@@ -93,6 +93,17 @@
         </values>
     </picklistValues>
     <picklistValues>
+        <picklist>TECH_CarmignacLegalEntity__c</picklist>
+        <values>
+            <fullName>CGF</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>CGL</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
         <picklist>ThresholdAmountCurrency__c</picklist>
         <values>
             <fullName>CHF</fullName>
