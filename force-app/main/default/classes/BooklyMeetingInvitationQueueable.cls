@@ -722,6 +722,10 @@ public without sharing class BooklyMeetingInvitationQueueable
         Map<String, Set<String>> result = new Map<String, Set<String>>();
 
         for (BooklyStrategiesByUsers__mdt config : BooklyStrategiesByUsers__mdt.getAll().values()) {
+            // Ignore les configurations inactives
+            if (config.isActive__c != true) {
+                continue;
+            }
             if (String.isBlank(config.Username__c) || String.isBlank(config.StrategyCodes__c)) {
                 continue;
             }

@@ -199,7 +199,10 @@ public without sharing class customEventNotificationManager {
 
         // Chaque ligne metadata associe un username à une liste de strategy codes.
         for (BooklyStrategiesByUsers__mdt cfg : BooklyStrategiesByUsers__mdt.getAll().values()) {
-
+            // Ignore les configurations inactives
+            if (cfg.isActive__c != true) {
+                continue;
+            }
             if (String.isBlank(cfg.Username__c) || String.isBlank(cfg.StrategyCodes__c)) {
                 continue;
             }
@@ -1355,6 +1358,7 @@ public without sharing class customEventNotificationManager {
 
 
     // Convertit les erreurs Messaging.SendEmailResult en message lisible.
+    @TestVisible
     private static String joinSendEmailErrors(Messaging.SendEmailError[] errors) {
 
         List<String> messages = new List<String>();
