@@ -4,7 +4,7 @@
  *              "View All" opens a full datatable modal with Approve/Reject row actions.
  * @author Charles EID
  */
-import { LightningElement, track } from 'lwc';
+import { LightningElement, api, track } from 'lwc';
 import { NavigationMixin } from 'lightning/navigation';
 import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 import { reduceError } from 'c/gridBuilderUtils';
@@ -22,6 +22,11 @@ const COLUMNS = [
 ];
 
 export default class CustomApprovalInbox extends NavigationMixin(LightningElement) {
+
+    // ── Admin-configurable ───────────────────────────────────────────────────
+    @api cardTitle     = 'Items to Approve';
+    @api objectApiName  = '';
+    @api approvalSystem = ''; // 'Custom' | 'Standard' | '' (both)
 
     // ── State ───────────────────────────────────────────────────────────────
     @track items      = [];
@@ -48,7 +53,7 @@ export default class CustomApprovalInbox extends NavigationMixin(LightningElemen
     loadData() {
         this.isLoading    = true;
         this.errorMessage = null;
-        getItemsToApprove()
+        getItemsToApprove({ objectApiName: this.objectApiName || '', approvalSystem: this.approvalSystem || '' })
             .then(result  => {
                 this.items = (result || []).map(item => ({
                     ...item,
@@ -97,6 +102,14 @@ export default class CustomApprovalInbox extends NavigationMixin(LightningElemen
     }
 
     openApprovalModal(item) {
+        // Standard Salesforce workitems: navigate to the record page so the user can act natively
+        if (item.isStandardApproval) {
+            this[NavigationMixin.Navigate]({
+                type       : 'standard__recordPage',
+                attributes : { recordId: item.stepId, actionName: 'view' }
+            });
+            return;
+        }
         this.selectedRow = {
             stepId             : item.stepId,
             displayTitle       : item.targetRecordName + (item.stepLabel ? ' — ' + item.stepLabel : ''),

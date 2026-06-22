@@ -9,4 +9,15 @@
         <target>lightning__AppPage</target>
         <target>analytics__Dashboard</target>
     </targets>
+    <targetConfigs>
+        <targetConfig targets="lightning__HomePage,lightning__AppPage, analytics__Dashboard">
+            <property name="cardTitle"      type="String" label="Card Title"
+                      description="Label shown in the component header."
+                      default="Items to Approve"/>
+            <property name="objectApiName"  type="String" label="Object API Name"
+                      description="Filter to a specific Salesforce object (e.g. Grid__c). Leave blank for all objects."/>
+            <property name="approvalSystem" type="String" label="Approval System"
+                      description="'Custom' for custom approval steps only, 'Standard' for standard Salesforce approvals only. Leave blank for both."/>
+        </targetConfig>
+    </targetConfigs>
 </LightningComponentBundle>
