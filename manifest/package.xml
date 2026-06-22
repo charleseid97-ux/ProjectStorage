@@ -522,9 +522,27 @@
 		<name>EmailTemplate</name>
 	</types>
 	<types>
+		<members>Grids</members>
+		<name>DashboardFolder</name>
+	</types>
+	<types>
+        <members>Grids/PMszeurzUXIWYxKnyjTLNLXXotXcQy</members>
+        <name>Dashboard</name>
+    </types>
+	<types>
 		<members>GridApprovals</members>
 		<name>EmailFolder</name>
 	</types>
+	<types>
+		<members>Grids</members>
+		<name>ReportFolder</name>
+	</types>
+	<types>
+        <members>Grids/AssetClassGridsRecap_z9q</members>
+		<members>Grids/CurrentGridsRecap_5co</members>
+		<members>Grids/GlobalGridsRecap_d2J</members>
+        <name>Report</name>
+    </types>
 	<types>
 		<members>GridEmailStandardRules</members>
 		<members>GridEmailShareClassOverview</members>
