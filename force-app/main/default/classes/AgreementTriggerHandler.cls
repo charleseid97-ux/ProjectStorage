@@ -62,7 +62,7 @@ public class AgreementTriggerHandler implements  ITriggerHandler {
             SM034_AgreementService.updateAgreementRoleWhenCodeTypeChange((Map<Id, Convention__c>) newItems, (Map<Id, Convention__c>) oldItems);
         }
         if (PAD.canTrigger('syncGridBusinessRegions')) {
-            GridUtility.syncBusinessRegionsFromAgreements((Map<Id, Convention__c>) newItems, (Map<Id, Convention__c>) oldItems);
+            GridUtility.syncInformationFromAgreements((Map<Id, Convention__c>) newItems, (Map<Id, Convention__c>) oldItems);
         }
     }
 

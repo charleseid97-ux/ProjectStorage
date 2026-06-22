@@ -18,7 +18,7 @@ public without sharing class CustomApprovalHistoryUtility {
         result.success      = false;
         result.errorMessage = null;
         try {
-            List<ApprovalStepConfig__mdt> allSteps = [SELECT Id, DeveloperName, StepOrder__c, StepLabel__c, ApprovalMode__c
+            List<ApprovalStepConfig__mdt> allSteps = [SELECT Id, DeveloperName, StepOrder__c, StepLabel__c, ApprovalMode__c, ProcessConfig__r.TargetLabelFieldApiName__c
                                                       FROM ApprovalStepConfig__mdt
                                                       WHERE ProcessConfig__r.DeveloperName = :processName
                                                       ORDER BY StepOrder__c ASC];
@@ -36,12 +36,13 @@ public without sharing class CustomApprovalHistoryUtility {
 
             Id currentUserId = UserInfo.getUserId();
 
-            CustomApproval__c approval = createCustomApproval(String.valueOf(recordId), processName, 'Pending', currentUserId, initialStep.DeveloperName, comments, false);
+            String relatedToLabel = resolveRelatedToLabel(recordId, allSteps[0].ProcessConfig__r?.TargetLabelFieldApiName__c);
+            CustomApproval__c approval = createCustomApproval(String.valueOf(recordId), processName, 'Pending', currentUserId, initialStep.DeveloperName, comments, false, relatedToLabel);
             insert approval;
 
             List<CustomApprovalStep__c> steps = new List<CustomApprovalStep__c>();
-            steps.add(createCustomApprovalStep(approval.Id, 'Submitted', 'Submitted', 'Started', false, null, null, null, null, currentUserId, System.now(), comments));
-            steps.addAll(buildStepRecords(approval.Id, initialStep, assignments));
+            steps.add(createCustomApprovalStep(approval.Id, 'Submitted', 'Submitted', 'Started', false, null, null, null, null, currentUserId, System.now(), comments, null));
+            steps.addAll(buildStepRecords(approval.Id, initialStep, assignments, currentUserId));
             insert steps;
 
             Set<Id> initialApproverIds = new Set<Id>();
@@ -161,7 +162,7 @@ public without sharing class CustomApprovalHistoryUtility {
                 nextIds.add(a.approverId);
             }
             executeActions(ctx.processName, ctx.stepDevName, 'StepApproval', ctx.targetRecordId, buildContext(ctx.submittedById, allCurrentIds, nextIds));
-            insert buildStepRecords(ctx.approvalId, nextStep, nextAssignments);
+            insert buildStepRecords(ctx.approvalId, nextStep, nextAssignments, ctx.currentUserId);
             update new CustomApproval__c(Id = ctx.approvalId, CurrentStepDevName__c = nextStep.DeveloperName);
         } 
         else {
@@ -188,10 +189,10 @@ public without sharing class CustomApprovalHistoryUtility {
         update new CustomApproval__c(Id = approvalId, Status__c = status, CurrentStepDevName__c = null);
     }
 
-    private static List<CustomApprovalStep__c> buildStepRecords(Id approvalId, ApprovalStepConfig__mdt step, List<ApproverAssignment> assignments) {
+    private static List<CustomApprovalStep__c> buildStepRecords(Id approvalId, ApprovalStepConfig__mdt step, List<ApproverAssignment> assignments, Id previousApproverId) {
         List<CustomApprovalStep__c> records = new List<CustomApprovalStep__c>();
         for (ApproverAssignment a : assignments) {
-            records.add(createCustomApprovalStep(approvalId, step.DeveloperName, step.StepLabel__c, 'Pending', true, String.valueOf(a.approverId), a.approverName, String.valueOf(a.approverId), a.approverName, null, null, null));
+            records.add(createCustomApprovalStep(approvalId, step.DeveloperName, step.StepLabel__c, 'Pending', true, String.valueOf(a.approverId), a.approverName, String.valueOf(a.approverId), a.approverName, null, null, null, previousApproverId));
         }
         return records;
     }
@@ -420,8 +421,44 @@ public without sharing class CustomApprovalHistoryUtility {
         }
     }
 
+    // ─── Label resolution ─────────────────────────────────────────────────────────
+    private static String resolveRelatedToLabel(Id recordId, String fieldApiName) {
+        if (recordId == null || String.isBlank(fieldApiName)) return null;
+        try {
+            String objType = recordId.getSObjectType().getDescribe().getName();
+            SObject rec = Database.query('SELECT ' + fieldApiName + ' FROM ' + objType + ' WHERE Id = :recordId LIMIT 1');
+            return (String) rec.get(fieldApiName);
+        } catch (Exception e) {
+            return null;
+        }
+    }
+
+    // ─── Shared permission helpers (used by history + inbox controllers) ─────────
+    public static Boolean isAdministrator(Id userId) {
+        for (PermissionSetAssignment psa : [SELECT Id
+                                            FROM PermissionSetAssignment
+                                            WHERE AssigneeId = :userId
+                                              AND PermissionSet.IsOwnedByProfile = true
+                                              AND PermissionSet.Profile.Name LIKE '%Administrator%' LIMIT 1]) {
+            return true;
+        }
+        return false;
+    }
+
+    public static Map<String, Boolean> buildStepConfigMap(Set<String> processDevNames) {
+        Map<String, Boolean> result = new Map<String, Boolean>();
+        for (ApprovalStepApproverConfig__mdt cfg : [SELECT StepConfig__r.DeveloperName, ApproverSource__c
+                                                    FROM ApprovalStepApproverConfig__mdt
+                                                    WHERE StepConfig__r.ProcessConfig__r.DeveloperName IN :processDevNames]) {
+            if (cfg.ApproverSource__c == 'UserInput') {
+                result.put(cfg.StepConfig__r.DeveloperName, true);
+            }
+        }
+        return result;
+    }
+
     // ─── Record factories ─────────────────────────────────────────────────────────
-    public static CustomApproval__c createCustomApproval(String targetRecordId, String processDevName, String status, Id submittedById, String currentStepDevName, String comments, Boolean readOnly) {
+    public static CustomApproval__c createCustomApproval(String targetRecordId, String processDevName, String status, Id submittedById, String currentStepDevName, String comments, Boolean readOnly, String relatedToLabel) {
         return new CustomApproval__c(
             TargetRecordId__c       = targetRecordId,
             Status__c               = status,
@@ -429,11 +466,12 @@ public without sharing class CustomApprovalHistoryUtility {
             ProcessDeveloperName__c = processDevName,
             CurrentStepDevName__c   = currentStepDevName,
             Comments__c             = comments,
-            TECH_ReadOnly__c        = readOnly
+            TECH_ReadOnly__c        = readOnly,
+            RelatedToLabel__c       = relatedToLabel
         );
     }
 
-    public static CustomApprovalStep__c createCustomApprovalStep(Id approvalId, String stepDevName, String stepLabel, String status, Boolean isCurrentStep, String assignedToId, String assignedToName, String origAssignedToId, String origAssignedToName, Id actualApproverId, Datetime actionDate, String comments) {
+    public static CustomApprovalStep__c createCustomApprovalStep(Id approvalId, String stepDevName, String stepLabel, String status, Boolean isCurrentStep, String assignedToId, String assignedToName, String origAssignedToId, String origAssignedToName, Id actualApproverId, Datetime actionDate, String comments, Id previousApproverId) {
         return new CustomApprovalStep__c(
             CustomApproval__c         = approvalId,
             StepDeveloperName__c      = stepDevName,
@@ -446,7 +484,8 @@ public without sharing class CustomApprovalHistoryUtility {
             OriginalAssignedToName__c = origAssignedToName,
             ActualApprover__c         = actualApproverId,
             ActionDate__c             = actionDate,
-            Comments__c               = comments
+            Comments__c               = comments,
+            PreviousApprover__c       = previousApproverId
         );
     }
 
