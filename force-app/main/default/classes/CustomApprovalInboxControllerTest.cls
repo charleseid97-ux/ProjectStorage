@@ -58,7 +58,7 @@ public with sharing class CustomApprovalInboxControllerTest {
     @IsTest
     static void testGetItemsToApprove_NoPendingSteps() {
         Test.startTest();
-        List<CustomApprovalInboxController.ItemToApprove> result = CustomApprovalInboxController.getItemsToApprove();
+        List<CustomApprovalInboxController.ItemToApprove> result = CustomApprovalInboxController.getItemsToApprove('', '');
         Test.stopTest();
 
         System.assertNotEquals(null, result, RESULT_NOT_NULL);
@@ -73,7 +73,7 @@ public with sharing class CustomApprovalInboxControllerTest {
         createStep(approval.Id, String.valueOf(UserInfo.getUserId()), UserInfo.getName(), null);
 
         Test.startTest();
-        List<CustomApprovalInboxController.ItemToApprove> result = CustomApprovalInboxController.getItemsToApprove();
+        List<CustomApprovalInboxController.ItemToApprove> result = CustomApprovalInboxController.getItemsToApprove('', '');
         Test.stopTest();
 
         System.assertNotEquals(null, result, RESULT_NOT_NULL);
@@ -88,7 +88,7 @@ public with sharing class CustomApprovalInboxControllerTest {
         CustomApprovalStep__c step = createStep(approval.Id, String.valueOf(UserInfo.getUserId()), UserInfo.getName(), UserInfo.getUserId());
 
         Test.startTest();
-        List<CustomApprovalInboxController.ItemToApprove> result = CustomApprovalInboxController.getItemsToApprove();
+        List<CustomApprovalInboxController.ItemToApprove> result = CustomApprovalInboxController.getItemsToApprove('', '');
         Test.stopTest();
 
         System.assertEquals(1, result.size(), ITEMS_ONE);
@@ -120,7 +120,7 @@ public with sharing class CustomApprovalInboxControllerTest {
         createStep(approval.Id, String.valueOf(testQueue.Id), 'Test Inbox Queue', null);
 
         Test.startTest();
-        List<CustomApprovalInboxController.ItemToApprove> result = CustomApprovalInboxController.getItemsToApprove();
+        List<CustomApprovalInboxController.ItemToApprove> result = CustomApprovalInboxController.getItemsToApprove('', '');
         Test.stopTest();
 
         System.assertNotEquals(null, result, RESULT_NOT_NULL);
@@ -139,7 +139,7 @@ public with sharing class CustomApprovalInboxControllerTest {
         update approval;
 
         Test.startTest();
-        List<CustomApprovalInboxController.ItemToApprove> result = CustomApprovalInboxController.getItemsToApprove();
+        List<CustomApprovalInboxController.ItemToApprove> result = CustomApprovalInboxController.getItemsToApprove('', '');
         Test.stopTest();
 
         System.assertNotEquals(null, result, RESULT_NOT_NULL);
@@ -157,9 +157,135 @@ public with sharing class CustomApprovalInboxControllerTest {
         createStep(approval2.Id, String.valueOf(UserInfo.getUserId()), UserInfo.getName(), null);
 
         Test.startTest();
-        List<CustomApprovalInboxController.ItemToApprove> result = CustomApprovalInboxController.getItemsToApprove();
+        List<CustomApprovalInboxController.ItemToApprove> result = CustomApprovalInboxController.getItemsToApprove('', '');
         Test.stopTest();
 
         System.assertEquals(2, result.size(), 'All approvable items should be returned without a cap');
+    }
+
+    // ─── approvalSystem = 'Custom' only ──────────────────────────────────────────
+    @IsTest
+    static void testGetItemsToApprove_CustomOnly() {
+        Grid__c grid = GridTestSetupHelper.getTestGridByName(GridTestSetupHelper.GRID_NAME_S1);
+        CustomApproval__c approval = createApproval(grid.Id, RELATED_TO_LABEL);
+        createStep(approval.Id, String.valueOf(UserInfo.getUserId()), UserInfo.getName(), null);
+
+        Test.startTest();
+        List<CustomApprovalInboxController.ItemToApprove> result = CustomApprovalInboxController.getItemsToApprove('', 'Custom');
+        Test.stopTest();
+
+        System.assertEquals(1, result.size(), ITEMS_ONE);
+        System.assertEquals(false, result[0].isStandardApproval, 'Should be a custom approval item');
+    }
+
+    // ─── approvalSystem = 'Standard' — no workitems in test env ─────────────────
+    @IsTest
+    static void testGetItemsToApprove_StandardOnly_Empty() {
+        Test.startTest();
+        List<CustomApprovalInboxController.ItemToApprove> result = CustomApprovalInboxController.getItemsToApprove('', 'Standard');
+        Test.stopTest();
+
+        System.assertNotEquals(null, result, RESULT_NOT_NULL);
+        System.assertEquals(0, result.size(), 'No standard workitems expected in test environment');
+    }
+
+    // ─── objectApiName filter — matching object ───────────────────────────────────
+    @IsTest
+    static void testGetItemsToApprove_ObjectApiNameFilter_Match() {
+        Grid__c grid = GridTestSetupHelper.getTestGridByName(GridTestSetupHelper.GRID_NAME_S1);
+        CustomApproval__c approval = createApproval(grid.Id, RELATED_TO_LABEL);
+        createStep(approval.Id, String.valueOf(UserInfo.getUserId()), UserInfo.getName(), null);
+
+        // Inject MDT config so ObjectType__c is 'Grid__c' and the filter can match
+        ApprovalProcessConfig__mdt mockCfg = new ApprovalProcessConfig__mdt(
+            DeveloperName         = PROCESS_NAME,
+            ObjectType__c         = 'Grid__c',
+            InboxDisplayFields__c = null
+        );
+        CustomApprovalInboxController.testMdtConfigOverride = new Map<String, ApprovalProcessConfig__mdt>{
+            PROCESS_NAME => mockCfg
+        };
+
+        Test.startTest();
+        List<CustomApprovalInboxController.ItemToApprove> result = CustomApprovalInboxController.getItemsToApprove('Grid__c', 'Custom');
+        Test.stopTest();
+
+        System.assertEquals(1, result.size(), 'Grid__c step should pass the object filter');
+    }
+
+    // ─── objectApiName filter — non-matching object ───────────────────────────────
+    @IsTest
+    static void testGetItemsToApprove_ObjectApiNameFilter_NoMatch() {
+        Grid__c grid = GridTestSetupHelper.getTestGridByName(GridTestSetupHelper.GRID_NAME_S1);
+        CustomApproval__c approval = createApproval(grid.Id, RELATED_TO_LABEL);
+        createStep(approval.Id, String.valueOf(UserInfo.getUserId()), UserInfo.getName(), null);
+
+        ApprovalProcessConfig__mdt mockCfg = new ApprovalProcessConfig__mdt(
+            DeveloperName         = PROCESS_NAME,
+            ObjectType__c         = 'Grid__c',
+            InboxDisplayFields__c = null
+        );
+        CustomApprovalInboxController.testMdtConfigOverride = new Map<String, ApprovalProcessConfig__mdt>{
+            PROCESS_NAME => mockCfg
+        };
+
+        Test.startTest();
+        List<CustomApprovalInboxController.ItemToApprove> result = CustomApprovalInboxController.getItemsToApprove('Opportunity', 'Custom');
+        Test.stopTest();
+
+        System.assertEquals(0, result.size(), 'Grid__c step should be excluded when filtering by Opportunity');
+    }
+
+    // ─── objectLabel falls back to Id casting when ObjectType__c is null ────────
+    @IsTest
+    static void testGetItemsToApprove_ObjectLabel_FallbackToIdCasting() {
+        Grid__c grid = GridTestSetupHelper.getTestGridByName(GridTestSetupHelper.GRID_NAME_S1);
+        CustomApproval__c approval = createApproval(grid.Id, RELATED_TO_LABEL);
+        createStep(approval.Id, String.valueOf(UserInfo.getUserId()), UserInfo.getName(), null);
+
+        // Inject config with null ObjectType__c — forces the Id-casting else branch in buildCustomItem
+        ApprovalProcessConfig__mdt mockCfg = new ApprovalProcessConfig__mdt(
+            DeveloperName         = PROCESS_NAME,
+            ObjectType__c         = null,
+            InboxDisplayFields__c = null
+        );
+        CustomApprovalInboxController.testMdtConfigOverride = new Map<String, ApprovalProcessConfig__mdt>{
+            PROCESS_NAME => mockCfg
+        };
+
+        Test.startTest();
+        List<CustomApprovalInboxController.ItemToApprove> result = CustomApprovalInboxController.getItemsToApprove('', 'Custom');
+        Test.stopTest();
+
+        System.assertEquals(1, result.size(), ITEMS_ONE);
+        System.assertNotEquals(null, result[0].objectLabel, 'objectLabel should be resolved via Id-casting fallback');
+    }
+
+    // ─── Display fields resolved from MDT ────────────────────────────────────────
+    @IsTest
+    static void testGetItemsToApprove_DisplayFields_Resolved() {
+        Grid__c grid = GridTestSetupHelper.getTestGridByName(GridTestSetupHelper.GRID_NAME_S1);
+        CustomApproval__c approval = createApproval(grid.Id, RELATED_TO_LABEL);
+        createStep(approval.Id, String.valueOf(UserInfo.getUserId()), UserInfo.getName(), null);
+
+        // Inject MDT config with a real field path on Grid__c
+        ApprovalProcessConfig__mdt mockCfg = new ApprovalProcessConfig__mdt(
+            DeveloperName         = PROCESS_NAME,
+            ObjectType__c         = 'Grid__c',
+            InboxDisplayFields__c = 'Name\nAgreement__r.Name' // direct + relationship field — exercises resolveFieldDescribeUncached traversal
+        );
+        CustomApprovalInboxController.testMdtConfigOverride = new Map<String, ApprovalProcessConfig__mdt>{
+            PROCESS_NAME => mockCfg
+        };
+
+        Test.startTest();
+        List<CustomApprovalInboxController.ItemToApprove> result = CustomApprovalInboxController.getItemsToApprove('', 'Custom');
+        Test.stopTest();
+
+        System.assertEquals(1, result.size(), ITEMS_ONE);
+        CustomApprovalInboxController.ItemToApprove item = result[0];
+        System.assertNotEquals(null, item.displayFields, 'displayFields should be populated');
+        System.assertEquals(2, item.displayFields.size(), 'Two display field entries expected');
+        System.assertNotEquals(null, item.displayFields[0].label, 'Display field label should be resolved');
     }
 }
