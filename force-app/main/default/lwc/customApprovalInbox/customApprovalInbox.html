@@ -8,7 +8,7 @@
                 </div>
                 <div class="slds-media__body">
                     <h2 class="slds-card__header-title">
-                        <span class="slds-truncate">Custom Items to Approve</span>
+                        <span class="slds-truncate">{cardTitle}</span>
                     </h2>
                 </div>
             </header>
@@ -41,6 +41,14 @@
                                 <div class="item-title-line">
                                     <button data-record-id={item.targetRecordId} onclick={handleRecordNavigate} class="record-link">{item.targetRecordName}</button>
                                 </div>
+                                <template if:true={item.displayFields}>
+                                    <template for:each={item.displayFields} for:item="field">
+                                        <div key={field.label} class="display-field-row">
+                                            <span class="display-field-label">{field.label}:</span>
+                                            <span class="display-field-value">{field.value}</span>
+                                        </div>
+                                    </template>
+                                </template>
                                 <div>
                                     <span class="object-label">{item.objectLabel}</span>
                                     <span class="separator"> &bull; </span>

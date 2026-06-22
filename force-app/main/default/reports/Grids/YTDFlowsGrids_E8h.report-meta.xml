@@ -2,6 +2,17 @@
 <Report xmlns="http://soap.sforce.com/2006/04/metadata">
     <buckets>
         <bucketType>text</bucketType>
+        <developerName>BucketField_48798684</developerName>
+        <masterLabel>Other Grids</masterLabel>
+        <nullTreatment>n</nullTreatment>
+        <sourceColumnName>GridDetail__c.StandardGridName__c</sourceColumnName>
+        <useOther>false</useOther>
+        <values>
+            <value>Specific &amp; Others</value>
+        </values>
+    </buckets>
+    <buckets>
+        <bucketType>text</bucketType>
         <developerName>BucketField_65345558</developerName>
         <masterLabel>Std Grid Name</masterLabel>
         <nullTreatment>n</nullTreatment>
@@ -44,7 +55,77 @@
             <sourceValues>
                 <sourceValue>S7</sourceValue>
             </sourceValues>
+            <value>Other</value>
+        </values>
+    </buckets>
+    <buckets>
+        <bucketType>text</bucketType>
+        <developerName>BucketField_51682037</developerName>
+        <masterLabel>Std Grid Names</masterLabel>
+        <nullTreatment>n</nullTreatment>
+        <sourceColumnName>GridDetail__c.StandardGridName__c</sourceColumnName>
+        <useOther>false</useOther>
+        <values>
+            <sourceValues>
+                <sourceValue>CAD - S4 except A=47.5%</sourceValue>
+            </sourceValues>
+            <sourceValues>
+                <sourceValue>CCO - A=46.6%</sourceValue>
+            </sourceValues>
+            <sourceValues>
+                <sourceValue>CCO - I=46.6%</sourceValue>
+            </sourceValues>
+            <sourceValues>
+                <sourceValue>CI - A=45% &amp; AW=A</sourceValue>
+            </sourceValues>
+            <sourceValues>
+                <sourceValue>CPE - S4 except AW=60%</sourceValue>
+            </sourceValues>
+            <sourceValues>
+                <sourceValue>CTS - S4 except X=60%</sourceValue>
+            </sourceValues>
+            <sourceValues>
+                <sourceValue>CTS - S4 except X=65%</sourceValue>
+            </sourceValues>
+            <sourceValues>
+                <sourceValue>CTS X2 USD =55% ELSE =0%</sourceValue>
+            </sourceValues>
+            <sourceValues>
+                <sourceValue>CTS X EUR ACC = 62.35% ELSE = 0%</sourceValue>
+            </sourceValues>
+            <sourceValues>
+                <sourceValue>PE - S4 except X=60%</sourceValue>
+            </sourceValues>
+            <sourceValues>
+                <sourceValue>S6.5</sourceValue>
+            </sourceValues>
+            <sourceValues>
+                <sourceValue>S7</sourceValue>
+            </sourceValues>
             <value>Specific &amp; Others</value>
+        </values>
+    </buckets>
+    <buckets>
+        <bucketType>text</bucketType>
+        <developerName>BucketField_99550600</developerName>
+        <masterLabel>Team</masterLabel>
+        <nullTreatment>n</nullTreatment>
+        <sourceColumnName>Grid__c.Team__c</sourceColumnName>
+        <useOther>false</useOther>
+        <values>
+            <sourceValues>
+                <sourceValue>International</sourceValue>
+            </sourceValues>
+            <sourceValues>
+                <sourceValue>LATAM</sourceValue>
+            </sourceValues>
+            <sourceValues>
+                <sourceValue>Middle East</sourceValue>
+            </sourceValues>
+            <sourceValues>
+                <sourceValue>United Kingdom</sourceValue>
+            </sourceValues>
+            <value>Others</value>
         </values>
     </buckets>
     <chart>
@@ -54,17 +135,18 @@
         <chartSummaries>
             <aggregate>Sum</aggregate>
             <axisBinding>y</axisBinding>
-            <column>GridDetail__c.TotalAUMEur__c</column>
+            <column>GridDetail__c.FlowsYTD__c</column>
         </chartSummaries>
-        <chartType>Donut</chartType>
+        <chartType>HorizontalBarStacked</chartType>
         <enableHoverLabels>false</enableHoverLabels>
-        <expandOthers>false</expandOthers>
-        <groupingColumn>BucketField_65345558</groupingColumn>
+        <expandOthers>true</expandOthers>
+        <groupingColumn>BucketField_99550600</groupingColumn>
         <legendPosition>Right</legendPosition>
         <location>CHART_BOTTOM</location>
+        <secondaryGroupingColumn>BucketField_51682037</secondaryGroupingColumn>
         <showAxisLabels>false</showAxisLabels>
         <showPercentage>false</showPercentage>
-        <showTotal>true</showTotal>
+        <showTotal>false</showTotal>
         <showValues>false</showValues>
         <size>Medium</size>
         <summaryAxisRange>Auto</summaryAxisRange>
@@ -75,21 +157,21 @@
     </chart>
     <columns>
         <aggregateTypes>Sum</aggregateTypes>
-        <field>GridDetail__c.TotalAUMEur__c</field>
+        <field>GridDetail__c.FlowsYTD__c</field>
     </columns>
     <currency>EUR</currency>
     <format>Matrix</format>
     <groupingsAcross>
         <dateGranularity>Day</dateGranularity>
-        <field>BucketField_65345558</field>
+        <field>BucketField_51682037</field>
         <sortOrder>Asc</sortOrder>
     </groupingsAcross>
     <groupingsDown>
         <dateGranularity>Day</dateGranularity>
-        <field>Grid__c.TECH_BusinessRegion__c</field>
+        <field>BucketField_99550600</field>
         <sortOrder>Asc</sortOrder>
     </groupingsDown>
-    <name>GlobalGridsRecap</name>
+    <name>YTDFlowsGrids</name>
     <params>
         <name>co</name>
         <value>0</value>

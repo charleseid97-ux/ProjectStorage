@@ -135,12 +135,12 @@
         <chartSummaries>
             <aggregate>Sum</aggregate>
             <axisBinding>y</axisBinding>
-            <column>GridDetail__c.TotalAUMEur__c</column>
+            <column>GridDetail__c.FlowsYTD__c</column>
         </chartSummaries>
         <chartType>HorizontalBarStacked</chartType>
         <enableHoverLabels>false</enableHoverLabels>
         <expandOthers>true</expandOthers>
-        <groupingColumn>BucketField_99550600</groupingColumn>
+        <groupingColumn>GridDetail__c.AssetClass__c</groupingColumn>
         <legendPosition>Right</legendPosition>
         <location>CHART_BOTTOM</location>
         <secondaryGroupingColumn>BucketField_51682037</secondaryGroupingColumn>
@@ -157,9 +157,19 @@
     </chart>
     <columns>
         <aggregateTypes>Sum</aggregateTypes>
-        <field>GridDetail__c.TotalAUMEur__c</field>
+        <field>GridDetail__c.FlowsYTD__c</field>
     </columns>
     <currency>EUR</currency>
+    <filter>
+        <criteriaItems>
+            <column>GridDetail__c.FlowsYTD__c</column>
+            <columnToColumn>false</columnToColumn>
+            <isUnlocked>true</isUnlocked>
+            <operator>greaterThan</operator>
+            <value>0</value>
+        </criteriaItems>
+        <language>en_US</language>
+    </filter>
     <format>Matrix</format>
     <groupingsAcross>
         <dateGranularity>Day</dateGranularity>
@@ -168,10 +178,10 @@
     </groupingsAcross>
     <groupingsDown>
         <dateGranularity>Day</dateGranularity>
-        <field>BucketField_99550600</field>
+        <field>GridDetail__c.AssetClass__c</field>
         <sortOrder>Asc</sortOrder>
     </groupingsDown>
-    <name>CurrentGridsRecap</name>
+    <name>InFlowsAssetClassGrids</name>
     <params>
         <name>co</name>
         <value>0</value>

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>InboxDisplayFields__c</fullName>
+    <description>One field API path per line to display on each pending item in the customApprovalInbox LWC. Supports dot notation for relationships (e.g. Agreement__r.Name). Fields are resolved from the target object at runtime.</description>
+    <fieldManageability>SubscriberControlled</fieldManageability>
+    <inlineHelpText>Enter one field API path per line. Use dot notation for relationships, e.g. Agreement__r.Name or Status__c.</inlineHelpText>
+    <label>Inbox Display Fields</label>
+    <length>2000</length>
+    <type>LongTextArea</type>
+    <visibleLines>5</visibleLines>
+</CustomField>

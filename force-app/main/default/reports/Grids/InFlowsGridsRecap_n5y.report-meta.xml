@@ -44,7 +44,7 @@
             <sourceValues>
                 <sourceValue>S7</sourceValue>
             </sourceValues>
-            <value>Specific &amp; Others</value>
+            <value>Specific &amp; Other</value>
         </values>
     </buckets>
     <chart>
@@ -54,17 +54,16 @@
         <chartSummaries>
             <aggregate>Sum</aggregate>
             <axisBinding>y</axisBinding>
-            <column>GridDetail__c.TotalAUMEur__c</column>
+            <column>GridDetail__c.FlowsYTD__c</column>
         </chartSummaries>
-        <chartType>Donut</chartType>
+        <chartType>HorizontalBar</chartType>
         <enableHoverLabels>false</enableHoverLabels>
-        <expandOthers>false</expandOthers>
+        <expandOthers>true</expandOthers>
         <groupingColumn>BucketField_65345558</groupingColumn>
-        <legendPosition>Right</legendPosition>
         <location>CHART_BOTTOM</location>
         <showAxisLabels>false</showAxisLabels>
         <showPercentage>false</showPercentage>
-        <showTotal>true</showTotal>
+        <showTotal>false</showTotal>
         <showValues>false</showValues>
         <size>Medium</size>
         <summaryAxisRange>Auto</summaryAxisRange>
@@ -75,9 +74,19 @@
     </chart>
     <columns>
         <aggregateTypes>Sum</aggregateTypes>
-        <field>GridDetail__c.TotalAUMEur__c</field>
+        <field>GridDetail__c.FlowsYTD__c</field>
     </columns>
     <currency>EUR</currency>
+    <filter>
+        <criteriaItems>
+            <column>GridDetail__c.FlowsYTD__c</column>
+            <columnToColumn>false</columnToColumn>
+            <isUnlocked>true</isUnlocked>
+            <operator>greaterThan</operator>
+            <value>0</value>
+        </criteriaItems>
+        <language>en_US</language>
+    </filter>
     <format>Matrix</format>
     <groupingsAcross>
         <dateGranularity>Day</dateGranularity>
@@ -86,10 +95,10 @@
     </groupingsAcross>
     <groupingsDown>
         <dateGranularity>Day</dateGranularity>
-        <field>Grid__c.TECH_BusinessRegion__c</field>
+        <field>Grid__c.Team__c</field>
         <sortOrder>Asc</sortOrder>
     </groupingsDown>
-    <name>GlobalGridsRecap</name>
+    <name>InFlowsGridsRecap</name>
     <params>
         <name>co</name>
         <value>0</value>

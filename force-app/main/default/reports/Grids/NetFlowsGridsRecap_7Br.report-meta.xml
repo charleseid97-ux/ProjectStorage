@@ -44,7 +44,13 @@
             <sourceValues>
                 <sourceValue>S7</sourceValue>
             </sourceValues>
-            <value>Specific &amp; Others</value>
+            <sourceValues>
+                <sourceValue>CCO - I=46.6%</sourceValue>
+            </sourceValues>
+            <sourceValues>
+                <sourceValue>CTS - S4 except X=60%</sourceValue>
+            </sourceValues>
+            <value>Specific &amp; Other</value>
         </values>
     </buckets>
     <chart>
@@ -54,17 +60,18 @@
         <chartSummaries>
             <aggregate>Sum</aggregate>
             <axisBinding>y</axisBinding>
-            <column>GridDetail__c.TotalAUMEur__c</column>
+            <column>GridDetail__c.FlowsYTD__c</column>
         </chartSummaries>
-        <chartType>Donut</chartType>
+        <chartType>HorizontalBarStacked</chartType>
         <enableHoverLabels>false</enableHoverLabels>
-        <expandOthers>false</expandOthers>
-        <groupingColumn>BucketField_65345558</groupingColumn>
+        <expandOthers>true</expandOthers>
+        <groupingColumn>Grid__c.Team__c</groupingColumn>
         <legendPosition>Right</legendPosition>
         <location>CHART_BOTTOM</location>
+        <secondaryGroupingColumn>BucketField_65345558</secondaryGroupingColumn>
         <showAxisLabels>false</showAxisLabels>
         <showPercentage>false</showPercentage>
-        <showTotal>true</showTotal>
+        <showTotal>false</showTotal>
         <showValues>false</showValues>
         <size>Medium</size>
         <summaryAxisRange>Auto</summaryAxisRange>
@@ -75,7 +82,7 @@
     </chart>
     <columns>
         <aggregateTypes>Sum</aggregateTypes>
-        <field>GridDetail__c.TotalAUMEur__c</field>
+        <field>GridDetail__c.FlowsYTD__c</field>
     </columns>
     <currency>EUR</currency>
     <format>Matrix</format>
@@ -86,10 +93,10 @@
     </groupingsAcross>
     <groupingsDown>
         <dateGranularity>Day</dateGranularity>
-        <field>Grid__c.TECH_BusinessRegion__c</field>
+        <field>Grid__c.Team__c</field>
         <sortOrder>Asc</sortOrder>
     </groupingsDown>
-    <name>GlobalGridsRecap</name>
+    <name>NetFlowsGridsRecap</name>
     <params>
         <name>co</name>
         <value>0</value>

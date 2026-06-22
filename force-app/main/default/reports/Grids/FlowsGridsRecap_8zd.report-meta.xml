@@ -44,7 +44,7 @@
             <sourceValues>
                 <sourceValue>S7</sourceValue>
             </sourceValues>
-            <value>Specific &amp; Others</value>
+            <value>Other</value>
         </values>
     </buckets>
     <chart>
@@ -56,15 +56,14 @@
             <axisBinding>y</axisBinding>
             <column>GridDetail__c.TotalAUMEur__c</column>
         </chartSummaries>
-        <chartType>Donut</chartType>
+        <chartType>HorizontalBar</chartType>
         <enableHoverLabels>false</enableHoverLabels>
-        <expandOthers>false</expandOthers>
+        <expandOthers>true</expandOthers>
         <groupingColumn>BucketField_65345558</groupingColumn>
-        <legendPosition>Right</legendPosition>
         <location>CHART_BOTTOM</location>
         <showAxisLabels>false</showAxisLabels>
         <showPercentage>false</showPercentage>
-        <showTotal>true</showTotal>
+        <showTotal>false</showTotal>
         <showValues>false</showValues>
         <size>Medium</size>
         <summaryAxisRange>Auto</summaryAxisRange>
@@ -86,10 +85,10 @@
     </groupingsAcross>
     <groupingsDown>
         <dateGranularity>Day</dateGranularity>
-        <field>Grid__c.TECH_BusinessRegion__c</field>
+        <field>Grid__c.Team__c</field>
         <sortOrder>Asc</sortOrder>
     </groupingsDown>
-    <name>GlobalGridsRecap</name>
+    <name>FlowsGridsRecap</name>
     <params>
         <name>co</name>
         <value>0</value>

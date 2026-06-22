@@ -481,6 +481,7 @@
 	<types>
 		<members>Grid_AccessGridSimulation</members>
 		<members>Grid_AccessGridComparison</members>
+		<members>Grid_AccessGridDashboard</members>
 		<members>Grid_AccessGridDetails</members>
 		<members>Grid_AccessGridBuilder</members>
 		<members>Grid_AccessGridAmendmentRequest</members>
@@ -493,6 +494,7 @@
 		<members>Grid_BaseAccess</members>
 		<members>Grid_AccessGridSimulation</members>
 		<members>Grid_AccessGridComparison</members>
+		<members>Grid_AccessGridDashboard</members>
 		<members>Grid_AccessGridBuilder</members>
 		<members>Grid_AccessGridAmendment</members>
 		<members>Grid_ViewAllRecords</members>
@@ -539,11 +541,20 @@
 		<name>ReportFolder</name>
 	</types>
 	<types>
-        <members>Grids/AssetClassGridsRecap_z9q</members>
+		<members>Grids/AssetClassGridsRecap_z9q</members>
 		<members>Grids/CurrentGridsRecap_5co</members>
+		<members>Grids/FlowsGridsRecap_8zd</members>
 		<members>Grids/GlobalGridsRecap_d2J</members>
-        <name>Report</name>
-    </types>
+		<members>Grids/InFlowsAssetClassGrids_dWL</members>
+		<members>Grids/InFlowsGridsRecap_n5y</members>
+		<members>Grids/NetFlowsGridsRecap_7Br</members>
+		<members>Grids/NextReviewDate_EzO</members>
+		<members>Grids/OutFlowsAssetClassGrids_B6t</members>
+		<members>Grids/OutFlowsGridsRecap_NXl</members>
+		<members>Grids/YTDFlowsAssetClassGrids_01n</members>
+		<members>Grids/YTDFlowsGrids_E8h</members>
+		<name>Report</name>
+	</types>
 	<types>
 		<members>GridEmailStandardRules</members>
 		<members>GridEmailShareClassOverview</members>
