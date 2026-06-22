@@ -27,9 +27,10 @@ public without sharing class BooklyStrategyMatrixController {
         Map<String, Strategy__c> strategiesByCode = loadStrategiesByCode();
 
         for (BooklyStrategiesByUsers__mdt mapping : [
-            SELECT DeveloperName, MasterLabel, Username__c, StrategyCodes__c
+            SELECT DeveloperName, MasterLabel, Username__c, StrategyCodes__c, IsActive__c
             FROM BooklyStrategiesByUsers__mdt
             WHERE Username__c != null
+            AND IsActive__c = true
             ORDER BY Username__c
         ]) {
             User userRecord = usersByUsername.get(mapping.Username__c);
@@ -58,6 +59,7 @@ public without sharing class BooklyStrategyMatrixController {
             SELECT Username__c
             FROM BooklyStrategiesByUsers__mdt
             WHERE Username__c != null
+            AND IsActive__c = true
         ]) {
             usernames.add(mapping.Username__c);
         }
@@ -80,14 +82,31 @@ public without sharing class BooklyStrategyMatrixController {
         return result;
     }
 
-    // Charge toutes les stratégies par code pour convertir les codes en noms.
+        // Charge toutes les stratégies autorisées pour la matrice.
     private Map<String, Strategy__c> loadStrategiesByCode() {
         Map<String, Strategy__c> result = new Map<String, Strategy__c>();
 
+        List<String> strategyCodes = System.Label.BooklyInScopeStrategy.split(',');
+
+        Set<Id> strategyIds = new Set<Id>();
+
+        // Récupère les stratégies utilisées par les fonds valides.
+        for (Product__c productRecord : [
+            SELECT FundStrategy__c
+            FROM Product__c
+            WHERE VehicleType__c = 'Funds'
+            AND Validity__c = true
+            AND FundStrategy__c != null
+        ]) {
+            strategyIds.add(productRecord.FundStrategy__c);
+        }
+
+        // Charge les stratégies éligibles.
         for (Strategy__c strategyRecord : [
             SELECT Id, Name, Code__c
             FROM Strategy__c
-            WHERE Code__c != null
+            WHERE Id IN :strategyIds
+            OR Code__c IN :strategyCodes
             ORDER BY Name
         ]) {
             result.put(strategyRecord.Code__c, strategyRecord);
@@ -274,6 +293,14 @@ public without sharing class BooklyStrategyMatrixController {
             }
         }
 
+        // Cherche aussi les mappings inactifs pour réutiliser le même metadata.
+        List<BooklyStrategiesByUsers__mdt> existingMappings = [
+            SELECT DeveloperName, MasterLabel, Username__c, StrategyCodes__c, IsActive__c
+            FROM BooklyStrategiesByUsers__mdt
+            WHERE Username__c = :selectedUsername
+            LIMIT 1
+        ];
+
         List<User> userRecords = [
             SELECT Id, Name, Username
             FROM User
@@ -285,8 +312,32 @@ public without sharing class BooklyStrategyMatrixController {
             return;
         }
 
-        // La ligne est ajoutée localement en mode édition.
         User userRecord = userRecords[0];
+
+        // Si un mapping inactif existe, on l'ajoute localement en édition.
+        if (!existingMappings.isEmpty()) {
+            BooklyStrategiesByUsers__mdt mapping = existingMappings[0];
+
+            if (!mapping.IsActive__c) {
+                RowWrapper inactiveRow = new RowWrapper(
+                    mapping.DeveloperName,
+                    userRecord.Username,
+                    userRecord.Name,
+                    buildStrategyWrappers(mapping.StrategyCodes__c, loadStrategiesByCode())
+                );
+
+                inactiveRow.isActive = true;
+                inactiveRow.isEditing = true;
+                rows.add(inactiveRow);
+            }
+
+            userOptions.clear();
+            userSearchText = null;
+            selectedUsername = null;
+            return;
+        }
+
+        // La ligne est ajoutée localement en mode édition.
         rows.add(
             new RowWrapper(
                 null,
@@ -301,6 +352,30 @@ public without sharing class BooklyStrategyMatrixController {
         userSearchText = null;
         selectedUsername = null;
     }
+
+    // Réactive un custom metadata sans modifier les stratégies existantes.
+    private Id reactivateMapping(BooklyStrategiesByUsers__mdt mapping) {
+        Metadata.CustomMetadata customMetadata = new Metadata.CustomMetadata();
+        customMetadata.fullName = 'BooklyStrategiesByUsers.' + mapping.DeveloperName;
+        customMetadata.label = mapping.MasterLabel;
+
+        // Met uniquement le flag actif à true.
+        Metadata.CustomMetadataValue isActiveValue = new Metadata.CustomMetadataValue();
+        isActiveValue.field = 'IsActive__c';
+        isActiveValue.value = true;
+        customMetadata.values.add(isActiveValue);
+
+        Metadata.DeployContainer deployContainer = new Metadata.DeployContainer();
+        deployContainer.addMetadata(customMetadata);
+
+        // Lance le déploiement metadata asynchrone.
+        return Metadata.Operations.enqueueDeployment(
+            deployContainer,
+            new BooklyMetadataDeployCallback()
+        );
+    }
+
+
     // Active le mode édition sur la ligne sélectionnée.
     public void editRow() {
         readRequestParameters();
@@ -312,7 +387,7 @@ public without sharing class BooklyStrategyMatrixController {
         }
     }
 
-    // Supprime la ligne sélectionnée de l’affichage.
+    // Désactive la ligne sélectionnée dans le custom metadata.
     public void removeRow() {
         readRequestParameters();
 
@@ -322,6 +397,9 @@ public without sharing class BooklyStrategyMatrixController {
             return;
         }
 
+        // Le record metadata est conservé mais exclu des affichages.
+        row.isActive = false;
+        upsertMapping(row);
         rows.remove(rows.indexOf(row));
     }
 
@@ -519,6 +597,11 @@ public without sharing class BooklyStrategyMatrixController {
         strategyCodesValue.value = buildStrategyCodes(row);
         customMetadata.values.add(strategyCodesValue);
 
+        Metadata.CustomMetadataValue isActiveValue = new Metadata.CustomMetadataValue();
+        isActiveValue.field = 'IsActive__c';
+        isActiveValue.value = row.isActive;
+        customMetadata.values.add(isActiveValue);
+
         Metadata.DeployContainer deployContainer = new Metadata.DeployContainer();
         deployContainer.addMetadata(customMetadata);
 
@@ -581,6 +664,7 @@ public without sharing class BooklyStrategyMatrixController {
         public String username { get; set; }
         public String displayName { get; set; }
         public Boolean isEditing { get; set; }
+        public Boolean isActive { get; set; }
         public String strategySearchText { get; set; }
         public List<StrategyWrapper> strategies { get; set; }
         public List<SelectOption> strategyOptions { get; set; }
@@ -597,6 +681,7 @@ public without sharing class BooklyStrategyMatrixController {
             this.displayName = displayName;
             this.strategies = strategies;
             this.isEditing = false;
+            this.isActive = true;
             this.strategyOptions = new List<SelectOption>();
         }
 

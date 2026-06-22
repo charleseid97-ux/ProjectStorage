@@ -88,11 +88,10 @@
 
             <br/>
 
-            <apex:commandButton value="Refresh Matrix" action="{!refreshMatrix}" rerender="strategyUserMatrix,matrix,messages"/>
-
+            <apex:commandButton value="Refresh Matrix" action="{!refreshMatrix}" rerender="strategyUserMatrix,matrix,messages" oncomplete="initMatrixHover();"/>
             <apex:pageBlockSection title="Strategy / Users Matrix" columns="1">
                 <apex:outputPanel id="strategyUserMatrix">
-                    <table border="1" cellpadding="5" cellspacing="0">
+                    <table class="matrix-table" border="1" cellpadding="5" cellspacing="0">
                         <tr>
                             <th>Strategy</th>
                             <apex:repeat value="{!matrixUsers}" var="matrixUser">
@@ -114,4 +113,53 @@
 
         </apex:pageBlock>
     </apex:form>
+        <style>
+        .matrix-table td.hovered,
+        .matrix-table th.hovered {
+            background-color: #fff3cd;
+        }
+    </style>
+
+    <script>
+        // Initialise le surlignage de la ligne et de la colonne au survol
+        function initMatrixHover() {
+            const table = document.querySelector('.matrix-table');
+
+            if (!table) {
+                return;
+            }
+
+            // Ajoute les événements sur chaque cellule
+            table.querySelectorAll('td, th').forEach(function(cell) {
+                cell.addEventListener('mouseenter', function() {
+                    const row = cell.parentElement;
+                    const cellIndex = Array.prototype.indexOf.call(row.children, cell);
+
+                    // Surligne toute la ligne
+                    row.querySelectorAll('td, th').forEach(function(rowCell) {
+                        rowCell.classList.add('hovered');
+                    });
+
+                    // Surligne toute la colonne
+                    table.querySelectorAll('tr').forEach(function(tableRow) {
+                        const columnCell = tableRow.children[cellIndex];
+
+                        if (columnCell) {
+                            columnCell.classList.add('hovered');
+                        }
+                    });
+                });
+
+                cell.addEventListener('mouseleave', function() {
+                    // Nettoie tous les surlignages
+                    table.querySelectorAll('.hovered').forEach(function(hoveredCell) {
+                        hoveredCell.classList.remove('hovered');
+                    });
+                });
+            });
+        }
+
+        // Initialise au chargement de la page
+        document.addEventListener('DOMContentLoaded', initMatrixHover);
+    </script>
 </apex:page>
