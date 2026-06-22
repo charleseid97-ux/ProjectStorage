@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Report xmlns="http://soap.sforce.com/2006/04/metadata">
+    <buckets>
+        <bucketType>text</bucketType>
+        <developerName>BucketField_65345558</developerName>
+        <masterLabel>Std Grid Name</masterLabel>
+        <nullTreatment>n</nullTreatment>
+        <sourceColumnName>GridDetail__c.StandardGridName__c</sourceColumnName>
+        <useOther>false</useOther>
+        <values>
+            <sourceValues>
+                <sourceValue>CAD - S4 except A=47.5%</sourceValue>
+            </sourceValues>
+            <sourceValues>
+                <sourceValue>CCO - A=46.6%</sourceValue>
+            </sourceValues>
+            <sourceValues>
+                <sourceValue>CEAM - FW EUR ACC = 12.5% ELSE = 0%</sourceValue>
+            </sourceValues>
+            <sourceValues>
+                <sourceValue>CI - A=45% &amp; AW=A</sourceValue>
+            </sourceValues>
+            <sourceValues>
+                <sourceValue>CPE - S4 except AW=60%</sourceValue>
+            </sourceValues>
+            <sourceValues>
+                <sourceValue>CTS - S4 except X=65%</sourceValue>
+            </sourceValues>
+            <sourceValues>
+                <sourceValue>CTS X2 USD =55% ELSE =0%</sourceValue>
+            </sourceValues>
+            <sourceValues>
+                <sourceValue>CTS X EUR ACC = 62.35% ELSE = 0%</sourceValue>
+            </sourceValues>
+            <sourceValues>
+                <sourceValue>PE - IW EUR ACC = 17.6% ELSE = 0%</sourceValue>
+            </sourceValues>
+            <sourceValues>
+                <sourceValue>PE - S4 except X=60%</sourceValue>
+            </sourceValues>
+            <sourceValues>
+                <sourceValue>S6.5</sourceValue>
+            </sourceValues>
+            <sourceValues>
+                <sourceValue>S7</sourceValue>
+            </sourceValues>
+            <sourceValues>
+                <sourceValue>CCO - I=46.6%</sourceValue>
+            </sourceValues>
+            <sourceValues>
+                <sourceValue>CTS - S4 except X=60%</sourceValue>
+            </sourceValues>
+            <value>Specific &amp; Other</value>
+        </values>
+    </buckets>
+    <chart>
+        <backgroundColor1>#FFFFFF</backgroundColor1>
+        <backgroundColor2>#FFFFFF</backgroundColor2>
+        <backgroundFadeDir>Diagonal</backgroundFadeDir>
+        <chartSummaries>
+            <aggregate>Sum</aggregate>
+            <axisBinding>y</axisBinding>
+            <column>GridDetail__c.FlowsYTD__c</column>
+        </chartSummaries>
+        <chartType>HorizontalBarStacked</chartType>
+        <enableHoverLabels>false</enableHoverLabels>
+        <expandOthers>true</expandOthers>
+        <groupingColumn>Grid__c.Team__c</groupingColumn>
+        <legendPosition>Right</legendPosition>
+        <location>CHART_BOTTOM</location>
+        <secondaryGroupingColumn>BucketField_65345558</secondaryGroupingColumn>
+        <showAxisLabels>false</showAxisLabels>
+        <showPercentage>false</showPercentage>
+        <showTotal>false</showTotal>
+        <showValues>false</showValues>
+        <size>Medium</size>
+        <summaryAxisRange>Auto</summaryAxisRange>
+        <textColor>#000000</textColor>
+        <textSize>12</textSize>
+        <titleColor>#000000</titleColor>
+        <titleSize>18</titleSize>
+    </chart>
+    <columns>
+        <aggregateTypes>Sum</aggregateTypes>
+        <field>GridDetail__c.FlowsYTD__c</field>
+    </columns>
+    <currency>EUR</currency>
+    <format>Matrix</format>
+    <groupingsAcross>
+        <dateGranularity>Day</dateGranularity>
+        <field>BucketField_65345558</field>
+        <sortOrder>Asc</sortOrder>
+    </groupingsAcross>
+    <groupingsDown>
+        <dateGranularity>Day</dateGranularity>
+        <field>Grid__c.Team__c</field>
+        <sortOrder>Asc</sortOrder>
+    </groupingsDown>
+    <name>NetFlowsGridsRecap</name>
+    <params>
+        <name>co</name>
+        <value>0</value>
+    </params>
+    <reportType>CustomEntityCustomEntity$Grid__c$GridDetail__c</reportType>
+    <scope>organization</scope>
+    <showDetails>false</showDetails>
+    <showGrandTotal>true</showGrandTotal>
+    <showSubTotals>true</showSubTotals>
+    <timeFrameFilter>
+        <dateColumn>Grid__c.EndDate__c</dateColumn>
+        <interval>INTERVAL_CUSTOM</interval>
+    </timeFrameFilter>
+</Report>

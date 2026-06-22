@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>TargetLabelFieldApiName__c</fullName>
-    <description>API name of the field on the target object whose value is stamped as the display label on CustomApproval__c.RelatedToLabel__c at submission time. Typically 'Name'.</description>
+    <description>API name of the field on the target object whose value is stamped as the display label on CustomApproval__c.RelatedToLabel__c at submission time. Typically &apos;Name&apos;.</description>
     <externalId>false</externalId>
     <fieldManageability>SubscriberControlled</fieldManageability>
     <inlineHelpText>Enter the API name of the field to use as the display label, e.g. Name. This value is resolved on the target record and stored on the approval.</inlineHelpText>
