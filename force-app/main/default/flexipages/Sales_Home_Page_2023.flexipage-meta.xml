@@ -451,19 +451,19 @@
                 <visibilityRule>
                     <booleanFilter>1 OR 2 OR 3</booleanFilter>
                     <criteria>
-                        <leftValue>{!$User.LastName}</leftValue>
-                        <operator>CONTAINS</operator>
-                        <rightValue>THOZET</rightValue>
+                        <leftValue>{!$User.Username}</leftValue>
+                        <operator>EQUAL</operator>
+                        <rightValue>cemre.demirkazik-crm@carmignac.com</rightValue>
                     </criteria>
                     <criteria>
-                        <leftValue>{!$User.LastName}</leftValue>
+                        <leftValue>{!$User.Username}</leftValue>
                         <operator>EQUAL</operator>
-                        <rightValue>PINON</rightValue>
+                        <rightValue>kevin.thozet-crm@carmignac.com</rightValue>
                     </criteria>
                     <criteria>
-                        <leftValue>{!$User.LastName}</leftValue>
+                        <leftValue>{!$User.Username}</leftValue>
                         <operator>EQUAL</operator>
-                        <rightValue>DEMIRKAZIK</rightValue>
+                        <rightValue>axelle.pinon-crm@carmignac.com</rightValue>
                     </criteria>
                 </visibilityRule>
             </componentInstance>
@@ -480,19 +480,6 @@
                 </componentInstanceProperties>
                 <componentName>desktopDashboards:embeddedDashboard</componentName>
                 <identifier>desktopDashboards_embeddedDashboard14</identifier>
-                <visibilityRule>
-                    <booleanFilter>1 OR 2</booleanFilter>
-                    <criteria>
-                        <leftValue>{!$Permission.CustomPermission.Bookly_Product_Specialist}</leftValue>
-                        <operator>EQUAL</operator>
-                        <rightValue>true</rightValue>
-                    </criteria>
-                    <criteria>
-                        <leftValue>{!$Permission.CustomPermission.Bookly_Admin}</leftValue>
-                        <operator>EQUAL</operator>
-                        <rightValue>true</rightValue>
-                    </criteria>
-                </visibilityRule>
             </componentInstance>
         </itemInstances>
         <name>Facet-20eacf0d-a9d8-403e-8838-ccf0a8750847</name>
