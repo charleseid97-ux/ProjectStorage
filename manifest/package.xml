@@ -4,9 +4,38 @@
         <members>ShareClassHandler</members>
         <name>ApexClass</name>
     </types>
-    <types>
-        <members>PMT_Narratives_Duplicates_Narrative</members>
-        <name>Flow</name>
-    </types>
-    <version>66.0</version>
+	<types>
+		<members>GridApprovals</members>
+		<name>EmailFolder</name>
+	</types>
+	<types>
+		<members>Grids</members>
+		<name>ReportFolder</name>
+	</types>
+	<types>
+		<members>Grids/AssetClassGridsRecap_z9q</members>
+		<members>Grids/CurrentGridsRecap_5co</members>
+		<members>Grids/FlowsGridsRecap_8zd</members>
+		<members>Grids/GlobalGridsRecap_d2J</members>
+		<members>Grids/InFlowsAssetClassGrids_dWL</members>
+		<members>Grids/InFlowsGridsRecap_n5y</members>
+		<members>Grids/NetFlowsGridsRecap_7Br</members>
+		<members>Grids/NextReviewDate_EzO</members>
+		<members>Grids/OutFlowsAssetClassGrids_B6t</members>
+		<members>Grids/OutFlowsGridsRecap_NXl</members>
+		<members>Grids/YTDFlowsAssetClassGrids_01n</members>
+		<members>Grids/YTDFlowsGrids_E8h</members>
+		<name>Report</name>
+	</types>
+	<types>
+		<members>GridEmailStandardRules</members>
+		<members>GridEmailShareClassOverview</members>
+		<name>ApexComponent</name>
+	</types>
+	<types>
+		<members>Grid__c.*</members>
+		<name>SharingCriteriaRule</name>
+	</types>
+	<!-- FLAG ON -->
+	<version>66.0</version>
 </Package>
