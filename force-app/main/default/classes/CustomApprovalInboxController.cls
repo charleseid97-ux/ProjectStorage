@@ -22,7 +22,7 @@ public without sharing class CustomApprovalInboxController {
             result.addAll(getCustomItems(currentUserId, isAdmin, objectApiName));
         }
         if (String.isBlank(approvalSystem) || approvalSystem == 'Standard') {
-            result.addAll(getStandardItems(currentUserId, objectApiName));
+            result.addAll(getStandardItems(currentUserId, isAdmin, objectApiName));
         }
         return result;
     }
@@ -49,89 +49,126 @@ public without sharing class CustomApprovalInboxController {
         }
 
         Map<String, Boolean> stepDevNameHasUserInput = CustomApprovalHistoryUtility.buildStepConfigMap(processDevNames);
-        Map<Id, String>      submittedByPerApproval  = buildSubmittedByMap(collectApprovalIds(approvable));
+        Map<Id, String> submittedByPerApproval = buildSubmittedByMap(collectApprovalIds(approvable));
 
-        // Describe cache — built upfront before any data query (CustomReportMatrixController pattern)
-        Map<String, DescribeFieldResult> describeCache = new Map<String, DescribeFieldResult>();
-        primeDescribeCache(configByDevName.values(), describeCache);
+        // Build object-level describe cache once per unique type — before any loops or field traversal
+        Map<String, SObjectInfo> sobjectInfoCache = buildSObjectInfoCache(collectObjectTypes(configByDevName.values()));
 
-        Map<Id, List<DisplayFieldEntry>> displayFieldsByStep = resolveCustomDisplayFields(approvable, configByDevName, describeCache);
+        // Field describe cache — built upfront (CustomReportMatrixController pattern)
+        Map<String, DescribeFieldResult> fieldDescribeCache = new Map<String, DescribeFieldResult>();
+        primeDescribeCache(configByDevName.values(), fieldDescribeCache, sobjectInfoCache);
 
-        return buildCustomResult(approvable, stepDevNameHasUserInput, submittedByPerApproval, configByDevName, displayFieldsByStep);
+        Map<Id, List<DisplayFieldEntry>> displayFieldsByStep = resolveCustomDisplayFields(approvable, configByDevName, fieldDescribeCache, sobjectInfoCache);
+
+        return buildCustomResult(approvable, stepDevNameHasUserInput, submittedByPerApproval, configByDevName, displayFieldsByStep, sobjectInfoCache);
     }
 
     // ─── Standard approval items ──────────────────────────────────────────────────
-    private static List<ItemToApprove> getStandardItems(Id currentUserId, String objectApiName) {
-        List<ProcessInstanceWorkitem> workitems = [
-            SELECT Id, CreatedDate,
-                   ProcessInstance.TargetObjectId,
-                   ProcessInstance.SubmittedBy.Name
-            FROM   ProcessInstanceWorkitem
-            WHERE  Actor.Id = :currentUserId
-              AND  ProcessInstance.Status = 'Pending'
-            ORDER BY CreatedDate ASC
-        ];
+    private static List<ItemToApprove> getStandardItems(Id currentUserId, Boolean isAdmin, String objectApiName) {
+        List<ProcessInstanceWorkitem> workitems = queryPendingWorkitems();
         if (workitems.isEmpty()) return new List<ItemToApprove>();
 
-        // Group by object type; optionally filter
+        if (!isAdmin) {
+            workitems = filterVisibleWorkitems(workitems, currentUserId);
+            if (workitems.isEmpty()) return new List<ItemToApprove>();
+        }
+
+        // Describe each unique SObjectType exactly once — getSObjectType() (prefix lookup) is cheap; getDescribe() is not
+        Map<SObjectType, SObjectInfo> sotInfoCache = buildSObjectInfoCacheFromWorkitems(workitems);
+        Map<String, SObjectInfo> sobjectInfoCache = new Map<String, SObjectInfo>();
+        for (SObjectInfo info : sotInfoCache.values()) sobjectInfoCache.put(info.apiName, info);
+
         Map<String, Set<Id>> targetIdsByObjType = new Map<String, Set<Id>>();
-        Map<Id, String>      objTypeByWorkitemId = new Map<Id, String>();
+        Map<Id, String> objTypeByWorkitemId = new Map<Id, String>();
+        groupWorkitemsByObjType(workitems, objectApiName, sotInfoCache, targetIdsByObjType, objTypeByWorkitemId);
+        if (targetIdsByObjType.isEmpty()) return new List<ItemToApprove>();
+
+        Map<String, ApprovalProcessConfig__mdt> configByObjType = queryMdtConfigsByObjType(targetIdsByObjType.keySet());
+        Map<String, String> labelFieldByObjType = buildLabelFieldByObjType(configByObjType);
+        Map<String, DescribeFieldResult> fieldDescribeCache = new Map<String, DescribeFieldResult>();
+        primeDescribeCache(configByObjType.values(), fieldDescribeCache, sobjectInfoCache);
+
+        // Display paths (InboxDisplayFields__c only — for field entries)
+        Map<String, List<String>> displayPathsByObjType = buildPathsByObjType(configByObjType);
+        // Query paths: label field + display fields in one SOQL per object type (replaces resolveWorkitemTargetNames)
+        Map<String, List<String>> queryPathsByObjType = buildExtendedPathsByObjType(targetIdsByObjType.keySet(), configByObjType, labelFieldByObjType);
+        Map<Id, SObject> displayRecordsById = queryDisplayRecords(targetIdsByObjType, queryPathsByObjType);
+
+        return buildStandardResult(workitems, sotInfoCache, objTypeByWorkitemId, labelFieldByObjType, displayPathsByObjType, displayRecordsById, fieldDescribeCache, sobjectInfoCache);
+    }
+
+    private static List<ProcessInstanceWorkitem> queryPendingWorkitems() {
+        if (testWorkitemsOverride != null) return testWorkitemsOverride;
+        return [SELECT Id, ActorId, CreatedDate, ProcessInstance.TargetObjectId, ProcessInstance.SubmittedBy.Name
+                FROM ProcessInstanceWorkitem
+                WHERE ProcessInstance.Status = 'Pending'
+                ORDER BY CreatedDate ASC];
+    }
+
+    private static List<ProcessInstanceWorkitem> filterVisibleWorkitems(List<ProcessInstanceWorkitem> workitems, Id currentUserId) {
+        Set<Id> queueIds = new Set<Id>();
+        for (ProcessInstanceWorkitem wi : workitems) {
+            if (wi.ActorId != null && String.valueOf(wi.ActorId).left(3) == '00G') queueIds.add(wi.ActorId);
+        }
+        Map<Id, List<Id>> membersByQueue = QueueMemberService.resolveMembers(queueIds);
+
+        List<ProcessInstanceWorkitem> visible = new List<ProcessInstanceWorkitem>();
+        for (ProcessInstanceWorkitem wi : workitems) {
+            if (wi.ActorId == null) continue;
+            String prefix = String.valueOf(wi.ActorId).left(3);
+            if (prefix == '005' && wi.ActorId == currentUserId) {
+                visible.add(wi);
+            } else if (prefix == '00G') {
+                List<Id> members = membersByQueue.get(wi.ActorId);
+                if (members != null && members.contains(currentUserId)) visible.add(wi);
+            }
+        }
+        return visible;
+    }
+
+    private static void groupWorkitemsByObjType(List<ProcessInstanceWorkitem> workitems, String objectApiName, Map<SObjectType, SObjectInfo> sotInfoCache, Map<String, Set<Id>> targetIdsByObjType, Map<Id, String> objTypeByWorkitemId) {
         for (ProcessInstanceWorkitem wi : workitems) {
             if (wi.ProcessInstance?.TargetObjectId == null) continue;
-            Id targetId   = wi.ProcessInstance.TargetObjectId;
-            String objType = targetId.getSObjectType().getDescribe().getName();
+            Id targetId = wi.ProcessInstance.TargetObjectId;
+            SObjectInfo info = sotInfoCache.get(targetId.getSObjectType());
+            if (info == null) continue;
+            String objType = info.apiName;
             if (String.isNotBlank(objectApiName) && objType != objectApiName) continue;
             if (!targetIdsByObjType.containsKey(objType)) targetIdsByObjType.put(objType, new Set<Id>());
             targetIdsByObjType.get(objType).add(targetId);
             objTypeByWorkitemId.put(wi.Id, objType);
         }
-        if (targetIdsByObjType.isEmpty()) return new List<ItemToApprove>();
+    }
 
-        // Resolve target record names — one SOQL per object type
-        Map<Id, String> nameById = new Map<Id, String>();
-        for (String objType : targetIdsByObjType.keySet()) {
-            Set<Id> ids = targetIdsByObjType.get(objType);
-            for (SObject rec : Database.query('SELECT Id, Name FROM ' + objType + ' WHERE Id IN :ids')) {
-                nameById.put(rec.Id, (String) rec.get('Name'));
-            }
-        }
-
-        // MDT display fields matched by ObjectType__c (first record per object type)
-        Set<String> objTypes = targetIdsByObjType.keySet();
-        Map<String, ApprovalProcessConfig__mdt> configByObjType = queryMdtConfigsByObjType(objTypes);
-
-        // Describe cache — built upfront
-        Map<String, DescribeFieldResult> describeCache = new Map<String, DescribeFieldResult>();
-        primeDescribeCache(configByObjType.values(), describeCache);
-
-        // Display field values — one SOQL per object type that has display fields
-        Map<String, List<String>> pathsByObjType = buildPathsByObjType(configByObjType);
-        Map<Id, SObject>          displayRecordsById = queryDisplayRecords(targetIdsByObjType, pathsByObjType);
-
-        // Build items
+    private static List<ItemToApprove> buildStandardResult(List<ProcessInstanceWorkitem> workitems, Map<SObjectType, SObjectInfo> sotInfoCache, Map<Id, String> objTypeByWorkitemId, Map<String, String> labelFieldByObjType, Map<String, List<String>> displayPathsByObjType, Map<Id, SObject> displayRecordsById, Map<String, DescribeFieldResult> fieldDescribeCache, Map<String, SObjectInfo> sobjectInfoCache) {
         List<ItemToApprove> result = new List<ItemToApprove>();
         for (ProcessInstanceWorkitem wi : workitems) {
             String objType = objTypeByWorkitemId.get(wi.Id);
             if (objType == null) continue;
-
-            Id     targetId = wi.ProcessInstance.TargetObjectId;
+            Id          targetId   = wi.ProcessInstance.TargetObjectId;
+            SObjectInfo info       = sotInfoCache.get(targetId.getSObjectType());
+            SObject     displayRec = displayRecordsById.get(targetId);
+            String      labelField = labelFieldByObjType.containsKey(objType) ? labelFieldByObjType.get(objType) : 'Name';
+            Object      nameRaw    = traversePath(displayRec, labelField.split('\\.'), 0);
             ItemToApprove item = new ItemToApprove();
-            item.stepId               = wi.Id;
-            item.targetRecordId       = String.valueOf(targetId);
-            item.targetRecordName     = nameById.get(targetId);
-            item.objectLabel          = targetId.getSObjectType().getDescribe().getLabel();
-            item.submittedByName      = wi.ProcessInstance?.SubmittedBy?.Name;
+            item.stepId                  = wi.Id;
+            item.targetRecordId          = String.valueOf(targetId);
+            item.targetRecordName        = nameRaw != null ? String.valueOf(nameRaw) : null;
+            item.objectLabel             = info?.label;
+            item.submittedByName         = wi.ProcessInstance?.SubmittedBy?.Name;
             item.submissionDateFormatted = wi.CreatedDate != null ? wi.CreatedDate.format('dd/MM/yyyy HH:mm') : '';
-            item.isStandardApproval   = true;
-            item.displayFields        = buildDisplayFieldEntries(targetId, pathsByObjType.get(objType), displayRecordsById, objType, describeCache);
+            item.isStandardApproval      = true;
+            item.displayFields           = buildDisplayFieldEntries(targetId, displayPathsByObjType.get(objType), displayRecordsById, objType, fieldDescribeCache, sobjectInfoCache);
             result.add(item);
         }
         return result;
     }
 
-    // ─── Test injection point ─────────────────────────────────────────────────────
+    // ─── Test injection points ────────────────────────────────────────────────────
     @TestVisible
     private static Map<String, ApprovalProcessConfig__mdt> testMdtConfigOverride;
+    @TestVisible
+    private static List<ProcessInstanceWorkitem> testWorkitemsOverride;
 
     // ─── Query helpers ────────────────────────────────────────────────────────────
     private static List<CustomApprovalStep__c> queryPendingSteps() {
@@ -149,11 +186,9 @@ public without sharing class CustomApprovalInboxController {
     private static Map<String, ApprovalProcessConfig__mdt> queryMdtConfigsByDevName(Set<String> devNames) {
         if (testMdtConfigOverride != null) return testMdtConfigOverride;
         Map<String, ApprovalProcessConfig__mdt> result = new Map<String, ApprovalProcessConfig__mdt>();
-        for (ApprovalProcessConfig__mdt cfg : [
-            SELECT DeveloperName, ObjectType__c, InboxDisplayFields__c
-            FROM   ApprovalProcessConfig__mdt
-            WHERE  DeveloperName IN :devNames
-        ]) {
+        for (ApprovalProcessConfig__mdt cfg : [SELECT DeveloperName, ObjectType__c, InboxDisplayFields__c
+                                               FROM ApprovalProcessConfig__mdt
+                                               WHERE  DeveloperName IN :devNames]) {
             result.put(cfg.DeveloperName, cfg);
         }
         return result;
@@ -161,13 +196,36 @@ public without sharing class CustomApprovalInboxController {
 
     private static Map<String, ApprovalProcessConfig__mdt> queryMdtConfigsByObjType(Set<String> objTypes) {
         Map<String, ApprovalProcessConfig__mdt> result = new Map<String, ApprovalProcessConfig__mdt>();
-        for (ApprovalProcessConfig__mdt cfg : [
-            SELECT DeveloperName, ObjectType__c, InboxDisplayFields__c
-            FROM   ApprovalProcessConfig__mdt
-            WHERE  ObjectType__c IN :objTypes
-            ORDER BY QualifiedApiName ASC
-        ]) {
+        for (ApprovalProcessConfig__mdt cfg : [SELECT DeveloperName, ObjectType__c, InboxDisplayFields__c, TargetLabelFieldApiName__c
+                                               FROM ApprovalProcessConfig__mdt
+                                               WHERE ObjectType__c IN :objTypes
+                                               ORDER BY QualifiedApiName ASC]) {
             if (!result.containsKey(cfg.ObjectType__c)) result.put(cfg.ObjectType__c, cfg);
+        }
+        return result;
+    }
+
+    @TestVisible
+    private static Map<String, String> buildLabelFieldByObjType(Map<String, ApprovalProcessConfig__mdt> configByObjType) {
+        Map<String, String> result = new Map<String, String>();
+        for (String objType : configByObjType.keySet()) {
+            ApprovalProcessConfig__mdt cfg = configByObjType.get(objType);
+            result.put(objType, String.isNotBlank(cfg.TargetLabelFieldApiName__c) ? cfg.TargetLabelFieldApiName__c : 'Name');
+        }
+        return result;
+    }
+
+    @TestVisible
+    private static Map<String, List<String>> buildExtendedPathsByObjType(Set<String> allObjTypes, Map<String, ApprovalProcessConfig__mdt> configByObjType, Map<String, String> labelFieldByObjType) {
+        Map<String, List<String>> result = new Map<String, List<String>>();
+        for (String objType : allObjTypes) {
+            Set<String> pathSet = new Set<String>();
+            pathSet.add(labelFieldByObjType.containsKey(objType) ? labelFieldByObjType.get(objType) : 'Name');
+            ApprovalProcessConfig__mdt cfg = configByObjType.get(objType);
+            if (cfg != null && String.isNotBlank(cfg.InboxDisplayFields__c)) {
+                pathSet.addAll(parseFieldPaths(cfg.InboxDisplayFields__c));
+            }
+            result.put(objType, new List<String>(pathSet));
         }
         return result;
     }
@@ -175,9 +233,9 @@ public without sharing class CustomApprovalInboxController {
     private static Map<Id, String> buildSubmittedByMap(Set<Id> approvalIds) {
         Map<Id, String> result = new Map<Id, String>();
         for (CustomApprovalStep__c s : [SELECT CustomApproval__c, ActualApprover__r.Name
-                                        FROM   CustomApprovalStep__c
-                                        WHERE  CustomApproval__c IN :approvalIds
-                                          AND  Status__c         = 'Approved'
+                                        FROM CustomApprovalStep__c
+                                        WHERE CustomApproval__c IN :approvalIds
+                                          AND Status__c = 'Approved'
                                         ORDER BY ActionDate__c DESC NULLS LAST]) {
             if (!result.containsKey(s.CustomApproval__c)) result.put(s.CustomApproval__c, s.ActualApprover__r?.Name);
         }
@@ -233,42 +291,82 @@ public without sharing class CustomApprovalInboxController {
         return names;
     }
 
-    // ─── Describe cache helpers (CustomReportMatrixController pattern) ────────────
-    private static void primeDescribeCache(List<ApprovalProcessConfig__mdt> configs, Map<String, DescribeFieldResult> cache) {
+    private static Set<String> collectObjectTypes(List<ApprovalProcessConfig__mdt> configs) {
+        Set<String> types = new Set<String>();
+        for (ApprovalProcessConfig__mdt cfg : configs) {
+            if (String.isNotBlank(cfg.ObjectType__c)) types.add(cfg.ObjectType__c);
+        }
+        return types;
+    }
+
+    // ─── SObject describe cache ───────────────────────────────────────────────────
+    // For custom items: object types known from MDT — one getGlobalDescribe() call, one describe per type
+    private static Map<String, SObjectInfo> buildSObjectInfoCache(Set<String> apiNames) {
+        Map<String, SObjectInfo> cache = new Map<String, SObjectInfo>();
+        if (apiNames.isEmpty()) return cache;
+        Map<String, SObjectType> gd = Schema.getGlobalDescribe();
+        for (String apiName : apiNames) {
+            SObjectType sot = gd.get(apiName);
+            if (sot != null) cache.put(apiName, new SObjectInfo(sot));
+        }
+        return cache;
+    }
+
+    // For standard items: object types derived from Id prefix (cheap) — describe called once per unique SObjectType
+    private static Map<SObjectType, SObjectInfo> buildSObjectInfoCacheFromWorkitems(List<ProcessInstanceWorkitem> workitems) {
+        Map<SObjectType, SObjectInfo> cache = new Map<SObjectType, SObjectInfo>();
+        for (ProcessInstanceWorkitem wi : workitems) {
+            if (wi.ProcessInstance?.TargetObjectId == null) continue;
+            SObjectType sot = wi.ProcessInstance.TargetObjectId.getSObjectType();
+            if (!cache.containsKey(sot)) cache.put(sot, new SObjectInfo(sot));
+        }
+        return cache;
+    }
+
+    // ─── Field describe cache (CustomReportMatrixController pattern) ──────────────
+    private static void primeDescribeCache(List<ApprovalProcessConfig__mdt> configs, Map<String, DescribeFieldResult> fieldCache, Map<String, SObjectInfo> sobjectInfoCache) {
         for (ApprovalProcessConfig__mdt cfg : configs) {
             if (String.isBlank(cfg.ObjectType__c) || String.isBlank(cfg.InboxDisplayFields__c)) continue;
             for (String path : parseFieldPaths(cfg.InboxDisplayFields__c)) {
-                resolveFieldDescribe(cfg.ObjectType__c, path, cache);
+                resolveFieldDescribe(cfg.ObjectType__c, path, fieldCache, sobjectInfoCache);
             }
         }
     }
 
-    private static DescribeFieldResult resolveFieldDescribe(String objectName, String fieldPath, Map<String, DescribeFieldResult> cache) {
+    private static DescribeFieldResult resolveFieldDescribe(String objectName, String fieldPath, Map<String, DescribeFieldResult> fieldCache, Map<String, SObjectInfo> sobjectInfoCache) {
         String key = objectName + ':' + fieldPath;
-        if (cache.containsKey(key)) return cache.get(key);
-        DescribeFieldResult dfr = resolveFieldDescribeUncached(objectName, fieldPath);
-        cache.put(key, dfr);
+        if (fieldCache.containsKey(key)) return fieldCache.get(key);
+        DescribeFieldResult dfr = resolveFieldDescribeUncached(objectName, fieldPath, sobjectInfoCache);
+        fieldCache.put(key, dfr);
         return dfr;
     }
 
-    private static DescribeFieldResult resolveFieldDescribeUncached(String objectName, String fieldPath) {
+    private static DescribeFieldResult resolveFieldDescribeUncached(String objectName, String fieldPath, Map<String, SObjectInfo> sobjectInfoCache) {
         try {
             List<String> segments = fieldPath.split('\\.');
-            SObjectType currentType = Schema.getGlobalDescribe().get(objectName);
+            // Use pre-built sobjectInfoCache to avoid Schema.getGlobalDescribe() per-path
+            SObjectInfo currentInfo = sobjectInfoCache.get(objectName);
+            if (currentInfo == null) {
+                SObjectType sot = Schema.getGlobalDescribe().get(objectName);
+                if (sot == null) return null;
+                currentInfo = new SObjectInfo(sot);
+                sobjectInfoCache.put(objectName, currentInfo);
+            }
             for (Integer i = 0; i < segments.size(); i++) {
-                if (currentType == null) return null;
+                if (currentInfo == null) return null;
                 String segment = segments[i];
-                Map<String, SObjectField> fieldMap = currentType.getDescribe().fields.getMap();
                 if (i == segments.size() - 1) {
-                    SObjectField field = fieldMap.get(segment);
+                    SObjectField field = currentInfo.fieldMap.get(segment);
                     return field?.getDescribe();
                 }
                 String lookupApiName = segment.endsWith('__r') ? segment.removeEnd('__r') + '__c' : segment + 'Id';
-                SObjectField lookupField = fieldMap.get(lookupApiName);
+                SObjectField lookupField = currentInfo.fieldMap.get(lookupApiName);
                 if (lookupField == null) return null;
                 List<SObjectType> refs = lookupField.getDescribe().getReferenceTo();
                 if (refs.isEmpty()) return null;
-                currentType = refs[0];
+                // Describe the related type once and cache it — subsequent field paths through the same type reuse it
+                currentInfo = new SObjectInfo(refs[0]);
+                sobjectInfoCache.put(currentInfo.apiName, currentInfo);
             }
             return null;
         } catch (Exception e) {
@@ -276,8 +374,8 @@ public without sharing class CustomApprovalInboxController {
         }
     }
 
-    private static String getFieldLabel(String objectName, String fieldPath, Map<String, DescribeFieldResult> cache) {
-        DescribeFieldResult dfr = resolveFieldDescribe(objectName, fieldPath, cache);
+    private static String getFieldLabel(String objectName, String fieldPath, Map<String, DescribeFieldResult> fieldCache, Map<String, SObjectInfo> sobjectInfoCache) {
+        DescribeFieldResult dfr = resolveFieldDescribe(objectName, fieldPath, fieldCache, sobjectInfoCache);
         return dfr != null ? dfr.getLabel() : fieldPath;
     }
 
@@ -319,23 +417,22 @@ public without sharing class CustomApprovalInboxController {
         return traversePath(rec.getSObject(segs[i]), segs, i + 1);
     }
 
-    private static List<DisplayFieldEntry> buildDisplayFieldEntries(Id targetId, List<String> paths, Map<Id, SObject> recordsById, String objType, Map<String, DescribeFieldResult> describeCache) {
+    private static List<DisplayFieldEntry> buildDisplayFieldEntries(Id targetId, List<String> paths, Map<Id, SObject> recordsById, String objType, Map<String, DescribeFieldResult> fieldCache, Map<String, SObjectInfo> sobjectInfoCache) {
         List<DisplayFieldEntry> entries = new List<DisplayFieldEntry>();
         if (paths == null || paths.isEmpty()) return entries;
         SObject rec = recordsById.get(targetId);
         for (String path : paths) {
             Object raw = traversePath(rec, path.split('\\.'), 0);
-            entries.add(new DisplayFieldEntry(getFieldLabel(objType, path, describeCache), raw != null ? String.valueOf(raw) : ''));
+            entries.add(new DisplayFieldEntry(getFieldLabel(objType, path, fieldCache, sobjectInfoCache), raw != null ? String.valueOf(raw) : ''));
         }
         return entries;
     }
 
     // ─── Custom display fields resolution ─────────────────────────────────────────
-    private static Map<Id, List<DisplayFieldEntry>> resolveCustomDisplayFields(List<CustomApprovalStep__c> approvable, Map<String, ApprovalProcessConfig__mdt> configByDevName, Map<String, DescribeFieldResult> describeCache) {
-        // Build: objectType → union of all field paths across processes of that type
+    private static Map<Id, List<DisplayFieldEntry>> resolveCustomDisplayFields(List<CustomApprovalStep__c> approvable, Map<String, ApprovalProcessConfig__mdt> configByDevName, Map<String, DescribeFieldResult> fieldCache, Map<String, SObjectInfo> sobjectInfoCache) {
         Map<String, Set<String>> fieldPathSetByObjType = new Map<String, Set<String>>();
-        Map<String, Set<Id>>     targetIdsByObjType    = new Map<String, Set<Id>>();
-        Map<String, List<String>> parsedPathsByProc    = new Map<String, List<String>>();
+        Map<String, Set<Id>> targetIdsByObjType = new Map<String, Set<Id>>();
+        Map<String, List<String>> parsedPathsByProc = new Map<String, List<String>>();
 
         for (String procName : configByDevName.keySet()) {
             ApprovalProcessConfig__mdt cfg = configByDevName.get(procName);
@@ -355,10 +452,8 @@ public without sharing class CustomApprovalInboxController {
             try { targetIdsByObjType.get(objType).add((Id) rawId); } catch (Exception e) { /* skip malformed Id */ }
         }
 
-        // One SOQL per object type
         Map<Id, SObject> recordsById = queryDisplayRecords(targetIdsByObjType, buildListPathsByObjType(fieldPathSetByObjType));
 
-        // Build per-step entries using each process's own ordered field list
         Map<Id, List<DisplayFieldEntry>> result = new Map<Id, List<DisplayFieldEntry>>();
         for (CustomApprovalStep__c s : approvable) {
             String procName = s.CustomApproval__r?.ProcessDeveloperName__c;
@@ -368,7 +463,7 @@ public without sharing class CustomApprovalInboxController {
             List<DisplayFieldEntry> entries = new List<DisplayFieldEntry>();
             if (paths != null && !paths.isEmpty() && String.isNotBlank(rawId) && String.isNotBlank(objType)) {
                 try {
-                    entries = buildDisplayFieldEntries((Id) rawId, paths, recordsById, objType, describeCache);
+                    entries = buildDisplayFieldEntries((Id) rawId, paths, recordsById, objType, fieldCache, sobjectInfoCache);
                 } catch (Exception e) { /* skip malformed Id */ }
             }
             result.put(s.Id, entries);
@@ -385,16 +480,16 @@ public without sharing class CustomApprovalInboxController {
         return result;
     }
 
-    // ─── Result builder ───────────────────────────────────────────────────────────
-    private static List<ItemToApprove> buildCustomResult(List<CustomApprovalStep__c> approvable, Map<String, Boolean> stepDevNameHasUserInput, Map<Id, String> submittedByPerApproval, Map<String, ApprovalProcessConfig__mdt> configByDevName, Map<Id, List<DisplayFieldEntry>> displayFieldsByStep) {
+    // ─── Result builders ──────────────────────────────────────────────────────────
+    private static List<ItemToApprove> buildCustomResult(List<CustomApprovalStep__c> approvable, Map<String, Boolean> stepDevNameHasUserInput, Map<Id, String> submittedByPerApproval, Map<String, ApprovalProcessConfig__mdt> configByDevName, Map<Id, List<DisplayFieldEntry>> displayFieldsByStep, Map<String, SObjectInfo> sobjectInfoCache) {
         List<ItemToApprove> result = new List<ItemToApprove>();
         for (CustomApprovalStep__c s : approvable) {
-            result.add(buildCustomItem(s, stepDevNameHasUserInput, submittedByPerApproval, configByDevName, displayFieldsByStep));
+            result.add(buildCustomItem(s, stepDevNameHasUserInput, submittedByPerApproval, configByDevName, displayFieldsByStep, sobjectInfoCache));
         }
         return result;
     }
 
-    private static ItemToApprove buildCustomItem(CustomApprovalStep__c s, Map<String, Boolean> stepDevNameHasUserInput, Map<Id, String> submittedByPerApproval, Map<String, ApprovalProcessConfig__mdt> configByDevName, Map<Id, List<DisplayFieldEntry>> displayFieldsByStep) {
+    private static ItemToApprove buildCustomItem(CustomApprovalStep__c s, Map<String, Boolean> stepDevNameHasUserInput, Map<Id, String> submittedByPerApproval, Map<String, ApprovalProcessConfig__mdt> configByDevName, Map<Id, List<DisplayFieldEntry>> displayFieldsByStep, Map<String, SObjectInfo> sobjectInfoCache) {
         ItemToApprove item = new ItemToApprove();
         item.stepId             = s.Id;
         item.stepLabel          = String.isNotBlank(s.StepLabel__c) ? s.StepLabel__c : s.StepDeveloperName__c;
@@ -408,8 +503,8 @@ public without sharing class CustomApprovalInboxController {
 
         String objType = configByDevName.get(procName)?.ObjectType__c;
         if (String.isNotBlank(objType)) {
-            SObjectType sot = Schema.getGlobalDescribe().get(objType);
-            item.objectLabel = sot != null ? sot.getDescribe().getLabel() : objType;
+            SObjectInfo info = sobjectInfoCache.get(objType);
+            item.objectLabel = info != null ? info.label : objType;
         } else if (String.isNotBlank(rawId)) {
             try { item.objectLabel = ((Id) rawId).getSObjectType().getDescribe().getLabel(); } catch (Exception e) { /* skip malformed Id */ }
         }
@@ -424,6 +519,18 @@ public without sharing class CustomApprovalInboxController {
     }
 
     // ─── Inner classes ────────────────────────────────────────────────────────────
+    private class SObjectInfo {
+        String label;
+        String apiName;
+        Map<String, SObjectField> fieldMap;
+        SObjectInfo(SObjectType sot) {
+            DescribeSObjectResult dsr = sot.getDescribe();
+            this.label    = dsr.getLabel();
+            this.apiName  = dsr.getName();
+            this.fieldMap = dsr.fields.getMap();
+        }
+    }
+
     public class DisplayFieldEntry {
         @AuraEnabled public String label;
         @AuraEnabled public String value;
