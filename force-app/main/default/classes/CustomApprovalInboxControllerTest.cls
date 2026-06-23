@@ -189,6 +189,93 @@ public with sharing class CustomApprovalInboxControllerTest {
         System.assertEquals(0, result.size(), 'No standard workitems expected in test environment');
     }
 
+    // ─── Standard items — empty workitem list — exercises queryPendingWorkitems override ──
+    @IsTest
+    static void testGetItemsToApprove_StandardItems_Injected_Empty() {
+        // Inject an empty list — exercises the testWorkitemsOverride branch and the isEmpty guard
+        CustomApprovalInboxController.testWorkitemsOverride = new List<ProcessInstanceWorkitem>();
+
+        Test.startTest();
+        List<CustomApprovalInboxController.ItemToApprove> result = CustomApprovalInboxController.getItemsToApprove('', 'Standard');
+        Test.stopTest();
+
+        System.assertNotEquals(null, result, RESULT_NOT_NULL);
+        System.assertEquals(0, result.size(), 'Empty workitem override should yield no items');
+    }
+
+    // ─── Standard items — non-empty injection — exercises getStandardItems body to early return ──
+    @IsTest
+    static void testGetItemsToApprove_StandardItems_Injected_NonEmpty() {
+        // Inject a workitem with null ProcessInstance (relationship not settable in Apex DML).
+        // groupWorkitemsByObjType skips null TargetObjectId, so targetIdsByObjType stays empty
+        // and getStandardItems returns early. This covers: isEmpty guard false-branch,
+        // buildSObjectInfoCacheFromWorkitems loop, groupWorkitemsByObjType null-check, empty-map guard.
+        ProcessInstanceWorkitem wi = new ProcessInstanceWorkitem();
+        CustomApprovalInboxController.testWorkitemsOverride = new List<ProcessInstanceWorkitem>{ wi };
+
+        Test.startTest();
+        List<CustomApprovalInboxController.ItemToApprove> result = CustomApprovalInboxController.getItemsToApprove('', 'Standard');
+        Test.stopTest();
+
+        System.assertNotEquals(null, result, RESULT_NOT_NULL);
+        System.assertEquals(0, result.size(), 'Workitem with null TargetObjectId should be skipped entirely');
+    }
+
+    // ─── buildLabelFieldByObjType — direct unit test via @TestVisible ─────────────
+    @IsTest
+    static void testBuildLabelFieldByObjType_WithAndWithoutCustomField() {
+        ApprovalProcessConfig__mdt cfgWithCustom = new ApprovalProcessConfig__mdt(
+            DeveloperName            = 'CfgA',
+            ObjectType__c            = 'Grid__c',
+            TargetLabelFieldApiName__c = 'CustomName__c'
+        );
+        ApprovalProcessConfig__mdt cfgWithBlank = new ApprovalProcessConfig__mdt(
+            DeveloperName            = 'CfgB',
+            ObjectType__c            = 'Opportunity',
+            TargetLabelFieldApiName__c = null
+        );
+        Map<String, ApprovalProcessConfig__mdt> configByObjType = new Map<String, ApprovalProcessConfig__mdt>{
+            'Grid__c'     => cfgWithCustom,
+            'Opportunity' => cfgWithBlank
+        };
+
+        Test.startTest();
+        Map<String, String> result = CustomApprovalInboxController.buildLabelFieldByObjType(configByObjType);
+        Test.stopTest();
+
+        System.assertEquals('CustomName__c', result.get('Grid__c'),     'Custom TargetLabelFieldApiName__c should be used');
+        System.assertEquals('Name',          result.get('Opportunity'), 'Blank TargetLabelFieldApiName__c should fall back to Name');
+    }
+
+    // ─── buildExtendedPathsByObjType — direct unit test via @TestVisible ──────────
+    @IsTest
+    static void testBuildExtendedPathsByObjType_IncludesLabelAndDisplayFields() {
+        ApprovalProcessConfig__mdt cfg = new ApprovalProcessConfig__mdt(
+            DeveloperName            = PROCESS_NAME,
+            ObjectType__c            = 'Grid__c',
+            InboxDisplayFields__c    = 'Status__c',
+            TargetLabelFieldApiName__c = 'Agreement__r.Name'
+        );
+        Map<String, ApprovalProcessConfig__mdt> configByObjType = new Map<String, ApprovalProcessConfig__mdt>{
+            'Grid__c' => cfg
+        };
+        Map<String, String> labelFieldByObjType = new Map<String, String>{
+            'Grid__c' => 'Agreement__r.Name'
+        };
+        Set<String> allObjTypes = new Set<String>{ 'Grid__c' };
+
+        Test.startTest();
+        Map<String, List<String>> result = CustomApprovalInboxController.buildExtendedPathsByObjType(
+            allObjTypes, configByObjType, labelFieldByObjType
+        );
+        Test.stopTest();
+
+        System.assertNotEquals(null, result.get('Grid__c'), 'Result should contain Grid__c paths');
+        List<String> paths = result.get('Grid__c');
+        System.assert(paths.contains('Agreement__r.Name'), 'Label field path should be included');
+        System.assert(paths.contains('Status__c'),          'Display field path should be included');
+    }
+
     // ─── objectApiName filter — matching object ───────────────────────────────────
     @IsTest
     static void testGetItemsToApprove_ObjectApiNameFilter_Match() {
