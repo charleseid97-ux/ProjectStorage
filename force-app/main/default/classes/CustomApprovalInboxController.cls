@@ -99,7 +99,9 @@ public without sharing class CustomApprovalInboxController {
 
     private static List<ProcessInstanceWorkitem> queryPendingWorkitems() {
         if (testWorkitemsOverride != null) return testWorkitemsOverride;
-        return [SELECT Id, ActorId, CreatedDate, ProcessInstance.TargetObjectId, ProcessInstance.SubmittedBy.Name
+        return [SELECT Id, ActorId, CreatedDate,
+                       ProcessInstance.TargetObjectId, ProcessInstance.SubmittedBy.Name,
+                       ProcessInstance.LastModifiedBy.Name
                 FROM ProcessInstanceWorkitem
                 WHERE ProcessInstance.Status = 'Pending'
                 ORDER BY CreatedDate ASC];
@@ -156,6 +158,7 @@ public without sharing class CustomApprovalInboxController {
             item.targetRecordName        = nameRaw != null ? String.valueOf(nameRaw) : null;
             item.objectLabel             = info?.label;
             item.submittedByName         = wi.ProcessInstance?.SubmittedBy?.Name;
+            item.previousApproverName    = wi.ProcessInstance?.LastModifiedBy?.Name;
             item.submissionDateFormatted = wi.CreatedDate != null ? wi.CreatedDate.format('dd/MM/yyyy HH:mm') : '';
             item.isStandardApproval      = true;
             item.displayFields           = buildDisplayFieldEntries(targetId, displayPathsByObjType.get(objType), displayRecordsById, objType, fieldDescribeCache, sobjectInfoCache);
