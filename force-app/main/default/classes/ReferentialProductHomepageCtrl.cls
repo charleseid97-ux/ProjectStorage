@@ -151,12 +151,16 @@ public class ReferentialProductHomepageCtrl {
 
         productHierarchyController.ItemDTO allStrategies = new productHierarchyController.ItemDTO();
 
+        // Statuts considérés comme actifs pour remplacer TechIsActive__c.
+        List<String> activeShareClassStatuses = new List<String>{'Active', 'Active - Lab'};
+        String shareClassStatusFilter = isActiveProducts == true
+            ? 'Status__c IN :activeShareClassStatuses'
+            : 'Status__c NOT IN :activeShareClassStatuses';
         // Step 1: Query Share_Class__c based on filters
         String shareQuery = 'SELECT Id, Name, Fund__c, Status__c,TechIsActive__c, ISIN__c, Fund__r.AssetClass__c, Fund__r.LaunchDate__c, Fund__r.SubAssetClass__c, ' +
         'Last_AUM_Previous_Year__c, Last_AUM_Available__c, YTD_Net_Flows__c, CurrencyIsoCode,Currency__c, Country__c, Type__c ' +
         ', (SELECT Id,Country__c FROM Countries__r) '+
-        'FROM Share_Class__c WHERE TechIsActive__c =:isActiveProducts';
-
+        'FROM Share_Class__c WHERE ' + shareClassStatusFilter;
         /*if (String.isNotBlank(country) && country != 'All countries') {
             shareQuery += ' AND Country__c INCLUDES (:country)';
         }*/
@@ -278,8 +282,7 @@ public class ReferentialProductHomepageCtrl {
             otherShareQuery= 'SELECT Id, Name, Fund__c, Fund__r.AssetClass__c,Fund__r.LaunchDate__c, Fund__r.SubAssetClass__c, Status__c,TechIsActive__c, ISIN__c, ' +
             'Last_AUM_Previous_Year__c, Last_AUM_Available__c, YTD_Net_Flows__c, CurrencyIsoCode, Country__c, Type__c ' +
             ', (SELECT Id,Country__c FROM Countries__r) ' +
-            'FROM Share_Class__c WHERE Fund__c IN :fundsIds AND TechIsActive__c = :isActiveProducts';
-
+            'FROM Share_Class__c WHERE Fund__c IN :fundsIds AND ' + shareClassStatusFilter;
             /*if (String.isNotBlank(country) && country != 'All countries') {
                 otherShareQuery += ' AND Country__c INCLUDES (:country)';
             }*/
