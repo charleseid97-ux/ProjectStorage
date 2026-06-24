@@ -354,7 +354,7 @@ public with sharing class ProductHierarchyHelper
             for(Share_Class__c share : fundSharesList)
             {
                 productHierarchyController.ItemDTO shareItem = new productHierarchyController.ItemDTO(share.Name, null, share.Name, URL.getSalesforceBaseUrl().toExternalForm()+'/'+share.Id, null, share.ISIN__c,
-                false, share.TechIsActive__c, false, false, null);
+                false, isActiveShareClass(share), false, false, null);
 
                 //if(share.Last_AUM_Previous_Year__c != null) shareItem.aum = formatSharesAUM('(M€ ) - AUM : ', share.Last_AUM_Previous_Year__c);
                 //if(share.Last_AUM_Available__c != null) shareItem.lastaum = formatSharesAUM('- Last AUM : ', share.Last_AUM_Available__c);
@@ -366,7 +366,11 @@ public with sharing class ProductHierarchyHelper
         }
         return shareItems;
     }
-
+    // Retourne true si la share class est considérée active selon la nouvelle règle métier.
+    private static Boolean isActiveShareClass(Share_Class__c share)
+    {
+        return share.Status__c == 'Active' || share.Status__c == 'Active - Lab';
+    }
 
     /**
      * get the list of fund items with shares
