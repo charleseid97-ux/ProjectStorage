@@ -1,56 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <Package xmlns="http://soap.sforce.com/2006/04/metadata">
     <types>
-        <members>BooklyStrategyMatrixController</members>
-        <members>BooklyStrategyMatrixControllerTest</members>
-        <members>BooklyMeetingInvitationQueueable</members>
-        <members>OperationLogInsertQueueable</members>
-        <members>OperationLogPurgeBatch</members>
-        <members>OperationLogPurgeBatchTest</members>
-        <members>OperationLogPurgeScheduler</members>
-        <members>OperationLogPurgeSchedulerTest</members>
-        <members>OperationLogRecordController</members>
-        <members>OperationLogRecordControllerTest</members>
-        <members>OperationLogService</members>
-        <members>OperationLogServiceTest</members>
-        <members>customEventNotificationManager</members>        
+        <members>ShareClassHandler</members>      
         <name>ApexClass</name>
-    </types>
-    <types>
-        <members>BooklyStrategyMatrix</members>
-        <name>ApexPage</name>
-    </types>
-    <types>
-        <members>BooklyStrategiesByUsers__mdt</members>
-        <members>OperationLog__c</members>
-        <name>CustomObject</name>
-    </types>
-    <types>
-        <members>OperationLog__c.ApexClass__c</members>
-        <members>OperationLog__c.Context__c</members>
-        <members>OperationLog__c.CorrelationId__c</members>
-        <members>OperationLog__c.ExceptionType__c</members>
-        <members>OperationLog__c.ExpirationDate__c</members>
-        <members>OperationLog__c.Level__c</members>
-        <members>OperationLog__c.Message__c</members>
-        <members>OperationLog__c.MethodName__c</members>
-        <members>OperationLog__c.Operation__c</members>
-        <members>OperationLog__c.SourceObject__c</members>
-        <members>OperationLog__c.SourceRecordId__c</members>
-        <members>OperationLog__c.StackTrace__c</members>
-        <name>CustomField</name>
-    </types>
-    <types>
-        <members>BooklyStrategiesByUsers.thomas_coullon</members>
-        <name>CustomMetadata</name>
-    </types>
-    <types>
-        <members>operationLogViewer</members>
-        <name>LightningComponentBundle</name>
-    </types>
-    <types>
-        <members>Operation_Log_Admin</members>
-        <name>PermissionSet</name>
     </types>
     <version>66.0</version>
 </Package>

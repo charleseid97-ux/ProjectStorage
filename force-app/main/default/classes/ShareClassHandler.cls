@@ -1,3 +1,9 @@
+/** 
+Log Infomation
+By : Mira
+Last modify date : 25/06/2026 
+**/
+
 public without sharing  class ShareClassHandler {
     
     public static void updateFormattedName(List<Share_Class__c> newShareclass, Map<Id, Share_Class__c> oldMap) {
