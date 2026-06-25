@@ -14,7 +14,7 @@ public without sharing  class ShareClassHandler {
         Map<Id, Product__c> fundMap = new Map<Id, Product__c>();
         if (!fundIds.isEmpty()) {
             fundMap = new Map<Id, Product__c>([
-                SELECT Id, LegalForm__c, Product_Name__c
+                SELECT Id, LegalForm__c, Product_Name__c, ProductName__c
                 FROM Product__c
                 WHERE Id IN :fundIds
             ]);
@@ -61,9 +61,10 @@ public without sharing  class ShareClassHandler {
             if (includeProduct) {
                 if (!String.isBlank(fundRec.Product_Name__c)) {
                     productName = fundRec.Product_Name__c.trim();
+                } else if (!String.isBlank(fundRec.ProductName__c)) {
+                    productName = fundRec.ProductName__c.trim();
                 }
             }
-            
             /* ================= SHARE CLASS VALUES ================= */
             String typeValue = sc.Type__c == null ? '' : String.valueOf(sc.Type__c).trim();
             String currencyValue = sc.Currency__c == null ? '' : String.valueOf(sc.Currency__c).trim();
@@ -171,7 +172,7 @@ public without sharing  class ShareClassHandler {
             if (!String.isBlank(tail)) {
                 parts.add(tail);
             }
-            
+           
             return String.join(parts, ' ');
         }
         
@@ -222,5 +223,82 @@ public without sharing  class ShareClassHandler {
             }
             
             update taxDataToUpdate;
+        }
+
+        private static final String TYPE_BELGIUM_SIMULATOR = 'Belgium Simulator';
+        private static final String COUNTRY_BE = 'BE';
+        private static final String STATUS_YES = 'Yes';
+
+        public static void createBelgiumSimulatorForBelgiumShareClasses(List<Share_Class__c> newShareClasses) {
+            if (newShareClasses == null || newShareClasses.isEmpty()) {
+                return;
+            }
+
+            Set<Id> shareClassIds = new Set<Id>();
+
+            for (Share_Class__c sc : newShareClasses) {
+                if (sc.Id != null) {
+                    shareClassIds.add(sc.Id);
+                }
+            }
+
+            if (shareClassIds.isEmpty()) {
+                return;
+            }
+
+            Map<Id, Share_Class__c> shareClassMap = new Map<Id, Share_Class__c>([
+                SELECT Id, DividendPolicy__c, Fund__r.LegalForm__c, Fund__c, LaunchDate__c
+                FROM Share_Class__c
+                WHERE Id IN :shareClassIds
+            ]);
+
+            Set<Id> belgiumShareClassIds = getBelgiumShareClassIds(shareClassIds);
+
+            List<TaxData__c> taxDataToInsert = new List<TaxData__c>();
+
+            for (Share_Class__c sc : shareClassMap.values()) {
+                if (shouldCreateBelgiumSimulator(sc, belgiumShareClassIds)) {
+                    taxDataToInsert.add(new TaxData__c(
+                        ShareClass__c = sc.Id,
+                        Product__c = sc.Fund__c,
+                        Type__c = TYPE_BELGIUM_SIMULATOR,
+                        Country__c = COUNTRY_BE,
+                        Status__c = STATUS_YES,
+                        Source__c = 'PMT',
+                        StartDate__c = sc.LaunchDate__c,
+                        EndDate__c = null
+                    ));
+                }
+            }
+
+            if (!taxDataToInsert.isEmpty()) {
+                insert taxDataToInsert;
+            }
+        }
+
+        private static Boolean shouldCreateBelgiumSimulator(
+            Share_Class__c sc,
+            Set<Id> belgiumShareClassIds
+        ) {
+            return sc != null
+                && sc.DividendPolicy__c == 'Accumulating'
+                && sc.Fund__r != null
+                && sc.Fund__r.LegalForm__c == 'FCP'
+                && belgiumShareClassIds.contains(sc.Id);
+        }
+
+        private static Set<Id> getBelgiumShareClassIds(Set<Id> shareClassIds) {
+            Set<Id> result = new Set<Id>();
+
+            for (Country__c country : [
+                SELECT ShareClass__c
+                FROM Country__c
+                WHERE ShareClass__c IN :shareClassIds
+                AND Country__c = :COUNTRY_BE
+            ]) {
+                result.add(country.ShareClass__c);
+            }
+
+            return result;
         }
     }
