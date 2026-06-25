@@ -263,7 +263,7 @@ public with sharing class ProductHierarchyHelper
             
                         strategy.assetclass = str.AssetClass__c;
                         
-                        strategy.regionalfocus = str.SubAssetClass__c;
+                        //strategy.regionalfocus = str.SubAssetClass__c;
 
                         if(strategy.items.size() > 0)
                         {
@@ -328,7 +328,7 @@ public with sharing class ProductHierarchyHelper
                 //if(fund.Last_AUM_Available__c != null) fundItem.lastaum = formatSharesAUM('- Last AUM : ', fund.Last_AUM_Available__c);
                 //if(fund.YTD_Net_Flows__c != null) fundItem.ytdnet = formatSharesAUM('- YTD Flows : ', fund.YTD_Net_Flows__c);
 				fundItem.assetclass = fund.AssetClass__c;
-                fundItem.regionalfocus = fund.SubAssetClass__c;
+                fundItem.regionalfocus = String.valueOf(fund.LaunchDate__c);
                 fundItems.add(fundItem);
             }else{
                 productHierarchyController.ItemDTO fundItem = new productHierarchyController.ItemDTO(fund.Name, fund.Record_Type_Name__c, fund.Name, URL.getSalesforceBaseUrl().toExternalForm()+'/'+fund.Id,
@@ -338,7 +338,7 @@ public with sharing class ProductHierarchyHelper
                 //if(fund.Last_AUM_Available__c != null) fundItem.lastaum = formatSharesAUM('- Last AUM : ', fund.Last_AUM_Available__c);
                 //if(fund.YTD_Net_Flows__c != null) fundItem.ytdnet = formatSharesAUM('- YTD Flows : ', fund.YTD_Net_Flows__c);
 				fundItem.assetclass = fund.AssetClass__c;
-                fundItem.regionalfocus = fund.SubAssetClass__c;
+                fundItem.regionalfocus = String.valueOf(fund.LaunchDate__c);
                 fundItems.add(fundItem);
 
             }
@@ -354,19 +354,23 @@ public with sharing class ProductHierarchyHelper
             for(Share_Class__c share : fundSharesList)
             {
                 productHierarchyController.ItemDTO shareItem = new productHierarchyController.ItemDTO(share.Name, null, share.Name, URL.getSalesforceBaseUrl().toExternalForm()+'/'+share.Id, null, share.ISIN__c,
-                false, share.TechIsActive__c, false, false, null);
+                false, isActiveShareClass(share), false, false, null);
 
                 //if(share.Last_AUM_Previous_Year__c != null) shareItem.aum = formatSharesAUM('(M€ ) - AUM : ', share.Last_AUM_Previous_Year__c);
                 //if(share.Last_AUM_Available__c != null) shareItem.lastaum = formatSharesAUM('- Last AUM : ', share.Last_AUM_Available__c);
                 //if(share.YTD_Net_Flows__c != null) shareItem.ytdnet = formatSharesAUM('- YTD Flows : ', share.YTD_Net_Flows__c);
                 shareItem.assetclass = share.Fund__r.AssetClass__c;
-                shareItem.regionalfocus = share.Fund__r.SubAssetClass__c;
+                shareItem.regionalfocus = String.valueOf(share.Fund__r.LaunchDate__c);
                 shareItems.add(shareItem);
             }
         }
         return shareItems;
     }
-
+    // Retourne true si la share class est considérée active selon la nouvelle règle métier.
+    private static Boolean isActiveShareClass(Share_Class__c share)
+    {
+        return share.Status__c == 'Active' || share.Status__c == 'Active - Lab';
+    }
 
     /**
      * get the list of fund items with shares

@@ -140,6 +140,24 @@
         </values>
     </picklistValues>
     <picklistValues>
+        <picklist>CalculationFrequencyBasis__c</picklist>
+        <values>
+            <fullName>Liabilities - daily average</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Liabilities - end of period and preceding end of period average</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>CalculationMode__c</picklist>
+        <values>
+            <fullName>Assets</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
         <picklist>Carmignac_Legal_Entity__c</picklist>
         <values>
             <fullName>CGF</fullName>
@@ -1108,6 +1126,62 @@
         </values>
         <values>
             <fullName>Yes</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>PayingAgent__c</picklist>
+        <values>
+            <fullName>BNP</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>PaymentModeCurrency__c</picklist>
+        <values>
+            <fullName>CHF</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>EUR</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>GBP</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>PaymentMode__c</picklist>
+        <values>
+            <fullName>Agreement</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Product</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>PaymentPeriodicity__c</picklist>
+        <values>
+            <fullName>Annually</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Biannually</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Monthly</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Never</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Quarterly</fullName>
             <default>false</default>
         </values>
     </picklistValues>

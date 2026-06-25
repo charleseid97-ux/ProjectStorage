@@ -1,0 +1,165 @@
+<apex:page controller="BooklyStrategyMatrixController" sidebar="false" showHeader="true">
+    <apex:form >
+        <apex:pageBlock title="Bookly Strategy Matrix">
+            <apex:pageMessages id="messages"/>
+            <apex:pageBlockSection title="Add User" columns="1">
+                <apex:inputText value="{!userSearchText}" html-placeholder="Search user">
+                    <apex:actionSupport event="onkeyup" action="{!searchUsers}" rerender="userResults"/>
+                </apex:inputText>
+
+                <apex:outputPanel id="userResults">
+                    <apex:repeat value="{!userOptions}" var="option">
+                        <div>
+                            <apex:commandLink value="{!option.label}" action="{!selectUser}" rerender="userResults,selectedUser,matrix">
+                                <apex:param name="username" value="{!option.value}"/>
+                            </apex:commandLink>
+                        </div>
+                    </apex:repeat>
+                </apex:outputPanel>
+
+                <apex:outputPanel id="selectedUser">
+                    <apex:outputText value="Selected: {!selectedUsername}" rendered="{!NOT(ISBLANK(selectedUsername))}"/>
+                    <apex:commandButton value="Add" action="{!addUser}" rerender="matrix,userResults,selectedUser" rendered="{!NOT(ISBLANK(selectedUsername))}"/>
+                </apex:outputPanel>
+            </apex:pageBlockSection>
+
+            <apex:pageBlockTable value="{!rows}" var="row" id="matrix">
+                <apex:column headerValue="User">
+                    <apex:outputText value="{!row.displayName}"/>
+                </apex:column>
+
+                <apex:column headerValue="Strategies">
+                    <apex:outputPanel rendered="{!NOT(row.isEditing)}">
+                        <apex:repeat value="{!row.strategies}" var="strategy">
+                            <span>{!strategy.name}</span><br/>
+                        </apex:repeat>
+                    </apex:outputPanel>
+
+                    <apex:outputPanel rendered="{!row.isEditing}">
+                        <apex:repeat value="{!row.strategies}" var="strategy">
+                            <span>
+                                {!strategy.name}
+                                <apex:commandLink value=" ×" action="{!removeStrategy}" rerender="matrix">
+                                    <apex:param name="username" value="{!row.username}"/>
+                                    <apex:param name="strategyCode" value="{!strategy.code}"/>
+                                </apex:commandLink>
+                            </span><br/>
+                        </apex:repeat>
+
+                        <apex:inputText value="{!row.strategySearchText}" html-placeholder="Search strategy">
+                            <apex:actionSupport event="onkeyup" action="{!searchStrategies}" rerender="strategyOptionsPanel">
+                                <apex:param name="username" value="{!row.username}"/>
+                            </apex:actionSupport>
+                        </apex:inputText>
+
+                        <apex:outputPanel id="strategyOptionsPanel">
+                            <apex:repeat value="{!row.strategyOptions}" var="option">
+                                <div>
+                                    <apex:commandLink value="+ {!option.label}" action="{!addStrategy}" rerender="matrix">
+                                        <apex:param name="username" value="{!row.username}"/>
+                                        <apex:param name="strategyCode" value="{!option.value}"/>
+                                    </apex:commandLink>
+                                </div>
+                            </apex:repeat>
+                        </apex:outputPanel>
+                    </apex:outputPanel>
+                </apex:column>
+
+                <apex:column headerValue="Action">
+                    <apex:outputPanel rendered="{!NOT(row.isEditing)}">
+                        <apex:commandLink value="Modifier" action="{!editRow}" rerender="matrix">
+                            <apex:param name="username" value="{!row.username}"/>
+                        </apex:commandLink>
+                        &nbsp;|&nbsp;
+                        <apex:commandLink value="Supprimer" action="{!removeRow}" rerender="matrix">
+                            <apex:param name="username" value="{!row.username}"/>
+                        </apex:commandLink>
+                    </apex:outputPanel>
+
+                    <apex:outputPanel rendered="{!row.isEditing}">
+                        <apex:commandLink value="Valider" action="{!saveRow}" rerender="matrix,strategyUserMatrix,messages">
+                            <apex:param name="username" value="{!row.username}"/>
+                        </apex:commandLink>
+                        &nbsp;|&nbsp;
+                        <apex:commandLink value="Annuler" action="{!cancelEdit}" rerender="matrix"/>
+                    </apex:outputPanel>
+                </apex:column>
+            </apex:pageBlockTable>
+
+            <br/>
+
+            <apex:commandButton value="Refresh Matrix" action="{!refreshMatrix}" rerender="strategyUserMatrix,matrix,messages" oncomplete="initMatrixHover();"/>
+            <apex:pageBlockSection title="Strategy / Users Matrix" columns="1">
+                <apex:outputPanel id="strategyUserMatrix">
+                    <table class="matrix-table" border="1" cellpadding="5" cellspacing="0">
+                        <tr>
+                            <th>Strategy</th>
+                            <apex:repeat value="{!matrixUsers}" var="matrixUser">
+                                <th>{!matrixUser.displayName}</th>
+                            </apex:repeat>
+                        </tr>
+
+                        <apex:repeat value="{!matrixStrategies}" var="matrixStrategy">
+                            <tr>
+                                <td>{!matrixStrategy.name}</td>
+                                <apex:repeat value="{!matrixStrategy.cells}" var="cell">
+                                    <td>{!cell}</td>
+                                </apex:repeat>
+                            </tr>
+                        </apex:repeat>
+                    </table>
+                </apex:outputPanel>
+            </apex:pageBlockSection>
+
+        </apex:pageBlock>
+    </apex:form>
+        <style>
+        .matrix-table td.hovered,
+        .matrix-table th.hovered {
+            background-color: #fff3cd;
+        }
+    </style>
+
+    <script>
+        // Initialise le surlignage de la ligne et de la colonne au survol
+        function initMatrixHover() {
+            const table = document.querySelector('.matrix-table');
+
+            if (!table) {
+                return;
+            }
+
+            // Ajoute les événements sur chaque cellule
+            table.querySelectorAll('td, th').forEach(function(cell) {
+                cell.addEventListener('mouseenter', function() {
+                    const row = cell.parentElement;
+                    const cellIndex = Array.prototype.indexOf.call(row.children, cell);
+
+                    // Surligne toute la ligne
+                    row.querySelectorAll('td, th').forEach(function(rowCell) {
+                        rowCell.classList.add('hovered');
+                    });
+
+                    // Surligne toute la colonne
+                    table.querySelectorAll('tr').forEach(function(tableRow) {
+                        const columnCell = tableRow.children[cellIndex];
+
+                        if (columnCell) {
+                            columnCell.classList.add('hovered');
+                        }
+                    });
+                });
+
+                cell.addEventListener('mouseleave', function() {
+                    // Nettoie tous les surlignages
+                    table.querySelectorAll('.hovered').forEach(function(hoveredCell) {
+                        hoveredCell.classList.remove('hovered');
+                    });
+                });
+            });
+        }
+
+        // Initialise au chargement de la page
+        document.addEventListener('DOMContentLoaded', initMatrixHover);
+    </script>
+</apex:page>

@@ -3,9 +3,10 @@
     <fullName>GridTag__c</fullName>
     <encryptionScheme>None</encryptionScheme>
     <externalId>false</externalId>
-    <label>Grid Tag</label>
-    <length>100</length>
+    <label>GridTag</label>
+    <length>200</length>
     <required>false</required>
+    <trackFeedHistory>true</trackFeedHistory>
     <trackTrending>false</trackTrending>
     <type>Text</type>
     <unique>false</unique>

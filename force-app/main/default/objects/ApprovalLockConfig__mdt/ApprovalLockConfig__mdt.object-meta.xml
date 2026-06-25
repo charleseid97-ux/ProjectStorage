@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObject xmlns="http://soap.sforce.com/2006/04/metadata">
+    <description>Defines record-locking rules for objects participating in a custom approval process. One record per object: specifies which status field drives the lock, which status values lock the record, and which fields remain editable while locked.</description>
+    <label>Approval Lock Config</label>
+    <pluralLabel>Approval Lock Configs</pluralLabel>
+    <visibility>Public</visibility>
+</CustomObject>

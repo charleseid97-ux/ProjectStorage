@@ -1,0 +1,92 @@
+<template>
+    <section class="slds-card cardContainer">
+        <!-- Card Header -->
+        <div class="slds-card__header slds-grid headerClass">
+            <header class="slds-media slds-media_center slds-has-flexi-truncate">
+                <div class="slds-media__figure">
+                    <lightning-icon icon-name="utility:approval" size="x-small" class="relatedIcon"></lightning-icon>
+                </div>
+                <div class="slds-media__body">
+                    <h2 class="slds-card__header-title">
+                        <span class="slds-truncate" title={headerTitle}>{headerTitle}</span>
+                    </h2>
+                    <template if:true={hasProcessStatus}>
+                        <p class="slds-text-body_small slds-text-color_weak">{processStatus}</p>
+                    </template>
+                </div>
+            </header>
+            <div class="slds-no-flex header-actions">
+                <lightning-button-icon icon-name="utility:refresh" variant="border" alternative-text="Refresh" title="Refresh" onclick={handleRefresh}></lightning-button-icon>
+                <lightning-button-group>
+                    <template if:true={canApproveOrReject}>
+                        <lightning-button label="Approve" variant="neutral" onclick={handleHeaderApprove}></lightning-button>
+                        <lightning-button label="Reject" variant="neutral" onclick={handleHeaderReject}></lightning-button>
+                    </template>
+                    <template if:true={canRecall}>
+                        <lightning-button label="Recall" variant="neutral" onclick={handleHeaderRecall}></lightning-button>
+                    </template>
+                </lightning-button-group>
+            </div>
+        </div>
+
+        <!-- Card Body -->
+        <div class="tableContainer">
+            <template if:true={isLoading}>
+                <div class="centerSpinner">
+                    <lightning-spinner alternative-text="Loading" size="medium"></lightning-spinner>
+                </div>
+            </template>
+            <div class="slds-card__body slds-card__body_inner">
+                <template if:true={hasError}>
+                    <div class="slds-text-color_error slds-m-bottom_small">
+                        <p>{errorMessage}</p>
+                    </div>
+                </template>
+                <template if:true={hasRows}>
+                    <div class="slds-scrollable_x">
+                        <table class="grid-table">
+                            <thead>
+                                <tr>
+                                    <th class="th-default">Step Name</th>
+                                    <th class="th-default">Date</th>
+                                    <th class="th-default">Status</th>
+                                    <th class="th-default">Assigned To</th>
+                                    <th class="th-default">Actual Approver</th>
+                                    <th class="th-default">Comments</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <template for:each={rows} for:item="row">
+                                    <tr key={row.id}>
+                                        <td>
+                                            <button
+                                                class="step-link"
+                                                data-row-id={row.id}
+                                                onclick={handleRowClick}
+                                            >{row.stepName}</button>
+                                        </td>
+                                        <td>{row.stepDateFormatted}</td>
+                                        <td class={row.statusClass}>
+                                            <span class="status-badge">{row.status}</span>
+                                        </td>
+                                        <td>{row.assignedTo}</td>
+                                        <td>{row.actualApprover}</td>
+                                        <td>{row.comments}</td>
+                                    </tr>
+                                </template>
+                            </tbody>
+                        </table>
+                    </div>
+                </template>
+            </div>
+        </div>
+    </section>
+
+    <!-- Shared approval action modal -->
+    <c-custom-approval-action-modal selected-row={modalSelectedRow}
+                                    can-recall={canRecall}
+                                    is-open={isModalOpen}
+                                    onclose={handleModalClose}
+                                    onactioncomplete={handleActionComplete}>
+    </c-custom-approval-action-modal>
+</template>

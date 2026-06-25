@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>BatchSize__c</fullName>
+    <description>Batch size passed to Database.executeBatch by the implementing class. If blank, the class should default to 200.</description>
+    <externalId>false</externalId>
+    <fieldManageability>SubscriberControlled</fieldManageability>
+    <inlineHelpText>Controls how many records are processed per batch chunk. Lower values reduce heap usage; higher values improve speed. Default: 200.</inlineHelpText>
+    <label>Batch Size</label>
+    <precision>4</precision>
+    <required>false</required>
+    <scale>0</scale>
+    <type>Number</type>
+    <unique>false</unique>
+</CustomField>

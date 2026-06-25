@@ -1,0 +1,105 @@
+<template>
+    <lightning-card>
+        <div slot="title" class="card-title">
+            <lightning-icon icon-name="utility:log_a_call" size="small" class="title-icon"></lightning-icon>
+            <span>{title}</span>
+        </div>
+
+        <lightning-button-icon
+            slot="actions"
+            icon-name="utility:refresh"
+            alternative-text="Refresh"
+            title="Refresh"
+            onclick={handleRefresh}>
+        </lightning-button-icon>
+
+        <div class="toolbar slds-p-horizontal_medium slds-p-bottom_small">
+            <lightning-combobox
+                label="Minimum Level"
+                value={levelFilter}
+                options={levelOptions}
+                onchange={handleLevelChange}>
+            </lightning-combobox>
+
+            <lightning-combobox
+                label="Number of Logs"
+                value={maxRowsAsString}
+                options={limitOptions}
+                onchange={handleLimitChange}>
+            </lightning-combobox>
+        </div>
+
+        <template if:true={isLoading}>
+            <div class="spinner-wrapper">
+                <lightning-spinner alternative-text="Loading logs" size="small"></lightning-spinner>
+            </div>
+        </template>
+
+        <template if:true={errorMessage}>
+            <div class="slds-p-horizontal_medium slds-p-bottom_medium">
+                <div class="slds-notify slds-notify_alert slds-alert_error" role="alert">
+                    <span>{errorMessage}</span>
+                </div>
+            </div>
+        </template>
+
+        <template if:true={hasLogs}>
+            <div class="log-list">
+                <template for:each={logs} for:item="log">
+                    <article key={log.id} class="log-row">
+                        <div class="log-main">
+                            <div class="log-header">
+                                <span class={log.levelClass}>{log.level}</span>
+                                <a href={log.url} target="_blank" class="log-name">{log.name}</a>
+                                <span class="log-date">{log.createdDateLabel}</span>
+                            </div>
+
+                            <div class="log-operation">{log.operationLabel}</div>
+                            <div class="log-message">{log.messageLabel}</div>
+
+                            <div class="log-meta">
+                                <template if:true={log.sourceObject}>
+                                    <span>{log.sourceObject}</span>
+                                </template>
+                                <template if:true={log.apexLocation}>
+                                    <span>{log.apexLocation}</span>
+                                </template>
+                                <template if:true={log.createdByName}>
+                                    <span>{log.createdByName}</span>
+                                </template>
+                                <template if:true={log.expirationDateLabel}>
+                                    <span>Expires on {log.expirationDateLabel}</span>
+                                </template>
+                            </div>
+
+                            <template if:true={log.hasDetails}>
+                                <details class="log-details">
+                                    <summary>Technical Details</summary>
+                                    <template if:true={log.correlationId}>
+                                        <div><strong>Correlation Id</strong>: {log.correlationId}</div>
+                                    </template>
+                                    <template if:true={log.exceptionType}>
+                                        <div><strong>Exception</strong>: {log.exceptionType}</div>
+                                    </template>
+                                    <template if:true={log.contextJson}>
+                                        <pre>{log.contextJson}</pre>
+                                    </template>
+                                    <template if:true={log.stackTrace}>
+                                        <pre>{log.stackTrace}</pre>
+                                    </template>
+                                </details>
+                            </template>
+                        </div>
+                    </article>
+                </template>
+            </div>
+        </template>
+
+        <template if:true={showEmptyState}>
+            <div class="empty-state slds-p-around_large">
+                <lightning-icon icon-name="utility:info" size="small"></lightning-icon>
+                <p>No logs found for this record.</p>
+            </div>
+        </template>
+    </lightning-card>
+</template>
