@@ -12,22 +12,23 @@ public without sharing class CustomApprovalInboxController {
 
     // ─── Entry point ─────────────────────────────────────────────────────────────
     @AuraEnabled(cacheable=false)
-    public static List<ItemToApprove> getItemsToApprove(String objectApiName, String approvalSystem) {
+    public static List<ItemToApprove> getItemsToApprove(String objectApiName, String approvalSystem, String queueDevNames) {
         Id currentUserId = UserInfo.getUserId();
         Boolean isAdmin  = CustomApprovalHistoryUtility.isAdministrator(currentUserId);
-        Set<String> setObjectApiNames = getObjectApiNames(objectApiName);
+        Set<String> setObjectApiNames = parseObjectApiNames(objectApiName);
+        Map<Id, String> queueNamesById = resolveQueuesByDevName(parseQueueDevNames(queueDevNames));
 
         List<ItemToApprove> result = new List<ItemToApprove>();
         if (String.isBlank(approvalSystem) || approvalSystem == 'Custom') {
-            result.addAll(getCustomItems(currentUserId, isAdmin, setObjectApiNames));
+            result.addAll(getCustomItems(currentUserId, isAdmin, setObjectApiNames, queueNamesById));
         }
         if (String.isBlank(approvalSystem) || approvalSystem == 'Standard') {
-            result.addAll(getStandardItems(currentUserId, isAdmin, setObjectApiNames));
+            result.addAll(getStandardItems(currentUserId, isAdmin, setObjectApiNames, queueNamesById));
         }
         return result;
     }
 
-    private static Set<String> getObjectApiNames(String objectApiName) {
+    private static Set<String> parseObjectApiNames(String objectApiName) {
         Set<String> setObjectApiNames = new Set<String>();
         if (String.isNotBlank(objectApiName)) {
             for(String obj : objectApiName.split(',')) {
@@ -37,11 +38,29 @@ public without sharing class CustomApprovalInboxController {
         return setObjectApiNames;
     }
 
+    private static Set<String> parseQueueDevNames(String raw) {
+        Set<String> devNames = new Set<String>();
+        if (String.isBlank(raw)) return devNames;
+        for (String s : raw.split(',')) {
+            String trimmed = s.trim();
+            if (String.isNotBlank(trimmed)) devNames.add(trimmed);
+        }
+        return devNames;
+    }
+
+    private static Map<Id, String> resolveQueuesByDevName(Set<String> devNames) {
+        Map<Id, String> result = new Map<Id, String>();
+        if (devNames.isEmpty()) return result;
+        for (Group g : [SELECT Id, Name FROM Group WHERE Type = 'Queue' AND DeveloperName IN :devNames]) {
+            result.put(g.Id, g.Name);
+        }
+        return result;
+    }
+
     // ─── Custom approval items ────────────────────────────────────────────────────
-    private static List<ItemToApprove> getCustomItems(Id currentUserId, Boolean isAdmin, Set<String> setObjectApiNames) {
+    private static List<ItemToApprove> getCustomItems(Id currentUserId, Boolean isAdmin, Set<String> setObjectApiNames, Map<Id, String> queueNamesById) {
         List<CustomApprovalStep__c> allPending = queryPendingSteps();
-        Map<Id, List<Id>> resolvedQueueMembers = resolveQueueMemberships(allPending);
-        List<CustomApprovalStep__c> approvable = filterToApprovable(allPending, isAdmin, currentUserId, resolvedQueueMembers);
+        List<CustomApprovalStep__c> approvable = resolveApprovableSteps(allPending, currentUserId, isAdmin, queueNamesById);
         if (approvable.isEmpty()) return new List<ItemToApprove>();
 
         Set<String> processDevNames = collectProcessDevNames(approvable);
@@ -70,18 +89,13 @@ public without sharing class CustomApprovalInboxController {
 
         Map<Id, List<DisplayFieldEntry>> displayFieldsByStep = resolveCustomDisplayFields(approvable, configByDevName, fieldDescribeCache, sobjectInfoCache);
 
-        return buildCustomResult(approvable, stepDevNameHasUserInput, submittedByPerApproval, configByDevName, displayFieldsByStep, sobjectInfoCache);
+        return buildCustomResult(approvable, stepDevNameHasUserInput, submittedByPerApproval, configByDevName, displayFieldsByStep, sobjectInfoCache, queueNamesById);
     }
 
     // ─── Standard approval items ──────────────────────────────────────────────────
-    private static List<ItemToApprove> getStandardItems(Id currentUserId, Boolean isAdmin, Set<String> setObjectApiNames) {
-        List<ProcessInstanceWorkitem> workitems = queryPendingWorkitems(setObjectApiNames);
+    private static List<ItemToApprove> getStandardItems(Id currentUserId, Boolean isAdmin, Set<String> setObjectApiNames, Map<Id, String> queueNamesById) {
+        List<ProcessInstanceWorkitem> workitems = resolveVisibleWorkitems(setObjectApiNames, currentUserId, isAdmin, queueNamesById);
         if (workitems.isEmpty()) return new List<ItemToApprove>();
-
-        if (!isAdmin) {
-            workitems = filterVisibleWorkitems(workitems, currentUserId);
-            if (workitems.isEmpty()) return new List<ItemToApprove>();
-        }
 
         // Describe each unique SObjectType exactly once — getSObjectType() (prefix lookup) is cheap; getDescribe() is not
         Map<SObjectType, SObjectInfo> sotInfoCache = buildSObjectInfoCacheFromWorkitems(workitems);
@@ -104,7 +118,7 @@ public without sharing class CustomApprovalInboxController {
         Map<String, List<String>> queryPathsByObjType = buildExtendedPathsByObjType(targetIdsByObjType.keySet(), configByObjType, labelFieldByObjType);
         Map<Id, SObject> displayRecordsById = queryDisplayRecords(targetIdsByObjType, queryPathsByObjType);
 
-        return buildStandardResult(workitems, sotInfoCache, objTypeByWorkitemId, labelFieldByObjType, displayPathsByObjType, displayRecordsById, fieldDescribeCache, sobjectInfoCache);
+        return buildStandardResult(workitems, sotInfoCache, objTypeByWorkitemId, labelFieldByObjType, displayPathsByObjType, displayRecordsById, fieldDescribeCache, sobjectInfoCache, queueNamesById);
     }
 
     private static List<ProcessInstanceWorkitem> queryPendingWorkitems(Set<String> setObjectApiNames) {
@@ -152,7 +166,7 @@ public without sharing class CustomApprovalInboxController {
         }
     }
 
-    private static List<ItemToApprove> buildStandardResult(List<ProcessInstanceWorkitem> workitems, Map<SObjectType, SObjectInfo> sotInfoCache, Map<Id, String> objTypeByWorkitemId, Map<String, String> labelFieldByObjType, Map<String, List<String>> displayPathsByObjType, Map<Id, SObject> displayRecordsById, Map<String, DescribeFieldResult> fieldDescribeCache, Map<String, SObjectInfo> sobjectInfoCache) {
+    private static List<ItemToApprove> buildStandardResult(List<ProcessInstanceWorkitem> workitems, Map<SObjectType, SObjectInfo> sotInfoCache, Map<Id, String> objTypeByWorkitemId, Map<String, String> labelFieldByObjType, Map<String, List<String>> displayPathsByObjType, Map<Id, SObject> displayRecordsById, Map<String, DescribeFieldResult> fieldDescribeCache, Map<String, SObjectInfo> sobjectInfoCache, Map<Id, String> queueNamesById) {
         List<ItemToApprove> result = new List<ItemToApprove>();
         for (ProcessInstanceWorkitem wi : workitems) {
             String objType = objTypeByWorkitemId.get(wi.Id);
@@ -172,6 +186,7 @@ public without sharing class CustomApprovalInboxController {
             item.submissionDateFormatted = wi.CreatedDate != null ? wi.CreatedDate.format('dd/MM/yyyy HH:mm') : '';
             item.isStandardApproval      = true;
             item.displayFields           = buildDisplayFieldEntries(targetId, displayPathsByObjType.get(objType), displayRecordsById, objType, fieldDescribeCache, sobjectInfoCache);
+            if (wi.ActorId != null) item.assignedQueueName = queueNamesById.get(wi.ActorId);
             result.add(item);
         }
         return result;
@@ -251,6 +266,36 @@ public without sharing class CustomApprovalInboxController {
             if (!result.containsKey(s.CustomApproval__c)) result.put(s.CustomApproval__c, s.ActualApprover__r?.Name);
         }
         return result;
+    }
+
+    // ─── Approvable step / workitem resolution ────────────────────────────────────
+    private static List<CustomApprovalStep__c> resolveApprovableSteps(List<CustomApprovalStep__c> allPending, Id currentUserId, Boolean isAdmin, Map<Id, String> queueNamesById) {
+        if (!queueNamesById.isEmpty()) {
+            List<CustomApprovalStep__c> approvable = new List<CustomApprovalStep__c>();
+            for (CustomApprovalStep__c s : allPending) {
+                if (s.CustomApproval__r?.TECH_ReadOnly__c == true) continue;
+                if (String.isNotBlank(s.AssignedTo__c) && s.AssignedTo__c.startsWith('00G')) {
+                    try { if (queueNamesById.containsKey((Id) s.AssignedTo__c)) approvable.add(s); } catch (Exception e) { /* skip malformed Id */ }
+                }
+            }
+            return approvable;
+        }
+        Map<Id, List<Id>> resolvedQueueMembers = resolveQueueMemberships(allPending);
+        return filterToApprovable(allPending, isAdmin, currentUserId, resolvedQueueMembers);
+    }
+
+    private static List<ProcessInstanceWorkitem> resolveVisibleWorkitems(Set<String> setObjectApiNames, Id currentUserId, Boolean isAdmin, Map<Id, String> queueNamesById) {
+        List<ProcessInstanceWorkitem> workitems = queryPendingWorkitems(setObjectApiNames);
+        if (workitems.isEmpty()) return workitems;
+        if (!queueNamesById.isEmpty()) {
+            List<ProcessInstanceWorkitem> filtered = new List<ProcessInstanceWorkitem>();
+            for (ProcessInstanceWorkitem wi : workitems) {
+                if (wi.ActorId != null && queueNamesById.containsKey(wi.ActorId)) filtered.add(wi);
+            }
+            return filtered;
+        }
+        if (!isAdmin) return filterVisibleWorkitems(workitems, currentUserId);
+        return workitems;
     }
 
     // ─── Queue resolution ─────────────────────────────────────────────────────────
@@ -492,15 +537,15 @@ public without sharing class CustomApprovalInboxController {
     }
 
     // ─── Result builders ──────────────────────────────────────────────────────────
-    private static List<ItemToApprove> buildCustomResult(List<CustomApprovalStep__c> approvable, Map<String, Boolean> stepDevNameHasUserInput, Map<Id, String> submittedByPerApproval, Map<String, ApprovalProcessConfig__mdt> configByDevName, Map<Id, List<DisplayFieldEntry>> displayFieldsByStep, Map<String, SObjectInfo> sobjectInfoCache) {
+    private static List<ItemToApprove> buildCustomResult(List<CustomApprovalStep__c> approvable, Map<String, Boolean> stepDevNameHasUserInput, Map<Id, String> submittedByPerApproval, Map<String, ApprovalProcessConfig__mdt> configByDevName, Map<Id, List<DisplayFieldEntry>> displayFieldsByStep, Map<String, SObjectInfo> sobjectInfoCache, Map<Id, String> queueNamesById) {
         List<ItemToApprove> result = new List<ItemToApprove>();
         for (CustomApprovalStep__c s : approvable) {
-            result.add(buildCustomItem(s, stepDevNameHasUserInput, submittedByPerApproval, configByDevName, displayFieldsByStep, sobjectInfoCache));
+            result.add(buildCustomItem(s, stepDevNameHasUserInput, submittedByPerApproval, configByDevName, displayFieldsByStep, sobjectInfoCache, queueNamesById));
         }
         return result;
     }
 
-    private static ItemToApprove buildCustomItem(CustomApprovalStep__c s, Map<String, Boolean> stepDevNameHasUserInput, Map<Id, String> submittedByPerApproval, Map<String, ApprovalProcessConfig__mdt> configByDevName, Map<Id, List<DisplayFieldEntry>> displayFieldsByStep, Map<String, SObjectInfo> sobjectInfoCache) {
+    private static ItemToApprove buildCustomItem(CustomApprovalStep__c s, Map<String, Boolean> stepDevNameHasUserInput, Map<Id, String> submittedByPerApproval, Map<String, ApprovalProcessConfig__mdt> configByDevName, Map<Id, List<DisplayFieldEntry>> displayFieldsByStep, Map<String, SObjectInfo> sobjectInfoCache, Map<Id, String> queueNamesById) {
         ItemToApprove item = new ItemToApprove();
         item.stepId             = s.Id;
         item.stepLabel          = String.isNotBlank(s.StepLabel__c) ? s.StepLabel__c : s.StepDeveloperName__c;
@@ -526,6 +571,9 @@ public without sharing class CustomApprovalInboxController {
         item.previousApproverName    = s.PreviousApprover__r?.Name;
         item.submissionDateFormatted = s.CustomApproval__r?.CreatedDate != null ? s.CustomApproval__r.CreatedDate.format('dd/MM/yyyy HH:mm') : '';
         item.displayFields           = displayFieldsByStep.get(s.Id);
+        if (String.isNotBlank(s.AssignedTo__c) && s.AssignedTo__c.startsWith('00G')) {
+            try { item.assignedQueueName = queueNamesById.get((Id) s.AssignedTo__c); } catch (Exception e) { /* skip malformed Id */ }
+        }
         return item;
     }
 
@@ -565,5 +613,6 @@ public without sharing class CustomApprovalInboxController {
         @AuraEnabled public String  submissionDateFormatted;
         @AuraEnabled public Boolean isStandardApproval;
         @AuraEnabled public List<DisplayFieldEntry> displayFields;
+        @AuraEnabled public String  assignedQueueName;
     }
 }

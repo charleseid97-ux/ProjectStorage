@@ -10,16 +10,7 @@ import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 import { reduceError } from 'c/gridBuilderUtils';
 import getItemsToApprove from '@salesforce/apex/CustomApprovalInboxController.getItemsToApprove';
 
-const COLUMNS = [
-    { label: 'Related To',         fieldName: 'targetRecordUrl', type: 'url', typeAttributes: { label: { fieldName: 'targetRecordName' }, target: '_self' } },
-    { label: 'Type',               fieldName: 'objectLabel',             type: 'text' },
-    { label: 'Most Recent Approver', fieldName: 'previousApproverName',  type: 'text' },
-    { label: 'Date Submitted',     fieldName: 'submissionDateFormatted', type: 'text' },
-    {
-        type: 'action',
-        typeAttributes: { rowActions: [{ label: 'Approve', name: 'Approve' }, { label: 'Reject', name: 'Reject' }] }
-    }
-];
+const ROW_ACTIONS = [{ label: 'Approve', name: 'Approve' }, { label: 'Reject', name: 'Reject' }];
 
 export default class CustomApprovalInbox extends NavigationMixin(LightningElement) {
 
@@ -27,6 +18,7 @@ export default class CustomApprovalInbox extends NavigationMixin(LightningElemen
     @api cardTitle     = 'Items to Approve';
     @api objectApiName  = '';
     @api approvalSystem = ''; // 'Custom' | 'Standard' | '' (both)
+    @api queues         = ''; // comma-separated queue developer names; when set, shows all items for those queues
 
     // ── State ───────────────────────────────────────────────────────────────
     @track items      = [];
@@ -35,7 +27,6 @@ export default class CustomApprovalInbox extends NavigationMixin(LightningElemen
     isModalOpen       = false;
     isAllModalOpen    = false;
     selectedRow       = null;
-    columns           = COLUMNS;
 
     // ── Getters ─────────────────────────────────────────────────────────────
     get hasItems()     { return this.items && this.items.length > 0; }
@@ -43,6 +34,45 @@ export default class CustomApprovalInbox extends NavigationMixin(LightningElemen
     get hasError()     { return !!this.errorMessage; }
     get noRecall()     { return false; }
     get visibleItems() { return (this.items || []).slice(0, 5); }
+
+    get modalColumns() {
+        const cols = [
+            { label: 'Related To',           fieldName: 'targetRecordUrl',         type: 'url', typeAttributes: { label: { fieldName: 'targetRecordName' }, target: '_self' } },
+            { label: 'Type',                 fieldName: 'objectLabel',             type: 'text' }
+        ];
+        if ((this.items || []).some(i => i.assignedQueueName)) {
+            cols.push({ label: 'Assigned Queue', fieldName: 'assignedQueueName', type: 'text' });
+        }
+        cols.push(
+            { label: 'Most Recent Approver', fieldName: 'previousApproverName',    type: 'text' },
+            { label: 'Date Submitted',       fieldName: 'submissionDateFormatted', type: 'text' }
+        );
+        const seen = new Set();
+        for (const item of (this.items || [])) {
+            for (const field of (item.displayFields || [])) {
+                if (!seen.has(field.label)) {
+                    seen.add(field.label);
+                    cols.push({ label: field.label, fieldName: this._dfKey(field.label), type: 'text' });
+                }
+            }
+        }
+        cols.push({ type: 'action', typeAttributes: { rowActions: ROW_ACTIONS } });
+        return cols;
+    }
+
+    get modalData() {
+        return (this.items || []).map(item => {
+            const row = { ...item };
+            for (const field of (item.displayFields || [])) {
+                row[this._dfKey(field.label)] = field.value;
+            }
+            return row;
+        });
+    }
+
+    _dfKey(label) {
+        return 'df_' + label.toLowerCase().replace(/[^a-z0-9]+/g, '_');
+    }
 
     // ── Lifecycle ────────────────────────────────────────────────────────────
     connectedCallback() {
@@ -53,15 +83,19 @@ export default class CustomApprovalInbox extends NavigationMixin(LightningElemen
     loadData() {
         this.isLoading    = true;
         this.errorMessage = null;
-        getItemsToApprove({ objectApiName: this.objectApiName || '', approvalSystem: this.approvalSystem || '' })
-            .then(result  => {
-                this.items = (result || []).map(item => ({
-                    ...item,
-                    targetRecordUrl: item.targetRecordId ? `/lightning/r/${item.targetRecordId}/view` : null
-                }));
-            })
-            .catch(error  => { this.errorMessage = reduceError(error); })
-            .finally(()   => { this.isLoading = false; });
+        getItemsToApprove({ 
+            objectApiName: this.objectApiName || '', 
+            approvalSystem: this.approvalSystem || '', 
+            queueDevNames: this.queues || '' 
+        })
+        .then(result  => {
+            this.items = (result || []).map(item => ({
+                ...item,
+                targetRecordUrl: item.targetRecordId ? `/lightning/r/${item.targetRecordId}/view` : null
+            }));
+        })
+        .catch(error  => { this.errorMessage = reduceError(error); })
+        .finally(()   => { this.isLoading = false; });
     }
 
     handleRefresh() {

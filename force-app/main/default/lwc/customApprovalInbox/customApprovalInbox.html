@@ -49,6 +49,12 @@
                                         </div>
                                     </template>
                                 </template>
+                                <template if:true={item.assignedQueueName}>
+                                    <div class="display-field-row">
+                                        <span class="display-field-label">Queue: </span>
+                                        <span class="display-field-value">{item.assignedQueueName}</span>
+                                    </div>
+                                </template>
                                 <div>
                                     <span class="object-label">{item.objectLabel}</span>
                                     <span class="separator"> &bull; </span>
@@ -85,8 +91,8 @@
                 </header>
                 <div class="slds-modal__content slds-p-around_medium">
                     <lightning-datatable key-field="stepId"
-                                         data={items}
-                                         columns={columns}
+                                         data={modalData}
+                                         columns={modalColumns}
                                          hide-checkbox-column
                                          onrowaction={handleRowAction}>
                     </lightning-datatable>

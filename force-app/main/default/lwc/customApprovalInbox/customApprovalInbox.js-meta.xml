@@ -18,6 +18,8 @@
                       description="Filter to a specific Salesforce object (e.g. Grid__c). Leave blank for all objects."/>
             <property name="approvalSystem" type="String" label="Approval System"
                       description="'Custom' for custom approval steps only, 'Standard' for standard Salesforce approvals only. Leave blank for both."/>
+            <property name="queues"         type="String" label="Queue Developer Names"
+                      description="Comma-separated queue developer names. When set, shows all pending approvals for those queues (requires AllowAccessToOthersApprovals permission). Leave blank to show items pending for the current user."/>
         </targetConfig>
     </targetConfigs>
 </LightningComponentBundle>
