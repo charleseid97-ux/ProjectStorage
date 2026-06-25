@@ -272,7 +272,7 @@ stages:
               - task: NodeTool@0
                 displayName: 'Install Node.js'
                 inputs:
-                  versionSpec: '24.x'
+                  versionSpec: '20.x'
 
               - script: |
                   npm i -g @salesforce/cli
@@ -413,7 +413,7 @@ stages:
               - task: NodeTool@0
                 displayName: 'Install Node.js'
                 inputs:
-                  versionSpec: '24.x'
+                  versionSpec: '20.x'
 
               - script: |
                   npm i -g @salesforce/cli
@@ -552,11 +552,17 @@ stages:
               - task: NodeTool@0
                 displayName: 'Install Node.js'
                 inputs:
-                  versionSpec: '24.x'
+                  versionSpec: '20.x'
 
               - script: |
                   npm i -g @salesforce/cli
+
+                  # Vérifie les versions installées
+                  node --version
+                  npm --version
                   sf --version
+
+                  # Vérifie les plugins Salesforce CLI
                   sf plugins --core
                 displayName: 'Install Salesforce CLI'
 
