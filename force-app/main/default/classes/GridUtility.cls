@@ -28,6 +28,8 @@ public with sharing class GridUtility {
     public static final String GRID_STATUS_REJECTED          = 'Rejected';
 
     public static final String FIELD_EFF_MGT_FEES = 'EffectiveManagementFees__c';
+
+    public static final Integer BATCH_SIZE_GRID_DETAIL_REFRESH = 200;
     /** ──────────────────────────────────────
      * @description Single loop over agreements: classifies each into a transition bucket,
      *              performs Agreement field swaps, collects Grid__c approval updates,
