@@ -44,7 +44,7 @@
                                 <template if:true={item.displayFields}>
                                     <template for:each={item.displayFields} for:item="field">
                                         <div key={field.label} class="display-field-row">
-                                            <span class="display-field-label">{field.label}:</span>
+                                            <span class="display-field-label">{field.label}: </span>
                                             <span class="display-field-value">{field.value}</span>
                                         </div>
                                     </template>

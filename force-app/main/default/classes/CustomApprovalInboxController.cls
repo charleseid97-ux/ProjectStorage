@@ -15,20 +15,30 @@ public without sharing class CustomApprovalInboxController {
     public static List<ItemToApprove> getItemsToApprove(String objectApiName, String approvalSystem) {
         Id currentUserId = UserInfo.getUserId();
         Boolean isAdmin  = CustomApprovalHistoryUtility.isAdministrator(currentUserId);
+        Set<String> setObjectApiNames = getObjectApiNames(objectApiName);
 
         List<ItemToApprove> result = new List<ItemToApprove>();
-
         if (String.isBlank(approvalSystem) || approvalSystem == 'Custom') {
-            result.addAll(getCustomItems(currentUserId, isAdmin, objectApiName));
+            result.addAll(getCustomItems(currentUserId, isAdmin, setObjectApiNames));
         }
         if (String.isBlank(approvalSystem) || approvalSystem == 'Standard') {
-            result.addAll(getStandardItems(currentUserId, isAdmin, objectApiName));
+            result.addAll(getStandardItems(currentUserId, isAdmin, setObjectApiNames));
         }
         return result;
     }
 
+    private static Set<String> getObjectApiNames(String objectApiName) {
+        Set<String> setObjectApiNames = new Set<String>();
+        if (String.isNotBlank(objectApiName)) {
+            for(String obj : objectApiName.split(',')) {
+                setObjectApiNames.add(obj.trim());
+            }
+        }
+        return setObjectApiNames;
+    }
+
     // ─── Custom approval items ────────────────────────────────────────────────────
-    private static List<ItemToApprove> getCustomItems(Id currentUserId, Boolean isAdmin, String objectApiName) {
+    private static List<ItemToApprove> getCustomItems(Id currentUserId, Boolean isAdmin, Set<String> setObjectApiNames) {
         List<CustomApprovalStep__c> allPending = queryPendingSteps();
         Map<Id, List<Id>> resolvedQueueMembers = resolveQueueMemberships(allPending);
         List<CustomApprovalStep__c> approvable = filterToApprovable(allPending, isAdmin, currentUserId, resolvedQueueMembers);
@@ -38,11 +48,11 @@ public without sharing class CustomApprovalInboxController {
         Map<String, ApprovalProcessConfig__mdt> configByDevName = queryMdtConfigsByDevName(processDevNames);
 
         // Filter by object type using MDT ObjectType__c — no Id casting needed
-        if (String.isNotBlank(objectApiName)) {
+        if (!setObjectApiNames.isEmpty()) {
             List<CustomApprovalStep__c> filtered = new List<CustomApprovalStep__c>();
             for (CustomApprovalStep__c s : approvable) {
                 String procName = s.CustomApproval__r?.ProcessDeveloperName__c;
-                if (configByDevName.get(procName)?.ObjectType__c == objectApiName) filtered.add(s);
+                if (setObjectApiNames.contains(configByDevName.get(procName)?.ObjectType__c)) filtered.add(s);
             }
             approvable = filtered;
             if (approvable.isEmpty()) return new List<ItemToApprove>();
@@ -64,8 +74,8 @@ public without sharing class CustomApprovalInboxController {
     }
 
     // ─── Standard approval items ──────────────────────────────────────────────────
-    private static List<ItemToApprove> getStandardItems(Id currentUserId, Boolean isAdmin, String objectApiName) {
-        List<ProcessInstanceWorkitem> workitems = queryPendingWorkitems();
+    private static List<ItemToApprove> getStandardItems(Id currentUserId, Boolean isAdmin, Set<String> setObjectApiNames) {
+        List<ProcessInstanceWorkitem> workitems = queryPendingWorkitems(setObjectApiNames);
         if (workitems.isEmpty()) return new List<ItemToApprove>();
 
         if (!isAdmin) {
@@ -80,7 +90,7 @@ public without sharing class CustomApprovalInboxController {
 
         Map<String, Set<Id>> targetIdsByObjType = new Map<String, Set<Id>>();
         Map<Id, String> objTypeByWorkitemId = new Map<Id, String>();
-        groupWorkitemsByObjType(workitems, objectApiName, sotInfoCache, targetIdsByObjType, objTypeByWorkitemId);
+        groupWorkitemsByObjType(workitems, setObjectApiNames, sotInfoCache, targetIdsByObjType, objTypeByWorkitemId);
         if (targetIdsByObjType.isEmpty()) return new List<ItemToApprove>();
 
         Map<String, ApprovalProcessConfig__mdt> configByObjType = queryMdtConfigsByObjType(targetIdsByObjType.keySet());
@@ -97,12 +107,14 @@ public without sharing class CustomApprovalInboxController {
         return buildStandardResult(workitems, sotInfoCache, objTypeByWorkitemId, labelFieldByObjType, displayPathsByObjType, displayRecordsById, fieldDescribeCache, sobjectInfoCache);
     }
 
-    private static List<ProcessInstanceWorkitem> queryPendingWorkitems() {
+    private static List<ProcessInstanceWorkitem> queryPendingWorkitems(Set<String> setObjectApiNames) {
         if (testWorkitemsOverride != null) return testWorkitemsOverride;
-        return [SELECT Id, ActorId, CreatedDate, ProcessInstance.TargetObjectId, ProcessInstance.SubmittedBy.Name
-                FROM ProcessInstanceWorkitem
-                WHERE ProcessInstance.Status = 'Pending'
-                ORDER BY CreatedDate ASC];
+        String piwQuery = 'SELECT Id, ActorId, CreatedDate, ProcessInstance.TargetObjectId, ProcessInstance.SubmittedBy.Name, ProcessInstance.LastModifiedBy.Name'+
+                          ' FROM ProcessInstanceWorkitem'+
+                          ' WHERE ProcessInstance.Status = \'Pending\'';
+        piwQuery += !setObjectApiNames.isEmpty()? ' AND ProcessInstance.TargetObject.Type IN :setObjectApiNames' : '';
+        piwQuery += ' ORDER BY CreatedDate ASC';
+        return Database.query(piwQuery);
     }
 
     private static List<ProcessInstanceWorkitem> filterVisibleWorkitems(List<ProcessInstanceWorkitem> workitems, Id currentUserId) {
@@ -126,14 +138,14 @@ public without sharing class CustomApprovalInboxController {
         return visible;
     }
 
-    private static void groupWorkitemsByObjType(List<ProcessInstanceWorkitem> workitems, String objectApiName, Map<SObjectType, SObjectInfo> sotInfoCache, Map<String, Set<Id>> targetIdsByObjType, Map<Id, String> objTypeByWorkitemId) {
+    private static void groupWorkitemsByObjType(List<ProcessInstanceWorkitem> workitems, Set<String> setObjectApiNames, Map<SObjectType, SObjectInfo> sotInfoCache, Map<String, Set<Id>> targetIdsByObjType, Map<Id, String> objTypeByWorkitemId) {
         for (ProcessInstanceWorkitem wi : workitems) {
             if (wi.ProcessInstance?.TargetObjectId == null) continue;
             Id targetId = wi.ProcessInstance.TargetObjectId;
             SObjectInfo info = sotInfoCache.get(targetId.getSObjectType());
             if (info == null) continue;
             String objType = info.apiName;
-            if (String.isNotBlank(objectApiName) && objType != objectApiName) continue;
+            if (!setObjectApiNames.isEmpty() && !setObjectApiNames.contains(objType)) continue;
             if (!targetIdsByObjType.containsKey(objType)) targetIdsByObjType.put(objType, new Set<Id>());
             targetIdsByObjType.get(objType).add(targetId);
             objTypeByWorkitemId.put(wi.Id, objType);
@@ -156,6 +168,7 @@ public without sharing class CustomApprovalInboxController {
             item.targetRecordName        = nameRaw != null ? String.valueOf(nameRaw) : null;
             item.objectLabel             = info?.label;
             item.submittedByName         = wi.ProcessInstance?.SubmittedBy?.Name;
+            item.previousApproverName    = wi.ProcessInstance?.LastModifiedBy?.Name;
             item.submissionDateFormatted = wi.CreatedDate != null ? wi.CreatedDate.format('dd/MM/yyyy HH:mm') : '';
             item.isStandardApproval      = true;
             item.displayFields           = buildDisplayFieldEntries(targetId, displayPathsByObjType.get(objType), displayRecordsById, objType, fieldDescribeCache, sobjectInfoCache);

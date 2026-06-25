@@ -37,6 +37,10 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>CustomApprovalInboxController</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>EmailService</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -138,6 +142,10 @@
     </classAccesses>
     <classAccesses>
         <apexClass>SM034_AgreementService</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>GridDetailRefreshBatch</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
