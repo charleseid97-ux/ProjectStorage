@@ -58,7 +58,7 @@ public with sharing class CustomApprovalInboxControllerTest {
     @IsTest
     static void testGetItemsToApprove_NoPendingSteps() {
         Test.startTest();
-        List<CustomApprovalInboxController.ItemToApprove> result = CustomApprovalInboxController.getItemsToApprove('', '');
+        List<CustomApprovalInboxController.ItemToApprove> result = CustomApprovalInboxController.getItemsToApprove('', '', '');
         Test.stopTest();
 
         System.assertNotEquals(null, result, RESULT_NOT_NULL);
@@ -73,7 +73,7 @@ public with sharing class CustomApprovalInboxControllerTest {
         createStep(approval.Id, String.valueOf(UserInfo.getUserId()), UserInfo.getName(), null);
 
         Test.startTest();
-        List<CustomApprovalInboxController.ItemToApprove> result = CustomApprovalInboxController.getItemsToApprove('', '');
+        List<CustomApprovalInboxController.ItemToApprove> result = CustomApprovalInboxController.getItemsToApprove('', '', '');
         Test.stopTest();
 
         System.assertNotEquals(null, result, RESULT_NOT_NULL);
@@ -88,7 +88,7 @@ public with sharing class CustomApprovalInboxControllerTest {
         CustomApprovalStep__c step = createStep(approval.Id, String.valueOf(UserInfo.getUserId()), UserInfo.getName(), UserInfo.getUserId());
 
         Test.startTest();
-        List<CustomApprovalInboxController.ItemToApprove> result = CustomApprovalInboxController.getItemsToApprove('', '');
+        List<CustomApprovalInboxController.ItemToApprove> result = CustomApprovalInboxController.getItemsToApprove('', '', '');
         Test.stopTest();
 
         System.assertEquals(1, result.size(), ITEMS_ONE);
@@ -120,7 +120,7 @@ public with sharing class CustomApprovalInboxControllerTest {
         createStep(approval.Id, String.valueOf(testQueue.Id), 'Test Inbox Queue', null);
 
         Test.startTest();
-        List<CustomApprovalInboxController.ItemToApprove> result = CustomApprovalInboxController.getItemsToApprove('', '');
+        List<CustomApprovalInboxController.ItemToApprove> result = CustomApprovalInboxController.getItemsToApprove('', '', '');
         Test.stopTest();
 
         System.assertNotEquals(null, result, RESULT_NOT_NULL);
@@ -139,7 +139,7 @@ public with sharing class CustomApprovalInboxControllerTest {
         update approval;
 
         Test.startTest();
-        List<CustomApprovalInboxController.ItemToApprove> result = CustomApprovalInboxController.getItemsToApprove('', '');
+        List<CustomApprovalInboxController.ItemToApprove> result = CustomApprovalInboxController.getItemsToApprove('', '', '');
         Test.stopTest();
 
         System.assertNotEquals(null, result, RESULT_NOT_NULL);
@@ -157,7 +157,7 @@ public with sharing class CustomApprovalInboxControllerTest {
         createStep(approval2.Id, String.valueOf(UserInfo.getUserId()), UserInfo.getName(), null);
 
         Test.startTest();
-        List<CustomApprovalInboxController.ItemToApprove> result = CustomApprovalInboxController.getItemsToApprove('', '');
+        List<CustomApprovalInboxController.ItemToApprove> result = CustomApprovalInboxController.getItemsToApprove('', '', '');
         Test.stopTest();
 
         System.assertEquals(2, result.size(), 'All approvable items should be returned without a cap');
@@ -171,7 +171,7 @@ public with sharing class CustomApprovalInboxControllerTest {
         createStep(approval.Id, String.valueOf(UserInfo.getUserId()), UserInfo.getName(), null);
 
         Test.startTest();
-        List<CustomApprovalInboxController.ItemToApprove> result = CustomApprovalInboxController.getItemsToApprove('', 'Custom');
+        List<CustomApprovalInboxController.ItemToApprove> result = CustomApprovalInboxController.getItemsToApprove('', 'Custom', '');
         Test.stopTest();
 
         System.assertEquals(1, result.size(), ITEMS_ONE);
@@ -182,7 +182,7 @@ public with sharing class CustomApprovalInboxControllerTest {
     @IsTest
     static void testGetItemsToApprove_StandardOnly_Empty() {
         Test.startTest();
-        List<CustomApprovalInboxController.ItemToApprove> result = CustomApprovalInboxController.getItemsToApprove('', 'Standard');
+        List<CustomApprovalInboxController.ItemToApprove> result = CustomApprovalInboxController.getItemsToApprove('', 'Standard', '');
         Test.stopTest();
 
         System.assertNotEquals(null, result, RESULT_NOT_NULL);
@@ -196,7 +196,7 @@ public with sharing class CustomApprovalInboxControllerTest {
         CustomApprovalInboxController.testWorkitemsOverride = new List<ProcessInstanceWorkitem>();
 
         Test.startTest();
-        List<CustomApprovalInboxController.ItemToApprove> result = CustomApprovalInboxController.getItemsToApprove('', 'Standard');
+        List<CustomApprovalInboxController.ItemToApprove> result = CustomApprovalInboxController.getItemsToApprove('', 'Standard', '');
         Test.stopTest();
 
         System.assertNotEquals(null, result, RESULT_NOT_NULL);
@@ -214,7 +214,7 @@ public with sharing class CustomApprovalInboxControllerTest {
         CustomApprovalInboxController.testWorkitemsOverride = new List<ProcessInstanceWorkitem>{ wi };
 
         Test.startTest();
-        List<CustomApprovalInboxController.ItemToApprove> result = CustomApprovalInboxController.getItemsToApprove('', 'Standard');
+        List<CustomApprovalInboxController.ItemToApprove> result = CustomApprovalInboxController.getItemsToApprove('', 'Standard', '');
         Test.stopTest();
 
         System.assertNotEquals(null, result, RESULT_NOT_NULL);
@@ -294,7 +294,7 @@ public with sharing class CustomApprovalInboxControllerTest {
         };
 
         Test.startTest();
-        List<CustomApprovalInboxController.ItemToApprove> result = CustomApprovalInboxController.getItemsToApprove('Grid__c', 'Custom');
+        List<CustomApprovalInboxController.ItemToApprove> result = CustomApprovalInboxController.getItemsToApprove('Grid__c', 'Custom', , '');
         Test.stopTest();
 
         System.assertEquals(1, result.size(), 'Grid__c step should pass the object filter');
@@ -317,7 +317,7 @@ public with sharing class CustomApprovalInboxControllerTest {
         };
 
         Test.startTest();
-        List<CustomApprovalInboxController.ItemToApprove> result = CustomApprovalInboxController.getItemsToApprove('Opportunity', 'Custom');
+        List<CustomApprovalInboxController.ItemToApprove> result = CustomApprovalInboxController.getItemsToApprove('Opportunity', 'Custom', '');
         Test.stopTest();
 
         System.assertEquals(0, result.size(), 'Grid__c step should be excluded when filtering by Opportunity');
@@ -341,7 +341,7 @@ public with sharing class CustomApprovalInboxControllerTest {
         };
 
         Test.startTest();
-        List<CustomApprovalInboxController.ItemToApprove> result = CustomApprovalInboxController.getItemsToApprove('', 'Custom');
+        List<CustomApprovalInboxController.ItemToApprove> result = CustomApprovalInboxController.getItemsToApprove('', 'Custom', '');
         Test.stopTest();
 
         System.assertEquals(1, result.size(), ITEMS_ONE);
@@ -366,7 +366,7 @@ public with sharing class CustomApprovalInboxControllerTest {
         };
 
         Test.startTest();
-        List<CustomApprovalInboxController.ItemToApprove> result = CustomApprovalInboxController.getItemsToApprove('', 'Custom');
+        List<CustomApprovalInboxController.ItemToApprove> result = CustomApprovalInboxController.getItemsToApprove('', 'Custom', '');
         Test.stopTest();
 
         System.assertEquals(1, result.size(), ITEMS_ONE);
