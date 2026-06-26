@@ -294,7 +294,7 @@ public with sharing class CustomApprovalInboxControllerTest {
         };
 
         Test.startTest();
-        List<CustomApprovalInboxController.ItemToApprove> result = CustomApprovalInboxController.getItemsToApprove('Grid__c', 'Custom', , '');
+        List<CustomApprovalInboxController.ItemToApprove> result = CustomApprovalInboxController.getItemsToApprove('Grid__c', 'Custom', '');
         Test.stopTest();
 
         System.assertEquals(1, result.size(), 'Grid__c step should pass the object filter');
