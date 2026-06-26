@@ -160,7 +160,7 @@ public with sharing class GridDetailBuilder {
                              AND Type__c != null
                              AND Currency__c != 'JPY'
                              AND Id IN (SELECT ShareClass__c FROM Country__c WHERE (RegistrationStatus__c = 'REG' OR RegistrationStatus__c = 'INSTITUTIONAL_ONLY'))
-                             AND Status__c = 'Active'];
+                             AND Status__c IN ('Active', 'Inactive')];
         data.shareClassById = new Map<Id, Share_Class__c>(data.shareClasses);
         data.allShareClassIds = new Set<Id>(data.shareClassById.keySet());
         data.indexByField = buildShareClassIndex(data.shareClasses);
