@@ -1,0 +1,63 @@
+<template>
+    <lightning-card title="PRIIPs/KID Completion" icon-name="utility:metrics">
+        <div class="container">
+            <template if:true={isLoading}>
+                <div class="spinner-container">
+                    <lightning-spinner alternative-text="Loading completion" size="small"></lightning-spinner>
+                </div>
+            </template>
+
+            <template if:true={errorMessage}>
+                <div class="error-box" role="alert">{errorMessage}</div>
+            </template>
+
+            <template if:true={warningMessage}>
+                <div class="warning-box" role="status">{warningMessage}</div>
+            </template>
+
+            <template if:true={showEmptyState}>
+                <div class="empty-box">No PRIIPs/KID completion data found.</div>
+            </template>
+
+            <template if:true={hasTeams}>
+                <div class="team-list">
+                    <template for:each={teamViewModels} for:item="team">
+                        <article key={team.key} class="team-card">
+                            <button class="team-button" type="button" data-key={team.key} onclick={toggleTeam} aria-expanded={team.expanded}>
+                                <span class="team-name">{team.name}</span>
+                                <span class="team-percent">{team.percentLabel}</span>
+                                <span class={team.dotClass} aria-hidden="true"></span>
+                            </button>
+
+                            <div class="progress-track" title={team.ratioLabel}>
+                                <span class={team.barClass} style={team.barStyle}></span>
+                            </div>
+
+                            <template if:true={team.expanded}>
+                                <div class="detail-panel">
+                                    <template for:each={team.details} for:item="detail">
+                                        <div key={detail.key} class="detail-row">
+                                            <div class="detail-header">
+                                                <span class="detail-label">{detail.label}</span>
+                                                <span class="detail-ratio">{detail.ratioLabel}</span>
+                                            </div>
+                                            <div class="detail-progress-track" title={detail.percentLabel}>
+                                                <span class={detail.barClass} style={detail.barStyle}></span>
+                                            </div>
+                                        </div>
+                                    </template>
+                                </div>
+                            </template>
+                        </article>
+                    </template>
+                </div>
+
+                <div class="legend">
+                    <span><span class="status-dot status-red"></span>&lt; 50%</span>
+                    <span><span class="status-dot status-orange"></span>50% - 79%</span>
+                    <span><span class="status-dot status-green"></span>&ge; 80%</span>
+                </div>
+            </template>
+        </div>
+    </lightning-card>
+</template>

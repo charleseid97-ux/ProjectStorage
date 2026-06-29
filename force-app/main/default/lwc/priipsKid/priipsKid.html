@@ -1,0 +1,89 @@
+<template>
+    <lightning-card title="PRIIPs/KID" icon-name="custom:custom63">
+        <div class="container">
+            <template if:true={isLoading}>
+                <div class="spinner-container">
+                    <lightning-spinner alternative-text="Loading PRIIPs/KID data" size="medium"></lightning-spinner>
+                </div>
+            </template>
+
+            <template if:true={errorMessage}>
+                <div class="error-box" role="alert">{errorMessage}</div>
+            </template>
+
+            <template if:true={warningMessage}>
+                <div class="warning-box" role="alert">{warningMessage}</div>
+            </template>
+
+            <template if:true={data}>
+                <div class="header-row">
+                    <lightning-badge label={data.projectMode}></lightning-badge>
+                </div>
+
+                <template if:true={hasPriipsTeams}>
+                    <div class="priips-content">
+                        <template for:each={priipsTeams} for:item="team">
+                            <details key={team.key} class="team-block" open>
+                                <summary class="team-summary">{team.name}</summary>
+
+                                <div class="team-body">
+                                    <template if:true={team.hasFundFields}>
+                                        <details class="record-block" open>
+                                            <summary class="record-summary">PRIIPs FUND LEVEL</summary>
+
+                                            <div class="field-grid">
+                                                <template for:each={team.fundFields} for:item="field">
+                                                    <div key={field.key} class={field.itemClass}>
+                                                        <div class="field-label">
+                                                            <span>{field.label}</span>
+                                                            <template if:true={field.required}>
+                                                                <abbr class="slds-required" title="required">*</abbr>
+                                                            </template>
+                                                        </div>
+                                                        <div class={field.valueClass}>
+                                                            <lightning-formatted-rich-text value={field.value}></lightning-formatted-rich-text>
+                                                        </div>
+                                                    </div>
+                                                </template>
+                                            </div>
+                                        </details>
+                                    </template>
+
+                                    <template for:each={team.shareclasses} for:item="shareclassRecord">
+                                        <details key={shareclassRecord.key} class="record-block" open>
+                                            <summary class="record-summary">{shareclassRecord.label}</summary>
+
+                                            <div class="field-grid">
+                                                <template for:each={shareclassRecord.fields} for:item="field">
+                                                    <div key={field.key} class={field.itemClass}>
+                                                        <div class="field-label">
+                                                            <span>{field.label}</span>
+                                                            <template if:true={field.required}>
+                                                                <abbr class="slds-required" title="required">*</abbr>
+                                                            </template>
+                                                        </div>
+                                                        <div class={field.valueClass}>
+                                                            <lightning-formatted-rich-text value={field.value}></lightning-formatted-rich-text>
+                                                        </div>
+                                                    </div>
+                                                </template>
+                                            </div>
+                                        </details>
+                                    </template>
+                                </div>
+                            </details>
+                        </template>
+                    </div>
+                </template>
+
+                <template if:false={hasPriipsTeams}>
+                    <div class="empty-box">No PRIIPs/KID fields found.</div>
+                </template>
+            </template>
+
+            <template if:true={showEmptyState}>
+                <div class="empty-box">No PRIIPs/KID configuration found.</div>
+            </template>
+        </div>
+    </lightning-card>
+</template>
