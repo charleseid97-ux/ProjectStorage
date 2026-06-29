@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>CCRecipientQueues__c</fullName>
+    <description>Comma-separated developer names of the queues whose members are CC'd on the alert email.</description>
+    <externalId>false</externalId>
+    <fieldManageability>SubscriberControlled</fieldManageability>
+    <inlineHelpText>Members of these queues will be in the CC field of the email. Leave blank for no CC recipients.</inlineHelpText>
+    <label>CC Recipient Queues</label>
+    <length>255</length>
+    <required>false</required>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

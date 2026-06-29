@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <description>Pending approvals alert sent to configured queue members listing all approval items that have exceeded the configured pending threshold.</description>
+    <encodingKey>UTF-8</encodingKey>
+    <name>Pending Approvals Alert Template</name>
+    <style>freeForm</style>
+    <subject>Pending Approvals — Action Required</subject>
+    <textOnly>Hello,
+
+The following approval items have been pending for an extended period and require your attention.
+
+Please log in and take any action necessary.
+
+Regards,
+Salesforce Automation</textOnly>
+    <type>html</type>
+    <uiType>SFX</uiType>
+</EmailTemplate>
