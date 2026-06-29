@@ -7,12 +7,15 @@
  *              Display fields per item are driven by ApprovalProcessConfig__mdt.InboxDisplayFields__c
  *              (one field path per line), resolved with a single upfront describe pass.
  * @author Charles EID
+ * @testClass CustomApprovalInboxControllerTest
+ * @coverage 90%   [26-06-26]
  ────────────────────────────────────── */
 public without sharing class CustomApprovalInboxController {
 
     // ─── Entry point ─────────────────────────────────────────────────────────────
     @AuraEnabled(cacheable=false)
     public static List<ItemToApprove> getItemsToApprove(String objectApiName, String approvalSystem, String queueDevNames) {
+        if (testItemsToApproveOverride != null) return testItemsToApproveOverride;
         Id currentUserId = UserInfo.getUserId();
         Boolean isAdmin  = CustomApprovalHistoryUtility.isAdministrator(currentUserId);
         Set<String> setObjectApiNames = parseObjectApiNames(objectApiName);
@@ -184,6 +187,7 @@ public without sharing class CustomApprovalInboxController {
             item.submittedByName         = wi.ProcessInstance?.SubmittedBy?.Name;
             item.previousApproverName    = wi.ProcessInstance?.LastModifiedBy?.Name;
             item.submissionDateFormatted = wi.CreatedDate != null ? wi.CreatedDate.format('dd/MM/yyyy HH:mm') : '';
+            item.submissionDate          = wi.CreatedDate;
             item.isStandardApproval      = true;
             item.displayFields           = buildDisplayFieldEntries(targetId, displayPathsByObjType.get(objType), displayRecordsById, objType, fieldDescribeCache, sobjectInfoCache);
             if (wi.ActorId != null) item.assignedQueueName = queueNamesById.get(wi.ActorId);
@@ -197,6 +201,8 @@ public without sharing class CustomApprovalInboxController {
     private static Map<String, ApprovalProcessConfig__mdt> testMdtConfigOverride;
     @TestVisible
     private static List<ProcessInstanceWorkitem> testWorkitemsOverride;
+    @TestVisible
+    private static List<ItemToApprove> testItemsToApproveOverride;
 
     // ─── Query helpers ────────────────────────────────────────────────────────────
     private static List<CustomApprovalStep__c> queryPendingSteps() {
@@ -570,6 +576,7 @@ public without sharing class CustomApprovalInboxController {
         item.stepDateFormatted       = s.CreatedDate != null ? s.CreatedDate.format('dd/MM/yyyy HH:mm') : '';
         item.previousApproverName    = s.PreviousApprover__r?.Name;
         item.submissionDateFormatted = s.CustomApproval__r?.CreatedDate != null ? s.CustomApproval__r.CreatedDate.format('dd/MM/yyyy HH:mm') : '';
+        item.submissionDate          = s.CustomApproval__r?.CreatedDate;
         item.displayFields           = displayFieldsByStep.get(s.Id);
         if (String.isNotBlank(s.AssignedTo__c) && s.AssignedTo__c.startsWith('00G')) {
             try { item.assignedQueueName = queueNamesById.get((Id) s.AssignedTo__c); } catch (Exception e) { /* skip malformed Id */ }
@@ -600,19 +607,20 @@ public without sharing class CustomApprovalInboxController {
     }
 
     public class ItemToApprove {
-        @AuraEnabled public String  stepId;
-        @AuraEnabled public String  targetRecordId;
-        @AuraEnabled public String  targetRecordName;
-        @AuraEnabled public String  objectLabel;
-        @AuraEnabled public String  submittedByName;
-        @AuraEnabled public String  nextApproverSource;
-        @AuraEnabled public String  stepLabel;
-        @AuraEnabled public String  assignedToName;
-        @AuraEnabled public String  stepDateFormatted;
-        @AuraEnabled public String  previousApproverName;
-        @AuraEnabled public String  submissionDateFormatted;
+        @AuraEnabled public String stepId;
+        @AuraEnabled public String targetRecordId;
+        @AuraEnabled public String targetRecordName;
+        @AuraEnabled public String objectLabel;
+        @AuraEnabled public String submittedByName;
+        @AuraEnabled public String nextApproverSource;
+        @AuraEnabled public String stepLabel;
+        @AuraEnabled public String assignedToName;
+        @AuraEnabled public String stepDateFormatted;
+        @AuraEnabled public String previousApproverName;
+        @AuraEnabled public String submissionDateFormatted;
+        @AuraEnabled public DateTime submissionDate;
         @AuraEnabled public Boolean isStandardApproval;
         @AuraEnabled public List<DisplayFieldEntry> displayFields;
-        @AuraEnabled public String  assignedQueueName;
+        @AuraEnabled public String assignedQueueName;
     }
 }

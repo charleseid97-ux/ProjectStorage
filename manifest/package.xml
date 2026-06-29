@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <Package xmlns="http://soap.sforce.com/2006/04/metadata">
 	<types>
+		<members>ApprovalsReminderBatch</members>
+		<members>ApprovalsReminderBatchTest</members>
 		<members>AgreementGridRecapController</members>
 		<members>AgreementGridRecapControllerTest</members>
 		<members>AgreementTest</members>
@@ -253,6 +255,7 @@
 		<members>ApprovalStepConfig.GridAmendment_HOC</members>
 		<members>ApprovalStepConfig.GridAmendment_TopMngt</members>
 		<members>ApprovalStepConfig.GridAmendment_Legal</members>
+		<members>ApprovalsReminder.LegalPendingApprovals</members>
 		<members>GridBuilderSetting.CustomGridBuilderSetting</members>
 		<members>GridCriteriaSetting.Product</members>
 		<members>GridCriteriaSetting.ShareClass</members>
@@ -272,6 +275,7 @@
 		<members>Queue_Business_Region.Taiwan</members>
 		<members>Queue_Business_Region.United_Kingdom</members>
 		<members>ScheduledAlert.GridReview</members>
+		<members>ScheduledAlert.PendingApprovalsAlerts</members>
 		<members>StandardGridRecapConfig.RecapConfigS1</members>
 		<members>StandardGridRecapConfig.RecapConfigS2</members>
 		<members>StandardGridRecapConfig.RecapConfigS3</members>
@@ -367,6 +371,7 @@
 		<name>CustomMetadata</name>
 	</types>
 	<types>
+		<members>ApprovalsReminder__mdt</members>
 		<members>ApprovalLockConfig__mdt</members>
 		<members>ApprovalActionConfig__mdt</members>
 		<members>ApprovalProcessConfig__mdt</members>
@@ -429,6 +434,7 @@
 		<name>FlexiPage</name>
 	</types>
 	<types>
+		<members>ApprovalsReminder__mdt-Approvals Reminder Layout</members>
 		<members>AgreementGridTimeline__c-Agreement Grid Timeline Item Layout</members>
 		<members>ApprovalActionConfig__mdt-Approval Action Config Layout</members>
 		<members>ApprovalLockConfig__mdt-Approval Lock Config Layout</members>
@@ -523,6 +529,7 @@
 	</types> -->
 	<types>
 		<members>Agreements/GridReviewEmailTemplate</members>
+		<members>GridApprovals/PendingApprovalsAlertTemplate</members>
 		<members>GridApprovals/GridAmendmentPendingApprovalV2</members>
 		<name>EmailTemplate</name>
 	</types>
