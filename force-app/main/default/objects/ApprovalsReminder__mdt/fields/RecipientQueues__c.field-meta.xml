@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>RecipientQueues__c</fullName>
+    <description>Comma-separated developer names of the queues whose members receive the alert email as TO recipients.</description>
+    <externalId>false</externalId>
+    <fieldManageability>SubscriberControlled</fieldManageability>
+    <inlineHelpText>Members of these queues will be in the TO field of the email. Comma-separate multiple queue developer names.</inlineHelpText>
+    <label>Recipient Queues (TO)</label>
+    <length>255</length>
+    <required>false</required>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

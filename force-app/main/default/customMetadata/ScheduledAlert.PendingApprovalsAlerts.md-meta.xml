@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomMetadata xmlns="http://soap.sforce.com/2006/04/metadata" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <label>Pending Approvals Alerts</label>
+    <protected>false</protected>
+    <values>
+        <field>ApexClass__c</field>
+        <value xsi:type="xsd:string">ApprovalsReminderBatch</value>
+    </values>
+    <values>
+        <field>BatchSize__c</field>
+        <value xsi:nil="true"/>
+    </values>
+    <values>
+        <field>Description__c</field>
+        <value xsi:type="xsd:string">Sends pending approval alerts to configured queues. Details driven by ApprovalsReminder__mdt records. Each active record runs in its own batch transaction.</value>
+    </values>
+    <values>
+        <field>EmailTemplate__c</field>
+        <value xsi:type="xsd:string">PendingApprovalsAlertTemplate</value>
+    </values>
+    <values>
+        <field>Frequency__c</field>
+        <value xsi:type="xsd:string">Weekly</value>
+    </values>
+    <values>
+        <field>IsActive__c</field>
+        <value xsi:type="xsd:boolean">true</value>
+    </values>
+</CustomMetadata>

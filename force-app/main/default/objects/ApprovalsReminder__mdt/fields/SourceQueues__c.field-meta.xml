@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>SourceQueues__c</fullName>
+    <description>Comma-separated developer names of the queues whose pending approvals to check. Passed as queueDevNames to getItemsToApprove.</description>
+    <externalId>false</externalId>
+    <fieldManageability>SubscriberControlled</fieldManageability>
+    <inlineHelpText>E.g. Legal_Queue — comma-separate multiple queue developer names.</inlineHelpText>
+    <label>Source Queues</label>
+    <length>255</length>
+    <required>false</required>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>
