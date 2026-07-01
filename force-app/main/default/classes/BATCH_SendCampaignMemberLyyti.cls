@@ -61,8 +61,8 @@ public class BATCH_SendCampaignMemberLyyti implements Database.Batchable<sObject
                                 WS_UpdateCampaignMembers sender = new WS_UpdateCampaignMembers(cm, 'reactedyes', lyytiId);            
                                 sender.sendInDataToExternalService();
 
-                                WS_SendConfirmationLyyti sendConfirm = new WS_SendConfirmationLyyti(lyytiId);            
-                                sendConfirm.sendInDataToExternalService();
+                                // WS_SendConfirmationLyyti sendConfirm = new WS_SendConfirmationLyyti(lyytiId);            
+                                // sendConfirm.sendInDataToExternalService();
                             }
                         }
                         }
