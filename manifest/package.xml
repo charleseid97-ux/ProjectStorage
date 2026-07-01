@@ -54,7 +54,9 @@
 		<members>GridEmailShareClassOverviewController</members>
 		<members>IApprovalAction</members>
 		<members>IApproverResolver</members>
+		<members>IApprovalsRecipientResolver</members>
 		<members>ICustomAlerter</members>
+		<members>LegalApprovalsRecipientResolver</members>
 		<members>QueueMemberService</members>
 		<members>QueueMemberServiceTest</members>
 		<members>SM034_AgreementService</members>

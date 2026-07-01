@@ -6,6 +6,11 @@
  *              Uses Database.Batchable<Object> with Iterable<Object> so CMDT records can be batched
  *                  without Database.getQueryLocator. Batch size is always 1 for governor-limit isolation.
  *              Implements ICustomAlerter to be dispatched dynamically by CustomAlertScheduler.
+ *              Supports an optional RecipientResolverClass__c on the reminder MDT record: when set,
+ *                  the class (implementing IApprovalsRecipientResolver) splits overdue items into
+ *                  per-destination EmailBundles (e.g. one per business region). The base TO/CC/BCC
+ *                  addresses are merged into every bundle before sending. Without a resolver class,
+ *                  a single bundle is built with all overdue items and the configured addresses.
  * @author Charles EID
  * @testClass ApprovalsReminderBatchTest
  * @coverage 96%   [26-06-26]
@@ -16,6 +21,13 @@ public with sharing class ApprovalsReminderBatch implements Database.Batchable<O
     private ScheduledAlert__mdt alertConfig;
 
     @TestVisible private static Map<String, Set<String>> testEmailsByQueueOverride;
+
+    public class EmailBundle {
+        public Set<String> toAddresses  = new Set<String>();
+        public Set<String> ccAddresses  = new Set<String>();
+        public Set<String> bccAddresses = new Set<String>();
+        public List<CustomApprovalInboxController.ItemToApprove> items = new List<CustomApprovalInboxController.ItemToApprove>();
+    }
 
     public ApprovalsReminderBatch() {}
 
@@ -29,7 +41,7 @@ public with sharing class ApprovalsReminderBatch implements Database.Batchable<O
     }
 
     public Iterable<Object> start(Database.BatchableContext bc) {
-        return (List<Object>) [SELECT Label, ObjectApiNames__c, ApprovalSystem__c, SourceQueues__c, RecipientQueues__c, CCRecipientQueues__c, BCCRecipientQueues__c, OverrideEmailTemplate__c, ThresholdDays__c
+        return (List<Object>) [SELECT Label, ObjectApiNames__c, ApprovalSystem__c, SourceQueues__c, RecipientQueues__c, CCRecipientQueues__c, BCCRecipientQueues__c, OverrideEmailTemplate__c, ThresholdDays__c, RecipientResolverClass__c
                                FROM ApprovalsReminder__mdt
                                WHERE IsActive__c = true];
     }
@@ -60,25 +72,53 @@ public with sharing class ApprovalsReminderBatch implements Database.Batchable<O
         allQueues.addAll(ccQueues);
         allQueues.addAll(bccQueues);
 
-        if (allQueues.isEmpty()) return;
-
         Map<String, Set<String>> emailsByQueue = testEmailsByQueueOverride != null ? testEmailsByQueueOverride : QueueMemberService.getQueueMemberEmails(allQueues);
 
         Set<String> toAddresses  = mergeEmails(toQueues,  emailsByQueue);
         Set<String> ccAddresses  = mergeEmails(ccQueues,  emailsByQueue);
         Set<String> bccAddresses = mergeEmails(bccQueues, emailsByQueue);
 
-        if (toAddresses.isEmpty()) return;
+        List<EmailBundle> bundles;
+        if (String.isNotBlank(reminder.RecipientResolverClass__c)) {
+            IApprovalsRecipientResolver resolver = (IApprovalsRecipientResolver) Type.forName(reminder.RecipientResolverClass__c).newInstance();
+            bundles = resolver.resolve(overdue);
+            for (EmailBundle b : bundles) {
+                b.toAddresses.addAll(toAddresses);
+                b.ccAddresses.addAll(ccAddresses);
+                b.bccAddresses.addAll(bccAddresses);
+            }
+        } else {
+            EmailBundle single = new EmailBundle();
+            single.toAddresses.addAll(toAddresses);
+            single.ccAddresses.addAll(ccAddresses);
+            single.bccAddresses.addAll(bccAddresses);
+            single.items.addAll(overdue);
+            bundles = new List<EmailBundle>{ single };
+        }
+
+        if (bundles.isEmpty()) return;
 
         String templateDevName = String.isNotBlank(reminder.OverrideEmailTemplate__c) ? reminder.OverrideEmailTemplate__c : (alertConfig != null ? alertConfig.EmailTemplate__c : null);
         String templateHtml = getEmailTemplateHtml(templateDevName);
+        String subject = 'Pending Approvals Alert — ' + reminder.Label + ' (> ' + threshold + ' days)';
+
+        for (EmailBundle bundle : bundles) {
+            sendBundle(bundle, subject, templateHtml, orgBaseUrl);
+        }
+    }
+
+    public void finish(Database.BatchableContext bc) {}
+
+    // ─── Send ────────────────────────────────────────────────────────────────────
+    private void sendBundle(EmailBundle bundle, String subject, String templateHtml, String orgBaseUrl) {
+        if (bundle.toAddresses.isEmpty()) return;
 
         Messaging.SingleEmailMessage mail = new Messaging.SingleEmailMessage();
-        mail.setSubject('Pending Approvals Alert — ' + reminder.Label + ' (> ' + threshold + ' days)');
-        mail.setToAddresses(new List<String>(toAddresses));
-        if (!ccAddresses.isEmpty())  mail.setCcAddresses(new List<String>(ccAddresses));
-        if (!bccAddresses.isEmpty()) mail.setBccAddresses(new List<String>(bccAddresses));
-        mail.setHtmlBody(templateHtml.replace(DATATABLE, buildTableHtml(overdue, orgBaseUrl)));
+        mail.setSubject(subject);
+        mail.setToAddresses(new List<String>(bundle.toAddresses));
+        if (!bundle.ccAddresses.isEmpty())  mail.setCcAddresses(new List<String>(bundle.ccAddresses));
+        if (!bundle.bccAddresses.isEmpty()) mail.setBccAddresses(new List<String>(bundle.bccAddresses));
+        mail.setHtmlBody(templateHtml.replace(DATATABLE, buildTableHtml(bundle.items, orgBaseUrl)));
 
         if (!Test.isRunningTest()) {
             Messaging.SendEmailResult[] results = Messaging.sendEmail(new List<Messaging.SingleEmailMessage>{ mail });
@@ -89,8 +129,6 @@ public with sharing class ApprovalsReminderBatch implements Database.Batchable<O
             }
         }
     }
-
-    public void finish(Database.BatchableContext bc) {}
 
     // ─── HTML table ──────────────────────────────────────────────────────────────
     private String buildTableHtml(List<CustomApprovalInboxController.ItemToApprove> items, String orgBaseUrl) {

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>RecipientResolverClass__c</fullName>
+    <description>Optional. API name of an Apex class implementing IApprovalsRecipientResolver. When set, the class is instantiated dynamically and used to split overdue items into per-destination email bundles (e.g. one per business region). If blank, a single email is sent to the configured TO/CC/BCC queues.</description>
+    <externalId>false</externalId>
+    <fieldManageability>SubscriberControlled</fieldManageability>
+    <label>Recipient Resolver Class</label>
+    <length>255</length>
+    <required>false</required>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

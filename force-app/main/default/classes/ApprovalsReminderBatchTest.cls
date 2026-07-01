@@ -5,6 +5,7 @@
  *              Uses JSON deserialization to build fake CMDT configs without DML.
  * @author Charles EID
  * @covers ApprovalsReminderBatch
+ * @covers LegalApprovalsRecipientResolver
  ────────────────────────────────────── */
 @isTest
 private class ApprovalsReminderBatchTest {
@@ -12,6 +13,11 @@ private class ApprovalsReminderBatchTest {
     private static final Map<String, Set<String>> MOCK_EMAILS = new Map<String, Set<String>>{
         'Legal_Queue' => new Set<String>{ 'legal.test@carmignac.test.invalid' }
     };
+
+    @TestSetup
+    static void setupTestData() {
+        GridTestSetupHelper.setupTestData();
+    }
 
     // ─── Tests ───────────────────────────────────────────────────────────────────
     @isTest
@@ -89,6 +95,35 @@ private class ApprovalsReminderBatchTest {
         Test.stopTest();
     }
 
+    @isTest
+    static void testResolverClassRoutesItemsByRegion() {
+        // Exercises LegalApprovalsRecipientResolver: Grid with a known region → MDT match → CC address populated
+        ApprovalsReminderBatch.testEmailsByQueueOverride = MOCK_EMAILS;
+        Grid__c grid = GridTestSetupHelper.getTestGridByName(GridTestSetupHelper.GRID_NAME_S1);
+        update new Grid__c(Id = grid.Id, TECH_BusinessRegion__c = 'BP_FR');
+
+        CustomApprovalInboxController.testItemsToApproveOverride = new List<CustomApprovalInboxController.ItemToApprove>{
+            makeItem(DateTime.now().addDays(-35), false, grid.Id)
+        };
+
+        Test.startTest();
+        Database.executeBatch(new ApprovalsReminderBatch(makeAlertConfig()), 1);
+        Test.stopTest();
+    }
+
+    @isTest
+    static void testResolverClassCatchAllBundle() {
+        // Item with unrecognised targetRecordId → catch-all bundle (no CC), still sent to Legal_Queue TO
+        ApprovalsReminderBatch.testEmailsByQueueOverride = MOCK_EMAILS;
+        CustomApprovalInboxController.testItemsToApproveOverride = new List<CustomApprovalInboxController.ItemToApprove>{
+            makeItem(DateTime.now().addDays(-35), false)
+        };
+
+        Test.startTest();
+        Database.executeBatch(new ApprovalsReminderBatch(makeAlertConfig()), 1);
+        Test.stopTest();
+    }
+
     // ─── Helpers ─────────────────────────────────────────────────────────────────
     private static ScheduledAlert__mdt makeAlertConfig() {
         return (ScheduledAlert__mdt) JSON.deserialize(
@@ -115,6 +150,12 @@ private class ApprovalsReminderBatchTest {
         item.submissionDate          = submissionDate;
         item.submissionDateFormatted = submissionDate.format('dd/MM/yyyy HH:mm');
         item.isStandardApproval      = isStandard;
+        return item;
+    }
+
+    private static CustomApprovalInboxController.ItemToApprove makeItem(DateTime submissionDate, Boolean isStandard, Id targetRecordId) {
+        CustomApprovalInboxController.ItemToApprove item = makeItem(submissionDate, isStandard);
+        item.targetRecordId = targetRecordId;
         return item;
     }
 }
