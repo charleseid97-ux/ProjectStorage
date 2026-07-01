@@ -42,4 +42,8 @@
         <field>Description__c</field>
         <value xsi:type="xsd:string">Alerts Legal Queue members of Convention__c and Grid__c approvals pending more than 30 days.</value>
     </values>
+    <values>
+        <field>RecipientResolverClass__c</field>
+        <value xsi:type="xsd:string">LegalApprovalsRecipientResolver</value>
+    </values>
 </CustomMetadata>
