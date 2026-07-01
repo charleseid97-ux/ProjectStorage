@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>All</fullName>
+    <columns>MasterLabel</columns>
+    <columns>IsActive__c</columns>
+    <columns>ThresholdDays__c</columns>
+    <columns>ObjectApiNames__c</columns>
+    <columns>ApprovalSystem__c</columns>
+    <columns>SourceQueues__c</columns>
+    <columns>RecipientQueues__c</columns>
+    <columns>CCRecipientQueues__c</columns>
+    <columns>BCCRecipientQueues__c</columns>
+    <columns>OverrideEmailTemplate__c</columns>
+    <columns>RecipientResolverClass__c</columns>
+    <filterScope>Everything</filterScope>
+    <label>All</label>
+    <language>en_US</language>
+</ListView>

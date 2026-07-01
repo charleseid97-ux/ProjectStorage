@@ -348,6 +348,70 @@ public with sharing class CustomApprovalInboxControllerTest {
         System.assertNotEquals(null, result[0].objectLabel, 'objectLabel should be resolved via Id-casting fallback');
     }
 
+    // ─── Standard items — user-assigned workitem with real TargetObjectId ───────────
+    @IsTest
+    static void testGetItemsToApprove_StandardItems_UserActorId() {
+        // JSON-deserializes a workitem with ActorId = currentUserId and a real Grid__c TargetObjectId.
+        // This exercises filterVisibleWorkitems user-match path, all of getStandardItems (lines 104-124),
+        // groupWorkitemsByObjType non-null TargetObjectId branch, and buildStandardResult (lines 172-196).
+        Grid__c grid = GridTestSetupHelper.getTestGridByName(GridTestSetupHelper.GRID_NAME_S1);
+        String wiJson = '{"ActorId":"' + UserInfo.getUserId() + '","ProcessInstance":{"TargetObjectId":"' + grid.Id + '"}}';
+        CustomApprovalInboxController.testWorkitemsOverride = new List<ProcessInstanceWorkitem>{
+            (ProcessInstanceWorkitem) JSON.deserialize(wiJson, ProcessInstanceWorkitem.class)
+        };
+
+        Test.startTest();
+        List<CustomApprovalInboxController.ItemToApprove> result = CustomApprovalInboxController.getItemsToApprove('', 'Standard', '');
+        Test.stopTest();
+
+        System.assertNotEquals(null, result, RESULT_NOT_NULL);
+        System.assertEquals(1, result.size(), ITEMS_ONE);
+        System.assertEquals(true, result[0].isStandardApproval, 'Item should be flagged as standard approval');
+        System.assertNotEquals(null, result[0].targetRecordId, 'targetRecordId should be set from TargetObjectId');
+    }
+
+    // ─── Standard items — queue-assigned workitem exercises filterVisibleWorkitems queue path ──
+    @IsTest
+    static void testGetItemsToApprove_StandardItems_QueueActorId() {
+        // Creates a queue, adds current user as member, then injects a workitem with ActorId = queueId.
+        // Covers filterVisibleWorkitems '00G' branch and QueueMemberService.resolveMembers call.
+        Grid__c grid = GridTestSetupHelper.getTestGridByName(GridTestSetupHelper.GRID_NAME_S1);
+        Group q = new Group(Name = 'StandardApprovalTestQueue', Type = 'Queue');
+        insert q;
+        System.runAs(new User(Id = UserInfo.getUserId())) {
+            insert new GroupMember(GroupId = q.Id, UserOrGroupId = UserInfo.getUserId());
+        }
+        String wiJson = '{"ActorId":"' + q.Id + '","ProcessInstance":{"TargetObjectId":"' + grid.Id + '"}}';
+        CustomApprovalInboxController.testWorkitemsOverride = new List<ProcessInstanceWorkitem>{
+            (ProcessInstanceWorkitem) JSON.deserialize(wiJson, ProcessInstanceWorkitem.class)
+        };
+
+        Test.startTest();
+        List<CustomApprovalInboxController.ItemToApprove> result = CustomApprovalInboxController.getItemsToApprove('', 'Standard', '');
+        Test.stopTest();
+
+        System.assertNotEquals(null, result, RESULT_NOT_NULL);
+        System.assertEquals(1, result.size(), ITEMS_ONE);
+        System.assertEquals(true, result[0].isStandardApproval, 'Item should be flagged as standard approval');
+    }
+
+    // ─── Non-blank queueDevNames — covers parseQueueDevNames and resolveQueuesByDevName paths ──
+    @IsTest
+    static void testGetItemsToApprove_WithQueueDevNames_CoversLoopBodies() {
+        // Insert a queue, query back its DeveloperName, then pass it to getItemsToApprove.
+        // This covers: parseQueueDevNames split loop body, resolveQueuesByDevName query loop body
+        // (result.put when queue is found), and the queueNamesById non-empty path in getCustomItems.
+        Group q = new Group(Name = 'InboxCoverageTestQueue', DeveloperName = 'InboxCoverageTestQueue', Type = 'Queue');
+        insert q;
+        Group inserted = [SELECT Id, DeveloperName FROM Group WHERE Id = :q.Id LIMIT 1];
+
+        Test.startTest();
+        List<CustomApprovalInboxController.ItemToApprove> result = CustomApprovalInboxController.getItemsToApprove('', 'Custom', inserted.DeveloperName);
+        Test.stopTest();
+
+        System.assertNotEquals(null, result, RESULT_NOT_NULL);
+    }
+
     // ─── Display fields resolved from MDT ────────────────────────────────────────
     @IsTest
     static void testGetItemsToApprove_DisplayFields_Resolved() {

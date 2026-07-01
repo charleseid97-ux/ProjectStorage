@@ -25,6 +25,10 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>ApprovalsReminderBatch</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>CustomAlertScheduler</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -129,11 +133,19 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>IApprovalsRecipientResolver</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>IApproverResolver</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
         <apexClass>ICustomAlerter</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>LegalApprovalsRecipientResolver</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
@@ -160,6 +172,10 @@
         <apexClass>StandardGridProductAndRulesController</apexClass>
         <enabled>true</enabled>
     </classAccesses>
+    <customMetadataTypeAccesses>
+        <enabled>true</enabled>
+        <name>ApprovalsReminder__mdt</name>
+    </customMetadataTypeAccesses>
     <customMetadataTypeAccesses>
         <enabled>true</enabled>
         <name>ApprovalActionConfig__mdt</name>
