@@ -656,8 +656,16 @@ public with sharing class GridExcelImportService {
     }
 
     private static String buildGridScopeName(String gridName) {
-        String creationDate = Date.today().format();
-        return 'Grid Scope for ' + gridName + ' - ' + creationDate;
+        String prefix = 'Grid Scope for ';
+        String suffix = ' - ' + Date.today().format();
+
+        Integer maxNameLength = 80;
+        Integer maxGridNameLength = maxNameLength - prefix.length() - suffix.length();
+
+        if (gridName == null) gridName = '';
+        if (gridName.length() > maxGridNameLength) gridName = gridName.substring(0, maxGridNameLength);
+
+        return prefix + gridName + suffix;
     }
 
     private static void addError(ImportResult result, String sheetName, Integer rowNumber, String message) {
