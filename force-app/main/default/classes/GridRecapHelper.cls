@@ -27,7 +27,7 @@ public with sharing class GridRecapHelper {
                                  WHERE Grid__c = :gridId
                                  AND StandardGridDetail__c != null
                                  AND StandardGridDetail__r.ShareClass__r.Fund__c != null
-                                 AND EndDate__c = null
+                                 AND IsCurrentGridDetail__c = true
                                  ORDER BY StandardGridDetail__r.Grid__r.Name, StandardGridDetail__r.ShareClass__r.Fund__r.Name, StandardGridDetail__r.ShareClass__r.Name__c]) {
             Id sgId          = gd.StandardGridDetail__r.Grid__c;
             String sgName    = gd.StandardGridDetail__r.Grid__r.Name;
