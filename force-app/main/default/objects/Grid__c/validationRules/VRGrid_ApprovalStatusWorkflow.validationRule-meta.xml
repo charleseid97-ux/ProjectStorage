@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>VRGrid_ApprovalStatusWorkflow</fullName>
+    <active>true</active>
+    <errorConditionFormula>AND(
+    NOT($User.BypassValidationRules__c),
+    NOT(ISNEW()),
+    ISCHANGED(ApprovalStatus__c),
+    NOT(
+        OR(
+            /* Draft -&gt; Pending Approval */
+            AND(
+                ISPICKVAL(PRIORVALUE(ApprovalStatus__c), &quot;Draft&quot;),
+                ISPICKVAL(ApprovalStatus__c, &quot;Pending Approval&quot;)
+            ),
+
+            /* Pending Approval -&gt; Approved */
+            AND(
+                ISPICKVAL(PRIORVALUE(ApprovalStatus__c), &quot;Pending Approval&quot;),
+                ISPICKVAL(ApprovalStatus__c, &quot;Approved&quot;)
+            ),
+
+            /* Pending Approval -&gt; Rejected */
+            AND(
+                ISPICKVAL(PRIORVALUE(ApprovalStatus__c), &quot;Pending Approval&quot;),
+                ISPICKVAL(ApprovalStatus__c, &quot;Rejected&quot;)
+            ),
+
+            /* Rejected -&gt; Draft */
+            AND(
+                ISPICKVAL(PRIORVALUE(ApprovalStatus__c), &quot;Rejected&quot;),
+                ISPICKVAL(ApprovalStatus__c, &quot;Draft&quot;)
+            )
+        )
+    )
+)</errorConditionFormula>
+    <errorMessage>Please update the approval status in the correct order: Draft → Pending Approval → Approved or Rejected. Rejected records can be moved back to Draft.</errorMessage>
+</ValidationRule>
