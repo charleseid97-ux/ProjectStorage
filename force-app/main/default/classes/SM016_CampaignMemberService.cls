@@ -382,8 +382,8 @@ public with sharing class SM016_CampaignMemberService {
                                 WS_UpdateCampaignMembers sender = new WS_UpdateCampaignMembers(cm, 'reactedyes', null);            
                                 sender.sendInDataToExternalService();
                                 
-                                WS_SendConfirmationLyyti sendConfirm = new WS_SendConfirmationLyyti(cm.LyytiId__c);            
-                                sendConfirm.sendInDataToExternalService();
+                                //WS_SendConfirmationLyyti sendConfirm = new WS_SendConfirmationLyyti(cm.LyytiId__c);            
+                                //sendConfirm.sendInDataToExternalService();
                         }
                         }
                         
