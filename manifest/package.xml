@@ -240,6 +240,8 @@
 	</types>
 	<types>
 		<members>ApprovalLockConfig.Grid</members>
+		<members>ApprovalLockFieldExemptionConfig.Grid_GeneralExemptions</members>
+		<members>ApprovalLockFieldExemptionConfig.Grid_LegalQueueExemptions</members>
 		<members>ApprovalActionConfig.GridAmendment_DCODOApprovalAlert</members>
 		<members>ApprovalActionConfig.GridAmendment_FinalApproval</members>
 		<members>ApprovalActionConfig.GridAmendment_FinalRejection</members>
@@ -509,6 +511,7 @@
 		<members>Grid_AccessGridComparison</members>
 		<members>Grid_AccessGridDashboard</members>
 		<members>Grid_AccessGridBuilder</members>
+		<members>Grid_FullGridEdit</members>
 		<members>Grid_AccessGridAmendment</members>
 		<members>Grid_ViewAllRecords</members>
 		<name>PermissionSet</name>
