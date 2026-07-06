@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>EnforceLockOnAdmins__c</fullName>
+    <defaultValue>true</defaultValue>
+    <description>When checked (default), the approval lock also applies to System Administrator users. When unchecked, users with an Administrator profile can edit any field on the record regardless of its lock status.</description>
+    <fieldManageability>DeveloperControlled</fieldManageability>
+    <inlineHelpText>Uncheck to let Administrators bypass this lock entirely.</inlineHelpText>
+    <label>Enforce Lock on Admins</label>
+    <type>Checkbox</type>
+</CustomField>
