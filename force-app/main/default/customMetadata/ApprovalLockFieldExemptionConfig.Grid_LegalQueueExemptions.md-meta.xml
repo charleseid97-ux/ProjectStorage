@@ -12,7 +12,8 @@
     </values>
     <values>
         <field>ExemptFields__c</field>
-        <value xsi:type="xsd:string">EndDate__c</value>
+        <value xsi:type="xsd:string">StartDate__c
+EndDate__c</value>
     </values>
     <values>
         <field>LockConfig__c</field>
