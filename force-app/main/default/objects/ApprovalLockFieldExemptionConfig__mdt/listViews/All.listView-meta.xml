@@ -3,11 +3,11 @@
     <fullName>All</fullName>
     <columns>MasterLabel</columns>
     <columns>DeveloperName</columns>
-    <columns>ObjectApiName__c</columns>
-    <columns>StatusFieldApiName__c</columns>
+    <columns>LockConfig__c</columns>
+    <columns>ScopeType__c</columns>
+    <columns>AssigneeValue__c</columns>
+    <columns>ExemptFields__c</columns>
     <columns>Active__c</columns>
-    <columns>EnforceLockOnAdmins__c</columns>
-    <columns>LockedStatuses__c</columns>
     <filterScope>Everything</filterScope>
     <label>All</label>
     <language>en_US</language>

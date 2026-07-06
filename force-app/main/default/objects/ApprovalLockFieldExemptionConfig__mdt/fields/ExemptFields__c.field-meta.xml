@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
-    <fullName>LockedStatuses__c</fullName>
+    <fullName>ExemptFields__c</fullName>
+    <description>Field API names this grant exempts from the lock, one per line.</description>
     <fieldManageability>DeveloperControlled</fieldManageability>
-    <inlineHelpText>One status value per line. The record is locked while its status field holds any of these values.</inlineHelpText>
-    <label>Locked Statuses</label>
+    <inlineHelpText>One field API name per line, e.g. EndDate__c.</inlineHelpText>
+    <label>Exempt Fields</label>
     <length>32768</length>
     <type>LongTextArea</type>
     <visibleLines>5</visibleLines>

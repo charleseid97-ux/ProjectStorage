@@ -25,16 +25,16 @@
                 <field>Active__c</field>
             </layoutItems>
             <layoutItems>
+                <behavior>Edit</behavior>
+                <field>EnforceLockOnAdmins__c</field>
+            </layoutItems>
+            <layoutItems>
                 <behavior>Required</behavior>
                 <field>StatusFieldApiName__c</field>
             </layoutItems>
             <layoutItems>
                 <behavior>Required</behavior>
                 <field>LockedStatuses__c</field>
-            </layoutItems>
-            <layoutItems>
-                <behavior>Edit</behavior>
-                <field>ExemptFields__c</field>
             </layoutItems>
         </layoutColumns>
         <style>TwoColumnsTopToBottom</style>

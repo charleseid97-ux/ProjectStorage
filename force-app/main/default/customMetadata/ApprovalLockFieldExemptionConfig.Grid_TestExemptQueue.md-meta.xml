@@ -1,26 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomMetadata xmlns="http://soap.sforce.com/2006/04/metadata" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
-    <label>Grid</label>
+    <label>Grid - Test Exempt Queue</label>
     <protected>false</protected>
     <values>
         <field>Active__c</field>
         <value xsi:type="xsd:boolean">true</value>
     </values>
     <values>
-        <field>EnforceLockOnAdmins__c</field>
-        <value xsi:type="xsd:boolean">true</value>
+        <field>AssigneeValue__c</field>
+        <value xsi:type="xsd:string">Grid_ALE_Test_Exempt_Queue</value>
     </values>
     <values>
-        <field>LockedStatuses__c</field>
-        <value xsi:type="xsd:string">Pending Approval
-Approved</value>
+        <field>ExemptFields__c</field>
+        <value xsi:type="xsd:string">ActiveGrid__c</value>
     </values>
     <values>
-        <field>ObjectApiName__c</field>
-        <value xsi:type="xsd:string">Grid__c</value>
+        <field>LockConfig__c</field>
+        <value xsi:type="xsd:string">Grid</value>
     </values>
     <values>
-        <field>StatusFieldApiName__c</field>
-        <value xsi:type="xsd:string">ApprovalStatus__c</value>
+        <field>ScopeType__c</field>
+        <value xsi:type="xsd:string">Queue</value>
     </values>
 </CustomMetadata>

@@ -184,6 +184,104 @@ public with sharing class CustomApprovalHistoryUtilityTest {
         System.assertEquals(STEP_DEV_DCO, updatedApproval.CurrentStepDevName__c, 'Should advance to DCO step');
     }
 
+    // ─── enforceApprovalLock ─────────────────────────────────────────────────────
+    @IsTest
+    static void testEnforceApprovalLock_BlocksNonExemptFieldOnLockedGrid() {
+        Grid__c grid = GridTestSetupHelper.getTestGridByName(GridTestSetupHelper.GRID_NAME_S1);
+        Grid__c oldGrid = new Grid__c(Id = grid.Id, ApprovalStatus__c = 'Approved', ActiveGrid__c = true);
+        Grid__c newGrid = new Grid__c(Id = grid.Id, ApprovalStatus__c = 'Approved', ActiveGrid__c = false);
+
+        Test.startTest();
+        CustomApprovalHistoryUtility.enforceApprovalLock(new List<SObject>{ newGrid }, new Map<Id, SObject>{ grid.Id => oldGrid });
+        Test.stopTest();
+
+        System.assertEquals(true, newGrid.hasErrors(), 'Editing a non-exempt field on an Approved grid should be blocked');
+    }
+
+    @IsTest
+    static void testEnforceApprovalLock_AllowsGeneralExemptField() {
+        // Comment__c is on the Grid General-scope exemption row (ApprovalLockFieldExemptionConfig.Grid_General) —
+        // covers both the baseline "everyone" exemption and the line-based ExemptFields__c parsing.
+        Grid__c grid = GridTestSetupHelper.getTestGridByName(GridTestSetupHelper.GRID_NAME_S1);
+        Grid__c oldGrid = new Grid__c(Id = grid.Id, ApprovalStatus__c = 'Approved', Comment__c = 'Old comment');
+        Grid__c newGrid = new Grid__c(Id = grid.Id, ApprovalStatus__c = 'Approved', Comment__c = 'New comment');
+
+        Test.startTest();
+        CustomApprovalHistoryUtility.enforceApprovalLock(new List<SObject>{ newGrid }, new Map<Id, SObject>{ grid.Id => oldGrid });
+        Test.stopTest();
+
+        System.assertEquals(false, newGrid.hasErrors(), 'Comment__c is General-exempt and should remain editable while Approved');
+    }
+
+    @IsTest
+    static void testEnforceApprovalLock_AllowsStatusTransition() {
+        Grid__c grid = GridTestSetupHelper.getTestGridByName(GridTestSetupHelper.GRID_NAME_S1);
+        Grid__c oldGrid = new Grid__c(Id = grid.Id, ApprovalStatus__c = 'Approved', ActiveGrid__c = true);
+        Grid__c newGrid = new Grid__c(Id = grid.Id, ApprovalStatus__c = 'Rejected', ActiveGrid__c = false);
+
+        Test.startTest();
+        CustomApprovalHistoryUtility.enforceApprovalLock(new List<SObject>{ newGrid }, new Map<Id, SObject>{ grid.Id => oldGrid });
+        Test.stopTest();
+
+        System.assertEquals(false, newGrid.hasErrors(), 'A status transition away from a locked status should bypass field-level enforcement entirely');
+    }
+
+    @IsTest
+    static void testEnforceApprovalLock_QueueScopeExemption() {
+        // Matches ApprovalLockFieldExemptionConfig.Grid_TestExemptQueue: Queue-scope grant on ActiveGrid__c
+        // for developer name Grid_ALE_Test_Exempt_Queue.
+        Group testQueue = new Group(Name = 'Grid ALE Test Exempt Queue', DeveloperName = 'Grid_ALE_Test_Exempt_Queue', Type = 'Queue');
+        insert testQueue;
+        insert new GroupMember(GroupId = testQueue.Id, UserOrGroupId = UserInfo.getUserId());
+
+        Grid__c grid = GridTestSetupHelper.getTestGridByName(GridTestSetupHelper.GRID_NAME_S1);
+        Grid__c oldGrid = new Grid__c(Id = grid.Id, ApprovalStatus__c = 'Approved', ActiveGrid__c = true);
+        Grid__c newGrid = new Grid__c(Id = grid.Id, ApprovalStatus__c = 'Approved', ActiveGrid__c = false);
+
+        Test.startTest();
+        CustomApprovalHistoryUtility.enforceApprovalLock(new List<SObject>{ newGrid }, new Map<Id, SObject>{ grid.Id => oldGrid });
+        Test.stopTest();
+
+        System.assertEquals(false, newGrid.hasErrors(), 'Current user is a member of the exempt queue, so ActiveGrid__c should be editable');
+    }
+
+    @IsTest
+    static void testEnforceApprovalLock_QueueScopeExemption_NonMemberStillBlocked() {
+        // Same queue-scoped grant exists, but the current user isn't a member, so it must not apply.
+        Group testQueue = new Group(Name = 'Grid ALE Test Exempt Queue', DeveloperName = 'Grid_ALE_Test_Exempt_Queue', Type = 'Queue');
+        insert testQueue;
+
+        Grid__c grid = GridTestSetupHelper.getTestGridByName(GridTestSetupHelper.GRID_NAME_S1);
+        Grid__c oldGrid = new Grid__c(Id = grid.Id, ApprovalStatus__c = 'Approved', ActiveGrid__c = true);
+        Grid__c newGrid = new Grid__c(Id = grid.Id, ApprovalStatus__c = 'Approved', ActiveGrid__c = false);
+
+        Test.startTest();
+        CustomApprovalHistoryUtility.enforceApprovalLock(new List<SObject>{ newGrid }, new Map<Id, SObject>{ grid.Id => oldGrid });
+        Test.stopTest();
+
+        System.assertEquals(true, newGrid.hasErrors(), 'Current user is not a member of the exempt queue, so ActiveGrid__c should still be locked');
+    }
+
+    @IsTest
+    static void testEnforceApprovalLock_AdminStillBlockedWhenEnforceLockOnAdminsTrue() {
+        // Grid's ApprovalLockConfig has EnforceLockOnAdmins__c = true, so even an Administrator-profile
+        // user must be blocked from editing a non-exempt field while Approved.
+        User adminUser = TestFactory.getCarmignacAdminUserTestApex();
+        System.assertEquals(true, CustomApprovalHistoryUtility.isAdministrator(adminUser.Id), 'Sanity check: seeded user should resolve as administrator');
+
+        Grid__c grid = GridTestSetupHelper.getTestGridByName(GridTestSetupHelper.GRID_NAME_S1);
+        Grid__c oldGrid = new Grid__c(Id = grid.Id, ApprovalStatus__c = 'Approved', ActiveGrid__c = true);
+        Grid__c newGrid = new Grid__c(Id = grid.Id, ApprovalStatus__c = 'Approved', ActiveGrid__c = false);
+
+        Test.startTest();
+        System.runAs(adminUser) {
+            CustomApprovalHistoryUtility.enforceApprovalLock(new List<SObject>{ newGrid }, new Map<Id, SObject>{ grid.Id => oldGrid });
+        }
+        Test.stopTest();
+
+        System.assertEquals(true, newGrid.hasErrors(), 'EnforceLockOnAdmins__c is true, so admins must still be blocked from editing non-exempt fields');
+    }
+
     // ─── Helpers ─────────────────────────────────────────────────────────────────
     private static CustomApproval__c createApproval(Id targetId, String currentStepDevName) {
         CustomApproval__c approval = new CustomApproval__c(

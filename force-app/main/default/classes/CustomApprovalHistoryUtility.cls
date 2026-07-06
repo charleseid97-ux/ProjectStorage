@@ -373,7 +373,7 @@ public without sharing class CustomApprovalHistoryUtility {
 
     // ─── Approval lock enforcement ────────────────────────────────────────────────
     private static ApprovalLockConfig__mdt getLockConfig(String objectApiName) {
-        List<ApprovalLockConfig__mdt> configs = [SELECT StatusFieldApiName__c, LockedStatuses__c, ExemptFields__c
+        List<ApprovalLockConfig__mdt> configs = [SELECT StatusFieldApiName__c, LockedStatuses__c, EnforceLockOnAdmins__c
                                                  FROM ApprovalLockConfig__mdt
                                                  WHERE ObjectApiName__c = :objectApiName
                                                    AND Active__c = true
@@ -381,13 +381,70 @@ public without sharing class CustomApprovalHistoryUtility {
         return configs.isEmpty() ? null : configs[0];
     }
 
-    private static Set<String> splitCSV(String csv) {
-        Set<String> result = new Set<String>();
-        if (String.isBlank(csv)) return result;
-        for (String entry : csv.split(',')) {
+    private static List<String> splitLines(String text) {
+        List<String> result = new List<String>();
+        if (String.isBlank(text)) return result;
+        for (String entry : text.split('\r\n|\r|\n')) {
             String trimmed = entry.trim();
-            if (String.isNotBlank(trimmed)) result.add(trimmed.toLowerCase());
+            if (String.isNotBlank(trimmed)) result.add(trimmed);
         }
+        return result;
+    }
+
+    private static Boolean containsIgnoreCase(List<String> values, String target) {
+        if (target == null) return false;
+        for (String v : values) {
+            if (v.equalsIgnoreCase(target)) return true;
+        }
+        return false;
+    }
+
+    private static Id findQueueIdIgnoreCase(List<Group> queues, String developerName) {
+        for (Group g : queues) {
+            if (g.DeveloperName.equalsIgnoreCase(developerName)) return g.Id;
+        }
+        return null;
+    }
+
+    // Resolves every exempt field the current user is entitled to for this object: General-scope rows
+    // always apply, User/Queue-scope rows apply only when the current user or one of their queues matches.
+    private static List<String> resolveExemptFields(Id lockConfigId, Id currentUserId) {
+        List<String> result = new List<String>();
+        List<ApprovalLockFieldExemptionConfig__mdt> rows = [SELECT ScopeType__c, AssigneeValue__c, ExemptFields__c
+                                                             FROM ApprovalLockFieldExemptionConfig__mdt
+                                                             WHERE LockConfig__c = :lockConfigId
+                                                               AND Active__c = true];
+        if (rows.isEmpty()) return result;
+
+        Set<String> queueDevNames = new Set<String>();
+        for (ApprovalLockFieldExemptionConfig__mdt row : rows) {
+            if (row.ScopeType__c == 'Queue') queueDevNames.addAll(splitLines(row.AssigneeValue__c));
+        }
+
+        List<Group> queues = queueDevNames.isEmpty() ? new List<Group>() : [SELECT Id, DeveloperName FROM Group WHERE DeveloperName IN :queueDevNames AND Type = 'Queue'];
+        Map<Id, List<Id>> queueMemberMap = queues.isEmpty() ? new Map<Id, List<Id>>() : QueueMemberService.resolveMembers(new Map<Id, Group>(queues).keySet());
+
+        String currentUsername = UserInfo.getUsername();
+
+        for (ApprovalLockFieldExemptionConfig__mdt row : rows) {
+            Boolean applies = false;
+            if (row.ScopeType__c == 'General') {
+                applies = true;
+            } else if (row.ScopeType__c == 'User') {
+                applies = containsIgnoreCase(splitLines(row.AssigneeValue__c), currentUsername);
+            } else if (row.ScopeType__c == 'Queue') {
+                for (String devName : splitLines(row.AssigneeValue__c)) {
+                    Id queueId = findQueueIdIgnoreCase(queues, devName);
+                    List<Id> members = queueId == null ? null : queueMemberMap.get(queueId);
+                    if (members != null && members.contains(currentUserId)) {
+                        applies = true;
+                        break;
+                    }
+                }
+            }
+            if (applies) result.addAll(splitLines(row.ExemptFields__c));
+        }
+
         return result;
     }
 
@@ -398,8 +455,11 @@ public without sharing class CustomApprovalHistoryUtility {
         ApprovalLockConfig__mdt config = getLockConfig(objectApiName);
         if (config == null) return;
 
-        Set<String> lockedStatuses = splitCSV(config.LockedStatuses__c);
-        Set<String> exemptFields   = splitCSV(config.ExemptFields__c);
+        Id currentUserId = UserInfo.getUserId();
+        if (!config.EnforceLockOnAdmins__c && isAdministrator(currentUserId)) return;    // admin bypass
+
+        List<String> lockedStatuses = splitLines(config.LockedStatuses__c);
+        List<String> exemptFields   = resolveExemptFields(config.Id, currentUserId);
         exemptFields.addAll(LOCK_SYSTEM_FIELDS);
         String statusField = config.StatusFieldApiName__c;
 
@@ -408,11 +468,11 @@ public without sharing class CustomApprovalHistoryUtility {
             String  oldStatus  = (String) oldRecord.get(statusField);
             String  newStatus  = (String) newRecord.get(statusField);
 
-            if (!lockedStatuses.contains(oldStatus.toLowerCase())) continue;    // not in a locked status
-            if (newStatus != oldStatus) continue;                               // approval transition itself — allow
+            if (!containsIgnoreCase(lockedStatuses, oldStatus)) continue;    // not in a locked status
+            if (newStatus != oldStatus) continue;                            // approval transition itself — allow
 
             for (String fieldName : newRecord.getPopulatedFieldsAsMap().keySet()) {
-                if (exemptFields.contains(fieldName.toLowerCase())) continue;
+                if (containsIgnoreCase(exemptFields, fieldName)) continue;
                 if (newRecord.get(fieldName) != oldRecord.get(fieldName)) {
                     newRecord.addError('This record is locked while in \'' + oldStatus + '\' status and cannot be edited.');
                     break;

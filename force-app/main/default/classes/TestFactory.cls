@@ -263,7 +263,40 @@ User u = DM023_User.getListByIds(UserIdList).get(0);
         insert u;
         return u;
     }
-    
+
+    public static User getCarmignacAdminUserTestApex()
+    {
+        Profile prof = getAdminProfile();
+        UserRole usrole = getSimpleRole();
+
+        User u = new User
+            (
+                alias = 'AdmTest'
+                , email='AdminTestApex'+System.now().getTime()+'@carmignac.com'
+                , emailencodingkey='ISO-8859-1'
+                , userroleId =usrole.Id
+                , Phone='+3312345678'
+                , firstname='firstAdmin'
+                , lastname='AdminTestApex'
+                , languagelocalekey='fr'
+                , localesidkey='fr_FR_EURO'
+                , ProfileId = prof.Id
+                , timezonesidkey='Europe/Paris'
+                , username='AdminTestApex'+System.now().getTime()+'-crm@carmignac.com'
+                , TECH_UserEmail__c = 'TECH_UserEmail'+System.now().getTime()
+                , Position__c = 'Business Developer'
+                , BusinessDevelopmentRegions__c = 'BP_FR'
+                , IsActive = true
+                , BypassApexTriggers__c = ''
+                , BypassProcessBuilders__c = true
+                , BypassValidationRules__c = true
+                , BypassWorkflowRules__c = true
+                , Bypass_Duplicate_Rules__c = true
+            );
+        insert u;
+        return u;
+    }
+
     public static User getInterfaceEtouchesUser()
     {
         Profile profile = getEtouchesInterfaceProfile();
