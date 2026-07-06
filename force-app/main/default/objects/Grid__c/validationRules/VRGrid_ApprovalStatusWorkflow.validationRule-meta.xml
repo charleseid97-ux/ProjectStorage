@@ -13,6 +13,12 @@
                 ISPICKVAL(PRIORVALUE(ApprovalStatus__c), &quot;Draft&quot;),
                 ISPICKVAL(ApprovalStatus__c, &quot;Pending Approval&quot;)
             ),
+												
+												/* Pending Approval -&gt; Draft */
+            AND(
+                ISPICKVAL(PRIORVALUE(ApprovalStatus__c), &quot;Pending Approval&quot;),
+                ISPICKVAL(ApprovalStatus__c, &quot;Draft&quot;)
+            ),
 
             /* Pending Approval -&gt; Approved */
             AND(
@@ -34,5 +40,5 @@
         )
     )
 )</errorConditionFormula>
-    <errorMessage>Please update the approval status in the correct order: Draft → Pending Approval → Approved or Rejected. Rejected records can be moved back to Draft.</errorMessage>
+    <errorMessage>Please update the approval status in the correct order: Draft → Pending Approval → Approved or Rejected. Rejected records can be moved back to Draft. Pending Approval records can be recalled (moved back to Draft)</errorMessage>
 </ValidationRule>
