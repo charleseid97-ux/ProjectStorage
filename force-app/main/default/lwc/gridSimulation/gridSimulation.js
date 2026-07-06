@@ -319,9 +319,12 @@ export default class GridSimulation extends LightningElement {
         this.error = null;
         try {
             if (this.recordId) {
-                // Record page: single round-trip, no change in behavior
+                // Record page: single round-trip. For Draft/Pending Approval grids, the server also
+                // returns the agreement's currently active grid so it can be shown as the CURRENT section.
                 const init = await getSimulationInitData({ gridId: this.recordId });
                 this.rows            = (init.rows || []).map(r => ({ ...r, newMoney: 0 }));
+                this.currentGridRows = (init.currentRows || []).map(r => ({ ...r, newMoney: 0 }));
+                this.hasCurrentGrid  = !!init.hasCurrentGrid;
                 this.agreementRegion = init.agreementRegion;
             } else {
                 // Grid Builder: fetch new grid rows + previous active grid rows concurrently
