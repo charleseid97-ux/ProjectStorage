@@ -1,0 +1,85 @@
+.container {
+    padding: 0 1rem 1rem;
+}
+
+.header-row {
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: 0.75rem;
+}
+
+.spinner-container {
+    min-height: 8rem;
+    position: relative;
+}
+
+.shareclass-card {
+    border: 1px solid #dddbda;
+    border-radius: 0.35rem;
+    margin-top: 1rem;
+    padding: 0.75rem;
+}
+
+.shareclass-title {
+    align-items: center;
+    color: #0176d3;
+    display: flex;
+    font-size: 1rem;
+    font-weight: 700;
+    gap: 0.5rem;
+    margin-bottom: 0.75rem;
+}
+
+.shareclass-icon {
+    --slds-c-icon-color-foreground-default: #706e6b;
+}
+
+.field-grid {
+    display: grid;
+    gap: 1rem 1.75rem;
+    grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr));
+    padding: 0.5rem 0.25rem 0.75rem;
+}
+
+.field-item {
+    min-width: 0;
+}
+
+.field-label {
+    color: #3e3e3c;
+    font-size: 0.75rem;
+    margin-bottom: 0.25rem;
+}
+
+.field-value {
+    border-bottom: 1px solid #c9c9c9;
+    color: #080707;
+    font-size: 0.875rem;
+    min-height: 1.5rem;
+    overflow-wrap: anywhere;
+    padding-bottom: 0.25rem;
+}
+
+.empty-box,
+.warning-box,
+.error-box {
+    border-radius: 0.35rem;
+    margin: 0.5rem 0;
+    padding: 0.75rem;
+}
+
+.empty-box {
+    background: #ffffff;
+    border: 1px dashed #dddbda;
+    color: #706e6b;
+}
+
+.warning-box {
+    background: #fff7d6;
+    border: 1px solid #ffb75d;
+}
+
+.error-box {
+    background: #ba0517;
+    color: #ffffff;
+}
