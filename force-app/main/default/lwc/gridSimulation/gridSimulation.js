@@ -328,9 +328,7 @@ export default class GridSimulation extends LightningElement {
                 const shareClassIds = (this.selectedShareClasses || []).map(sc => sc.id);
                 const scGridMap = {};
                 const map = this.gridShareClassMap || {};
-                Object.keys(map).forEach(gridId => {
-                    (map[gridId] || []).forEach(scId => { scGridMap[scId] = gridId; });
-                });
+                Object.keys(map).forEach(gridId => { (map[gridId] || []).forEach(scId => { scGridMap[scId] = gridId; }); });
 
                 const [raw, region, currentRaw] = await Promise.all([
                     getSimulationData({
@@ -339,9 +337,7 @@ export default class GridSimulation extends LightningElement {
                         shareClassGridIdMapJson: JSON.stringify(scGridMap)
                     }),
                     getAgreementRegion({ agreementIds: this.selectedAgreements || [] }),
-                    this.agreementId
-                        ? getActiveGridSimulationData({ agreementId: this.agreementId })
-                        : Promise.resolve([])
+                    this.agreementId ? getActiveGridSimulationData({ agreementId: this.agreementId }) : Promise.resolve([])
                 ]);
 
                 this.rows            = (raw        || []).map(r => ({ ...r, newMoney: 0 }));
