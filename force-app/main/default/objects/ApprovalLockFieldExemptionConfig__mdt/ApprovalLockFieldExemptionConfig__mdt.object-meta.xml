@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObject xmlns="http://soap.sforce.com/2006/04/metadata">
+    <description>Grants additional exempt fields on top of (or in place of) an ApprovalLockConfig__mdt's baseline lock. One record per grant: General rows apply to every user, User/Queue rows apply only to the matching user or queue members.</description>
+    <label>Approval Lock Field Exemption Config</label>
+    <pluralLabel>Approval Lock Field Exemption Configs</pluralLabel>
+    <visibility>Public</visibility>
+</CustomObject>
