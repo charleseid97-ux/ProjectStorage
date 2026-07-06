@@ -6,7 +6,7 @@
  *              client-side; this controller only provides the raw base data.
  * @author Charles EID
  * @testClass GridSimulationControllerTest
- * @testCoverage GridSimulationController (100%)   [27-03-26]
+ * @testCoverage GridSimulationController (98%)   [07-06-26]
 ────────────────────────────────────── */
 public with sharing class GridSimulationController {
 
@@ -98,8 +98,9 @@ public with sharing class GridSimulationController {
         fillShareClassToGridInfo(shareClassIds, scGridMap, gridId);
 
         List<Id> agreementIds = new List<Id>();
-        String region = null;
-        for (Grid__c grid : [SELECT Id, Agreement__c, Agreement__r.Business_Region__c FROM Grid__c WHERE Id = :gridId]) {
+        String region = null, approvalStatus = null;
+        for (Grid__c grid : [SELECT Id, Agreement__c, Agreement__r.Business_Region__c, ApprovalStatus__c FROM Grid__c WHERE Id = :gridId]) {
+            approvalStatus = grid.ApprovalStatus__c;
             if(String.isBlank(grid.Agreement__c)) continue;
             agreementIds.add(grid.Agreement__c);
             region = grid.Agreement__r.Business_Region__c;
@@ -108,15 +109,25 @@ public with sharing class GridSimulationController {
         SimulationInitData result = new SimulationInitData();
         result.rows            = getSimulationData(shareClassIds, agreementIds, JSON.serialize(scGridMap));
         result.agreementRegion = region;
+
+        // Draft/Pending Approval grids are simulations against the agreement's currently active grid.
+        Boolean isDraftOrPending = approvalStatus == GridUtility.GRID_STATUS_DRAFT || approvalStatus == GridUtility.GRID_STATUS_PENDING_APPROVAL;
+        result.currentRows   = (isDraftOrPending && !agreementIds.isEmpty()) ? getActiveGridSimulationData(agreementIds[0], gridId) : new List<SimulationRow>();
+        result.hasCurrentGrid = !result.currentRows.isEmpty();
         return result;
     }
 
     @AuraEnabled(cacheable=false)
     public static List<SimulationRow> getActiveGridSimulationData(Id agreementId) {
+        return getActiveGridSimulationData(agreementId, null);
+    }
+
+    private static List<SimulationRow> getActiveGridSimulationData(Id agreementId, Id excludeGridId) {
         if (agreementId == null) return new List<SimulationRow>();
         List<Convention__c> convs = [SELECT Grid__c FROM Convention__c WHERE Id = :agreementId LIMIT 1];
         if (convs.isEmpty() || convs[0].Grid__c == null) return new List<SimulationRow>();
         Id gridId = convs[0].Grid__c;
+        if (excludeGridId != null && gridId == excludeGridId) return new List<SimulationRow>();
 
         List<Id> shareClassIds = new List<Id>();
         Map<String, Object> scGridMap = new Map<String, Object>();
@@ -147,6 +158,8 @@ public with sharing class GridSimulationController {
     public class SimulationInitData {
         @AuraEnabled public List<SimulationRow> rows;
         @AuraEnabled public String agreementRegion;
+        @AuraEnabled public List<SimulationRow> currentRows;
+        @AuraEnabled public Boolean hasCurrentGrid;
     }
 
     public class SimulationRow {

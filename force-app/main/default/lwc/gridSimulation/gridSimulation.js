@@ -319,18 +319,19 @@ export default class GridSimulation extends LightningElement {
         this.error = null;
         try {
             if (this.recordId) {
-                // Record page: single round-trip, no change in behavior
+                // Record page: single round-trip. For Draft/Pending Approval grids, the server also
+                // returns the agreement's currently active grid so it can be shown as the CURRENT section.
                 const init = await getSimulationInitData({ gridId: this.recordId });
                 this.rows            = (init.rows || []).map(r => ({ ...r, newMoney: 0 }));
+                this.currentGridRows = (init.currentRows || []).map(r => ({ ...r, newMoney: 0 }));
+                this.hasCurrentGrid  = !!init.hasCurrentGrid;
                 this.agreementRegion = init.agreementRegion;
             } else {
                 // Grid Builder: fetch new grid rows + previous active grid rows concurrently
                 const shareClassIds = (this.selectedShareClasses || []).map(sc => sc.id);
                 const scGridMap = {};
                 const map = this.gridShareClassMap || {};
-                Object.keys(map).forEach(gridId => {
-                    (map[gridId] || []).forEach(scId => { scGridMap[scId] = gridId; });
-                });
+                Object.keys(map).forEach(gridId => { (map[gridId] || []).forEach(scId => { scGridMap[scId] = gridId; }); });
 
                 const [raw, region, currentRaw] = await Promise.all([
                     getSimulationData({
@@ -339,9 +340,7 @@ export default class GridSimulation extends LightningElement {
                         shareClassGridIdMapJson: JSON.stringify(scGridMap)
                     }),
                     getAgreementRegion({ agreementIds: this.selectedAgreements || [] }),
-                    this.agreementId
-                        ? getActiveGridSimulationData({ agreementId: this.agreementId })
-                        : Promise.resolve([])
+                    this.agreementId ? getActiveGridSimulationData({ agreementId: this.agreementId }) : Promise.resolve([])
                 ]);
 
                 this.rows            = (raw        || []).map(r => ({ ...r, newMoney: 0 }));
