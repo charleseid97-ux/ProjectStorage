@@ -1,9 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
-    <fullName>ExemptFields__c</fullName>
+    <fullName>Active__c</fullName>
+    <defaultValue>true</defaultValue>
     <fieldManageability>DeveloperControlled</fieldManageability>
-    <label>Exempt Fields</label>
-    <length>32768</length>
-    <type>LongTextArea</type>
-    <visibleLines>5</visibleLines>
+    <label>Active</label>
+    <type>Checkbox</type>
 </CustomField>

@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>ScopeType__c</fullName>
+    <description>Who this exemption grant applies to. General = every user (the baseline exemption list). User = only the usernames listed in AssigneeValue__c. Queue = only members of the queues listed in AssigneeValue__c.</description>
+    <fieldManageability>DeveloperControlled</fieldManageability>
+    <inlineHelpText>AssigneeValue__c is ignored when this is General.</inlineHelpText>
+    <label>Scope Type</label>
+    <required>true</required>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>General</fullName>
+                <default>true</default>
+                <label>General</label>
+            </value>
+            <value>
+                <fullName>User</fullName>
+                <default>false</default>
+                <label>User</label>
+            </value>
+            <value>
+                <fullName>Queue</fullName>
+                <default>false</default>
+                <label>Queue</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>LockConfig__c</fullName>
+    <description>The lock config this exemption grant belongs to.</description>
+    <fieldManageability>SubscriberControlled</fieldManageability>
+    <inlineHelpText>Link this record to its parent Approval Lock Config.</inlineHelpText>
+    <label>Lock Config</label>
+    <referenceTo>ApprovalLockConfig__mdt</referenceTo>
+    <relationshipLabel>Approval Lock Field Exemption Configs</relationshipLabel>
+    <relationshipName>FieldExemptions</relationshipName>
+    <required>true</required>
+    <type>MetadataRelationship</type>
+    <unique>false</unique>
+</CustomField>
