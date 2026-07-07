@@ -47,7 +47,6 @@ private class PRIIPSKidCompletionControllerTest {
     private static SObject newShareclass(Integer index, String nameValue, String currencyValue, Object transactionCosts, String selectedFields) {
         SObject shareclassRecord = Schema.getGlobalDescribe().get('ProjectShareclass__c').newSObject();
         shareclassRecord.put('Id', fakeId(ProjectShareclass__c.SObjectType, index));
-        shareclassRecord.put('Name', 'SC - ' + String.valueOf(index));
         shareclassRecord.put('Name__c', nameValue);
         shareclassRecord.put('Currency__c', currencyValue);
         shareclassRecord.put('TransactionCosts__c', transactionCosts);
