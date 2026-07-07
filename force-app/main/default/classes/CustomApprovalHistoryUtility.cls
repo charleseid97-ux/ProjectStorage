@@ -468,7 +468,7 @@ public without sharing class CustomApprovalHistoryUtility {
             String  oldStatus  = (String) oldRecord.get(statusField);
             String  newStatus  = (String) newRecord.get(statusField);
 
-            //if (!containsIgnoreCase(lockedStatuses, oldStatus)) continue;    // not in a locked status
+            if (!containsIgnoreCase(lockedStatuses, oldStatus)) continue;    // not in a locked status
             if (newStatus != oldStatus) continue;                            // approval transition itself — allow
 
             for (String fieldName : newRecord.getPopulatedFieldsAsMap().keySet()) {
