@@ -12,7 +12,7 @@ private class PRIIPSKidCompletionControllerTest {
         return Id.valueOf(prefix + suffix);
     }
 
-    // Creates one Custom Metadata row used by the completion engine.
+        // Creates one Custom Metadata row used by the completion engine.
     private static PRIIPSField__mdt newMetadata(
         String developerName,
         String label,
@@ -30,6 +30,7 @@ private class PRIIPSKidCompletionControllerTest {
         metadataRow.ProductCreation__c = productCreation;
         metadataRow.ShareclassCreation__c = shareclassCreation;
         metadataRow.ProductShareModification__c = modification;
+        metadataRow.Required__c = true;
         return metadataRow;
     }
 
@@ -54,13 +55,13 @@ private class PRIIPSKidCompletionControllerTest {
         return shareclassRecord;
     }
 
-    // Returns a small metadata set covering product and shareclass completion.
+     // Returns a small metadata set covering product and shareclass completion.
     private static List<PRIIPSField__mdt> metadataRows() {
         return new List<PRIIPSField__mdt>{
-            newMetadata('ProductName', 'Product Name', 'ProjectProduct__c.ProductName__c', 'Product Strategy', true, false, true),
-            newMetadata('LegalForm', 'Legal Form', 'ProjectProduct__c.LegalForm__c', 'Legal', true, false, true),
-            newMetadata('Currency', 'Currency', 'ProjectShareclass__c.Currency__c', 'Product Strategy', true, true, true),
-            newMetadata('TransactionCosts', 'Transaction Costs', 'ProjectShareclass__c.TransactionCosts__c', 'Investment Performance', true, true, true)
+            newMetadata('ProductName', 'Product Name', 'ProductName__c', 'Product Strategy', true, false, true),
+            newMetadata('LegalForm', 'Legal Form', 'LegalForm__c', 'Legal', true, false, true),
+            newMetadata('Currency', 'Currency', 'Currency__c', 'Product Strategy', true, true, true),
+            newMetadata('TransactionCosts', 'Transaction Costs', 'TransactionCosts__c', 'Investment Performance', true, true, true)
         };
     }
 
@@ -97,7 +98,7 @@ private class PRIIPSKidCompletionControllerTest {
         PRIIPSKidCompletionController.productIdOverride = fakeId(ProjectProduct__c.SObjectType, 1);
         PRIIPSKidCompletionController.recordTypeDeveloperNameOverride = 'FundShareClassModification';
         PRIIPSKidCompletionController.metadataRowsOverride = metadataRows();
-        PRIIPSKidCompletionController.productRecordOverride = newProduct('Carmignac Credit 2027', 'FCP', 'ProjectProduct__c.ProductName__c');
+        PRIIPSKidCompletionController.productRecordOverride = newProduct('Carmignac Credit 2027', 'FCP', 'ProductName__c');
         PRIIPSKidCompletionController.shareclassRecordsOverride = new List<SObject>{
             newShareclass(1, 'A EUR Acc', 'EUR', Decimal.valueOf('0.12'), 'Currency__c'),
             newShareclass(2, 'A USD Acc', 'USD', null, 'ProjectShareclass__c.TransactionCosts__c')
