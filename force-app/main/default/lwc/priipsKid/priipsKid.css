@@ -13,32 +13,75 @@
     position: relative;
 }
 
-.shareclass-card {
-    border: 1px solid #dddbda;
-    border-radius: 0.35rem;
-    margin-top: 1rem;
-    padding: 0.75rem;
-}
-
-.shareclass-title {
-    align-items: center;
-    color: #0176d3;
+.priips-content {
     display: flex;
-    font-size: 1rem;
-    font-weight: 700;
-    gap: 0.5rem;
-    margin-bottom: 0.75rem;
+    flex-direction: column;
+    gap: 0.75rem;
 }
 
-.shareclass-icon {
-    --slds-c-icon-color-foreground-default: #706e6b;
+.team-block {
+    border: 1px solid #dddbda;
+    border-radius: 0.25rem;
+    overflow: hidden;
+}
+
+.team-summary {
+    background: #f3f3f3;
+    border-bottom: 1px solid #dddbda;
+    color: #181818;
+    cursor: pointer;
+    font-size: 1rem;
+    font-weight: 600;
+    line-height: 1.5rem;
+    padding: 0.65rem 0.85rem;
+}
+
+.team-summary:hover {
+    background: #ecebea;
+}
+
+.team-body {
+    background: #ffffff;
+    padding: 0.5rem 0.85rem 0.85rem;
+}
+
+.record-block {
+    background: #ffffff;
+    border: 1px solid #e5e5e5;
+    border-left: 3px solid #dddbda;
+    border-radius: 0.25rem;
+    margin-top: 0.85rem;
+    padding: 0.75rem 0.85rem 0.25rem;
+}
+
+.record-block + .record-block {
+    margin-top: 1rem;
+}
+
+.record-block[open] {
+    background: #fcfcfc;
+}
+
+.record-summary {
+    border-bottom: 1px solid #c9c9c9;
+    color: #2e2e2e;
+    cursor: pointer;
+    font-size: 0.95rem;
+    font-weight: 600;
+    line-height: 1.5rem;
+    margin-bottom: 0.75rem;
+    padding-bottom: 0.45rem;
+}
+
+.record-summary:hover {
+    color: #0176d3;
 }
 
 .field-grid {
     display: grid;
     gap: 1rem 1.75rem;
     grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr));
-    padding: 0.5rem 0.25rem 0.75rem;
+    padding: 0.25rem 0 0.75rem;
 }
 
 .field-item {
@@ -58,6 +101,22 @@
     min-height: 1.5rem;
     overflow-wrap: anywhere;
     padding-bottom: 0.25rem;
+}
+
+.field-value-required-empty {
+    background: #fef1f1;
+    border-bottom-color: #ba0517;
+    box-shadow: inset 3px 0 0 #ba0517;
+    color: #ba0517;
+    padding-left: 0.5rem;
+}
+
+.field-value-optional-empty {
+    background: #fff3e0;
+    border-bottom-color: #fe9339;
+    box-shadow: inset 3px 0 0 #fe9339;
+    color: #8a4b00;
+    padding-left: 0.5rem;
 }
 
 .empty-box,
@@ -82,4 +141,14 @@
 .error-box {
     background: #ba0517;
     color: #ffffff;
+}
+
+
+.field-item-full-width {
+    grid-column: 1 / -1;
+}
+
+.field-value-long-text {
+    line-height: 1.35rem;
+    white-space: normal;
 }

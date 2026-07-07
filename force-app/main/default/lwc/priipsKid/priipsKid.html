@@ -20,84 +20,65 @@
                     <lightning-badge label={data.projectMode}></lightning-badge>
                 </div>
 
-                <lightning-accordion allow-multiple-sections-open active-section-name={activeMainSections}>
-                    <lightning-accordion-section name="shareclass" label="PRIIPs SHARECLASS">
-                        <template if:true={hasShareclasses}>
-                            <lightning-combobox
-                                name="shareclassSelector"
-                                label="Select a ShareClass"
-                                value={selectedShareclassId}
-                                options={shareclassOptions}
-                                onchange={handleShareclassChange}>
-                            </lightning-combobox>
+                <template if:true={hasPriipsTeams}>
+                    <div class="priips-content">
+                        <template for:each={priipsTeams} for:item="team">
+                            <details key={team.key} class="team-block" open>
+                                <summary class="team-summary">{team.name}</summary>
 
-                            <template for:each={visibleShareclasses} for:item="shareclassRecord">
-                                <section key={shareclassRecord.id} class="shareclass-card">
-                                    <div class="shareclass-title">
-                                        <lightning-icon icon-name="utility:copy" size="small" class="shareclass-icon"></lightning-icon>
-                                        <span>{shareclassRecord.label}</span>
-                                    </div>
+                                <div class="team-body">
+                                    <template if:true={team.hasFundFields}>
+                                        <details class="record-block" open>
+                                            <summary class="record-summary">PRIIPs FUND LEVEL</summary>
 
-                                    <lightning-accordion allow-multiple-sections-open active-section-name={activeShareclassTeamSections}>
-                                        <template for:each={shareclassRecord.teams} for:item="team">
-                                            <lightning-accordion-section key={team.key} name={team.key} label={team.name}>
-                                                <div class="field-grid">
-                                                    <template for:each={team.fields} for:item="field">
-                                                        <div key={field.key} class="field-item">
-                                                            <div class="field-label">
-                                                                <span>{field.label}</span>
-                                                                <template if:true={field.required}>
-                                                                    <abbr class="slds-required" title="required">*</abbr>
-                                                                </template>
-                                                            </div>
-                                                            <div class="field-value">
-                                                                <lightning-formatted-rich-text value={field.value}></lightning-formatted-rich-text>
-                                                            </div>
+                                            <div class="field-grid">
+                                                <template for:each={team.fundFields} for:item="field">
+                                                    <div key={field.key} class={field.itemClass}>
+                                                        <div class="field-label">
+                                                            <span>{field.label}</span>
+                                                            <template if:true={field.required}>
+                                                                <abbr class="slds-required" title="required">*</abbr>
+                                                            </template>
                                                         </div>
-                                                    </template>
-                                                </div>
-                                            </lightning-accordion-section>
-                                        </template>
-                                    </lightning-accordion>
-                                </section>
-                            </template>
-                        </template>
-
-                        <template if:false={hasShareclasses}>
-                            <div class="empty-box">No PRIIPs/KID Shareclass fields found.</div>
-                        </template>
-                    </lightning-accordion-section>
-
-                    <lightning-accordion-section name="fund" label="PRIIPs FUND LEVEL">
-                        <template if:true={hasProductTeams}>
-                            <lightning-accordion allow-multiple-sections-open active-section-name={activeProductTeamSections}>
-                                <template for:each={productTeams} for:item="team">
-                                    <lightning-accordion-section key={team.key} name={team.key} label={team.name}>
-                                        <div class="field-grid">
-                                            <template for:each={team.fields} for:item="field">
-                                                <div key={field.key} class="field-item">
-                                                    <div class="field-label">
-                                                        <span>{field.label}</span>
-                                                        <template if:true={field.required}>
-                                                            <abbr class="slds-required" title="required">*</abbr>
-                                                        </template>
+                                                        <div class={field.valueClass}>
+                                                            <lightning-formatted-rich-text value={field.value}></lightning-formatted-rich-text>
+                                                        </div>
                                                     </div>
-                                                    <div class="field-value">
-                                                        <lightning-formatted-rich-text value={field.value}></lightning-formatted-rich-text>
-                                                    </div>
-                                                </div>
-                                            </template>
-                                        </div>
-                                    </lightning-accordion-section>
-                                </template>
-                            </lightning-accordion>
-                        </template>
+                                                </template>
+                                            </div>
+                                        </details>
+                                    </template>
 
-                        <template if:false={hasProductTeams}>
-                            <div class="empty-box">No PRIIPs/KID Product fields found.</div>
+                                    <template for:each={team.shareclasses} for:item="shareclassRecord">
+                                        <details key={shareclassRecord.key} class="record-block" open>
+                                            <summary class="record-summary">{shareclassRecord.label}</summary>
+
+                                            <div class="field-grid">
+                                                <template for:each={shareclassRecord.fields} for:item="field">
+                                                    <div key={field.key} class={field.itemClass}>
+                                                        <div class="field-label">
+                                                            <span>{field.label}</span>
+                                                            <template if:true={field.required}>
+                                                                <abbr class="slds-required" title="required">*</abbr>
+                                                            </template>
+                                                        </div>
+                                                        <div class={field.valueClass}>
+                                                            <lightning-formatted-rich-text value={field.value}></lightning-formatted-rich-text>
+                                                        </div>
+                                                    </div>
+                                                </template>
+                                            </div>
+                                        </details>
+                                    </template>
+                                </div>
+                            </details>
                         </template>
-                    </lightning-accordion-section>
-                </lightning-accordion>
+                    </div>
+                </template>
+
+                <template if:false={hasPriipsTeams}>
+                    <div class="empty-box">No PRIIPs/KID fields found.</div>
+                </template>
             </template>
 
             <template if:true={showEmptyState}>

@@ -1,8 +1,6 @@
 import { LightningElement, api } from 'lwc';
 import getPriipsKidData from '@salesforce/apex/PRIIPSKidController.getPriipsKidData';
 
-const ALL_SHARECLASSES = 'ALL';
-
 export default class PriipsKid extends LightningElement {
     // Record Id of the current Project Product.
     @api recordId;
@@ -10,10 +8,9 @@ export default class PriipsKid extends LightningElement {
     data;
     errorMessage;
     isLoading = false;
-    selectedShareclassId = ALL_SHARECLASSES;
-    activeMainSections = ['shareclass', 'fund'];
-    activeProductTeamSections = [];
-    activeShareclassTeamSections = [];
+    activeMainSections = ['priips'];
+    activeTeamSections = [];
+    activeTeamItemSections = [];
 
     // Loads data when the component is inserted in the record page.
     connectedCallback() {
@@ -35,13 +32,17 @@ export default class PriipsKid extends LightningElement {
             recordId: this.recordId
         })
             .then((data) => {
-                this.data = data;
-                this.selectedShareclassId = ALL_SHARECLASSES;
+                const decoratedData = this.decorateData(data);
+                const priipsTeams = this.buildPriipsTeams(decoratedData?.productTeams, decoratedData?.shareclasses);
 
-                // Opens all team subsections by default.
-                this.activeProductTeamSections = (data?.productTeams || [])
-                    .map((team) => team.key);
-                this.activeShareclassTeamSections = this.getAllShareclassTeamKeys(data);
+                this.data = {
+                    ...decoratedData,
+                    priipsTeams
+                };
+
+                // Opens all accordion levels by default.
+                this.activeTeamSections = priipsTeams.map((team) => team.key);
+                this.activeTeamItemSections = this.getAllTeamItemKeys(priipsTeams);
             })
             .catch((error) => {
                 this.data = undefined;
@@ -57,66 +58,164 @@ export default class PriipsKid extends LightningElement {
         return this.data ? this.data.warningMessage : undefined;
     }
 
-    // Returns Product-level teams from the Apex response.
-    get productTeams() {
-        return this.data && this.data.productTeams ? this.data.productTeams : [];
+    // Returns the final Team > Fund/Shareclass hierarchy consumed by the template.
+    get priipsTeams() {
+        return this.data && this.data.priipsTeams ? this.data.priipsTeams : [];
     }
 
-    // Returns Shareclass records from the Apex response.
-    get shareclasses() {
-        return this.data && this.data.shareclasses ? this.data.shareclasses : [];
-    }
-
-    // Returns true when at least one Product field is available.
-    get hasProductTeams() {
-        return this.productTeams.length > 0;
-    }
-
-    // Returns true when at least one Shareclass is available.
-    get hasShareclasses() {
-        return this.shareclasses.length > 0;
+    // Returns true when at least one team has Product or Shareclass fields.
+    get hasPriipsTeams() {
+        return this.priipsTeams.length > 0;
     }
 
     // Returns true when loading is complete but there is no data and no error.
     get showEmptyState() {
-        return !this.isLoading && !this.errorMessage && !this.hasProductTeams && !this.hasShareclasses;
+        return !this.isLoading && !this.errorMessage && !this.hasPriipsTeams;
     }
 
-    // Builds the Shareclass picklist options.
-    get shareclassOptions() {
-        return [
-            { label: 'All ShareClasses', value: ALL_SHARECLASSES },
-            ...this.shareclasses.map((shareclassRecord) => ({
-                label: shareclassRecord.label,
-                value: shareclassRecord.id
-            }))
-        ];
-    }
-
-    // Returns the Shareclass cards matching the selected picklist value.
-    get visibleShareclasses() {
-        if (this.selectedShareclassId === ALL_SHARECLASSES) {
-            return this.shareclasses;
+    // Adds CSS classes to fields depending on empty value and Required__c.
+    decorateData(data) {
+        if (!data) {
+            return data;
         }
 
-        return this.shareclasses.filter((shareclassRecord) => shareclassRecord.id === this.selectedShareclassId);
+        return {
+            ...data,
+            productTeams: this.decorateTeams(data.productTeams),
+            shareclasses: (data.shareclasses || []).map((shareclassRecord) => ({
+                ...shareclassRecord,
+                teams: this.decorateTeams(shareclassRecord.teams)
+            }))
+        };
     }
 
-    // Updates the selected Shareclass when the picklist changes.
-    handleShareclassChange(event) {
-        this.selectedShareclassId = event.detail.value;
+    // Decorates all fields inside team sections.
+    decorateTeams(teams) {
+        return (teams || []).map((team) => ({
+            ...team,
+            fields: (team.fields || []).map((field) => this.decorateField(field))
+        }));
     }
 
-    // Collects all Shareclass team section keys to open them by default.
-    getAllShareclassTeamKeys(data) {
-        const keys = new Set();
+    // Adds CSS classes depending on empty value, Required__c and long text content.
+    decorateField(field) {
+        const plainValue = this.getPlainTextValue(field.value);
+        const isEmpty = plainValue.length === 0;
+        const isLongText = !isEmpty && this.isLongTextField(field, plainValue);
+        let itemClass = 'field-item';
+        let valueClass = 'field-value';
 
-        // Avoids duplicate accordion section names across Shareclasses.
-        (data?.shareclasses || []).forEach((shareclassRecord) => {
-            (shareclassRecord.teams || []).forEach((team) => keys.add(team.key));
+        if (isLongText) {
+            itemClass += ' field-item-full-width';
+            valueClass += ' field-value-long-text';
+        }
+
+        if (isEmpty && field.required) {
+            valueClass += ' field-value-required-empty';
+        } else if (isEmpty) {
+            valueClass += ' field-value-optional-empty';
+        }
+
+        return {
+            ...field,
+            value: isEmpty ? '\u2014' : field.value,
+            itemClass,
+            valueClass
+        };
+    }
+
+    // Returns true when a field should use the full row width.
+    isLongTextField(field, plainValue) {
+        const label = (field.label || '').toLowerCase();
+
+        return plainValue.length > 180 ||
+            label.includes('objective') ||
+            label.includes('investor') ||
+            label.includes('information');
+    }
+
+    // Converts plain text or rich text into comparable text.
+    getPlainTextValue(value) {
+        if (value === null || value === undefined) {
+            return '';
+        }
+
+        return String(value)
+            .replace(/<[^>]*>/g, '')
+            .replace(/&nbsp;/g, ' ')
+            .replace(/&amp;/g, '&')
+            .trim();
+    }
+
+    // Builds Team > Fund/Shareclass sections from the Apex Product and Shareclass response.
+    buildPriipsTeams(productTeams, shareclasses) {
+        const teamsByKey = new Map();
+        const orderedKeys = [];
+
+        (productTeams || []).forEach((team) => {
+            const targetTeam = this.getOrCreatePriipsTeam(teamsByKey, orderedKeys, team.key, team.name);
+            targetTeam.fundFields = team.fields || [];
+            targetTeam.hasFundFields = targetTeam.fundFields.length > 0;
         });
 
-        return Array.from(keys);
+        (shareclasses || []).forEach((shareclassRecord) => {
+            (shareclassRecord.teams || []).forEach((team) => {
+                const fields = team.fields || [];
+                if (!fields.length) {
+                    return;
+                }
+
+                const targetTeam = this.getOrCreatePriipsTeam(teamsByKey, orderedKeys, team.key, team.name);
+                targetTeam.shareclasses.push({
+                    key: `${team.key}_${shareclassRecord.id}`,
+                    id: shareclassRecord.id,
+                    label: shareclassRecord.label,
+                    fields
+                });
+            });
+        });
+
+        return orderedKeys.map((key) => {
+            const team = teamsByKey.get(key);
+            return {
+                ...team,
+                hasShareclasses: team.shareclasses.length > 0
+            };
+        });
+    }
+
+    // Creates one team node used by both Fund fields and Shareclass fields.
+    getOrCreatePriipsTeam(teamsByKey, orderedKeys, key, name) {
+        if (!teamsByKey.has(key)) {
+            teamsByKey.set(key, {
+                key,
+                name,
+                fundKey: `${key}_fund`,
+                hasFundFields: false,
+                fundFields: [],
+                shareclasses: []
+            });
+            orderedKeys.push(key);
+        }
+
+        return teamsByKey.get(key);
+    }
+
+    // Collects Fund and Shareclass subsection keys to open them by default.
+    getAllTeamItemKeys(priipsTeams) {
+        const keys = [];
+
+        (priipsTeams || []).forEach((team) => {
+            if (team.hasFundFields) {
+                keys.push(team.fundKey);
+            }
+
+            (team.shareclasses || []).forEach((shareclassRecord) => {
+                keys.push(shareclassRecord.key);
+            });
+        });
+
+        return keys;
     }
 
     // Extracts a clean message from Apex and LDS error shapes.

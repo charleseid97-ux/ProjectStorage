@@ -591,6 +591,11 @@ public with sharing class PRIIPSKidCompletionController {
                 List<FieldConfig> selectedConfigs = new List<FieldConfig>();
 
                 for (FieldConfig config : configsByTeam.get(teamName)) {
+                    // Completion is calculated only on mandatory PRIIPs fields.
+                    if (!config.required) {
+                        continue;
+                    }
+
                     if (projectMode == MODE_MODIFICATION && useShareclassModifiedSource && !fieldWasSelected(modifiedFields, config)) {
                         continue;
                     }
