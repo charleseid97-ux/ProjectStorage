@@ -587,7 +587,8 @@ stages:
                   } > run-logs/prod-validation-summary.md
 
                   echo "##vso[task.setvariable variable=PROD_VALIDATION_JOB_ID;isOutput=true]$JOB_ID"
-                  echo "##vso[task.uploadsummary]run-logs/prod-validation-summary.md"
+                  test -f "$(System.DefaultWorkingDirectory)/run-logs/prod-validation-summary.md"
+                  echo "##vso[task.uploadsummary]$(System.DefaultWorkingDirectory)/run-logs/prod-validation-summary.md"
                   echo "Validation PROD job id: $JOB_ID"
 
                   if [[ -n "$JOB_ID" ]]; then
@@ -763,7 +764,8 @@ stages:
                     cat "$DEPLOYED_PACKAGE_ELEMENTS_FILE"
                   } > run-logs/prod-quick-deploy-summary.md
 
-                  echo "##vso[task.uploadsummary]run-logs/prod-quick-deploy-summary.md"
+                  test -f "$(System.DefaultWorkingDirectory)/run-logs/prod-quick-deploy-summary.md"
+                  echo "##vso[task.uploadsummary]$(System.DefaultWorkingDirectory)/run-logs/prod-quick-deploy-summary.md"
                   echo "=== Package deploye PROD ==="
                   cat "$DEPLOYED_PACKAGE_ELEMENTS_FILE"
 
