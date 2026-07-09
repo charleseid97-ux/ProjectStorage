@@ -97,10 +97,11 @@ export default class PriipsKid extends LightningElement {
         }));
     }
 
-    // Adds CSS classes depending on empty value, Required__c and long text content.
+    // Adds CSS classes depending on completion state, Required__c and long text content.
     decorateField(field) {
         const plainValue = this.getPlainTextValue(field.value);
         const isEmpty = plainValue.length === 0;
+        const isFilled = this.isFieldFilled(field, plainValue);
         const isLongText = !isEmpty && this.isLongTextField(field, plainValue);
         let itemClass = 'field-item';
         let valueClass = 'field-value';
@@ -110,9 +111,9 @@ export default class PriipsKid extends LightningElement {
             valueClass += ' field-value-long-text';
         }
 
-        if (isEmpty && field.required) {
+        if (!isFilled && field.required) {
             valueClass += ' field-value-required-empty';
-        } else if (isEmpty) {
+        } else if (!isFilled) {
             valueClass += ' field-value-optional-empty';
         }
 
@@ -122,6 +123,15 @@ export default class PriipsKid extends LightningElement {
             itemClass,
             valueClass
         };
+    }
+
+    // Returns the Apex completion state or falls back to the displayed value.
+    isFieldFilled(field, plainValue) {
+        if (typeof field.isFilled === 'boolean') {
+            return field.isFilled;
+        }
+
+        return plainValue.length > 0;
     }
 
     // Returns true when a field should use the full row width.

@@ -60,6 +60,7 @@ public with sharing class PRIIPSKidController {
         @AuraEnabled public String apiName;
         @AuraEnabled public String value;
         @AuraEnabled public Boolean required = false;
+        @AuraEnabled public Boolean isFilled = false;
     }
 
     private class FieldReference {
@@ -75,6 +76,7 @@ public with sharing class PRIIPSKidController {
         String team;
         String label;
         String displayCondition;
+        String exactValue;
         Boolean required;
     }
 
@@ -210,7 +212,8 @@ public with sharing class PRIIPSKidController {
                    ShareclassCreation__c,
                    ProductShareModification__c,
                    DisplayCondition__c,
-                   Required__c
+                   Required__c,
+                   ExactValue__c
             FROM PRIIPSField__mdt
             ORDER BY Team__c, MasterLabel
         ];
@@ -243,6 +246,7 @@ public with sharing class PRIIPSKidController {
             config.team = metadataRow.Team__c;
             config.label = getDisplayLabel(metadataRow.MasterLabel, reference, productFieldsDescribe, shareclassFieldsDescribe);
             config.displayCondition = metadataRow.DisplayCondition__c;
+            config.exactValue = metadataRow.ExactValue__c;
             config.required = metadataRow.Required__c == true;
             config.key = makeColumnKey(config.fullFieldApiName);
             configs.add(config);
@@ -665,13 +669,35 @@ public with sharing class PRIIPSKidController {
 
     // Creates one UI field value from a field config and an SObject record.
     private static FieldValue createFieldValue(FieldConfig config, SObject record) {
+        Object rawValue = getSObjectValue(record, config.fieldApiName);
         FieldValue fieldValue = new FieldValue();
+
         fieldValue.key = config.key;
         fieldValue.label = config.label;
         fieldValue.apiName = config.fullFieldApiName;
-        fieldValue.value = formatValue(getSObjectValue(record, config.fieldApiName));
+        fieldValue.value = formatValue(rawValue);
         fieldValue.required = config.required == true;
+        fieldValue.isFilled = isFieldFilled(rawValue, config);
         return fieldValue;
+    }
+
+    // Returns true when a displayed field satisfies the completion rule.
+    private static Boolean isFieldFilled(Object value, FieldConfig config) {
+        if (value == null) {
+            return false;
+        }
+
+        // ExactValue__c overrides the default non-empty completion rule.
+        if (String.isNotBlank(config.exactValue)) {
+            return String.valueOf(value).trim() == config.exactValue.trim();
+        }
+
+        // Default rule keeps text values strict and accepts non-null values.
+        if (value instanceof String) {
+            return String.isNotBlank((String) value);
+        }
+
+        return true;
     }
 
     // Gets or creates a team section in the response map.
