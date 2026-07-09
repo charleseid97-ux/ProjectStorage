@@ -115,6 +115,7 @@ public with sharing class VFC16_SequantisGenerateDraft {
                                 LeveragedReturn__c, PensionSchemeGer__c, MayTerminateEarlier__c, ExecutionOnly__c, AppropTest__c, InvestAdvice__c, PortfolioManagement__c,
                                 ProjectProduct__c, ShareclassInvestmentObjective__c, InvestorType__c,PerformanceFeeUCITSKIID__c,PerformanceFeeEPTKID__c, MaxPerfFees__c,
                                 PerformanceFeeMethod__c,MaxRedemptionFeesSubfund__c,MaxRedemptionFeesManCo__c,OngoingCostsExante__c,OngoingChargesKIID__c,ReasonforRHPRedemptionShareclass__c
+                                ,MaxConversionFee__c,IsPayingTrailerFees__c
                                 FROM projectShareClass__c
                                 WHERE id = :projectShareClassId];
         
@@ -262,6 +263,7 @@ public with sharing class VFC16_SequantisGenerateDraft {
 
 
         payload.put('maxRedemptionFeesFund',  projectShareClassRec.MaxRedemptionFeesSubfund__c);
+        payload.put('isPayingTrailerFees'  ,  projectShareClassRec.IsPayingTrailerFees__c);
 
         
         payload.put('maxPerformanceFees', projectShareClassRec.MaxPerfFees__c);

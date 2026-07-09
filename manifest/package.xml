@@ -1,20 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Package xmlns="http://soap.sforce.com/2006/04/metadata">
     <types>
-        <members>PRIIPSKidController</members>
-        <members>PRIIPSKidControllerTest</members>
-        <members>PRIIPSKidCompletionController</members>
-        <members>PRIIPSKidCompletionControllerTest</members>
+        <members>VFC16_SequantisGenerateDraft</members>
         <name>ApexClass</name>
     </types>
     <types>
-        <members>priipsKid</members>
-        <members>priipsKidCompletion</members>
-        <name>LightningComponentBundle</name>
-    </types>
-    <types>
-        <members>PRIIPSField__mdt</members>
-        <name>CustomObject</name>
+        <members>PMT_PRIIPSValidationCompleted</members>
+        <name>Flow</name>
     </types>
     <version>64.0</version>
 </Package>
