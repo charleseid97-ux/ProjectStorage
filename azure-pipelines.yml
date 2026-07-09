@@ -1,3 +1,22 @@
+parameters:
+  - name: deployProdQuick
+    displayName: 'Lancer uniquement le quick deploy PROD'
+    type: string
+    default: 'false'
+    values:
+      - 'false'
+      - 'true'
+
+  - name: validationJobId
+    displayName: 'Salesforce validation job id'
+    type: string
+    default: ''
+
+  - name: validationBuildId
+    displayName: 'Azure DevOps run id de la validation PROD'
+    type: string
+    default: ''
+
 trigger:
   branches:
     include:
@@ -34,6 +53,7 @@ variables:
 stages:
 - stage: SONAR
   displayName: 'SonarCloud + Gate (BLOCKER/CRITICAL)'
+  condition: eq('${{ parameters.deployProdQuick }}', 'false')
   jobs:
   - job: Sonar
     displayName: 'Sonar analysis + blocking gate'
@@ -581,7 +601,7 @@ stages:
                     echo "- Branch: \`$(Build.SourceBranch)\`"
                     echo "- Commit: \`$(Build.SourceVersion)\`"
                     echo ""
-                    echo "Le stage suivant peut faire un quick deploy manuel avec cet ID si la validation est réussie."
+                    echo "Un run manuel peut faire un quick deploy avec cet ID si la validation est reussie."
                     echo ""
                     cat "$PACKAGE_ELEMENTS_FILE"
                   } > run-logs/prod-validation-summary.md
@@ -622,29 +642,14 @@ stages:
                   artifact: 'sf-prod-validation'
                   publishLocation: 'pipeline'
 
-- stage: PROD_Deploy_Manual
-  displayName: 'PROD Deploy Manual Quick Deploy'
-  dependsOn: PROD_Validate
-  condition: succeeded('PROD_Validate')
-  jobs:
-    - job: Wait_Manual_Approval
-      displayName: 'Manual approval before PROD deploy'
-      pool: server
-      timeoutInMinutes: 4320
-      steps:
-        - task: ManualValidation@1
-          displayName: 'Approve PROD quick deploy'
-          timeoutInMinutes: 4320
-          inputs:
-            notifyUsers: ''
-            instructions: |
-              La validation PROD est terminée.
-              Vérifie l'artifact sf-prod-validation, le fichier prod-validation-summary.md et l'ID Salesforce avant d'approuver le quick deploy.
-            onTimeout: 'reject'
 
+- stage: PROD_Quick_Deploy_Manual
+  displayName: 'PROD Quick Deploy Manual'
+  dependsOn: []
+  condition: eq('${{ parameters.deployProdQuick }}', 'true')
+  jobs:
     - deployment: Deploy_PROD_Quick
       displayName: 'Deploy to Salesforce PROD with validated id'
-      dependsOn: Wait_Manual_Approval
       environment: 'PROD Salesforce'
       strategy:
         runOnce:
@@ -652,10 +657,34 @@ stages:
             steps:
               - checkout: self
 
+              - script: |
+                  set -euo pipefail
+
+                  VALIDATION_JOB_ID="${{ parameters.validationJobId }}"
+                  VALIDATION_BUILD_ID="${{ parameters.validationBuildId }}"
+
+                  if [ -z "$VALIDATION_JOB_ID" ]; then
+                    echo "ERREUR: le parametre validationJobId est obligatoire."
+                    exit 31
+                  fi
+
+                  if [ -z "$VALIDATION_BUILD_ID" ]; then
+                    echo "ERREUR: le parametre validationBuildId est obligatoire pour recuperer la liste du package valide."
+                    exit 32
+                  fi
+
+                  echo "Validation job id: $VALIDATION_JOB_ID"
+                  echo "Validation build id: $VALIDATION_BUILD_ID"
+                displayName: 'Check manual quick deploy parameters'
+
               - task: DownloadPipelineArtifact@2
                 displayName: 'Download PROD validation artifact'
                 inputs:
-                  buildType: 'current'
+                  buildType: 'specific'
+                  project: '$(System.TeamProject)'
+                  definition: '$(System.DefinitionId)'
+                  buildVersionToDownload: 'specific'
+                  pipelineId: '${{ parameters.validationBuildId }}'
                   artifactName: 'sf-prod-validation'
                   targetPath: '$(Pipeline.Workspace)/sf-prod-validation'
 
@@ -713,11 +742,20 @@ stages:
                   set -euo pipefail
                   set -x
 
+                  VALIDATION_JOB_ID="${{ parameters.validationJobId }}"
                   VALIDATION_ID_FILE="$(Pipeline.Workspace)/sf-prod-validation/prod-validation-job-id.txt"
-                  [[ -f "$VALIDATION_ID_FILE" ]] || { echo "ERREUR: ID de validation introuvable"; exit 31; }
 
-                  VALIDATION_JOB_ID=$(tr -d '[:space:]' < "$VALIDATION_ID_FILE")
-                  [[ -n "$VALIDATION_JOB_ID" ]] || { echo "ERREUR: ID de validation vide"; exit 32; }
+                  [[ -f "$VALIDATION_ID_FILE" ]] || { echo "ERREUR: ID de validation introuvable dans l'artifact"; exit 33; }
+
+                  ARTIFACT_VALIDATION_JOB_ID=$(tr -d '[:space:]' < "$VALIDATION_ID_FILE")
+                  [[ -n "$ARTIFACT_VALIDATION_JOB_ID" ]] || { echo "ERREUR: ID de validation vide dans l'artifact"; exit 34; }
+
+                  if [[ "$VALIDATION_JOB_ID" != "$ARTIFACT_VALIDATION_JOB_ID" ]]; then
+                    echo "ERREUR: le validationJobId fourni ne correspond pas a l'artifact de validation."
+                    echo "Parametre: $VALIDATION_JOB_ID"
+                    echo "Artifact:  $ARTIFACT_VALIDATION_JOB_ID"
+                    exit 35
+                  fi
 
                   echo "Quick deploy avec validation id: $VALIDATION_JOB_ID"
 
@@ -757,7 +795,8 @@ stages:
                   {
                     echo "# PROD quick deploy Salesforce"
                     echo ""
-                    echo "- Validation job id utilisé: \`$VALIDATION_JOB_ID\`"
+                    echo "- Validation build id: \`${{ parameters.validationBuildId }}\`"
+                    echo "- Validation job id utilise: \`$VALIDATION_JOB_ID\`"
                     echo "- Quick deploy job id: \`$QUICK_DEPLOY_ID\`"
                     echo "- Status: \`$QUICK_STATUS\`"
                     echo "- Branch: \`$(Build.SourceBranch)\`"
