@@ -13,7 +13,7 @@ import submitAgreementForApproval from '@salesforce/apex/GridBuilderController.s
 import hasGridSimulationPermission from '@salesforce/apex/GridBuilderController.hasGridSimulationPermission';
 import submitForApproval from '@salesforce/apex/CustomApprovalHistoryUtility.submitForApproval';
 import {LABELS, reduceError, showToast, buildShareTypesKey, buildCriteriaKey, getProductNameFromRows, getQueryParam, getRecordIdFromPageRef, getGridIdFromPageRef, getSystemProductExclusionDetail,
-    applySystemProductExclusion, mergeSystemDetail, addIsinExclusionsFromRows, pruneOrphanedCriteria, updateCriteriaListWithProductNames, executeGridSave} from 'c/gridBuilderUtils';
+    applySystemProductExclusion, mergeSystemDetail, addIsinExclusionsFromRows, pruneOrphanedCriteria, excludeProductNamesFromCriteria, executeGridSave} from 'c/gridBuilderUtils';
 
 export default class CustomGridBuilder extends NavigationMixin(LightningElement) {
     @api gridBuilderSettingName = 'CustomGridBuilderSetting';
@@ -841,7 +841,7 @@ export default class CustomGridBuilder extends NavigationMixin(LightningElement)
         const oldCriteriaRefIds = [...new Set(movedRows.map(row => row.criteriaRefId).filter(Boolean))];
         let updatedCriteriaList = this.criteriaList || [];
         oldCriteriaRefIds.forEach(refId => {
-            updatedCriteriaList = updateCriteriaListWithProductNames(updatedCriteriaList, refId, [productName], 'NOT IN', this.filterValueSeparator);
+            updatedCriteriaList = excludeProductNamesFromCriteria(updatedCriteriaList, refId, [productName], this.filterValueSeparator);
         });
         const sourceEntry = updatedCriteriaList.find(entry => entry.id === oldCriteriaRefIds[0]);
         const criteriaRef = this.buildProductMoveCriteriaReference(gridId, productName, sourceEntry);

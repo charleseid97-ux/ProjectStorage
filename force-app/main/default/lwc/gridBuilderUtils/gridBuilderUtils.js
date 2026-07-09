@@ -615,15 +615,36 @@ export function updateCriteriaListWithIsins(criteriaList, criteriaRefId, isins, 
     });
 }
 
-export function updateCriteriaListWithProductNames(criteriaList, criteriaRefId, productNames, logic, separator = ';') {
+export function excludeProductNamesFromCriteria(criteriaList, criteriaRefId, productNames, separator = ';') {
     if (!criteriaList || !criteriaRefId) {
         return criteriaList || [];
+    }
+    const names = (Array.isArray(productNames) ? productNames : []).filter(val => val);
+    if (!names.length) {
+        return criteriaList;
     }
     return criteriaList.map(entry => {
         if (entry.id !== criteriaRefId) {
             return entry;
         }
-        const updatedDetails = updateCriteriaDetailValues(entry.criteriaDetails, PRODUCT_NAME_DETAIL_SPEC, productNames, logic, separator);
+        // Names already covered by an existing "ProductName IN" detail are removed from it
+        // instead of getting a contradictory "NOT IN" exclusion on the same criteria
+        let remaining = [...names];
+        const details = [];
+        (entry.criteriaDetails || []).forEach(detail => {
+            const isProductInDetail = detail.Object__c === PRODUCT_NAME_DETAIL_SPEC.Object__c && detail.Field__c === PRODUCT_NAME_DETAIL_SPEC.Field__c && detail.Logic__c === 'IN';
+            if (!isProductInDetail) {
+                details.push(detail);
+                return;
+            }
+            const values = splitCriteriaValues(detail.Value__c, separator);
+            const nextValues = values.filter(value => !remaining.includes(value));
+            remaining = remaining.filter(name => !values.includes(name));
+            if (nextValues.length) {
+                details.push({ ...detail, Value__c: nextValues.join(' ' + separator + ' ') });
+            }
+        });
+        const updatedDetails = remaining.length ? updateCriteriaDetailValues(details, PRODUCT_NAME_DETAIL_SPEC, remaining, 'NOT IN', separator) : details;
         return { ...entry, criteriaDetails: updatedDetails };
     });
 }
