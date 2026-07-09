@@ -70,6 +70,7 @@ public with sharing class PRIIPSKidCompletionController {
         String team;
         String label;
         String displayCondition;
+        String exactValue;
         Boolean required;
     }
     // Loads completion indicators by team for the current Project Product record page.
@@ -202,7 +203,8 @@ public with sharing class PRIIPSKidCompletionController {
                    ShareclassCreation__c,
                    ProductShareModification__c,
                    DisplayCondition__c,
-                   Required__c
+                   Required__c,
+                   ExactValue__c
             FROM PRIIPSField__mdt
             ORDER BY Team__c, MasterLabel
         ];
@@ -235,6 +237,7 @@ public with sharing class PRIIPSKidCompletionController {
             config.team = metadataRow.Team__c;
             config.label = getDisplayLabel(metadataRow.MasterLabel, reference, productFieldsDescribe, shareclassFieldsDescribe);
             config.displayCondition = metadataRow.DisplayCondition__c;
+            config.exactValue = metadataRow.ExactValue__c;
             config.required = metadataRow.Required__c == true;
             config.key = makeColumnKey(config.fullFieldApiName);
             configs.add(config);
@@ -794,7 +797,7 @@ public with sharing class PRIIPSKidCompletionController {
         detail.total = configs.size();
 
         for (FieldConfig config : configs) {
-            if (hasCompletionValue(record, config.fieldApiName)) {
+            if (hasCompletionValue(record, config)) {
                 detail.completed++;
             }
         }
@@ -864,11 +867,18 @@ public with sharing class PRIIPSKidCompletionController {
     }
 
     // Returns true when a field value counts as completed.
-    private static Boolean hasCompletionValue(SObject record, String fieldApiName) {
-        Object value = getSObjectValue(record, fieldApiName);
+    private static Boolean hasCompletionValue(SObject record, FieldConfig config) {
+        Object value = getSObjectValue(record, config.fieldApiName);
         if (value == null) {
             return false;
         }
+
+        // ExactValue__c forces the field to match a specific value.
+        if (String.isNotBlank(config.exactValue)) {
+            return String.valueOf(value).trim() == config.exactValue.trim();
+        }
+
+        // Default completion rule: text must be non-empty, other values count as filled.
         if (value instanceof String) {
             return String.isNotBlank((String) value);
         }
