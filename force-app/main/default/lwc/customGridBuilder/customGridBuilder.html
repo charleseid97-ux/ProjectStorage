@@ -155,9 +155,12 @@
                                                     rows={selectedShareClasses}
                                                     all-rows={allQueriedShareClasses}
                                                     criteria-list={criteriaList}
+                                                    grid-options={panelGridOptions}
+                                                    grid-share-class-map={gridShareClassMap}
                                                     show-excluded-only={showRecapExcludedOnly}
                                                     is-open={showSelectedPanel}
                                                     onremoveproduct={handleRemoveProductFromSelection}
+                                                    onchangeproductgrid={handleChangeProductGridFromSelection}
                                                     onclose={handleCloseSelectedPanel}>
                     </c-grid-selection-display-panel>
                 </template>

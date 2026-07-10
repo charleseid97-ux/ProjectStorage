@@ -12,8 +12,8 @@ import getProductsAndShareClasses from '@salesforce/apex/GridBuilderController.g
 import submitAgreementForApproval from '@salesforce/apex/GridBuilderController.submitAgreementForApproval';
 import hasGridSimulationPermission from '@salesforce/apex/GridBuilderController.hasGridSimulationPermission';
 import submitForApproval from '@salesforce/apex/CustomApprovalHistoryUtility.submitForApproval';
-import {LABELS, reduceError, showToast, buildShareTypesKey, getProductNameFromRows, getQueryParam, getRecordIdFromPageRef, getGridIdFromPageRef, getSystemProductExclusionDetail,
-    applySystemProductExclusion, mergeSystemDetail, addIsinExclusionsFromRows, pruneOrphanedCriteria, executeGridSave} from 'c/gridBuilderUtils';
+import {LABELS, reduceError, showToast, buildShareTypesKey, buildCriteriaKey, getProductNameFromRows, getQueryParam, getRecordIdFromPageRef, getGridIdFromPageRef, getSystemProductExclusionDetail,
+    applySystemProductExclusion, mergeSystemDetail, addIsinExclusionsFromRows, pruneOrphanedCriteria, excludeProductNamesFromCriteria, executeGridSave} from 'c/gridBuilderUtils';
 
 export default class CustomGridBuilder extends NavigationMixin(LightningElement) {
     @api gridBuilderSettingName = 'CustomGridBuilderSetting';
@@ -185,6 +185,13 @@ export default class CustomGridBuilder extends NavigationMixin(LightningElement)
             ...opt,
             disabled: opt.value !== lockedGridId
         }));
+    }
+
+    get panelGridOptions() {
+        if (this.gridRequestData?.gridType === 'SINGLE RULE') {
+            return [];
+        }
+        return this.gridOptions || [];
     }
 
     _isConnected = false;
@@ -814,6 +821,82 @@ export default class CustomGridBuilder extends NavigationMixin(LightningElement)
         }
         this.selectedShareClasses = next;
         this.criteriaList = pruneOrphanedCriteria(this.criteriaList, this.selectedShareClasses);
+    }
+
+    handleChangeProductGridFromSelection(event) {
+        const productId = event.detail?.productId;
+        const gridId = event.detail?.gridId;
+        if (!productId || !gridId) return;
+        const current = this.selectedShareClasses || [];
+        const movedRows = current.filter(row => row.productId === productId);
+        if (!movedRows.length || movedRows.every(row => row.gridId === gridId)) return;
+
+        const productName = getProductNameFromRows(movedRows, this.getProductNameLabel());
+        if (!productName) {
+            showToast(this, this.labels.UI_Error, this.labels.Grid_ErrorRetrievingProducts, 'error');
+            return;
+        }
+
+        // Criteria work first: exclude the product from its old criteria, then create the new criteria
+        const oldCriteriaRefIds = [...new Set(movedRows.map(row => row.criteriaRefId).filter(Boolean))];
+        let updatedCriteriaList = this.criteriaList || [];
+        oldCriteriaRefIds.forEach(refId => {
+            updatedCriteriaList = excludeProductNamesFromCriteria(updatedCriteriaList, refId, [productName], this.filterValueSeparator);
+        });
+        const sourceEntry = updatedCriteriaList.find(entry => entry.id === oldCriteriaRefIds[0]);
+        const criteriaRef = this.buildProductMoveCriteriaReference(gridId, productName, sourceEntry);
+        this.criteriaList = [...updatedCriteriaList, criteriaRef];
+
+        // Then re-point the product rows to the new criteria (no removal / re-add)
+        this.selectedShareClasses = current.map(row => {
+            if (row.productId !== productId) return row;
+            return {
+                ...row,
+                gridId: criteriaRef.gridId,
+                gridLabel: criteriaRef.gridLabel,
+                criteriaRefId: criteriaRef.id,
+                cells: (row.cells || []).map(c => c.label === 'Grid' ? { ...c, value: criteriaRef.gridLabel } : c)
+            };
+        });
+        this.criteriaList = pruneOrphanedCriteria(this.criteriaList, this.selectedShareClasses);
+
+        const message = this.labels.Grid_ChangeGridSuccess.replace('{0}', productName).replace('{1}', criteriaRef.gridLabel);
+        showToast(this, this.labels.UI_Success, message, 'success');
+    }
+
+    buildProductMoveCriteriaReference(gridId, productName, sourceEntry) {
+        const gridLabel = this.getGridLabelById(gridId);
+        const shareTypes = Array.isArray(sourceEntry?.shareTypes) ? [...sourceEntry.shareTypes] : [];
+        const criteriaObj = {
+            StandardGrid__c: gridId,
+            FilterLogic__c: 'AND',
+            FilterLogicExpression__c: '',
+            SelectedShareTypes__c: sourceEntry?.criteria?.SelectedShareTypes__c || shareTypes.join(',')
+        };
+        const criteriaDetailsList = this.decorateCriteriaDetails([{
+            Object__c: 'Product__c',
+            Field__c: 'ProductName__c',
+            Logic__c: 'IN',
+            Value__c: productName,
+            FilterNumber__c: 1,
+            TECHOrigin__c: 'User-Defined'
+        }]);
+        const stableId = 'crit_' + (++this.criteriaCounter);
+        return {
+            id: stableId,
+            key: buildCriteriaKey({
+                gridId: gridId,
+                filterLogicType: criteriaObj.FilterLogic__c,
+                filterLogicText: criteriaObj.FilterLogicExpression__c,
+                details: criteriaDetailsList,
+                shareTypes: shareTypes
+            }),
+            gridId: gridId,
+            gridLabel: gridLabel,
+            criteria: criteriaObj,
+            criteriaDetails: criteriaDetailsList,
+            shareTypes: shareTypes
+        };
     }
 
     handleValidationSelectionChange(event) {

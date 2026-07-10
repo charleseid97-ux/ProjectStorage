@@ -51,6 +51,8 @@ import Grid_AutoIncludeHelpText from '@salesforce/label/c.Grid_AutoIncludeHelpTe
 import Grid_AutoIncludeLabel from '@salesforce/label/c.Grid_AutoIncludeLabel';
 import Grid_AutomaticUpdate from '@salesforce/label/c.Grid_AutomaticUpdate';
 import Grid_Builder from '@salesforce/label/c.Grid_Builder';
+import Grid_ChangeGrid from '@salesforce/label/c.Grid_ChangeGrid';
+import Grid_ChangeGridSuccess from '@salesforce/label/c.Grid_ChangeGridSuccess';
 import Grid_Comparison_ActiveGridIsCurrent from '@salesforce/label/c.Grid_Comparison_ActiveGridIsCurrent';
 import Grid_Comparison_NoActiveGrid from '@salesforce/label/c.Grid_Comparison_NoActiveGrid';
 import Grid_CreatedSuccess from '@salesforce/label/c.Grid_CreatedSuccess';
@@ -177,7 +179,7 @@ export const LABELS = {
     Agreement_SubmittedForApproval,
     Grid_AddFilter, Grid_AddRestrictedShareTypes, Grid_AddToGrid, Grid_AgreementErrorLoadingSettings, Grid_Agreements,
     Grid_AllRowsImported, Grid_AlreadySelected, Grid_ApplyFilters, Grid_AutoIncludeHelpText, Grid_AutoIncludeLabel,
-    Grid_AutomaticUpdate, Grid_Builder, Grid_Comparison_ActiveGridIsCurrent, Grid_Comparison_NoActiveGrid, Grid_CreatedSuccess, Grid_CriteriaCreated, Grid_CriteriaDetailsCreated, Grid_CriteriaHistory,
+    Grid_AutomaticUpdate, Grid_Builder, Grid_ChangeGrid, Grid_ChangeGridSuccess, Grid_Comparison_ActiveGridIsCurrent, Grid_Comparison_NoActiveGrid, Grid_CreatedSuccess, Grid_CriteriaCreated, Grid_CriteriaDetailsCreated, Grid_CriteriaHistory,
     Grid_CriteriaLabel, Grid_CriteriaNumber, Grid_AgreementGridTimeline, Grid_AgreementGridRecap, Grid_CurrentGridRecap, Grid_DetailsTitle, Grid_DifferentGridsSelected,
     Grid_ErrorLoadingGrids, Grid_ErrorLoadingProducts, Grid_ErrorLoadingSettings, Grid_ErrorRetrievingProducts,
     Grid_ErrorSavingGrid, Grid_ErrorValidatingProducts, Grid_ExcelImportTitle, Grid_ExcludedProducts,
@@ -473,46 +475,53 @@ export function buildShareTypesKey(shareTypes) {
     return values.join('|');
 }
 
+const ISIN_DETAIL_SPEC = { Object__c: 'Share_Class__c', Field__c: 'ISIN__c', objectLabel: 'Share Class', fieldLabel: 'ISIN' };
+const PRODUCT_NAME_DETAIL_SPEC = { Object__c: 'Product__c', Field__c: 'ProductName__c', objectLabel: 'Product', fieldLabel: 'Product Name' };
+
 export function updateCriteriaWithIsins(criteriaDetails, isins, logic, separator = ';') {
-    const isinArray = (Array.isArray(isins) ? isins : []).filter(val => val);
-    if (!isinArray.length) {
+    return updateCriteriaDetailValues(criteriaDetails, ISIN_DETAIL_SPEC, isins, logic, separator);
+}
+
+export function updateCriteriaDetailValues(criteriaDetails, fieldSpec, values, logic, separator = ';') {
+    const valueArray = (Array.isArray(values) ? values : []).filter(val => val);
+    if (!valueArray.length) {
         return criteriaDetails;
     }
     const details = (criteriaDetails || []).slice();
     const idx = details.findIndex(d =>
-        d.Object__c === 'Share_Class__c' &&
-        d.Field__c === 'ISIN__c' &&
+        d.Object__c === fieldSpec.Object__c &&
+        d.Field__c === fieldSpec.Field__c &&
         d.Logic__c === logic &&
         d.TECHOrigin__c === 'System'
     );
     const currentValues = idx >= 0 && details[idx].Value__c ? details[idx].Value__c.split(separator).map(val => val.trim()).filter(val => val) : [];
     const valueSet = new Set(currentValues);
-    isinArray.forEach(isin => {
-        if (valueSet.has(isin)) {
-            valueSet.delete(isin);
-        } 
+    valueArray.forEach(value => {
+        if (valueSet.has(value)) {
+            valueSet.delete(value);
+        }
         else {
-            valueSet.add(isin);
+            valueSet.add(value);
         }
     });
     const nextValues = Array.from(valueSet);
     if (nextValues.length) {
         const detail = {
-            Object__c: 'Share_Class__c',
-            Field__c: 'ISIN__c',
+            Object__c: fieldSpec.Object__c,
+            Field__c: fieldSpec.Field__c,
             Logic__c: logic,
             Value__c: nextValues.join(' ' + separator + ' '),
             TECHOrigin__c: 'System',
-            objectLabel: 'Share Class',
-            fieldLabel: 'ISIN'
+            objectLabel: fieldSpec.objectLabel,
+            fieldLabel: fieldSpec.fieldLabel
         };
         if (idx >= 0) {
             details[idx] = { ...details[idx], ...detail };
-        } 
+        }
         else {
             details.push(detail);
         }
-    } 
+    }
     else if (idx >= 0) {
         details.splice(idx, 1);
     }
@@ -602,6 +611,40 @@ export function updateCriteriaListWithIsins(criteriaList, criteriaRefId, isins, 
             return entry;
         }
         const updatedDetails = updateCriteriaWithIsins(entry.criteriaDetails, isins, logic, separator);
+        return { ...entry, criteriaDetails: updatedDetails };
+    });
+}
+
+export function excludeProductNamesFromCriteria(criteriaList, criteriaRefId, productNames, separator = ';') {
+    if (!criteriaList || !criteriaRefId) {
+        return criteriaList || [];
+    }
+    const names = (Array.isArray(productNames) ? productNames : []).filter(val => val);
+    if (!names.length) {
+        return criteriaList;
+    }
+    return criteriaList.map(entry => {
+        if (entry.id !== criteriaRefId) {
+            return entry;
+        }
+        // Names already covered by an existing "ProductName IN" detail are removed from it
+        // instead of getting a contradictory "NOT IN" exclusion on the same criteria
+        let remaining = [...names];
+        const details = [];
+        (entry.criteriaDetails || []).forEach(detail => {
+            const isProductInDetail = detail.Object__c === PRODUCT_NAME_DETAIL_SPEC.Object__c && detail.Field__c === PRODUCT_NAME_DETAIL_SPEC.Field__c && detail.Logic__c === 'IN';
+            if (!isProductInDetail) {
+                details.push(detail);
+                return;
+            }
+            const values = splitCriteriaValues(detail.Value__c, separator);
+            const nextValues = values.filter(value => !remaining.includes(value));
+            remaining = remaining.filter(name => !values.includes(name));
+            if (nextValues.length) {
+                details.push({ ...detail, Value__c: nextValues.join(' ' + separator + ' ') });
+            }
+        });
+        const updatedDetails = remaining.length ? updateCriteriaDetailValues(details, PRODUCT_NAME_DETAIL_SPEC, remaining, 'NOT IN', separator) : details;
         return { ...entry, criteriaDetails: updatedDetails };
     });
 }
