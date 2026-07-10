@@ -76,13 +76,22 @@
         <layoutColumns/>
         <style>CustomLinks</style>
     </layoutSections>
+    <relatedLists>
+        <fields>DeveloperName</fields>
+        <fields>MasterLabel</fields>
+        <fields>ScopeType__c</fields>
+        <fields>ExemptFields__c</fields>
+        <fields>AssigneeValue__c</fields>
+        <fields>Active__c</fields>
+        <relatedList>ApprovalLockFieldExemptionConfig__mdt.LockConfig__c</relatedList>
+    </relatedLists>
     <showEmailCheckbox>false</showEmailCheckbox>
     <showHighlightsPanel>false</showHighlightsPanel>
     <showInteractionLogPanel>false</showInteractionLogPanel>
     <showRunAssignmentRulesCheckbox>false</showRunAssignmentRulesCheckbox>
     <showSubmitAndAttachButton>false</showSubmitAndAttachButton>
     <summaryLayout>
-        <masterLabel>00hG5000008wFN3</masterLabel>
+        <masterLabel>00haT000006TTsu</masterLabel>
         <sizeX>4</sizeX>
         <sizeY>0</sizeY>
         <summaryLayoutStyle>Default</summaryLayoutStyle>
