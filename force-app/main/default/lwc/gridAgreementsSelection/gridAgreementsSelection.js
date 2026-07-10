@@ -382,7 +382,8 @@ export default class GridAgreementsSelection extends LightningElement {
 
     handleLoadPreviousToggle(e) {
         this.loadPreviousGrid = e.target.checked;
-        if (this.loadPreviousGrid && this.existingGridType) {
+        // MULTI RULE can inherit details from any previous grid: keep the user's choice untouched
+        if (this.loadPreviousGrid && this.existingGridType && this.agType !== 'MULTI RULE') {
             this.agType = this.existingGridType;
             if (this.agType === 'MULTI RULE') {
                 this.isAutoGridUpdate = false;
