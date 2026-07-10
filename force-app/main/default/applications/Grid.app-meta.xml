@@ -20,6 +20,24 @@
         <pageOrSobjectType>Grid__c</pageOrSobjectType>
         <recordType>Grid__c.CustomGrid</recordType>
         <type>Flexipage</type>
+        <profile>Admin</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>CustomGridRecordPage</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>Grid__c</pageOrSobjectType>
+        <recordType>Grid__c.CustomGrid</recordType>
+        <type>Flexipage</type>
+        <profile>Admin</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>CustomGridRecordPage</content>
+        <formFactor>Small</formFactor>
+        <pageOrSobjectType>Grid__c</pageOrSobjectType>
+        <recordType>Grid__c.CustomGrid</recordType>
+        <type>Flexipage</type>
         <profile>Carmignac - Business Developer</profile>
     </profileActionOverrides>
     <profileActionOverrides>

@@ -3,23 +3,7 @@
     <label>Legal Pending Approvals</label>
     <protected>false</protected>
     <values>
-        <field>ObjectApiNames__c</field>
-        <value xsi:type="xsd:string">Convention__c,Grid__c</value>
-    </values>
-    <values>
         <field>ApprovalSystem__c</field>
-        <value xsi:nil="true"/>
-    </values>
-    <values>
-        <field>SourceQueues__c</field>
-        <value xsi:type="xsd:string">Legal_Queue</value>
-    </values>
-    <values>
-        <field>RecipientQueues__c</field>
-        <value xsi:type="xsd:string">Legal_Queue</value>
-    </values>
-    <values>
-        <field>CCRecipientQueues__c</field>
         <value xsi:nil="true"/>
     </values>
     <values>
@@ -27,15 +11,7 @@
         <value xsi:nil="true"/>
     </values>
     <values>
-        <field>IsActive__c</field>
-        <value xsi:type="xsd:boolean">true</value>
-    </values>
-    <values>
-        <field>ThresholdDays__c</field>
-        <value xsi:type="xsd:double">30.0</value>
-    </values>
-    <values>
-        <field>OverrideEmailTemplate__c</field>
+        <field>CCRecipientQueues__c</field>
         <value xsi:nil="true"/>
     </values>
     <values>
@@ -43,7 +19,31 @@
         <value xsi:type="xsd:string">Alerts Legal Queue members of Convention__c and Grid__c approvals pending more than 30 days.</value>
     </values>
     <values>
+        <field>IsActive__c</field>
+        <value xsi:type="xsd:boolean">true</value>
+    </values>
+    <values>
+        <field>ObjectApiNames__c</field>
+        <value xsi:type="xsd:string">Convention__c,Grid__c</value>
+    </values>
+    <values>
+        <field>OverrideEmailTemplate__c</field>
+        <value xsi:nil="true"/>
+    </values>
+    <values>
+        <field>RecipientQueues__c</field>
+        <value xsi:type="xsd:string">Legal_Queue</value>
+    </values>
+    <values>
         <field>RecipientResolverClass__c</field>
         <value xsi:type="xsd:string">LegalApprovalsRecipientResolver</value>
+    </values>
+    <values>
+        <field>SourceQueues__c</field>
+        <value xsi:type="xsd:string">Legal_Queue</value>
+    </values>
+    <values>
+        <field>ThresholdDays__c</field>
+        <value xsi:type="xsd:double">30.0</value>
     </values>
 </CustomMetadata>
