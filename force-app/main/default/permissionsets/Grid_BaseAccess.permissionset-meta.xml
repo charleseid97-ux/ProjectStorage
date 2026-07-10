@@ -77,6 +77,10 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>GridDetailRefreshBatch</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>GridDetailTableController</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -157,10 +161,6 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
-        <apexClass>GridDetailRefreshBatch</apexClass>
-        <enabled>true</enabled>
-    </classAccesses>
-    <classAccesses>
         <apexClass>ShareClassCustomGridBatch</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -172,10 +172,6 @@
         <apexClass>StandardGridProductAndRulesController</apexClass>
         <enabled>true</enabled>
     </classAccesses>
-    <customMetadataTypeAccesses>
-        <enabled>true</enabled>
-        <name>ApprovalsReminder__mdt</name>
-    </customMetadataTypeAccesses>
     <customMetadataTypeAccesses>
         <enabled>true</enabled>
         <name>ApprovalActionConfig__mdt</name>
@@ -199,6 +195,10 @@
     <customMetadataTypeAccesses>
         <enabled>true</enabled>
         <name>ApprovalStepConfig__mdt</name>
+    </customMetadataTypeAccesses>
+    <customMetadataTypeAccesses>
+        <enabled>true</enabled>
+        <name>ApprovalsReminder__mdt</name>
     </customMetadataTypeAccesses>
     <customMetadataTypeAccesses>
         <enabled>true</enabled>
@@ -352,6 +352,16 @@
     <fieldPermissions>
         <editable>false</editable>
         <field>CustomApprovalStep__c.OriginalAssignedTo__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>CustomApprovalStep__c.PreviousApprover__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>CustomApprovalStep__c.RelatedTo__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>

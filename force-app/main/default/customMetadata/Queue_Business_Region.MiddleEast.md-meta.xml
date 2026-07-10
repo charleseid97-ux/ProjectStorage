@@ -1,21 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomMetadata xmlns="http://soap.sforce.com/2006/04/metadata" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
-    <label>International</label>
+    <label>Middle East</label>
     <protected>false</protected>
     <values>
         <field>ADGroupEmail__c</field>
-        <value xsi:type="xsd:string">workgroup.crminternational@carmignac.com</value>
+        <value xsi:nil="true"/>
     </values>
     <values>
         <field>Business_region__c</field>
-        <value xsi:type="xsd:string">BP_IN</value>
+        <value xsi:type="xsd:string">BP_ME</value>
     </values>
     <values>
         <field>HOCQueue__c</field>
-        <value xsi:type="xsd:string">HOC_IN_Queue</value>
+        <value xsi:type="xsd:string">HOC_ME_Queue</value>
     </values>
     <values>
         <field>Queue__c</field>
-        <value xsi:type="xsd:string">International &amp; LATAM</value>
+        <value xsi:nil="true"/>
     </values>
 </CustomMetadata>

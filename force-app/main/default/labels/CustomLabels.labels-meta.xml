@@ -386,6 +386,20 @@ UY-&gt;LU</value>
         <value>Grid Builder</value>
     </labels>
     <labels>
+        <fullName>Grid_ChangeGrid</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Action label to change the standard grid of a product</shortDescription>
+        <value>Change grid</value>
+    </labels>
+    <labels>
+        <fullName>Grid_ChangeGridSuccess</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Toast message after moving a product to another standard grid</shortDescription>
+        <value>{0} reassigned to grid {1}</value>
+    </labels>
+    <labels>
         <fullName>Grid_CreatedSuccess</fullName>
         <language>en_US</language>
         <protected>false</protected>
