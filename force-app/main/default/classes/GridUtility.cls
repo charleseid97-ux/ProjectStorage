@@ -529,4 +529,33 @@ public with sharing class GridUtility {
         }
         if (!toUpdate.isEmpty()) update toUpdate;
     }
+
+    // ── Recomputes SelectedStandardGrids__c: comma-separated names of the standard grids referenced by each grid's criteria ──
+    public static void updateSelectedStandardGrids(List<Id> gridIds) {
+        if (gridIds == null || gridIds.isEmpty()) return;
+
+        List<Grid__c> gridsToUpdate = new List<Grid__c>();
+        for (Grid__c grid : [SELECT Id, SelectedStandardGrids__c,
+                                (SELECT StandardGrid__r.Name, StandardGrid__r.Tech_SpecificStandardGrid__c 
+                                FROM GridCriteria__r 
+                                WHERE StandardGrid__c != null 
+                                ORDER BY StandardGrid__r.Tech_SpecificStandardGrid__c ASC, StandardGrid__r.Name ASC)
+                             FROM Grid__c
+                             WHERE Id IN :gridIds]) {
+            List<String> names = new List<String>();
+            Set<String> seenNames = new Set<String>();
+            for (GridCriteria__c gc : grid.GridCriteria__r) {
+                if (String.isNotBlank(gc.StandardGrid__r.Name) && seenNames.add(gc.StandardGrid__r.Name)) {
+                    names.add(gc.StandardGrid__r.Name);
+                }
+            }
+
+            String selectedStandardGrids = names.isEmpty() ? null : String.join(names, ', ').abbreviate(255);
+            if (selectedStandardGrids != grid.SelectedStandardGrids__c) {
+                gridsToUpdate.add(new Grid__c(Id = grid.Id, SelectedStandardGrids__c = selectedStandardGrids));
+            }
+        }
+
+        if (!gridsToUpdate.isEmpty()) update gridsToUpdate;
+    }
 }
