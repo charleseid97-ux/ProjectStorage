@@ -93,6 +93,10 @@
                     <value>false</value>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
+                    <name>hideSlackAction</name>
+                    <value>false</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
                     <name>numVisibleActions</name>
                     <value>5</value>
                 </componentInstanceProperties>
@@ -166,6 +170,16 @@
                 </fieldInstanceProperties>
                 <fieldItem>Record.ApprovalStatus__c</fieldItem>
                 <identifier>RecordApprovalStatus_cField</identifier>
+            </fieldInstance>
+        </itemInstances>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>readonly</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.SelectedStandardGrids__c</fieldItem>
+                <identifier>RecordSelectedStandardGrids_cField</identifier>
             </fieldInstance>
         </itemInstances>
         <itemInstances>
@@ -444,7 +458,7 @@
             <fieldInstance>
                 <fieldInstanceProperties>
                     <name>uiBehavior</name>
-                    <value>none</value>
+                    <value>readonly</value>
                 </fieldInstanceProperties>
                 <fieldItem>Record.SalesOwner__c</fieldItem>
                 <identifier>RecordSalesOwner_cField</identifier>
