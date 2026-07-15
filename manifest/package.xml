@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <Package xmlns="http://soap.sforce.com/2006/04/metadata">
 	<types>
 		<members>ApprovalsReminderBatch</members>
@@ -390,6 +390,7 @@
 		<members>CustomApprovalStep__c</members>
 		<members>AgreementGridTimeline__c</members>
 		<members>Convention__c</members>
+		<members>FundManager__c</members>
 		<members>GridBuilderSetting__mdt</members>
 		<members>GridCriteriaDetail__c</members>
 		<members>GridCriteriaSetting__mdt</members>
@@ -553,5 +554,38 @@
         <members>Grids/PMszeurzUXIWYxKnyjTLNLXXotXcQy</members>
         <name>Dashboard</name>
     </types>
-    <version>64.0</version>
+	<types>
+		<members>GridApprovals</members>
+		<name>EmailFolder</name>
+	</types>
+	<types>
+		<members>Grids</members>
+		<name>ReportFolder</name>
+	</types>
+	<types>
+		<members>Grids/AssetClassGridsRecap_z9q</members>
+		<members>Grids/CurrentGridsRecap_5co</members>
+		<members>Grids/FlowsGridsRecap_8zd</members>
+		<members>Grids/GlobalGridsRecap_d2J</members>
+		<members>Grids/InFlowsAssetClassGrids_dWL</members>
+		<members>Grids/InFlowsGridsRecap_n5y</members>
+		<members>Grids/NetFlowsGridsRecap_7Br</members>
+		<members>Grids/NextReviewDate_EzO</members>
+		<members>Grids/OutFlowsAssetClassGrids_B6t</members>
+		<members>Grids/OutFlowsGridsRecap_NXl</members>
+		<members>Grids/YTDFlowsAssetClassGrids_01n</members>
+		<members>Grids/YTDFlowsGrids_E8h</members>
+		<name>Report</name>
+	</types>
+	<types>
+		<members>GridEmailStandardRules</members>
+		<members>GridEmailShareClassOverview</members>
+		<name>ApexComponent</name>
+	</types>
+	<types>
+		<members>Grid__c.*</members>
+		<name>SharingCriteriaRule</name>
+	</types>
+	<!-- FLAG OFF -->
+	<version>66.0</version>
 </Package>
