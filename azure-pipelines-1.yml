@@ -112,7 +112,8 @@ stages:
               (.sourceVersionMessage // .buildNumber // "Sans description") as $description |
               (.requestedFor.displayName // "Utilisateur inconnu") as $requestedFor |
               (.finishTime // .queueTime // "") as $date |
-              "<tr><td style=\"border:1px solid #ddd;padding:8px;\"><a href=\"\($collection)\($project)/_build/results?buildId=\(.id)\">\($description | @html)</a></td><td style=\"border:1px solid #ddd;padding:8px;\">\($requestedFor | @html)</td><td style=\"border:1px solid #ddd;padding:8px;\">\(($date[0:19] + "Z") | fromdateiso8601 | strftime(\"%d/%m/%Y %H:%M UTC\"))</td></tr>"
+              (($date[0:19] + "Z") | fromdateiso8601 | strftime("%d/%m/%Y %H:%M UTC")) as $formattedDate |
+              "<tr><td style=\"border:1px solid #ddd;padding:8px;\"><a href=\"\($collection)\($project)/_build/results?buildId=\(.id)\">\($description | @html)</a></td><td style=\"border:1px solid #ddd;padding:8px;\">\($requestedFor | @html)</td><td style=\"border:1px solid #ddd;padding:8px;\">\($formattedDate)</td></tr>"
             ' quick-deploy-builds.jsonl
 
             echo '</table>'
