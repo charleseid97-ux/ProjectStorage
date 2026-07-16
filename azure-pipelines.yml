@@ -1,22 +1,3 @@
-parameters:
-  - name: deployProdQuick
-    displayName: 'Lancer uniquement le quick deploy PROD'
-    type: string
-    default: 'false'
-    values:
-      - 'false'
-      - 'true'
-
-  - name: validationJobId
-    displayName: 'Salesforce validation job id'
-    type: string
-    default: ''
-
-  - name: validationBuildId
-    displayName: 'Azure DevOps run id de la validation PROD'
-    type: string
-    default: ''
-
 trigger:
   branches:
     include:
@@ -53,7 +34,6 @@ variables:
 stages:
 - stage: SONAR
   displayName: 'SonarCloud + Gate (BLOCKER/CRITICAL)'
-  condition: eq('${{ parameters.deployProdQuick }}', 'false')
   jobs:
   - job: Sonar
     displayName: 'Sonar analysis + blocking gate'
@@ -66,6 +46,27 @@ stages:
         sudo apt-get update -y
         sudo apt-get install -y jq xmlstarlet curl
       displayName: 'Install jq + xmlstarlet + curl'
+
+    - bash: |
+        set -euo pipefail
+
+        HTTP_CODE=$(curl -sS \
+          --connect-timeout 10 \
+          --max-time 30 \
+          --retry 2 \
+          --retry-all-errors \
+          -o /tmp/sonar-version.txt \
+          -w "%{http_code}" \
+          "https://sonarcloud.io/api/server/version" || true)
+
+        if [[ "$HTTP_CODE" == "200" ]]; then
+          echo "SonarCloud disponible."
+          echo "##vso[task.setvariable variable=SONAR_AVAILABLE]true"
+        else
+          echo "##vso[task.logissue type=warning]SonarCloud indisponible (HTTP $HTTP_CODE). Analyse ignoree, deploiement autorise."
+          echo "##vso[task.setvariable variable=SONAR_AVAILABLE]false"
+        fi
+      displayName: 'Check SonarCloud availability'
 
     - bash: |
         set -euo pipefail
@@ -166,6 +167,7 @@ stages:
 
     - task: SonarCloudPrepare@3
       displayName: 'Prepare SonarCloud analysis (package.xml-only)'
+      condition: and(succeeded(), eq(variables['SONAR_AVAILABLE'], 'true'))
       env:
         SONAR_TOKEN: $(SONAR_TOKEN)
       inputs:
@@ -185,6 +187,7 @@ stages:
 
     - task: SonarCloudAnalyze@3
       displayName: 'Run SonarCloud analysis'
+      condition: and(succeeded(), eq(variables['SONAR_AVAILABLE'], 'true'))
       env:
         SONAR_TOKEN: $(SONAR_TOKEN)
       inputs:
@@ -260,6 +263,7 @@ stages:
 
         echo "Sonar Gate OK: no BLOCKER/CRITICAL on New Code."
       displayName: 'Gate: stop deploy if BLOCKER/CRITICAL > 0 (print details)'
+      condition: and(succeeded(), eq(variables['SONAR_AVAILABLE'], 'true'))
       env:
         SONAR_TOKEN: $(SONAR_TOKEN)
 
@@ -601,7 +605,7 @@ stages:
                     echo "- Branch: \`$(Build.SourceBranch)\`"
                     echo "- Commit: \`$(Build.SourceVersion)\`"
                     echo ""
-                    echo "Un run manuel peut faire un quick deploy avec cet ID si la validation est reussie."
+                    echo "Le quick deploy PROD utilisera automatiquement cet ID apres approbation manuelle."
                     echo ""
                     cat "$PACKAGE_ELEMENTS_FILE"
                   } > run-logs/prod-validation-summary.md
@@ -645,46 +649,36 @@ stages:
 
 - stage: PROD_Quick_Deploy_Manual
   displayName: 'PROD Quick Deploy Manual'
-  dependsOn: []
-  condition: eq('${{ parameters.deployProdQuick }}', 'true')
+  dependsOn: PROD_Validate
+
+  # Autorise le quick deploy uniquement apres une validation PROD reussie.
+  condition: |
+    and(
+      succeeded('PROD_Validate'),
+      ne(variables['Build.Reason'], 'Schedule'),
+      ne(variables['Build.Reason'], 'PullRequest'),
+      or(
+        eq(variables['Build.SourceBranch'], 'refs/heads/main'),
+        eq(variables['Build.SourceBranch'], 'refs/heads/release')
+      )
+    )
   jobs:
     - deployment: Deploy_PROD_Quick
       displayName: 'Deploy to Salesforce PROD with validated id'
-      environment: 'PROD Salesforce'
+
+      # Cet environnement porte l'approbation manuelle du deploiement PROD.
+      environment: 'PROD Salesforce Deploy'
       strategy:
         runOnce:
           deploy:
             steps:
               - checkout: self
 
-              - script: |
-                  set -euo pipefail
-
-                  VALIDATION_JOB_ID="${{ parameters.validationJobId }}"
-                  VALIDATION_BUILD_ID="${{ parameters.validationBuildId }}"
-
-                  if [ -z "$VALIDATION_JOB_ID" ]; then
-                    echo "ERREUR: le parametre validationJobId est obligatoire."
-                    exit 31
-                  fi
-
-                  if [ -z "$VALIDATION_BUILD_ID" ]; then
-                    echo "ERREUR: le parametre validationBuildId est obligatoire pour recuperer la liste du package valide."
-                    exit 32
-                  fi
-
-                  echo "Validation job id: $VALIDATION_JOB_ID"
-                  echo "Validation build id: $VALIDATION_BUILD_ID"
-                displayName: 'Check manual quick deploy parameters'
-
               - task: DownloadPipelineArtifact@2
                 displayName: 'Download PROD validation artifact'
                 inputs:
-                  buildType: 'specific'
-                  project: '$(System.TeamProject)'
-                  definition: '$(System.DefinitionId)'
-                  buildVersionToDownload: 'specific'
-                  pipelineId: '${{ parameters.validationBuildId }}'
+                  # Recupere l'artifact cree par la validation du meme run.
+                  buildType: 'current'
                   artifactName: 'sf-prod-validation'
                   targetPath: '$(Pipeline.Workspace)/sf-prod-validation'
 
@@ -742,20 +736,13 @@ stages:
                   set -euo pipefail
                   set -x
 
-                  VALIDATION_JOB_ID="${{ parameters.validationJobId }}"
                   VALIDATION_ID_FILE="$(Pipeline.Workspace)/sf-prod-validation/prod-validation-job-id.txt"
 
+                  # Recupere automatiquement l'ID cree pendant la validation PROD.
                   [[ -f "$VALIDATION_ID_FILE" ]] || { echo "ERREUR: ID de validation introuvable dans l'artifact"; exit 33; }
 
-                  ARTIFACT_VALIDATION_JOB_ID=$(tr -d '[:space:]' < "$VALIDATION_ID_FILE")
-                  [[ -n "$ARTIFACT_VALIDATION_JOB_ID" ]] || { echo "ERREUR: ID de validation vide dans l'artifact"; exit 34; }
-
-                  if [[ "$VALIDATION_JOB_ID" != "$ARTIFACT_VALIDATION_JOB_ID" ]]; then
-                    echo "ERREUR: le validationJobId fourni ne correspond pas a l'artifact de validation."
-                    echo "Parametre: $VALIDATION_JOB_ID"
-                    echo "Artifact:  $ARTIFACT_VALIDATION_JOB_ID"
-                    exit 35
-                  fi
+                  VALIDATION_JOB_ID=$(tr -d '[:space:]' < "$VALIDATION_ID_FILE")
+                  [[ -n "$VALIDATION_JOB_ID" ]] || { echo "ERREUR: ID de validation vide dans l'artifact"; exit 34; }
 
                   echo "Quick deploy avec validation id: $VALIDATION_JOB_ID"
 
@@ -795,7 +782,7 @@ stages:
                   {
                     echo "# PROD quick deploy Salesforce"
                     echo ""
-                    echo "- Validation build id: \`${{ parameters.validationBuildId }}\`"
+                    echo "- Validation build id: \`$(Build.BuildId)\`"
                     echo "- Validation job id utilise: \`$VALIDATION_JOB_ID\`"
                     echo "- Quick deploy job id: \`$QUICK_DEPLOY_ID\`"
                     echo "- Status: \`$QUICK_STATUS\`"
