@@ -60,22 +60,27 @@ stages:
 
         echo "Successful PROD builds found: $BUILD_COUNT"
 
-        # Récupère les Work Items associés à chaque build PROD.
+        # Récupère le repository utilisé par le pipeline PROD.
+        REPOSITORY_ID=$(jq -r '.value[0].repository.id // empty' builds.json)
         : > work-item-ids.txt
 
-        while IFS= read -r BUILD_ID; do
-          [[ -z "$BUILD_ID" ]] && continue
+        if [[ -n "$REPOSITORY_ID" ]]; then
+          PULL_REQUESTS_URL="$(System.CollectionUri)$(System.TeamProject)/_apis/git/repositories/$REPOSITORY_ID/pullrequests?searchCriteria.status=completed&searchCriteria.targetRefName=$BRANCH_ENCODED&%24top=1000&api-version=7.1"
 
-          WORK_ITEMS_URL="$(System.CollectionUri)$(System.TeamProject)/_apis/build/builds/$BUILD_ID/workitems?%24top=1000&api-version=7.1"
-
+          # Récupère les branches des Pull Requests mergées dans release sur la période.
           curl --fail --silent --show-error \
             -H "Authorization: Bearer $SYSTEM_ACCESSTOKEN" \
-            "$WORK_ITEMS_URL" \
-            | jq -r '.value[].id' >> work-item-ids.txt
-        done < build-ids.txt
+            "$PULL_REQUESTS_URL" \
+            | jq -r --arg start "$START_DATE" --arg end "$END_DATE" '.value[] | select(.closedDate >= $start and .closedDate <= $end) | .sourceRefName' \
+            > source-branches.txt
 
-        # Supprime les doublons présents dans plusieurs déploiements.
-        sort -u work-item-ids.txt -o work-item-ids.txt
+          # Extrait les IDs depuis les formats US-19468 et US_19468.
+          grep -oiE 'US[-_][0-9]+' source-branches.txt \
+            | grep -oE '[0-9]+' \
+            | sort -u \
+            > work-item-ids.txt || true
+        fi
+
         : > user-stories.jsonl
 
         while IFS= read -r WORK_ITEM_ID; do
