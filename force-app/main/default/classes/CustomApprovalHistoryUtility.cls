@@ -372,13 +372,20 @@ public without sharing class CustomApprovalHistoryUtility {
     }
 
     // ─── Approval lock enforcement ────────────────────────────────────────────────
-    private static ApprovalLockConfig__mdt getLockConfig(String objectApiName) {
-        List<ApprovalLockConfig__mdt> configs = [SELECT StatusFieldApiName__c, LockingStatuses__c, EnforceLockOnAdmins__c
-                                                 FROM ApprovalLockConfig__mdt
-                                                 WHERE ObjectApiName__c = :objectApiName
-                                                   AND Active__c = true
-                                                 LIMIT 1];
-        return configs.isEmpty() ? null : configs[0];
+    private static Map<String, ApprovalLockConfig__mdt> getLockConfigs(Set<Schema.SObjectType> sObjTypes) {
+        Set<String> objectApiNames = new Set<String>();
+        for (Schema.SObjectType sObjType : sObjTypes) objectApiNames.add(sObjType.getDescribe().getName());
+
+        Map<String, ApprovalLockConfig__mdt> configsByObject = new Map<String, ApprovalLockConfig__mdt>();
+        for (ApprovalLockConfig__mdt config : [SELECT ObjectApiName__c, StatusFieldApiName__c, LockingStatuses__c, EnforceLockOnAdmins__c
+                                               FROM ApprovalLockConfig__mdt
+                                               WHERE ObjectApiName__c IN :objectApiNames
+                                                 AND Active__c = true]) {
+            if (!configsByObject.containsKey(config.ObjectApiName__c)) {
+                configsByObject.put(config.ObjectApiName__c, config); // first active config per object (mirrors the previous LIMIT 1)
+            }
+        }
+        return configsByObject;
     }
 
     private static List<String> splitLines(String text) {
@@ -451,19 +458,40 @@ public without sharing class CustomApprovalHistoryUtility {
     public static void enforceApprovalLock(List<SObject> newRecords, Map<Id, SObject> oldRecords) {
         if (newRecords == null || newRecords.isEmpty()) return;
 
-        String objectApiName = newRecords[0].getSObjectType().getDescribe().getName();
-        ApprovalLockConfig__mdt config = getLockConfig(objectApiName);
-        if (config == null) return;
+        // Group by SObjectType — trigger batches hold a single type, so this is usually one entry
+        Map<Schema.SObjectType, List<SObject>> recordsByType = new Map<Schema.SObjectType, List<SObject>>();
+        for (SObject newRecord : newRecords) {
+            Schema.SObjectType sObjType = newRecord.getSObjectType();
+            if (!recordsByType.containsKey(sObjType)) recordsByType.put(sObjType, new List<SObject>());
+            recordsByType.get(sObjType).add(newRecord);
+        }
+
+        Map<String, ApprovalLockConfig__mdt> configsByObject = getLockConfigs(recordsByType.keySet());
+        if (configsByObject.isEmpty()) return;
 
         Id currentUserId = UserInfo.getUserId();
-        if (!config.EnforceLockOnAdmins__c && isAdministrator(currentUserId)) return;    // admin bypass
+        Boolean isAdmin = isAdministrator(currentUserId); // user-level fact, computed once — whether it bypasses the lock is decided per object type
+
+        for (Schema.SObjectType sObjType : recordsByType.keySet()) {
+            ApprovalLockConfig__mdt config = configsByObject.get(sObjType.getDescribe().getName());
+            if (config == null) continue;                                    // object not under approval lock
+            enforceApprovalLockForType(recordsByType.get(sObjType), oldRecords, config, currentUserId, isAdmin);
+        }
+    }
+
+    private static void enforceApprovalLockForType(List<SObject> typeRecords, Map<Id, SObject> oldRecords, ApprovalLockConfig__mdt config, Id currentUserId, Boolean isAdmin) {
+        if (!config.EnforceLockOnAdmins__c && isAdmin) return;               // admin bypass — per-object setting
 
         List<String> lockedStatuses = splitLines(config.LockingStatuses__c);
         List<String> exemptFields   = resolveExemptFields(config.Id, currentUserId);
         exemptFields.addAll(LOCK_SYSTEM_FIELDS);
         String statusField = config.StatusFieldApiName__c;
 
-        for (SObject newRecord : newRecords) {
+        // All trigger records of one type carry the same populated fields, so the fields to
+        // compare (populated, non-exempt, non-formula) and their labels are resolved once for the whole batch
+        Map<String, String> labelsByCheckableField = resolveCheckableFields(typeRecords[0], exemptFields);
+
+        for (SObject newRecord : typeRecords) {
             SObject oldRecord  = oldRecords.get((Id) newRecord.get('Id'));
             String  oldStatus  = (String) oldRecord.get(statusField);
             String  newStatus  = (String) newRecord.get(statusField);
@@ -471,14 +499,31 @@ public without sharing class CustomApprovalHistoryUtility {
             if (!containsIgnoreCase(lockedStatuses, oldStatus)) continue;    // not in a locked status
             if (newStatus != oldStatus) continue;                            // approval transition itself — allow
 
-            for (String fieldName : newRecord.getPopulatedFieldsAsMap().keySet()) {
-                if (containsIgnoreCase(exemptFields, fieldName)) continue;
+            List<String> changedFieldLabels = new List<String>();
+            for (String fieldName : labelsByCheckableField.keySet()) {
                 if (newRecord.get(fieldName) != oldRecord.get(fieldName)) {
-                    newRecord.addError('This record is locked while in \'' + oldStatus + '\' status and cannot be edited.');
-                    break;
+                    changedFieldLabels.add(labelsByCheckableField.get(fieldName));
                 }
             }
+            if (!changedFieldLabels.isEmpty()) {
+                newRecord.addError('This record is locked while in \'' + oldStatus + '\' status and cannot be edited. Blocked field change(s): ' + String.join(changedFieldLabels, ', ') + '.');
+            }
         }
+    }
+
+    // Returns the fields to lock-check (populated, non-exempt, non-formula) mapped to their labels,
+    // describing each field exactly once for both the isCalculated() filter and the error-message label
+    private static Map<String, String> resolveCheckableFields(SObject record, List<String> exemptFields) {
+        Map<String, String> labelsByField = new Map<String, String>();
+        Map<String, Schema.SObjectField> fieldTokens = record.getSObjectType().getDescribe().fields.getMap();
+        for (String fieldName : record.getPopulatedFieldsAsMap().keySet()) {
+            if (containsIgnoreCase(exemptFields, fieldName)) continue;
+            Schema.SObjectField token = fieldTokens.get(fieldName);
+            Schema.DescribeFieldResult fieldDescribe = token == null ? null : token.getDescribe();
+            if (fieldDescribe != null && (fieldDescribe.isCalculated() || fieldDescribe.isAutoNumber())) continue; // formula / rollup / autonumber — system-computed, never a user edit
+            labelsByField.put(fieldName, fieldDescribe == null ? fieldName : fieldDescribe.getLabel());
+        }
+        return labelsByField;
     }
 
     // ─── Label resolution ─────────────────────────────────────────────────────────
