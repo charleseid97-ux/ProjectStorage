@@ -3,8 +3,8 @@ trigger: none
 pr: none
 
 schedules:
-  # Exécution chaque vendredi à 15:00 UTC.
-  - cron: '0 15 * * 5'
+  # Exécution chaque jeudi à 07:00 UTC.
+  - cron: '0 7 * * 4'
     displayName: 'Weekly PROD release notes'
     branches:
       include:
@@ -21,9 +21,6 @@ variables:
   # Branche utilisée pour les déploiements PROD.
   PROD_BRANCH: 'refs/heads/release'
 
-  # Période temporaire de test : deux mois glissants.
-  RELEASE_NOTES_LOOKBACK_MONTHS: 2
-
 stages:
 - stage: RELEASE_NOTES
   displayName: 'Generate PROD release notes'
@@ -36,9 +33,9 @@ stages:
     - bash: |
         set -euo pipefail
 
-        # Calcule la période de recherche sur les deux derniers mois glissants.
+        # Calcule la période de recherche sur la dernière semaine.
         END_DATE=$(date -u +'%Y-%m-%dT%H:%M:%SZ')
-        START_DATE=$(date -u -d "$(RELEASE_NOTES_LOOKBACK_MONTHS) months ago" +'%Y-%m-%dT%H:%M:%SZ')
+        START_DATE=$(date -u -d '7 days ago' +'%Y-%m-%dT%H:%M:%SZ')
 
         echo "Release notes period: $START_DATE to $END_DATE"
 
@@ -54,11 +51,6 @@ stages:
           -H "Authorization: Bearer $SYSTEM_ACCESSTOKEN" \
           "$BUILDS_URL" \
           -o builds.json
-
-        jq -r '.value[].id' builds.json > build-ids.txt
-        BUILD_COUNT=$(wc -l < build-ids.txt | tr -d ' ')
-
-        echo "Successful PROD builds found: $BUILD_COUNT"
 
         # Récupère le repository utilisé par le pipeline PROD.
         REPOSITORY_ID=$(jq -r '.value[0].repository.id // empty' builds.json)
@@ -86,7 +78,7 @@ stages:
         while IFS= read -r WORK_ITEM_ID; do
           [[ -z "$WORK_ITEM_ID" ]] && continue
 
-          WORK_ITEM_URL="$(System.CollectionUri)$(System.TeamProject)/_apis/wit/workitems/$WORK_ITEM_ID?fields=System.Id,System.Title,System.WorkItemType,System.State,System.AssignedTo&api-version=7.1"
+          WORK_ITEM_URL="$(System.CollectionUri)$(System.TeamProject)/_apis/wit/workitems/$WORK_ITEM_ID?fields=System.Id,System.Title,System.WorkItemType&api-version=7.1"
 
           curl --fail --silent --show-error \
             -H "Authorization: Bearer $SYSTEM_ACCESSTOKEN" \
@@ -103,22 +95,19 @@ stages:
           echo '<html><body style="font-family:Arial,sans-serif;">'
           echo '<h2>Salesforce PROD - Release Note</h2>'
           echo "<p><strong>Période :</strong> $START_DISPLAY au $END_DISPLAY</p>"
-          echo "<p><strong>Déploiements PROD réussis :</strong> $BUILD_COUNT<br>"
-          echo "<strong>User Stories livrées :</strong> $USER_STORY_COUNT</p>"
+          echo "<p><strong>User Stories livrées :</strong> $USER_STORY_COUNT</p>"
 
           if [[ "$USER_STORY_COUNT" -eq 0 ]]; then
             echo '<p>Aucune User Story Azure DevOps liée aux déploiements trouvés.</p>'
           else
             echo '<table style="border-collapse:collapse;width:100%;">'
-            echo '<tr><th style="border:1px solid #ddd;padding:8px;text-align:left;">US</th><th style="border:1px solid #ddd;padding:8px;text-align:left;">Titre</th><th style="border:1px solid #ddd;padding:8px;text-align:left;">Statut</th><th style="border:1px solid #ddd;padding:8px;text-align:left;">Assignée à</th></tr>'
+            echo '<tr><th style="border:1px solid #ddd;padding:8px;text-align:left;">US</th><th style="border:1px solid #ddd;padding:8px;text-align:left;">Titre</th></tr>'
 
             jq -sr --arg collection "$(System.CollectionUri)" --arg project "$(System.TeamProject)" '
               sort_by(.id)[] |
               .id as $id |
               .fields["System.Title"] as $title |
-              .fields["System.State"] as $state |
-              (.fields["System.AssignedTo"].displayName // "Non assignée") as $assigned |
-              "<tr><td style=\"border:1px solid #ddd;padding:8px;\"><a href=\"\($collection)\($project)/_workitems/edit/\($id)\">US-\($id)</a></td><td style=\"border:1px solid #ddd;padding:8px;\">\($title | @html)</td><td style=\"border:1px solid #ddd;padding:8px;\">\($state | @html)</td><td style=\"border:1px solid #ddd;padding:8px;\">\($assigned | @html)</td></tr>"
+              "<tr><td style=\"border:1px solid #ddd;padding:8px;\"><a href=\"\($collection)\($project)/_workitems/edit/\($id)\">US-\($id)</a></td><td style=\"border:1px solid #ddd;padding:8px;\">\($title | @html)</td></tr>"
             ' user-stories.jsonl
 
             echo '</table>'
