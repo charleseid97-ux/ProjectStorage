@@ -112,7 +112,12 @@ stages:
         # Prépare les dates affichées dans les deux fichiers HTML.
         START_DISPLAY=$(date -u -d "$START_DATE" +'%d/%m/%Y')
         END_DISPLAY=$(date -u -d "$END_DATE" +'%d/%m/%Y')
+        # Formate la date pour l'utiliser dans les noms de fichiers.
+        END_DISPLAY_FILE=$(date -u -d "$END_DATE" +'%Y-%m-%d')
         QUICK_DEPLOY_COUNT=$(wc -l < quick-deploy-builds.jsonl | tr -d ' ')
+
+        # Rend la date disponible aux tâches de publication suivantes.
+        echo "##vso[task.setvariable variable=RELEASE_NOTES_END_FILE]$END_DISPLAY_FILE"
 
         # Génère le premier fichier avec les commits/merges ayant exécuté Quick Deploy.
         {
@@ -140,7 +145,7 @@ stages:
           fi
 
           echo '</body></html>'
-        } > quick-deploy-history.html
+        } > "quick-deploy-history-$END_DISPLAY_FILE.html"
 
         # Extrait et dédoublonne les US depuis le nom du commit/merge et la branche source.
         if [[ "$QUICK_DEPLOY_COUNT" -gt 0 ]]; then
@@ -180,7 +185,7 @@ stages:
           fi
 
           echo '</body></html>'
-        } > release-note-us.html
+        } > "release-note-us-$END_DISPLAY_FILE.html"
       displayName: 'Generate Quick Deploy HTML files'
       env:
         SYSTEM_ACCESSTOKEN: $(System.AccessToken)
@@ -189,14 +194,14 @@ stages:
       displayName: 'Publish Quick Deploy history'
       condition: always()
       inputs:
-        targetPath: '$(System.DefaultWorkingDirectory)/quick-deploy-history.html'
-        artifact: 'quick-deploy-history'
+        targetPath: '$(System.DefaultWorkingDirectory)/quick-deploy-history-$(RELEASE_NOTES_END_FILE).html'
+        artifact: 'quick-deploy-history-$(RELEASE_NOTES_END_FILE)'
         publishLocation: 'pipeline'
 
     - task: PublishPipelineArtifact@1
       displayName: 'Publish deduplicated User Stories'
       condition: always()
       inputs:
-        targetPath: '$(System.DefaultWorkingDirectory)/release-note-us.html'
-        artifact: 'release-note-us'
+        targetPath: '$(System.DefaultWorkingDirectory)/release-note-us-$(RELEASE_NOTES_END_FILE).html'
+        artifact: 'release-note-us-$(RELEASE_NOTES_END_FILE)'
         publishLocation: 'pipeline'
