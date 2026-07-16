@@ -83,11 +83,30 @@ stages:
 
           [[ "$QUICK_DEPLOY_EXECUTED" != "true" ]] && continue
 
-          # Recharge le build pour obtenir le nom, l'utilisateur et la date d'exécution.
+          # Recharge le build pour obtenir le numéro, l'utilisateur et la date d'exécution.
           curl --fail --silent --show-error \
             -H "Authorization: Bearer $SYSTEM_ACCESSTOKEN" \
             "$BUILD_URL" \
-            | jq -c '.' >> quick-deploy-builds.jsonl
+            -o build.json
+
+          # Récupère le message du commit Git lorsque le build ne le fournit pas directement.
+          SOURCE_VERSION_MESSAGE=$(jq -r '.sourceVersionMessage // empty' build.json)
+          REPOSITORY_ID=$(jq -r '.repository.id // empty' build.json)
+          SOURCE_VERSION=$(jq -r '.sourceVersion // empty' build.json)
+
+          if [[ -z "$SOURCE_VERSION_MESSAGE" && -n "$REPOSITORY_ID" && -n "$SOURCE_VERSION" ]]; then
+            COMMIT_URL="$(System.CollectionUri)$(System.TeamProject)/_apis/git/repositories/$REPOSITORY_ID/commits/$SOURCE_VERSION?api-version=7.1"
+
+            SOURCE_VERSION_MESSAGE=$(curl --fail --silent --show-error \
+              -H "Authorization: Bearer $SYSTEM_ACCESSTOKEN" \
+              "$COMMIT_URL" \
+              | jq -r '.comment // empty')
+          fi
+
+          # Ajoute le message résolu aux informations du build.
+          jq -c --arg resolvedSourceVersionMessage "$SOURCE_VERSION_MESSAGE" \
+            '. + {resolvedSourceVersionMessage: $resolvedSourceVersionMessage}' \
+            build.json >> quick-deploy-builds.jsonl
         done
 
         # Prépare les dates affichées dans les deux fichiers HTML.
@@ -109,7 +128,8 @@ stages:
 
             jq -sr --arg collection "$(System.CollectionUri)" --arg project "$(System.TeamProject)" '
               sort_by(.finishTime) | reverse[] |
-              (.sourceVersionMessage // .buildNumber // "Sans description") as $description |
+              (.resolvedSourceVersionMessage // .sourceVersionMessage // "Sans description") as $message |
+              ("#" + (.buildNumber // "Sans numéro") + " • " + $message) as $description |
               (.requestedFor.displayName // "Utilisateur inconnu") as $requestedFor |
               (.finishTime // .queueTime // "") as $date |
               (($date[0:19] + "Z") | fromdateiso8601 | strftime("%d/%m/%Y %H:%M UTC")) as $formattedDate |
@@ -126,7 +146,7 @@ stages:
         if [[ "$QUICK_DEPLOY_COUNT" -gt 0 ]]; then
           jq -sr '
             .[] |
-            [(.sourceVersionMessage // ""), (.sourceBranch // "")] |
+            [(.resolvedSourceVersionMessage // .sourceVersionMessage // ""), (.sourceBranch // "")] |
             join(" ") |
             scan("(?i)US[-_][0-9]+") |
             ascii_upcase |
