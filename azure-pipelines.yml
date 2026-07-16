@@ -49,6 +49,27 @@ stages:
 
     - bash: |
         set -euo pipefail
+
+        HTTP_CODE=$(curl -sS \
+          --connect-timeout 10 \
+          --max-time 30 \
+          --retry 2 \
+          --retry-all-errors \
+          -o /tmp/sonar-version.txt \
+          -w "%{http_code}" \
+          "https://sonarcloud.io/api/server/version" || true)
+
+        if [[ "$HTTP_CODE" == "200" ]]; then
+          echo "SonarCloud disponible."
+          echo "##vso[task.setvariable variable=SONAR_AVAILABLE]true"
+        else
+          echo "##vso[task.logissue type=warning]SonarCloud indisponible (HTTP $HTTP_CODE). Analyse ignoree, deploiement autorise."
+          echo "##vso[task.setvariable variable=SONAR_AVAILABLE]false"
+        fi
+      displayName: 'Check SonarCloud availability'
+
+    - bash: |
+        set -euo pipefail
         set -x
 
         MANIFEST="$(MANIFEST_PATH)"
@@ -146,6 +167,7 @@ stages:
 
     - task: SonarCloudPrepare@3
       displayName: 'Prepare SonarCloud analysis (package.xml-only)'
+      condition: and(succeeded(), eq(variables['SONAR_AVAILABLE'], 'true'))
       env:
         SONAR_TOKEN: $(SONAR_TOKEN)
       inputs:
@@ -165,6 +187,7 @@ stages:
 
     - task: SonarCloudAnalyze@3
       displayName: 'Run SonarCloud analysis'
+      condition: and(succeeded(), eq(variables['SONAR_AVAILABLE'], 'true'))
       env:
         SONAR_TOKEN: $(SONAR_TOKEN)
       inputs:
@@ -240,6 +263,7 @@ stages:
 
         echo "Sonar Gate OK: no BLOCKER/CRITICAL on New Code."
       displayName: 'Gate: stop deploy if BLOCKER/CRITICAL > 0 (print details)'
+      condition: and(succeeded(), eq(variables['SONAR_AVAILABLE'], 'true'))
       env:
         SONAR_TOKEN: $(SONAR_TOKEN)
 
@@ -272,10 +296,18 @@ stages:
               - task: NodeTool@0
                 displayName: 'Install Node.js'
                 inputs:
-                  versionSpec: '24.x'
+                  versionSpec: '22.19.x'
 
               - script: |
-                  npm i -g @salesforce/cli
+                  set -euo pipefail
+                  echo "=== Node runtime ==="
+                  node --version
+                  which node
+                  npm --version
+                  npm uninstall -g @salesforce/cli || true
+                  npm install -g @salesforce/cli@latest
+                  echo "=== Salesforce CLI ==="
+                  which sf
                   sf --version
                   sf plugins --core
                 displayName: 'Install Salesforce CLI'
@@ -288,6 +320,11 @@ stages:
               - script: |
                   set -euo pipefail
                   set -x
+
+                  node --version
+                  which node
+                  which sf
+                  sf --version
 
                   set +x
                   sf org login jwt \
@@ -413,10 +450,18 @@ stages:
               - task: NodeTool@0
                 displayName: 'Install Node.js'
                 inputs:
-                  versionSpec: '24.x'
+                  versionSpec: '22.19.x'
 
               - script: |
-                  npm i -g @salesforce/cli
+                  set -euo pipefail
+                  echo "=== Node runtime ==="
+                  node --version
+                  which node
+                  npm --version
+                  npm uninstall -g @salesforce/cli || true
+                  npm install -g @salesforce/cli@latest
+                  echo "=== Salesforce CLI ==="
+                  which sf
                   sf --version
                   sf plugins --core
                 displayName: 'Install Salesforce CLI'
@@ -429,6 +474,11 @@ stages:
               - script: |
                   set -euo pipefail
                   set -x
+
+                  node --version
+                  which node
+                  which sf
+                  sf --version
 
                   set +x
                   sf org login jwt \
@@ -481,44 +531,294 @@ stages:
                   set -euo pipefail
                   set -x
                   source use_dir.env
+                  MANIFEST_PATH="manifest/package.xml"
 
-                  sf project deploy start \
+                  sf project deploy validate \
                     --metadata-dir "$USE_DIR" \
                     ${USE_MANIFEST} \
                     --target-org prod \
                     --test-level "$(TEST_LEVEL_PROD)" \
-                    --dry-run \
                     --wait 180 \
                     --json > deploy_prod_validate.json 2> deploy_prod_validate.err || SF_EXIT=$?
 
                   jq . deploy_prod_validate.json || cat deploy_prod_validate.json
                   cat deploy_prod_validate.err || true
 
-                  JOB_ID=$(jq -r '.result.id // empty' deploy_prod_validate.json || true)
+                  JOB_ID=$(jq -r '.result.id // .result.deployId // empty' deploy_prod_validate.json || true)
+                  STATUS=$(jq -r '.result.status // empty' deploy_prod_validate.json || true)
+
+                  mkdir -p run-logs
+                  echo "$JOB_ID" > run-logs/prod-validation-job-id.txt
+
+                  PACKAGE_ELEMENTS_FILE="run-logs/prod-package-elements.md"
+                  python3 - "$MANIFEST_PATH" "$PACKAGE_ELEMENTS_FILE" <<'PY'
+                  import sys
+                  import xml.etree.ElementTree as ET
+
+                  manifest_path, output_path = sys.argv[1], sys.argv[2]
+
+                  def local_name(tag):
+                      return tag.split('}', 1)[-1]
+
+                  root = ET.parse(manifest_path).getroot()
+                  items = []
+
+                  for type_node in root:
+                      if local_name(type_node.tag) != 'types':
+                          continue
+
+                      metadata_type = ''
+                      members = []
+
+                      for child in type_node:
+                          child_name = local_name(child.tag)
+                          child_text = (child.text or '').strip()
+
+                          if child_name == 'name':
+                              metadata_type = child_text
+                          elif child_name == 'members':
+                              members.append(child_text)
+
+                      for member in members:
+                          if metadata_type and member:
+                              items.append((metadata_type, member))
+
+                  with open(output_path, 'w', encoding='utf-8') as output:
+                      output.write('## Elements du package valides\n\n')
+
+                      if not items:
+                          output.write('_Aucun element trouve dans manifest/package.xml._\n')
+                      else:
+                          current_type = None
+                          for metadata_type, member in sorted(items):
+                              if metadata_type != current_type:
+                                  output.write(f'\n### {metadata_type}\n')
+                                  current_type = metadata_type
+                              output.write(f'- `{member}`\n')
+                  PY
+
+                  {
+                    echo "# PROD validation Salesforce"
+                    echo ""
+                    echo "- Validation job id: \`$JOB_ID\`"
+                    echo "- Status: \`$STATUS\`"
+                    echo "- Branch: \`$(Build.SourceBranch)\`"
+                    echo "- Commit: \`$(Build.SourceVersion)\`"
+                    echo ""
+                    echo "Le quick deploy PROD utilisera automatiquement cet ID apres approbation manuelle."
+                    echo ""
+                    cat "$PACKAGE_ELEMENTS_FILE"
+                  } > run-logs/prod-validation-summary.md
+
+                  echo "##vso[task.setvariable variable=PROD_VALIDATION_JOB_ID;isOutput=true]$JOB_ID"
+                  test -f "$(System.DefaultWorkingDirectory)/run-logs/prod-validation-summary.md"
+                  set +x
+                  echo "##vso[task.uploadsummary]$(System.DefaultWorkingDirectory)/run-logs/prod-validation-summary.md"
+                  set -x
+                  echo "Validation PROD job id: $JOB_ID"
+
                   if [[ -n "$JOB_ID" ]]; then
-                    sf project deploy report --job-id "$JOB_ID" || true
+                    sf project deploy report --job-id "$JOB_ID" --target-org prod || true
                   fi
 
+                  echo "=== Package valide PROD ==="
+                  cat "$PACKAGE_ELEMENTS_FILE"
+
                   exit ${SF_EXIT:-0}
-                displayName: 'Validate on PROD (checkonly)'
+                name: SaveProdValidationId
+                displayName: 'Validate on PROD and save validation id'
 
               - script: |
                   set -euo pipefail
                   mkdir -p run-logs
-                  for f in deploy_prod_validate.json deploy_prod_validate.err; do
+                  for f in deploy_prod_validate.json deploy_prod_validate.err use_dir.env convert1.out convert1.err; do
                     if [ -f "$f" ]; then cp -f "$f" run-logs/; fi
                   done
                   if [ -z "$(ls -A run-logs)" ]; then echo "No logs produced." > run-logs/README.txt; fi
-                displayName: 'Collect minimal logs (PROD)'
+                displayName: 'Collect PROD validation logs'
                 condition: always()
 
-              - task: PublishBuildArtifacts@1
-                displayName: 'Publish minimal logs (PROD)'
+              - task: PublishPipelineArtifact@1
+                displayName: 'Publish PROD validation artifact'
                 condition: always()
                 inputs:
-                  PathtoPublish: 'run-logs'
-                  ArtifactName: 'sf-logs-prod-validate'
-                  publishLocation: 'Container'
+                  targetPath: 'run-logs'
+                  artifact: 'sf-prod-validation'
+                  publishLocation: 'pipeline'
+
+
+- stage: PROD_Quick_Deploy_Manual
+  displayName: 'PROD Quick Deploy Manual'
+  dependsOn: PROD_Validate
+
+  # Autorise le quick deploy uniquement apres une validation PROD reussie.
+  condition: |
+    and(
+      succeeded('PROD_Validate'),
+      ne(variables['Build.Reason'], 'Schedule'),
+      ne(variables['Build.Reason'], 'PullRequest'),
+      or(
+        eq(variables['Build.SourceBranch'], 'refs/heads/main'),
+        eq(variables['Build.SourceBranch'], 'refs/heads/release')
+      )
+    )
+  jobs:
+    - deployment: Deploy_PROD_Quick
+      displayName: 'Deploy to Salesforce PROD with validated id'
+
+      # Cet environnement porte l'approbation manuelle du deploiement PROD.
+      environment: 'PROD Salesforce Deploy'
+      strategy:
+        runOnce:
+          deploy:
+            steps:
+              - checkout: self
+
+              - task: DownloadPipelineArtifact@2
+                displayName: 'Download PROD validation artifact'
+                inputs:
+                  # Recupere l'artifact cree par la validation du meme run.
+                  buildType: 'current'
+                  artifactName: 'sf-prod-validation'
+                  targetPath: '$(Pipeline.Workspace)/sf-prod-validation'
+
+              - task: DownloadSecureFile@1
+                name: sfdxJwtKeyProdDeploy
+                inputs:
+                  secureFile: 'SF_PRD_key.pem'
+
+              - task: NodeTool@0
+                displayName: 'Install Node.js'
+                inputs:
+                  versionSpec: '22.19.x'
+
+              - script: |
+                  set -euo pipefail
+                  echo "=== Node runtime ==="
+                  node --version
+                  which node
+                  npm --version
+                  npm uninstall -g @salesforce/cli || true
+                  npm install -g @salesforce/cli@latest
+                  echo "=== Salesforce CLI ==="
+                  which sf
+                  sf --version
+                  sf plugins --core
+                displayName: 'Install Salesforce CLI'
+
+              - script: |
+                  set -euo pipefail
+                  sudo apt-get update -y
+                  sudo apt-get install -y jq
+                displayName: 'Install jq'
+
+              - script: |
+                  set -euo pipefail
+                  set -x
+
+                  set +x
+                  sf org login jwt \
+                    --client-id "$(SFDX_CLIENT_ID_PRD)" \
+                    --jwt-key-file "$(sfdxJwtKeyProdDeploy.secureFilePath)" \
+                    --username "$(SFDX_USERNAME_PRD)" \
+                    --instance-url "$SF_ORG_INSTANCE_URL_PRD" \
+                    --alias prod
+                  set -x
+
+                  sf org display --target-org prod
+                displayName: 'Authenticate Salesforce (JWT PROD deploy)'
+                env:
+                  SFDX_CLIENT_ID_PRD: $(SFDX_CLIENT_ID_PRD)
+                  SFDX_USERNAME_PRD: $(SFDX_USERNAME_PRD)
+                  SF_ORG_INSTANCE_URL_PRD: $(SF_ORG_INSTANCE_URL_PRD)
+
+              - script: |
+                  set -euo pipefail
+                  set -x
+
+                  VALIDATION_ID_FILE="$(Pipeline.Workspace)/sf-prod-validation/prod-validation-job-id.txt"
+
+                  # Recupere automatiquement l'ID cree pendant la validation PROD.
+                  [[ -f "$VALIDATION_ID_FILE" ]] || { echo "ERREUR: ID de validation introuvable dans l'artifact"; exit 33; }
+
+                  VALIDATION_JOB_ID=$(tr -d '[:space:]' < "$VALIDATION_ID_FILE")
+                  [[ -n "$VALIDATION_JOB_ID" ]] || { echo "ERREUR: ID de validation vide dans l'artifact"; exit 34; }
+
+                  echo "Quick deploy avec validation id: $VALIDATION_JOB_ID"
+
+                  sf project deploy report \
+                    --job-id "$VALIDATION_JOB_ID" \
+                    --target-org prod || true
+
+                  sf project deploy quick \
+                    --job-id "$VALIDATION_JOB_ID" \
+                    --target-org prod \
+                    --wait 180 \
+                    --json > deploy_prod_quick.json 2> deploy_prod_quick.err || SF_EXIT=$?
+
+                  jq . deploy_prod_quick.json || cat deploy_prod_quick.json
+                  cat deploy_prod_quick.err || true
+
+                  QUICK_DEPLOY_ID=$(jq -r '.result.id // .result.deployId // empty' deploy_prod_quick.json || true)
+                  QUICK_STATUS=$(jq -r '.result.status // empty' deploy_prod_quick.json || true)
+
+                  mkdir -p run-logs
+                  echo "$VALIDATION_JOB_ID" > run-logs/prod-validation-job-id.txt
+                  echo "$QUICK_DEPLOY_ID" > run-logs/prod-quick-deploy-job-id.txt
+
+                  VALIDATED_PACKAGE_ELEMENTS_FILE="$(Pipeline.Workspace)/sf-prod-validation/prod-package-elements.md"
+                  DEPLOYED_PACKAGE_ELEMENTS_FILE="run-logs/prod-package-elements-deployed.md"
+
+                  if [[ -f "$VALIDATED_PACKAGE_ELEMENTS_FILE" ]]; then
+                    sed 's/^## Elements du package valides$/## Elements du package deployes/' "$VALIDATED_PACKAGE_ELEMENTS_FILE" > "$DEPLOYED_PACKAGE_ELEMENTS_FILE"
+                  else
+                    {
+                      echo "## Elements du package deployes"
+                      echo ""
+                      echo "_Liste indisponible dans l'artifact de validation._"
+                    } > "$DEPLOYED_PACKAGE_ELEMENTS_FILE"
+                  fi
+
+                  {
+                    echo "# PROD quick deploy Salesforce"
+                    echo ""
+                    echo "- Validation build id: \`$(Build.BuildId)\`"
+                    echo "- Validation job id utilise: \`$VALIDATION_JOB_ID\`"
+                    echo "- Quick deploy job id: \`$QUICK_DEPLOY_ID\`"
+                    echo "- Status: \`$QUICK_STATUS\`"
+                    echo "- Branch: \`$(Build.SourceBranch)\`"
+                    echo "- Commit: \`$(Build.SourceVersion)\`"
+                    echo ""
+                    cat "$DEPLOYED_PACKAGE_ELEMENTS_FILE"
+                  } > run-logs/prod-quick-deploy-summary.md
+
+                  test -f "$(System.DefaultWorkingDirectory)/run-logs/prod-quick-deploy-summary.md"
+                  set +x
+                  echo "##vso[task.uploadsummary]$(System.DefaultWorkingDirectory)/run-logs/prod-quick-deploy-summary.md"
+                  set -x
+                  echo "=== Package deploye PROD ==="
+                  cat "$DEPLOYED_PACKAGE_ELEMENTS_FILE"
+
+                  exit ${SF_EXIT:-0}
+                displayName: 'Quick deploy PROD from validation id'
+
+              - script: |
+                  set -euo pipefail
+                  mkdir -p run-logs
+                  for f in deploy_prod_quick.json deploy_prod_quick.err; do
+                    if [ -f "$f" ]; then cp -f "$f" run-logs/; fi
+                  done
+                  if [ -z "$(ls -A run-logs)" ]; then echo "No logs produced." > run-logs/README.txt; fi
+                displayName: 'Collect PROD deploy logs'
+                condition: always()
+
+              - task: PublishPipelineArtifact@1
+                displayName: 'Publish PROD deploy artifact'
+                condition: always()
+                inputs:
+                  targetPath: 'run-logs'
+                  artifact: 'sf-prod-deploy'
+                  publishLocation: 'pipeline'
 
 - stage: UAT_Validate_Nightly
   displayName: 'UAT Nightly Validation (Run Tests)'
@@ -552,10 +852,18 @@ stages:
               - task: NodeTool@0
                 displayName: 'Install Node.js'
                 inputs:
-                  versionSpec: '24.x'
+                  versionSpec: '22.19.x'
 
               - script: |
-                  npm i -g @salesforce/cli
+                  set -euo pipefail
+                  echo "=== Node runtime ==="
+                  node --version
+                  which node
+                  npm --version
+                  npm uninstall -g @salesforce/cli || true
+                  npm install -g @salesforce/cli@latest
+                  echo "=== Salesforce CLI ==="
+                  which sf
                   sf --version
                   sf plugins --core
                 displayName: 'Install Salesforce CLI'
@@ -568,6 +876,11 @@ stages:
               - script: |
                   set -euo pipefail
                   set -x
+
+                  node --version
+                  which node
+                  which sf
+                  sf --version
 
                   set +x
                   sf org login jwt \
