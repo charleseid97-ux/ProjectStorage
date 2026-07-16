@@ -532,68 +532,101 @@ matchingLegalEntityByCompany.put(le.Company__c, le);
     }
     
     public static void validateAgreementWhenApproved(Map<Id, Convention__c> newMap, Map<Id, Convention__c> oldMap) {
-        for (Convention__c c : newMap.values()) {
-            validateStepsApproval(c, oldMap.get(c.id));
+
+        Map<Id, String> approvalStepByAgreementId = getApprovalStepNameMap(newMap);
+
+        for (Convention__c agr : newMap.values()) {
+            Convention__c oldAgreement = oldMap.get(agr.Id);
+            String approvalStep = approvalStepByAgreementId.containsKey(agr.Id) ? approvalStepByAgreementId.get(agr.Id) : '';
+
+            switch on approvalStep {
+                when 'Agreement Request IS Approval' {
+                    if (approvedAction(agr, oldAgreement, 'DCO Approval', 'HOC Approval')) {
+                        validateRequestISApprovalKYD(agr, oldAgreement);
+                        validateRequestISApprovalRiskLevel(agr);
+                    }
+                }
+                when 'Agreement Request Compliance Approval' {
+                    if (approvedAction(agr, oldAgreement, 'Compliance Approval', 'DCO Approval')) {
+                        validateRequestComplianceApproval(agr);
+                    }
+                }
+                when 'GridAmendment_Legal' {
+                    if (!isAgreementRoleValidated(agr, oldAgreement)) {
+                        agr.addError(System.label.Validate_Agreement_Roles_Error_message);
+                    }
+                }
+                when 'Change Renewal Legal Approval' {
+                    if (!isAgreementRoleValidated(agr, oldAgreement)) {
+                        agr.addError(System.label.Validate_Agreement_Roles_Error_message);
+                    }
+                }
+                /*when 'Agreement Renewal with GRID Legal Approval' {
+                    if (!isAgreementRoleValidated(agr, oldAgreement)) {
+                        agr.addError(System.label.Validate_Agreement_Roles_Error_message);
+                    }
+                }*/
+                when else {
+                }
+            }
         }
     }
-    
-    public static void validateStepsApproval(Convention__c agr, Convention__c oldAgreement) {
-        
-        String approvalStep = getApprovalStepName(agr);
-        
-        switch on approvalStep {
-            when 'Agreement Request IS Approval' {
-                if (approvedAction(agr, oldAgreement, 'DCO Approval', 'HOC Approval')) {
-                    validateRequestISApprovalKYD(agr, oldAgreement);
-                    validateRequestISApprovalRiskLevel(agr);
-                }
-            }
-            when 'Agreement Request Compliance Approval' {
-                if (approvedAction(agr, oldAgreement, 'Compliance Approval', 'DCO Approval')) {
-                    validateRequestComplianceApproval(agr);
-                }
-            }
-            when 'Agreement Amendment Legal Approval' {
-                if (!isAgreementRoleValidated(agr, oldAgreement)) {
-                    agr.Name.addError(System.label.Validate_Agreement_Roles_Error_message);
-                }
-            }
-            when 'Agreement Renewal Legal Approval' {
-                if (!isAgreementRoleValidated(agr, oldAgreement)) {
-                    agr.Name.addError(System.label.Validate_Agreement_Roles_Error_message);
-                }
-            }
-            when 'Agreement Renewal with GRID Legal Approval' {
-                if (!isAgreementRoleValidated(agr, oldAgreement)) {
-                    agr.Name.addError(System.label.Validate_Agreement_Roles_Error_message);
-                }
-            }
-            when else {
-            }
-        }
-    }
-    
+
     /**
 * @author JLC
-* @description Check if agreement has a pending approval process
-* @param agr
+* @description Check which agreements have a pending approval, either a standard approval
+*              process on the agreement itself or a custom approval (CustomApproval__c)
+*              on one of its related Grid__c records
+* @param newMap agreements to check
 *
-* @return approval step name if exist else empty
+* @return map of agreement Id to pending approval step name (agreements without a pending approval are absent)
 */
-    public static String getApprovalStepName(Convention__c agr) {
-        String approvalStep = '';
-        ProcessInstance[] pi = [SELECT Id, TargetObjectId, Status FROM ProcessInstance WHERE TargetObjectId = :agr.Id AND Status = 'Pending' ORDER BY CreatedDate DESC];
-        
-        ProcessInstanceNode[] pin;
-        if (!pi.isEmpty()) {
-            pin = [SELECT Id, NodeStatus, ProcessNodeName, ProcessInstanceId FROM ProcessInstanceNode WHERE ProcessInstanceId = :pi[0].Id AND NodeStatus = 'Pending'];
+    public static Map<Id, String> getApprovalStepNameMap(Map<Id, Convention__c> newMap) {
+        Map<Id, String> approvalStepByAgreementId = new Map<Id, String>();
+
+        // Keep only the most recent pending ProcessInstance per agreement
+        Map<Id, Id> agreementIdByProcessInstanceId = new Map<Id, Id>();
+        Set<Id> agreementIdsWithProcessInstance = new Set<Id>();
+        for (ProcessInstance pi : [SELECT Id, TargetObjectId FROM ProcessInstance
+                                   WHERE TargetObjectId IN :newMap.keySet() AND Status = 'Pending'
+                                   ORDER BY CreatedDate DESC]) {
+            if (agreementIdsWithProcessInstance.add(pi.TargetObjectId)) {
+                agreementIdByProcessInstanceId.put(pi.Id, pi.TargetObjectId);
+            }
         }
-        
-        if (pin != null && !pin.isEmpty()) {
-            approvalStep = pin[0].ProcessNodeName;
+
+        if (!agreementIdByProcessInstanceId.isEmpty()) {
+            for (ProcessInstanceNode pin : [SELECT Id, NodeStatus, ProcessNodeName, ProcessInstanceId FROM ProcessInstanceNode
+                                            WHERE ProcessInstanceId IN :agreementIdByProcessInstanceId.keySet() AND NodeStatus = 'Pending']) {
+                Id agreementId = agreementIdByProcessInstanceId.get(pin.ProcessInstanceId);
+                if (!approvalStepByAgreementId.containsKey(agreementId)) {
+                    approvalStepByAgreementId.put(agreementId, pin.ProcessNodeName);
+                }
+            }
         }
-        
-        return approvalStep;
+
+        // Agreements with no pending standard approval: the approval might be on one of their grids
+        Set<Id> remainingAgreementIds = new Set<Id>(newMap.keySet());
+        remainingAgreementIds.removeAll(approvalStepByAgreementId.keySet());
+
+        if (!remainingAgreementIds.isEmpty()) {
+            Map<String, Id> agreementIdByGridIdStr = new Map<String, Id>();
+            for (Grid__c grid : [SELECT Id, Agreement__c FROM Grid__c WHERE Agreement__c IN :remainingAgreementIds]) {
+                agreementIdByGridIdStr.put(String.valueOf(grid.Id), grid.Agreement__c);
+            }
+
+            if (!agreementIdByGridIdStr.isEmpty()) {
+                for (CustomApproval__c ca : [SELECT Id, TargetRecordId__c, CurrentStepDevName__c FROM CustomApproval__c
+                                             WHERE TECH_ReadOnly__c = false 
+                                             AND Status__c = 'Pending'
+                                             AND CurrentStepDevName__c = 'GridAmendment_Legal'
+                                             AND TargetRecordId__c IN :agreementIdByGridIdStr.keySet()]) {
+                    approvalStepByAgreementId.put(agreementIdByGridIdStr.get(ca.TargetRecordId__c), ca.CurrentStepDevName__c);
+                }
+            }
+        }
+
+        return approvalStepByAgreementId;
     }
     
     public static boolean isAgreementRoleValidated(Convention__c agr, Convention__c oldAgr) {
