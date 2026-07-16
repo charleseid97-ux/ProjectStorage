@@ -54,24 +54,23 @@ public with sharing class GridDetailTableController {
             }
         }
 
-        // When activeOnly=true → cut off expired records; when false → cutoffDate=1900 passes all non-null dates
-        Date cutoffDate = (activeOnly == true) ? Date.today() : Date.newInstance(1900, 1, 1);
-        List<GridDetail__c> details = [SELECT Id, ShareClass__c, ShareClass__r.Name__c, ShareClass__r.ISIN__c,
-                                        ShareClass__r.EffectiveManagementFees__c, ShareClass__r.Fund__r.FundStrategy__r.AssetClass__c, ShareClass__r.Fund__r.FundStrategy__r.Name,
-                                        ShareClass__r.Fund__r.LegalForm__c, ShareClass__r.Fund__r.Name, ShareClass__r.Fund__r.ProductName__c,
-                                        StandardGridDetail__c, StandardGridDetail__r.ShareClass__c, StandardGridDetail__r.ShareClass__r.Name__c, StandardGridDetail__r.ShareClass__r.ISIN__c, StandardGridDetail__r.ShareClass__r.EffectiveManagementFees__c,
-                                        StandardGridDetail__r.ShareClass__r.Fund__r.FundStrategy__r.AssetClass__c, StandardGridDetail__r.ShareClass__r.Fund__r.FundStrategy__r.Name,
-                                        StandardGridDetail__r.ShareClass__r.Fund__r.LegalForm__c, StandardGridDetail__r.ShareClass__r.Fund__r.Name,
-                                        StandardGridDetail__r.ShareClass__r.Fund__r.ProductName__c, StandardGridDetail__r.RebateRate__c, StandardGridDetail__r.StartDate__c,
-                                        StandardGridDetail__r.GridRule__r.RuleToApply__c, StandardGridDetail__r.GridRule__r.GridRate__c,
-                                        StandardGridDetail__r.GridRule__r.OtherGridRule__c, StandardGridDetail__r.GridRule__r.OtherShareType__c, StandardGridDetail__r.GridRule__r.FinalRebateRate__c,
-                                        GridRule__r.RuleToApply__c, GridRule__r.GridRate__c, GridRule__r.OtherGridRule__c, GridRule__r.OtherShareType__c, GridRule__r.FinalRebateRate__c,
-                                        StartDate__c, EndDate__c, RebateRate__c, EffectiveManagementFees__c, Grid__r.Name, StandardGridDetail__r.Grid__r.Name
-                                       FROM GridDetail__c
-                                       WHERE Grid__c = :gridId
-                                       AND (EndDate__c = null OR EndDate__c >= :cutoffDate)
-                                       ORDER BY ShareClass__r.Fund__r.ProductName__c, ShareClass__r.Name__c, StartDate__c DESC];
+        String gdQuery =        ' SELECT Id, ShareClass__c, ShareClass__r.Name__c, ShareClass__r.ISIN__c,' +
+                                    ' ShareClass__r.EffectiveManagementFees__c, ShareClass__r.Fund__r.FundStrategy__r.AssetClass__c, ShareClass__r.Fund__r.FundStrategy__r.Name,' +
+                                    ' ShareClass__r.Fund__r.LegalForm__c, ShareClass__r.Fund__r.Name, ShareClass__r.Fund__r.ProductName__c,' +
+                                    ' StandardGridDetail__c, StandardGridDetail__r.ShareClass__c, StandardGridDetail__r.ShareClass__r.Name__c, StandardGridDetail__r.ShareClass__r.ISIN__c, StandardGridDetail__r.ShareClass__r.EffectiveManagementFees__c,' +
+                                    ' StandardGridDetail__r.ShareClass__r.Fund__r.FundStrategy__r.AssetClass__c, StandardGridDetail__r.ShareClass__r.Fund__r.FundStrategy__r.Name,' +
+                                    ' StandardGridDetail__r.ShareClass__r.Fund__r.LegalForm__c, StandardGridDetail__r.ShareClass__r.Fund__r.Name,' +
+                                    ' StandardGridDetail__r.ShareClass__r.Fund__r.ProductName__c, StandardGridDetail__r.RebateRate__c, StandardGridDetail__r.StartDate__c,' +
+                                    ' StandardGridDetail__r.GridRule__r.RuleToApply__c, StandardGridDetail__r.GridRule__r.GridRate__c,' +
+                                    ' StandardGridDetail__r.GridRule__r.OtherGridRule__c, StandardGridDetail__r.GridRule__r.OtherShareType__c, StandardGridDetail__r.GridRule__r.FinalRebateRate__c,' +
+                                    ' GridRule__r.RuleToApply__c, GridRule__r.GridRate__c, GridRule__r.OtherGridRule__c, GridRule__r.OtherShareType__c, GridRule__r.FinalRebateRate__c,' +
+                                    ' StartDate__c, EndDate__c, RebateRate__c, EffectiveManagementFees__c, Grid__r.Name, StandardGridDetail__r.Grid__r.Name' +
+                                ' FROM GridDetail__c' +
+                                ' WHERE Grid__c = :gridId';
+        gdQuery += activeOnly?  ' AND StandardGridDetail__r.TECH_EffMgtFeesAuditHistory__c = null' : '';
+        gdQuery +=              ' ORDER BY ShareClass__r.Fund__r.ProductName__c, ShareClass__r.Name__c, StartDate__c DESC';
 
+        List<GridDetail__c> details = Database.query(gdQuery);
         if (allowedShareClassIds != null && !allowedShareClassIds.isEmpty()) {
             List<GridDetail__c> filtered = new List<GridDetail__c>();
             for (GridDetail__c detail : details) {

@@ -392,7 +392,7 @@ public with sharing class GridUtility {
                                                  FROM GridDetail__c
                                                  WHERE ShareClass__c IN :changedShareClassIds
                                                  AND Grid__r.RecordType.DeveloperName = 'StandardGrid'
-                                                 AND (EndDate__c = null OR EndDate__c >= :Date.today())];
+                                                 AND TECH_EffMgtFeesAuditHistory__c = null];
         if (currentStdDetails.isEmpty()) return;
 
         Set<Id> gridIds = new Set<Id>();
@@ -439,7 +439,7 @@ public with sharing class GridUtility {
         List<GridDetail__c> currentCustomDetails = [SELECT Id, Grid__c, GridCriteria__c, StandardGridDetail__c, StartDate__c, RecordTypeId
                                                     FROM GridDetail__c
                                                     WHERE StandardGridDetail__c IN :oldStdDetailIdToNewStdDetailId.keySet()
-                                                    AND (EndDate__c = null OR EndDate__c >= :Date.today())];
+                                                    AND StandardGridDetail__r.TECH_EffMgtFeesAuditHistory__c = null];
         if (currentCustomDetails.isEmpty()) return;
 
         List<GridDetail__c> oldCustomToUpdate = new List<GridDetail__c>();
