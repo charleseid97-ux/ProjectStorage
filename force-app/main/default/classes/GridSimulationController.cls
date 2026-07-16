@@ -84,7 +84,7 @@ public with sharing class GridSimulationController {
                                  FROM GridDetail__c
                                  WHERE Grid__c IN :gridIds
                                  AND ShareClass__c IN :scIdSet
-                                 AND (EndDate__c = null OR EndDate__c >= :Date.today())]) {
+                                 AND TECH_EffMgtFeesAuditHistory__c = null]) {
             Decimal rate = (gd.GridRule__r?.FinalRebateRate__c != null) ? gd.GridRule__r.FinalRebateRate__c : gd.RebateRate__c;
             if (rate != null) result.put(gd.ShareClass__c, rate);
         }
@@ -148,7 +148,7 @@ public with sharing class GridSimulationController {
         for (GridDetail__c gd : [SELECT ShareClass__c FROM GridDetail__c
                                  WHERE Grid__c = :gridId
                                  AND ShareClass__c != null
-                                 AND (EndDate__c = null OR EndDate__c >= :Date.today())]) {
+                                 AND StandardGridDetail__r.TECH_EffMgtFeesAuditHistory__c = null]) {
             shareClassIds.add(gd.ShareClass__c);
             scGridMap.put(String.valueOf(gd.ShareClass__c), String.valueOf(gridId));
         }
