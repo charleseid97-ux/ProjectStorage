@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>SpeachDuration__c</fullName>
+    <description>auto calculated minutes</description>
+    <externalId>false</externalId>
+    <formula>MAX(
+    0,
+    (
+        HOUR(endTime__c) * 60 +
+        MINUTE(endTime__c)
+    )
+    -
+    (
+        HOUR(startTime__c) * 60 +
+        MINUTE(startTime__c)
+    )
+)</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <inlineHelpText>Minutes</inlineHelpText>
+    <label>Speach Duration</label>
+    <precision>18</precision>
+    <required>false</required>
+    <scale>0</scale>
+    <trackTrending>false</trackTrending>
+    <type>Number</type>
+    <unique>false</unique>
+</CustomField>

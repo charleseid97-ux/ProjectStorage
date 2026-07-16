@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <help><!-- The distributor code this agreement is linked to in Adjuto (e.g., L198_IT114). Use the same code for all related remunerations: Rebates, IX, Platform, DEDS. --></help>
+    <label><!-- Adjuto Distributor Code --></label>
+    <name>RelatedAgreement__c</name>
+    <relationshipLabel><!-- Related Agreements --></relationshipLabel>
+</CustomFieldTranslation>

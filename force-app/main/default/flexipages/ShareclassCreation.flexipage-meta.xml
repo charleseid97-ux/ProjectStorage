@@ -91,17 +91,7 @@
                         <valueListItems>
                             <value>ProjectProduct__c.Generate_Draft_KID</value>
                             <visibilityRule>
-                                <booleanFilter>(1 OR 2 OR 3 OR 4 OR 6 OR 7 OR 8 ) AND (5 AND 9)</booleanFilter>
-                                <criteria>
-                                    <leftValue>{!$User.Username}</leftValue>
-                                    <operator>CONTAINS</operator>
-                                    <rightValue>lementine.blanchard</rightValue>
-                                </criteria>
-                                <criteria>
-                                    <leftValue>{!$User.Username}</leftValue>
-                                    <operator>CONTAINS</operator>
-                                    <rightValue>leo.pawlicki</rightValue>
-                                </criteria>
+                                <booleanFilter>(1 OR 2 OR 5  ) AND (3 AND 4)</booleanFilter>
                                 <criteria>
                                     <leftValue>{!$User.Profile.Name}</leftValue>
                                     <operator>CONTAINS</operator>
@@ -115,27 +105,17 @@
                                 <criteria>
                                     <leftValue>{!Record.ProjectStatus__c}</leftValue>
                                     <operator>NE</operator>
-                                    <rightValue>Closed</rightValue>
-                                </criteria>
-                                <criteria>
-                                    <leftValue>{!$User.Username}</leftValue>
-                                    <operator>EQUAL</operator>
-                                    <rightValue>arnaud.sankou-crm@carmignac.com</rightValue>
-                                </criteria>
-                                <criteria>
-                                    <leftValue>{!$User.Username}</leftValue>
-                                    <operator>EQUAL</operator>
-                                    <rightValue>dana.croize-crm@carmignac.com</rightValue>
-                                </criteria>
-                                <criteria>
-                                    <leftValue>{!$User.Username}</leftValue>
-                                    <operator>EQUAL</operator>
-                                    <rightValue>patrick.temfack-crm@carmignac.com</rightValue>
+                                    <rightValue>Cancelled</rightValue>
                                 </criteria>
                                 <criteria>
                                     <leftValue>{!Record.LegalForm__c}</leftValue>
                                     <operator>NE</operator>
                                     <rightValue>OEIC</rightValue>
+                                </criteria>
+                                <criteria>
+                                    <leftValue>{!$Permission.CustomPermission.GenerateDraftKID}</leftValue>
+                                    <operator>EQUAL</operator>
+                                    <rightValue>true</rightValue>
                                 </criteria>
                             </visibilityRule>
                         </valueListItems>
@@ -156,6 +136,10 @@
                 <componentInstanceProperties>
                     <name>hideChatterActions</name>
                     <value>true</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>hideSlackAction</name>
+                    <value>false</value>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>numVisibleActions</name>
@@ -591,16 +575,6 @@
                     <name>uiBehavior</name>
                     <value>none</value>
                 </fieldInstanceProperties>
-                <fieldItem>Record.Sponsor__c</fieldItem>
-                <identifier>RecordSponsor_cField</identifier>
-            </fieldInstance>
-        </itemInstances>
-        <itemInstances>
-            <fieldInstance>
-                <fieldInstanceProperties>
-                    <name>uiBehavior</name>
-                    <value>none</value>
-                </fieldInstanceProperties>
                 <fieldItem>Record.AnticipatedFundSize5Y__c</fieldItem>
                 <identifier>RecordAnticipatedFundSize5Y_cField</identifier>
             </fieldInstance>
@@ -643,6 +617,16 @@
                 </fieldInstanceProperties>
                 <fieldItem>Record.EFAMAEFCInvestTheme__c</fieldItem>
                 <identifier>RecordEFAMAEFCInvestTheme_cField</identifier>
+            </fieldInstance>
+        </itemInstances>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>none</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.GridManualUpdate__c</fieldItem>
+                <identifier>RecordGridManualUpdate_cField</identifier>
             </fieldInstance>
         </itemInstances>
         <name>Facet-dab62e9d-c271-40ed-aef4-f0db73f90d7f</name>
@@ -1042,8 +1026,8 @@
                     <name>uiBehavior</name>
                     <value>none</value>
                 </fieldInstanceProperties>
-                <fieldItem>Record.NoticePeriod__c</fieldItem>
-                <identifier>RecordNoticePeriod_cField</identifier>
+                <fieldItem>Record.NoticePeriodRedemption__c</fieldItem>
+                <identifier>RecordNoticePeriodRedemption_cField</identifier>
             </fieldInstance>
         </itemInstances>
         <itemInstances>
@@ -1052,8 +1036,8 @@
                     <name>uiBehavior</name>
                     <value>none</value>
                 </fieldInstanceProperties>
-                <fieldItem>Record.HasGate__c</fieldItem>
-                <identifier>RecordHasGate_cField</identifier>
+                <fieldItem>Record.NoticePeriodSubscription__c</fieldItem>
+                <identifier>RecordNoticePeriodSubscription_cField</identifier>
             </fieldInstance>
         </itemInstances>
         <name>Facet-a67a3091-1c2b-48e5-b187-fca016d74a0a</name>
@@ -1223,8 +1207,8 @@
                     <name>uiBehavior</name>
                     <value>none</value>
                 </fieldInstanceProperties>
-                <fieldItem>Record.Useref__c</fieldItem>
-                <identifier>RecordUseref_cField</identifier>
+                <fieldItem>Record.BenchmarkName__c</fieldItem>
+                <identifier>RecordBenchmark_cField</identifier>
                 <visibilityRule>
                     <criteria>
                         <leftValue>{!Record.HasBenchmark__c}</leftValue>
@@ -1238,23 +1222,6 @@
         <type>Facet</type>
     </flexiPageRegions>
     <flexiPageRegions>
-        <itemInstances>
-            <fieldInstance>
-                <fieldInstanceProperties>
-                    <name>uiBehavior</name>
-                    <value>none</value>
-                </fieldInstanceProperties>
-                <fieldItem>Record.BenchmarkName__c</fieldItem>
-                <identifier>RecordBenchmark_cField</identifier>
-                <visibilityRule>
-                    <criteria>
-                        <leftValue>{!Record.HasBenchmark__c}</leftValue>
-                        <operator>EQUAL</operator>
-                        <rightValue>True</rightValue>
-                    </criteria>
-                </visibilityRule>
-            </fieldInstance>
-        </itemInstances>
         <name>Facet-066b9e1c-751c-44c5-9218-c87b9658ea1c</name>
         <type>Facet</type>
     </flexiPageRegions>
@@ -2164,6 +2131,26 @@
                 <identifier>RecordReasonForRHP_cField</identifier>
             </fieldInstance>
         </itemInstances>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>none</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.SettlementPeriod__c</fieldItem>
+                <identifier>RecordSettlementPeriod_cField</identifier>
+            </fieldInstance>
+        </itemInstances>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>none</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.OtherRelevantInformation__c</fieldItem>
+                <identifier>RecordOtherRelevantInformation_cField</identifier>
+            </fieldInstance>
+        </itemInstances>
         <name>Facet-b88c7774-d03a-4f68-81ac-e270b3c6bb88</name>
         <type>Facet</type>
     </flexiPageRegions>
@@ -2218,8 +2205,8 @@
                     <name>uiBehavior</name>
                     <value>none</value>
                 </fieldInstanceProperties>
-                <fieldItem>Record.HasSwingPricing__c</fieldItem>
-                <identifier>RecordHasSwingPricing_cField</identifier>
+                <fieldItem>Record.LiquidityManagementToolLMT__c</fieldItem>
+                <identifier>RecordLiquidityManagementToolLMT_cField</identifier>
             </fieldInstance>
         </itemInstances>
         <itemInstances>
@@ -2532,7 +2519,7 @@
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>label</name>
-                    <value>Reporting</value>
+                    <value>PRIIPS KID / UCITS KIID</value>
                 </componentInstanceProperties>
                 <componentName>flexipage:fieldSection</componentName>
                 <identifier>flexipage_fieldSection16</identifier>
@@ -2623,6 +2610,16 @@
             </componentInstance>
         </itemInstances>
         <name>Facet-de41155e-094a-4772-9b25-f805e7195f7b</name>
+        <type>Facet</type>
+    </flexiPageRegions>
+    <flexiPageRegions>
+        <itemInstances>
+            <componentInstance>
+                <componentName>priipsKid</componentName>
+                <identifier>c_priipsKid</identifier>
+            </componentInstance>
+        </itemInstances>
+        <name>Facet-ay85wmdc14k</name>
         <type>Facet</type>
     </flexiPageRegions>
     <flexiPageRegions>
@@ -3269,6 +3266,33 @@
             <componentInstance>
                 <componentInstanceProperties>
                     <name>body</name>
+                    <value>Facet-ay85wmdc14k</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>title</name>
+                    <value>PRIIPS/KID</value>
+                </componentInstanceProperties>
+                <componentName>flexipage:tab</componentName>
+                <identifier>flexipage_tab16</identifier>
+                <visibilityRule>
+                    <booleanFilter>1 OR 2</booleanFilter>
+                    <criteria>
+                        <leftValue>{!$User.Username}</leftValue>
+                        <operator>EQUAL</operator>
+                        <rightValue>clementine.blanchard-crm@carmignac.com</rightValue>
+                    </criteria>
+                    <criteria>
+                        <leftValue>{!$User.Username}</leftValue>
+                        <operator>EQUAL</operator>
+                        <rightValue>leo.pawlicki-crm@carmignac.com</rightValue>
+                    </criteria>
+                </visibilityRule>
+            </componentInstance>
+        </itemInstances>
+        <itemInstances>
+            <componentInstance>
+                <componentInstanceProperties>
+                    <name>body</name>
                     <value>Facet-93df8de8-ac10-4696-8c21-d4e1ae0c3684</value>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
@@ -3437,6 +3461,16 @@
     <flexiPageRegions>
         <itemInstances>
             <componentInstance>
+                <componentName>priipsKidCompletion</componentName>
+                <identifier>c_priipsKidCompletion</identifier>
+            </componentInstance>
+        </itemInstances>
+        <name>Facet-249b50b5-7b11-46eb-aa28-56e905197b20</name>
+        <type>Facet</type>
+    </flexiPageRegions>
+    <flexiPageRegions>
+        <itemInstances>
+            <componentInstance>
                 <componentName>forceChatter:recordFeedContainer</componentName>
                 <identifier>forceChatter_recordFeedContainer</identifier>
             </componentInstance>
@@ -3483,6 +3517,33 @@
                 </componentInstanceProperties>
                 <componentName>flexipage:tab</componentName>
                 <identifier>flexipage_tab6</identifier>
+            </componentInstance>
+        </itemInstances>
+        <itemInstances>
+            <componentInstance>
+                <componentInstanceProperties>
+                    <name>body</name>
+                    <value>Facet-249b50b5-7b11-46eb-aa28-56e905197b20</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>title</name>
+                    <value>PRIIPS/KID</value>
+                </componentInstanceProperties>
+                <componentName>flexipage:tab</componentName>
+                <identifier>flexipage_tab15</identifier>
+                <visibilityRule>
+                    <booleanFilter>1 OR 2</booleanFilter>
+                    <criteria>
+                        <leftValue>{!$User.Username}</leftValue>
+                        <operator>EQUAL</operator>
+                        <rightValue>leo.pawlicki-crm@carmignac.com</rightValue>
+                    </criteria>
+                    <criteria>
+                        <leftValue>{!$User.Username}</leftValue>
+                        <operator>EQUAL</operator>
+                        <rightValue>clementine.blanchard-crm@carmignac.com</rightValue>
+                    </criteria>
+                </visibilityRule>
             </componentInstance>
         </itemInstances>
         <itemInstances>

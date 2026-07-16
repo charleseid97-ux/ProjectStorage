@@ -85,6 +85,10 @@ ShareClass__r.ISIN__c</value>
         <value xsi:type="xsd:string">Country Registration Status Matrix</value>
     </values>
     <values>
+        <field>ValueField__c</field>
+        <value xsi:type="xsd:string">RegistrationStatus__c</value>
+    </values>
+    <values>
         <field>ValueFields__c</field>
         <value xsi:type="xsd:string">RegistrationStatus__c</value>
     </values>

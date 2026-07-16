@@ -170,12 +170,7 @@ public with sharing class VFC16_SequantisGenerateDraft {
         if (ProjectProductRec.internalShortName__c == null ){
             errorMsg += '<br/> Internal Short Name is required. ';            
         }
-        if (ProjectProductRec.RecommendedHoldingPeriod__c == null ){
-            errorMsg += '<br/> Recommended Holding Period is required. ';
-        }
-        if (ProjectProductRec.RecommendedHoldingPeriodUnit__c == null ){
-            errorMsg += '<br/> Recommended Holding Period Unit is required. ';
-        }   
+          
         if (errorMsg != ''){
             errorMsg = '<br/> generation failed due to missing required fields '+projectShareClassRec.Name__c+' : '+errorMsg;
             return errorMsg;
@@ -249,6 +244,8 @@ public with sharing class VFC16_SequantisGenerateDraft {
         payload.put('fundName',ProjectProductRec.ProductName__c);
         payload.put('isin',projectShareClassRec.ISIN__c);
         payload.put('shareClassId','');
+        payload.put('conversionFees',projectShareClassRec.MaxConversionFee__c);
+        
         payload.put('productId',ProjectProductRec.Product__c);
         payload.put('projectShareClassId',projectShareClassRec.Id);
         payload.put('projectId',ProjectProductRec.Id);
@@ -280,6 +277,12 @@ public with sharing class VFC16_SequantisGenerateDraft {
         Id rtId = ProjectProductRec.RecordTypeId;
 
         if (rtId == fundCreationRecordTypeId) {
+            if (ProjectProductRec.RecommendedHoldingPeriod__c == null ){
+                errorMsg += '<br/> Recommended Holding Period is required. ';
+            }
+            if (ProjectProductRec.RecommendedHoldingPeriodUnit__c == null ){
+                errorMsg += '<br/> Recommended Holding Period Unit is required. ';
+            } 
             payload.put('rhp', ProjectProductRec.RecommendedHoldingPeriod__c);
             payload.put('rhpUnit', escapeHTML(ProjectProductRec.RecommendedHoldingPeriodUnit__c));
             payload.put('reasonForRedemptionShareClass',projectShareClassRec.ReasonforRHPRedemptionShareclass__c );

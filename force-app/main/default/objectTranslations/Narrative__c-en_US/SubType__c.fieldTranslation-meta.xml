@@ -131,6 +131,14 @@
         <translation><!-- Custodian --></translation>
     </picklistValues>
     <picklistValues>
+        <masterLabel>Default</masterLabel>
+        <translation><!-- Default --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Delegated_FX_Investment_Manager</masterLabel>
+        <translation><!-- Delegated_FX_Investment_Manager --></translation>
+    </picklistValues>
+    <picklistValues>
         <masterLabel>Delegated_Investment_Management 1</masterLabel>
         <translation><!-- Delegated_Investment_Management 1 --></translation>
     </picklistValues>
@@ -459,6 +467,10 @@
         <translation><!-- Notation morningstar --></translation>
     </picklistValues>
     <picklistValues>
+        <masterLabel>Other relevant information</masterLabel>
+        <translation><!-- Other relevant information --></translation>
+    </picklistValues>
+    <picklistValues>
         <masterLabel>PRIIPS</masterLabel>
         <translation><!-- PRIIPS --></translation>
     </picklistValues>
@@ -495,12 +507,12 @@
         <translation><!-- Portfolio summary --></translation>
     </picklistValues>
     <picklistValues>
-        <masterLabel>Pre Central Admin</masterLabel>
-        <translation><!-- Pre Central Admin --></translation>
-    </picklistValues>
-    <picklistValues>
         <masterLabel>Pre-central admin</masterLabel>
         <translation><!-- Pre-central admin --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>PreCentralAdmin</masterLabel>
+        <translation><!-- PreCentralAdmin --></translation>
     </picklistValues>
     <picklistValues>
         <masterLabel>Primary fund of funds</masterLabel>
@@ -545,6 +557,10 @@
     <picklistValues>
         <masterLabel>Reason for RHP</masterLabel>
         <translation><!-- Reason for RHP --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Reason for RHP - Redemption shareclass</masterLabel>
+        <translation><!-- Reason for RHP - Redemption shareclass --></translation>
     </picklistValues>
     <picklistValues>
         <masterLabel>Redeem Condition</masterLabel>
@@ -601,6 +617,10 @@
     <picklistValues>
         <masterLabel>Sensibilité</masterLabel>
         <translation><!-- Sensibilité --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Settlement Period</masterLabel>
+        <translation><!-- Settlement Period --></translation>
     </picklistValues>
     <picklistValues>
         <masterLabel>Share</masterLabel>

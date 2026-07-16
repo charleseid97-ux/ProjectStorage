@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <label><!-- Type --></label>
+    <name>Type__c</name>
+    <picklistValues>
+        <masterLabel>BE Asset Test</masterLabel>
+        <translation><!-- BE Asset Test --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>BE TIS</masterLabel>
+        <translation><!-- BE TIS --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Belgium Simulator</masterLabel>
+        <translation><!-- Belgium Simulator --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Transparency</masterLabel>
+        <translation><!-- Transparency --></translation>
+    </picklistValues>
+</CustomFieldTranslation>

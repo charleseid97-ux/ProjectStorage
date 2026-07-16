@@ -45,6 +45,10 @@
         <label><!-- Fields History --></label>
         <name>FFA_History</name>
     </quickActions>
+    <quickActions>
+        <label><!-- Request Tax Transparency --></label>
+        <name>Request_Tax_Transparency</name>
+    </quickActions>
     <startsWith>Consonant</startsWith>
     <validationRules>
         <errorMessage><!-- The currency cannot be changed after the record is created. --></errorMessage>
@@ -97,6 +101,10 @@
     <validationRules>
         <errorMessage><!-- The SRRI Date is required when SRRI is completed. --></errorMessage>
         <name>VR14_SRRIDate</name>
+    </validationRules>
+    <validationRules>
+        <errorMessage><!-- Only “Income” and “Accumulating” are applicable for OEIC Share Classes. --></errorMessage>
+        <name>VR15_DividendPolicyOEIC</name>
     </validationRules>
     <webLinks>
         <label><!-- ExportShareclass --></label>

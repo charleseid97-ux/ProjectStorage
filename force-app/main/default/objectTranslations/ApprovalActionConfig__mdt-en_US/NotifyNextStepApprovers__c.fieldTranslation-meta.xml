@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <help><!-- Sends to the approvers who will receive the work item at the next step. Useful for advance notification. Has no effect on FinalApproval, FinalRejection, Recall, or InitialSubmission action types where there is no next step. --></help>
+    <label><!-- Notify Next Step Approvers --></label>
+    <name>NotifyNextStepApprovers__c</name>
+</CustomFieldTranslation>

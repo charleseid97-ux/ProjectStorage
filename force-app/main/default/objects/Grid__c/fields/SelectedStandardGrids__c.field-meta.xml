@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>SelectedStandardGrids__c</fullName>
-    <description>Comma-separated names of the standard grids referenced by this grid's criteria (GridCriteria__c.StandardGrid__c). Maintained by GridUtility.updateSelectedStandardGrids via GridCriteriaTrigger.</description>
+    <description>Comma-separated names of the standard grids referenced by this grid&apos;s criteria (GridCriteria__c.StandardGrid__c). Maintained by GridUtility.updateSelectedStandardGrids via GridCriteriaTrigger.</description>
     <encryptionScheme>None</encryptionScheme>
     <externalId>false</externalId>
-    <inlineHelpText>Names of the standard grids selected on this grid's criteria, e.g. "S1, S2".</inlineHelpText>
+    <inlineHelpText>Names of the standard grids selected on this grid&apos;s criteria, e.g. &quot;S1, S2&quot;.</inlineHelpText>
     <label>Selected Standard Grids</label>
     <length>255</length>
     <required>false</required>

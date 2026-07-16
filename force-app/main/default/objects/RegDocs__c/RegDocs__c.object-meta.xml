@@ -153,13 +153,13 @@
     <enableSharing>true</enableSharing>
     <enableStreamingApi>true</enableStreamingApi>
     <externalSharingModel>ControlledByParent</externalSharingModel>
-    <label>RegDocument</label>
+    <label>Document</label>
     <nameField>
         <encryptionScheme>None</encryptionScheme>
         <label>RegDocs Name</label>
         <type>Text</type>
     </nameField>
-    <pluralLabel>RegDocuments</pluralLabel>
+    <pluralLabel>Documents</pluralLabel>
     <searchLayouts></searchLayouts>
     <sharingModel>ControlledByParent</sharingModel>
     <visibility>Public</visibility>

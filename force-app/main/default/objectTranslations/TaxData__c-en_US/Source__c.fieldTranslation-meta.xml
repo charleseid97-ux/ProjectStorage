@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <label><!-- Source Request --></label>
+    <name>Source__c</name>
+    <picklistValues>
+        <masterLabel>CACEIS</masterLabel>
+        <translation><!-- CACEIS --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Official websites</masterLabel>
+        <translation><!-- Official websites --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Other</masterLabel>
+        <translation><!-- Other --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>PMT</masterLabel>
+        <translation><!-- PMT --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Product Catalog</masterLabel>
+        <translation><!-- Product Catalog --></translation>
+    </picklistValues>
+</CustomFieldTranslation>

@@ -61,6 +61,21 @@
                 <default>false</default>
                 <label>Product Sheet</label>
             </value>
+            <value>
+                <fullName>Lettre aux porteurs</fullName>
+                <default>false</default>
+                <label>Lettre aux porteurs</label>
+            </value>
+            <value>
+                <fullName>SFDR Pre Contractual Disclosure</fullName>
+                <default>false</default>
+                <label>SFDR Pre Contractual Disclosure</label>
+            </value>
+            <value>
+                <fullName>SFDR Periodic Disclosure</fullName>
+                <default>false</default>
+                <label>SFDR Periodic Disclosure</label>
+            </value>
         </valueSetDefinition>
     </valueSet>
 </CustomField>

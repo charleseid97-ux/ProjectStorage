@@ -4,7 +4,8 @@
     <protected>false</protected>
     <values>
         <field>InboxDisplayFields__c</field>
-        <value xsi:type="xsd:string">Agreement__r.Company__r.Name</value>
+        <value xsi:type="xsd:string">Agreement__r.Company__r.Name
+SelectedStandardGrids__c</value>
     </values>
     <values>
         <field>ObjectType__c</field>

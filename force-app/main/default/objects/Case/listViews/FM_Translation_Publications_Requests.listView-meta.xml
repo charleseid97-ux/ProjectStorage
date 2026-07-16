@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>FM_Translation_Publications_Requests</fullName>
+    <columns>CASES.SUBJECT</columns>
+    <columns>Language__c</columns>
+    <columns>Article_Funds__c</columns>
+    <columns>CASES.CASE_NUMBER</columns>
+    <columns>PARENT.CASE_NUMBER</columns>
+    <columns>CREATEDBY_USER.ALIAS</columns>
+    <columns>CASES.STATUS</columns>
+    <columns>CASES.CREATED_DATE</columns>
+    <columns>CASES.CLOSED_DATE</columns>
+    <columns>CASES.RECORDTYPE</columns>
+    <filterScope>Everything</filterScope>
+    <filters>
+        <field>Requester_Team__c</field>
+        <operation>equals</operation>
+        <value>Fund Marketing</value>
+    </filters>
+    <filters>
+        <field>CASES.RECORDTYPE</field>
+        <operation>equals</operation>
+        <value>Case.Sub_Publication_Request,Case.TranslationRequest,Case.Sub_Translation_Request</value>
+    </filters>
+    <filters>
+        <field>PARENT.CASE_NUMBER</field>
+        <operation>notEqual</operation>
+    </filters>
+    <label>Fund Marketing View</label>
+</ListView>

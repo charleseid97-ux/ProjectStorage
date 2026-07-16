@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <label><!-- Asset Class --></label>
+    <name>AssetClass__c</name>
+    <picklistValues>
+        <masterLabel>Diversified, Alternatives</masterLabel>
+        <translation><!-- Diversified, Alternatives --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Equity</masterLabel>
+        <translation><!-- Equity --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Fixed Income</masterLabel>
+        <translation><!-- Fixed Income --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Investment Solutions</masterLabel>
+        <translation><!-- Investment Solutions --></translation>
+    </picklistValues>
+</CustomFieldTranslation>

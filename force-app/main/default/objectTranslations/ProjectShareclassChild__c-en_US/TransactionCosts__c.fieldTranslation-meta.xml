@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
-    <help><!-- Enter the transaction costs as a percentage. --></help>
+    <help>
+        <!-- Enter the transaction costs as a percentage.
+This is the target rate which will be used in the PRIIPS KID and EMT. -->
+    </help>
     <label><!-- Transaction Costs Ex-ante --></label>
     <name>TransactionCosts__c</name>
 </CustomFieldTranslation>

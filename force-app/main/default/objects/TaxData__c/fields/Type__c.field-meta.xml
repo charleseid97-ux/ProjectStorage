@@ -33,6 +33,13 @@
             </value>
         </valueSetDefinition>
         <valueSettings>
+            <controllingFieldValue>AT</controllingFieldValue>
+            <controllingFieldValue>CH</controllingFieldValue>
+            <controllingFieldValue>IT</controllingFieldValue>
+            <controllingFieldValue>UK</controllingFieldValue>
+            <valueName>Transparency</valueName>
+        </valueSettings>
+        <valueSettings>
             <controllingFieldValue>BE</controllingFieldValue>
             <valueName>BE Asset Test</valueName>
         </valueSettings>
@@ -43,13 +50,6 @@
         <valueSettings>
             <controllingFieldValue>BE</controllingFieldValue>
             <valueName>Belgium Simulator</valueName>
-        </valueSettings>
-        <valueSettings>
-            <controllingFieldValue>IT</controllingFieldValue>
-            <controllingFieldValue>UK</controllingFieldValue>
-            <controllingFieldValue>AT</controllingFieldValue>
-            <controllingFieldValue>CH</controllingFieldValue>
-            <valueName>Transparency</valueName>
         </valueSettings>
     </valueSet>
 </CustomField>

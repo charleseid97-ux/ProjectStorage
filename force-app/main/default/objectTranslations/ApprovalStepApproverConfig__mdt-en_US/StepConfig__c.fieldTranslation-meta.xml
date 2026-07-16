@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <help><!-- Link this record to its parent step configuration. One record per approver per step. --></help>
+    <label><!-- Step Config --></label>
+    <name>StepConfig__c</name>
+    <relationshipLabel><!-- Approval Step Approver Configs --></relationshipLabel>
+</CustomFieldTranslation>

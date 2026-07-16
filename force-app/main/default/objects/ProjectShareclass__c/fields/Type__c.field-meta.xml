@@ -167,9 +167,19 @@
                 <label>X2</label>
             </value>
             <value>
+                <fullName>X3</fullName>
+                <default>false</default>
+                <label>X3</label>
+            </value>
+            <value>
                 <fullName>Z</fullName>
                 <default>false</default>
                 <label>Z</label>
+            </value>
+            <value>
+                <fullName>Z2</fullName>
+                <default>false</default>
+                <label>Z2</label>
             </value>
         </valueSetDefinition>
     </valueSet>

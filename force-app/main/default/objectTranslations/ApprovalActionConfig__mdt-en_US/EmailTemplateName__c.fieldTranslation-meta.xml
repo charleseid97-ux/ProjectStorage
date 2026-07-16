@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <help><!-- The template must exist in the org. The target record is passed as the related object. Example: Grid_Amendment_Approval_Submitted. --></help>
+    <label><!-- Email Template Name --></label>
+    <name>EmailTemplateName__c</name>
+</CustomFieldTranslation>

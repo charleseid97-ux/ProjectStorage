@@ -1457,6 +1457,11 @@
             <field>Platform__c</field>
             <table>Account.Agreements__r</table>
         </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>GridRequested__c</field>
+            <table>Account.Agreements__r</table>
+        </columns>
         <masterLabel>Agreements</masterLabel>
     </sections>
     <sections>

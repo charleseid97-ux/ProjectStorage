@@ -31,9 +31,19 @@
         <label>Germany</label>
     </customValue>
     <customValue>
+        <fullName>BE</fullName>
+        <default>false</default>
+        <label>Belgium</label>
+    </customValue>
+    <customValue>
         <fullName>GB</fullName>
         <default>false</default>
         <label>United Kingdom</label>
+    </customValue>
+    <customValue>
+        <fullName>AE</fullName>
+        <default>false</default>
+        <label>United Arab Emirates</label>
     </customValue>
     <customValue>
         <fullName>AF</fullName>
@@ -119,11 +129,6 @@
         <fullName>BY</fullName>
         <default>false</default>
         <label>Belarus</label>
-    </customValue>
-    <customValue>
-        <fullName>BE</fullName>
-        <default>false</default>
-        <label>Belgium</label>
     </customValue>
     <customValue>
         <fullName>BZ</fullName>
@@ -989,11 +994,6 @@
         <fullName>UA</fullName>
         <default>false</default>
         <label>Ukraine</label>
-    </customValue>
-    <customValue>
-        <fullName>AE</fullName>
-        <default>false</default>
-        <label>United Arab Emirates</label>
     </customValue>
     <customValue>
         <fullName>US</fullName>

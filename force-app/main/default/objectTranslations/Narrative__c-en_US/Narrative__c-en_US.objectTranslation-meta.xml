@@ -49,4 +49,44 @@
         <errorMessage><!-- The fields Product, Project Contribution at Product level, Narrative, Share Class and Strategy should be empty for Biography records --></errorMessage>
         <name>VR03_BiographyRT_ProductFieldsEmpty</name>
     </validationRules>
+    <validationRules>
+        <errorMessage><!-- For narratives of type Third Party, both the Product and Narrative fields are required. --></errorMessage>
+        <name>VR04_NarrativeTP_RequiredFields</name>
+    </validationRules>
+    <validationRules>
+        <errorMessage><!-- For narratives of type Third Party, both the Share Class and Strategy fields should be empty. --></errorMessage>
+        <name>VR05_NarrativeTP_NullFields</name>
+    </validationRules>
+    <validationRules>
+        <errorMessage>
+            <!-- Please complete required fields:
+For Product scope: Product must be filled
+For Shareclass scope: ShareClass must be filled -->
+        </errorMessage>
+        <name>VR06_ScopeRequiredFields</name>
+    </validationRules>
+    <validationRules>
+        <errorMessage><!-- For Third Parties, both the LEI Code and Domiciled In fields are required. --></errorMessage>
+        <name>VR07_ThirdPartiesyRT_RequiredFields</name>
+    </validationRules>
+    <validationRules>
+        <errorMessage><!-- Oops...you don&apos;t have the necessary privileges to edit this record. See your administrator for help. --></errorMessage>
+        <name>VR08_Narrative_DCOAccess</name>
+    </validationRules>
+    <validationRules>
+        <errorMessage><!-- Oops...you don&apos;t have the necessary privileges to edit this record. See your administrator for help. --></errorMessage>
+        <name>VR09_Narrative_LegalAccess</name>
+    </validationRules>
+    <validationRules>
+        <errorMessage><!-- Oops...you don&apos;t have the necessary privileges to edit this record. See your administrator for help. --></errorMessage>
+        <name>VR09_Narrative_ProductStrategyAccess</name>
+    </validationRules>
+    <validationRules>
+        <errorMessage><!-- Oops...you don&apos;t have the necessary privileges to edit this record. See your administrator for help. --></errorMessage>
+        <name>VR10_Narrative_ComplianceAccess</name>
+    </validationRules>
+    <validationRules>
+        <errorMessage><!-- Oops...you don&apos;t have the necessary privileges to edit this record. See your administrator for help. --></errorMessage>
+        <name>VR11_Narrative_OPSAccess</name>
+    </validationRules>
 </CustomObjectTranslation>

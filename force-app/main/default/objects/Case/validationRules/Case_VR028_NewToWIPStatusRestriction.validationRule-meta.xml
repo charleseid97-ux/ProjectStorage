@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Case_VR028_NewToWIPStatusRestriction</fullName>
+    <active>false</active>
+    <errorConditionFormula>AND(
+				NOT($User.BypassValidationRules__c),
+				NOT(ISNEW()), 
+				ISPICKVAL(PRIORVALUE(Status), &quot;New&quot;),
+				NOT(ISPICKVAL(Status, &quot;Work in Progress&quot;)),
+				RecordType.DeveloperName =&apos;Sub_Publication_Request&apos;
+)</errorConditionFormula>
+    <errorMessage>You can only move the status from &quot;New&quot; to &quot;Work in Progress&quot;</errorMessage>
+</ValidationRule>

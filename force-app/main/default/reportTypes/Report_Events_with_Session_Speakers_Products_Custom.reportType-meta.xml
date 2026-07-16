@@ -345,6 +345,16 @@ Designed for executive reporting and dashboard filtering at Event level.</descri
             <field>ScheduleID__c</field>
             <table>Event__c.SpeakersProducts__r</table>
         </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>sessionNumber__c</field>
+            <table>Event__c.SpeakersProducts__r</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>SpeachDuration__c</field>
+            <table>Event__c.SpeakersProducts__r</table>
+        </columns>
         <masterLabel>Session Speakers &amp; Products</masterLabel>
     </sections>
     <sections>

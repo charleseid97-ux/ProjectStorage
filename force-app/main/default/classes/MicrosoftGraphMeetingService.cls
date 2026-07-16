@@ -4,6 +4,7 @@ public without sharing class MicrosoftGraphMeetingService {
     private static final String CONTENT_TYPE_JSON = 'application/json';
     private static final String DEFAULT_BODY_HTML = '<p>Réunion générée depuis Salesforce.</p>';
     private static final Integer TIMEOUT_MS = 120000;
+    private static final String HEADER_CONTENT_TYPE = 'Content-Type';
 
     public class Participant {
         public String email;
@@ -49,7 +50,7 @@ public without sharing class MicrosoftGraphMeetingService {
         HttpRequest request = new HttpRequest();
         request.setEndpoint(buildEndpoint(meetingRequest.namedCredentialName, '/me/events'));
         request.setMethod('POST');
-        request.setHeader('Content-Type', CONTENT_TYPE_JSON);
+        request.setHeader(HEADER_CONTENT_TYPE, CONTENT_TYPE_JSON);
         request.setHeader('Accept', CONTENT_TYPE_JSON);
         request.setHeader('Prefer', 'outlook.timezone="' + getTimeZone(meetingRequest) + '"');
         request.setTimeout(TIMEOUT_MS);
@@ -244,4 +245,62 @@ public without sharing class MicrosoftGraphMeetingService {
     private static String safeString(String value) {
         return String.isBlank(value) ? '' : value;
     }
+
+    // Met à jour un événement Microsoft Graph existant avec les nouvelles infos Salesforce.
+    public static MeetingResponse updateTeamsMeeting(MeetingRequest meetingRequest, String microsoftEventId) {
+        validateRequest(meetingRequest);
+
+        if (String.isBlank(microsoftEventId)) {
+            throw new IllegalArgumentException('Microsoft event id is required.');
+        }
+
+        HttpRequest request = new HttpRequest();
+        request.setEndpoint(buildEndpoint(meetingRequest.namedCredentialName, '/me/events/' + EncodingUtil.urlEncode(microsoftEventId, 'UTF-8')));
+        request.setMethod('PATCH');
+        request.setHeader(HEADER_CONTENT_TYPE, CONTENT_TYPE_JSON);
+        request.setHeader('Accept', CONTENT_TYPE_JSON);
+        request.setHeader('Prefer', 'outlook.timezone="' + getTimeZone(meetingRequest) + '"');
+        request.setTimeout(TIMEOUT_MS);
+
+        // Réutilise le même payload que la création pour garder sujet/body/date/participants cohérents.
+        request.setBody(JSON.serialize(buildPayload(meetingRequest)));
+
+        HttpResponse response = new Http().send(request);
+        return parseResponse(response);
+    }
+
+    // Annule un événement Microsoft Graph existant et notifie les participants.
+    public static MeetingResponse cancelTeamsMeeting(MeetingRequest meetingRequest, String microsoftEventId) {
+        if (String.isBlank(microsoftEventId)) {
+            throw new IllegalArgumentException('Microsoft event id is required.');
+        }
+
+        HttpRequest request = new HttpRequest();
+        request.setEndpoint(buildEndpoint(meetingRequest.namedCredentialName, '/me/events/' + EncodingUtil.urlEncode(microsoftEventId, 'UTF-8') + '/cancel'));
+        request.setMethod('POST');
+        request.setHeader(HEADER_CONTENT_TYPE, CONTENT_TYPE_JSON);
+        request.setHeader('Accept', CONTENT_TYPE_JSON);
+        request.setTimeout(TIMEOUT_MS);
+
+        // Microsoft Graph attend un commentaire optionnel pour l’annulation.
+        request.setBody(JSON.serialize(new Map<String, Object>{
+            'comment' => 'Event cancelled from Salesforce.'
+        }));
+
+        HttpResponse httpResponse = new Http().send(request);
+
+        MeetingResponse response = new MeetingResponse();
+        response.statusCode = httpResponse.getStatusCode();
+        response.status = httpResponse.getStatus();
+        response.responseBody = httpResponse.getBody();
+        response.success = response.statusCode >= 200 && response.statusCode < 300;
+        response.eventId = microsoftEventId;
+
+        if (!response.success) {
+            response.errorMessage = response.responseBody;
+        }
+
+        return response;
+    }
+
 }

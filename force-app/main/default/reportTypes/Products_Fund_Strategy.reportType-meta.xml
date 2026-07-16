@@ -275,6 +275,26 @@
             <field>PRIIPSCategory__c</field>
             <table>Product__c</table>
         </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>LiquidityManagementToolLMT__c</field>
+            <table>Product__c</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>InitialLabPeriod__c</field>
+            <table>Product__c</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>NoticePeriodRedemption__c</field>
+            <table>Product__c</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>NoticePeriodSubscription__c</field>
+            <table>Product__c</table>
+        </columns>
         <masterLabel>Products</masterLabel>
     </sections>
     <sections>

@@ -11,14 +11,14 @@
     <filters>
         <field>Product__c</field>
         <operation>equals</operation>
-        <value>PP</value>
+        <value>CTS31</value>
     </filters>
     <filters>
         <field>Language__c</field>
         <operation>equals</operation>
-        <value>English</value>
+        <value>French</value>
     </filters>
-    <label>CPEG Narratives</label>
+    <label>CMO Narratives</label>
     <sharedTo>
         <group>Administrators</group>
     </sharedTo>

@@ -5,7 +5,7 @@
     <label>Organizer</label>
     <lookupFilter>
         <active>true</active>
-        <booleanFilter>1 OR 2 OR 3 OR 4</booleanFilter>
+        <booleanFilter>1 OR 2 OR 3 OR 4 OR 5</booleanFilter>
         <filterItems>
             <field>User.Profile.Name</field>
             <operation>equals</operation>
@@ -25,6 +25,11 @@
             <field>$Source.noAutomations__c</field>
             <operation>equals</operation>
             <value>True</value>
+        </filterItems>
+        <filterItems>
+            <field>User.LastName</field>
+            <operation>equals</operation>
+            <value>KORKMAZ</value>
         </filterItems>
         <isOptional>false</isOptional>
     </lookupFilter>

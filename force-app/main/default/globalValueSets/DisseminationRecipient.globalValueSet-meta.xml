@@ -21,6 +21,11 @@
         <label>Morningstar (EET Only)</label>
     </customValue>
     <customValue>
+        <fullName>WM Daten</fullName>
+        <default>false</default>
+        <label>WM Daten</label>
+    </customValue>
+    <customValue>
         <fullName>Others</fullName>
         <default>false</default>
         <label>Others</label>

@@ -5,8 +5,8 @@
         <name>Add_nb_of_MNs_to_prompt</name>
         <elementSubtype>AddPromptInstructions</elementSubtype>
         <label>Add nb of MNs to prompt</label>
-        <locationX>182</locationX>
-        <locationY>1166</locationY>
+        <locationX>358</locationX>
+        <locationY>1382</locationY>
         <assignmentItems>
             <assignToReference>$Output.Prompt</assignToReference>
             <operator>Add</operator>
@@ -21,8 +21,8 @@ Number of meeting notes where positive insights found = {!nbOfMns}
         <name>Add_Prompt_Instructions_1</name>
         <elementSubtype>AddPromptInstructions</elementSubtype>
         <label>Add Prompt Instructions 1</label>
-        <locationX>270</locationX>
-        <locationY>650</locationY>
+        <locationX>446</locationX>
+        <locationY>866</locationY>
         <assignmentItems>
             <assignToReference>$Output.Prompt</assignToReference>
             <operator>Add</operator>
@@ -145,8 +145,8 @@ Date: {!Loop_over_MNIs.Meeting_Note__r.Date__c}
     <assignments>
         <name>Assign_Meeting_notes</name>
         <label>Assign Meeting notes</label>
-        <locationX>270</locationX>
-        <locationY>758</locationY>
+        <locationX>446</locationX>
+        <locationY>974</locationY>
         <assignmentItems>
             <assignToReference>ClientInterestCounter</assignToReference>
             <operator>Add</operator>
@@ -173,10 +173,26 @@ Date: {!Loop_over_MNIs.Meeting_Note__r.Date__c}
         </connector>
     </assignments>
     <assignments>
+        <name>nbOfMnsIn</name>
+        <label>nbOfMnsIn</label>
+        <locationX>182</locationX>
+        <locationY>542</locationY>
+        <assignmentItems>
+            <assignToReference>RecordCount</assignToReference>
+            <operator>AssignCount</operator>
+            <value>
+                <elementReference>Get_Client_Interests</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>Over100</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
         <name>nbOfMnss</name>
         <label>nbOfMns</label>
-        <locationX>182</locationX>
-        <locationY>1058</locationY>
+        <locationX>358</locationX>
+        <locationY>1274</locationY>
         <assignmentItems>
             <assignToReference>nbOfMns</assignToReference>
             <operator>AssignCount</operator>
@@ -217,6 +233,29 @@ Date: {!Loop_over_MNIs.Meeting_Note__r.Date__c}
             <label>all</label>
         </rules>
     </decisions>
+    <decisions>
+        <name>Over100</name>
+        <label>Over 100 ?</label>
+        <locationX>182</locationX>
+        <locationY>650</locationY>
+        <defaultConnector>
+            <targetReference>Loop_over_MNIs</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>No</defaultConnectorLabel>
+        <rules>
+            <name>Yes</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>RecordCount</leftValueReference>
+                <operator>GreaterThan</operator>
+                <rightValue>
+                    <numberValue>100.0</numberValue>
+                </rightValue>
+            </conditions>
+            <label>Yes</label>
+        </rules>
+    </decisions>
+    <description>Test fix YTD filter</description>
     <environments>Default</environments>
     <formulas>
         <name>FromDate</name>
@@ -240,8 +279,8 @@ Date: {!Loop_over_MNIs.Meeting_Note__r.Date__c}
     <loops>
         <name>Loop_over_MNIs</name>
         <label>Loop over clis</label>
-        <locationX>182</locationX>
-        <locationY>542</locationY>
+        <locationX>358</locationX>
+        <locationY>758</locationY>
         <collectionReference>Get_Client_Interests</collectionReference>
         <iterationOrder>Asc</iterationOrder>
         <nextValueConnector>
@@ -277,7 +316,7 @@ Date: {!Loop_over_MNIs.Meeting_Note__r.Date__c}
         <locationY>434</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
-            <targetReference>Loop_over_MNIs</targetReference>
+            <targetReference>nbOfMnsIn</targetReference>
         </connector>
         <filterLogic>and</filterLogic>
         <filters>
@@ -310,13 +349,15 @@ Date: {!Loop_over_MNIs.Meeting_Note__r.Date__c}
         </filters>
         <getFirstRecordOnly>false</getFirstRecordOnly>
         <object>Meeting_Note_Insight__c</object>
+        <sortField>Date__c</sortField>
+        <sortOrder>Desc</sortOrder>
         <storeOutputAutomatically>true</storeOutputAutomatically>
     </recordLookups>
     <recordLookups>
         <name>get_meetingNotes</name>
         <label>get meetingNotes</label>
-        <locationX>182</locationX>
-        <locationY>950</locationY>
+        <locationX>358</locationX>
+        <locationY>1166</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
             <targetReference>nbOfMnss</targetReference>
@@ -348,7 +389,7 @@ Date: {!Loop_over_MNIs.Meeting_Note__r.Date__c}
         </connector>
         <triggerType>Capability</triggerType>
     </start>
-    <status>Active</status>
+    <status>Draft</status>
     <variables>
         <name>ClientInterestCounter</name>
         <dataType>Number</dataType>
@@ -431,5 +472,13 @@ Date: {!Loop_over_MNIs.Meeting_Note__r.Date__c}
         <isCollection>false</isCollection>
         <isInput>false</isInput>
         <isOutput>false</isOutput>
+    </variables>
+    <variables>
+        <name>RecordCount</name>
+        <dataType>Number</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+        <scale>2</scale>
     </variables>
 </Flow>

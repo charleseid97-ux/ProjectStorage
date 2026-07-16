@@ -3,7 +3,7 @@
     <authorizeUrl>https://login.microsoftonline.com/c501fe4c-212c-496c-b206-2a1080037db8/oauth2/v2.0/authorize</authorizeUrl>
     <consumerKey>deac5543-62d3-4dd0-bcbe-224b21b9bfb5</consumerKey>
     <consumerSecret>Placeholder_Value</consumerSecret>
-    <defaultScopes>Chat.Create ChannelMessage.Send ChatMessage.Send Chat.ReadBasic Channel.ReadBasic.All Team.ReadBasic.All User.Read.All offline_access</defaultScopes>
+    <defaultScopes>Calendars.ReadWrite Chat.Create ChannelMessage.Send ChatMessage.Send Chat.ReadBasic Channel.ReadBasic.All Team.ReadBasic.All User.Read.All offline_access</defaultScopes>
     <friendlyName>MicrosoftGraphAPI</friendlyName>
     <includeOrgIdInIdentifier>false</includeOrgIdInIdentifier>
     <isPkceEnabled>true</isPkceEnabled>

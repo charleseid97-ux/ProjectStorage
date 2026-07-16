@@ -78,6 +78,10 @@ ShareClass__r.ISIN__c</value>
         <value xsi:type="xsd:string">Country Tax Status Matrix</value>
     </values>
     <values>
+        <field>ValueField__c</field>
+        <value xsi:nil="true"/>
+    </values>
+    <values>
         <field>ValueFields__c</field>
         <value xsi:type="xsd:string">Status__c</value>
     </values>

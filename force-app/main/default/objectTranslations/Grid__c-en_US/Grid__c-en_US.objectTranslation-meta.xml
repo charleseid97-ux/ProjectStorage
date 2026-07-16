@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObjectTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <caseValues>
+        <plural>false</plural>
+        <value>Grid</value>
+    </caseValues>
+    <caseValues>
+        <plural>true</plural>
+        <value>Grids</value>
+    </caseValues>
+    <layouts>
+        <layout>Custom Grid Layout</layout>
+        <sections>
+            <label><!-- Additional Information --></label>
+            <section>Additional Information</section>
+        </sections>
+        <sections>
+            <label><!-- Custom Links --></label>
+            <section>Custom Links</section>
+        </sections>
+        <sections>
+            <label><!-- Grid Request Information --></label>
+            <section>Grid Request Information</section>
+        </sections>
+        <sections>
+            <label><!-- Grid Review --></label>
+            <section>Grid Review</section>
+        </sections>
+        <sections>
+            <label><!-- Minimum Information --></label>
+            <section>Minimum Information</section>
+        </sections>
+        <sections>
+            <label><!-- Owners --></label>
+            <section>Owners</section>
+        </sections>
+        <sections>
+            <label><!-- Threshold Information --></label>
+            <section>Threshold Information</section>
+        </sections>
+    </layouts>
+    <layouts>
+        <layout>Grid Layout</layout>
+        <sections>
+            <label><!-- Custom Links --></label>
+            <section>Custom Links</section>
+        </sections>
+    </layouts>
+    <layouts>
+        <layout>Standard Grid Layout</layout>
+        <sections>
+            <label><!-- Custom Links --></label>
+            <section>Custom Links</section>
+        </sections>
+    </layouts>
+    <quickActions>
+        <label><!-- Submit Grid Amendment --></label>
+        <name>SubmitGridAmendment</name>
+    </quickActions>
+    <recordTypes>
+        <description><!-- Custom Grid created via Grid Validation --></description>
+        <label><!-- Custom Grid --></label>
+        <name>CustomGrid</name>
+    </recordTypes>
+    <recordTypes>
+        <description><!-- Standard Grid created via Excel Import --></description>
+        <label><!-- Standard Grid --></label>
+        <name>StandardGrid</name>
+    </recordTypes>
+    <startsWith>Consonant</startsWith>
+    <validationRules>
+        <errorMessage><!-- Please update the approval status in the correct order: Draft → Pending Approval → Approved or Rejected. Rejected records can be moved back to Draft. Pending Approval records can be recalled (moved back to Draft) --></errorMessage>
+        <name>VRGrid_ApprovalStatusWorkflow</name>
+    </validationRules>
+    <validationRules>
+        <errorMessage><!-- Minimum Amount Frequency and Currency are required when a Minimum Amount is specified. --></errorMessage>
+        <name>VRGrid_MinimumAmtReqFreqAndCurr</name>
+    </validationRules>
+    <validationRules>
+        <errorMessage><!-- Please fill in the Business Background when a Next Review Date is provided. --></errorMessage>
+        <name>VRGrid_NextReviewDateReqBusinessBG</name>
+    </validationRules>
+    <validationRules>
+        <errorMessage><!-- Threshold Mode and Threshold Currency are required when a Threshold Amount is specified. --></errorMessage>
+        <name>VRGrid_ThresholdAmtReqModeAndCurr</name>
+    </validationRules>
+    <webLinks>
+        <label><!-- EditGridDetails --></label>
+        <name>EditGridDetails</name>
+    </webLinks>
+</CustomObjectTranslation>

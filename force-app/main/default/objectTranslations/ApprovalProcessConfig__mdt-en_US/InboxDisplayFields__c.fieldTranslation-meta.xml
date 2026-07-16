@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <help><!-- Enter one field API path per line. Use dot notation for relationships, e.g. Agreement__r.Name or Status__c. --></help>
+    <label><!-- Inbox Display Fields --></label>
+    <name>InboxDisplayFields__c</name>
+</CustomFieldTranslation>

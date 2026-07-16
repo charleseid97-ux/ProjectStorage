@@ -217,6 +217,28 @@
         <template>Work_Together_Process/Closed_WTP</template>
     </alerts>
     <alerts>
+        <fullName>Closed_WTP_ME</fullName>
+        <description>WorkTogether_DD_Closed_ME</description>
+        <protected>false</protected>
+        <recipients>
+            <type>creator</type>
+        </recipients>
+        <recipients>
+            <recipient>RFP_DD_Team</recipient>
+            <type>group</type>
+        </recipients>
+        <recipients>
+            <recipient>GlobalHeadofSales</recipient>
+            <type>role</type>
+        </recipients>
+        <recipients>
+            <recipient>MiddleEastHeadofCountries</recipient>
+            <type>roleSubordinatesInternal</type>
+        </recipients>
+        <senderType>CurrentUser</senderType>
+        <template>Work_Together_Process/Closed_WTP</template>
+    </alerts>
+    <alerts>
         <fullName>Closed_WTP_NL</fullName>
         <description>WorkTogether_DD_Closed_NL</description>
         <protected>false</protected>
@@ -319,6 +341,17 @@
         <template>Work_Together_Process/New_Owner</template>
     </alerts>
     <alerts>
+        <fullName>New_WorkTogether_Process_ESGRequest</fullName>
+        <description>New_WorkTogether_Process_ESGRequest</description>
+        <protected>false</protected>
+        <recipients>
+            <recipient>imane.kabbaj-crm@carmignac.com</recipient>
+            <type>user</type>
+        </recipients>
+        <senderType>CurrentUser</senderType>
+        <template>unfiled$public/New_ESG_request</template>
+    </alerts>
+    <alerts>
         <fullName>New_Work_Together_Process_DataSolutions</fullName>
         <ccEmails>DataSolutions@carmignac.com</ccEmails>
         <description>New_WorkTogether_Process_DataSolutions</description>
@@ -337,11 +370,14 @@
     <alerts>
         <fullName>New_Work_Together_Process_MI</fullName>
         <ccEmails>productstrategy@carmignac.com</ccEmails>
-        <ccEmails>thomas.coullon@carmignac.com</ccEmails>
         <description>New_WorkTogether_Process_MI</description>
         <protected>false</protected>
         <recipients>
             <type>creator</type>
+        </recipients>
+        <recipients>
+            <recipient>coullon.thomas-crm@carmignac.com</recipient>
+            <type>user</type>
         </recipients>
         <recipients>
             <field>Requester__c</field>
@@ -352,11 +388,15 @@
     </alerts>
     <alerts>
         <fullName>New_Work_Together_Process_Product</fullName>
-        <ccEmails>workgroup.product@carmignac.com</ccEmails>
+        <ccEmails>productspecialists@carmignac.com</ccEmails>
         <description>New_WorkTogether_Process_Product</description>
         <protected>false</protected>
         <recipients>
             <type>creator</type>
+        </recipients>
+        <recipients>
+            <recipient>coullon.thomas-crm@carmignac.com</recipient>
+            <type>user</type>
         </recipients>
         <recipients>
             <field>Requester__c</field>

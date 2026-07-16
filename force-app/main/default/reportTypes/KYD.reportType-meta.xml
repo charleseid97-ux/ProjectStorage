@@ -703,6 +703,11 @@
             <field>Role__c</field>
             <table>KYD_Due_Diligence_Oversight__c.Agreements__r</table>
         </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>GridRequested__c</field>
+            <table>KYD_Due_Diligence_Oversight__c.Agreements__r</table>
+        </columns>
         <masterLabel>Agreements</masterLabel>
     </sections>
 </ReportType>

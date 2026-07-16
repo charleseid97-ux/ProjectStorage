@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <help><!-- Enter the number of days from the contract, followed by &quot;D&quot; for calendar days or &quot;BD&quot; for business days (e.g. 30D, 10BD). --></help>
+    <label><!-- Credit Note Max Timing (in D+) --></label>
+    <name>CreditNoteMaxTimingInDPlus__c</name>
+</CustomFieldTranslation>

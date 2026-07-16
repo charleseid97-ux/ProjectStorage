@@ -4,6 +4,10 @@
     <label><!-- Trade Cycle Redemption --></label>
     <name>TradeCycleRedemption__c</name>
     <picklistValues>
+        <masterLabel>Bi-Monthly</masterLabel>
+        <translation><!-- Bi-Monthly --></translation>
+    </picklistValues>
+    <picklistValues>
         <masterLabel>Daily</masterLabel>
         <translation><!-- Daily --></translation>
     </picklistValues>

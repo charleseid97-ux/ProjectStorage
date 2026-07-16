@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <help><!-- Enter the Developer Name of the email template. Use {_Changes_Table_} in the template body to inject the field changes table, and {_Record_Number_} to show how many records were affected. --></help>
+    <label><!-- Alert Email Template --></label>
+    <name>AlertEmailTemplate__c</name>
+</CustomFieldTranslation>

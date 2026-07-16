@@ -24,6 +24,14 @@
     </layouts>
     <startsWith>Consonant</startsWith>
     <validationRules>
+        <errorMessage><!-- Start Date cannot be later than End Date. --></errorMessage>
+        <name>VR01_StartDateEndDateControl</name>
+    </validationRules>
+    <validationRules>
+        <errorMessage><!-- The end date cannot be greater than today. --></errorMessage>
+        <name>VR02_EndDateControl</name>
+    </validationRules>
+    <validationRules>
         <errorMessage><!-- RepOrder must be blank when End Date is filled. --></errorMessage>
         <name>VR1_RepOrder_Must_Be_Blank_When_EndDate</name>
     </validationRules>

@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>ESGThemes__c</fullName>
+    <label>ESG Themes</label>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>MultiselectPicklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>ESG Regulation</fullName>
+                <default>false</default>
+                <label>ESG Regulation</label>
+            </value>
+            <value>
+                <fullName>ESG Framework</fullName>
+                <default>false</default>
+                <label>ESG Framework</label>
+            </value>
+            <value>
+                <fullName>ESG Thematic House View</fullName>
+                <default>false</default>
+                <label>ESG Thematic House View</label>
+            </value>
+            <value>
+                <fullName>Exclusions</fullName>
+                <default>false</default>
+                <label>Exclusions</label>
+            </value>
+            <value>
+                <fullName>Fund Exposure Analysis</fullName>
+                <default>false</default>
+                <label>Fund Exposure Analysis</label>
+            </value>
+            <value>
+                <fullName>Other</fullName>
+                <default>false</default>
+                <label>Other</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+    <visibleLines>4</visibleLines>
+</CustomField>

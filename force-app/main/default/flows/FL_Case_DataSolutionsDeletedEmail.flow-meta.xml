@@ -11,7 +11,13 @@
         <inputParameters>
             <name>emailAddresses</name>
             <value>
-                <stringValue>datasolutions@carmignac.com</stringValue>
+                <stringValue>salesforcesupport@carmignac.com</stringValue>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>ccRecipientAddressList</name>
+            <value>
+                <stringValue>faith.blakesley-park.external@carmignac.com</stringValue>
             </value>
         </inputParameters>
         <inputParameters>
@@ -48,12 +54,6 @@
             <name>logEmailOnSend</name>
             <value>
                 <booleanValue>true</booleanValue>
-            </value>
-        </inputParameters>
-        <inputParameters>
-            <name>ccRecipientAddressList</name>
-            <value>
-                <stringValue>faith.blakesley-park.external@carmignac.com</stringValue>
             </value>
         </inputParameters>
         <nameSegment>emailSimple</nameSegment>

@@ -5,8 +5,8 @@
     <columns>StatusDisplay__c</columns>
     <columns>category__c</columns>
     <columns>startDate__c</columns>
+    <columns>Speakers__c</columns>
     <columns>city__c</columns>
-    <columns>format__c</columns>
     <columns>CREATED_DATE</columns>
     <columns>Organizer__c</columns>
     <filterScope>Everything</filterScope>
@@ -14,6 +14,11 @@
         <field>salesTeam__c</field>
         <operation>equals</operation>
         <value>Belgium,Luxembourg,Netherlands</value>
+    </filters>
+    <filters>
+        <field>startDate__c</field>
+        <operation>greaterOrEqual</operation>
+        <value>7/1/2026</value>
     </filters>
     <label>Bookly Requests Benelux</label>
 </ListView>

@@ -47,6 +47,10 @@
                 <behavior>Edit</behavior>
                 <field>Doc_Link__c</field>
             </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>ExcludeWebAlert__c</field>
+            </layoutItems>
         </layoutColumns>
         <layoutColumns>
             <layoutItems>

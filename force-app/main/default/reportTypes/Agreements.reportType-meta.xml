@@ -740,6 +740,11 @@
             <field>Role__c</field>
             <table>Convention__c</table>
         </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>GridRequested__c</field>
+            <table>Convention__c</table>
+        </columns>
         <masterLabel>Agreements</masterLabel>
     </sections>
     <sections>

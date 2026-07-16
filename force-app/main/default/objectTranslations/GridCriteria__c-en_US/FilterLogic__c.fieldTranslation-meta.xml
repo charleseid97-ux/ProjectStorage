@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <help>
+        <!-- Use AND if products must match all conditions.
+Use OR if products only need to match at least one condition.
+Use Custom Logic to combine conditions using a formula such as 1 AND (2 OR 3). -->
+    </help>
+    <label><!-- Filter Logic --></label>
+    <name>FilterLogic__c</name>
+    <picklistValues>
+        <masterLabel>AND</masterLabel>
+        <translation><!-- AND --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Custom Logic</masterLabel>
+        <translation><!-- Custom Logic --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>OR</masterLabel>
+        <translation><!-- OR --></translation>
+    </picklistValues>
+</CustomFieldTranslation>

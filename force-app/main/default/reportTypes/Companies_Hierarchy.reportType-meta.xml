@@ -1370,6 +1370,11 @@
             <field>Carmignac_Credit_2031_CC31__c</field>
             <table>Account.Companies__r.Contacts</table>
         </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>OwnerTeam__c</field>
+            <table>Account.Companies__r.Contacts</table>
+        </columns>
         <masterLabel>Contacts</masterLabel>
     </sections>
 </ReportType>

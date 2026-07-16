@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Flow xmlns="http://soap.sforce.com/2006/04/metadata">
     <apiVersion>63.0</apiVersion>
-    <areMetricsLoggedToDataCloud>false</areMetricsLoggedToDataCloud>
     <assignments>
         <name>Assign_Values</name>
         <label>Assign Values</label>
@@ -306,14 +305,6 @@ NOT (ISBLANK( {!Weight6})), ( {!Weight1}+{!Weight2}+ {!Weight3} +{!Weight4}+{!We
             <name>Errormessage</name>
             <fieldText>&lt;p&gt;&lt;strong style=&quot;background-color: rgb(255, 255, 255); color: rgb(68, 68, 68);&quot;&gt;The sum of the provided Weights does not equal 100%, please try again.&lt;/strong&gt;&lt;/p&gt;</fieldText>
             <fieldType>DisplayText</fieldType>
-            <styleProperties>
-                <verticalAlignment>
-                    <stringValue>top</stringValue>
-                </verticalAlignment>
-                <width>
-                    <stringValue>12</stringValue>
-                </width>
-            </styleProperties>
         </fields>
         <nextOrFinishButtonLabel>Try Again</nextOrFinishButtonLabel>
         <showFooter>true</showFooter>
@@ -334,14 +325,6 @@ NOT (ISBLANK( {!Weight6})), ( {!Weight1}+{!Weight2}+ {!Weight3} +{!Weight4}+{!We
             <name>Guidelines</name>
             <fieldText>&lt;p&gt;&lt;strong style=&quot;color: rgb(218, 44, 44);&quot;&gt;﻿&lt;/strong&gt;&lt;strong&gt;Please compose your benchmark :&lt;/strong&gt;&lt;/p&gt;&lt;ul&gt;&lt;li&gt;&lt;strong&gt;Search the correct Index&lt;/strong&gt;&lt;/li&gt;&lt;li&gt;&lt;strong&gt;Assign the weight&lt;/strong&gt;&lt;/li&gt;&lt;/ul&gt;&lt;p&gt;&lt;strong style=&quot;color: rgb(224, 33, 33);&quot;&gt;Please note the sum of all weights must equal 100%.&lt;/strong&gt;&lt;/p&gt;</fieldText>
             <fieldType>DisplayText</fieldType>
-            <styleProperties>
-                <verticalAlignment>
-                    <stringValue>top</stringValue>
-                </verticalAlignment>
-                <width>
-                    <stringValue>12</stringValue>
-                </width>
-            </styleProperties>
         </fields>
         <fields>
             <name>General_Information</name>
@@ -356,14 +339,6 @@ NOT (ISBLANK( {!Weight6})), ( {!Weight1}+{!Weight2}+ {!Weight3} +{!Weight4}+{!We
                     <fieldText>Description</fieldText>
                     <fieldType>InputField</fieldType>
                     <isRequired>false</isRequired>
-                    <styleProperties>
-                        <verticalAlignment>
-                            <stringValue>top</stringValue>
-                        </verticalAlignment>
-                        <width>
-                            <stringValue>12</stringValue>
-                        </width>
-                    </styleProperties>
                 </fields>
                 <inputParameters>
                     <name>width</name>
@@ -375,14 +350,6 @@ NOT (ISBLANK( {!Weight6})), ( {!Weight1}+{!Weight2}+ {!Weight3} +{!Weight4}+{!We
             </fields>
             <isRequired>false</isRequired>
             <regionContainerType>SectionWithHeader</regionContainerType>
-            <styleProperties>
-                <verticalAlignment>
-                    <stringValue>top</stringValue>
-                </verticalAlignment>
-                <width>
-                    <stringValue>12</stringValue>
-                </width>
-            </styleProperties>
         </fields>
         <fields>
             <name>Details</name>
@@ -422,14 +389,6 @@ NOT (ISBLANK( {!Weight6})), ( {!Weight1}+{!Weight2}+ {!Weight3} +{!Weight4}+{!We
                     <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
                     <isRequired>true</isRequired>
                     <storeOutputAutomatically>true</storeOutputAutomatically>
-                    <styleProperties>
-                        <verticalAlignment>
-                            <stringValue>top</stringValue>
-                        </verticalAlignment>
-                        <width>
-                            <stringValue>12</stringValue>
-                        </width>
-                    </styleProperties>
                 </fields>
                 <fields>
                     <name>SearchIndexrep2</name>
@@ -462,14 +421,6 @@ NOT (ISBLANK( {!Weight6})), ( {!Weight1}+{!Weight2}+ {!Weight3} +{!Weight4}+{!We
                     <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
                     <isRequired>true</isRequired>
                     <storeOutputAutomatically>true</storeOutputAutomatically>
-                    <styleProperties>
-                        <verticalAlignment>
-                            <stringValue>top</stringValue>
-                        </verticalAlignment>
-                        <width>
-                            <stringValue>12</stringValue>
-                        </width>
-                    </styleProperties>
                     <visibilityRule>
                         <conditionLogic>and</conditionLogic>
                         <conditions>
@@ -509,14 +460,6 @@ NOT (ISBLANK( {!Weight6})), ( {!Weight1}+{!Weight2}+ {!Weight3} +{!Weight4}+{!We
                     <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
                     <isRequired>true</isRequired>
                     <storeOutputAutomatically>true</storeOutputAutomatically>
-                    <styleProperties>
-                        <verticalAlignment>
-                            <stringValue>top</stringValue>
-                        </verticalAlignment>
-                        <width>
-                            <stringValue>12</stringValue>
-                        </width>
-                    </styleProperties>
                     <visibilityRule>
                         <conditionLogic>and</conditionLogic>
                         <conditions>
@@ -556,14 +499,6 @@ NOT (ISBLANK( {!Weight6})), ( {!Weight1}+{!Weight2}+ {!Weight3} +{!Weight4}+{!We
                     <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
                     <isRequired>true</isRequired>
                     <storeOutputAutomatically>true</storeOutputAutomatically>
-                    <styleProperties>
-                        <verticalAlignment>
-                            <stringValue>top</stringValue>
-                        </verticalAlignment>
-                        <width>
-                            <stringValue>12</stringValue>
-                        </width>
-                    </styleProperties>
                     <visibilityRule>
                         <conditionLogic>and</conditionLogic>
                         <conditions>
@@ -603,14 +538,6 @@ NOT (ISBLANK( {!Weight6})), ( {!Weight1}+{!Weight2}+ {!Weight3} +{!Weight4}+{!We
                     <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
                     <isRequired>true</isRequired>
                     <storeOutputAutomatically>true</storeOutputAutomatically>
-                    <styleProperties>
-                        <verticalAlignment>
-                            <stringValue>top</stringValue>
-                        </verticalAlignment>
-                        <width>
-                            <stringValue>12</stringValue>
-                        </width>
-                    </styleProperties>
                     <visibilityRule>
                         <conditionLogic>and</conditionLogic>
                         <conditions>
@@ -650,14 +577,6 @@ NOT (ISBLANK( {!Weight6})), ( {!Weight1}+{!Weight2}+ {!Weight3} +{!Weight4}+{!We
                     <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
                     <isRequired>true</isRequired>
                     <storeOutputAutomatically>true</storeOutputAutomatically>
-                    <styleProperties>
-                        <verticalAlignment>
-                            <stringValue>top</stringValue>
-                        </verticalAlignment>
-                        <width>
-                            <stringValue>12</stringValue>
-                        </width>
-                    </styleProperties>
                     <visibilityRule>
                         <conditionLogic>and</conditionLogic>
                         <conditions>
@@ -687,14 +606,6 @@ NOT (ISBLANK( {!Weight6})), ( {!Weight1}+{!Weight2}+ {!Weight3} +{!Weight4}+{!We
                     <fieldType>InputField</fieldType>
                     <isRequired>true</isRequired>
                     <scale>0</scale>
-                    <styleProperties>
-                        <verticalAlignment>
-                            <stringValue>top</stringValue>
-                        </verticalAlignment>
-                        <width>
-                            <stringValue>12</stringValue>
-                        </width>
-                    </styleProperties>
                 </fields>
                 <fields>
                     <name>Weight2</name>
@@ -706,14 +617,6 @@ NOT (ISBLANK( {!Weight6})), ( {!Weight1}+{!Weight2}+ {!Weight3} +{!Weight4}+{!We
                     <fieldType>InputField</fieldType>
                     <isRequired>false</isRequired>
                     <scale>0</scale>
-                    <styleProperties>
-                        <verticalAlignment>
-                            <stringValue>top</stringValue>
-                        </verticalAlignment>
-                        <width>
-                            <stringValue>12</stringValue>
-                        </width>
-                    </styleProperties>
                     <visibilityRule>
                         <conditionLogic>and</conditionLogic>
                         <conditions>
@@ -732,14 +635,6 @@ NOT (ISBLANK( {!Weight6})), ( {!Weight1}+{!Weight2}+ {!Weight3} +{!Weight4}+{!We
                     <fieldType>InputField</fieldType>
                     <isRequired>false</isRequired>
                     <scale>0</scale>
-                    <styleProperties>
-                        <verticalAlignment>
-                            <stringValue>top</stringValue>
-                        </verticalAlignment>
-                        <width>
-                            <stringValue>12</stringValue>
-                        </width>
-                    </styleProperties>
                     <visibilityRule>
                         <conditionLogic>and</conditionLogic>
                         <conditions>
@@ -758,14 +653,6 @@ NOT (ISBLANK( {!Weight6})), ( {!Weight1}+{!Weight2}+ {!Weight3} +{!Weight4}+{!We
                     <fieldType>InputField</fieldType>
                     <isRequired>false</isRequired>
                     <scale>0</scale>
-                    <styleProperties>
-                        <verticalAlignment>
-                            <stringValue>top</stringValue>
-                        </verticalAlignment>
-                        <width>
-                            <stringValue>12</stringValue>
-                        </width>
-                    </styleProperties>
                     <visibilityRule>
                         <conditionLogic>and</conditionLogic>
                         <conditions>
@@ -784,14 +671,6 @@ NOT (ISBLANK( {!Weight6})), ( {!Weight1}+{!Weight2}+ {!Weight3} +{!Weight4}+{!We
                     <fieldType>InputField</fieldType>
                     <isRequired>false</isRequired>
                     <scale>0</scale>
-                    <styleProperties>
-                        <verticalAlignment>
-                            <stringValue>top</stringValue>
-                        </verticalAlignment>
-                        <width>
-                            <stringValue>12</stringValue>
-                        </width>
-                    </styleProperties>
                     <visibilityRule>
                         <conditionLogic>and</conditionLogic>
                         <conditions>
@@ -810,14 +689,6 @@ NOT (ISBLANK( {!Weight6})), ( {!Weight1}+{!Weight2}+ {!Weight3} +{!Weight4}+{!We
                     <fieldType>InputField</fieldType>
                     <isRequired>false</isRequired>
                     <scale>0</scale>
-                    <styleProperties>
-                        <verticalAlignment>
-                            <stringValue>top</stringValue>
-                        </verticalAlignment>
-                        <width>
-                            <stringValue>12</stringValue>
-                        </width>
-                    </styleProperties>
                     <visibilityRule>
                         <conditionLogic>and</conditionLogic>
                         <conditions>
@@ -836,14 +707,6 @@ NOT (ISBLANK( {!Weight6})), ( {!Weight1}+{!Weight2}+ {!Weight3} +{!Weight4}+{!We
             </fields>
             <isRequired>false</isRequired>
             <regionContainerType>SectionWithHeader</regionContainerType>
-            <styleProperties>
-                <verticalAlignment>
-                    <stringValue>top</stringValue>
-                </verticalAlignment>
-                <width>
-                    <stringValue>12</stringValue>
-                </width>
-            </styleProperties>
         </fields>
         <helpText>&lt;p&gt;Please &lt;/p&gt;</helpText>
         <showFooter>true</showFooter>
@@ -864,14 +727,6 @@ NOT (ISBLANK( {!Weight6})), ( {!Weight1}+{!Weight2}+ {!Weight3} +{!Weight4}+{!We
             <name>NameCheck</name>
             <fieldText>&lt;p&gt;&lt;strong&gt;Please check the Benchmark Label and make corrections if required : &lt;/strong&gt;&lt;/p&gt;</fieldText>
             <fieldType>DisplayText</fieldType>
-            <styleProperties>
-                <verticalAlignment>
-                    <stringValue>top</stringValue>
-                </verticalAlignment>
-                <width>
-                    <stringValue>12</stringValue>
-                </width>
-            </styleProperties>
         </fields>
         <fields>
             <name>Benchmark_Label</name>
@@ -882,14 +737,6 @@ NOT (ISBLANK( {!Weight6})), ( {!Weight1}+{!Weight2}+ {!Weight3} +{!Weight4}+{!We
             <fieldText>Benchmark Label</fieldText>
             <fieldType>InputField</fieldType>
             <isRequired>true</isRequired>
-            <styleProperties>
-                <verticalAlignment>
-                    <stringValue>top</stringValue>
-                </verticalAlignment>
-                <width>
-                    <stringValue>12</stringValue>
-                </width>
-            </styleProperties>
         </fields>
         <showFooter>true</showFooter>
         <showHeader>false</showHeader>
@@ -906,14 +753,6 @@ NOT (ISBLANK( {!Weight6})), ( {!Weight1}+{!Weight2}+ {!Weight3} +{!Weight4}+{!We
             <name>SuccessMessage</name>
             <fieldText>&lt;p&gt;Success! The new benchmark was created : &lt;strong&gt;{!Benchmark_Label}&lt;/strong&gt;&lt;/p&gt;</fieldText>
             <fieldType>DisplayText</fieldType>
-            <styleProperties>
-                <verticalAlignment>
-                    <stringValue>top</stringValue>
-                </verticalAlignment>
-                <width>
-                    <stringValue>12</stringValue>
-                </width>
-            </styleProperties>
         </fields>
         <showFooter>true</showFooter>
         <showHeader>false</showHeader>
@@ -925,7 +764,7 @@ NOT (ISBLANK( {!Weight6})), ( {!Weight1}+{!Weight2}+ {!Weight3} +{!Weight4}+{!We
             <targetReference>SC01_INPUTS</targetReference>
         </connector>
     </start>
-    <status>Obsolete</status>
+    <status>Active</status>
     <textTemplates>
         <name>BenchmarkLabelTemplate</name>
         <isViewedAsPlainText>true</isViewedAsPlainText>

@@ -4,11 +4,31 @@
     <label><!-- 40000 Financial Instrument Existing Neg --></label>
     <name>EET40000__c</name>
     <picklistValues>
-        <masterLabel>False</masterLabel>
-        <translation><!-- False --></translation>
+        <masterLabel>A</masterLabel>
+        <translation><!-- A --></translation>
     </picklistValues>
     <picklistValues>
-        <masterLabel>True</masterLabel>
-        <translation><!-- True --></translation>
+        <masterLabel>C</masterLabel>
+        <translation><!-- C --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>N</masterLabel>
+        <translation><!-- N --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>P</masterLabel>
+        <translation><!-- P --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>T</masterLabel>
+        <translation><!-- T --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Y</masterLabel>
+        <translation><!-- Y --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Z</masterLabel>
+        <translation><!-- Z --></translation>
     </picklistValues>
 </CustomFieldTranslation>

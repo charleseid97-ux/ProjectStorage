@@ -13,11 +13,7 @@
         <flowTransactionModel>CurrentTransaction</flowTransactionModel>
         <inputParameters>
             <name>recipientAddresses</name>
-            <value>
-                <collectionElements>
-                    <stringValue>mira.eid.external@carmignac.com</stringValue>
-                </collectionElements>
-            </value>
+            <value/>
         </inputParameters>
         <inputParameters>
             <name>composeEmailContent</name>
@@ -28,14 +24,13 @@
         <inputParameters>
             <name>emailSubject</name>
             <value>
-                <stringValue> Upcoming Change in Product Management Assignment</stringValue>
+                <stringValue> Upcoming Change in Portfolio Management Assignment</stringValue>
             </value>
         </inputParameters>
         <inputParameters>
             <name>emailBody</name>
             <value>
-                <inputConfiguratorMode>Custom</inputConfiguratorMode>
-                <stringValue>&lt;p&gt;Dear team,&lt;/p&gt;&lt;p&gt;The Product Manager &lt;span style=&quot;background-color: rgb(255, 255, 255);&quot;&gt;{!$Record.PortfolioManagerFullName__c}&lt;/span&gt;&amp;nbsp;will no longer be&amp;nbsp;managing&amp;nbsp;this product&amp;nbsp;{!$Record.ProductName__c}, effective as of&amp;nbsp;&lt;span style=&quot;background-color: rgb(255, 255, 255);&quot;&gt;{!$Record.EndDate__c}&lt;/span&gt;.&lt;/p&gt;&lt;p&gt;Best regards,&lt;/p&gt;</stringValue>
+                <stringValue>&lt;p&gt;Dear team,&lt;/p&gt;&lt;p&gt;The &lt;span style=&quot;font-size: 13px;&quot;&gt;Portfolio&amp;nbsp;&lt;/span&gt;Manager &lt;span style=&quot;background-color: rgb(255, 255, 255);&quot;&gt;{!$Record.PortfolioManagerFullName__c}&lt;/span&gt;&amp;nbsp;will no longer be&amp;nbsp;managing&amp;nbsp;this product&amp;nbsp;{!$Record.ProductName__c}, effective as of&amp;nbsp;&lt;span style=&quot;background-color: rgb(255, 255, 255);&quot;&gt;{!$Record.EndDate__c}&lt;/span&gt;.&lt;/p&gt;&lt;p&gt;Best regards,&lt;/p&gt;</stringValue>
             </value>
         </inputParameters>
         <inputParameters>
@@ -51,12 +46,10 @@
             <name>relatedRecordId</name>
             <value>
                 <elementReference>$Record.Id</elementReference>
-                <inputConfiguratorMode>Resource</inputConfiguratorMode>
             </value>
         </inputParameters>
         <nameSegment>emailSimple</nameSegment>
         <offset>0</offset>
-        <versionString>2.0.1</versionString>
     </actionCalls>
     <actionCalls>
         <name>Send_Email_Starts_Soon</name>
@@ -68,11 +61,7 @@
         <flowTransactionModel>CurrentTransaction</flowTransactionModel>
         <inputParameters>
             <name>recipientAddresses</name>
-            <value>
-                <collectionElements>
-                    <stringValue>mira.eid.external@carmignac.com</stringValue>
-                </collectionElements>
-            </value>
+            <value/>
         </inputParameters>
         <inputParameters>
             <name>composeEmailContent</name>
@@ -83,14 +72,13 @@
         <inputParameters>
             <name>emailSubject</name>
             <value>
-                <stringValue> Update: Product Management Assignment</stringValue>
+                <stringValue> Update: Portfolio Management Assignment</stringValue>
             </value>
         </inputParameters>
         <inputParameters>
             <name>emailBody</name>
             <value>
-                <inputConfiguratorMode>Custom</inputConfiguratorMode>
-                <stringValue>&lt;p&gt;Dear team,&lt;/p&gt;&lt;p&gt;The Product Manager&amp;nbsp;{!$Record.PortfolioManagerFullName__c} has&amp;nbsp;been&amp;nbsp;assigned as the manager for this product&amp;nbsp;{!$Record.ProductName__c}, effective as of&amp;nbsp;{!$Record.StartDate__c}.&lt;/p&gt;&lt;p&gt;Best regards,&lt;/p&gt;</stringValue>
+                <stringValue>&lt;p&gt;Dear team,&lt;/p&gt;&lt;p&gt;The &lt;span style=&quot;font-size: 13px;&quot;&gt;Portfolio&amp;nbsp;&lt;/span&gt;Manager&amp;nbsp;{!$Record.PortfolioManagerFullName__c} has&amp;nbsp;been&amp;nbsp;assigned as the manager for this product&amp;nbsp;{!$Record.ProductName__c}, effective as of&amp;nbsp;{!$Record.StartDate__c}.&lt;/p&gt;&lt;p&gt;Best regards,&lt;/p&gt;</stringValue>
             </value>
         </inputParameters>
         <inputParameters>
@@ -107,10 +95,56 @@
         </inputParameters>
         <nameSegment>emailSimple</nameSegment>
         <offset>0</offset>
-        <versionString>2.0.1</versionString>
     </actionCalls>
     <apiVersion>66.0</apiVersion>
-    <areMetricsLoggedToDataCloud>false</areMetricsLoggedToDataCloud>
+    <assignments>
+        <name>Emails</name>
+        <label>Emails</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <assignmentItems>
+            <assignToReference>EmailsColl</assignToReference>
+            <operator>Add</operator>
+            <value>
+                <elementReference>Users.Email</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>Users</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <name>Group_Ids</name>
+        <label>Group Ids</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <assignmentItems>
+            <assignToReference>GroupIdsColl</assignToReference>
+            <operator>Add</operator>
+            <value>
+                <elementReference>Group.Id</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>Group</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <name>Group_Members_Ids</name>
+        <label>Group Members Ids</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <assignmentItems>
+            <assignToReference>GroupMembersUsersIdsColl</assignToReference>
+            <operator>Add</operator>
+            <value>
+                <elementReference>Group_Members.UserOrGroupId</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>Group_Members</targetReference>
+        </connector>
+    </assignments>
     <decisions>
         <name>End_Date</name>
         <label>End Date</label>
@@ -134,6 +168,38 @@
                 <targetReference>Send_Email_Ends_Soon</targetReference>
             </connector>
             <label>Less than today - 5 days</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <name>End_or_Start_Date_Less_than_today_5_days</name>
+        <label>End or Start Date Less than today - 5 days</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <defaultConnector>
+            <targetReference>End_Date</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>Yes</name>
+            <conditionLogic>or</conditionLogic>
+            <conditions>
+                <leftValueReference>$Record.StartDate__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <elementReference>TodayMinus5Days</elementReference>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>$Record.EndDate__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <elementReference>TodayMinus5Days</elementReference>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Get_Groups</targetReference>
+            </connector>
+            <label>Yes</label>
         </rules>
     </decisions>
     <decisions>
@@ -166,6 +232,48 @@
     </formulas>
     <interviewLabel>PM_CreatedOrUpdated_SendEmail {!$Flow.CurrentDateTime}</interviewLabel>
     <label>PM_StartsorEndsSoon_SendEmail</label>
+    <loops>
+        <name>Group</name>
+        <label>Group</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <collectionReference>Get_Groups</collectionReference>
+        <iterationOrder>Asc</iterationOrder>
+        <nextValueConnector>
+            <targetReference>Group_Ids</targetReference>
+        </nextValueConnector>
+        <noMoreValuesConnector>
+            <targetReference>Get_Group_Members</targetReference>
+        </noMoreValuesConnector>
+    </loops>
+    <loops>
+        <name>Group_Members</name>
+        <label>Group Members</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <collectionReference>Get_Group_Members</collectionReference>
+        <iterationOrder>Asc</iterationOrder>
+        <nextValueConnector>
+            <targetReference>Group_Members_Ids</targetReference>
+        </nextValueConnector>
+        <noMoreValuesConnector>
+            <targetReference>Get_Users</targetReference>
+        </noMoreValuesConnector>
+    </loops>
+    <loops>
+        <name>Users</name>
+        <label>Users</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <collectionReference>Get_Users</collectionReference>
+        <iterationOrder>Asc</iterationOrder>
+        <nextValueConnector>
+            <targetReference>Emails</targetReference>
+        </nextValueConnector>
+        <noMoreValuesConnector>
+            <targetReference>End_Date</targetReference>
+        </noMoreValuesConnector>
+    </loops>
     <processMetadataValues>
         <name>BuilderType</name>
         <value>
@@ -185,11 +293,88 @@
         </value>
     </processMetadataValues>
     <processType>AutoLaunchedFlow</processType>
+    <recordLookups>
+        <name>Get_Group_Members</name>
+        <label>Get Group Members</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>Group_Members</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>GroupId</field>
+            <operator>In</operator>
+            <value>
+                <elementReference>GroupIdsColl</elementReference>
+            </value>
+        </filters>
+        <getFirstRecordOnly>false</getFirstRecordOnly>
+        <object>GroupMember</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+    <recordLookups>
+        <name>Get_Groups</name>
+        <label>Get Groups</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>Group</targetReference>
+        </connector>
+        <filterLogic>or</filterLogic>
+        <filters>
+            <field>DeveloperName</field>
+            <operator>EqualTo</operator>
+            <value>
+                <stringValue>DCR_Reporting</stringValue>
+            </value>
+        </filters>
+        <filters>
+            <field>DeveloperName</field>
+            <operator>EqualTo</operator>
+            <value>
+                <stringValue>DCR_Dissemination</stringValue>
+            </value>
+        </filters>
+        <filters>
+            <field>DeveloperName</field>
+            <operator>EqualTo</operator>
+            <value>
+                <stringValue>Digital_Marketing</stringValue>
+            </value>
+        </filters>
+        <getFirstRecordOnly>false</getFirstRecordOnly>
+        <object>Group</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+    <recordLookups>
+        <name>Get_Users</name>
+        <label>Get Users</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>Users</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>Id</field>
+            <operator>In</operator>
+            <value>
+                <elementReference>GroupMembersUsersIdsColl</elementReference>
+            </value>
+        </filters>
+        <getFirstRecordOnly>false</getFirstRecordOnly>
+        <object>User</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
     <start>
         <locationX>0</locationX>
         <locationY>0</locationY>
         <connector>
-            <targetReference>End_Date</targetReference>
+            <targetReference>End_or_Start_Date_Less_than_today_5_days</targetReference>
         </connector>
         <filterLogic>or</filterLogic>
         <filters>
@@ -212,9 +397,30 @@
             <frequency>Daily</frequency>
             <frequencyNumber>0</frequencyNumber>
             <startDate>2026-04-16</startDate>
-            <startTime>17:45:00.000Z</startTime>
+            <startTime>09:00:00.000Z</startTime>
         </schedule>
         <triggerType>Scheduled</triggerType>
     </start>
-    <status>Draft</status>
+    <status>Active</status>
+    <variables>
+        <name>EmailsColl</name>
+        <dataType>String</dataType>
+        <isCollection>true</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+    <variables>
+        <name>GroupIdsColl</name>
+        <dataType>String</dataType>
+        <isCollection>true</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+    <variables>
+        <name>GroupMembersUsersIdsColl</name>
+        <dataType>String</dataType>
+        <isCollection>true</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+    </variables>
 </Flow>

@@ -855,7 +855,7 @@
         </values>
     </picklistValues>
     <picklistValues>
-        <picklist>DomiciliedIn__c</picklist>
+        <picklist>DomiciledIn__c</picklist>
         <values>
             <fullName>FR</fullName>
             <default>false</default>
@@ -1088,6 +1088,14 @@
             <default>false</default>
         </values>
         <values>
+            <fullName>Central Admin</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Central_Admin2</fullName>
+            <default>false</default>
+        </values>
+        <values>
             <fullName>Custodian</fullName>
             <default>false</default>
         </values>
@@ -1109,6 +1117,22 @@
         </values>
         <values>
             <fullName>DRAWDOWNS</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Delegated_FX_Investment_Manager</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Delegated_Investment_Management_1</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Delegated_Investment_Management_2</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Delegated_Investment_Management_3</fullName>
             <default>false</default>
         </values>
         <values>
@@ -1408,6 +1432,10 @@
             <default>false</default>
         </values>
         <values>
+            <fullName>Other relevant information</fullName>
+            <default>false</default>
+        </values>
+        <values>
             <fullName>PAYS_DEVELOPPES</fullName>
             <default>false</default>
         </values>
@@ -1452,11 +1480,19 @@
             <default>false</default>
         </values>
         <values>
+            <fullName>Performance_fee_EPT%2FKID</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Performance_fee_UCITS_KIID</fullName>
+            <default>false</default>
+        </values>
+        <values>
             <fullName>Portfolio summary</fullName>
             <default>false</default>
         </values>
         <values>
-            <fullName>Pre_CentralAdmin</fullName>
+            <fullName>Pre-central admin</fullName>
             <default>false</default>
         </values>
         <values>
@@ -1497,6 +1533,10 @@
         </values>
         <values>
             <fullName>Rating</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Reason for RHP - Redemption shareclass</fullName>
             <default>false</default>
         </values>
         <values>
@@ -1557,6 +1597,14 @@
         </values>
         <values>
             <fullName>S_P_TRUCOST_METHODOLOGY</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Settlement Period</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Share_Class_Investment_Objective</fullName>
             <default>false</default>
         </values>
         <values>
@@ -1696,6 +1744,21 @@
         </values>
         <values>
             <fullName>Third Party</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Usage__c</picklist>
+        <values>
+            <fullName>Data Vendor Dissemination</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Reporting</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Website</fullName>
             <default>false</default>
         </values>
     </picklistValues>

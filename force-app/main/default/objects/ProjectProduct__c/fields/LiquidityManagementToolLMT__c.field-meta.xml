@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>LiquidityManagementToolLMT__c</fullName>
+    <label>Liquidity Management Tool (LMT)</label>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Gates</fullName>
+                <default>false</default>
+                <label>Gates</label>
+            </value>
+            <value>
+                <fullName>Swing Pricing</fullName>
+                <default>false</default>
+                <label>Swing Pricing</label>
+            </value>
+            <value>
+                <fullName>Extension Notice Period (attention différent de la Notice Period existante dans Product Catalog)</fullName>
+                <default>false</default>
+                <label>Extension Notice Period (attention différent de la Notice Period existante dans Product Catalog)</label>
+            </value>
+            <value>
+                <fullName>Exceptional Redemption Fees (attention frais différent du champ Redemption Fees existant)</fullName>
+                <default>false</default>
+                <label>Exceptional Redemption Fees (attention frais différent du champ Redemption Fees existant)</label>
+            </value>
+            <value>
+                <fullName>Redemptions in Kind</fullName>
+                <default>false</default>
+                <label>Redemptions in Kind</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

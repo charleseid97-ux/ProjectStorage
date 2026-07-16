@@ -27,6 +27,7 @@
         <isTokenExchangeFlowEnabled>false</isTokenExchangeFlowEnabled>
         <refreshTokenPolicy>infinite</refreshTokenPolicy>
     </oauthPolicy>
+    <permissionSetName>AzureDevops deployment</permissionSetName>
     <profileName>Minimum Access - API Only Integrations</profileName>
     <profileName>Carmignac - System Administrator</profileName>
 </ConnectedApp>

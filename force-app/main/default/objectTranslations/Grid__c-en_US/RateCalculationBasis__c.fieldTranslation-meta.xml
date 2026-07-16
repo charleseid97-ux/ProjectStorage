@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <help><!-- Almost always Agreement. Do not change to Product without prior Head of DCO approval. --></help>
+    <label><!-- Rate Calculation Basis --></label>
+    <name>RateCalculationBasis__c</name>
+    <picklistValues>
+        <masterLabel>Agreement</masterLabel>
+        <translation><!-- Agreement --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Product</masterLabel>
+        <translation><!-- Product --></translation>
+    </picklistValues>
+</CustomFieldTranslation>

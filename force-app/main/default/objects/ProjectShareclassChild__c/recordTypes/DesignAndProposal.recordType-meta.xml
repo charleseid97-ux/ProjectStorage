@@ -269,6 +269,10 @@
             <fullName>Others</fullName>
             <default>false</default>
         </values>
+        <values>
+            <fullName>WM Daten</fullName>
+            <default>false</default>
+        </values>
     </picklistValues>
     <picklistValues>
         <picklist>Dissemination__c</picklist>
@@ -1214,7 +1218,34 @@
         </values>
     </picklistValues>
     <picklistValues>
+        <picklist>TaxTransparency__c</picklist>
+        <values>
+            <fullName>AT</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>BE Asset Test</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>BE TIS</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>CH</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>UK</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
         <picklist>TradeCycleRedemption__c</picklist>
+        <values>
+            <fullName>Bi-Monthly</fullName>
+            <default>false</default>
+        </values>
         <values>
             <fullName>Daily</fullName>
             <default>false</default>
@@ -1239,6 +1270,10 @@
     <picklistValues>
         <picklist>TradeCycleSubscription__c</picklist>
         <values>
+            <fullName>Bi-Monthly</fullName>
+            <default>false</default>
+        </values>
+        <values>
             <fullName>Daily</fullName>
             <default>false</default>
         </values>
@@ -1261,6 +1296,10 @@
     </picklistValues>
     <picklistValues>
         <picklist>TradeCycle__c</picklist>
+        <values>
+            <fullName>Bi-Monthly</fullName>
+            <default>false</default>
+        </values>
         <values>
             <fullName>Combined</fullName>
             <default>false</default>
@@ -1357,7 +1396,15 @@
             <default>false</default>
         </values>
         <values>
+            <fullName>X3</fullName>
+            <default>false</default>
+        </values>
+        <values>
             <fullName>Z</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Z2</fullName>
             <default>false</default>
         </values>
     </picklistValues>

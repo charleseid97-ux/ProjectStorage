@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <label><!-- Type --></label>
+    <name>category__c</name>
+    <picklistValues>
+        <masterLabel>Event conference</masterLabel>
+        <translation><!-- Event conference --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Exclusive event</masterLabel>
+        <translation><!-- Exclusive event --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Incentive</masterLabel>
+        <translation><!-- Incentive --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Meeting day(s)</masterLabel>
+        <translation><!-- Meeting day(s) --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>One to One meeting</masterLabel>
+        <translation><!-- One to One meeting --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Sponsorship</masterLabel>
+        <translation><!-- Sponsorship --></translation>
+    </picklistValues>
+</CustomFieldTranslation>

@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
-    <help><!-- Effective (Applied) Performance fees and the field EMT 07140_Financial_Instrument_Incidental_Costs_Ex_Ante --></help>
-    <label><!-- Effective Perf Fees --></label>
+    <help>
+        <!-- Effective (Applied) Performance fees and the field EMT 07140_Financial_Instrument_Incidental_Costs_Ex_Ante.
+This is the target rate which will be used in the PRIIPS KID and EMT. -->
+    </help>
+    <label><!-- PRIIPS KID - Performance Fees Ex Ante --></label>
     <name>EffectivePerfFees__c</name>
 </CustomFieldTranslation>

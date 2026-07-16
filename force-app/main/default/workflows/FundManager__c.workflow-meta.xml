@@ -2,8 +2,25 @@
 <Workflow xmlns="http://soap.sforce.com/2006/04/metadata">
     <alerts>
         <fullName>PM_Created</fullName>
+        <ccEmails>romain.pingaud@carmignac.com</ccEmails>
         <description>PM_Created</description>
         <protected>false</protected>
+        <recipients>
+            <recipient>Communication</recipient>
+            <type>group</type>
+        </recipients>
+        <recipients>
+            <recipient>DCR_Dissemination</recipient>
+            <type>group</type>
+        </recipients>
+        <recipients>
+            <recipient>DCR_Reporting</recipient>
+            <type>group</type>
+        </recipients>
+        <recipients>
+            <recipient>Digital_Marketing</recipient>
+            <type>group</type>
+        </recipients>
         <recipients>
             <recipient>mira.eid.external-crm@carmignac.com</recipient>
             <type>user</type>
@@ -12,9 +29,32 @@
         <template>PM_Notifications/PM_Created</template>
     </alerts>
     <alerts>
+        <fullName>PM_Created_Comm_Team</fullName>
+        <description>PM_Created_Comm_Team</description>
+        <protected>false</protected>
+        <recipients>
+            <recipient>Communication</recipient>
+            <type>group</type>
+        </recipients>
+        <recipients>
+            <recipient>mira.eid.external-crm@carmignac.com</recipient>
+            <type>user</type>
+        </recipients>
+        <senderType>CurrentUser</senderType>
+        <template>PM_Notifications/PM_Created_Comm_Team</template>
+    </alerts>
+    <alerts>
         <fullName>PM_PictureAdded</fullName>
         <description>PM_PictureAdded</description>
         <protected>false</protected>
+        <recipients>
+            <recipient>DCR_Reporting</recipient>
+            <type>group</type>
+        </recipients>
+        <recipients>
+            <recipient>Digital_Marketing</recipient>
+            <type>group</type>
+        </recipients>
         <recipients>
             <recipient>mira.eid.external-crm@carmignac.com</recipient>
             <type>user</type>
@@ -24,6 +64,7 @@
     </alerts>
     <alerts>
         <fullName>PM_PictureRequired</fullName>
+        <ccEmails>romain.pingaud@carmignac.com</ccEmails>
         <description>PM_PictureRequired</description>
         <protected>false</protected>
         <recipients>
@@ -35,8 +76,25 @@
     </alerts>
     <alerts>
         <fullName>PM_Updated</fullName>
+        <ccEmails>romain.pingaud@carmignac.com</ccEmails>
         <description>PM_Updated</description>
         <protected>false</protected>
+        <recipients>
+            <recipient>Communication</recipient>
+            <type>group</type>
+        </recipients>
+        <recipients>
+            <recipient>DCR_Dissemination</recipient>
+            <type>group</type>
+        </recipients>
+        <recipients>
+            <recipient>DCR_Reporting</recipient>
+            <type>group</type>
+        </recipients>
+        <recipients>
+            <recipient>Digital_Marketing</recipient>
+            <type>group</type>
+        </recipients>
         <recipients>
             <recipient>mira.eid.external-crm@carmignac.com</recipient>
             <type>user</type>

@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <help><!-- Example: john.doe@company.com,jane.smith@company.com. These are sent in addition to any RecipientType__c selections. --></help>
+    <label><!-- Additional Users --></label>
+    <name>AdditionalUsers__c</name>
+</CustomFieldTranslation>

@@ -20,6 +20,20 @@
         <includeRecordsOwnedByAll>true</includeRecordsOwnedByAll>
     </sharingCriteriaRules>
     <sharingCriteriaRules>
+        <fullName>ESG_Requests</fullName>
+        <accessLevel>Edit</accessLevel>
+        <label>ESG Requests</label>
+        <sharedTo>
+            <group>ESG</group>
+        </sharedTo>
+        <criteriaItems>
+            <field>RecordTypeId</field>
+            <operation>equals</operation>
+            <value>ESG</value>
+        </criteriaItems>
+        <includeRecordsOwnedByAll>true</includeRecordsOwnedByAll>
+    </sharingCriteriaRules>
+    <sharingCriteriaRules>
         <fullName>France_MarketingFeedback_Sharing</fullName>
         <accessLevel>Edit</accessLevel>
         <label>France MarketingFeedback Sharing</label>
@@ -115,6 +129,25 @@
         <includeRecordsOwnedByAll>true</includeRecordsOwnedByAll>
     </sharingCriteriaRules>
     <sharingCriteriaRules>
+        <fullName>MiddleEast_MarketingFeedback_Sharing</fullName>
+        <accessLevel>Edit</accessLevel>
+        <label>MiddleEast MarketingFeedback Sharing</label>
+        <sharedTo>
+            <roleAndSubordinatesInternal>MiddleEastHeadofCountries</roleAndSubordinatesInternal>
+        </sharedTo>
+        <criteriaItems>
+            <field>RecordTypeId</field>
+            <operation>equals</operation>
+            <value>Marketing Feedback</value>
+        </criteriaItems>
+        <criteriaItems>
+            <field>Category__c</field>
+            <operation>equals</operation>
+            <value>Middle East</value>
+        </criteriaItems>
+        <includeRecordsOwnedByAll>true</includeRecordsOwnedByAll>
+    </sharingCriteriaRules>
+    <sharingCriteriaRules>
         <fullName>Nordics_MarketingFeedback_Sharing</fullName>
         <accessLevel>Edit</accessLevel>
         <label>Nordics MarketingFeedback Sharing</label>
@@ -171,7 +204,7 @@
         <criteriaItems>
             <field>RecordTypeId</field>
             <operation>equals</operation>
-            <value>Product Team Request,RFP/DDQ,AUM/Flow Reallocation Request,Sub Publication Request,Sub Translation Request,Tableau Request,Performance Management Request,Product Strategy Request,Translation Request,Data Solution Request</value>
+            <value>RFP/DDQ,AUM/Flow Reallocation Request,Sub Publication Request,Sub Translation Request,Tableau Request,Performance Management Request,Product Strategy Request,Translation Request,Data Solution Request,Product Specialist Request</value>
         </criteriaItems>
         <includeRecordsOwnedByAll>true</includeRecordsOwnedByAll>
     </sharingCriteriaRules>

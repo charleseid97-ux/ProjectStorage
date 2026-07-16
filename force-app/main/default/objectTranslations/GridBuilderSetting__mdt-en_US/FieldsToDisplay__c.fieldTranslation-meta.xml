@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <help>
+        <!-- Enter one field per line using the format ObjectApiName =&gt; FieldApiName.
+Example:
+Strategy__c =&gt; AssetClass__c
+Share_Class__c =&gt; ISIN__c -->
+    </help>
+    <label><!-- Fields to Display --></label>
+    <name>FieldsToDisplay__c</name>
+</CustomFieldTranslation>

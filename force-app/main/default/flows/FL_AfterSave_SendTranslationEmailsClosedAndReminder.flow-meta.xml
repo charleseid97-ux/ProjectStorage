@@ -1,9 +1,62 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Flow xmlns="http://soap.sforce.com/2006/04/metadata">
     <actionCalls>
-        <name>Send_Closed_Email_to_Requester</name>
+        <name>Copy_1_of_Send_Closed_Email_to_Requester</name>
         <label>Send Closed Email to Requester</label>
         <locationX>1106</locationX>
+        <locationY>492</locationY>
+        <actionName>emailSimple</actionName>
+        <actionType>emailSimple</actionType>
+        <flowTransactionModel>CurrentTransaction</flowTransactionModel>
+        <inputParameters>
+            <name>emailAddresses</name>
+            <value>
+                <elementReference>OwnerEmail</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>ccRecipientAddressList</name>
+            <value>
+                <stringValue>seismicsupport@carmignac.com</stringValue>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>senderType</name>
+            <value>
+                <stringValue>OrgWideEmailAddress</stringValue>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>senderAddress</name>
+            <value>
+                <elementReference>$Label.NoReplayWideAddress</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>emailSubject</name>
+            <value>
+                <elementReference>ClosedSubject</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>emailBody</name>
+            <value>
+                <elementReference>ClosedBody</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>sendRichBody</name>
+            <value>
+                <booleanValue>true</booleanValue>
+            </value>
+        </inputParameters>
+        <nameSegment>emailSimple</nameSegment>
+        <offset>0</offset>
+    </actionCalls>
+    <actionCalls>
+        <name>Send_Closed_Email_to_Requester</name>
+        <label>Send Closed Email to Requester</label>
+        <locationX>1370</locationX>
         <locationY>492</locationY>
         <actionName>emailSimple</actionName>
         <actionType>emailSimple</actionType>
@@ -50,7 +103,7 @@
     <actionCalls>
         <name>Send_Closed_IS_Email_to_Client_Reporting</name>
         <label>Send Closed IS Email to Client Reporting</label>
-        <locationX>1634</locationX>
+        <locationX>1898</locationX>
         <locationY>384</locationY>
         <actionName>emailSimple</actionName>
         <actionType>emailSimple</actionType>
@@ -97,7 +150,7 @@
     <actionCalls>
         <name>Send_CRM_UK_Email</name>
         <label>Send CRM UK Email</label>
-        <locationX>1898</locationX>
+        <locationX>2162</locationX>
         <locationY>384</locationY>
         <actionName>emailSimple</actionName>
         <actionType>emailSimple</actionType>
@@ -144,7 +197,7 @@
     <actionCalls>
         <name>Send_Email_Reminder</name>
         <label>Send Email Reminder</label>
-        <locationX>2426</locationX>
+        <locationX>3042</locationX>
         <locationY>384</locationY>
         <actionName>emailSimple</actionName>
         <actionType>emailSimple</actionType>
@@ -291,7 +344,7 @@
     <actionCalls>
         <name>Send_Proofreading_Email</name>
         <label>Send Proofreading Email</label>
-        <locationX>1370</locationX>
+        <locationX>1634</locationX>
         <locationY>384</locationY>
         <actionName>emailSimple</actionName>
         <actionType>emailSimple</actionType>
@@ -339,6 +392,59 @@
             <name>logEmailOnSend</name>
             <value>
                 <booleanValue>true</booleanValue>
+            </value>
+        </inputParameters>
+        <nameSegment>emailSimple</nameSegment>
+        <offset>0</offset>
+    </actionCalls>
+    <actionCalls>
+        <name>Send_SeismicProject_Email</name>
+        <label>Send SeismicProject Email</label>
+        <locationX>2514</locationX>
+        <locationY>1008</locationY>
+        <actionName>emailSimple</actionName>
+        <actionType>emailSimple</actionType>
+        <flowTransactionModel>CurrentTransaction</flowTransactionModel>
+        <inputParameters>
+            <name>emailAddresses</name>
+            <value>
+                <stringValue>seismicsupport@carmignac.com</stringValue>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>senderType</name>
+            <value>
+                <stringValue>OrgWideEmailAddress</stringValue>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>senderAddress</name>
+            <value>
+                <elementReference>$Label.NoReplayWideAddress</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>emailSubject</name>
+            <value>
+                <elementReference>PitchbookSubject</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>emailBody</name>
+            <value>
+                <elementReference>PitchbookBody</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>sendRichBody</name>
+            <value>
+                <booleanValue>true</booleanValue>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>attachmentIdCollection</name>
+            <value>
+                <elementReference>ContentVersionCollection</elementReference>
             </value>
         </inputParameters>
         <nameSegment>emailSimple</nameSegment>
@@ -439,10 +545,26 @@
         <offset>0</offset>
     </actionCalls>
     <apiVersion>60.0</apiVersion>
+    <assignments>
+        <name>Fill_CV_Collection</name>
+        <label>Fill CV Collection</label>
+        <locationX>2602</locationX>
+        <locationY>816</locationY>
+        <assignmentItems>
+            <assignToReference>ContentVersionCollection</assignToReference>
+            <operator>Add</operator>
+            <value>
+                <elementReference>CV_Collection.Id</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>CV_Collection</targetReference>
+        </connector>
+    </assignments>
     <decisions>
         <name>Decision_3</name>
         <label>Decision 3</label>
-        <locationX>974</locationX>
+        <locationX>1106</locationX>
         <locationY>384</locationY>
         <defaultConnector>
             <targetReference>Send_Closed_Email_to_Requester</targetReference>
@@ -463,11 +585,26 @@
             </connector>
             <label>Bankinter Monthly Comments</label>
         </rules>
+        <rules>
+            <name>PitchbookParent</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>$Record.Document_Type__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>Pitchbook</stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Copy_1_of_Send_Closed_Email_to_Requester</targetReference>
+            </connector>
+            <label>Pitchbook</label>
+        </rules>
     </decisions>
     <decisions>
         <name>StatusCheck</name>
         <label>StatusCheck</label>
-        <locationX>1106</locationX>
+        <locationX>1414</locationX>
         <locationY>276</locationY>
         <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
         <rules>
@@ -663,11 +800,47 @@
             </connector>
             <label>Monthly Comment UK Notif</label>
         </rules>
+        <rules>
+            <name>Pitchbook</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>$Record.Document_Type__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>Pitchbook</stringValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>$Record.Status</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>Closed</stringValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>$Record__Prior.Status</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>Proofreading Validation</stringValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>$Record.RecordType.DeveloperName</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>Sub_Translation_Request</stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Get_ContentDocumentLink</targetReference>
+            </connector>
+            <label>Pitchbook</label>
+        </rules>
     </decisions>
     <decisions>
         <name>Sub_Translations_Open</name>
         <label>Sub Translations Open ?</label>
-        <locationX>2558</locationX>
+        <locationX>3174</locationX>
         <locationY>276</locationY>
         <defaultConnectorLabel>No -Do not send reminder</defaultConnectorLabel>
         <rules>
@@ -801,7 +974,7 @@ IF( {!$Record.Owner:Group.Name} = &apos;Translation Queue NL&apos;, &apos;workgr
 IF( {!$Record.Owner:Group.Name} = &apos;Translation Queue SP PT&apos;, &apos;workgroup.crmspain@carmignac.com&apos;,
 IF( {!$Record.Owner:Group.Name} = &apos;Translation Queue UK&apos;,  &apos;workgroup.crmuk@carmignac.com&apos;,
 {!$Record.Owner:User.Email}
-)))))))+&apos;,faith.blakesley-park.external@carmignac.com,thomas.coullon@carmignac.com&apos;</expression>
+)))))))</expression>
     </formulas>
     <formulas>
         <name>Validatedowneremail</name>
@@ -810,6 +983,20 @@ IF( {!$Record.Owner:Group.Name} = &apos;Translation Queue UK&apos;,  &apos;workg
     </formulas>
     <interviewLabel>FL_AfterSave_SendTranslationEmailsClosedAndReminder {!$Flow.CurrentDateTime}</interviewLabel>
     <label>FL_AfterSave_SendTranslationEmailsClosedAndReminder</label>
+    <loops>
+        <name>CV_Collection</name>
+        <label>CV Collection</label>
+        <locationX>2514</locationX>
+        <locationY>708</locationY>
+        <collectionReference>Get_Latest_Version</collectionReference>
+        <iterationOrder>Asc</iterationOrder>
+        <nextValueConnector>
+            <targetReference>Fill_CV_Collection</targetReference>
+        </nextValueConnector>
+        <noMoreValuesConnector>
+            <targetReference>Send_SeismicProject_Email</targetReference>
+        </noMoreValuesConnector>
+    </loops>
     <processMetadataValues>
         <name>BuilderType</name>
         <value>
@@ -829,6 +1016,27 @@ IF( {!$Record.Owner:Group.Name} = &apos;Translation Queue UK&apos;,  &apos;workg
         </value>
     </processMetadataValues>
     <processType>AutoLaunchedFlow</processType>
+    <recordLookups>
+        <name>Get_ContentDocumentLink</name>
+        <label>Get ContentDocumentLink</label>
+        <locationX>2514</locationX>
+        <locationY>384</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>Get_Document</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>LinkedEntityId</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>$Record.Id</elementReference>
+            </value>
+        </filters>
+        <getFirstRecordOnly>true</getFirstRecordOnly>
+        <object>ContentDocumentLink</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
     <recordLookups>
         <name>Get_CRM_Queue</name>
         <label>Get CRM Queue</label>
@@ -856,6 +1064,55 @@ IF( {!$Record.Owner:Group.Name} = &apos;Translation Queue UK&apos;,  &apos;workg
         <getFirstRecordOnly>true</getFirstRecordOnly>
         <object>Group</object>
         <queriedFields>Id</queriedFields>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+    <recordLookups>
+        <name>Get_Document</name>
+        <label>Get Document</label>
+        <locationX>2514</locationX>
+        <locationY>492</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>Get_Latest_Version</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>Id</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>Get_ContentDocumentLink.ContentDocumentId</elementReference>
+            </value>
+        </filters>
+        <getFirstRecordOnly>true</getFirstRecordOnly>
+        <object>ContentDocument</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+    <recordLookups>
+        <name>Get_Latest_Version</name>
+        <label>Get Latest Version</label>
+        <locationX>2514</locationX>
+        <locationY>600</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>CV_Collection</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>ContentDocumentId</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>Get_ContentDocumentLink.ContentDocumentId</elementReference>
+            </value>
+        </filters>
+        <filters>
+            <field>IsLatest</field>
+            <operator>EqualTo</operator>
+            <value>
+                <booleanValue>true</booleanValue>
+            </value>
+        </filters>
+        <getFirstRecordOnly>false</getFirstRecordOnly>
+        <object>ContentVersion</object>
         <storeOutputAutomatically>true</storeOutputAutomatically>
     </recordLookups>
     <recordLookups>
@@ -890,7 +1147,7 @@ IF( {!$Record.Owner:Group.Name} = &apos;Translation Queue UK&apos;,  &apos;workg
     <recordUpdates>
         <name>ResetTargetReceivedCheckbox</name>
         <label>ResetTargetReceivedCheckbox</label>
-        <locationX>1370</locationX>
+        <locationX>1634</locationX>
         <locationY>492</locationY>
         <inputAssignments>
             <field>TECH_TargetReceived__c</field>
@@ -933,7 +1190,7 @@ IF( {!$Record.Owner:Group.Name} = &apos;Translation Queue UK&apos;,  &apos;workg
         <inputReference>$Record</inputReference>
     </recordUpdates>
     <start>
-        <locationX>1706</locationX>
+        <locationX>2168</locationX>
         <locationY>0</locationY>
         <connector>
             <targetReference>StatusCheck</targetReference>
@@ -1024,7 +1281,7 @@ IF( {!$Record.Owner:Group.Name} = &apos;Translation Queue UK&apos;,  &apos;workg
         </scheduledPaths>
         <triggerType>RecordAfterSave</triggerType>
     </start>
-    <status>Draft</status>
+    <status>Active</status>
     <textTemplates>
         <name>BodyCRMAgencyRequest</name>
         <isViewedAsPlainText>false</isViewedAsPlainText>
@@ -1054,6 +1311,16 @@ IF( {!$Record.Owner:Group.Name} = &apos;Translation Queue UK&apos;,  &apos;workg
         <name>EmailReminder</name>
         <isViewedAsPlainText>false</isViewedAsPlainText>
         <text>&lt;p&gt;&lt;span style=&quot;font-size: 14px; background-color: rgb(255, 255, 255); color: rgb(68, 68, 68); font-family: serif;&quot;&gt;Dear {!Name},&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;font-size: 14px; font-family: serif;&quot;&gt;This is a kind reminder that your Translation Request &quot;&lt;/span&gt;&lt;a href=&quot;{!RecordLink}&quot; rel=&quot;noopener noreferrer&quot; target=&quot;_blank&quot; style=&quot;font-size: 14px; font-family: serif;&quot;&gt;&lt;strong&gt;{!$Record.Subject}&lt;/strong&gt;&lt;/a&gt;&lt;span style=&quot;font-size: 14px; font-family: serif;&quot;&gt;&quot; has past it&apos;s due date : &lt;/span&gt;&lt;span style=&quot;font-size: 14px; font-family: serif; color: rgb(68, 68, 68); background-color: rgb(255, 255, 255);&quot;&gt;{!$Record.DueDate__c}.&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;font-size: 14px; font-family: serif;&quot;&gt;Please verify that the translation process has been fully completed:&lt;/span&gt;&lt;/p&gt;&lt;ul&gt;&lt;li&gt;&lt;span style=&quot;font-size: 14px; font-family: serif;&quot;&gt;Check that the translated document has been received from &lt;/span&gt;&lt;strong style=&quot;font-size: 14px; font-family: serif;&quot;&gt;Wordclass&lt;/strong&gt;&lt;span style=&quot;font-size: 14px; font-family: serif;&quot;&gt;.&lt;/span&gt;&lt;/li&gt;&lt;li&gt;&lt;span style=&quot;font-size: 14px; font-family: serif;&quot;&gt;If the translation is available, proceed with the &lt;/span&gt;&lt;strong style=&quot;font-size: 14px; font-family: serif;&quot;&gt;proofreading and validation&lt;/strong&gt;&lt;span style=&quot;font-size: 14px; font-family: serif;&quot;&gt; stage.&lt;/span&gt;&lt;/li&gt;&lt;/ul&gt;&lt;p&gt;&lt;span style=&quot;font-size: 14px; font-family: serif;&quot;&gt;Once everything is confirmed and finalized, please &lt;/span&gt;&lt;strong style=&quot;font-size: 14px; font-family: serif;&quot;&gt;close the request&lt;/strong&gt;&lt;span style=&quot;font-size: 14px; font-family: serif;&quot;&gt;.&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;font-size: 14px; font-family: serif;&quot;&gt;Kind regards,&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;font-size: 14px; font-family: serif;&quot;&gt;Salesforce Support&lt;/span&gt;&lt;/p&gt;</text>
+    </textTemplates>
+    <textTemplates>
+        <name>PitchbookBody</name>
+        <isViewedAsPlainText>false</isViewedAsPlainText>
+        <text>&lt;p&gt;&lt;span style=&quot;font-family: serif; font-size: 14px;&quot;&gt;Hello Team,&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;font-family: serif; font-size: 14px;&quot;&gt;A new &lt;/span&gt;&lt;strong style=&quot;font-family: serif; font-size: 14px;&quot;&gt;pitchbook translation&lt;/strong&gt;&lt;span style=&quot;font-family: serif; font-size: 14px;&quot;&gt; has been completed and validated.&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;font-family: serif; font-size: 14px;&quot;&gt;Details:&lt;/span&gt;&lt;/p&gt;&lt;ul&gt;&lt;li&gt;&lt;span style=&quot;font-family: serif; font-size: 14px;&quot;&gt;Pitchbook: {!$Record.Subject}&lt;/span&gt;&lt;/li&gt;&lt;li&gt;&lt;span style=&quot;font-family: serif; font-size: 14px;&quot;&gt;Target Language: {!$Record.Sub_Target_language__c}&lt;/span&gt;&lt;/li&gt;&lt;li&gt;&lt;span style=&quot;font-family: serif; font-size: 14px; background-color: rgb(255, 255, 255);&quot;&gt;Instructions&lt;/span&gt;&lt;span style=&quot;font-family: serif; font-size: 14px;&quot;&gt;: {!$Record.Instructions__c}&lt;/span&gt;&lt;/li&gt;&lt;/ul&gt;&lt;p&gt;&lt;span style=&quot;font-family: serif; font-size: 14px;&quot;&gt;You can access the translated content here: &lt;/span&gt;&lt;a href=&quot;{!RecordLink}&quot; rel=&quot;noopener noreferrer&quot; target=&quot;_blank&quot; style=&quot;font-family: serif; font-size: 14px;&quot;&gt;{!$Record.Subject}&lt;/a&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;font-family: serif; font-size: 14px;&quot;&gt;The translated file is attached to this email.&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;font-family: serif; font-size: 14px;&quot;&gt;Best,&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;font-family: serif; font-size: 14px;&quot;&gt;Salesforce Team&lt;/span&gt;&lt;/p&gt;</text>
+    </textTemplates>
+    <textTemplates>
+        <name>PitchbookSubject</name>
+        <isViewedAsPlainText>true</isViewedAsPlainText>
+        <text>New Pitchbook Translation Available –– {!$Record.Subject}</text>
     </textTemplates>
     <textTemplates>
         <name>PreviewBody</name>
@@ -1100,6 +1367,13 @@ IF( {!$Record.Owner:Group.Name} = &apos;Translation Queue UK&apos;,  &apos;workg
         <isViewedAsPlainText>false</isViewedAsPlainText>
         <text>&lt;p&gt;&lt;span style=&quot;font-size: 14px; font-family: serif; color: rgb(0, 0, 0);&quot;&gt;Dear WebHelp Team,&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;font-size: 14px; font-family: serif; color: rgb(0, 0, 0);&quot;&gt;You have a new publication request from&amp;nbsp;{!$Record.CreatedBy.FirstName} {!$Record.CreatedBy.LastName}&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;strong style=&quot;font-size: 14px; font-family: serif; color: rgb(0, 0, 0);&quot;&gt;Request Details&lt;/strong&gt;&lt;span style=&quot;font-size: 14px; font-family: serif; color: rgb(0, 0, 0);&quot;&gt;:&lt;/span&gt;&lt;/p&gt;&lt;ul&gt;&lt;li&gt;&lt;span style=&quot;font-family: serif; font-size: 14px;&quot;&gt;Website Type : {!$Record.Website_Type__c}&lt;/span&gt;&lt;/li&gt;&lt;li&gt;&lt;span style=&quot;font-family: serif; font-size: 14px;&quot;&gt;Website Sub Type : {!$Record.Website_SubType__c}&lt;/span&gt;&lt;/li&gt;&lt;li&gt;&lt;span style=&quot;font-family: serif; font-size: 14px;&quot;&gt;Target Website :  {!$Record.TargetWebsite__c}&lt;/span&gt;&lt;/li&gt;&lt;li&gt;&lt;span style=&quot;font-family: serif; font-size: 14px;&quot;&gt;Deadline:&amp;nbsp;{!$Record.DueDate__c}&lt;/span&gt;&lt;/li&gt;&lt;li&gt;&lt;span style=&quot;font-family: serif; font-size: 14px;&quot;&gt;Priority : {!$Record.Priority}&lt;/span&gt;&lt;/li&gt;&lt;/ul&gt;&lt;p&gt;&lt;strong style=&quot;font-size: 14px; font-family: serif; color: rgb(0, 0, 0);&quot;&gt;Instructions&amp;nbsp;&lt;/strong&gt;&lt;span style=&quot;font-size: 14px; font-family: serif; color: rgb(0, 0, 0);&quot;&gt;:&amp;nbsp;{!$Record.Instructions__c}&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;strong style=&quot;font-size: 14px; font-family: serif; color: rgb(0, 0, 0);&quot;&gt;Actions to Take&lt;/strong&gt;&lt;span style=&quot;font-size: 14px; font-family: serif; color: rgb(0, 0, 0);&quot;&gt;:&lt;/span&gt;&lt;/p&gt;&lt;ul&gt;&lt;li&gt;&lt;span style=&quot;font-family: serif; font-size: 14px;&quot;&gt;A Webhelp Team member must &quot;&lt;/span&gt;&lt;strong style=&quot;font-family: serif; font-size: 14px;&quot;&gt;Accept&lt;/strong&gt;&lt;span style=&quot;font-family: serif; font-size: 14px;&quot;&gt;&quot; the record to claim ownership.&lt;/span&gt;&lt;/li&gt;&lt;li&gt;&lt;span style=&quot;font-family: serif; font-size: 14px;&quot;&gt;The Webhelp owner will build the publication&amp;nbsp;&lt;/span&gt;&lt;strong style=&quot;font-family: serif; font-size: 14px;&quot;&gt;preview&amp;nbsp;&lt;/strong&gt;&lt;span style=&quot;font-family: serif; font-size: 14px;&quot;&gt;according to the provided instructions.&lt;/span&gt;&lt;/li&gt;&lt;li&gt;&lt;span style=&quot;font-family: serif; font-size: 14px;&quot;&gt;The Webhelp owner will&amp;nbsp;&lt;/span&gt;&lt;strong style=&quot;font-family: serif; font-size: 14px;&quot;&gt;inform&amp;nbsp;&lt;/strong&gt;&lt;span style=&quot;font-family: serif; font-size: 14px;&quot;&gt;the requester that the preview is ready (e.g., via Salesforce Chatter by using @RequesterName).&lt;/span&gt;&lt;/li&gt;&lt;li&gt;&lt;span style=&quot;font-family: serif; font-size: 14px;&quot;&gt;The requester will review and give their&amp;nbsp;&lt;/span&gt;&lt;strong style=&quot;font-family: serif; font-size: 14px;&quot;&gt;approval&lt;/strong&gt;&lt;span style=&quot;font-family: serif; font-size: 14px;&quot;&gt;.&lt;/span&gt;&lt;/li&gt;&lt;li&gt;&lt;span style=&quot;font-family: serif; font-size: 14px;&quot;&gt;The Webhelp owner will publish the content and close the request by updating the current status to &quot;&lt;/span&gt;&lt;strong style=&quot;font-family: serif; font-size: 14px;&quot;&gt;Published&lt;/strong&gt;&lt;span style=&quot;font-family: serif; font-size: 14px;&quot;&gt;.&quot;&lt;/span&gt;&lt;/li&gt;&lt;/ul&gt;&lt;p&gt;&lt;span style=&quot;font-size: 14px; font-family: serif; color: rgb(0, 0, 0);&quot;&gt;See the full record detail here :&amp;nbsp;{!RecordLink}&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;font-size: 14px; font-family: serif; color: rgb(0, 0, 0);&quot;&gt;Thank you,&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;font-size: 14px; font-family: serif; color: rgb(0, 0, 0);&quot;&gt;Best regards,&lt;/span&gt;&lt;/p&gt;</text>
     </textTemplates>
+    <variables>
+        <name>ContentVersionCollection</name>
+        <dataType>String</dataType>
+        <isCollection>true</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+    </variables>
     <variables>
         <name>Emails</name>
         <dataType>String</dataType>

@@ -1,0 +1,146 @@
+<template>
+    <lightning-accordion allow-multiple-sections-open active-section-name="pubSection">
+        <lightning-accordion-section name="pubSection" label={title} class="custom-section-header">
+
+            <!-- === Content field: Answer__c ou Description (selon filePrefix) === -->
+            <template if:true={showContentField}>
+                <div class="slds-m-bottom_medium">
+                    <template if:false={isReadOnly}>
+                        <!-- Mode VIEW standard (avec crayon) -->
+                        <lightning-record-form
+                            record-id={recordId}
+                            object-api-name="Case"
+                            fields={computedFields}
+                            mode="view"
+                            columns="1"
+                            density="comfy"
+                            onsuccess={handleAnswerSuccess}>
+                        </lightning-record-form>
+                    </template>
+
+                    <template if:true={isReadOnly}>
+                        <!-- READONLY Answer -->
+                        <template if:true={isAnswerSection}>
+                            <lightning-record-view-form
+                                record-id={recordId}
+                                object-api-name="Case">
+                                <lightning-output-field field-name="Answer__c"></lightning-output-field>
+                            </lightning-record-view-form>
+                        </template>
+
+                        <!-- READONLY Description -->
+                        <template if:true={isDescriptionSection}>
+                            <lightning-record-view-form
+                                record-id={recordId}
+                                object-api-name="Case">
+                                <lightning-output-field field-name="Subject"></lightning-output-field>
+                                <lightning-output-field field-name="DescriptionV2__c"></lightning-output-field>
+                            </lightning-record-view-form>
+                        </template>
+                    </template>
+                </div>
+            </template>
+            <!-- === Fin content field === -->
+
+            <!-- === Liste des fichiers === -->
+            <template if:true={attachments}>
+                <div class="slds-grid slds-wrap slds-gutters">
+                    <template for:each={attachments} for:item="attachment">
+                        <div key={attachment.Id} class="slds-col slds-size_3-of-3">
+                            <article class="slds-card slds-m-around_x-small">
+                                <div class="slds-card__body slds-grid slds-grid_vertical-align-center slds-grid_align-spread">
+                                    <a href={attachment.url} target="_blank" class="slds-media slds-media_center slds-size_1-of-2">
+                                        <div class="slds-media__figure">
+                                            <lightning-icon icon-name="doctype:image" alternative-text="File" size="small"></lightning-icon>
+                                        </div>
+                                        <div class="slds-media__body">
+                                            <h3 class="slds-truncate" title={attachment.fileName}>{attachment.fileName}</h3>
+                                        </div>
+                                    </a>
+
+                                    <div class="slds-shrink-none">
+                                        <template if:true={showUpdate}>
+                                            <lightning-button
+                                                variant="neutral"
+                                                label="Update Version"
+                                                onclick={handleOpenModal}
+                                                data-file-id={attachment.Id}
+                                                class="slds-m-left_x-small">
+                                            </lightning-button>
+                                        </template>
+                                        <template if:true={showDelete}>
+                                            <lightning-button
+                                                variant="destructive"
+                                                label="Delete File"
+                                                onclick={handleDeleteFile}
+                                                data-file-id={attachment.Id}
+                                                class="slds-m-left_x-small">
+                                            </lightning-button>
+                                        </template>
+                                    </div>
+
+                                </div>
+                            </article>
+                        </div>
+                    </template>
+                </div>
+            </template>
+
+            <!-- === Upload === -->
+            <template if:true={showUpload}>
+                <template if:false={isModalOpen}>
+                    <c-file-upload-multi-l-w-c
+                        class="file-selector-large"
+                        multiple-files="false"
+                        file-prefix={filePrefix}
+                        file-id={currentFileId}
+                        is-source="false"
+                        onfinishupload={refreshAttachments}
+                        onuploadcomplete={handleUploadFile}>
+                    </c-file-upload-multi-l-w-c>
+                </template>
+            </template>
+
+        </lightning-accordion-section>
+    </lightning-accordion>
+
+    <!-- Modal Update Version -->
+    <template if:true={isModalOpen}>
+        <section role="dialog" tabindex="-1" aria-modal="true" aria-labelledby="modal-heading"
+                 class="slds-modal slds-fade-in-open">
+            <div class="slds-modal__container">
+                <header class="slds-modal__header">
+                    <h2 id="modal-heading" class="slds-text-heading_medium">Update File Version</h2>
+                    <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse"
+                            title="Close" onclick={handleCloseModal}>
+                        <lightning-icon icon-name="utility:close" alternative-text="Close" size="small"></lightning-icon>
+                        <span class="slds-assistive-text">Close</span>
+                    </button>
+                </header>
+
+                <div class="slds-modal__content slds-p-around_medium">
+                    <c-file-upload-multi-l-w-c
+                        class="file-selector-large"
+                        multiple-files="false"
+                        file-prefix={filePrefix}
+                        file-id={currentFileId}
+                        is-source="false"
+                        onfinishupload={refreshAttachments}
+                        onuploadcomplete={handleUploadFile}>
+                    </c-file-upload-multi-l-w-c>
+                </div>
+
+                <div class="slds-grid slds-grid_align-center slds-var-p-top_small slds-modal__footer">
+                    <div class="slds-col">
+                        <lightning-button icon-name="utility:skip_back" variant="brand" name="cancel"
+                                          label="Cancel"
+                                          class="slds-var-m-left_x-small slds-var-m-right_x-small"
+                                          onclick={handleCloseModal}>
+                        </lightning-button>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <div class="slds-backdrop slds-backdrop_open"></div>
+    </template>
+</template>

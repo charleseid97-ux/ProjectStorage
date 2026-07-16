@@ -5,11 +5,17 @@
     <columns>NAME</columns>
     <columns>Country__c</columns>
     <columns>ShareClass__c</columns>
+    <columns>ISIN__c</columns>
     <columns>Type__c</columns>
     <columns>StartDate__c</columns>
     <columns>EndDate__c</columns>
     <columns>Source__c</columns>
     <columns>Status__c</columns>
     <filterScope>Everything</filterScope>
+    <filters>
+        <field>ISIN__c</field>
+        <operation>equals</operation>
+        <value>LU2947293564</value>
+    </filters>
     <label>All</label>
 </ListView>

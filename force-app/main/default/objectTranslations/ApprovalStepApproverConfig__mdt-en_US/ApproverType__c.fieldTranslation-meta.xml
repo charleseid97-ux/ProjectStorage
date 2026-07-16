@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <help><!-- Leave blank when ApproverSource__c is Dynamic or UserInput. For RelatedUser, the field must hold a User ID (e.g. OwnerId, CreatedById, or a custom lookup to User). Cross-object field paths are not supported. --></help>
+    <label><!-- Approver Type --></label>
+    <name>ApproverType__c</name>
+    <picklistValues>
+        <masterLabel>Queue</masterLabel>
+        <translation><!-- Queue --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Related User</masterLabel>
+        <translation><!-- Related User --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>User</masterLabel>
+        <translation><!-- User --></translation>
+    </picklistValues>
+</CustomFieldTranslation>

@@ -198,6 +198,23 @@
     .salesOwnerName {
       font-weight: 800;
     }
+
+    .pdfBtn {
+      float: right;
+      margin-bottom: 12px;
+      padding: 8px 14px;
+      border-radius: 999px;
+      border: 1px solid #D1D5DB;
+      background: #111827;
+      color: #FFFFFF;
+      font-size: 10pt;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    .pdfBtn:hover {
+      background: #1F2937;
+    }
   </style>
 
   <div class="container">
@@ -213,6 +230,13 @@
       <!-- Parent banner -->
       <div class="banner">
         <h1>{!parent.title}</h1>
+
+        <!-- Opens the PDF page with the current URL parameters -->
+        <button type="button"
+                class="pdfBtn"
+                onclick="window.open('/apex/VFP18_EventAgendaPDF' + window.location.search, '_blank');">
+          Open PDF
+        </button>
 
         <div class="metaGrid">
           <div class="metaItem"><span class="label">Timezone:</span> {!parent.timezone}</div>

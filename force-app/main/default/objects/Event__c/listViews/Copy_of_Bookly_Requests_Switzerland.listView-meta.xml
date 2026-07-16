@@ -15,5 +15,10 @@
         <operation>equals</operation>
         <value>International</value>
     </filters>
+    <filters>
+        <field>startDate__c</field>
+        <operation>greaterOrEqual</operation>
+        <value>5/1/2026</value>
+    </filters>
     <label>Bookly Requests International</label>
 </ListView>

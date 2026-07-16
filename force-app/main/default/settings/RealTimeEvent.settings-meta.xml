@@ -30,7 +30,7 @@
     </realTimeEvents>
     <realTimeEvents>
         <entityName>CredentialStuffingEventStore</entityName>
-        <isEnabled>false</isEnabled>
+        <isEnabled>true</isEnabled>
     </realTimeEvents>
     <realTimeEvents>
         <entityName>CredentialStuffingEvent</entityName>
@@ -46,7 +46,7 @@
     </realTimeEvents>
     <realTimeEvents>
         <entityName>GuestUserAnomalyEventStore</entityName>
-        <isEnabled>false</isEnabled>
+        <isEnabled>true</isEnabled>
     </realTimeEvents>
     <realTimeEvents>
         <entityName>GuestUserAnomalyEvent</entityName>
@@ -54,7 +54,7 @@
     </realTimeEvents>
     <realTimeEvents>
         <entityName>LoginAnomalyEventStore</entityName>
-        <isEnabled>false</isEnabled>
+        <isEnabled>true</isEnabled>
     </realTimeEvents>
     <realTimeEvents>
         <entityName>LoginAnomalyEvent</entityName>
@@ -102,7 +102,7 @@
     </realTimeEvents>
     <realTimeEvents>
         <entityName>LogoutEvent</entityName>
-        <isEnabled>false</isEnabled>
+        <isEnabled>true</isEnabled>
     </realTimeEvents>
     <realTimeEvents>
         <entityName>LogoutEventStream</entityName>
@@ -142,7 +142,7 @@
     </realTimeEvents>
     <realTimeEvents>
         <entityName>UniversalAnomalyEventStore</entityName>
-        <isEnabled>false</isEnabled>
+        <isEnabled>true</isEnabled>
     </realTimeEvents>
     <realTimeEvents>
         <entityName>UniversalAnomalyEvent</entityName>

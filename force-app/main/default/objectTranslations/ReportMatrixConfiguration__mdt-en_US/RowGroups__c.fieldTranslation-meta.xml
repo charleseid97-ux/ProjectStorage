@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <help>
+        <!-- Enter one field API name per line, outermost group first. Example:
+ShareClass__r.Fund__r.ProductName__c
+ShareClass__r.Name__c
+ShareClass__r.ISIN__c -->
+    </help>
+    <label><!-- Row Groups --></label>
+    <name>RowGroups__c</name>
+</CustomFieldTranslation>

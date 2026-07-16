@@ -48,6 +48,7 @@
             </value>
         </inputParameters>
         <nameSegment>emailSimple</nameSegment>
+        <offset>0</offset>
     </actionCalls>
     <apiVersion>59.0</apiVersion>
     <decisions>
@@ -349,7 +350,7 @@ IF(ISPICKVAL({!$Record.Engagement_Type__c}, &apos;Prospace&apos;), {!Text_Subjec
         <connector>
             <targetReference>D_j_cr_e</targetReference>
         </connector>
-        <filterLogic>1 AND 2 AND 3 AND (NOT 4)</filterLogic>
+        <filterLogic>1 AND 2 AND 3 AND (NOT 4) AND 5</filterLogic>
         <filters>
             <field>Id</field>
             <operator>EqualTo</operator>
@@ -376,6 +377,13 @@ IF(ISPICKVAL({!$Record.Engagement_Type__c}, &apos;Prospace&apos;), {!Text_Subjec
             <operator>Contains</operator>
             <value>
                 <stringValue>@carmignac.com</stringValue>
+            </value>
+        </filters>
+        <filters>
+            <field>ExcludeWebAlert__c</field>
+            <operator>NotEqualTo</operator>
+            <value>
+                <booleanValue>true</booleanValue>
             </value>
         </filters>
         <getFirstRecordOnly>true</getFirstRecordOnly>

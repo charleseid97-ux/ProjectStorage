@@ -1,5 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <help>
+        <!-- This text will be displayed in the cost table of the PRIIPS KID under the “Incidental costs taken under specific conditions” section, it will also be included in the EPT. 
+The tag {performanceFee}% can be used to display the target percent of performance fees. -->
+    </help>
     <label><!-- Performance Fee EPT/KID --></label>
     <name>PerformanceFeeEPTKID__c</name>
 </CustomFieldTranslation>

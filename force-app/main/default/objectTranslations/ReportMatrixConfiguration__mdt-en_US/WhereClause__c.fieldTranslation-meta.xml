@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <help><!-- Optional SOQL WHERE condition (without the WHERE keyword). Example: ShareClass__c != null AND RegistrationStatus__c != null --></help>
+    <label><!-- Where Clause --></label>
+    <name>WhereClause__c</name>
+</CustomFieldTranslation>

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>TaxDeferredSwitchEligibleES__c</fullName>
+    <defaultValue>false</defaultValue>
+    <inlineHelpText>Indicates if the share class fulfills the requirements for &apos;traspaso&apos;. The share class must be registered in Spain and (if it is not an FCP but a SICAV) the fund to which the share class belongs must have more than 500 investors.</inlineHelpText>
+    <label>Tax-Deferred Switch Eligible (ES)</label>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Checkbox</type>
+</CustomField>

@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <help><!-- Must be a field on the object type configured in ApprovalProcessConfig__mdt.ObjectType__c. Example: ApprovalStatus__c. --></help>
+    <label><!-- Target Field API Name --></label>
+    <name>TargetFieldApiName__c</name>
+</CustomFieldTranslation>

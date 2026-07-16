@@ -40,6 +40,9 @@ public class RecordTypeControllerTest {
                 System.assertEquals('/lightning/n/TranslationRequests', rtw.url, 'Incorrect URL for TranslationRequest');
             }else if(rtw.Name == 'Marketing Feedback'){
                 System.assertEquals('/lightning/n/Content_Feedback', rtw.url, 'Incorrect URL for Marketing Feedback');
+            } 
+            else if(rtw.Name == 'ESG'){
+                System.assertEquals('/lightning/n/ESG_Requests', rtw.url, 'Incorrect URL for ESG');
             } else {
                 System.assert(rtw.url.startsWith('/lightning/o/Case/new?backgroundContext=lightning/o/Case/list?filterName=__Recent&recordTypeId='), 'Incorrect URL format for non-TranslationRequest record type');
             }

@@ -74,6 +74,14 @@
                 <behavior>Edit</behavior>
                 <field>IsMainShareClass__c</field>
             </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>HasCommercializationPeriod__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>CommercializationEndDate__c</field>
+            </layoutItems>
         </layoutColumns>
         <layoutColumns>
             <layoutItems>
@@ -116,6 +124,14 @@
                 <behavior>Edit</behavior>
                 <field>Feeder__c</field>
             </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>InvestmentPerfValidationCompleted__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>RiskLevelValidationCompleted__c</field>
+            </layoutItems>
         </layoutColumns>
         <style>TwoColumnsLeftToRight</style>
     </layoutSections>
@@ -136,6 +152,10 @@
             <layoutItems>
                 <behavior>Edit</behavior>
                 <field>MorningstarCode__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>BloombergCode__c</field>
             </layoutItems>
         </layoutColumns>
         <layoutColumns/>
@@ -250,10 +270,6 @@
                 <field>MaxRedemptionFeesSubfund__c</field>
             </layoutItems>
             <layoutItems>
-                <behavior>Readonly</behavior>
-                <field>PRIIPSKIDRedemptionFee__c</field>
-            </layoutItems>
-            <layoutItems>
                 <behavior>Edit</behavior>
                 <field>MinSubsequentSub__c</field>
             </layoutItems>
@@ -275,10 +291,6 @@
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
-                <field>EffectivePerfFees__c</field>
-            </layoutItems>
-            <layoutItems>
-                <behavior>Edit</behavior>
                 <field>PerfFeesCrystallisationFreq__c</field>
             </layoutItems>
             <layoutItems>
@@ -296,6 +308,10 @@
             <layoutItems>
                 <behavior>Edit</behavior>
                 <field>HurdleType__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>EffectiveIndirectFees__c</field>
             </layoutItems>
         </layoutColumns>
         <style>TwoColumnsLeftToRight</style>
@@ -318,15 +334,35 @@
         <customLabel>true</customLabel>
         <detailHeading>true</detailHeading>
         <editHeading>true</editHeading>
-        <label>Reporting</label>
+        <label>PRIIPS KID / UCITS KIID</label>
         <layoutColumns>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>ShareclassInvestmentObjective__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>ReasonforRHPRedemptionShareclass__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Readonly</behavior>
+                <field>PRIIPSKIDSubscriptionFee__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Readonly</behavior>
+                <field>PRIIPSKIDRedemptionFee__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>OngoingCostsExante__c</field>
+            </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
                 <field>TransactionCosts__c</field>
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
-                <field>ShareclassInvestmentObjective__c</field>
+                <field>EffectivePerfFees__c</field>
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
@@ -334,7 +370,15 @@
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
+                <field>OngoingChargesKIID__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
                 <field>PerformanceFeeUCITSKIID__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>LegalPRIIPsKIDReviewCompleted__c</field>
             </layoutItems>
         </layoutColumns>
         <layoutColumns/>

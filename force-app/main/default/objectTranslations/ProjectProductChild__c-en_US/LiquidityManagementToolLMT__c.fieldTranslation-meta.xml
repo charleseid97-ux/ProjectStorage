@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <label><!-- Liquidity Management Tool (LMT) --></label>
+    <name>LiquidityManagementToolLMT__c</name>
+    <picklistValues>
+        <masterLabel>Exceptional Redemption Fees (attention frais différent du champ Redemption Fees existant)</masterLabel>
+        <translation><!-- Exceptional Redemption Fees (attention frais différent du champ Redemption Fees existant) --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Extension Notice Period (attention différent de la Notice Period existante dans Product Catalog)</masterLabel>
+        <translation><!-- Extension Notice Period (attention différent de la Notice Period existante dans Product Catalog) --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Gates</masterLabel>
+        <translation><!-- Gates --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Redemptions in Kind</masterLabel>
+        <translation><!-- Redemptions in Kind --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Swing Pricing</masterLabel>
+        <translation><!-- Swing Pricing --></translation>
+    </picklistValues>
+</CustomFieldTranslation>

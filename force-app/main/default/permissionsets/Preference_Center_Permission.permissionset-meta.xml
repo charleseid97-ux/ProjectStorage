@@ -24,6 +24,11 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
+        <editable>false</editable>
+        <field>Lead.TECH_WebSiteID__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
         <editable>true</editable>
         <field>Web_Communication__c.AlertTypeRecord__c</field>
         <readable>true</readable>

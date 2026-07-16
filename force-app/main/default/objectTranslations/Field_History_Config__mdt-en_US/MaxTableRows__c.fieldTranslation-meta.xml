@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <help><!-- Maximum rows shown as an inline table in the email. If changes exceed this number, a CSV attachment is sent instead. Set to 0 to always use a CSV attachment (never inline table). Max allowed value: 999. --></help>
+    <label><!-- Max Table Rows --></label>
+    <name>MaxTableRows__c</name>
+</CustomFieldTranslation>

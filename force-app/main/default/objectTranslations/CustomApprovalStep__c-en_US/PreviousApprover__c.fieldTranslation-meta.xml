@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <help><!-- Set automatically when this step is created. Shows who submitted or approved before this step. --></help>
+    <label><!-- Previous Approver --></label>
+    <name>PreviousApprover__c</name>
+    <relationshipLabel><!-- Custom Approval Steps (Previous Approver) --></relationshipLabel>
+</CustomFieldTranslation>

@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <help><!-- Use to temporarily disable an action during testing or configuration. Inactive actions are ignored by the approval engine. --></help>
+    <label><!-- Is Active --></label>
+    <name>IsActive__c</name>
+</CustomFieldTranslation>

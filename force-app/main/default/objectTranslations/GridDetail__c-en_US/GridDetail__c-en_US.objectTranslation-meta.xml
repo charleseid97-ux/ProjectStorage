@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObjectTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <caseValues>
+        <plural>false</plural>
+        <value>Grid Detail</value>
+    </caseValues>
+    <caseValues>
+        <plural>true</plural>
+        <value>Grid Details</value>
+    </caseValues>
+    <layouts>
+        <layout>Grid Detail Layout</layout>
+        <sections>
+            <label><!-- Custom Links --></label>
+            <section>Custom Links</section>
+        </sections>
+    </layouts>
+    <recordTypes>
+        <description><!-- Grid Detail created via the Custom Grid Builder (Validation) --></description>
+        <label><!-- Custom Grid Detail --></label>
+        <name>CustomGridDetail</name>
+    </recordTypes>
+    <recordTypes>
+        <description><!-- Grid Detail created via the Standard Grid Builder (Excel Import) --></description>
+        <label><!-- Standard Grid Detail --></label>
+        <name>StandardGridDetail</name>
+    </recordTypes>
+    <startsWith>Consonant</startsWith>
+</CustomObjectTranslation>

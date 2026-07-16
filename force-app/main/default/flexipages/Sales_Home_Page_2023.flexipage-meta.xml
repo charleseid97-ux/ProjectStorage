@@ -203,10 +203,6 @@
         <itemInstances>
             <componentInstance>
                 <componentInstanceProperties>
-                    <name>label</name>
-                    <value>Tabs</value>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
                     <name>tabs</name>
                     <value>Facet-227b21f9-9b3c-4773-8240-49ca09544b28</value>
                 </componentInstanceProperties>
@@ -511,36 +507,20 @@
             <componentInstance>
                 <componentInstanceProperties>
                     <name>approvalSystem</name>
-                    <value>Custom</value>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>cardTitle</name>
-                    <value>Grids to Approve</value>
+                    <value>Agreements and Grids to Approve</value>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>objectApiName</name>
-                    <value>Grid__c</value>
+                    <value>Grid__c,Convention__c</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>queues</name>
                 </componentInstanceProperties>
                 <componentName>customApprovalInbox</componentName>
                 <identifier>c_customApprovalInbox</identifier>
-            </componentInstance>
-        </itemInstances>
-        <itemInstances>
-            <componentInstance>
-                <componentInstanceProperties>
-                    <name>approvalSystem</name>
-                    <value>Standard</value>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>cardTitle</name>
-                    <value>Agreements to Approve</value>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>objectApiName</name>
-                    <value>Convention__c</value>
-                </componentInstanceProperties>
-                <componentName>customApprovalInbox</componentName>
-                <identifier>c_customApprovalInbox2</identifier>
             </componentInstance>
         </itemInstances>
         <itemInstances>
@@ -694,10 +674,6 @@
     <flexiPageRegions>
         <itemInstances>
             <componentInstance>
-                <componentInstanceProperties>
-                    <name>label</name>
-                    <value>Tabs</value>
-                </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>tabs</name>
                     <value>Facet-fb9774e4-6b74-4cc7-9913-563867ad547a</value>

@@ -16,7 +16,8 @@ IF(ISPICKVAL($User.Team__c,&quot;Luxembourg&quot;),&quot;BP_LU&quot;,
 IF(ISPICKVAL($User.Team__c,&quot;Netherlands&quot;),&quot;BP_NL&quot;,
 IF(ISPICKVAL($User.Team__c,&quot;Japan&quot;),&quot;BP_JP&quot;,
 IF(ISPICKVAL($User.Team__c,&quot;Taiwan&quot;),&quot;BP_TW&quot;,
-&quot;&quot; ))))))))))))))</defaultValue>
+IF(ISPICKVAL($User.Team__c,&quot;Middle East&quot;),&quot;BP_ME&quot;,
+&quot;&quot; )))))))))))))))</defaultValue>
     <label>Business Development Region</label>
     <required>false</required>
     <trackFeedHistory>false</trackFeedHistory>

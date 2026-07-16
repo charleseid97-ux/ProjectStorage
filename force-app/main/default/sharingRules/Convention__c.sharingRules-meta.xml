@@ -234,6 +234,27 @@
         <includeRecordsOwnedByAll>false</includeRecordsOwnedByAll>
     </sharingCriteriaRules>
     <sharingCriteriaRules>
+        <fullName>Region_Middle_East</fullName>
+        <accessLevel>Edit</accessLevel>
+        <description>Share agreements records associated to business region Middle East with public group Middle East</description>
+        <label>Region Middle East</label>
+        <sharedTo>
+            <group>MiddleEast</group>
+        </sharedTo>
+        <booleanFilter>1 OR 2</booleanFilter>
+        <criteriaItems>
+            <field>TECH_Business_Region__c</field>
+            <operation>equals</operation>
+            <value>BP_ME</value>
+        </criteriaItems>
+        <criteriaItems>
+            <field>TECH_All_concerned_Business_Regions__c</field>
+            <operation>contains</operation>
+            <value>BP_ME</value>
+        </criteriaItems>
+        <includeRecordsOwnedByAll>true</includeRecordsOwnedByAll>
+    </sharingCriteriaRules>
+    <sharingCriteriaRules>
         <fullName>Region_Netherlands</fullName>
         <accessLevel>Edit</accessLevel>
         <description>Share agreements records associated to business region Netherlands with public group Netherlands</description>

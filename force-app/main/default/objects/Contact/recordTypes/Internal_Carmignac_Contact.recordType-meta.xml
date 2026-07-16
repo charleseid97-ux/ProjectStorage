@@ -2351,43 +2351,7 @@
     <picklistValues>
         <picklist>JobTitle__c</picklist>
         <values>
-            <fullName>Administrator</fullName>
-            <default>false</default>
-        </values>
-        <values>
             <fullName>Analyst</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Consultant</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Financial Advisor</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>FoF  Manager</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Fund Manager</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Fund Selector</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Investment Advisor</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Investment Manager</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Other</fullName>
             <default>false</default>
         </values>
         <values>
@@ -2395,19 +2359,15 @@
             <default>false</default>
         </values>
         <values>
-            <fullName>Private Banker</fullName>
+            <fullName>Product Specialist</fullName>
             <default>false</default>
         </values>
         <values>
-            <fullName>Product Manager</fullName>
+            <fullName>Sales</fullName>
             <default>false</default>
         </values>
         <values>
-            <fullName>Relationship Manager</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Sales Contact</fullName>
+            <fullName>Top Management</fullName>
             <default>false</default>
         </values>
     </picklistValues>
@@ -4907,6 +4867,29 @@
         </values>
     </picklistValues>
     <picklistValues>
+        <picklist>Range__c</picklist>
+        <values>
+            <fullName>Alternative</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Diversified</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Equity</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Fixed Income</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Private Assets</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
         <picklist>RegionalSectorFocus__c</picklist>
         <values>
             <fullName>Asia</fullName>
@@ -4934,6 +4917,10 @@
         </values>
         <values>
             <fullName>Health Care</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Middle East</fullName>
             <default>false</default>
         </values>
         <values>

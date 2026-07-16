@@ -1144,6 +1144,11 @@
             <field>Carmignac_Credit_2031_CC31__c</field>
             <table>Contact</table>
         </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>OwnerTeam__c</field>
+            <table>Contact</table>
+        </columns>
         <masterLabel>Contacts</masterLabel>
     </sections>
     <sections>
@@ -1626,6 +1631,16 @@
         <columns>
             <checkedByDefault>false</checkedByDefault>
             <field>ProcessedByMuleSoft__c</field>
+            <table>Contact.Cases</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>HandledBy__c</field>
+            <table>Contact.Cases</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>RequesterName__c</field>
             <table>Contact.Cases</table>
         </columns>
         <masterLabel>Work Together Processes</masterLabel>

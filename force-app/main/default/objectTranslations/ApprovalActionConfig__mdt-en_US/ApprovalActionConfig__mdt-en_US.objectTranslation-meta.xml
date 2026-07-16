@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObjectTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <caseValues>
+        <plural>false</plural>
+        <value>Approval Action Config</value>
+    </caseValues>
+    <caseValues>
+        <plural>true</plural>
+        <value>Approval Action Configs</value>
+    </caseValues>
+    <layouts>
+        <layout>Approval Action Config Layout</layout>
+        <sections>
+            <label><!-- Custom Apex --></label>
+            <section>Custom Apex</section>
+        </sections>
+        <sections>
+            <label><!-- Custom Links --></label>
+            <section>Custom Links</section>
+        </sections>
+        <sections>
+            <label><!-- Email Alert --></label>
+            <section>Email Alert</section>
+        </sections>
+        <sections>
+            <label><!-- Field Update --></label>
+            <section>Field Update</section>
+        </sections>
+        <sections>
+            <label><!-- Scope --></label>
+            <section>Scope</section>
+        </sections>
+    </layouts>
+    <startsWith>Consonant</startsWith>
+</CustomObjectTranslation>

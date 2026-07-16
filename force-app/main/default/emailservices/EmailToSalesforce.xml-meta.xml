@@ -1611,6 +1611,20 @@ datasolutions@carmignac.com</authorizedSenders>
         <localPart>emailtosalesforce</localPart>
         <runAsUser>oliver.hack-crm@carmignac.com</runAsUser>
     </emailServicesAddresses>
+    <emailServicesAddresses>
+        <authorizedSenders>cristina.albu.external@carmignac.com</authorizedSenders>
+        <developerName>emailtosalesforce93</developerName>
+        <isActive>true</isActive>
+        <localPart>emailtosalesforce</localPart>
+        <runAsUser>cristina.albu.external-crm@carmignac.com</runAsUser>
+    </emailServicesAddresses>
+    <emailServicesAddresses>
+        <authorizedSenders>mira.eid.external@carmignac.com</authorizedSenders>
+        <developerName>emailtosalesforce94</developerName>
+        <isActive>true</isActive>
+        <localPart>emailtosalesforce</localPart>
+        <runAsUser>mira.eid.external-crm@carmignac.com</runAsUser>
+    </emailServicesAddresses>
     <functionInactiveAction>Bounce</functionInactiveAction>
     <functionName>EmailToSalesforce</functionName>
     <isActive>true</isActive>

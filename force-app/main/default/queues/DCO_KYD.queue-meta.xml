@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Queue xmlns="http://soap.sforce.com/2006/04/metadata">
+    <doesIncludeBosses>true</doesIncludeBosses>
     <doesSendEmailToMembers>false</doesSendEmailToMembers>
-    <name>DCO KYD</name>
+    <name>DO KYD</name>
     <queueMembers>
         <publicGroups>
             <publicGroup>DCO_KYD</publicGroup>
@@ -13,5 +14,8 @@
     </queueMembers>
     <queueSobject>
         <sobjectType>Convention__c</sobjectType>
+    </queueSobject>
+    <queueSobject>
+        <sobjectType>Grid__c</sobjectType>
     </queueSobject>
 </Queue>

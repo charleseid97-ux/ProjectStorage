@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Copy_of_All</fullName>
+    <columns>CREATED_DATE</columns>
+    <columns>NAME</columns>
+    <columns>Interaction_Date__c</columns>
+    <columns>Company__c</columns>
+    <columns>Contact_lu__c</columns>
+    <columns>Lead_lu__c</columns>
+    <columns>Campaign__c</columns>
+    <columns>attendance__c</columns>
+    <columns>Time_Spent__c</columns>
+    <columns>Total_downloads__c</columns>
+    <columns>Engagement_Type__c</columns>
+    <filterScope>Everything</filterScope>
+    <filters>
+        <field>Source__c</field>
+        <operation>equals</operation>
+        <value>Mandrill</value>
+    </filters>
+    <label>Digital Interactions on ProSpace</label>
+</ListView>

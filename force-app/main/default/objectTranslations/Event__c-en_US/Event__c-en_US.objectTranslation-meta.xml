@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObjectTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <caseValues>
+        <plural>false</plural>
+        <value>Bookly Request</value>
+    </caseValues>
+    <caseValues>
+        <plural>true</plural>
+        <value>Bookly Requests</value>
+    </caseValues>
+    <layouts>
+        <layout>Event Layout</layout>
+        <sections>
+            <label><!-- Capacity &amp; Audience --></label>
+            <section>Capacity &amp; Audience</section>
+        </sections>
+        <sections>
+            <label><!-- Content &amp; Language --></label>
+            <section>Content &amp; Language</section>
+        </sections>
+        <sections>
+            <label><!-- Custom Links --></label>
+            <section>Custom Links</section>
+        </sections>
+        <sections>
+            <label><!-- Dates &amp; Time --></label>
+            <section>Dates &amp; Time</section>
+        </sections>
+        <sections>
+            <label><!-- Event - Header --></label>
+            <section>Event - Header</section>
+        </sections>
+        <sections>
+            <label><!-- Event details --></label>
+            <section>Event details</section>
+        </sections>
+        <sections>
+            <label><!-- Localisation --></label>
+            <section>Localisation</section>
+        </sections>
+        <sections>
+            <label><!-- Parent &amp; Structure --></label>
+            <section>Parent &amp; Structure</section>
+        </sections>
+    </layouts>
+    <layouts>
+        <layout>Roadshow Layout</layout>
+        <sections>
+            <label><!-- Clients &amp; Audience --></label>
+            <section>Clients &amp; Audience</section>
+        </sections>
+        <sections>
+            <label><!-- Custom Links --></label>
+            <section>Custom Links</section>
+        </sections>
+        <sections>
+            <label><!-- Dates &amp; Itinerary --></label>
+            <section>Dates &amp; Itinerary</section>
+        </sections>
+        <sections>
+            <label><!-- Description --></label>
+            <section>Description</section>
+        </sections>
+        <sections>
+            <label><!-- Localisation --></label>
+            <section>Localisation</section>
+        </sections>
+        <sections>
+            <label><!-- Roadshow - Header --></label>
+            <section>Roadshow - Header</section>
+        </sections>
+        <sections>
+            <label><!-- Roadshow details --></label>
+            <section>Roadshow details</section>
+        </sections>
+    </layouts>
+    <layouts>
+        <layout>Session Layout</layout>
+        <sections>
+            <label><!-- Capacity --></label>
+            <section>Capacity</section>
+        </sections>
+        <sections>
+            <label><!-- Custom Links --></label>
+            <section>Custom Links</section>
+        </sections>
+        <sections>
+            <label><!-- Dates &amp; Time --></label>
+            <section>Dates &amp; Time</section>
+        </sections>
+        <sections>
+            <label><!-- Description --></label>
+            <section>Description</section>
+        </sections>
+        <sections>
+            <label><!-- Parent Event --></label>
+            <section>Parent Event</section>
+        </sections>
+        <sections>
+            <label><!-- Session - Header --></label>
+            <section>Session - Header</section>
+        </sections>
+        <sections>
+            <label><!-- Session details --></label>
+            <section>Session details</section>
+        </sections>
+    </layouts>
+    <quickActions>
+        <label><!-- Add to calendar --></label>
+        <name>AddToCalendar</name>
+    </quickActions>
+    <quickActions>
+        <label><!-- Meeting Note --></label>
+        <name>MeetingNote_meetingDays</name>
+    </quickActions>
+    <quickActions>
+        <label><!-- Update Session --></label>
+        <name>UpdateSession</name>
+    </quickActions>
+    <quickActions>
+        <label><!-- Update Event --></label>
+        <name>updateEventGA</name>
+    </quickActions>
+    <recordTypes>
+        <label><!-- Meeting One to One --></label>
+        <name>Meeting</name>
+    </recordTypes>
+    <recordTypes>
+        <label><!-- Meeting Day(s) --></label>
+        <name>MeetingDays</name>
+    </recordTypes>
+    <recordTypes>
+        <label><!-- Event --></label>
+        <name>event</name>
+    </recordTypes>
+    <sharingReasons>
+        <label><!-- AppexShare: shared for speaker approval --></label>
+        <name>AppexShare_approval</name>
+    </sharingReasons>
+    <startsWith>Consonant</startsWith>
+    <webLinks>
+        <label><!-- CreateEvent --></label>
+        <name>CreateEvent</name>
+    </webLinks>
+</CustomObjectTranslation>

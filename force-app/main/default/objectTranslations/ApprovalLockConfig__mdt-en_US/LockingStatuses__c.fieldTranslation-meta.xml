@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <help><!-- One status value per line. The record is locked while its status field holds any of these values. --></help>
+    <label><!-- Locking Statuses --></label>
+    <name>LockingStatuses__c</name>
+</CustomFieldTranslation>

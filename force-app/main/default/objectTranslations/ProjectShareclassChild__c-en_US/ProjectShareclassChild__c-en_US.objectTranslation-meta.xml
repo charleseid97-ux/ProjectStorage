@@ -37,6 +37,10 @@
             <section>General Details</section>
         </sections>
         <sections>
+            <label><!-- PRIIPS KID / UCITS KIID --></label>
+            <section>PRIIPS KID / UCITS KIID</section>
+        </sections>
+        <sections>
             <label><!-- Pricing / Valuation / Dealing --></label>
             <section>Pricing / Valuation / Dealing</section>
         </sections>
@@ -87,16 +91,20 @@
             <section>General Details</section>
         </sections>
         <sections>
+            <label><!-- Identifiers --></label>
+            <section>Identifiers</section>
+        </sections>
+        <sections>
+            <label><!-- PRIIPS KID / UCITS KIID --></label>
+            <section>PRIIPS KID / UCITS KIID</section>
+        </sections>
+        <sections>
             <label><!-- Pricing / Valuation / Dealing --></label>
             <section>Pricing / Valuation / Dealing</section>
         </sections>
         <sections>
             <label><!-- Registration Needs --></label>
             <section>Registration Needs</section>
-        </sections>
-        <sections>
-            <label><!-- Reporting --></label>
-            <section>Reporting</section>
         </sections>
         <sections>
             <label><!-- ShareClass Form --></label>
@@ -277,5 +285,9 @@ To account for text expansion during translations, the source text must not exce
     <validationRules>
         <errorMessage><!-- Is ESMA Perf Fees Guidelines must be N/A when Has Perf Fees = False. --></errorMessage>
         <name>VR42_HasPerfFeesFalse</name>
+    </validationRules>
+    <validationRules>
+        <errorMessage><!-- Only “Income” and “Accumulating” are applicable for OEIC Share Classes. --></errorMessage>
+        <name>VR43_DividendPolicyOEIC</name>
     </validationRules>
 </CustomObjectTranslation>

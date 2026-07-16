@@ -240,6 +240,10 @@
         <name>New_Meeting_Call</name>
     </quickActions>
     <quickActions>
+        <label><!-- New RFP library --></label>
+        <name>New_RFP_library</name>
+    </quickActions>
+    <quickActions>
         <label><!-- Plan On-Site DD --></label>
         <name>Plan_On_Site_DD</name>
     </quickActions>
@@ -278,8 +282,12 @@
         <name>Due_Diligence</name>
     </recordTypes>
     <recordTypes>
+        <label><!-- ESG --></label>
+        <name>ESG</name>
+    </recordTypes>
+    <recordTypes>
         <description><!-- Request relating to funds’ performance explanation, funds’ features or funds/market strategy --></description>
-        <label><!-- Product Team Request --></label>
+        <label><!-- Product Specialist Request --></label>
         <name>Product_Marketing_Request</name>
     </recordTypes>
     <recordTypes>
@@ -438,6 +446,14 @@ Fund is non mandatory when you choose &quot;DD Corporate&quot; -->
     <validationRules>
         <errorMessage><!-- Users with the Client Reporting Role cannot modify NDA fields --></errorMessage>
         <name>Case_VR026_NDAClientReporting</name>
+    </validationRules>
+    <validationRules>
+        <errorMessage><!-- A request can only be put “On Hold” when its status is “Work in Progress”. --></errorMessage>
+        <name>Case_VR027_OnHoldWIP</name>
+    </validationRules>
+    <validationRules>
+        <errorMessage><!-- You can only move the status from &quot;New&quot; to &quot;Work in Progress&quot; --></errorMessage>
+        <name>Case_VR028_NewToWIPStatusRestriction</name>
     </validationRules>
     <validationRules>
         <errorMessage>

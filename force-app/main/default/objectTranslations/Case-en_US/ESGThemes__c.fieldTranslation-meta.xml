@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <label><!-- ESG Themes --></label>
+    <name>ESGThemes__c</name>
+    <picklistValues>
+        <masterLabel>ESG Framework</masterLabel>
+        <translation><!-- ESG Framework --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>ESG Regulation</masterLabel>
+        <translation><!-- ESG Regulation --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>ESG Thematic House View</masterLabel>
+        <translation><!-- ESG Thematic House View --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Exclusions</masterLabel>
+        <translation><!-- Exclusions --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Fund Exposure Analysis</masterLabel>
+        <translation><!-- Fund Exposure Analysis --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Other</masterLabel>
+        <translation><!-- Other --></translation>
+    </picklistValues>
+</CustomFieldTranslation>

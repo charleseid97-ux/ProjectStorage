@@ -143,6 +143,10 @@
             <default>false</default>
         </values>
         <values>
+            <fullName>11%3A00 CET</fullName>
+            <default>false</default>
+        </values>
+        <values>
             <fullName>13%3A00 CET</fullName>
             <default>false</default>
         </values>
@@ -211,11 +215,31 @@
     <picklistValues>
         <picklist>EET40000__c</picklist>
         <values>
-            <fullName>False</fullName>
+            <fullName>A</fullName>
             <default>false</default>
         </values>
         <values>
-            <fullName>True</fullName>
+            <fullName>C</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>N</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>P</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>T</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Y</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Z</fullName>
             <default>false</default>
         </values>
     </picklistValues>
@@ -410,6 +434,10 @@
             <fullName>AdultEntertainment</fullName>
             <default>false</default>
         </values>
+        <values>
+            <fullName>GlobalNorms</fullName>
+            <default>false</default>
+        </values>
     </picklistValues>
     <picklistValues>
         <picklist>GlobalRiskMethod__c</picklist>
@@ -427,6 +455,17 @@
         </values>
     </picklistValues>
     <picklistValues>
+        <picklist>GridManualUpdate__c</picklist>
+        <values>
+            <fullName>No</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Yes</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
         <picklist>HasBenchmark__c</picklist>
         <values>
             <fullName>False</fullName>
@@ -439,6 +478,17 @@
     </picklistValues>
     <picklistValues>
         <picklist>ISDAEligible__c</picklist>
+        <values>
+            <fullName>False</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>True</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>InitialLabPeriod__c</picklist>
         <values>
             <fullName>False</fullName>
             <default>false</default>
@@ -533,6 +583,10 @@
             <default>false</default>
         </values>
         <values>
+            <fullName>FCPR</fullName>
+            <default>false</default>
+        </values>
+        <values>
             <fullName>ICAV</fullName>
             <default>false</default>
         </values>
@@ -585,6 +639,29 @@
         </values>
     </picklistValues>
     <picklistValues>
+        <picklist>LiquidityManagementToolLMT__c</picklist>
+        <values>
+            <fullName>Exceptional Redemption Fees %28attention frais différent du champ Redemption Fees existant%29</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Extension Notice Period %28attention différent de la Notice Period existante dans Product Catalog%29</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Gates</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Redemptions in Kind</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Swing Pricing</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
         <picklist>MasterFeederStructure__c</picklist>
         <values>
             <fullName>No</fullName>
@@ -610,6 +687,10 @@
         <picklist>NAVCalendar__c</picklist>
         <values>
             <fullName>CPEG</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>CTS31</fullName>
             <default>false</default>
         </values>
         <values>
@@ -659,6 +740,10 @@
     <picklistValues>
         <picklist>NAVFrequency__c</picklist>
         <values>
+            <fullName>Bi-Monthly</fullName>
+            <default>false</default>
+        </values>
+        <values>
             <fullName>Daily</fullName>
             <default>false</default>
         </values>
@@ -683,6 +768,48 @@
         </values>
         <values>
             <fullName>18%3A00 CET</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>NoticePeriodRedemption__c</picklist>
+        <values>
+            <fullName>D</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>D-1</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>D-30</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>D-5</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>D-60</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>D-90</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>NoticePeriodSubscription__c</picklist>
+        <values>
+            <fullName>D</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>D-1</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>D-5</fullName>
             <default>false</default>
         </values>
     </picklistValues>

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <label><!-- Audience --></label>
+    <name>AudienceCompany__c</name>
+    <picklistValues>
+        <masterLabel>One company</masterLabel>
+        <translation><!-- One company --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Several companies</masterLabel>
+        <translation><!-- Several companies --></translation>
+    </picklistValues>
+</CustomFieldTranslation>

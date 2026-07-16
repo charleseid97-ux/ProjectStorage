@@ -17,5 +17,10 @@
         <operation>equals</operation>
         <value>All countries</value>
     </filters>
+    <filters>
+        <field>startDate__c</field>
+        <operation>greaterOrEqual</operation>
+        <value>6/15/2026</value>
+    </filters>
     <label>Bookly Requests &apos;All countries&apos;</label>
 </ListView>

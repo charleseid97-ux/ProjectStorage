@@ -4,6 +4,10 @@
     <label><!-- TradeCycle --></label>
     <name>TradeCycle__c</name>
     <picklistValues>
+        <masterLabel>Bi-Monthly</masterLabel>
+        <translation><!-- Bi-Monthly --></translation>
+    </picklistValues>
+    <picklistValues>
         <masterLabel>Combined</masterLabel>
         <translation><!-- Combined --></translation>
     </picklistValues>

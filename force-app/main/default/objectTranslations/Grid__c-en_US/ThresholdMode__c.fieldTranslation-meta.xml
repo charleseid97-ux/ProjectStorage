@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <help><!-- Defines how rates are applied based on client AUM. Tiers: a single rate applies per AUM bracket (most common). Scale: multiple rates apply across AUM tiers — requires Head of DCO approval. --></help>
+    <label><!-- Threshold Mode --></label>
+    <name>ThresholdMode__c</name>
+    <picklistValues>
+        <masterLabel>Scale</masterLabel>
+        <translation><!-- Scale --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Tiers</masterLabel>
+        <translation><!-- Tiers --></translation>
+    </picklistValues>
+</CustomFieldTranslation>

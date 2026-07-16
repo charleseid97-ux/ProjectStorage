@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <help>
+        <!-- Specify the delimiter used when users enter multiple filter values.
+
+For example, if the separator is &quot;;&quot; , a user may enter:
+EUR;USD;GBP
+Each value will be treated as a separate item in the filter. -->
+    </help>
+    <label><!-- Filter Value Separator --></label>
+    <name>FilterValueSeparator__c</name>
+</CustomFieldTranslation>

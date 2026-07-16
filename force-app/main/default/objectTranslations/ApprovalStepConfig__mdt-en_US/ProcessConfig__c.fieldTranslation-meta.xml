@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <help><!-- Select the ApprovalProcessConfig record for the process this step belongs to. --></help>
+    <label><!-- Process Config --></label>
+    <name>ProcessConfig__c</name>
+    <relationshipLabel><!-- Approval Step Configs --></relationshipLabel>
+</CustomFieldTranslation>

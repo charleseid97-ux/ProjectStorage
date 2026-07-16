@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <help><!-- Enter the DeveloperName of the EmailTemplate to use. Leave blank to fall back to the ScheduledAlert&apos;s EmailTemplate__c. --></help>
+    <label><!-- Override Email Template --></label>
+    <name>OverrideEmailTemplate__c</name>
+</CustomFieldTranslation>

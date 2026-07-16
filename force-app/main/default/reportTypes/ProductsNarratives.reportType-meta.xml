@@ -770,6 +770,26 @@
             <field>PRIIPSCategory__c</field>
             <table>Product__c</table>
         </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>LiquidityManagementToolLMT__c</field>
+            <table>Product__c</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>InitialLabPeriod__c</field>
+            <table>Product__c</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>NoticePeriodRedemption__c</field>
+            <table>Product__c</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>NoticePeriodSubscription__c</field>
+            <table>Product__c</table>
+        </columns>
         <masterLabel>Products</masterLabel>
     </sections>
     <sections>
@@ -855,7 +875,7 @@
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
-            <field>DomiciliedIn__c</field>
+            <field>DomiciledIn__c</field>
             <table>Product__c.Narratives__r</table>
         </columns>
         <columns>
@@ -976,6 +996,16 @@
         <columns>
             <checkedByDefault>false</checkedByDefault>
             <field>DisplayOrder__c</field>
+            <table>Product__c.Narratives__r</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>Usage__c</field>
+            <table>Product__c.Narratives__r</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>DomiciledInPRIIPS__c</field>
             <table>Product__c.Narratives__r</table>
         </columns>
         <masterLabel>Narratives</masterLabel>

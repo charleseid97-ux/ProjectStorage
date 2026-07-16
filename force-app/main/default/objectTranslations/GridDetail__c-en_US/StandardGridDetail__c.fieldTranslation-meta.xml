@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <help><!-- Populated only on Custom Grid Details. References the corresponding Standard Grid Detail used as the basis for this custom detail. --></help>
+    <label><!-- Standard Grid Detail --></label>
+    <name>StandardGridDetail__c</name>
+    <relationshipLabel><!-- Custom Grid Details --></relationshipLabel>
+</CustomFieldTranslation>

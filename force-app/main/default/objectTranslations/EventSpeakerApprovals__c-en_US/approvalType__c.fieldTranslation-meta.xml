@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <label><!-- Approval type --></label>
+    <name>approvalType__c</name>
+    <picklistValues>
+        <masterLabel>Auto</masterLabel>
+        <translation><!-- Auto --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>HOP</masterLabel>
+        <translation><!-- HOP --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Speaker</masterLabel>
+        <translation><!-- Speaker --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Speaker Auto</masterLabel>
+        <translation><!-- Speaker Auto --></translation>
+    </picklistValues>
+</CustomFieldTranslation>

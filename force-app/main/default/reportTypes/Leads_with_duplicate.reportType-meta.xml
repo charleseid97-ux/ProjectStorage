@@ -93,6 +93,11 @@
             <field>LastModifiedBy</field>
             <table>DuplicateRecordSet.DuplicateRecordItems</table>
         </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>DuplicateRule__c</field>
+            <table>DuplicateRecordSet.DuplicateRecordItems</table>
+        </columns>
         <masterLabel>Duplicate Record Items</masterLabel>
     </sections>
 </ReportType>

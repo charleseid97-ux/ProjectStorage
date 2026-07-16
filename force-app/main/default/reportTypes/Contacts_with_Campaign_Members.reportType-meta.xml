@@ -307,16 +307,6 @@
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
-            <field>Persona__c</field>
-            <table>Contact</table>
-        </columns>
-        <columns>
-            <checkedByDefault>false</checkedByDefault>
-            <field>JobTitle__c</field>
-            <table>Contact</table>
-        </columns>
-        <columns>
-            <checkedByDefault>false</checkedByDefault>
             <field>Carmignac_Court_Terme_CCT__c</field>
             <table>Contact</table>
         </columns>
@@ -343,6 +333,11 @@
         <columns>
             <checkedByDefault>false</checkedByDefault>
             <field>Carmignac_Inflation_Solution_CPI__c</field>
+            <table>Contact</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>Persona__c</field>
             <table>Contact</table>
         </columns>
         <columns>
@@ -398,6 +393,16 @@
         <columns>
             <checkedByDefault>false</checkedByDefault>
             <field>Carmignac_Credit_2031_CC31__c</field>
+            <table>Contact</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>OwnerTeam__c</field>
+            <table>Contact</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>JobTitle__c</field>
             <table>Contact</table>
         </columns>
         <columns>

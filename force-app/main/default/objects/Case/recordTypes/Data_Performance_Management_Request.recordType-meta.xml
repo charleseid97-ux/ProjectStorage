@@ -18,6 +18,25 @@
         </values>
     </picklistValues>
     <picklistValues>
+        <picklist>AssetClass__c</picklist>
+        <values>
+            <fullName>Diversified%2C Alternatives</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Equity</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Fixed Income</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Investment Solutions</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
         <picklist>Audience__c</picklist>
         <values>
             <fullName>All Audiences</fullName>
@@ -100,6 +119,10 @@
         </values>
         <values>
             <fullName>Luxembourg</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Middle East</fullName>
             <default>false</default>
         </values>
         <values>
@@ -531,6 +554,33 @@
         </values>
         <values>
             <fullName>System Value</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>ESGThemes__c</picklist>
+        <values>
+            <fullName>ESG Framework</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>ESG Regulation</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>ESG Thematic House View</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Exclusions</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Fund Exposure Analysis</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Other</fullName>
             <default>false</default>
         </values>
     </picklistValues>
@@ -1475,6 +1525,10 @@
         </values>
         <values>
             <fullName>UK %28EN%29%E2%80%8B</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>United Arab Emirates %28AE%29</fullName>
             <default>false</default>
         </values>
         <values>

@@ -3,6 +3,10 @@
     <label><!-- NAV Frequency --></label>
     <name>NAVFrequency__c</name>
     <picklistValues>
+        <masterLabel>Bi-Monthly</masterLabel>
+        <translation><!-- Bi-Monthly --></translation>
+    </picklistValues>
+    <picklistValues>
         <masterLabel>Daily</masterLabel>
         <translation><!-- Daily --></translation>
     </picklistValues>

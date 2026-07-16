@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<LightningComponentBundle xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>60.0</apiVersion>
+    <isExposed>true</isExposed>
+    <targets>
+        <target>lightning__RecordPage</target>
+    </targets>
+    <targetConfigs>
+        <targetConfig targets="lightning__RecordPage">
+            <property name="title" type="String" default="Attachments" label="Section title"/>
+            <property name="filePrefix" type="String" default="File_" label="File prefix"/>
+            
+            <property name="hideUpload"
+              type="Boolean"
+              default="false"
+              label="Hide Upload Button"/>
+
+            <property name="hideUpdate"
+                    type="Boolean"
+                    default="false"
+                    label="Hide Update Button"/>
+
+            <property name="hideDelete"
+                    type="Boolean"
+                    default="false"
+                    label="Hide Delete Button"/>
+            
+            <property name="answerMode"
+              type="String"
+              default="view"
+              label="Answer Display Mode"
+              description="Choose 'view' or 'readonly' (no edit possible)"/>
+  
+        </targetConfig>
+    </targetConfigs>
+</LightningComponentBundle>

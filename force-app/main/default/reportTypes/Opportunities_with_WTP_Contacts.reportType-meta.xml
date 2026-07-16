@@ -1582,6 +1582,16 @@
             <field>ProcessedByMuleSoft__c</field>
             <table>Opportunity.Work_Together_Processes__r</table>
         </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>HandledBy__c</field>
+            <table>Opportunity.Work_Together_Processes__r</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>RequesterName__c</field>
+            <table>Opportunity.Work_Together_Processes__r</table>
+        </columns>
         <masterLabel>Work Together Processes</masterLabel>
     </sections>
     <sections>
@@ -3553,6 +3563,11 @@
         <columns>
             <checkedByDefault>false</checkedByDefault>
             <field>Global_Hardbounced__c</field>
+            <table>Opportunity.Work_Together_Processes__r.Contacts__r</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>OwnerTeam__c</field>
             <table>Opportunity.Work_Together_Processes__r.Contacts__r</table>
         </columns>
         <masterLabel>Contacts</masterLabel>

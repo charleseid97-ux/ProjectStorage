@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <actionCalls>
+        <name>New_ESG_Request</name>
+        <label>New ESG Request</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <actionName>Case.New_WorkTogether_Process_ESGRequest</actionName>
+        <actionType>emailAlert</actionType>
+        <flowTransactionModel>CurrentTransaction</flowTransactionModel>
+        <inputParameters>
+            <name>SObjectRowId</name>
+            <value>
+                <elementReference>$Record.Id</elementReference>
+            </value>
+        </inputParameters>
+        <nameSegment>Case.New_WorkTogether_Process_ESGRequest</nameSegment>
+        <offset>0</offset>
+    </actionCalls>
+    <apiVersion>66.0</apiVersion>
+    <environments>Default</environments>
+    <formulas>
+        <name>RequesterName</name>
+        <dataType>String</dataType>
+        <expression>{!$User.FirstName} &amp;&apos; &apos; &amp; {!$User.LastName}</expression>
+    </formulas>
+    <interviewLabel>WTP - Send Email - ESG Request Created {!$Flow.CurrentDateTime}</interviewLabel>
+    <label>WTP - Send Email - ESG Requester Name</label>
+    <processMetadataValues>
+        <name>BuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>CanvasMode</name>
+        <value>
+            <stringValue>AUTO_LAYOUT_CANVAS</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>OriginBuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processType>AutoLaunchedFlow</processType>
+    <recordUpdates>
+        <name>Update_Requester</name>
+        <label>Update Requester</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <connector>
+            <targetReference>New_ESG_Request</targetReference>
+        </connector>
+        <inputAssignments>
+            <field>RequesterName__c</field>
+            <value>
+                <elementReference>RequesterName</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Requester__c</field>
+            <value>
+                <elementReference>$User.Id</elementReference>
+            </value>
+        </inputAssignments>
+        <inputReference>$Record</inputReference>
+    </recordUpdates>
+    <start>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <connector>
+            <targetReference>Update_Requester</targetReference>
+        </connector>
+        <filterFormula>{!$Record.RecordType.DeveloperName}=&apos;ESG&apos;</filterFormula>
+        <object>Case</object>
+        <recordTriggerType>Create</recordTriggerType>
+        <triggerType>RecordAfterSave</triggerType>
+    </start>
+    <status>Active</status>
+</Flow>

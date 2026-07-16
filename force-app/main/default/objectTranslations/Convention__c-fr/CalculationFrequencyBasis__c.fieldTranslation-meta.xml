@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <help><!-- Agreement formula basis: either Month-end AUM or Daily AUM. --></help>
+    <label><!-- Calculation Frequency Basis --></label>
+    <name>CalculationFrequencyBasis__c</name>
+    <picklistValues>
+        <masterLabel>Liabilities - daily average</masterLabel>
+        <translation><!-- Liabilities - daily average --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Liabilities - end of period and preceding end of period average</masterLabel>
+        <translation><!-- Liabilities - end of period and preceding end of period average --></translation>
+    </picklistValues>
+</CustomFieldTranslation>

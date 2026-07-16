@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <help><!-- The class must implement IApproverResolver and be deployed in the org. Example: GridHOCApproverResolver. Used only when ApproverSource__c = Dynamic. --></help>
+    <label><!-- Approver Resolver Class --></label>
+    <name>ApproverResolverClass__c</name>
+</CustomFieldTranslation>

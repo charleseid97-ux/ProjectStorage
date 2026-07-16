@@ -1098,6 +1098,16 @@
             <field>ProcessedByMuleSoft__c</field>
             <table>Account.Cases</table>
         </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>HandledBy__c</field>
+            <table>Account.Cases</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>RequesterName__c</field>
+            <table>Account.Cases</table>
+        </columns>
         <masterLabel>Work Together Processes</masterLabel>
     </sections>
 </ReportType>

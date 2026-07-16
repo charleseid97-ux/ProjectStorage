@@ -16,7 +16,8 @@
 				IF(ISPICKVAL($User.Team__c,&quot;Netherlands&quot;),&quot;Netherlands&quot;,
 		  IF(ISPICKVAL($User.Team__c,&quot;Japan&quot;),&quot;Japan&quot;,
 				IF(ISPICKVAL($User.Team__c,&quot;Taiwan&quot;),&quot;Taiwan&quot;,
-				&quot;&quot; ))))))))))))))</defaultValue>
+				IF(ISPICKVAL($User.Team__c,&quot;Middle East&quot;),&quot;Middle East&quot;,
+				&quot;&quot; )))))))))))))))</defaultValue>
     <description>To use for Analytics(reports/Dashboards/listViews). Will replace BRs. 
 Based on a new Global Picklist (Team) same Labels and API picklist values.
 It&apos;s aim to be populated from Main Team field of User

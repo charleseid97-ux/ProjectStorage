@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <help><!-- Configured requires ApproverType__c and ApproverValue__c. Dynamic requires ApproverResolverClass__c. UserInput does not require any additional field. --></help>
+    <label><!-- Approver Source --></label>
+    <name>ApproverSource__c</name>
+    <picklistValues>
+        <masterLabel>Configured</masterLabel>
+        <translation><!-- Configured --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Dynamic</masterLabel>
+        <translation><!-- Dynamic --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>User Input</masterLabel>
+        <translation><!-- User Input --></translation>
+    </picklistValues>
+</CustomFieldTranslation>

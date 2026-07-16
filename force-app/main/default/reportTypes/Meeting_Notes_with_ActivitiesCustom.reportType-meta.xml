@@ -175,6 +175,11 @@
             <field>Account</field>
             <table>Meeting_Note__c.Activities</table>
         </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>Tech_Reprise__c</field>
+            <table>Meeting_Note__c</table>
+        </columns>
         <masterLabel>Meeting Notes</masterLabel>
     </sections>
     <sections>

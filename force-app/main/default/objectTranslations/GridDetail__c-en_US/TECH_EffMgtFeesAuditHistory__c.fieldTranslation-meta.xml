@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <help><!-- Populated on historical Grid Details. References the Fund Field Applicability History record that defines the EffMgtFees period for this detail. --></help>
+    <label><!-- Eff Mgt Fees Audit History --></label>
+    <name>TECH_EffMgtFeesAuditHistory__c</name>
+    <relationshipLabel><!-- Grid Details --></relationshipLabel>
+</CustomFieldTranslation>

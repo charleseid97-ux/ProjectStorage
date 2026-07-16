@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <label><!-- Kind --></label>
+    <name>Kind__c</name>
+    <picklistValues>
+        <masterLabel>Investment Solution - Rebates</masterLabel>
+        <translation><!-- Investment Solution - Rebates --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>No Remuneration</masterLabel>
+        <translation><!-- No Remuneration --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Other Fees</masterLabel>
+        <translation><!-- Other Fees --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Platform Fees</masterLabel>
+        <translation><!-- Platform Fees --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Rebates</masterLabel>
+        <translation><!-- Rebates --></translation>
+    </picklistValues>
+</CustomFieldTranslation>

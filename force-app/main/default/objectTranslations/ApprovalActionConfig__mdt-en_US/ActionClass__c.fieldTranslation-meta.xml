@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <help><!-- Optional escape hatch for complex actions not covered by FieldUpdate or EmailAlert. The class must implement IApprovalAction and be deployed in the org. --></help>
+    <label><!-- Action Class --></label>
+    <name>ActionClass__c</name>
+</CustomFieldTranslation>

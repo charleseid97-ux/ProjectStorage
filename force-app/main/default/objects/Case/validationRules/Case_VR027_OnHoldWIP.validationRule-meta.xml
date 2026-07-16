@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Case_VR027_OnHoldWIP</fullName>
+    <active>true</active>
+    <errorConditionFormula>AND(
+				NOT($User.BypassValidationRules__c),
+				On_Hold__c == True,
+				NOT(ISPICKVAL(Status, &apos;Work in progress&apos;)),
+				RecordType.DeveloperName =&apos;Sub_Publication_Request&apos;
+
+ )</errorConditionFormula>
+    <errorDisplayField>On_Hold__c</errorDisplayField>
+    <errorMessage>A request can only be put “On Hold” when its status is “Work in Progress”.</errorMessage>
+</ValidationRule>

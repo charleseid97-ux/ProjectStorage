@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Middle_East_Companies</fullName>
+    <columns>ACCOUNT.NAME</columns>
+    <columns>Distributor_Type__c</columns>
+    <columns>Sub_Type__c</columns>
+    <columns>ACCOUNT.ADDRESS1_COUNTRY_CODE</columns>
+    <columns>ACCOUNT.ADDRESS1_CITY</columns>
+    <columns>ACCOUNT.PHONE1</columns>
+    <filterScope>Everything</filterScope>
+    <filters>
+        <field>Team__c</field>
+        <operation>equals</operation>
+        <value>Middle East</value>
+    </filters>
+    <label>Middle East Companies</label>
+</ListView>

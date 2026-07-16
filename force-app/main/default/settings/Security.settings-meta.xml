@@ -95,7 +95,7 @@
         <complexity>UpperLowerCaseNumericSpecialCharacters</complexity>
         <expiration>NinetyDays</expiration>
         <historyRestriction>3</historyRestriction>
-        <lockoutInterval>FifteenMinutes</lockoutInterval>
+        <lockoutInterval>ThirtyMinutes</lockoutInterval>
         <maxLoginAttempts>ThreeAttempts</maxLoginAttempts>
         <minimumPasswordLength>8</minimumPasswordLength>
         <minimumPasswordLifetime>true</minimumPasswordLifetime>

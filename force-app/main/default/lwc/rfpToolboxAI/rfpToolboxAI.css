@@ -1,0 +1,14 @@
+:host { display: block; }
+
+.small-textarea textarea {
+    min-height: 2.5rem;  /* smaller height */
+    max-height: 4rem;  /* don’t let it explode */
+  }
+   
+  .result-container {
+    background: #f4f6f9;     /* light gray background */
+    border: 1px solid #d8dde6;
+    border-radius: 0.5rem;
+    padding: 1rem;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  }

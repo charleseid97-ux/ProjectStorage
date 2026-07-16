@@ -3,7 +3,6 @@
     <fullName>Product__c</fullName>
     <label>Product</label>
     <referenceTo>Product__c</referenceTo>
-    <relationshipLabel>RegDocuments</relationshipLabel>
     <relationshipName>RegDocuments</relationshipName>
     <relationshipOrder>0</relationshipOrder>
     <reparentableMasterDetail>false</reparentableMasterDetail>

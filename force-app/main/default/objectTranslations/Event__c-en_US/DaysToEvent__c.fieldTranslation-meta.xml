@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <help><!-- Indicates how many days remain before the presentation. Lower values indicate higher urgency. --></help>
+    <label><!-- Days to Event --></label>
+    <name>DaysToEvent__c</name>
+</CustomFieldTranslation>

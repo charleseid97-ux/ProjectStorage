@@ -13,9 +13,20 @@ public class CaseTriggerHandler implements ITriggerHandler{
         List<Case> closedCase = new List<Case>();
         CaseTranslationProcess.switchTranslationToPublication(newCases, oldCases) ;
         CaseTranslationProcess.resetStatus(newCases, oldCases) ;
-
+        
+        Id subPublicationRecordTypeId = Schema.SObjectType.Case.getRecordTypeInfosByDeveloperName().get('Sub_Publication_Request').getRecordTypeId();
+        List<Case> publicationCases = new List<Case>();
+        for (Case c : newCases.values()) { 
+            if(c.RecordTypeId == subPublicationRecordTypeId) {
+                publicationCases.add(c);
+            }
+        }
+        if(publicationCases.size() > 0) {
+            CaseWorkingHours.durationCalculation(publicationCases, oldCases) ;
+        }
+        
     }
-
+    
     public void BeforeDelete(Map<Id, SObject> oldItems) {
     }
 
@@ -55,7 +66,10 @@ public class CaseTriggerHandler implements ITriggerHandler{
         Map<Id, Case> oldCases = (Map<Id, Case>) oldItems;
         List<Id> caseWithNDA = new List<Id>();
         List<Case> closedCase = new List<Case>();
+        List<Case> closedESGCase = new List<Case>();
+
         Id subTranslationRecordTypeId = Schema.SObjectType.Case.getRecordTypeInfosByName().get('Sub Translation Request').getRecordTypeId();
+        Id ESGRecordTypeId = Schema.SObjectType.Case.getRecordTypeInfosByName().get('ESG').getRecordTypeId();
 
         for (Case c : newCases.values()) {
             if (c.NDA__c != null && c.NDA__c != oldCases.get(c.id).NDA__c) {
@@ -64,9 +78,15 @@ public class CaseTriggerHandler implements ITriggerHandler{
             if(c.Status =='Closed' && c.Status != oldCases.get(c.id).Status && c.RecordTypeId == subTranslationRecordTypeId && c.Translation_Request_Type__c !='Translation Only') {
                 closedCase.add(c);
             }
+             if(c.Status =='Closed' && c.Status != oldCases.get(c.id).Status && c.RecordTypeId == ESGRecordTypeId) {
+                closedESGCase.add(c);
+            }
         }
         if(closedCase.size() > 0) {
             CaseTranslationProcess.createChildCases(closedCase);
+        }
+         if(closedESGCase.size() > 0) {
+            CaseEmailHandler.sendClosedCaseEmails(closedESGCase);
         }
         caseAP01.addCompanyToNDA(newCases, oldCases);
         caseAP01.addProductsToNDA(caseWithNDA);

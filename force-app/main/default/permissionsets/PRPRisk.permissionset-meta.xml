@@ -25,6 +25,11 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
+        <editable>true</editable>
+        <field>Product__c.LiquidityManagementToolLMT__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
         <editable>false</editable>
         <field>Product__c.PRIIPSCategory__c</field>
         <readable>true</readable>
@@ -91,16 +96,6 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>ProjectProductChild__c.HasGate__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>ProjectProductChild__c.HasSwingPricing__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
         <field>ProjectProductChild__c.IsLeveragedUCITS__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -117,6 +112,11 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>ProjectProductChild__c.LeveragewoIRD__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>ProjectProductChild__c.LiquidityManagementToolLMT__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -307,6 +307,11 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>ProjectShareclassChild__c.ProxyRisk__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>ProjectShareclassChild__c.RiskLevelValidationCompleted__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>

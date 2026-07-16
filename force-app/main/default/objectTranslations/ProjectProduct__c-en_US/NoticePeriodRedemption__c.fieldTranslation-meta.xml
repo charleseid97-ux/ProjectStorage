@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <label><!-- Notice Period Redemption --></label>
+    <name>NoticePeriodRedemption__c</name>
+    <picklistValues>
+        <masterLabel>D</masterLabel>
+        <translation><!-- D --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>D-1</masterLabel>
+        <translation><!-- D-1 --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>D-30</masterLabel>
+        <translation><!-- D-30 --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>D-5</masterLabel>
+        <translation><!-- D-5 --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>D-60</masterLabel>
+        <translation><!-- D-60 --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>D-90</masterLabel>
+        <translation><!-- D-90 --></translation>
+    </picklistValues>
+</CustomFieldTranslation>

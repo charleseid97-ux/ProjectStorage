@@ -1,0 +1,66 @@
+<template>
+  <div class="slds-p-around_medium slds-grid slds-wrap slds-gutters">
+    <!-- Category -->
+    <div class="slds-col slds-size_1-of-1 slds-large-size_1-of-2 slds-var-m-bottom_small">
+      <lightning-combobox
+        name="category"
+        label="Category"
+        value={picklist1Value}
+        placeholder="Select a category"
+        options={picklist1Options}
+        onchange={handlePicklist1Change}>
+      </lightning-combobox>
+    </div>
+
+    <!-- Sub Category -->
+    <div class="slds-col slds-size_1-of-1 slds-large-size_1-of-2 slds-var-m-bottom_small">
+      <template if:true={subCategoryOptions}>
+        <lightning-combobox
+          name="subCategory"
+          label="Sub Category"
+          value={subCategoryValue}
+          placeholder="Select a sub category"
+          options={subCategoryOptions}
+          onchange={handleSubCategorySelect}>
+        </lightning-combobox>
+      </template>
+    </div>
+
+    <!-- Question -->
+    <div class="slds-col slds-size_1-of-1 slds-var-m-bottom_small">
+      <lightning-input-rich-text
+        name="textInput"
+        label="Question"
+        value={textValue}
+        placeholder="Type your question..."
+        onchange={handleTextChange}>
+      </lightning-input-rich-text>
+    </div>
+  </div>
+
+  <!-- Action Row -->
+  <div class="slds-p-horizontal_medium slds-p-bottom_medium slds-align_absolute-center">
+    <lightning-button variant="brand" label="Search" onclick={runFlow} disabled={disableRun}>
+    </lightning-button>
+    <template if:true={isRunning}>
+      <lightning-spinner alternative-text="Running flow"></lightning-spinner>
+    </template>
+  </div>
+
+  <!-- Flow Host -->
+  <template if:true={showFlow}>
+    <lightning-flow data-id="flowHost" onstatuschange={handleStatusChange}></lightning-flow>
+  </template>
+
+  <!-- Result -->
+  <template if:true={htmlOutput}>
+    <div class="slds-p-around_medium">
+      <lightning-formatted-rich-text value={htmlOutput}></lightning-formatted-rich-text>
+    </div>
+  </template>
+
+  <!-- Error -->
+  <template if:true={errorMessage}>
+    <div class="slds-p-around_medium slds-text-color_error">{errorMessage}</div>
+  </template>
+</template>

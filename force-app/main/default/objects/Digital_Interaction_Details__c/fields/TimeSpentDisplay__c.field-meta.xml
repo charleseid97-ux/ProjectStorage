@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>TimeSpentDisplay__c</fullName>
+    <externalId>false</externalId>
+    <formula>IF(
+    ISBLANK(Time_Spent__c),
+    &quot;&quot;,
+    IF(
+        Time_Spent__c &lt; 60,
+        TEXT(FLOOR(Time_Spent__c)) &amp; &quot; s&quot;,
+        TEXT(FLOOR(Time_Spent__c / 60)) &amp; &quot; min &quot; &amp;
+        TEXT(MOD(FLOOR(Time_Spent__c), 60)) &amp; &quot; s&quot;
+    )
+)</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <label>Time Spent Display</label>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

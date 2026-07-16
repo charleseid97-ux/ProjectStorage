@@ -76,6 +76,11 @@
         <label>International Platform</label>
     </customValue>
     <customValue>
+        <fullName>BP_ME</fullName>
+        <default>false</default>
+        <label>Middle East</label>
+    </customValue>
+    <customValue>
         <fullName>Global</fullName>
         <default>false</default>
         <isActive>false</isActive>
@@ -88,5 +93,5 @@
         <label>Other</label>
     </customValue>
     <masterLabel>Business Development Region</masterLabel>
-    <sorted>true</sorted>
+    <sorted>false</sorted>
 </GlobalValueSet>

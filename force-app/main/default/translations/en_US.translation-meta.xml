@@ -25,6 +25,14 @@
         <name>Compliance</name>
     </customApplications>
     <customApplications>
+        <label><!-- Bookly --></label>
+        <name>EventsManager</name>
+    </customApplications>
+    <customApplications>
+        <label><!-- Grid --></label>
+        <name>Grid</name>
+    </customApplications>
+    <customApplications>
         <label><!-- Investor Services --></label>
         <name>Investor_Services</name>
     </customApplications>
@@ -39,6 +47,10 @@
     <customApplications>
         <label><!-- Marketing Carmignac --></label>
         <name>Marketing_Carmignac</name>
+    </customApplications>
+    <customApplications>
+        <label><!-- NAV Performance --></label>
+        <name>NAV_Perf</name>
     </customApplications>
     <customApplications>
         <label><!-- Project-M --></label>
@@ -81,8 +93,48 @@
         <name>AddingAllAlerts</name>
     </customLabels>
     <customLabels>
+        <label><!-- Success message after agreement submitted for approval --></label>
+        <name>Agreement_SubmittedForApproval</name>
+    </customLabels>
+    <customLabels>
         <label><!-- Approval Process Mandotory Fields - Agreement --></label>
         <name>ApprovalProcessMandotoryFieldsAgreement</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- BaseURL --></label>
+        <name>BaseURL</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Bookly --></label>
+        <name>BooklyActivityFlag</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- BooklyAgendaExpiration --></label>
+        <name>BooklyAgendaExpiration</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Bookly Approved Event Message --></label>
+        <name>BooklyApprovedMessage</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Bookly Campaign Created Message --></label>
+        <name>BooklyCampaignCreatedMessage</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Bookly Campaign Created Subject --></label>
+        <name>BooklyCampaignCreatedSubject</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- BooklyInScopeStrategyException --></label>
+        <name>BooklyInScopeStrategy</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Bookly Meeting Days Message --></label>
+        <name>BooklyMeetingDaysMessage</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Bookly Submitted Event Message --></label>
+        <name>BooklySubmittedMessage</name>
     </customLabels>
     <customLabels>
         <label><!-- CAMPAIGN_MEMBER_TEMPLATE_URL --></label>
@@ -173,6 +225,542 @@
         <name>Error_Country_Webcommunication</name>
     </customLabels>
     <customLabels>
+        <label><!-- Button label to add a new filter --></label>
+        <name>Grid_AddFilter</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Button/label for adding restricted share types --></label>
+        <name>Grid_AddRestrictedShareTypes</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Button label to add items to the Grid --></label>
+        <name>Grid_AddToGrid</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Error message when agreement settings fail to load --></label>
+        <name>Grid_AgreementErrorLoadingSettings</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Section title for the grids recap in the Agreement Grid Recap component --></label>
+        <name>Grid_AgreementGridRecap</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Column header for Agreement Grid Timeline --></label>
+        <name>Grid_AgreementGridTimeline</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Label for agreements section --></label>
+        <name>Grid_Agreements</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Success message for full import --></label>
+        <name>Grid_AllRowsImported</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Status text for already selected items --></label>
+        <name>Grid_AlreadySelected</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Button label to apply filters --></label>
+        <name>Grid_ApplyFilters</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Help text explaining automatic Grid update behavior --></label>
+        <name>Grid_AutoIncludeHelpText</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Label for automatic Grid update toggle --></label>
+        <name>Grid_AutoIncludeLabel</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Field label for the Automatic Grid Update flag in Agreement Grid Recap --></label>
+        <name>Grid_AutomaticUpdate</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Title of the Grid Builder module --></label>
+        <name>Grid_Builder</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Action label to change the standard grid of a product --></label>
+        <name>Grid_ChangeGrid</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Toast message after moving a product to another standard grid --></label>
+        <name>Grid_ChangeGridSuccess</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Label for approval comments field --></label>
+        <name>Grid_Comments</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Placeholder text for approval comments field --></label>
+        <name>Grid_CommentsPlaceholder</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Grid Comparison - Active Grid Is Current Grid tooltip --></label>
+        <name>Grid_Comparison_ActiveGridIsCurrent</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Grid Comparison - No Active Grid tooltip --></label>
+        <name>Grid_Comparison_NoActiveGrid</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Success message after grid creation --></label>
+        <name>Grid_CreatedSuccess</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Result label for import --></label>
+        <name>Grid_CriteriaCreated</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Result label for import --></label>
+        <name>Grid_CriteriaDetailsCreated</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Button label for criteria history --></label>
+        <name>Grid_CriteriaHistory</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Label for criteria section --></label>
+        <name>Grid_CriteriaLabel</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Column header for criteria number --></label>
+        <name>Grid_CriteriaNumber</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Column header for current grid recap --></label>
+        <name>Grid_CurrentGridRecap</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Title for grid details section --></label>
+        <name>Grid_DetailsTitle</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Warning: different grids selected --></label>
+        <name>Grid_DifferentGridsSelected</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Grid Email Approval Not Eligible --></label>
+        <name>Grid_EmailApprovalNotEligible</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Error context for grid loading failure --></label>
+        <name>Grid_ErrorLoadingGrids</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Error message when loading products fails --></label>
+        <name>Grid_ErrorLoadingProducts</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Error message when grid settings fail to load --></label>
+        <name>Grid_ErrorLoadingSettings</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Error message when retrieving products fails --></label>
+        <name>Grid_ErrorRetrievingProducts</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Error context for grid save failure --></label>
+        <name>Grid_ErrorSavingGrid</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Error context for validation failure --></label>
+        <name>Grid_ErrorValidatingProducts</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Title for Excel import page --></label>
+        <name>Grid_ExcelImportTitle</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Section heading for excluded products --></label>
+        <name>Grid_ExcludedProducts</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Error when SheetJS fails to load --></label>
+        <name>Grid_FailedToLoadSheetJS</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Column header for filter number --></label>
+        <name>Grid_FilterNumber</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Instruction message --></label>
+        <name>Grid_FixValidationErrors</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Result label for import --></label>
+        <name>Grid_GridDetailsCreated</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Result label for import --></label>
+        <name>Grid_GridDetailsUpdated</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Field label for Grid Name in the Agreement Grid Recap component --></label>
+        <name>Grid_GridName</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Result label for import --></label>
+        <name>Grid_GridRulesCreated</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Result label for import --></label>
+        <name>Grid_GridRulesUpdated</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Result label for import --></label>
+        <name>Grid_GridsUpserted</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Result label for import --></label>
+        <name>Grid_HistGridDetailsInserted</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Result label for import --></label>
+        <name>Grid_HistGridDetailsUpdated</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Success toast title --></label>
+        <name>Grid_ImportCompleted</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Warning toast title --></label>
+        <name>Grid_ImportCompletedWithErrors</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Error toast title for import --></label>
+        <name>Grid_ImportFailed</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Label prefix for imported file name --></label>
+        <name>Grid_ImportedFilePrefix</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Status text for included share class --></label>
+        <name>Grid_IncludedInGrid</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Section heading for included products --></label>
+        <name>Grid_IncludedProducts</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Generic label for Grid --></label>
+        <name>Grid_Label</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Label for filter logic --></label>
+        <name>Grid_LogicLabel</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Status text for missing share class --></label>
+        <name>Grid_MissingShareClass</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Warning for missing share classes --></label>
+        <name>Grid_MissingShareClasses</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Empty state when no active grid is assigned to the agreement --></label>
+        <name>Grid_NoActiveGridAssigned</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Empty state for grid details --></label>
+        <name>Grid_NoDetailsFound</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Empty state for excluded products --></label>
+        <name>Grid_NoExcludedProducts</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Toast title when no grid available --></label>
+        <name>Grid_NoGridAvailable</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Message when no grid is found --></label>
+        <name>Grid_NoGridSelectionFound</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Message when no new share classes were added --></label>
+        <name>Grid_NoNewShareClassesAdded</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Message displayed when no products are available --></label>
+        <name>Grid_NoProducts</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Title shown when no products are found --></label>
+        <name>Grid_NoProductsFound</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Validation empty state message --></label>
+        <name>Grid_NoProductsFoundValidation</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Message shown when no products match the search criteria --></label>
+        <name>Grid_NoProductsMatched</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Empty state for product selection --></label>
+        <name>Grid_NoProductsSelected</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Empty state for results table --></label>
+        <name>Grid_NoProductsToDisplay</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Empty state for validation page --></label>
+        <name>Grid_NoProductsToValidate</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Title when no share classes are found --></label>
+        <name>Grid_NoShareClassesFound</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Message when no share classes are available to add to the Grid --></label>
+        <name>Grid_NoShareClassesToAdd</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Warning shown when a grid request is already pending approval --></label>
+        <name>Grid_PendingApprovalWarning</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Warning for grid conflict --></label>
+        <name>Grid_ProductAlreadyAssignedWarning</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Label for product name field --></label>
+        <name>Grid_ProductNameLabel</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Title for products recap panel --></label>
+        <name>Grid_ProductsRecap</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Grid REG Country Mapping --></label>
+        <name>Grid_REG_CountryMapping</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Label for remove filter action --></label>
+        <name>Grid_RemoveFilter</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Action label to remove a product --></label>
+        <name>Grid_RemoveProduct</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Button label to reset all selections --></label>
+        <name>Grid_ResetAll</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Confirmation text before resetting all selected share classes and criteria --></label>
+        <name>Grid_ResetAll_Confirm</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Notification shown after all selections and criteria have been reset --></label>
+        <name>Grid_ResetAll_Success</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Button label to reset filters --></label>
+        <name>Grid_ResetFilters</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Section label for row errors --></label>
+        <name>Grid_RowErrors</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Button label to save Grid --></label>
+        <name>Grid_SaveGrid</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Message shown after saving a grid; use {0} as placeholder for the grid name --></label>
+        <name>Grid_Saved_Success</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Result label for import --></label>
+        <name>Grid_ScopesUpserted</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Input label for file selection --></label>
+        <name>Grid_SelectExcelFile</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Modal title for grid selection --></label>
+        <name>Grid_SelectGrid</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Label for selecting share types --></label>
+        <name>Grid_SelectShareTypes</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Column header for selection --></label>
+        <name>Grid_Selection</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Error message when Grid Builder Setting is not found; use {0} for setting name --></label>
+        <name>Grid_SettingNotFound</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Success message when share classes are added; use {0} for count --></label>
+        <name>Grid_ShareClassesAdded</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Toast title for added share classes --></label>
+        <name>Grid_ShareClassesAddedTitle</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Warning when share classes cannot be added due to grid conflict --></label>
+        <name>Grid_ShareClassesNotAdded_DifferentGrid</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Warning: share classes not added, not in selected standard grid --></label>
+        <name>Grid_ShareClassesNotAdded_NotInGrid</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Info: this filter is applied independently of other filter logic --></label>
+        <name>Grid_ShareTypeFilterIndependentInfo</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Label for share types section --></label>
+        <name>Grid_ShareTypesLabel</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Grid Sim Export Column - Effective Management Fees (EN) --></label>
+        <name>Grid_SimExport_Col_EffMgtFees_EN</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Grid Sim Export Column - Effective Management Fees (FR) --></label>
+        <name>Grid_SimExport_Col_EffMgtFees_FR</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Grid Sim Export Column - Effective Management Fees (IT) --></label>
+        <name>Grid_SimExport_Col_EffMgtFees_IT</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Grid Sim Export Column - Fund Name (EN) --></label>
+        <name>Grid_SimExport_Col_FundName_EN</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Grid Sim Export Column - Fund Name (FR) --></label>
+        <name>Grid_SimExport_Col_FundName_FR</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Grid Sim Export Column - Fund Name (IT) --></label>
+        <name>Grid_SimExport_Col_FundName_IT</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Grid Sim Export Column - ISIN Code (EN) --></label>
+        <name>Grid_SimExport_Col_ISIN_EN</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Grid Sim Export Column - ISIN Code (FR) --></label>
+        <name>Grid_SimExport_Col_ISIN_FR</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Grid Sim Export Column - ISIN Code (IT) --></label>
+        <name>Grid_SimExport_Col_ISIN_IT</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Grid Sim Export Column - Rebate (EN) --></label>
+        <name>Grid_SimExport_Col_Rebate_EN</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Grid Sim Export Column - Rebate (FR) --></label>
+        <name>Grid_SimExport_Col_Rebate_FR</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Grid Sim Export Column - Rebate (IT) --></label>
+        <name>Grid_SimExport_Col_Rebate_IT</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Grid Sim Export Column - Share Class (EN) --></label>
+        <name>Grid_SimExport_Col_ShareClass_EN</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Grid Sim Export Column - Share Class (FR) --></label>
+        <name>Grid_SimExport_Col_ShareClass_FR</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Grid Sim Export Column - Share Class (IT) --></label>
+        <name>Grid_SimExport_Col_ShareClass_IT</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Grid Sim Export Footer - Formula block (EN) --></label>
+        <name>Grid_SimExport_Footer_EN</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Grid Sim Export Footer - Formula block (FR) --></label>
+        <name>Grid_SimExport_Footer_FR</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Grid Sim Export Footer - Formula block (IT) --></label>
+        <name>Grid_SimExport_Footer_IT</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Grid Sim Export Header - Annex text (EN) --></label>
+        <name>Grid_SimExport_Header_EN</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Grid Sim Export Header - Annex text (FR) --></label>
+        <name>Grid_SimExport_Header_FR</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Grid Sim Export Header - Annex text (IT) --></label>
+        <name>Grid_SimExport_Header_IT</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Warning message for partial import --></label>
+        <name>Grid_SomeRowsFailed</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Prefix for sorted column label --></label>
+        <name>Grid_SortedBy</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Section label for standard grids in Agreement Grid Recap --></label>
+        <name>Grid_StandardGridsSelected</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Label for start date input --></label>
+        <name>Grid_StartDate</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Submit for Approval label --></label>
+        <name>Grid_SubmitForApproval</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Success message after grid submitted for approval --></label>
+        <name>Grid_SubmittedForApproval</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Label for system-generated filters --></label>
+        <name>Grid_SystemFilters</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Label for team selection --></label>
+        <name>Grid_Team</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Label for Grid section --></label>
+        <name>Grid_Title</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Button label to validate Grid --></label>
+        <name>Grid_ValidateGrid</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Section label for validation errors --></label>
+        <name>Grid_ValidationErrors</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Button label to view excluded products --></label>
+        <name>Grid_ViewExcludedProducts</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Button label to view recap --></label>
+        <name>Grid_ViewRecap</name>
+    </customLabels>
+    <customLabels>
         <label><!-- used in VFC01_KYCDocuments --></label>
         <name>KYCDocStatus</name>
     </customLabels>
@@ -203,6 +791,34 @@
     <customLabels>
         <label><!-- KYDocStatusReceived --></label>
         <name>KYDocStatusReceived</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Matrix Blank Value --></label>
+        <name>Matrix_Blank</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Matrix Config Not Found --></label>
+        <name>Matrix_ConfigNotFound</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Matrix Conflict Cell Style --></label>
+        <name>Matrix_ConflictStyle</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Matrix Invalid Field Path --></label>
+        <name>Matrix_InvalidField</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Matrix Load Success --></label>
+        <name>Matrix_LoadSuccess</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Matrix No Data --></label>
+        <name>Matrix_NoData</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Matrix Query Error --></label>
+        <name>Matrix_QueryError</name>
     </customLabels>
     <customLabels>
         <label><!-- Missing ClientProduct --></label>
@@ -377,6 +993,122 @@
         <name>ToolTip_Target_Language</name>
     </customLabels>
     <customLabels>
+        <label><!-- Generic action: Add --></label>
+        <name>UI_Add</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Generic navigation: Back --></label>
+        <name>UI_Back</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Generic action: Cancel --></label>
+        <name>UI_Cancel</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Generic action: Close --></label>
+        <name>UI_Close</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Generic action: Collapse All --></label>
+        <name>UI_CollapseAll</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Generic action: Confirm --></label>
+        <name>UI_Confirm</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Generic error title --></label>
+        <name>UI_Error</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Generic label for error message text --></label>
+        <name>UI_ErrorMessage</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Generic label: Errors --></label>
+        <name>UI_Errors</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Generic label: Excluded --></label>
+        <name>UI_Excluded</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Generic action: Expand All --></label>
+        <name>UI_ExpandAll</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Generic label: Field --></label>
+        <name>UI_Field</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Generic action: Import --></label>
+        <name>UI_Import</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Generic label: Included --></label>
+        <name>UI_Included</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Generic label: Loading --></label>
+        <name>UI_Loading</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Generic label: Not Available --></label>
+        <name>UI_NA</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Generic navigation: Next --></label>
+        <name>UI_Next</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Generic label: Object --></label>
+        <name>UI_Object</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Generic toggle: Off --></label>
+        <name>UI_Off</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Generic toggle: On --></label>
+        <name>UI_On</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Generic label: Operator --></label>
+        <name>UI_Operator</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Generic action: Refresh --></label>
+        <name>UI_Refresh</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Generic action: Remove --></label>
+        <name>UI_Remove</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Generic placeholder: Select an Option --></label>
+        <name>UI_SelectOption</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Generic success label --></label>
+        <name>UI_Success</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Generic label for unknown field --></label>
+        <name>UI_UnknownField</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Generic label for unknown object --></label>
+        <name>UI_UnknownObject</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Generic label: Value --></label>
+        <name>UI_Value</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Generic warning title --></label>
+        <name>UI_Warning</name>
+    </customLabels>
+    <customLabels>
         <label><!-- Unknown Competitor Assets Record Type ID --></label>
         <name>UnknownCompetitorAssetsRecordTypeID</name>
     </customLabels>
@@ -445,12 +1177,44 @@
         <name>AUM_NET_FLOWS</name>
     </customTabs>
     <customTabs>
+        <label><!-- Agreements/Grids - Top Management --></label>
+        <name>Agreements_Grids_Top_Management</name>
+    </customTabs>
+    <customTabs>
+        <label><!-- Agreements and Grids to Approve --></label>
+        <name>Agreements_and_Grids_to_Approve</name>
+    </customTabs>
+    <customTabs>
         <label><!-- Audience Management --></label>
         <name>Audience_Management</name>
     </customTabs>
     <customTabs>
+        <label><!-- Bookly Inbox --></label>
+        <name>BooklyInbox</name>
+    </customTabs>
+    <customTabs>
+        <label><!-- Build New Grid --></label>
+        <name>BuildNewGrid</name>
+    </customTabs>
+    <customTabs>
         <label><!-- Marketing Feedback --></label>
         <name>Content_Feedback</name>
+    </customTabs>
+    <customTabs>
+        <label><!-- ESG Requests --></label>
+        <name>ESG_Requests</name>
+    </customTabs>
+    <customTabs>
+        <label><!-- Bookly Calendar --></label>
+        <name>EventsOverView</name>
+    </customTabs>
+    <customTabs>
+        <label><!-- Grid Approval Action --></label>
+        <name>GridApprovalAction</name>
+    </customTabs>
+    <customTabs>
+        <label><!-- Grid Excel Import --></label>
+        <name>GridExcelImport</name>
     </customTabs>
     <customTabs>
         <label><!-- Product Catalog --></label>
@@ -469,6 +1233,10 @@
         <name>Opportunity_Dashboard</name>
     </customTabs>
     <customTabs>
+        <label><!-- Registration Status Matrix --></label>
+        <name>RegistrationStatusMatrix</name>
+    </customTabs>
+    <customTabs>
         <label><!-- Salesforce Training &amp; Support Page --></label>
         <name>Salesforce_Support_Page</name>
     </customTabs>
@@ -485,6 +1253,10 @@
         <name>Strategies</name>
     </customTabs>
     <customTabs>
+        <label><!-- Tax Transparency Matrix --></label>
+        <name>Tax_Transparency_Matrix</name>
+    </customTabs>
+    <customTabs>
         <label><!-- Translation &amp; Publication Requests --></label>
         <name>TranslationRequests</name>
     </customTabs>
@@ -499,6 +1271,14 @@
     <flowDefinitions>
         <flows/>
         <fullName>AI_Meeting_Note_RawText</fullName>
+    </flowDefinitions>
+    <flowDefinitions>
+        <flows/>
+        <fullName>AL_RFP_FindAndDisplayResults</fullName>
+    </flowDefinitions>
+    <flowDefinitions>
+        <flows/>
+        <fullName>AL_RFP_Search</fullName>
     </flowDefinitions>
     <flowDefinitions>
         <flows/>
@@ -720,6 +1500,10 @@
         <fullName>Contact_PB012_DeleteCampaignMember_OnUpdateStatus</fullName>
     </flowDefinitions>
     <flowDefinitions>
+        <flows/>
+        <fullName>Contact_TechEventFields</fullName>
+    </flowDefinitions>
+    <flowDefinitions>
         <flows>
             <textTemplates>
                 <name>BodyFailure</name>
@@ -857,6 +1641,10 @@
     </flowDefinitions>
     <flowDefinitions>
         <flows/>
+        <fullName>DuplicateRuleFieldUpdate_ShareClass</fullName>
+    </flowDefinitions>
+    <flowDefinitions>
+        <flows/>
         <fullName>EVENT_PB001_CreateEventFollowUp</fullName>
     </flowDefinitions>
     <flowDefinitions>
@@ -897,6 +1685,12 @@
             </textTemplates>
             <textTemplates>
                 <name>EmailReminder</name>
+            </textTemplates>
+            <textTemplates>
+                <name>PitchbookBody</name>
+            </textTemplates>
+            <textTemplates>
+                <name>PitchbookSubject</name>
             </textTemplates>
             <textTemplates>
                 <name>PreviewBody</name>
@@ -1266,24 +2060,6 @@
     </flowDefinitions>
     <flowDefinitions>
         <flows>
-            <choices>
-                <name>Annually</name>
-            </choices>
-            <choices>
-                <name>Daily</name>
-            </choices>
-            <choices>
-                <name>Monthly</name>
-            </choices>
-            <choices>
-                <name>Quarterly</name>
-            </choices>
-            <choices>
-                <name>Weekly</name>
-            </choices>
-            <choices>
-                <name>Yearly</name>
-            </choices>
             <screens>
                 <fields>
                     <name>Errormessage</name>
@@ -1325,9 +2101,6 @@
                     <name>Guidelines</name>
                 </fields>
                 <fields>
-                    <name>RebalancingFrequency</name>
-                </fields>
-                <fields>
                     <inputParameters>
                         <name>fieldApiName</name>
                         <value/>
@@ -1338,6 +2111,10 @@
                     </inputParameters>
                     <inputParameters>
                         <name>objectApiName</name>
+                        <value/>
+                    </inputParameters>
+                    <inputParameters>
+                        <name>recordId</name>
                         <value/>
                     </inputParameters>
                     <name>SearchIndexrep</name>
@@ -1355,6 +2132,10 @@
                         <name>objectApiName</name>
                         <value/>
                     </inputParameters>
+                    <inputParameters>
+                        <name>recordId</name>
+                        <value/>
+                    </inputParameters>
                     <name>SearchIndexrep2</name>
                 </fields>
                 <fields>
@@ -1368,6 +2149,10 @@
                     </inputParameters>
                     <inputParameters>
                         <name>objectApiName</name>
+                        <value/>
+                    </inputParameters>
+                    <inputParameters>
+                        <name>recordId</name>
                         <value/>
                     </inputParameters>
                     <name>SearchIndexrep3</name>
@@ -1385,6 +2170,10 @@
                         <name>objectApiName</name>
                         <value/>
                     </inputParameters>
+                    <inputParameters>
+                        <name>recordId</name>
+                        <value/>
+                    </inputParameters>
                     <name>SearchIndexrep4</name>
                 </fields>
                 <fields>
@@ -1400,6 +2189,10 @@
                         <name>objectApiName</name>
                         <value/>
                     </inputParameters>
+                    <inputParameters>
+                        <name>recordId</name>
+                        <value/>
+                    </inputParameters>
                     <name>SearchIndexrep5</name>
                 </fields>
                 <fields>
@@ -1413,6 +2206,10 @@
                     </inputParameters>
                     <inputParameters>
                         <name>objectApiName</name>
+                        <value/>
+                    </inputParameters>
+                    <inputParameters>
+                        <name>recordId</name>
                         <value/>
                     </inputParameters>
                     <name>SearchIndexrep6</name>
@@ -2873,6 +3670,10 @@
     </flowDefinitions>
     <flowDefinitions>
         <flows/>
+        <fullName>Lead_TechEventFields</fullName>
+    </flowDefinitions>
+    <flowDefinitions>
+        <flows/>
         <fullName>Legal_Entity_PB001_Notification_Investor_Services_User</fullName>
     </flowDefinitions>
     <flowDefinitions>
@@ -2962,6 +3763,879 @@
     <flowDefinitions>
         <flows/>
         <fullName>Negative_Meeting_Notes_Collection</fullName>
+    </flowDefinitions>
+    <flowDefinitions>
+        <flows>
+            <choices>
+                <name>Attendes_s_address</name>
+            </choices>
+            <choices>
+                <name>CompanyAddress</name>
+            </choices>
+            <choices>
+                <name>Event</name>
+            </choices>
+            <choices>
+                <name>MeetingChoice</name>
+            </choices>
+            <choices>
+                <name>MeetingdaysChoice</name>
+            </choices>
+            <choices>
+                <name>Other_address</name>
+            </choices>
+            <choices>
+                <name>X08_00</name>
+            </choices>
+            <choices>
+                <name>X08_15</name>
+            </choices>
+            <choices>
+                <name>X08_30</name>
+            </choices>
+            <choices>
+                <name>X08_45</name>
+            </choices>
+            <choices>
+                <name>X09_00</name>
+            </choices>
+            <choices>
+                <name>X09_15</name>
+            </choices>
+            <choices>
+                <name>X09_30</name>
+            </choices>
+            <choices>
+                <name>X09_45</name>
+            </choices>
+            <choices>
+                <name>X10_00</name>
+            </choices>
+            <choices>
+                <name>X10_15</name>
+            </choices>
+            <choices>
+                <name>X10_30</name>
+            </choices>
+            <choices>
+                <name>X10_45</name>
+            </choices>
+            <choices>
+                <name>X11_00</name>
+            </choices>
+            <choices>
+                <name>X11_15</name>
+            </choices>
+            <choices>
+                <name>X11_30</name>
+            </choices>
+            <choices>
+                <name>X11_45</name>
+            </choices>
+            <choices>
+                <name>X12_00</name>
+            </choices>
+            <choices>
+                <name>X12_15</name>
+            </choices>
+            <choices>
+                <name>X12_30</name>
+            </choices>
+            <choices>
+                <name>X12_45</name>
+            </choices>
+            <choices>
+                <name>X13_00</name>
+            </choices>
+            <choices>
+                <name>X13_15</name>
+            </choices>
+            <choices>
+                <name>X13_30</name>
+            </choices>
+            <choices>
+                <name>X13_45</name>
+            </choices>
+            <choices>
+                <name>X14_00</name>
+            </choices>
+            <choices>
+                <name>X14_15</name>
+            </choices>
+            <choices>
+                <name>X14_30</name>
+            </choices>
+            <choices>
+                <name>X14_45</name>
+            </choices>
+            <choices>
+                <name>X15_00</name>
+            </choices>
+            <choices>
+                <name>X15_15</name>
+            </choices>
+            <choices>
+                <name>X15_30</name>
+            </choices>
+            <choices>
+                <name>X15_45</name>
+            </choices>
+            <choices>
+                <name>X16_00</name>
+            </choices>
+            <choices>
+                <name>X16_15</name>
+            </choices>
+            <choices>
+                <name>X16_30</name>
+            </choices>
+            <choices>
+                <name>X16_45</name>
+            </choices>
+            <choices>
+                <name>X17_00</name>
+            </choices>
+            <choices>
+                <name>X17_15</name>
+            </choices>
+            <choices>
+                <name>X17_30</name>
+            </choices>
+            <choices>
+                <name>X17_45</name>
+            </choices>
+            <choices>
+                <name>X18_00</name>
+            </choices>
+            <choices>
+                <name>X18_15</name>
+            </choices>
+            <choices>
+                <name>X18_30</name>
+            </choices>
+            <choices>
+                <name>X18_45</name>
+            </choices>
+            <choices>
+                <name>X19_00</name>
+            </choices>
+            <choices>
+                <name>X19_15</name>
+            </choices>
+            <choices>
+                <name>X19_30</name>
+            </choices>
+            <choices>
+                <name>X19_45</name>
+            </choices>
+            <choices>
+                <name>X20_00</name>
+            </choices>
+            <screens>
+                <fields>
+                    <inputParameters>
+                        <name>messageType</name>
+                        <value/>
+                    </inputParameters>
+                    <name>AccessDeniedMsg</name>
+                </fields>
+                <name>Access_Denied</name>
+            </screens>
+            <screens>
+                <fields>
+                    <name>AddressTypemeetings</name>
+                </fields>
+                <fields>
+                    <name>Adresse_input</name>
+                </fields>
+                <fields>
+                    <inputParameters>
+                        <name>accountLabel</name>
+                        <value/>
+                    </inputParameters>
+                    <inputParameters>
+                        <name>limitSize</name>
+                        <value/>
+                    </inputParameters>
+                    <inputParameters>
+                        <name>picklistLabel</name>
+                        <value/>
+                    </inputParameters>
+                    <inputParameters>
+                        <name>showAddress</name>
+                        <value/>
+                    </inputParameters>
+                    <name>AttendeesMultiSelect</name>
+                </fields>
+                <fields>
+                    <name>Copy_1_of_Address</name>
+                </fields>
+                <fields>
+                    <inputParameters>
+                        <name>width</name>
+                        <value/>
+                    </inputParameters>
+                    <name>Copy_1_of_Address_Column1</name>
+                </fields>
+                <fields>
+                    <inputParameters>
+                        <name>width</name>
+                        <value/>
+                    </inputParameters>
+                    <name>Copy_1_of_Address_Column2</name>
+                </fields>
+                <fields>
+                    <name>Copy_1_of_Event_DetailsSection</name>
+                </fields>
+                <fields>
+                    <inputParameters>
+                        <name>width</name>
+                        <value/>
+                    </inputParameters>
+                    <name>Copy_1_of_Event_DetailsSection_Column1</name>
+                </fields>
+                <fields>
+                    <inputParameters>
+                        <name>width</name>
+                        <value/>
+                    </inputParameters>
+                    <name>Copy_1_of_Event_DetailsSection_Column2</name>
+                </fields>
+                <fields>
+                    <name>Copy_2_of_Audience_details</name>
+                </fields>
+                <fields>
+                    <inputParameters>
+                        <name>width</name>
+                        <value/>
+                    </inputParameters>
+                    <name>Copy_2_of_Audience_details_Column1</name>
+                </fields>
+                <fields>
+                    <inputParameters>
+                        <name>width</name>
+                        <value/>
+                    </inputParameters>
+                    <name>Copy_2_of_Audience_details_Column2</name>
+                </fields>
+                <fields>
+                    <name>End1</name>
+                </fields>
+                <fields>
+                    <name>Meeting_Background1to1</name>
+                </fields>
+                <fields>
+                    <name>Meeting_Goal</name>
+                </fields>
+                <fields>
+                    <name>NewMeetingRequest</name>
+                </fields>
+                <fields>
+                    <name>Plannification</name>
+                </fields>
+                <fields>
+                    <inputParameters>
+                        <name>width</name>
+                        <value/>
+                    </inputParameters>
+                    <name>Plannification_Column1</name>
+                </fields>
+                <fields>
+                    <inputParameters>
+                        <name>width</name>
+                        <value/>
+                    </inputParameters>
+                    <name>Plannification_Column2</name>
+                </fields>
+                <fields>
+                    <name>Start1</name>
+                </fields>
+                <fields>
+                    <name>el_27</name>
+                </fields>
+                <fields>
+                    <name>el_28</name>
+                </fields>
+                <fields>
+                    <name>el_29</name>
+                </fields>
+                <fields>
+                    <name>el_30</name>
+                </fields>
+                <fields>
+                    <name>el_31</name>
+                </fields>
+                <fields>
+                    <name>el_32</name>
+                </fields>
+                <fields>
+                    <name>el_33</name>
+                </fields>
+                <fields>
+                    <name>el_34</name>
+                </fields>
+                <fields>
+                    <name>el_35</name>
+                </fields>
+                <fields>
+                    <name>el_36</name>
+                </fields>
+                <fields>
+                    <name>el_37</name>
+                </fields>
+                <fields>
+                    <name>el_38</name>
+                </fields>
+                <fields>
+                    <name>errmsg2</name>
+                </fields>
+                <name>Copy_1_of_Event_Details</name>
+            </screens>
+            <screens>
+                <fields>
+                    <name>Address</name>
+                </fields>
+                <fields>
+                    <name>Copy_1_of_Copy_2_of_Audience_details</name>
+                </fields>
+                <fields>
+                    <inputParameters>
+                        <name>width</name>
+                        <value/>
+                    </inputParameters>
+                    <name>Copy_1_of_Copy_2_of_Audience_details_Column1</name>
+                </fields>
+                <fields>
+                    <inputParameters>
+                        <name>width</name>
+                        <value/>
+                    </inputParameters>
+                    <name>Copy_1_of_Copy_2_of_Audience_details_Column2</name>
+                </fields>
+                <fields>
+                    <name>Copy_1_of_End1</name>
+                </fields>
+                <fields>
+                    <name>Copy_1_of_Start1</name>
+                </fields>
+                <fields>
+                    <name>Copy_2_of_Copy_1_of_Address</name>
+                </fields>
+                <fields>
+                    <inputParameters>
+                        <name>width</name>
+                        <value/>
+                    </inputParameters>
+                    <name>Copy_2_of_Copy_1_of_Address_Column1</name>
+                </fields>
+                <fields>
+                    <inputParameters>
+                        <name>width</name>
+                        <value/>
+                    </inputParameters>
+                    <name>Copy_2_of_Copy_1_of_Address_Column2</name>
+                </fields>
+                <fields>
+                    <name>Copy_2_of_Copy_1_of_Event_DetailsSection</name>
+                </fields>
+                <fields>
+                    <inputParameters>
+                        <name>width</name>
+                        <value/>
+                    </inputParameters>
+                    <name>Copy_2_of_Copy_1_of_Event_DetailsSection_Column1</name>
+                </fields>
+                <fields>
+                    <inputParameters>
+                        <name>width</name>
+                        <value/>
+                    </inputParameters>
+                    <name>Copy_2_of_Copy_1_of_Event_DetailsSection_Column2</name>
+                </fields>
+                <fields>
+                    <name>Copy_2_of_Plannification</name>
+                </fields>
+                <fields>
+                    <inputParameters>
+                        <name>width</name>
+                        <value/>
+                    </inputParameters>
+                    <name>Copy_2_of_Plannification_Column1</name>
+                </fields>
+                <fields>
+                    <inputParameters>
+                        <name>width</name>
+                        <value/>
+                    </inputParameters>
+                    <name>Copy_2_of_Plannification_Column2</name>
+                </fields>
+                <fields>
+                    <name>Meeting_Background</name>
+                </fields>
+                <fields>
+                    <name>Meeting_Goals</name>
+                </fields>
+                <fields>
+                    <name>NewMDRequest</name>
+                </fields>
+                <fields>
+                    <name>el_39</name>
+                </fields>
+                <fields>
+                    <name>el_40</name>
+                </fields>
+                <fields>
+                    <name>el_41</name>
+                </fields>
+                <fields>
+                    <name>el_42</name>
+                </fields>
+                <fields>
+                    <name>el_43</name>
+                </fields>
+                <fields>
+                    <name>el_44</name>
+                </fields>
+                <fields>
+                    <name>el_45</name>
+                </fields>
+                <fields>
+                    <name>el_46</name>
+                </fields>
+                <fields>
+                    <name>el_47</name>
+                </fields>
+                <fields>
+                    <name>el_48</name>
+                </fields>
+                <fields>
+                    <name>el_49</name>
+                </fields>
+                <fields>
+                    <name>el_50</name>
+                </fields>
+                <fields>
+                    <name>errmsg3</name>
+                </fields>
+                <name>Copy_1_of_Meeting_Meeting_days_Details</name>
+            </screens>
+            <screens>
+                <fields>
+                    <name>Addresstype</name>
+                </fields>
+                <fields>
+                    <name>Audience_Targeting</name>
+                </fields>
+                <fields>
+                    <inputParameters>
+                        <name>width</name>
+                        <value/>
+                    </inputParameters>
+                    <name>Audience_Targeting_Column1</name>
+                </fields>
+                <fields>
+                    <inputParameters>
+                        <name>width</name>
+                        <value/>
+                    </inputParameters>
+                    <name>Audience_Targeting_Column2</name>
+                </fields>
+                <fields>
+                    <name>Copy_1_of_Copy_1_of_Address</name>
+                </fields>
+                <fields>
+                    <inputParameters>
+                        <name>width</name>
+                        <value/>
+                    </inputParameters>
+                    <name>Copy_1_of_Copy_1_of_Address_Column1</name>
+                </fields>
+                <fields>
+                    <inputParameters>
+                        <name>width</name>
+                        <value/>
+                    </inputParameters>
+                    <name>Copy_1_of_Copy_1_of_Address_Column2</name>
+                </fields>
+                <fields>
+                    <name>Copy_1_of_Copy_1_of_Event_DetailsSection</name>
+                </fields>
+                <fields>
+                    <inputParameters>
+                        <name>width</name>
+                        <value/>
+                    </inputParameters>
+                    <name>Copy_1_of_Copy_1_of_Event_DetailsSection_Column1</name>
+                </fields>
+                <fields>
+                    <name>Copy_1_of_Plannification</name>
+                </fields>
+                <fields>
+                    <inputParameters>
+                        <name>width</name>
+                        <value/>
+                    </inputParameters>
+                    <name>Copy_1_of_Plannification_Column1</name>
+                </fields>
+                <fields>
+                    <inputParameters>
+                        <name>width</name>
+                        <value/>
+                    </inputParameters>
+                    <name>Copy_1_of_Plannification_Column2</name>
+                </fields>
+                <fields>
+                    <name>End2</name>
+                </fields>
+                <fields>
+                    <name>Meeting_Backgroundd</name>
+                </fields>
+                <fields>
+                    <name>Meeting_Goall</name>
+                </fields>
+                <fields>
+                    <name>NewOneToOneRequest</name>
+                </fields>
+                <fields>
+                    <name>Speaker_Product</name>
+                </fields>
+                <fields>
+                    <inputParameters>
+                        <name>width</name>
+                        <value/>
+                    </inputParameters>
+                    <name>Speaker_Product_Column1</name>
+                </fields>
+                <fields>
+                    <name>Start2</name>
+                </fields>
+                <fields>
+                    <inputParameters>
+                        <name>accountLabel</name>
+                        <value/>
+                    </inputParameters>
+                    <inputParameters>
+                        <name>limitSize</name>
+                        <value/>
+                    </inputParameters>
+                    <inputParameters>
+                        <name>picklistLabel</name>
+                        <value/>
+                    </inputParameters>
+                    <inputParameters>
+                        <name>showAddress</name>
+                        <value/>
+                    </inputParameters>
+                    <name>attendeesContacts</name>
+                </fields>
+                <fields>
+                    <name>el_0</name>
+                </fields>
+                <fields>
+                    <name>el_1</name>
+                </fields>
+                <fields>
+                    <name>el_2</name>
+                </fields>
+                <fields>
+                    <name>el_3</name>
+                </fields>
+                <fields>
+                    <name>el_4</name>
+                </fields>
+                <fields>
+                    <name>el_5</name>
+                </fields>
+                <fields>
+                    <name>el_6</name>
+                </fields>
+                <fields>
+                    <name>el_7</name>
+                </fields>
+                <fields>
+                    <name>el_8</name>
+                </fields>
+                <fields>
+                    <name>el_9</name>
+                </fields>
+                <fields>
+                    <name>errMsg4</name>
+                </fields>
+                <fields>
+                    <inputParameters>
+                        <name>debug</name>
+                        <value/>
+                    </inputParameters>
+                    <inputParameters>
+                        <name>parentEventId</name>
+                        <value/>
+                    </inputParameters>
+                    <inputParameters>
+                        <name>showTimeSlots</name>
+                        <value/>
+                    </inputParameters>
+                    <name>sspOneTone</name>
+                </fields>
+                <name>Copy_1_of_Meeting_details</name>
+            </screens>
+            <screens>
+                <fields>
+                    <inputParameters>
+                        <name>debug</name>
+                        <value/>
+                    </inputParameters>
+                    <inputParameters>
+                        <name>showTimeSlots</name>
+                        <value/>
+                    </inputParameters>
+                    <name>Copy_1_of_SSP_LWC</name>
+                </fields>
+                <fields>
+                    <name>sspsErr</name>
+                </fields>
+                <name>Copy_1_of_Speakers_Products</name>
+            </screens>
+            <screens>
+                <fields>
+                    <inputParameters>
+                        <name>debug</name>
+                        <value/>
+                    </inputParameters>
+                    <inputParameters>
+                        <name>showTimeSlots</name>
+                        <value/>
+                    </inputParameters>
+                    <name>Copy_1_of_Copy_1_of_SSP_LWC</name>
+                </fields>
+                <fields>
+                    <name>ErrmsgSSps</name>
+                </fields>
+                <name>Copy_2_of_Speakers_Products</name>
+            </screens>
+            <screens>
+                <fields>
+                    <name>Audience_details</name>
+                </fields>
+                <fields>
+                    <inputParameters>
+                        <name>width</name>
+                        <value/>
+                    </inputParameters>
+                    <name>Audience_details_Column1</name>
+                </fields>
+                <fields>
+                    <inputParameters>
+                        <name>width</name>
+                        <value/>
+                    </inputParameters>
+                    <name>Audience_details_Column2</name>
+                </fields>
+                <fields>
+                    <name>End33</name>
+                </fields>
+                <fields>
+                    <name>Event_DetailsSection</name>
+                </fields>
+                <fields>
+                    <inputParameters>
+                        <name>width</name>
+                        <value/>
+                    </inputParameters>
+                    <name>Event_DetailsSection_Column1</name>
+                </fields>
+                <fields>
+                    <inputParameters>
+                        <name>width</name>
+                        <value/>
+                    </inputParameters>
+                    <name>Event_DetailsSection_Column2</name>
+                </fields>
+                <fields>
+                    <name>LocationEvent</name>
+                </fields>
+                <fields>
+                    <inputParameters>
+                        <name>width</name>
+                        <value/>
+                    </inputParameters>
+                    <name>LocationEvent_Column1</name>
+                </fields>
+                <fields>
+                    <inputParameters>
+                        <name>width</name>
+                        <value/>
+                    </inputParameters>
+                    <name>LocationEvent_Column2</name>
+                </fields>
+                <fields>
+                    <name>Meeting_Event_Rationale</name>
+                </fields>
+                <fields>
+                    <name>NewRequestEvent</name>
+                </fields>
+                <fields>
+                    <name>PlannificationEvent</name>
+                </fields>
+                <fields>
+                    <inputParameters>
+                        <name>width</name>
+                        <value/>
+                    </inputParameters>
+                    <name>PlannificationEvent_Column1</name>
+                </fields>
+                <fields>
+                    <inputParameters>
+                        <name>width</name>
+                        <value/>
+                    </inputParameters>
+                    <name>PlannificationEvent_Column2</name>
+                </fields>
+                <fields>
+                    <name>Start33</name>
+                </fields>
+                <fields>
+                    <name>el_10</name>
+                </fields>
+                <fields>
+                    <name>el_11</name>
+                </fields>
+                <fields>
+                    <name>el_12</name>
+                </fields>
+                <fields>
+                    <name>el_13</name>
+                </fields>
+                <fields>
+                    <name>el_14</name>
+                </fields>
+                <fields>
+                    <name>el_15</name>
+                </fields>
+                <fields>
+                    <name>el_16</name>
+                </fields>
+                <fields>
+                    <name>el_17</name>
+                </fields>
+                <fields>
+                    <name>el_18</name>
+                </fields>
+                <fields>
+                    <name>el_19</name>
+                </fields>
+                <fields>
+                    <name>el_20</name>
+                </fields>
+                <fields>
+                    <name>el_21</name>
+                </fields>
+                <fields>
+                    <name>el_22</name>
+                </fields>
+                <fields>
+                    <name>el_23</name>
+                </fields>
+                <fields>
+                    <name>el_24</name>
+                </fields>
+                <fields>
+                    <name>el_25</name>
+                </fields>
+                <fields>
+                    <name>el_26</name>
+                </fields>
+                <fields>
+                    <name>errMsg</name>
+                </fields>
+                <name>Event_Details</name>
+            </screens>
+            <screens>
+                <fields>
+                    <inputParameters>
+                        <name>openInNewTab</name>
+                        <value/>
+                    </inputParameters>
+                    <name>OpenEvent</name>
+                </fields>
+                <fields>
+                    <name>creationMessagetext</name>
+                </fields>
+                <name>RecapScreen</name>
+            </screens>
+            <screens>
+                <fields>
+                    <name>NewRequestTop</name>
+                </fields>
+                <fields>
+                    <name>eventtype</name>
+                </fields>
+                <name>SelectEventType</name>
+            </screens>
+            <screens>
+                <fields>
+                    <inputParameters>
+                        <name>debug</name>
+                        <value/>
+                    </inputParameters>
+                    <inputParameters>
+                        <name>showTimeSlots</name>
+                        <value/>
+                    </inputParameters>
+                    <name>SSP_LWC</name>
+                </fields>
+                <fields>
+                    <name>todel</name>
+                </fields>
+                <name>SpeakersEvents</name>
+            </screens>
+            <stages>
+                <name>MainSessionsStage</name>
+            </stages>
+            <stages>
+                <name>RTselectionStage</name>
+            </stages>
+            <stages>
+                <name>SpeakersProductsStage</name>
+            </stages>
+            <stages>
+                <name>eventDetailsStage</name>
+            </stages>
+            <stages>
+                <name>recapStage</name>
+            </stages>
+        </flows>
+        <fullName>NewEvent</fullName>
+    </flowDefinitions>
+    <flowDefinitions>
+        <flows>
+            <screens>
+                <fields>
+                    <name>el_0</name>
+                </fields>
+                <fields>
+                    <name>el_1</name>
+                </fields>
+                <fields>
+                    <name>el_2</name>
+                </fields>
+                <fields>
+                    <name>filesNames</name>
+                </fields>
+                <fields>
+                    <inputParameters>
+                        <name>label</name>
+                        <value/>
+                    </inputParameters>
+                    <inputParameters>
+                        <name>multiple</name>
+                        <value/>
+                    </inputParameters>
+                    <name>uploadedFile</name>
+                </fields>
+                <name>New_RFP_Library_screen</name>
+            </screens>
+        </flows>
+        <fullName>NewRFPLib</fullName>
     </flowDefinitions>
     <flowDefinitions>
         <flows>
@@ -3175,6 +4849,22 @@
         <fullName>PMT_Email_Notification_Milestone_Filing_in_7_days</fullName>
     </flowDefinitions>
     <flowDefinitions>
+        <flows/>
+        <fullName>PMT_FundManagerAssignment_Created_SendEmail</fullName>
+    </flowDefinitions>
+    <flowDefinitions>
+        <flows/>
+        <fullName>PMT_FundManagerAssignment_Deleted_RepOrder</fullName>
+    </flowDefinitions>
+    <flowDefinitions>
+        <flows>
+            <customErrorMessages>
+                <developerName>Error</developerName>
+            </customErrorMessages>
+        </flows>
+        <fullName>PMT_FundManagerAssignment_RepOrder</fullName>
+    </flowDefinitions>
+    <flowDefinitions>
         <flows>
             <customErrorMessages>
                 <developerName>Error_Duplicate_RepOrder</developerName>
@@ -3186,6 +4876,10 @@
     <flowDefinitions>
         <flows/>
         <fullName>PMT_NarrativeName</fullName>
+    </flowDefinitions>
+    <flowDefinitions>
+        <flows/>
+        <fullName>PMT_Narratives_After_Trigger</fullName>
     </flowDefinitions>
     <flowDefinitions>
         <flows>
@@ -3200,12 +4894,60 @@
         <fullName>PMT_Narratives_Duplicates_Biography</fullName>
     </flowDefinitions>
     <flowDefinitions>
+        <flows/>
+        <fullName>PMT_Narratives_Duplicates_Narrative</fullName>
+    </flowDefinitions>
+    <flowDefinitions>
+        <flows/>
+        <fullName>PMT_Narratives_Duplicates_Narrative_ThirdParty</fullName>
+    </flowDefinitions>
+    <flowDefinitions>
+        <flows/>
+        <fullName>PMT_Narratives_Duplicates_Third_Parties</fullName>
+    </flowDefinitions>
+    <flowDefinitions>
+        <flows>
+            <customErrorMessages>
+                <developerName>Invest_Perf_Error_Message</developerName>
+            </customErrorMessages>
+            <customErrorMessages>
+                <developerName>Legal_Error_Message</developerName>
+            </customErrorMessages>
+            <customErrorMessages>
+                <developerName>Risk_Error_Message</developerName>
+            </customErrorMessages>
+        </flows>
+        <fullName>PMT_PRIIPSValidationCompleted</fullName>
+    </flowDefinitions>
+    <flowDefinitions>
+        <flows>
+            <customErrorMessages>
+                <developerName>Legal_Error_Message</developerName>
+            </customErrorMessages>
+            <customErrorMessages>
+                <developerName>Risk_Error_Message</developerName>
+            </customErrorMessages>
+            <customErrorMessages>
+                <developerName>Invest_Perf_Error_Message</developerName>
+            </customErrorMessages>
+        </flows>
+        <fullName>PMT_PRIIPSValidation_Completed</fullName>
+    </flowDefinitions>
+    <flowDefinitions>
         <flows>
             <customErrorMessages>
                 <developerName>Error_Duplicate_PM_Period</developerName>
             </customErrorMessages>
         </flows>
         <fullName>PMT_ProductManagerAssignment_Prevent_Duplicate_PM_by_Period</fullName>
+    </flowDefinitions>
+    <flowDefinitions>
+        <flows/>
+        <fullName>PMT_Share_Class_Registration_Countries</fullName>
+    </flowDefinitions>
+    <flowDefinitions>
+        <flows/>
+        <fullName>PMT_Share_Class_Registration_Countries_Deleted</fullName>
     </flowDefinitions>
     <flowDefinitions>
         <flows>
@@ -3226,6 +4968,14 @@
     </flowDefinitions>
     <flowDefinitions>
         <flows/>
+        <fullName>PM_CreatedOrUpdated_SendEmail</fullName>
+    </flowDefinitions>
+    <flowDefinitions>
+        <flows/>
+        <fullName>PM_StartsorEndsSoon_SendEmail</fullName>
+    </flowDefinitions>
+    <flowDefinitions>
+        <flows/>
         <fullName>PT_GenerateVideoCallTranscript</fullName>
     </flowDefinitions>
     <flowDefinitions>
@@ -3233,11 +4983,7 @@
         <fullName>PT_MeetingNotes_AddClientInterestsToPrompt</fullName>
     </flowDefinitions>
     <flowDefinitions>
-        <flows>
-            <textTemplates>
-                <name>products</name>
-            </textTemplates>
-        </flows>
+        <flows/>
         <fullName>PT_RetrieveProducts</fullName>
     </flowDefinitions>
     <flowDefinitions>
@@ -3408,6 +5154,10 @@
             </textTemplates>
         </flows>
         <fullName>Reminder_Notice_to_Shareholders_J_60</fullName>
+    </flowDefinitions>
+    <flowDefinitions>
+        <flows/>
+        <fullName>RepriseFlexRawNotesV2</fullName>
     </flowDefinitions>
     <flowDefinitions>
         <flows>
@@ -3643,6 +5393,10 @@
             </textTemplates>
         </flows>
         <fullName>Teams_Send_Message_Milestone_Completed</fullName>
+    </flowDefinitions>
+    <flowDefinitions>
+        <flows/>
+        <fullName>TestTedNegativeCollection</fullName>
     </flowDefinitions>
     <flowDefinitions>
         <flows/>
@@ -3895,6 +5649,14 @@
     </flowDefinitions>
     <flowDefinitions>
         <flows/>
+        <fullName>WTP_Send_Email_ESG_Request_Created</fullName>
+    </flowDefinitions>
+    <flowDefinitions>
+        <flows/>
+        <fullName>WTP_WorkingHours</fullName>
+    </flowDefinitions>
+    <flowDefinitions>
+        <flows/>
         <fullName>WorkTogether_PB002_AssignToQeueu</fullName>
     </flowDefinitions>
     <flowDefinitions>
@@ -3928,6 +5690,10 @@
     <flowDefinitions>
         <flows/>
         <fullName>WorkTogether_PB11_CreateOnSiteDD</fullName>
+    </flowDefinitions>
+    <flowDefinitions>
+        <flows/>
+        <fullName>sfdc_default_ReportExport_Protection_Flow</fullName>
     </flowDefinitions>
     <quickActions>
         <label><!-- Follow Up --></label>
@@ -4484,6 +6250,19 @@
         </sections>
     </reportTypes>
     <reportTypes>
+        <description><!-- Bookly requests with Speakers &amp; Products --></description>
+        <label><!-- Bookly requests with Speakers &amp; Products --></label>
+        <name>Bookly_requests_with_Speakers_Products</name>
+        <sections>
+            <label><!-- Bookly Requests --></label>
+            <name>Bookly Requests</name>
+        </sections>
+        <sections>
+            <label><!-- Presentations --></label>
+            <name>Presentations</name>
+        </sections>
+    </reportTypes>
+    <reportTypes>
         <description><!-- Bounce_Report --></description>
         <label><!-- Bounce_Report --></label>
         <name>Bounce_Report</name>
@@ -4562,8 +6341,8 @@
         </sections>
     </reportTypes>
     <reportTypes>
-        <description><!-- Campaign with Campaign members and Leads --></description>
-        <label><!-- Campaign with Campaign members and Leads --></label>
+        <description><!-- Campaign with Campaign members --></description>
+        <label><!-- Campaign with Campaign members --></label>
         <name>Campaign_with_Campaign_members_and_Leads</name>
         <sections>
             <label><!-- Campaign Members --></label>
@@ -4572,6 +6351,10 @@
         <sections>
             <label><!-- Campaigns --></label>
             <name>Campaigns</name>
+        </sections>
+        <sections>
+            <label><!-- Contact Owner Team --></label>
+            <name>Contact Owner Team</name>
         </sections>
     </reportTypes>
     <reportTypes>
@@ -11336,6 +13119,19 @@
         </sections>
     </reportTypes>
     <reportTypes>
+        <description><!-- Duplicate Share Class --></description>
+        <label><!-- Duplicate Share Class --></label>
+        <name>DuplicateShareClass</name>
+        <sections>
+            <label><!-- Duplicate Record Items --></label>
+            <name>Duplicate Record Items</name>
+        </sections>
+        <sections>
+            <label><!-- Share Classes --></label>
+            <name>Share Classes</name>
+        </sections>
+    </reportTypes>
+    <reportTypes>
         <description><!-- Duplicate Accounts --></description>
         <label><!-- Duplicate Accounts --></label>
         <name>Duplicate_Accounts</name>
@@ -11428,6 +13224,32 @@
         <sections>
             <label><!-- Related meeting &amp; calls --></label>
             <name>Related meeting &amp; calls</name>
+        </sections>
+    </reportTypes>
+    <reportTypes>
+        <description><!-- Events with Speaker Approvals --></description>
+        <label><!-- Events with Speaker Approvals --></label>
+        <name>Events_with_Speaker_Approvals</name>
+        <sections>
+            <label><!-- Bookly Requests --></label>
+            <name>Bookly Requests</name>
+        </sections>
+        <sections>
+            <label><!-- Event Speaker Approvals --></label>
+            <name>Event Speaker Approvals</name>
+        </sections>
+        <sections>
+            <label><!-- Speaker Approvals --></label>
+            <name>Speaker Approvals</name>
+        </sections>
+    </reportTypes>
+    <reportTypes>
+        <description><!-- Flow --></description>
+        <label><!-- Flow --></label>
+        <name>Flow</name>
+        <sections>
+            <label><!-- Flows --></label>
+            <name>Flows</name>
         </sections>
     </reportTypes>
     <reportTypes>
@@ -12761,6 +14583,23 @@
         </sections>
     </reportTypes>
     <reportTypes>
+        <description><!-- Narratives by Product and Share Class --></description>
+        <label><!-- Narratives by Product and Share Class --></label>
+        <name>Narratives_by_Product_and_Share_Class</name>
+        <sections>
+            <label><!-- Narratives --></label>
+            <name>Narratives</name>
+        </sections>
+        <sections>
+            <label><!-- Product --></label>
+            <name>Product</name>
+        </sections>
+        <sections>
+            <label><!-- Shareclass --></label>
+            <name>Shareclass</name>
+        </sections>
+    </reportTypes>
+    <reportTypes>
         <description><!-- New WTP With Products --></description>
         <label><!-- New WTP With Products --></label>
         <name>New_WTP_With_Products</name>
@@ -13213,6 +15052,31 @@
         </sections>
     </reportTypes>
     <reportTypes>
+        <description><!-- Report: Events with Session Speakers &amp; Products Custom --></description>
+        <label><!-- Report: Events with Session Speakers &amp; Products Custom --></label>
+        <name>Report_Events_with_Session_Speakers_Products_Custom</name>
+        <sections>
+            <label><!-- Bookly Requests --></label>
+            <name>Bookly Requests</name>
+        </sections>
+        <sections>
+            <label><!-- Contacts --></label>
+            <name>Contacts</name>
+        </sections>
+        <sections>
+            <label><!-- Events --></label>
+            <name>Events</name>
+        </sections>
+        <sections>
+            <label><!-- Products --></label>
+            <name>Products</name>
+        </sections>
+        <sections>
+            <label><!-- Session Speakers &amp; Products --></label>
+            <name>Session Speakers &amp; Products</name>
+        </sections>
+    </reportTypes>
+    <reportTypes>
         <description><!-- Reports with dashboards --></description>
         <label><!-- Reports with dashboards --></label>
         <name>Reports_with_dashboards</name>
@@ -13314,6 +15178,19 @@
         </sections>
     </reportTypes>
     <reportTypes>
+        <description><!-- Tax Data --></description>
+        <label><!-- Tax Data --></label>
+        <name>Tax_Data</name>
+        <sections>
+            <label><!-- Tax Data --></label>
+            <name>Tax Data</name>
+        </sections>
+        <sections>
+            <label><!-- TaxDataHistories --></label>
+            <name>TaxDataHistories</name>
+        </sections>
+    </reportTypes>
+    <reportTypes>
         <description><!-- Test Case Feed --></description>
         <label><!-- Test Case Feed --></label>
         <name>Test_Case_Feed</name>
@@ -13341,6 +15218,15 @@
         <sections>
             <label><!-- Users --></label>
             <name>Users</name>
+        </sections>
+    </reportTypes>
+    <reportTypes>
+        <description><!-- Test WTP --></description>
+        <label><!-- Test WTP --></label>
+        <name>Test_WTP</name>
+        <sections>
+            <label><!-- Work Together Process Products --></label>
+            <name>Work Together Process Products</name>
         </sections>
     </reportTypes>
     <reportTypes>
@@ -13444,6 +15330,36 @@
         <sections>
             <label><!-- VoiceCall Feed --></label>
             <name>VoiceCall Feed</name>
+        </sections>
+    </reportTypes>
+    <reportTypes>
+        <description><!-- WTP --></description>
+        <label><!-- WTP --></label>
+        <name>WTP</name>
+        <sections>
+            <label><!-- Opportunity --></label>
+            <name>Opportunity</name>
+        </sections>
+        <sections>
+            <label><!-- Requester --></label>
+            <name>Requester</name>
+        </sections>
+        <sections>
+            <label><!-- Work Together Processes --></label>
+            <name>Work Together Processes</name>
+        </sections>
+    </reportTypes>
+    <reportTypes>
+        <description><!-- WTP + Opportunity --></description>
+        <label><!-- WTP + Opportunity --></label>
+        <name>WTPWithOpportunity</name>
+        <sections>
+            <label><!-- Opportunities --></label>
+            <name>Opportunities</name>
+        </sections>
+        <sections>
+            <label><!-- Work Together Processes --></label>
+            <name>Work Together Processes</name>
         </sections>
     </reportTypes>
     <reportTypes>

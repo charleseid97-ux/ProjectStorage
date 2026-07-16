@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <help><!-- Enter the developer name of the EmailTemplate (e.g. GridReviewEmailTemplate). The template must include {_Datatable_} where the Apex-generated HTML table should appear. This placeholder is replaced at runtime by the implementing class. --></help>
+    <label><!-- Email Template --></label>
+    <name>EmailTemplate__c</name>
+</CustomFieldTranslation>

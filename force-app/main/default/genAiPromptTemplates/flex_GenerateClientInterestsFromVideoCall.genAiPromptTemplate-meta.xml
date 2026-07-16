@@ -486,17 +486,21 @@ DATA
             <referenceName>Input:VideoCall</referenceName>
             <required>true</required>
         </inputs>
-        <primaryModel>sfdc_ai__DefaultGPT5</primaryModel>
+        <primaryModel>sfdc_ai__DefaultGPT54</primaryModel>
         <status>Draft</status>
         <templateDataProviders>
             <definition>flow://PT_RetrieveProducts</definition>
+            <description>Use this Prompt Template flow to retrieve product info  V3: - Added Products to Prompt</description>
+            <label>PT_RetrieveProducts</label>
             <referenceName>Flow:PT_RetrieveProducts</referenceName>
         </templateDataProviders>
         <templateDataProviders>
             <definition>flow://PT_GenerateVideoCallTranscript</definition>
+            <description>Use this template triggered flow to generate the VideoCall Transcript</description>
+            <label>PT_GenerateVideoCallTranscript</label>
             <parameters>
                 <definition>SOBJECT://VideoCall</definition>
-                <isRequired>true</isRequired>
+                <isRequired>false</isRequired>
                 <parameterName>VideoCall</parameterName>
                 <valueExpression>{!$Input:VideoCall}</valueExpression>
             </parameters>

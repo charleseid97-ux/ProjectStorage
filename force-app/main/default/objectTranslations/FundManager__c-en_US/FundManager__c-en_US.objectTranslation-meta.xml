@@ -8,6 +8,20 @@
         <plural>true</plural>
         <value>Product Managers</value>
     </caseValues>
+    <layouts>
+        <layout>Fund Manager Layout</layout>
+        <sections>
+            <label><!-- Custom Links --></label>
+            <section>Custom Links</section>
+        </sections>
+    </layouts>
+    <layouts>
+        <layout>Product Manager Layout</layout>
+        <sections>
+            <label><!-- Custom Links --></label>
+            <section>Custom Links</section>
+        </sections>
+    </layouts>
     <quickActions>
         <label><!-- New Biography --></label>
         <name>NewBio</name>

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <help><!-- FieldUpdate requires TargetFieldApiName__c and FieldValue__c. EmailAlert requires EmailTemplateName__c; recipients controlled via RecipientType__c, AdditionalQueues__c, and AdditionalUsers__c. CustomApex requires ActionClass__c. --></help>
+    <label><!-- Action Kind --></label>
+    <name>ActionKind__c</name>
+    <picklistValues>
+        <masterLabel>Custom Apex</masterLabel>
+        <translation><!-- Custom Apex --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Email Alert</masterLabel>
+        <translation><!-- Email Alert --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Field Update</masterLabel>
+        <translation><!-- Field Update --></translation>
+    </picklistValues>
+</CustomFieldTranslation>

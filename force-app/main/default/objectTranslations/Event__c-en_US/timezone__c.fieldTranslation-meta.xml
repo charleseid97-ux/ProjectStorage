@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <help><!-- The city is indicative. The actual time is defined by GMT. --></help>
+    <label><!-- Timezone --></label>
+    <name>timezone__c</name>
+    <picklistValues>
+        <masterLabel>Dubai Time</masterLabel>
+        <translation><!-- Dubai Time --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Helsinki Time</masterLabel>
+        <translation><!-- Helsinki Time --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>London Time</masterLabel>
+        <translation><!-- London Time --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Montreal Time</masterLabel>
+        <translation><!-- Montreal Time --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Paris Time</masterLabel>
+        <translation><!-- Paris Time --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Singapore Time</masterLabel>
+        <translation><!-- Singapore Time --></translation>
+    </picklistValues>
+</CustomFieldTranslation>

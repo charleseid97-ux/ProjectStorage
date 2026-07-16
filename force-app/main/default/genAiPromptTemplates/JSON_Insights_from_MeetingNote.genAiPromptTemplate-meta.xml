@@ -968,6 +968,353 @@ Each insight must:
             <referenceName>Flow:List_of_Share_Classes_Funds_and_Strategy</referenceName>
         </templateDataProviders>
     </templateVersions>
+    <templateVersions>
+        <content>### **Extract Investment Insights from Meeting Notes**
+
+Here are all the products at Carmignac:
+
+**[ {!$Flow:List_of_Share_Classes_Funds_and_Strategy.Prompt} ]**
+
+Extract insights from the provided meeting notes and return the result in JSON format:
+NB: Return only the raw JSON without any markdown or code block formatting (no ` or &apos;&apos;&apos; at the start or end).
+
+---
+
+### **1. Product Matching**
+Match any mentioned product in the meeting notes with the provided product data based on:
+
+- **Product Code**
+- **Product Name**
+- **Indirect references or contextual mentions** (e.g., &quot;the fund,&quot; &quot;the product,&quot; or other descriptions related to the product). Even partial or implied references should be matched.
+
+If no equivalent product is found, **ignore the record** and do not include it in the JSON output.
+
+---
+
+### **2. Sentiment Analysis**
+Analyze the overall sentiment and must be exactly one of:
+- &quot;positive&quot;: clear favorable opinion, satisfaction, demand, confidence, strong performance, or positive outlook.
+- &quot;neutral&quot;: factual statement, descriptive product mention, no explicit client opinion, balanced/mixed feedback, or insufficient evidence.
+- &quot;negative&quot;: clear concern, criticism, dissatisfaction, weak demand, poor performance, risk concern, or negative outlook.
+
+🔴 **Use neutral when the note is factual, descriptive, ambiguous, mixed without clear dominance, or when there is not enough evidence to infer positive or negative sentiment.**
+- Do not force a positive or negative sentiment.
+- Only classify as positive or negative when the wording contains clear evidence.
+
+---
+
+### **3. Key Highlights**
+Extract key insights, decisions, or feedback related to the following categories:
+- **Performance** (e.g., returns, stability, portfolio growth)
+- **Client Sentiment** (e.g., investor perception, demand, feedback)
+- **Fund Strategy** (e.g., investment approach, positioning, risk strategy)
+- **Market Context** (e.g., external factors affecting performance, regulatory impact)
+
+Each insight must:
+- **Be at least 3 words long** to ensure meaningful extraction.
+- **Include the product code, product name, or a clear contextual reference.**
+- **Have its own entry in the JSON output** (do not merge multiple insights into a single object).
+- If an insight fits multiple categories, **assign it to each applicable category separately.**
+
+---
+
+### **Additional Processing Rules**
+❌ Ignore meeting notes shorter than **3 words** entirely.
+❌ Ignore key highlights that do not include a product reference (explicit or contextual).
+✅ Ensure that each insight is placed in the most relevant category.
+✅ **Sentiment must be decisive**—default to either positive or negative unless purely factual.
+
+---
+
+### **Meeting Notes Input:**
+{!$Input:Meeting_Note.Note__c}
+
+---
+
+### **Response Format (JSON Output Only, No Additional Text):**
+
+[
+ {
+  &quot;product_Id&quot;: &quot;&lt;product_Id1&gt;&quot;,
+  &quot;meetingNote_Id&quot;: {!$Input:Meeting_Note.Id},
+  &quot;product_name&quot;: &quot;&lt;product_name1&gt;&quot;,
+  &quot;product_code&quot;: &quot;&lt;product_code1&gt;&quot;,
+  &quot;category&quot;: &quot;Performance&quot;,
+  &quot;sentiment&quot;: &quot;positive&quot;,
+  &quot;key_highlights&quot;: &quot;CP&apos;s selections have performed strongly in volatile conditions.&quot;
+ },
+ {
+  &quot;product_Id&quot;: &quot;&lt;product_Id1&gt;&quot;,
+  &quot;meetingNote_Id&quot;: {!$Input:Meeting_Note.Id},
+  &quot;product_name&quot;: &quot;&lt;product_name1&gt;&quot;,
+  &quot;product_code&quot;: &quot;&lt;product_code1&gt;&quot;,
+  &quot;category&quot;: &quot;Performance&quot;,
+  &quot;sentiment&quot;: &quot;negative&quot;,
+  &quot;key_highlights&quot;: &quot;Portfolio returns have been below expectations this quarter.&quot;
+ },
+ {
+  &quot;product_Id&quot;: &quot;&lt;product_Id1&gt;&quot;,
+  &quot;meetingNote_Id&quot;: {!$Input:Meeting_Note.Id},
+  &quot;product_name&quot;: &quot;&lt;product_name1&gt;&quot;,
+  &quot;product_code&quot;: &quot;&lt;product_code1&gt;&quot;,
+  &quot;category&quot;: &quot;Client Sentiment&quot;,
+  &quot;sentiment&quot;: &quot;negative&quot;,
+  &quot;key_highlights&quot;: &quot;Investors expressed concerns about liquidity and risk exposure.&quot;
+ },
+ {
+  &quot;product_Id&quot;: &quot;&lt;product_Id2&gt;&quot;,
+  &quot;meetingNote_Id&quot;: {!$Input:Meeting_Note.Id},
+  &quot;product_name&quot;: &quot;&lt;product_name2&gt;&quot;,
+  &quot;product_code&quot;: &quot;&lt;product_code2&gt;&quot;,
+  &quot;category&quot;: &quot;Fund Strategy&quot;,
+  &quot;sentiment&quot;: &quot;positive&quot;,
+  &quot;key_highlights&quot;: &quot;Positioned as a diversified fixed-income solution, attracting strong interest.&quot;
+ }
+{
+ &quot;product_Id&quot;: &quot;&lt;product_Id3&gt;&quot;,
+ &quot;meetingNote_Id&quot;: {!$Input:Meeting_Note.Id},
+ &quot;product_name&quot;: &quot;&lt;product_name3&gt;&quot;,
+ &quot;product_code&quot;: &quot;&lt;product_code3&gt;&quot;,
+ &quot;category&quot;: &quot;Retail&quot;,
+ &quot;sentiment&quot;: &quot;neutral&quot;,
+ &quot;key_highlights&quot;: &quot;The client asked for more information about Carmignac Portfolio Patrimoine Europe.&quot;
+}
+{
+&quot;product_Id&quot;: &quot;&lt;product_Id3&gt;&quot;,
+ &quot;meetingNote_Id&quot;: {!$Input:Meeting_Note.Id},
+ &quot;product_name&quot;: &quot;&lt;product_name3&gt;&quot;,
+ &quot;product_code&quot;: &quot;&lt;product_code3&gt;&quot;,
+ &quot;category&quot;: &quot;Retail&quot;,
+ &quot;sentiment&quot;: &quot;neutral&quot;,
+ &quot;key_highlights&quot;: &quot;Carmignac Portfolio Credit was presented during the meeting.&quot;
+}
+]
+
+---
+
+</content>
+        <inputs>
+            <apiName>Meeting_Note</apiName>
+            <definition>SOBJECT://Meeting_Note__c</definition>
+            <masterLabel>Meeting Note</masterLabel>
+            <referenceName>Input:Meeting_Note</referenceName>
+            <required>true</required>
+        </inputs>
+        <primaryModel>sfdc_ai__DefaultGPT54</primaryModel>
+        <status>Draft</status>
+        <templateDataProviders>
+            <definition>flow://List_of_Share_Classes_Funds_and_Strategy</definition>
+            <label>List of Share Classes, Funds and Strategy</label>
+            <referenceName>Flow:List_of_Share_Classes_Funds_and_Strategy</referenceName>
+        </templateDataProviders>
+    </templateVersions>
+    <templateVersions>
+        <content>🟦###**Extract Investment Insights from Meeting Notes**
+
+Here are all the products at Carmignac:
+
+[ {!$Flow:List_of_Share_Classes_Funds_and_Strategy.Prompt} ]
+
+Extract investment insights from the meeting notes and return the result as valid JSON.
+
+NB: Return only raw JSON. Do not include markdown, explanations, code blocks, or additional text.
+
+---------------------------------------------------------------------------------------------------------------
+
+🟦###**1. Product Matching**
+
+Match products mentioned in the meeting notes against the provided product list using:
+
+- Product Code
+- Product Name
+- Common abbreviations
+- Contextual or indirect references when the product can be identified with reasonable confidence
+
+Examples:
+- &quot;CE&quot; → Carmignac Emergents
+&quot;- the fund&quot; → only if the referenced product is clearly identifiable from the surrounding text
+
+Do not create a record if no product can be matched with sufficient confidence.
+
+---
+
+🟦###**2. Sentiment Analysis**
+
+Determine the sentiment associated with each extracted insight.
+
+Sentiment must be exactly one of:
+
+- &quot;positive&quot;
+- &quot;neutral&quot;
+- &quot;negative&quot;
+
+🟩- Positive -
+
+Use only when there is explicit evidence of:
+
+- client interest
+- client demand
+- client satisfaction
+- confidence
+- positive feedback
+- strong performance
+- favorable outlook
+- increased allocations
+- successful positioning
+
+#*Examples:
+
+- &quot;Strong client interest in CE.&quot;
+- &quot;The strategy has performed well.&quot;
+- &quot;Investors are increasing allocations.&quot;
+
+🟥- Negative -
+
+Use only when there is explicit evidence of:
+
+- concern
+- criticism
+- dissatisfaction
+- redemption risk
+- weak demand
+- poor performance
+- risk concerns
+- negative outlook
+
+#*Examples:
+
+- &quot;Clients remain concerned about volatility.&quot;
+- &quot;Performance has disappointed investors.&quot;
+- &quot;Demand remains weak.&quot;
+
+🟨- Neutral -
+
+Use when:
+
+- the statement is factual
+- the product is merely presented or discussed
+- the note describes positioning or strategy without evaluation
+- the note provides market context only
+- sentiment is unclear or mixed
+- there is insufficient evidence for positive or negative classification
+
+#*Examples:
+
+- &quot;The fund was presented during the meeting.&quot;
+- &quot;The strategy focuses on emerging markets.&quot;
+- &quot;The client requested additional information.&quot;
+- &quot;The product was discussed as part of portfolio diversification.&quot;
+
+#*Important Rules*
+
+-✅ Neutral is the default classification.
+-❌ Do not infer positive sentiment from a simple product mention.
+-❌ Do not infer positive sentiment from product positioning alone.
+-❌ Do not infer positive sentiment from market context alone.
+-✅ Only assign positive or negative sentiment when explicit evidence exists.
+-----------------------------------------------------------------------------------------
+
+🟦###**3. Categories**
+
+Assign each insight to the single most relevant category:
+
+Performance
+Client Sentiment
+Fund Strategy
+Market Context
+
+Do not duplicate the same insight across multiple categories.
+
+Category guidance:
+
+Performance
+
+Returns, volatility, risk-adjusted returns, performance attribution, portfolio growth.
+
+Client Sentiment
+
+Investor demand, feedback, concerns, appetite, allocation decisions.
+
+Fund Strategy
+
+Investment process, positioning, portfolio construction, risk management, investment themes.
+
+Market Context
+
+Macro environment, regulation, elections, rates, inflation, geopolitical events, market conditions.
+-----------------------------------------------------------------------------------------------------------
+
+🟦###**4. Key Highlights**
+
+Each insight must:
+
+- contain at least 3 meaningful words
+- be directly supported by the meeting note
+- reference the product explicitly or through a clearly identifiable context
+- describe one distinct insight only
+
+Do not merge multiple insights into a single record.
+------------------------------------------------------------------------------------------------------------
+
+🟦###**5. Processing Rules**
+
+Ignore meeting notes shorter than 3 words.
+
+Ignore insights without a product reference.
+
+Ignore generic meeting content unrelated to products.
+
+Create multiple records only when distinct insights exist.
+
+Do not generate duplicate insights with different categories.
+
+For Market Context insights, use neutral unless a clear positive or negative opinion is expressed regarding the product.
+
+--------------------------------------------------------------------------------------------------------------------------------------
+🟦###**Meeting Notes Input**
+
+{!$Input:Meeting_Note.Note__c}
+
+--------------------------------------------------------------------------------------------------------------------------------------
+
+🟦###**Response Format**
+
+[
+{
+&quot;product_Id&quot;: &quot;&lt;product_Id&gt;&quot;,
+&quot;meetingNote_Id&quot;: &quot;{!$Input:Meeting_Note.Id}&quot;,
+&quot;product_name&quot;: &quot;&lt;product_name&gt;&quot;,
+&quot;product_code&quot;: &quot;&lt;product_code&gt;&quot;,
+&quot;category&quot;: &quot;Client Sentiment&quot;,
+&quot;sentiment&quot;: &quot;positive&quot;,
+&quot;key_highlights&quot;: &quot;Investors showed strong interest in Carmignac Emergents.&quot;
+},
+{
+&quot;product_Id&quot;: &quot;&lt;product_Id&gt;&quot;,
+&quot;meetingNote_Id&quot;: &quot;{!$Input:Meeting_Note.Id}&quot;,
+&quot;product_name&quot;: &quot;&lt;product_name&gt;&quot;,
+&quot;product_code&quot;: &quot;&lt;product_code&gt;&quot;,
+&quot;category&quot;: &quot;Fund Strategy&quot;,
+&quot;sentiment&quot;: &quot;neutral&quot;,
+&quot;key_highlights&quot;: &quot;The strategy focuses on emerging market equities.&quot;
+}
+]
+</content>
+        <inputs>
+            <apiName>Meeting_Note</apiName>
+            <definition>SOBJECT://Meeting_Note__c</definition>
+            <masterLabel>Meeting Note</masterLabel>
+            <referenceName>Input:Meeting_Note</referenceName>
+            <required>true</required>
+        </inputs>
+        <primaryModel>sfdc_ai__DefaultGPT54</primaryModel>
+        <status>Published</status>
+        <templateDataProviders>
+            <definition>flow://List_of_Share_Classes_Funds_and_Strategy</definition>
+            <label>List of Share Classes, Funds and Strategy</label>
+            <referenceName>Flow:List_of_Share_Classes_Funds_and_Strategy</referenceName>
+        </templateDataProviders>
+    </templateVersions>
     <type>einstein_gpt__flex</type>
     <visibility>Global</visibility>
 </GenAiPromptTemplate>

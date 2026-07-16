@@ -8,52 +8,7 @@ History
 //1.0 BP - Initial build of class on 19/2/2019
 ***************************************************************************************************************************/
 
-public inherited sharing class ContactUtil {
-
-    private static void checkContactReadAccess() {
-    if (!Schema.sObjectType.Contact.isAccessible()
-        || !Schema.sObjectType.Contact.fields.Id.isAccessible()
-        || !Schema.sObjectType.Contact.fields.Name.isAccessible()
-        || !Schema.sObjectType.Contact.fields.OwnerId.isAccessible()
-        || !Schema.sObjectType.Contact.fields.Proposed_HOC_approval__c.isAccessible()
-        || !Schema.sObjectType.Contact.fields.Current_HOC_approval__c.isAccessible()
-        || !Schema.sObjectType.Contact.fields.Proposed_Contact_Owner__c.isAccessible()
-        || !Schema.sObjectType.Contact.fields.Owner_Change_Requested_By__c.isAccessible()
-        || !Schema.sObjectType.Contact.fields.BypassProposedOwnerVR__c.isAccessible()
-        || !Schema.sObjectType.Contact.fields.Bypass_Apex__c.isAccessible()
-        || !Schema.sObjectType.User.isAccessible()
-        || !Schema.sObjectType.User.fields.Name.isAccessible()) {
-        throw new AuraHandledException('Access denied to Contact fields.');
-    }
-}
-
-   
-
-    private static void checkUserReadAccess() {
-        if (!Schema.sObjectType.User.isAccessible()
-            || !Schema.sObjectType.User.fields.Id.isAccessible()
-            || !Schema.sObjectType.User.fields.Name.isAccessible()
-            || !Schema.sObjectType.User.fields.BusinessDevelopmentRegions__c.isAccessible()) {
-            throw new AuraHandledException('Access denied to User fields.');
-        }
-    }
-
-    private static void checkHocUserReadAccess() {
-        if (!Schema.sObjectType.User.isAccessible()
-            || !Schema.sObjectType.User.fields.Id.isAccessible()
-            || !Schema.sObjectType.User.fields.Name.isAccessible()
-            || !Schema.sObjectType.User.fields.Position__c.isAccessible()
-            || !Schema.sObjectType.User.fields.IsActive.isAccessible()
-            || !Schema.sObjectType.User.fields.TECH_TextBusinessDevelopmentRegions__c.isAccessible()) {
-            throw new AuraHandledException('Access denied to HOC User fields.');
-        }
-    }
-
-    private static void checkContactUpdateAccess() {
-        if (!Schema.sObjectType.Contact.isUpdateable()) {
-            throw new AuraHandledException('No update access on Contact.');
-        }
-    }
+public class ContactUtil {
 
     @AuraEnabled
     public static Map<String, Object> buildApprovalData(String contactId) {
@@ -96,7 +51,6 @@ public inherited sharing class ContactUtil {
             SELECT Persona__c
             FROM Contact
             WHERE Id = :contactId
-            WITH SECURITY_ENFORCED
             LIMIT 1
         ];
         return c.Persona__c;
@@ -117,7 +71,6 @@ public inherited sharing class ContactUtil {
                    Bypass_Apex__c
             FROM Contact
             WHERE Id = :contactId
-            WITH SECURITY_ENFORCED
             LIMIT 1
         ];
     }
@@ -140,8 +93,6 @@ public inherited sharing class ContactUtil {
 
     @AuraEnabled
     public static User getCurrentUser(String currentUserId) {
-        checkUserReadAccess();
-
         return [
             SELECT Name, Id, BusinessDevelopmentRegions__c
             FROM User
@@ -152,26 +103,11 @@ public inherited sharing class ContactUtil {
 
     @AuraEnabled
     public static void saveContact(String contactId, Boolean autoApprove, User newOwner) {
-        checkContactReadAccess();
-        checkContactUpdateAccess();
-
         Contact cUpd = getCurrentContact(contactId);
 
         if (autoApprove) {
-            if (!Schema.sObjectType.Contact.fields.OwnerId.isUpdateable()) {
-                throw new AuraHandledException('No access to update Contact Owner.');
-            }
             cUpd.OwnerId = newOwner.Id;
         } else {
-            if (!Schema.sObjectType.Contact.fields.BypassProposedOwnerVR__c.isUpdateable()
-                || !Schema.sObjectType.Contact.fields.Bypass_Apex__c.isUpdateable()
-                || !Schema.sObjectType.Contact.fields.Proposed_Contact_Owner__c.isUpdateable()
-                || !Schema.sObjectType.Contact.fields.Current_HOC_approval__c.isUpdateable()
-                || !Schema.sObjectType.Contact.fields.Proposed_HOC_approval__c.isUpdateable()
-                || !Schema.sObjectType.Contact.fields.Owner_Change_Requested_By__c.isUpdateable()) {
-                throw new AuraHandledException('No access to update Contact fields.');
-            }
-
             cUpd.BypassProposedOwnerVR__c = true;
             cUpd.Bypass_Apex__c = true;
             cUpd.Proposed_Contact_Owner__c = newOwner.Id;
@@ -185,13 +121,6 @@ public inherited sharing class ContactUtil {
 
     @AuraEnabled
     public static Contact approveCurrent(String contactId) {
-        checkContactReadAccess();
-        checkContactUpdateAccess();
-
-        if (!Schema.sObjectType.Contact.fields.Current_HOC_approval__c.isUpdateable()) {
-            throw new AuraHandledException('No access to update Current HOC approval.');
-        }
-
         Contact cUpd = getCurrentContact(contactId);
         cUpd.Current_HOC_approval__c = true;
         update cUpd;
@@ -200,14 +129,6 @@ public inherited sharing class ContactUtil {
 
     @AuraEnabled
     public static Contact approveProposed(String contactId) {
-        checkContactReadAccess();
-        checkContactUpdateAccess();
-
-        if (!Schema.sObjectType.Contact.fields.Proposed_HOC_approval__c.isUpdateable()
-            || !Schema.sObjectType.Contact.fields.BypassProposedOwnerVR__c.isUpdateable()) {
-            throw new AuraHandledException('No access to update Proposed HOC approval.');
-        }
-
         Contact cUpd = getCurrentContact(contactId);
         cUpd.Proposed_HOC_approval__c = true;
         cUpd.BypassProposedOwnerVR__c = false;
@@ -223,9 +144,6 @@ public inherited sharing class ContactUtil {
     }
 
     public static List<User> getHOCsFromUserId(String userId) {
-        checkUserReadAccess();
-        checkHocUserReadAccess();
-
         User thisUser = getCurrentUser(userId);
         Set<String> bdrSet = new Set<String>();
         Map<Id, User> uniqueHocUsers = new Map<Id, User>();
@@ -263,23 +181,6 @@ public inherited sharing class ContactUtil {
 
     @AuraEnabled
     public static void rejectOwnershipChange(Contact contact) {
-        checkContactUpdateAccess();
-
-        if (!Schema.sObjectType.Contact.isAccessible()
-            || !Schema.sObjectType.Contact.fields.Name.isAccessible()
-            || !Schema.sObjectType.Contact.fields.Owner_Change_Requested_By__c.isAccessible()
-            || !Schema.sObjectType.Contact.fields.Bypass_Apex__c.isUpdateable()
-            || !Schema.sObjectType.Contact.fields.BypassProposedOwnerVR__c.isUpdateable()
-            || !Schema.sObjectType.Contact.fields.Proposed_HOC_approval__c.isUpdateable()
-            || !Schema.sObjectType.Contact.fields.Current_HOC_approval__c.isUpdateable()
-            || !Schema.sObjectType.Contact.fields.Proposed_Contact_Owner__c.isUpdateable()
-            || !Schema.sObjectType.Contact.fields.Owner_Change_Requested_By__c.isUpdateable()
-            || !Schema.sObjectType.User.isAccessible()
-            || !Schema.sObjectType.User.fields.Name.isAccessible()
-            || !Schema.sObjectType.User.fields.Email.isAccessible()) {
-            throw new AuraHandledException('Access denied.');
-        }
-
         User requestUser = null;
         if (contact.Owner_Change_Requested_By__c != null) {
             requestUser = [

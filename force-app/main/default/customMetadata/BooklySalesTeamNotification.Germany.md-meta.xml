@@ -4,10 +4,10 @@
     <protected>false</protected>
     <values>
         <field>emailAddressCRM__c</field>
-        <value xsi:nil="true"/>
+        <value xsi:type="xsd:string">workgroup.crmgermany@carmignac.com</value>
     </values>
     <values>
         <field>emailAddress__c</field>
-        <value xsi:type="xsd:string">aelhitary@carmignac.com</value>
+        <value xsi:type="xsd:string">germany.professionalclients@carmignac.com</value>
     </values>
 </CustomMetadata>

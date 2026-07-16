@@ -10,5 +10,5 @@
     <openType>sidebar</openType>
     <protected>false</protected>
     <requireRowSelection>false</requireRowSelection>
-    <url>/flow/NewEvent?retUrl=https://carmignac-crm--partcopy.sandbox.lightning.force.com/lightning/o/Event__c/list?filterName=__Recent</url>
+    <url>/flow/NewEvent?retUrl=/lightning/o/Event__c/list?filterName=__Recent</url>
 </WebLink>

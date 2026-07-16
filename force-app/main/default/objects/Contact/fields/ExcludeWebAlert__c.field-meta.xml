@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>ExcludeWebAlert__c</fullName>
+    <defaultValue>false</defaultValue>
+    <description>Prevents this contact from triggering automated web activity alerts to Sales Owners. Used for known false positives, internal users, test contacts, or non-relevant tracking activity.
+FL After Save Task Business Opportunity with logs and update EMAIL</description>
+    <label>Exclude Web Alert</label>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <type>Checkbox</type>
+</CustomField>

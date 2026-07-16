@@ -1,3 +1,164 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<SharingRules xmlns="http://soap.sforce.com/2006/04/metadata"/>
-
+<SharingRules xmlns="http://soap.sforce.com/2006/04/metadata">
+    <sharingCriteriaRules>
+        <fullName>Biography_Edit</fullName>
+        <accessLevel>Edit</accessLevel>
+        <label>Biography Edit</label>
+        <sharedTo>
+            <group>Communication</group>
+        </sharedTo>
+        <criteriaItems>
+            <field>RecordTypeId</field>
+            <operation>equals</operation>
+            <value>Biography</value>
+        </criteriaItems>
+        <includeRecordsOwnedByAll>true</includeRecordsOwnedByAll>
+    </sharingCriteriaRules>
+    <sharingCriteriaRules>
+        <fullName>Compliance</fullName>
+        <accessLevel>Edit</accessLevel>
+        <label>Compliance</label>
+        <sharedTo>
+            <group>Compliance</group>
+        </sharedTo>
+        <criteriaItems>
+            <field>RecordTypeId</field>
+            <operation>equals</operation>
+            <value>Narrative</value>
+        </criteriaItems>
+        <criteriaItems>
+            <field>Type__c</field>
+            <operation>equals</operation>
+            <value>Third Party</value>
+        </criteriaItems>
+        <criteriaItems>
+            <field>SubType__c</field>
+            <operation>equals</operation>
+            <value>Fund Auditor</value>
+        </criteriaItems>
+        <includeRecordsOwnedByAll>true</includeRecordsOwnedByAll>
+    </sharingCriteriaRules>
+    <sharingCriteriaRules>
+        <fullName>DCO</fullName>
+        <accessLevel>Edit</accessLevel>
+        <label>DCO</label>
+        <sharedTo>
+            <group>DCO</group>
+        </sharedTo>
+        <booleanFilter>(1 AND ((2 AND 3) OR (4 AND 5))) OR 6</booleanFilter>
+        <criteriaItems>
+            <field>RecordTypeId</field>
+            <operation>equals</operation>
+            <value>Narrative</value>
+        </criteriaItems>
+        <criteriaItems>
+            <field>Type__c</field>
+            <operation>equals</operation>
+            <value>Third Party</value>
+        </criteriaItems>
+        <criteriaItems>
+            <field>SubType__c</field>
+            <operation>equals</operation>
+            <value>Transfer Agent,Pre-central admin,Pre Central Admin,Central Admin 1,Central Admin 2,Prime Transfer Agent</value>
+        </criteriaItems>
+        <criteriaItems>
+            <field>Type__c</field>
+            <operation>equals</operation>
+            <value>PRIIPs</value>
+        </criteriaItems>
+        <criteriaItems>
+            <field>SubType__c</field>
+            <operation>equals</operation>
+            <value>Settlement Period</value>
+        </criteriaItems>
+        <criteriaItems>
+            <field>RecordTypeId</field>
+            <operation>equals</operation>
+            <value>Third Parties</value>
+        </criteriaItems>
+        <includeRecordsOwnedByAll>true</includeRecordsOwnedByAll>
+    </sharingCriteriaRules>
+    <sharingCriteriaRules>
+        <fullName>Legal</fullName>
+        <accessLevel>Edit</accessLevel>
+        <label>Legal</label>
+        <sharedTo>
+            <group>Legal</group>
+        </sharedTo>
+        <booleanFilter>1 AND ( (2 AND 3 ) OR (4 AND 5))</booleanFilter>
+        <criteriaItems>
+            <field>RecordTypeId</field>
+            <operation>equals</operation>
+            <value>Narrative</value>
+        </criteriaItems>
+        <criteriaItems>
+            <field>Type__c</field>
+            <operation>equals</operation>
+            <value>PRIIPs</value>
+        </criteriaItems>
+        <criteriaItems>
+            <field>SubType__c</field>
+            <operation>equals</operation>
+            <value>Intented Retail Investor,Share Class Investment Objective,Other relevant information,Performance fee UCITS KIID,Reason for RHP - Redemption shareclass,Performance fee EPT/KID,Reason for RHP</value>
+        </criteriaItems>
+        <criteriaItems>
+            <field>Type__c</field>
+            <operation>equals</operation>
+            <value>Investment Objective</value>
+        </criteriaItems>
+        <criteriaItems>
+            <field>SubType__c</field>
+            <operation>equals</operation>
+            <value>PRIIPS</value>
+        </criteriaItems>
+        <includeRecordsOwnedByAll>true</includeRecordsOwnedByAll>
+    </sharingCriteriaRules>
+    <sharingCriteriaRules>
+        <fullName>OPS</fullName>
+        <accessLevel>Edit</accessLevel>
+        <label>OPS</label>
+        <sharedTo>
+            <group>OPS</group>
+        </sharedTo>
+        <criteriaItems>
+            <field>RecordTypeId</field>
+            <operation>equals</operation>
+            <value>Narrative</value>
+        </criteriaItems>
+        <criteriaItems>
+            <field>Type__c</field>
+            <operation>equals</operation>
+            <value>Third Party</value>
+        </criteriaItems>
+        <criteriaItems>
+            <field>SubType__c</field>
+            <operation>equals</operation>
+            <value>Fund Admin,Custodian</value>
+        </criteriaItems>
+        <includeRecordsOwnedByAll>true</includeRecordsOwnedByAll>
+    </sharingCriteriaRules>
+    <sharingCriteriaRules>
+        <fullName>ProductStrategy</fullName>
+        <accessLevel>Edit</accessLevel>
+        <label>Product Strategy</label>
+        <sharedTo>
+            <group>ProductStrategy</group>
+        </sharedTo>
+        <criteriaItems>
+            <field>RecordTypeId</field>
+            <operation>equals</operation>
+            <value>Narrative</value>
+        </criteriaItems>
+        <criteriaItems>
+            <field>Type__c</field>
+            <operation>equals</operation>
+            <value>Third Party</value>
+        </criteriaItems>
+        <criteriaItems>
+            <field>SubType__c</field>
+            <operation>equals</operation>
+            <value>Management Company,Delegated_Investment_Management 2,Delegated_Investment_Management 3,Fund Advisor,Delegated_FX_Investment_Manager,Delegated_Investment_Management 1</value>
+        </criteriaItems>
+        <includeRecordsOwnedByAll>true</includeRecordsOwnedByAll>
+    </sharingCriteriaRules>
+</SharingRules>

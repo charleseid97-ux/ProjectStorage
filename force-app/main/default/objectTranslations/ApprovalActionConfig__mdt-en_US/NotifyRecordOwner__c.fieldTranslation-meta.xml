@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <help><!-- Sends to the user in the OwnerId field of the target record. If the record is owned by a queue, the queue members are resolved and notified individually. --></help>
+    <label><!-- Notify Record Owner --></label>
+    <name>NotifyRecordOwner__c</name>
+</CustomFieldTranslation>

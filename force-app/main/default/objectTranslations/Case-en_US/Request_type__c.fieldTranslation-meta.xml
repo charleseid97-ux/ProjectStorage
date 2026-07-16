@@ -1,7 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
-    <label><!-- Request type --></label>
+    <label><!-- Request Type --></label>
     <name>Request_type__c</name>
+    <picklistValues>
+        <masterLabel>Firm-Level ESG</masterLabel>
+        <translation><!-- Firm-Level ESG --></translation>
+    </picklistValues>
     <picklistValues>
         <masterLabel>Fund Features</masterLabel>
         <translation><!-- Fund Features --></translation>
@@ -21,6 +25,10 @@
     <picklistValues>
         <masterLabel>Performance Comment</masterLabel>
         <translation><!-- Performance Comment --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Product ESG</masterLabel>
+        <translation><!-- Product ESG --></translation>
     </picklistValues>
     <picklistValues>
         <masterLabel>RFI</masterLabel>

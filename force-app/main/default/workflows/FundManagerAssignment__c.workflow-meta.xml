@@ -5,6 +5,22 @@
         <description>PM_AddedToProduct</description>
         <protected>false</protected>
         <recipients>
+            <recipient>DCR_Dissemination</recipient>
+            <type>group</type>
+        </recipients>
+        <recipients>
+            <recipient>DCR_Reporting</recipient>
+            <type>group</type>
+        </recipients>
+        <recipients>
+            <recipient>Digital_Marketing</recipient>
+            <type>group</type>
+        </recipients>
+        <recipients>
+            <recipient>RFP</recipient>
+            <type>group</type>
+        </recipients>
+        <recipients>
             <recipient>mira.eid.external-crm@carmignac.com</recipient>
             <type>user</type>
         </recipients>
@@ -15,6 +31,22 @@
         <fullName>PM_NoLongerLiaised</fullName>
         <description>PM_NoLongerLiaised</description>
         <protected>false</protected>
+        <recipients>
+            <recipient>DCR_Dissemination</recipient>
+            <type>group</type>
+        </recipients>
+        <recipients>
+            <recipient>DCR_Reporting</recipient>
+            <type>group</type>
+        </recipients>
+        <recipients>
+            <recipient>Digital_Marketing</recipient>
+            <type>group</type>
+        </recipients>
+        <recipients>
+            <recipient>RFP</recipient>
+            <type>group</type>
+        </recipients>
         <recipients>
             <recipient>mira.eid.external-crm@carmignac.com</recipient>
             <type>user</type>

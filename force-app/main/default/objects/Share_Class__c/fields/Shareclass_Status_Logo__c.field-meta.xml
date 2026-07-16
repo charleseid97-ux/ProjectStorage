@@ -3,7 +3,11 @@
     <fullName>Shareclass_Status_Logo__c</fullName>
     <externalId>false</externalId>
     <formula>IF(
-  TEXT(Status__c) = &quot;Active&quot;,
+OR(
+TEXT(Status__c) = &quot;Active&quot;,
+TEXT(Status__c) = &quot;Active - Lab&quot;
+),
+
   IMAGE(&quot;/servlet/servlet.FileDownload?file=01558000003Aus5&quot;, &quot;Active&quot;, 30, 50),
   IMAGE(&quot;/servlet/servlet.FileDownload?file=01558000003AusK&quot;, &quot;Deactivated&quot;, 30, 50)
 )</formula>

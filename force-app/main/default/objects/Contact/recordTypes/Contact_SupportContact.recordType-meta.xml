@@ -4887,6 +4887,29 @@
         </values>
     </picklistValues>
     <picklistValues>
+        <picklist>Range__c</picklist>
+        <values>
+            <fullName>Alternative</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Diversified</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Equity</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Fixed Income</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Private Assets</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
         <picklist>RegionalSectorFocus__c</picklist>
         <values>
             <fullName>Asia</fullName>
@@ -4914,6 +4937,10 @@
         </values>
         <values>
             <fullName>Health Care</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Middle East</fullName>
             <default>false</default>
         </values>
         <values>

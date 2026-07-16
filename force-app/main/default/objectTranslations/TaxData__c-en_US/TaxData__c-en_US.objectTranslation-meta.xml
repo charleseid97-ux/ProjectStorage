@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObjectTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <caseValues>
+        <plural>false</plural>
+        <value>Tax Data</value>
+    </caseValues>
+    <caseValues>
+        <plural>true</plural>
+        <value>Tax Data</value>
+    </caseValues>
+    <layouts>
+        <layout>Tax Data Layout</layout>
+        <sections>
+            <label><!-- Custom Links --></label>
+            <section>Custom Links</section>
+        </sections>
+    </layouts>
+    <startsWith>Consonant</startsWith>
+    <validationRules>
+        <errorMessage><!-- Start Date is required when Status is Yes. End Date is required when Status is No. --></errorMessage>
+        <name>VR001_BloqueChangeStatus</name>
+    </validationRules>
+</CustomObjectTranslation>

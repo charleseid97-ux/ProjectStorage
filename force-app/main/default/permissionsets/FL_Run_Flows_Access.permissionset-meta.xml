@@ -1,6 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <PermissionSet xmlns="http://soap.sforce.com/2006/04/metadata">
     <description>Give access to all users to run a flow</description>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Meeting_Note__c.Tech_Reprise__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
     <hasActivationRequired>false</hasActivationRequired>
     <label>FL _ Run Flows Access</label>
     <userPermissions>

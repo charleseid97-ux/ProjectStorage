@@ -58,8 +58,6 @@ public class VFC17_PrintEventsTest {
         Test.stopTest();
 
         System.assertEquals(false, ctrl.pages.isEmpty());
-        System.assertEquals('Belgium', ctrl.selectedSalesTeam);
-        System.assertEquals(false, ctrl.salesTeamOptions.isEmpty());
     }
 
     // Couvre applyDates avec inversion start/end.
@@ -99,7 +97,6 @@ public class VFC17_PrintEventsTest {
         Test.stopTest();
 
         System.assertEquals('1', pr.getParameters().get('pdf'));
-        System.assertEquals('Belgium', pr.getParameters().get('salesTeam'));
     }
 
     // Couvre le getter isPdf.

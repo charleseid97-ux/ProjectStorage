@@ -57,6 +57,10 @@
             <label><!-- Old fields --></label>
             <section>Old fields</section>
         </sections>
+        <sections>
+            <label><!-- Rebates --></label>
+            <section>Rebates</section>
+        </sections>
     </layouts>
     <layouts>
         <layout>Intermediary Agreement Layout</layout>
@@ -276,7 +280,6 @@
             <section>Custom Links</section>
         </sections>
     </layouts>
-    <nameFieldLabel><!-- Agreement Code --></nameFieldLabel>
     <quickActions>
         <label><!-- Code Type Definitions --></label>
         <name>Code_Type_Definitions</name>
@@ -345,6 +348,10 @@
         <name>Technical_Agreement</name>
     </recordTypes>
     <startsWith>Vowel</startsWith>
+    <validationRules>
+        <errorMessage><!-- Enter a number followed by &quot;D&quot; (calendar days) or &quot;BD&quot; (business days), e.g. 30D or 10BD. --></errorMessage>
+        <name>AgrVR_CreditNoteTimingFormatDorBD</name>
+    </validationRules>
     <validationRules>
         <errorMessage><!-- You cannot request a Cancellation of an already Terminated Agreement --></errorMessage>
         <name>Agreement_Cancellation_Date_required</name>
@@ -455,12 +462,20 @@ Effective and Signed Dates, Teams Channel 2, Servicing Source, Internal Servicin
         <name>Agreement_no_Cancellation_if_Terminated</name>
     </validationRules>
     <validationRules>
+        <errorMessage><!-- 🚧 Temporary maintenance in progress — Our team is currently performing a system update. This record cannot be saved at this time. Please try again later. Thank you for your patience! --></errorMessage>
+        <name>BlockForRelease</name>
+    </validationRules>
+    <validationRules>
         <errorMessage><!-- Termination Description is Mandatory when requesting a Termination --></errorMessage>
         <name>Termination_Description_Mandatory</name>
     </validationRules>
     <webLinks>
         <label><!-- AUMFlowReport --></label>
         <name>AUMFlowReport</name>
+    </webLinks>
+    <webLinks>
+        <label><!-- GridRequest --></label>
+        <name>GridRequest</name>
     </webLinks>
     <webLinks>
         <label><!-- TransactionsReport --></label>

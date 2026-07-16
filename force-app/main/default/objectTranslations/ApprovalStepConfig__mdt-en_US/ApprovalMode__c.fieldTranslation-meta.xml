@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <help><!-- Set to All when multiple ApprovalStepApproverConfig__mdt records are configured for this step and unanimous approval is required. Rejection is always immediate regardless of this setting. --></help>
+    <label><!-- Approval Mode --></label>
+    <name>ApprovalMode__c</name>
+    <picklistValues>
+        <masterLabel>All</masterLabel>
+        <translation><!-- All --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Any</masterLabel>
+        <translation><!-- Any --></translation>
+    </picklistValues>
+</CustomFieldTranslation>

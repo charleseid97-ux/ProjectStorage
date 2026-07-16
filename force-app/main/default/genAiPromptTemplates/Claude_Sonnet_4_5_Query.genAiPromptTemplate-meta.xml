@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<GenAiPromptTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <description>Sends a basic query to Claude. (ver Sonnet 4.5)</description>
+    <developerName>Claude_Sonnet_4_5_Query</developerName>
+    <masterLabel>Claude Sonnet 4.5 Query</masterLabel>
+    <templateVersions>
+        <content>&quot;&quot;&quot;
+QUERY:
+{!$Input:Query}
+
+&quot;&quot;&quot;
+
+&quot;&quot;&quot;
+INSTRUCTIONS:
+If needed to respond, you may use the web search results below.
+
+&quot;&quot;&quot;
+
+&quot;&quot;&quot;
+WEB SEARCH:
+{!$EinsteinSearch:sfdc_ai__WebRetrievalAction.results}
+
+&quot;&quot;&quot;
+</content>
+        <inputs>
+            <apiName>Query</apiName>
+            <definition>primitive://String</definition>
+            <masterLabel>Query</masterLabel>
+            <referenceName>Input:Query</referenceName>
+            <required>true</required>
+        </inputs>
+        <primaryModel>sfdc_ai__DefaultBedrockAnthropicClaude45Sonnet</primaryModel>
+        <status>Published</status>
+        <templateDataProviders>
+            <definition>invocable://getEinsteinRetrieverResults/sfdc_ai__WebRetrievalAction</definition>
+            <description>Web search retriever retrieves search results from the internet.</description>
+            <label>Web search retriever</label>
+            <parameters>
+                <definition>primitive://String</definition>
+                <isRequired>true</isRequired>
+                <parameterName>searchText</parameterName>
+                <valueExpression>{!$Input:Query}</valueExpression>
+            </parameters>
+            <referenceName>EinsteinSearch:sfdc_ai__WebRetrievalAction</referenceName>
+        </templateDataProviders>
+    </templateVersions>
+    <type>einstein_gpt__flex</type>
+    <visibility>Global</visibility>
+</GenAiPromptTemplate>

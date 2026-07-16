@@ -1,0 +1,3051 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<GenAiPromptTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <developerName>flex_RFP_DisplayResults</developerName>
+    <masterLabel>flex_RFP_DisplayResults</masterLabel>
+    <templateVersions>
+        <content>Répond à la query du user en te basant uniquement sur les documents ci-dessous : 
+### Documents
+{!$RecordSnapshot:Document1.snapshot}
+{!$RecordSnapshot:Document2.snapshot}
+{!$RecordSnapshot:Document3.snapshot}
+
+### User Query  
+{!$Input:UserQuery}
+</content>
+        <inputs>
+            <apiName>UserQuery</apiName>
+            <definition>primitive://String</definition>
+            <masterLabel>UserQuery</masterLabel>
+            <referenceName>Input:UserQuery</referenceName>
+            <required>false</required>
+        </inputs>
+        <inputs>
+            <apiName>OptimizedQuery</apiName>
+            <definition>primitive://String</definition>
+            <masterLabel>OptimizedQuery</masterLabel>
+            <referenceName>Input:OptimizedQuery</referenceName>
+            <required>false</required>
+        </inputs>
+        <inputs>
+            <apiName>Document1</apiName>
+            <definition>SOBJECT://ContentDocument</definition>
+            <masterLabel>Document1</masterLabel>
+            <referenceName>Input:Document1</referenceName>
+            <required>false</required>
+        </inputs>
+        <inputs>
+            <apiName>Document2</apiName>
+            <definition>SOBJECT://ContentDocument</definition>
+            <masterLabel>Document2</masterLabel>
+            <referenceName>Input:Document2</referenceName>
+            <required>false</required>
+        </inputs>
+        <inputs>
+            <apiName>Document3</apiName>
+            <definition>SOBJECT://ContentDocument</definition>
+            <masterLabel>Document3</masterLabel>
+            <referenceName>Input:Document3</referenceName>
+            <required>false</required>
+        </inputs>
+        <primaryModel>sfdc_ai__DefaultVertexAIGemini25Flash001</primaryModel>
+        <status>Published</status>
+        <templateDataProviders>
+            <definition>invocable://getDataForGrounding</definition>
+            <description>Retrieves record data for grounding a prompt template.</description>
+            <label>Record Snapshot</label>
+            <parameters>
+                <definition>primitive://String</definition>
+                <isRequired>true</isRequired>
+                <parameterName>recordId</parameterName>
+                <valueExpression>{!$Input:Document3.Id}</valueExpression>
+            </parameters>
+            <referenceName>RecordSnapshot:Document3</referenceName>
+        </templateDataProviders>
+        <templateDataProviders>
+            <definition>invocable://getDataForGrounding</definition>
+            <description>Retrieves record data for grounding a prompt template.</description>
+            <label>Record Snapshot</label>
+            <parameters>
+                <definition>primitive://String</definition>
+                <isRequired>true</isRequired>
+                <parameterName>recordId</parameterName>
+                <valueExpression>{!$Input:Document2.Id}</valueExpression>
+            </parameters>
+            <referenceName>RecordSnapshot:Document2</referenceName>
+        </templateDataProviders>
+        <templateDataProviders>
+            <definition>invocable://getDataForGrounding</definition>
+            <description>Retrieves record data for grounding a prompt template.</description>
+            <label>Record Snapshot</label>
+            <parameters>
+                <definition>primitive://String</definition>
+                <isRequired>true</isRequired>
+                <parameterName>recordId</parameterName>
+                <valueExpression>{!$Input:Document1.Id}</valueExpression>
+            </parameters>
+            <referenceName>RecordSnapshot:Document1</referenceName>
+        </templateDataProviders>
+    </templateVersions>
+    <templateVersions>
+        <content>Répond à la query du user en te basant uniquement sur les documents ci-dessous : 
+### Documents
+{!$RecordSnapshot:Document1.snapshot}
+{!$RecordSnapshot:Document2.snapshot}
+{!$RecordSnapshot:Document3.snapshot}
+
+### User Query  
+{!$Input:UserQuery}
+</content>
+        <inputs>
+            <apiName>UserQuery</apiName>
+            <definition>primitive://String</definition>
+            <masterLabel>UserQuery</masterLabel>
+            <referenceName>Input:UserQuery</referenceName>
+            <required>false</required>
+        </inputs>
+        <inputs>
+            <apiName>OptimizedQuery</apiName>
+            <definition>primitive://String</definition>
+            <masterLabel>OptimizedQuery</masterLabel>
+            <referenceName>Input:OptimizedQuery</referenceName>
+            <required>false</required>
+        </inputs>
+        <inputs>
+            <apiName>Document1</apiName>
+            <definition>SOBJECT://ContentDocument</definition>
+            <masterLabel>Document1</masterLabel>
+            <referenceName>Input:Document1</referenceName>
+            <required>false</required>
+        </inputs>
+        <inputs>
+            <apiName>Document2</apiName>
+            <definition>SOBJECT://ContentDocument</definition>
+            <masterLabel>Document2</masterLabel>
+            <referenceName>Input:Document2</referenceName>
+            <required>false</required>
+        </inputs>
+        <inputs>
+            <apiName>Document3</apiName>
+            <definition>SOBJECT://ContentDocument</definition>
+            <masterLabel>Document3</masterLabel>
+            <referenceName>Input:Document3</referenceName>
+            <required>false</required>
+        </inputs>
+        <primaryModel>sfdc_ai__DefaultVertexAIGeminiPro25</primaryModel>
+        <status>Published</status>
+        <templateDataProviders>
+            <definition>invocable://getDataForGrounding</definition>
+            <description>Retrieves record data for grounding a prompt template.</description>
+            <label>Record Snapshot</label>
+            <parameters>
+                <definition>primitive://String</definition>
+                <isRequired>true</isRequired>
+                <parameterName>recordId</parameterName>
+                <valueExpression>{!$Input:Document3.Id}</valueExpression>
+            </parameters>
+            <referenceName>RecordSnapshot:Document3</referenceName>
+        </templateDataProviders>
+        <templateDataProviders>
+            <definition>invocable://getDataForGrounding</definition>
+            <description>Retrieves record data for grounding a prompt template.</description>
+            <label>Record Snapshot</label>
+            <parameters>
+                <definition>primitive://String</definition>
+                <isRequired>true</isRequired>
+                <parameterName>recordId</parameterName>
+                <valueExpression>{!$Input:Document2.Id}</valueExpression>
+            </parameters>
+            <referenceName>RecordSnapshot:Document2</referenceName>
+        </templateDataProviders>
+        <templateDataProviders>
+            <definition>invocable://getDataForGrounding</definition>
+            <description>Retrieves record data for grounding a prompt template.</description>
+            <label>Record Snapshot</label>
+            <parameters>
+                <definition>primitive://String</definition>
+                <isRequired>true</isRequired>
+                <parameterName>recordId</parameterName>
+                <valueExpression>{!$Input:Document1.Id}</valueExpression>
+            </parameters>
+            <referenceName>RecordSnapshot:Document1</referenceName>
+        </templateDataProviders>
+    </templateVersions>
+    <templateVersions>
+        <content>You are a document analysis assistant.  
+You must examine EACH document independently and answer the user’s question using ONLY the content 
+from the specific document you are analyzing.
+
+You are NOT allowed to:
+- invent information,
+- infer answers that do not explicitly appear in the document,
+- combine information across documents,
+- summarize, paraphrase, shorten, or rewrite any part of the document.
+
+You must produce a separate answer for EACH document, even if the answer is empty.
+
+---
+
+## 🔹 For EACH document, you must:
+1. Read ONLY that document.
+2. Determine whether it contains information that answers the user’s question.
+3. If the document DOES contain relevant information:
+  - Output, in order:
+   - **The document title** (exactly as indicated in the snapshot)
+   - **The page number(s)** where the relevant information appears  
+    (or “Not specified” if the snapshot does not indicate a page)
+   - **The verbatim answer**, taken EXACTLY from the document:
+     - You MUST output the ENTIRE paragraph(s) containing the answer.
+     - Do NOT truncate the paragraph.
+     - Do NOT omit sentences inside the paragraph.
+     - Do NOT modify, paraphrase, summarize, restructure, or combine text.
+     - Extract the exact text as it appears in the document (verbatim).
+4. If the document DOES NOT contain an answer:
+  - Output the document title
+  - Output: “*No relevant information found in this document.*”
+5. Never merge, mix, or compare information between documents.
+6. Never invent page numbers or content.
+
+---
+
+## 🔹 REQUIRED OUTPUT FORMAT (for EACH document)
+
+### 📄 [Document Title]
+**Pages Used:** X, Y (or “Not specified”)  
+**Answer (verbatim):**  
+&lt;full paragraph(s) exactly as they appear in the document&gt;  
+OR  
+*No relevant information found in this document.*
+
+Separate each document’s output with a line:  
+`---`
+
+---
+
+## 🔹 Documents
+{!$RecordSnapshot:Document1.snapshot}
+{!$RecordSnapshot:Document2.snapshot}
+{!$RecordSnapshot:Document3.snapshot}
+
+---
+
+## 🔹 User Query
+{!$Input:UserQuery}
+
+Now analyze the documents and produce the output in the exact format specified above.
+
+</content>
+        <inputs>
+            <apiName>UserQuery</apiName>
+            <definition>primitive://String</definition>
+            <masterLabel>UserQuery</masterLabel>
+            <referenceName>Input:UserQuery</referenceName>
+            <required>false</required>
+        </inputs>
+        <inputs>
+            <apiName>OptimizedQuery</apiName>
+            <definition>primitive://String</definition>
+            <masterLabel>OptimizedQuery</masterLabel>
+            <referenceName>Input:OptimizedQuery</referenceName>
+            <required>false</required>
+        </inputs>
+        <inputs>
+            <apiName>Document1</apiName>
+            <definition>SOBJECT://ContentDocument</definition>
+            <masterLabel>Document1</masterLabel>
+            <referenceName>Input:Document1</referenceName>
+            <required>false</required>
+        </inputs>
+        <inputs>
+            <apiName>Document2</apiName>
+            <definition>SOBJECT://ContentDocument</definition>
+            <masterLabel>Document2</masterLabel>
+            <referenceName>Input:Document2</referenceName>
+            <required>false</required>
+        </inputs>
+        <inputs>
+            <apiName>Document3</apiName>
+            <definition>SOBJECT://ContentDocument</definition>
+            <masterLabel>Document3</masterLabel>
+            <referenceName>Input:Document3</referenceName>
+            <required>false</required>
+        </inputs>
+        <primaryModel>sfdc_ai__DefaultVertexAIGeminiPro25</primaryModel>
+        <status>Published</status>
+        <templateDataProviders>
+            <definition>invocable://getDataForGrounding</definition>
+            <description>Retrieves record data for grounding a prompt template.</description>
+            <label>Record Snapshot</label>
+            <parameters>
+                <definition>primitive://String</definition>
+                <isRequired>true</isRequired>
+                <parameterName>recordId</parameterName>
+                <valueExpression>{!$Input:Document3.Id}</valueExpression>
+            </parameters>
+            <referenceName>RecordSnapshot:Document3</referenceName>
+        </templateDataProviders>
+        <templateDataProviders>
+            <definition>invocable://getDataForGrounding</definition>
+            <description>Retrieves record data for grounding a prompt template.</description>
+            <label>Record Snapshot</label>
+            <parameters>
+                <definition>primitive://String</definition>
+                <isRequired>true</isRequired>
+                <parameterName>recordId</parameterName>
+                <valueExpression>{!$Input:Document2.Id}</valueExpression>
+            </parameters>
+            <referenceName>RecordSnapshot:Document2</referenceName>
+        </templateDataProviders>
+        <templateDataProviders>
+            <definition>invocable://getDataForGrounding</definition>
+            <description>Retrieves record data for grounding a prompt template.</description>
+            <label>Record Snapshot</label>
+            <parameters>
+                <definition>primitive://String</definition>
+                <isRequired>true</isRequired>
+                <parameterName>recordId</parameterName>
+                <valueExpression>{!$Input:Document1.Id}</valueExpression>
+            </parameters>
+            <referenceName>RecordSnapshot:Document1</referenceName>
+        </templateDataProviders>
+    </templateVersions>
+    <templateVersions>
+        <content>You are a document analysis assistant.  
+You must examine EACH document independently and answer the user&apos;s question using ONLY the content 
+from the specific document you are analyzing.
+
+You are NOT allowed to:
+- invent information,
+- infer answers not explicitly present in the document,
+- combine information across documents,
+- summarize, paraphrase, or modify text,
+- truncate or shorten paragraphs.
+
+------------------------------------------------------------
+ABSOLUTELY PRIORITY RULE — USER FORMAT OVERRIDES DEFAULT FORMAT
+------------------------------------------------------------
+Before producing any output:
+1. Check whether the user explicitly requests a specific output format.
+2. If yes, follow that requested format EXACTLY and ignore the default format.
+3. If not, use the DEFAULT FORMAT.
+4. Never mix output formats.
+
+------------------------------------------------------------
+DEFAULT FORMAT (used only if the user does not request a format)
+------------------------------------------------------------
+For EACH document that contains at least one relevant answer:
+
+1. Output the document header ONCE:
+### [Document Title]
+Pages Used (overall): X, Y (or &quot;Not specified&quot;)
+
+2. Group all verbatim answers by page number.
+  For each PAGE that contains at least one relevant answer:
+
+  a. Output the page header ONCE:
+   Found in Page: X
+
+  b. Then output ALL verbatim paragraphs found on that page,
+   each separated by a blank line.
+   - Do NOT repeat the page number for each paragraph.
+   - Do NOT repeat the document title.
+   - Do NOT repeat the global page list.
+   - Do NOT insert additional headers.
+
+3. After all grouped answers for this document, output:
+---
+
+4. If a document contains no relevant information, output NOTHING for that document.
+
+------------------------------------------------------------
+VERBATIM EXTRACTION RULES
+------------------------------------------------------------
+For each relevant answer:
+- Extract the ENTIRE paragraph(s) that contain the answer.
+- Do NOT remove or reorder sentences.
+- Do NOT rewrite or summarize.
+- Do NOT merge paragraphs unless they are consecutive in the document.
+- Output the paragraph(s) exactly as they appear.
+
+------------------------------------------------------------
+Documents
+{!$RecordSnapshot:Document1.snapshot}
+{!$RecordSnapshot:Document2.snapshot}
+{!$RecordSnapshot:Document3.snapshot}
+
+User Query
+{!$Input:UserQuery}
+
+Analyze the documents and produce the output following all rules above.
+
+</content>
+        <inputs>
+            <apiName>UserQuery</apiName>
+            <definition>primitive://String</definition>
+            <masterLabel>UserQuery</masterLabel>
+            <referenceName>Input:UserQuery</referenceName>
+            <required>false</required>
+        </inputs>
+        <inputs>
+            <apiName>OptimizedQuery</apiName>
+            <definition>primitive://String</definition>
+            <masterLabel>OptimizedQuery</masterLabel>
+            <referenceName>Input:OptimizedQuery</referenceName>
+            <required>false</required>
+        </inputs>
+        <inputs>
+            <apiName>Document1</apiName>
+            <definition>SOBJECT://ContentDocument</definition>
+            <masterLabel>Document1</masterLabel>
+            <referenceName>Input:Document1</referenceName>
+            <required>false</required>
+        </inputs>
+        <inputs>
+            <apiName>Document2</apiName>
+            <definition>SOBJECT://ContentDocument</definition>
+            <masterLabel>Document2</masterLabel>
+            <referenceName>Input:Document2</referenceName>
+            <required>false</required>
+        </inputs>
+        <inputs>
+            <apiName>Document3</apiName>
+            <definition>SOBJECT://ContentDocument</definition>
+            <masterLabel>Document3</masterLabel>
+            <referenceName>Input:Document3</referenceName>
+            <required>false</required>
+        </inputs>
+        <primaryModel>sfdc_ai__DefaultVertexAIGeminiPro25</primaryModel>
+        <status>Published</status>
+        <templateDataProviders>
+            <definition>invocable://getDataForGrounding</definition>
+            <description>Retrieves record data for grounding a prompt template.</description>
+            <label>Record Snapshot</label>
+            <parameters>
+                <definition>primitive://String</definition>
+                <isRequired>true</isRequired>
+                <parameterName>recordId</parameterName>
+                <valueExpression>{!$Input:Document3.Id}</valueExpression>
+            </parameters>
+            <referenceName>RecordSnapshot:Document3</referenceName>
+        </templateDataProviders>
+        <templateDataProviders>
+            <definition>invocable://getDataForGrounding</definition>
+            <description>Retrieves record data for grounding a prompt template.</description>
+            <label>Record Snapshot</label>
+            <parameters>
+                <definition>primitive://String</definition>
+                <isRequired>true</isRequired>
+                <parameterName>recordId</parameterName>
+                <valueExpression>{!$Input:Document2.Id}</valueExpression>
+            </parameters>
+            <referenceName>RecordSnapshot:Document2</referenceName>
+        </templateDataProviders>
+        <templateDataProviders>
+            <definition>invocable://getDataForGrounding</definition>
+            <description>Retrieves record data for grounding a prompt template.</description>
+            <label>Record Snapshot</label>
+            <parameters>
+                <definition>primitive://String</definition>
+                <isRequired>true</isRequired>
+                <parameterName>recordId</parameterName>
+                <valueExpression>{!$Input:Document1.Id}</valueExpression>
+            </parameters>
+            <referenceName>RecordSnapshot:Document1</referenceName>
+        </templateDataProviders>
+    </templateVersions>
+    <templateVersions>
+        <content>You are a document analysis assistant.  
+You must examine EACH document independently and answer the user&apos;s question using ONLY the content 
+from the specific document you are analyzing.
+
+You are NOT allowed to:
+- invent information,
+- infer answers not explicitly present in the document,
+- combine information across documents,
+- summarize, paraphrase, or modify text,
+- truncate or shorten paragraphs.
+
+------------------------------------------------------------
+ABSOLUTELY PRIORITY RULE — USER FORMAT OVERRIDES DEFAULT FORMAT
+------------------------------------------------------------
+Before producing any output:
+1. Check whether the user explicitly requests a specific output format.
+2. If yes, follow that requested format EXACTLY and ignore the default format.
+3. If not, use the DEFAULT FORMAT.
+4. Never mix output formats.
+
+------------------------------------------------------------
+DEFAULT FORMAT (used only if the user does not request a format)
+------------------------------------------------------------
+For EACH document that contains at least one relevant answer:
+
+1. Output the document header ONCE:
+### [Document Title]
+Pages Used (overall): X, Y (or &quot;Not specified&quot;)
+
+2. Group all verbatim answers by page number.
+  For each PAGE that contains at least one relevant answer:
+
+  a. Output the page header ONCE:
+   Found in Page: X
+
+  b. Then output ALL verbatim paragraphs found on that page,
+   each separated by a blank line.
+   - Do NOT repeat the page number for each paragraph.
+   - Do NOT repeat the document title.
+   - Do NOT repeat the global page list.
+   - Do NOT insert additional headers.
+
+3. After all grouped answers for this document, output:
+---
+
+4. If a document contains no relevant information, output NOTHING for that document.
+
+------------------------------------------------------------
+VERBATIM EXTRACTION RULES
+------------------------------------------------------------
+For each relevant answer:
+- Extract the ENTIRE paragraph(s) that contain the answer.
+- Do NOT remove or reorder sentences.
+- Do NOT rewrite or summarize.
+- Do NOT merge paragraphs unless they are consecutive in the document.
+- Output the paragraph(s) exactly as they appear.
+
+------------------------------------------------------------
+Documents
+{!$RecordSnapshot:Document1.snapshot}
+{!$RecordSnapshot:Document2.snapshot}
+{!$RecordSnapshot:Document3.snapshot}
+
+User Query
+{!$Input:UserQuery}
+
+Analyze the documents and produce the output following all rules above.
+
+</content>
+        <inputs>
+            <apiName>UserQuery</apiName>
+            <definition>primitive://String</definition>
+            <masterLabel>UserQuery</masterLabel>
+            <referenceName>Input:UserQuery</referenceName>
+            <required>false</required>
+        </inputs>
+        <inputs>
+            <apiName>OptimizedQuery</apiName>
+            <definition>primitive://String</definition>
+            <masterLabel>OptimizedQuery</masterLabel>
+            <referenceName>Input:OptimizedQuery</referenceName>
+            <required>false</required>
+        </inputs>
+        <inputs>
+            <apiName>Document1</apiName>
+            <definition>SOBJECT://ContentDocument</definition>
+            <masterLabel>Document1</masterLabel>
+            <referenceName>Input:Document1</referenceName>
+            <required>false</required>
+        </inputs>
+        <inputs>
+            <apiName>Document2</apiName>
+            <definition>SOBJECT://ContentDocument</definition>
+            <masterLabel>Document2</masterLabel>
+            <referenceName>Input:Document2</referenceName>
+            <required>false</required>
+        </inputs>
+        <inputs>
+            <apiName>Document3</apiName>
+            <definition>SOBJECT://ContentDocument</definition>
+            <masterLabel>Document3</masterLabel>
+            <referenceName>Input:Document3</referenceName>
+            <required>false</required>
+        </inputs>
+        <primaryModel>sfdc_ai__DefaultVertexAIGeminiPro25</primaryModel>
+        <status>Published</status>
+        <templateDataProviders>
+            <definition>invocable://getDataForGrounding</definition>
+            <description>Retrieves record data for grounding a prompt template.</description>
+            <label>Record Snapshot</label>
+            <parameters>
+                <definition>primitive://String</definition>
+                <isRequired>true</isRequired>
+                <parameterName>recordId</parameterName>
+                <valueExpression>{!$Input:Document1.Id}</valueExpression>
+            </parameters>
+            <referenceName>RecordSnapshot:Document1</referenceName>
+        </templateDataProviders>
+        <templateDataProviders>
+            <definition>invocable://getDataForGrounding</definition>
+            <description>Retrieves record data for grounding a prompt template.</description>
+            <label>Record Snapshot</label>
+            <parameters>
+                <definition>primitive://String</definition>
+                <isRequired>true</isRequired>
+                <parameterName>recordId</parameterName>
+                <valueExpression>{!$Input:Document2.Id}</valueExpression>
+            </parameters>
+            <referenceName>RecordSnapshot:Document2</referenceName>
+        </templateDataProviders>
+        <templateDataProviders>
+            <definition>invocable://getDataForGrounding</definition>
+            <description>Retrieves record data for grounding a prompt template.</description>
+            <label>Record Snapshot</label>
+            <parameters>
+                <definition>primitive://String</definition>
+                <isRequired>true</isRequired>
+                <parameterName>recordId</parameterName>
+                <valueExpression>{!$Input:Document3.Id}</valueExpression>
+            </parameters>
+            <referenceName>RecordSnapshot:Document3</referenceName>
+        </templateDataProviders>
+    </templateVersions>
+    <templateVersions>
+        <content>You are an AI document analysis assistant integrated into Salesforce Prompt Builder Flex Template.
+
+Your objective is to analyze each provided document independently and produce relevant answers to the user&apos;s question.
+
+CONTEXT:
+You will be provided with three documents as snapshot resources in the following format:
+Document1, Document2, Document3
+
+The UserQuery is the question to be answered using ONLY the content from the relevant documents.
+
+IMPORTANT RULES YOU MUST FOLLOW:
+
+1. ROLE AND SCOPE
+You must examine each document separately. For each document that contains relevant answers:
+- You must NOT combine information from different documents.
+- You must NOT invent any information not fully present in the document.
+- You must NOT paraphrase, summarize, truncate, merge, or modify text.
+- You must extract and output verbatim *complete paragraphs* containing the answer.
+
+2. CONDITIONAL OUTPUT FORMAT
+Check whether the user’s query explicitly requests a specific output format (e.g., JSON, table, bullet list, custom structure).  
+- If the user requests a specific format → follow that format *exactly* and ignore the default format.  
+- If the user does *not* request a specific format → use the DEFAULT OUTPUT STRUCTURE described below.
+
+3. DEFAULT OUTPUT STRUCTURE
+For each document that contains at least one answer:
+a) Output a single document header:
+  DOCUMENT TITLE: [the title of the document]
+  Pages Used (overall): [list of pages where answers were found, or “Not specified”]
+
+b) Then group verbatim answers by page:
+For each page that contains at least one relevant answer:
+  Found in Page: [page number]
+  [Paragraph 1 — exact text as in the document]
+  [Paragraph 2 — exact text as in the document]
+  ...
+  (No repeat of the page header for paragraphs on the same page)
+
+c) After listing all pages and paragraphs for the document, output a single separator line:
+  ---  
+
+d) Only documents that contain relevant answers should be included.  
+  Do *not* output anything for documents with no relevant content.
+
+4. VERBATIM PARAGRAPHS
+- A “paragraph” is any text block separated by one or more blank lines in the document.
+- Extract the full paragraph(s) containing the relevant answer.
+- Do NOT remove sentences or rewrite text.
+- Do NOT merge paragraph text from separate sections.
+
+5. DATA PROTECTION
+Do not output personally identifiable information (PII).  
+This template is used under the Einstein Trust Layer and all sensitive data must be masked according to Salesforce safety standards.
+
+DOCUMENT RESOURCES:
+Document1: {!$RecordSnapshot:Document1.snapshot}
+Document2: {!$RecordSnapshot:Document2.snapshot}
+Document3: {!$RecordSnapshot:Document3.snapshot}
+
+USER QUERY:
+{!$Input:UserQuery}
+
+Now generate the response following these rules rigidly.
+
+</content>
+        <inputs>
+            <apiName>UserQuery</apiName>
+            <definition>primitive://String</definition>
+            <masterLabel>UserQuery</masterLabel>
+            <referenceName>Input:UserQuery</referenceName>
+            <required>false</required>
+        </inputs>
+        <inputs>
+            <apiName>OptimizedQuery</apiName>
+            <definition>primitive://String</definition>
+            <masterLabel>OptimizedQuery</masterLabel>
+            <referenceName>Input:OptimizedQuery</referenceName>
+            <required>false</required>
+        </inputs>
+        <inputs>
+            <apiName>Document1</apiName>
+            <definition>SOBJECT://ContentDocument</definition>
+            <masterLabel>Document1</masterLabel>
+            <referenceName>Input:Document1</referenceName>
+            <required>false</required>
+        </inputs>
+        <inputs>
+            <apiName>Document2</apiName>
+            <definition>SOBJECT://ContentDocument</definition>
+            <masterLabel>Document2</masterLabel>
+            <referenceName>Input:Document2</referenceName>
+            <required>false</required>
+        </inputs>
+        <inputs>
+            <apiName>Document3</apiName>
+            <definition>SOBJECT://ContentDocument</definition>
+            <masterLabel>Document3</masterLabel>
+            <referenceName>Input:Document3</referenceName>
+            <required>false</required>
+        </inputs>
+        <primaryModel>sfdc_ai__DefaultVertexAIGeminiPro25</primaryModel>
+        <status>Published</status>
+        <templateDataProviders>
+            <definition>invocable://getDataForGrounding</definition>
+            <description>Retrieves record data for grounding a prompt template.</description>
+            <label>Record Snapshot</label>
+            <parameters>
+                <definition>primitive://String</definition>
+                <isRequired>true</isRequired>
+                <parameterName>recordId</parameterName>
+                <valueExpression>{!$Input:Document3.Id}</valueExpression>
+            </parameters>
+            <referenceName>RecordSnapshot:Document3</referenceName>
+        </templateDataProviders>
+        <templateDataProviders>
+            <definition>invocable://getDataForGrounding</definition>
+            <description>Retrieves record data for grounding a prompt template.</description>
+            <label>Record Snapshot</label>
+            <parameters>
+                <definition>primitive://String</definition>
+                <isRequired>true</isRequired>
+                <parameterName>recordId</parameterName>
+                <valueExpression>{!$Input:Document2.Id}</valueExpression>
+            </parameters>
+            <referenceName>RecordSnapshot:Document2</referenceName>
+        </templateDataProviders>
+        <templateDataProviders>
+            <definition>invocable://getDataForGrounding</definition>
+            <description>Retrieves record data for grounding a prompt template.</description>
+            <label>Record Snapshot</label>
+            <parameters>
+                <definition>primitive://String</definition>
+                <isRequired>true</isRequired>
+                <parameterName>recordId</parameterName>
+                <valueExpression>{!$Input:Document1.Id}</valueExpression>
+            </parameters>
+            <referenceName>RecordSnapshot:Document1</referenceName>
+        </templateDataProviders>
+    </templateVersions>
+    <templateVersions>
+        <content>You are an AI document analysis assistant integrated into Salesforce Prompt Builder Flex Template.
+
+Your objective is to analyze each provided document independently and produce relevant answers to the user&apos;s question.
+
+CONTEXT:
+You will be provided with three documents as snapshot resources in the following format:
+Document1, Document2, Document3
+
+The UserQuery is the question to be answered using ONLY the content from the relevant documents.
+
+IMPORTANT RULES YOU MUST FOLLOW:
+
+1. ROLE AND SCOPE
+You must examine each document separately. For each document that contains relevant answers:
+- You must NOT combine information from different documents.
+- You must NOT invent any information not fully present in the document.
+- You must NOT paraphrase, summarize, truncate, merge, or modify text.
+- You must extract and output verbatim *complete paragraphs* containing the answer.
+
+2. CONDITIONAL OUTPUT FORMAT
+Check whether the user’s query explicitly requests a specific output format (e.g., JSON, table, bullet list, custom structure).  
+- If the user requests a specific format → follow that format *exactly* and ignore the default format.  
+- If the user does *not* request a specific format → use the DEFAULT OUTPUT STRUCTURE described below.
+
+3. DEFAULT OUTPUT STRUCTURE
+For each document that contains at least one answer:
+a) Output a single document header:
+  DOCUMENT TITLE: [the title of the document]
+  Pages Used (overall): [list of pages where answers were found, or “Not specified”]
+
+b) Then group verbatim answers by page:
+For each page that contains at least one relevant answer:
+  Found in Page: [page number]
+  [Paragraph 1 — exact text as in the document]
+  [Paragraph 2 — exact text as in the document]
+  ...
+  (No repeat of the page header for paragraphs on the same page)
+
+c) After listing all pages and paragraphs for the document, output a single separator line:
+  ---  
+
+d) Only documents that contain relevant answers should be included.  
+  Do *not* output anything for documents with no relevant content.
+
+4. VERBATIM PARAGRAPHS
+- A “paragraph” is any text block separated by one or more blank lines in the document.
+- Extract the full paragraph(s) containing the relevant answer.
+- Do NOT remove sentences or rewrite text.
+- Do NOT merge paragraph text from separate sections.
+
+
+DOCUMENT RESOURCES:
+Document1: {!$RecordSnapshot:Document1.snapshot}
+Document2: {!$RecordSnapshot:Document2.snapshot}
+Document3: {!$RecordSnapshot:Document3.snapshot}
+
+USER QUERY:
+{!$Input:UserQuery}
+
+Now generate the response following these rules rigidly.
+
+</content>
+        <inputs>
+            <apiName>UserQuery</apiName>
+            <definition>primitive://String</definition>
+            <masterLabel>UserQuery</masterLabel>
+            <referenceName>Input:UserQuery</referenceName>
+            <required>false</required>
+        </inputs>
+        <inputs>
+            <apiName>OptimizedQuery</apiName>
+            <definition>primitive://String</definition>
+            <masterLabel>OptimizedQuery</masterLabel>
+            <referenceName>Input:OptimizedQuery</referenceName>
+            <required>false</required>
+        </inputs>
+        <inputs>
+            <apiName>Document1</apiName>
+            <definition>SOBJECT://ContentDocument</definition>
+            <masterLabel>Document1</masterLabel>
+            <referenceName>Input:Document1</referenceName>
+            <required>false</required>
+        </inputs>
+        <inputs>
+            <apiName>Document2</apiName>
+            <definition>SOBJECT://ContentDocument</definition>
+            <masterLabel>Document2</masterLabel>
+            <referenceName>Input:Document2</referenceName>
+            <required>false</required>
+        </inputs>
+        <inputs>
+            <apiName>Document3</apiName>
+            <definition>SOBJECT://ContentDocument</definition>
+            <masterLabel>Document3</masterLabel>
+            <referenceName>Input:Document3</referenceName>
+            <required>false</required>
+        </inputs>
+        <primaryModel>sfdc_ai__DefaultVertexAIGeminiPro25</primaryModel>
+        <status>Published</status>
+        <templateDataProviders>
+            <definition>invocable://getDataForGrounding</definition>
+            <description>Retrieves record data for grounding a prompt template.</description>
+            <label>Record Snapshot</label>
+            <parameters>
+                <definition>primitive://String</definition>
+                <isRequired>true</isRequired>
+                <parameterName>recordId</parameterName>
+                <valueExpression>{!$Input:Document3.Id}</valueExpression>
+            </parameters>
+            <referenceName>RecordSnapshot:Document3</referenceName>
+        </templateDataProviders>
+        <templateDataProviders>
+            <definition>invocable://getDataForGrounding</definition>
+            <description>Retrieves record data for grounding a prompt template.</description>
+            <label>Record Snapshot</label>
+            <parameters>
+                <definition>primitive://String</definition>
+                <isRequired>true</isRequired>
+                <parameterName>recordId</parameterName>
+                <valueExpression>{!$Input:Document2.Id}</valueExpression>
+            </parameters>
+            <referenceName>RecordSnapshot:Document2</referenceName>
+        </templateDataProviders>
+        <templateDataProviders>
+            <definition>invocable://getDataForGrounding</definition>
+            <description>Retrieves record data for grounding a prompt template.</description>
+            <label>Record Snapshot</label>
+            <parameters>
+                <definition>primitive://String</definition>
+                <isRequired>true</isRequired>
+                <parameterName>recordId</parameterName>
+                <valueExpression>{!$Input:Document1.Id}</valueExpression>
+            </parameters>
+            <referenceName>RecordSnapshot:Document1</referenceName>
+        </templateDataProviders>
+    </templateVersions>
+    <templateVersions>
+        <content>You are an AI document analysis assistant integrated into Salesforce Prompt Builder Flex Template.
+
+Your objective is to analyze each provided document independently and produce relevant answers to the user&apos;s question.
+
+You must output ONLY the content required by the rules below.  
+Do NOT add introductions, summaries, explanations, transitions, conclusions, politeness formulas, or any text that is not explicitly required.  
+The output must contain ONLY the structured answer described in the rules.
+
+------------------------------------------------------------
+CONTEXT
+------------------------------------------------------------
+You will be provided with three documents as snapshot resources:
+Document1, Document2, Document3
+
+The UserQuery is the question to be answered using ONLY the content from each document, separately.
+
+------------------------------------------------------------
+IMPORTANT RULES YOU MUST FOLLOW
+------------------------------------------------------------
+
+1. ROLE AND SCOPE
+For each document that contains relevant answers:
+- Analyze the document independently.
+- Do NOT combine information from different documents.
+- Do NOT invent any information.
+- Do NOT paraphrase, summarize, modify, or shorten text.
+- Extract and output verbatim complete paragraphs exactly as they appear in the document.
+
+2. CONDITIONAL OUTPUT FORMAT (CRITICAL)
+Before formatting the answer:
+- Check whether the user explicitly requests a specific output format (e.g., JSON, table, bullet list, a specific structure).
+- If the user requests a specific format → follow that format EXACTLY and IGNORE the default format.
+- If the user does NOT request a specific format → use the DEFAULT OUTPUT STRUCTURE below.
+- Never mix formats.
+
+3. DEFAULT OUTPUT STRUCTURE
+Use this structure ONLY when the user does not require a custom format.
+
+For each document that contains at least one relevant answer:
+
+a) Output the document header ONCE:
+DOCUMENT TITLE: [document title]  
+Pages Used (overall): [page numbers where relevant answers were found, or &quot;Not specified&quot;]
+
+b) Then group all verbatim answers by page.
+For each page containing relevant information:
+Found in Page: [page number]
+
+[Paragraph 1 — exact verbatim]
+[Paragraph 2 — exact verbatim]
+...
+
+- Do NOT repeat “Found in Page” for multiple paragraphs on the same page.
+- Do NOT repeat the document title or overall pages.
+- Do NOT alter the paragraph boundaries.
+
+c) After all grouped answers for that document, output a separator:
+---
+
+d) If a document contains NO relevant information:
+- Output NOTHING for this document.  
+- No title, no message, no placeholder.
+
+4. VERBATIM EXTRACTION RULES
+- A “paragraph” is any block of text separated by one or more blank lines.
+- Extract the ENTIRE paragraph(s) containing the answer.
+- Do NOT remove sentences.
+- Do NOT merge non-consecutive paragraphs.
+- Output paragraphs exactly as they appear in the document.
+
+5. NO EXTRA OUTPUT (CRITICAL)
+Your output must contain ONLY:
+- The structured answer (default format or user-requested format)
+and NOTHING ELSE.
+
+Absolutely do NOT include:
+- Introductions
+- Explanations
+- Disclaimers
+- Reasoning steps
+- Narration
+- Closing statements
+- Politeness formulas
+
+------------------------------------------------------------
+DOCUMENT RESOURCES
+------------------------------------------------------------
+Document1: {!$RecordSnapshot:Document1.snapshot}  
+Document2: {!$RecordSnapshot:Document2.snapshot}  
+Document3: {!$RecordSnapshot:Document3.snapshot}
+
+------------------------------------------------------------
+USER QUERY
+------------------------------------------------------------
+{!$Input:UserQuery}
+
+Now generate the response following ALL rules above.
+
+</content>
+        <inputs>
+            <apiName>UserQuery</apiName>
+            <definition>primitive://String</definition>
+            <masterLabel>UserQuery</masterLabel>
+            <referenceName>Input:UserQuery</referenceName>
+            <required>false</required>
+        </inputs>
+        <inputs>
+            <apiName>OptimizedQuery</apiName>
+            <definition>primitive://String</definition>
+            <masterLabel>OptimizedQuery</masterLabel>
+            <referenceName>Input:OptimizedQuery</referenceName>
+            <required>false</required>
+        </inputs>
+        <inputs>
+            <apiName>Document1</apiName>
+            <definition>SOBJECT://ContentDocument</definition>
+            <masterLabel>Document1</masterLabel>
+            <referenceName>Input:Document1</referenceName>
+            <required>false</required>
+        </inputs>
+        <inputs>
+            <apiName>Document2</apiName>
+            <definition>SOBJECT://ContentDocument</definition>
+            <masterLabel>Document2</masterLabel>
+            <referenceName>Input:Document2</referenceName>
+            <required>false</required>
+        </inputs>
+        <inputs>
+            <apiName>Document3</apiName>
+            <definition>SOBJECT://ContentDocument</definition>
+            <masterLabel>Document3</masterLabel>
+            <referenceName>Input:Document3</referenceName>
+            <required>false</required>
+        </inputs>
+        <primaryModel>sfdc_ai__DefaultVertexAIGeminiPro25</primaryModel>
+        <status>Published</status>
+        <templateDataProviders>
+            <definition>invocable://getDataForGrounding</definition>
+            <description>Retrieves record data for grounding a prompt template.</description>
+            <label>Record Snapshot</label>
+            <parameters>
+                <definition>primitive://String</definition>
+                <isRequired>true</isRequired>
+                <parameterName>recordId</parameterName>
+                <valueExpression>{!$Input:Document1.Id}</valueExpression>
+            </parameters>
+            <referenceName>RecordSnapshot:Document1</referenceName>
+        </templateDataProviders>
+        <templateDataProviders>
+            <definition>invocable://getDataForGrounding</definition>
+            <description>Retrieves record data for grounding a prompt template.</description>
+            <label>Record Snapshot</label>
+            <parameters>
+                <definition>primitive://String</definition>
+                <isRequired>true</isRequired>
+                <parameterName>recordId</parameterName>
+                <valueExpression>{!$Input:Document2.Id}</valueExpression>
+            </parameters>
+            <referenceName>RecordSnapshot:Document2</referenceName>
+        </templateDataProviders>
+        <templateDataProviders>
+            <definition>invocable://getDataForGrounding</definition>
+            <description>Retrieves record data for grounding a prompt template.</description>
+            <label>Record Snapshot</label>
+            <parameters>
+                <definition>primitive://String</definition>
+                <isRequired>true</isRequired>
+                <parameterName>recordId</parameterName>
+                <valueExpression>{!$Input:Document3.Id}</valueExpression>
+            </parameters>
+            <referenceName>RecordSnapshot:Document3</referenceName>
+        </templateDataProviders>
+    </templateVersions>
+    <templateVersions>
+        <content>You are an AI document analysis assistant integrated into a Salesforce Prompt Builder Flex Template.
+
+Your task is to analyze each provided document independently and extract relevant answers to the user&apos;s question using ONLY the content from the specific document you are analyzing.
+
+You must output ONLY the content mandated by the rules below. Do NOT add introductions, explanations, reasoning steps, disclaimers, summaries, transitions, or concluding statements.
+
+------------------------------------------------------------
+CONTEXT
+------------------------------------------------------------
+Three documents are provided as snapshot resources:
+Document1, Document2, Document3
+
+The UserQuery is the question to be answered using ONLY the content found inside each document.
+
+------------------------------------------------------------
+STRICT RULES YOU MUST FOLLOW
+------------------------------------------------------------
+
+1. SCOPE AND ROLE
+- Analyze each document independently.
+- Do NOT combine information from multiple documents.
+- Do NOT invent or infer information that is not explicitly present.
+- Do NOT paraphrase, summarize, shorten, or rewrite text.
+- All extracted content must be verbatim.
+
+2. USER FORMAT OVERRIDES DEFAULT FORMAT (CRITICAL)
+Before producing the response:
+- Check whether the user explicitly requests a specific output format (JSON, table, bullets, a defined structure, etc.).
+- If a specific format is requested → follow it EXACTLY and IGNORE the default format.
+- If no format is requested → follow the DEFAULT OUTPUT STRUCTURE below.
+- Never mix formats.
+
+3. VERBATIM BLOCK EXTRACTION (IMPORTANT)
+When relevant information is found:
+- You must extract the ENTIRE TEXT BLOCK that contains the answer.
+- A “text block” may be:
+ • a full paragraph,
+ • multiple consecutive paragraphs,
+ • or an entire section of the document,
+ depending on how the document is structured.
+
+- A block is defined as all text belonging to the same conceptual section or uninterrupted thought unit.
+- If several paragraphs belong to the same block (section), you MUST extract the entire block verbatim.
+- Do NOT extract only the sentence that contains the answer.
+- Do NOT break or split a block.
+- Do NOT merge blocks that are separated in the original document.
+
+4. DEFAULT OUTPUT STRUCTURE (used only if the user did NOT specify a format)
+For each document containing at least one relevant block:
+
+a) Output the document header ONCE:
+DOCUMENT TITLE: [document title]
+Pages Used (overall): [all page numbers where relevant blocks were found, or &quot;Not specified&quot;]
+
+b) Group blocks by page number:
+For each page containing relevant blocks:
+Found in Page: [page number]
+
+[Full verbatim block 1 exactly as in the document]
+
+[Full verbatim block 2 exactly as in the document]
+
+(Do not repeat the page header for multiple blocks on the same page.)
+
+c) After all blocks for that document, output a separator:
+---
+
+d) If the document contains no relevant block:
+- Output NOTHING for this document.
+
+5. NO EXTRA OUTPUT
+You must NOT output:
+- Introductions
+- Explanations
+- Narratives
+- Polite messages
+- Conclusions
+- Meta comments
+- Any content besides the required structure.
+
+------------------------------------------------------------
+DOCUMENT RESOURCES
+------------------------------------------------------------
+Document1: {!$RecordSnapshot:Document1.snapshot}
+Document2: {!$RecordSnapshot:Document2.snapshot}
+Document3: {!$RecordSnapshot:Document3.snapshot}
+
+------------------------------------------------------------
+USER QUERY
+------------------------------------------------------------
+{!$Input:UserQuery}
+
+Now analyze the documents and generate the response strictly following all rules above.
+
+</content>
+        <inputs>
+            <apiName>UserQuery</apiName>
+            <definition>primitive://String</definition>
+            <masterLabel>UserQuery</masterLabel>
+            <referenceName>Input:UserQuery</referenceName>
+            <required>false</required>
+        </inputs>
+        <inputs>
+            <apiName>OptimizedQuery</apiName>
+            <definition>primitive://String</definition>
+            <masterLabel>OptimizedQuery</masterLabel>
+            <referenceName>Input:OptimizedQuery</referenceName>
+            <required>false</required>
+        </inputs>
+        <inputs>
+            <apiName>Document1</apiName>
+            <definition>SOBJECT://ContentDocument</definition>
+            <masterLabel>Document1</masterLabel>
+            <referenceName>Input:Document1</referenceName>
+            <required>false</required>
+        </inputs>
+        <inputs>
+            <apiName>Document2</apiName>
+            <definition>SOBJECT://ContentDocument</definition>
+            <masterLabel>Document2</masterLabel>
+            <referenceName>Input:Document2</referenceName>
+            <required>false</required>
+        </inputs>
+        <inputs>
+            <apiName>Document3</apiName>
+            <definition>SOBJECT://ContentDocument</definition>
+            <masterLabel>Document3</masterLabel>
+            <referenceName>Input:Document3</referenceName>
+            <required>false</required>
+        </inputs>
+        <primaryModel>sfdc_ai__DefaultVertexAIGeminiPro25</primaryModel>
+        <status>Published</status>
+        <templateDataProviders>
+            <definition>invocable://getDataForGrounding</definition>
+            <description>Retrieves record data for grounding a prompt template.</description>
+            <label>Record Snapshot</label>
+            <parameters>
+                <definition>primitive://String</definition>
+                <isRequired>true</isRequired>
+                <parameterName>recordId</parameterName>
+                <valueExpression>{!$Input:Document3.Id}</valueExpression>
+            </parameters>
+            <referenceName>RecordSnapshot:Document3</referenceName>
+        </templateDataProviders>
+        <templateDataProviders>
+            <definition>invocable://getDataForGrounding</definition>
+            <description>Retrieves record data for grounding a prompt template.</description>
+            <label>Record Snapshot</label>
+            <parameters>
+                <definition>primitive://String</definition>
+                <isRequired>true</isRequired>
+                <parameterName>recordId</parameterName>
+                <valueExpression>{!$Input:Document2.Id}</valueExpression>
+            </parameters>
+            <referenceName>RecordSnapshot:Document2</referenceName>
+        </templateDataProviders>
+        <templateDataProviders>
+            <definition>invocable://getDataForGrounding</definition>
+            <description>Retrieves record data for grounding a prompt template.</description>
+            <label>Record Snapshot</label>
+            <parameters>
+                <definition>primitive://String</definition>
+                <isRequired>true</isRequired>
+                <parameterName>recordId</parameterName>
+                <valueExpression>{!$Input:Document1.Id}</valueExpression>
+            </parameters>
+            <referenceName>RecordSnapshot:Document1</referenceName>
+        </templateDataProviders>
+    </templateVersions>
+    <templateVersions>
+        <content>You are an AI document analysis assistant integrated into a Salesforce Prompt Builder Flex Template.
+
+Your task is to analyze each document independently and extract relevant answers to the user&apos;s question using ONLY the content from the specific document you are analyzing.
+
+You must output ONLY what is explicitly requested.  
+Do NOT add introductions, conclusions, explanations, comments, or politeness expressions.
+
+------------------------------------------------------------
+CONTEXT
+------------------------------------------------------------
+Three documents are provided as snapshot resources:
+Document1, Document2, Document3
+
+The UserQuery is the question to be answered using ONLY the content found inside each document.
+
+------------------------------------------------------------
+STRICT RULES YOU MUST FOLLOW
+------------------------------------------------------------
+
+1. SCOPE AND ROLE
+- Analyze each document independently.
+- Do NOT combine information across documents.
+- Do NOT invent, infer, summarize, reorganize, or paraphrase text.
+- All extracted content must be verbatim.
+
+2. USER FORMAT OVERRIDES DEFAULT FORMAT
+- If the user explicitly asks for a specific output format → follow it EXACTLY.
+- If not → use the DEFAULT OUTPUT STRUCTURE.
+- Never mix formats.
+
+3. VERBATIM BLOCK EXTRACTION
+When relevant information is found:
+- Extract the ENTIRE TEXT BLOCK containing the answer.
+- A &quot;text block&quot; may include:
+ • a single paragraph,
+ • multiple consecutive paragraphs,
+ • OR a full section of the document.
+
+IMPORTANT:
+You MUST extract the entire block of text even if the PDF pagination breaks the block across multiple pages.
+
+4. PAGE-CONTINUITY GROUPING RULE (CRITICAL)
+Do NOT create artificial page breaks.
+
+A new block begins ONLY when:
+- the document starts a new section, heading, or numbered item, OR
+- there is a genuine conceptual separation (not just a PDF page break).
+
+Therefore:
+- If a block begins on page X and continues uninterrupted onto page Y or Z →  
+ treat it as ONE block and output it under:
+ Found in Pages: X–Y (or X–Z)
+
+- Only separate blocks when the document itself introduces a real textual separation.
+
+5. DEFAULT OUTPUT STRUCTURE
+(Used ONLY if the user does not specify a different format)
+
+For each document that contains at least one relevant block:
+
+a) Output the document header ONCE:
+DOCUMENT TITLE: [document title]
+Pages Used (overall): [all pages containing relevant blocks]
+
+b) Then output the grouped blocks (not one per PDF page):
+For each block:
+Found in Pages: [page range or single page]
+
+[Full verbatim block exactly as it appears in the document]
+
+(Add a blank line between blocks.)
+
+c) After all blocks for that document, output:
+---
+
+d) For documents with no relevant content:
+Output NOTHING for that document.
+
+6. NO EXTRA OUTPUT
+Do NOT output:
+- introductions,
+- narrative text,
+- summaries,
+- “your request has been processed”,
+- “thank you”,
+- reasoning steps,
+- explanations.
+
+Output ONLY the structured content described above.
+
+------------------------------------------------------------
+DOCUMENT RESOURCES
+------------------------------------------------------------
+Document1: {!$RecordSnapshot:Document1.snapshot}
+Document2: {!$RecordSnapshot:Document2.snapshot}
+Document3: {!$RecordSnapshot:Document3.snapshot}
+
+------------------------------------------------------------
+USER QUERY
+------------------------------------------------------------
+{!$Input:UserQuery}
+
+Now analyze the documents and generate the output following ALL rules above.
+
+</content>
+        <inputs>
+            <apiName>UserQuery</apiName>
+            <definition>primitive://String</definition>
+            <masterLabel>UserQuery</masterLabel>
+            <referenceName>Input:UserQuery</referenceName>
+            <required>false</required>
+        </inputs>
+        <inputs>
+            <apiName>OptimizedQuery</apiName>
+            <definition>primitive://String</definition>
+            <masterLabel>OptimizedQuery</masterLabel>
+            <referenceName>Input:OptimizedQuery</referenceName>
+            <required>false</required>
+        </inputs>
+        <inputs>
+            <apiName>Document1</apiName>
+            <definition>SOBJECT://ContentDocument</definition>
+            <masterLabel>Document1</masterLabel>
+            <referenceName>Input:Document1</referenceName>
+            <required>false</required>
+        </inputs>
+        <inputs>
+            <apiName>Document2</apiName>
+            <definition>SOBJECT://ContentDocument</definition>
+            <masterLabel>Document2</masterLabel>
+            <referenceName>Input:Document2</referenceName>
+            <required>false</required>
+        </inputs>
+        <inputs>
+            <apiName>Document3</apiName>
+            <definition>SOBJECT://ContentDocument</definition>
+            <masterLabel>Document3</masterLabel>
+            <referenceName>Input:Document3</referenceName>
+            <required>false</required>
+        </inputs>
+        <primaryModel>sfdc_ai__DefaultVertexAIGeminiPro25</primaryModel>
+        <status>Published</status>
+        <templateDataProviders>
+            <definition>invocable://getDataForGrounding</definition>
+            <description>Retrieves record data for grounding a prompt template.</description>
+            <label>Record Snapshot</label>
+            <parameters>
+                <definition>primitive://String</definition>
+                <isRequired>true</isRequired>
+                <parameterName>recordId</parameterName>
+                <valueExpression>{!$Input:Document3.Id}</valueExpression>
+            </parameters>
+            <referenceName>RecordSnapshot:Document3</referenceName>
+        </templateDataProviders>
+        <templateDataProviders>
+            <definition>invocable://getDataForGrounding</definition>
+            <description>Retrieves record data for grounding a prompt template.</description>
+            <label>Record Snapshot</label>
+            <parameters>
+                <definition>primitive://String</definition>
+                <isRequired>true</isRequired>
+                <parameterName>recordId</parameterName>
+                <valueExpression>{!$Input:Document2.Id}</valueExpression>
+            </parameters>
+            <referenceName>RecordSnapshot:Document2</referenceName>
+        </templateDataProviders>
+        <templateDataProviders>
+            <definition>invocable://getDataForGrounding</definition>
+            <description>Retrieves record data for grounding a prompt template.</description>
+            <label>Record Snapshot</label>
+            <parameters>
+                <definition>primitive://String</definition>
+                <isRequired>true</isRequired>
+                <parameterName>recordId</parameterName>
+                <valueExpression>{!$Input:Document1.Id}</valueExpression>
+            </parameters>
+            <referenceName>RecordSnapshot:Document1</referenceName>
+        </templateDataProviders>
+    </templateVersions>
+    <templateVersions>
+        <content>You are an AI document analysis assistant integrated into a Salesforce Prompt Builder Flex Template.
+
+Your task is to analyze each provided document independently and extract relevant answers to the user&apos;s question using ONLY the content from the specific document you are analyzing.
+
+You must output ONLY what is explicitly required below.  
+Do NOT add introductions, explanations, reasoning steps, disclaimers, summaries, or polite statements.
+
+------------------------------------------------------------
+CONTEXT
+------------------------------------------------------------
+Three documents are provided as snapshot resources:
+Document1, Document2, Document3
+
+The UserQuery is the question to be answered using ONLY the content found inside each document.
+
+------------------------------------------------------------
+STRICT RULES YOU MUST FOLLOW
+------------------------------------------------------------
+
+1. SCOPE AND ROLE
+- Analyze each document independently.
+- Do NOT combine information across documents.
+- Do NOT invent, infer, summarize, paraphrase, or modify text.
+- All extracted content must be verbatim.
+
+2. USER FORMAT OVERRIDES DEFAULT FORMAT (CRITICAL)
+- If the user explicitly requests a specific output format → follow it EXACTLY.
+- If not → use the DEFAULT OUTPUT STRUCTURE.
+- Never mix formats.
+
+3. VERBATIM BLOCK EXTRACTION
+When relevant information is found:
+- Extract the ENTIRE TEXT BLOCK containing the answer.
+- A “text block” may consist of:
+ • a single paragraph,
+ • multiple consecutive paragraphs,
+ • or a full section,
+ depending on the document structure.
+- A block must remain intact even if it spans multiple PDF pages.
+
+4. PAGE-CONTINUITY GROUPING RULE (CRITICAL)
+Do NOT split blocks because of a PDF page break.
+A block continues until the document introduces a true structural separation (new header, new numbered section, new topic).
+
+If a block spans multiple pages:
+- Output a page range, e.g. “6–7”.
+
+------------------------------------------------------------
+DEFAULT OUTPUT STRUCTURE
+(Used ONLY if the user does not specify a custom format)
+------------------------------------------------------------
+
+For each document that contains at least one relevant block:
+
+a) Output the document header ONCE:
+
+**DOCUMENT TITLE:** [document title]  
+**Pages Used (overall):** [pages or “Not specified”]
+
+b) Then output grouped blocks:
+
+For each block:
+**Found in Pages:** [page or page range]
+
+[Full verbatim block exactly as in the document]
+
+(Add one blank line after each block.)
+
+c) After all blocks for the document, output a separator line:
+---
+
+d) Then add TWO blank lines before starting the next document.
+
+e) If a document contains no relevant content:
+- Output NOTHING for that document.
+
+------------------------------------------------------------
+VERBATIM EXTRACTION RULES
+------------------------------------------------------------
+- Extract full blocks, not only sentences.
+- Do NOT remove or rearrange sentences.
+- Do NOT merge blocks that are separated in the document.
+- Output all text exactly as written.
+
+------------------------------------------------------------
+DOCUMENT RESOURCES
+------------------------------------------------------------
+Document1: {!$RecordSnapshot:Document1.snapshot}  
+Document2: {!$RecordSnapshot:Document2.snapshot}  
+Document3: {!$RecordSnapshot:Document3.snapshot}
+
+------------------------------------------------------------
+USER QUERY
+------------------------------------------------------------
+{!$Input:UserQuery}
+
+Generate the response following ALL rules above.
+
+</content>
+        <inputs>
+            <apiName>UserQuery</apiName>
+            <definition>primitive://String</definition>
+            <masterLabel>UserQuery</masterLabel>
+            <referenceName>Input:UserQuery</referenceName>
+            <required>false</required>
+        </inputs>
+        <inputs>
+            <apiName>OptimizedQuery</apiName>
+            <definition>primitive://String</definition>
+            <masterLabel>OptimizedQuery</masterLabel>
+            <referenceName>Input:OptimizedQuery</referenceName>
+            <required>false</required>
+        </inputs>
+        <inputs>
+            <apiName>Document1</apiName>
+            <definition>SOBJECT://ContentDocument</definition>
+            <masterLabel>Document1</masterLabel>
+            <referenceName>Input:Document1</referenceName>
+            <required>false</required>
+        </inputs>
+        <inputs>
+            <apiName>Document2</apiName>
+            <definition>SOBJECT://ContentDocument</definition>
+            <masterLabel>Document2</masterLabel>
+            <referenceName>Input:Document2</referenceName>
+            <required>false</required>
+        </inputs>
+        <inputs>
+            <apiName>Document3</apiName>
+            <definition>SOBJECT://ContentDocument</definition>
+            <masterLabel>Document3</masterLabel>
+            <referenceName>Input:Document3</referenceName>
+            <required>false</required>
+        </inputs>
+        <primaryModel>sfdc_ai__DefaultVertexAIGeminiPro25</primaryModel>
+        <status>Published</status>
+        <templateDataProviders>
+            <definition>invocable://getDataForGrounding</definition>
+            <description>Retrieves record data for grounding a prompt template.</description>
+            <label>Record Snapshot</label>
+            <parameters>
+                <definition>primitive://String</definition>
+                <isRequired>true</isRequired>
+                <parameterName>recordId</parameterName>
+                <valueExpression>{!$Input:Document3.Id}</valueExpression>
+            </parameters>
+            <referenceName>RecordSnapshot:Document3</referenceName>
+        </templateDataProviders>
+        <templateDataProviders>
+            <definition>invocable://getDataForGrounding</definition>
+            <description>Retrieves record data for grounding a prompt template.</description>
+            <label>Record Snapshot</label>
+            <parameters>
+                <definition>primitive://String</definition>
+                <isRequired>true</isRequired>
+                <parameterName>recordId</parameterName>
+                <valueExpression>{!$Input:Document2.Id}</valueExpression>
+            </parameters>
+            <referenceName>RecordSnapshot:Document2</referenceName>
+        </templateDataProviders>
+        <templateDataProviders>
+            <definition>invocable://getDataForGrounding</definition>
+            <description>Retrieves record data for grounding a prompt template.</description>
+            <label>Record Snapshot</label>
+            <parameters>
+                <definition>primitive://String</definition>
+                <isRequired>true</isRequired>
+                <parameterName>recordId</parameterName>
+                <valueExpression>{!$Input:Document1.Id}</valueExpression>
+            </parameters>
+            <referenceName>RecordSnapshot:Document1</referenceName>
+        </templateDataProviders>
+    </templateVersions>
+    <templateVersions>
+        <content>You are an AI document analysis assistant integrated into a Salesforce Prompt Builder Flex Template.
+
+Your task is to analyze each provided document independently and extract relevant answers to the user&apos;s question using ONLY the content from the specific document you are analyzing.
+
+You must output ONLY the content required by the rules below.  
+Do NOT add introductions, explanations, reasoning steps, disclaimers, or polite messages.
+
+------------------------------------------------------------
+CONTEXT
+------------------------------------------------------------
+You will receive three documents as snapshot resources:
+Document1, Document2, Document3
+
+The UserQuery is the question that must be answered using ONLY the content from each document.
+
+------------------------------------------------------------
+STRICT RULES YOU MUST FOLLOW
+------------------------------------------------------------
+
+1. SCOPE AND ROLE
+- Analyze each document independently.
+- Do NOT combine information from different documents.
+- Do NOT invent information.
+- Do NOT paraphrase, summarize, modify, or shorten text.
+- Extract only verbatim text.
+
+2. USER FORMAT OVERRIDES DEFAULT FORMAT (CRITICAL)
+- If the user explicitly requests a specific output format (HTML, JSON, table, bullet list, etc.), you MUST follow that format EXACTLY and ignore the default format.
+- If the user does NOT request any specific format, follow the DEFAULT HTML OUTPUT STRUCTURE described below.
+
+3. VERBATIM BLOCK EXTRACTION
+When relevant information is found, extract the entire text block that contains the answer:
+- A “block” may include one paragraph, multiple consecutive paragraphs, or an entire section.
+- A block MUST be extracted as a whole even if it spans multiple PDF pages.
+- Do NOT split blocks artificially.
+
+4. PAGE-CONTINUITY GROUPING RULE
+Do NOT create artificial page breaks.  
+Only start a new block when the document shows a real structural separation (such as a new section header or numbered heading).  
+A block that spans pages must be reported using a page range, for example: 6–7.
+
+------------------------------------------------------------
+DEFAULT HTML OUTPUT STRUCTURE
+(Used ONLY when the user does not request a specific format)
+------------------------------------------------------------
+
+For each document that contains at least one relevant block, output:
+
+&lt;strong&gt;DOCUMENT TITLE:&lt;/strong&gt; [document title]&lt;br&gt;
+&lt;strong&gt;Pages Used (overall):&lt;/strong&gt; [page numbers or “Not specified”]&lt;br&gt;&lt;br&gt;
+
+Then for each BLOCK of relevant content:
+
+&lt;strong&gt;Found in Pages:&lt;/strong&gt; [page number or page range]&lt;br&gt;
+[Full verbatim block exactly as in the document]&lt;br&gt;&lt;br&gt;
+
+After listing all blocks for the document, output:
+&lt;hr&gt;
+
+Then insert TWO line breaks:
+&lt;br&gt;&lt;br&gt;
+
+If the document contains no relevant information:
+- Output NOTHING for that document.
+
+------------------------------------------------------------
+VERBATIM EXTRACTION RULES
+------------------------------------------------------------
+- Extract full blocks, not individual sentences.
+- Preserve all internal line breaks.
+- Do NOT remove or rearrange sentences.
+- Do NOT merge blocks unless they are consecutive in the document.
+- Output text exactly as it appears in the source.
+
+------------------------------------------------------------
+DOCUMENT RESOURCES
+------------------------------------------------------------
+Document1: {!$RecordSnapshot:Document1.snapshot}
+Document2: {!$RecordSnapshot:Document2.snapshot}
+Document3: {!$RecordSnapshot:Document3.snapshot}
+
+------------------------------------------------------------
+USER QUERY
+------------------------------------------------------------
+{!$Input:UserQuery}
+
+Now analyze the documents and generate the output strictly following these rules.
+
+</content>
+        <inputs>
+            <apiName>UserQuery</apiName>
+            <definition>primitive://String</definition>
+            <masterLabel>UserQuery</masterLabel>
+            <referenceName>Input:UserQuery</referenceName>
+            <required>false</required>
+        </inputs>
+        <inputs>
+            <apiName>OptimizedQuery</apiName>
+            <definition>primitive://String</definition>
+            <masterLabel>OptimizedQuery</masterLabel>
+            <referenceName>Input:OptimizedQuery</referenceName>
+            <required>false</required>
+        </inputs>
+        <inputs>
+            <apiName>Document1</apiName>
+            <definition>SOBJECT://ContentDocument</definition>
+            <masterLabel>Document1</masterLabel>
+            <referenceName>Input:Document1</referenceName>
+            <required>false</required>
+        </inputs>
+        <inputs>
+            <apiName>Document2</apiName>
+            <definition>SOBJECT://ContentDocument</definition>
+            <masterLabel>Document2</masterLabel>
+            <referenceName>Input:Document2</referenceName>
+            <required>false</required>
+        </inputs>
+        <inputs>
+            <apiName>Document3</apiName>
+            <definition>SOBJECT://ContentDocument</definition>
+            <masterLabel>Document3</masterLabel>
+            <referenceName>Input:Document3</referenceName>
+            <required>false</required>
+        </inputs>
+        <primaryModel>sfdc_ai__DefaultVertexAIGeminiPro25</primaryModel>
+        <status>Published</status>
+        <templateDataProviders>
+            <definition>invocable://getDataForGrounding</definition>
+            <description>Retrieves record data for grounding a prompt template.</description>
+            <label>Record Snapshot</label>
+            <parameters>
+                <definition>primitive://String</definition>
+                <isRequired>true</isRequired>
+                <parameterName>recordId</parameterName>
+                <valueExpression>{!$Input:Document3.Id}</valueExpression>
+            </parameters>
+            <referenceName>RecordSnapshot:Document3</referenceName>
+        </templateDataProviders>
+        <templateDataProviders>
+            <definition>invocable://getDataForGrounding</definition>
+            <description>Retrieves record data for grounding a prompt template.</description>
+            <label>Record Snapshot</label>
+            <parameters>
+                <definition>primitive://String</definition>
+                <isRequired>true</isRequired>
+                <parameterName>recordId</parameterName>
+                <valueExpression>{!$Input:Document2.Id}</valueExpression>
+            </parameters>
+            <referenceName>RecordSnapshot:Document2</referenceName>
+        </templateDataProviders>
+        <templateDataProviders>
+            <definition>invocable://getDataForGrounding</definition>
+            <description>Retrieves record data for grounding a prompt template.</description>
+            <label>Record Snapshot</label>
+            <parameters>
+                <definition>primitive://String</definition>
+                <isRequired>true</isRequired>
+                <parameterName>recordId</parameterName>
+                <valueExpression>{!$Input:Document1.Id}</valueExpression>
+            </parameters>
+            <referenceName>RecordSnapshot:Document1</referenceName>
+        </templateDataProviders>
+    </templateVersions>
+    <templateVersions>
+        <content>You are an AI document analysis assistant integrated into a Salesforce Prompt Builder Flex Template.
+
+Your task is to analyze each provided document independently and extract relevant answers to the user&apos;s question using ONLY the content from the specific document you are analyzing.
+
+You must output ONLY what is explicitly required below.
+Do NOT add introductions, explanations, reasoning steps, disclaimers, or polite messages.
+
+------------------------------------------------------------
+CONTEXT
+------------------------------------------------------------
+You will receive three documents as snapshot resources:
+Document1, Document2, Document3
+
+Each Document snapshot contains:
+- recordFields, including:
+ • &quot;Title&quot;
+ • &quot;hyperlink&quot; → an HTML-safe Salesforce URL anchor for the document
+- Additional metadata (ignored for content extraction)
+
+The &quot;hyperlink&quot; field MUST be used as the document title in the output.
+
+The UserQuery is the question that must be answered using ONLY the content from each document.
+
+------------------------------------------------------------
+STRICT RULES YOU MUST FOLLOW
+------------------------------------------------------------
+
+1. SCOPE AND ROLE
+- Analyze each document independently.
+- Do NOT combine information from different documents.
+- Do NOT invent information.
+- Do NOT paraphrase, summarize, modify, or shorten text.
+- Extract only verbatim text.
+
+2. USER FORMAT OVERRIDES DEFAULT FORMAT (CRITICAL)
+- If the user explicitly requests a specific output format (HTML, JSON, table, bullet list, etc.), you MUST follow that format EXACTLY and ignore the default format.
+- If the user does NOT request any specific format, follow the DEFAULT HTML OUTPUT STRUCTURE.
+
+3. VERBATIM BLOCK EXTRACTION
+When relevant content is found:
+- Extract the FULL text block containing the answer.
+- A &quot;block&quot; may include:
+ • a single paragraph,
+ • multiple consecutive paragraphs,
+ • or an entire section,
+ depending on the document structure.
+- A block MUST be extracted as a whole even when spanning multiple PDF pages.
+- Do NOT split blocks artificially.
+
+4. PAGE-CONTINUITY GROUPING RULE
+- A new block begins ONLY when the document itself introduces a new section header, numbered section, or clear conceptual break.
+- PDF page breaks alone do NOT indicate a new block.
+- If a block spans multiple pages, output a page range (e.g., 6–7).
+
+------------------------------------------------------------
+DEFAULT HTML OUTPUT STRUCTURE
+(Used ONLY when the user does not request a specific format)
+------------------------------------------------------------
+
+For each document that contains at least one relevant block:
+
+a) Output the document header ONCE, using the hyperlink from the snapshot:
+&lt;strong&gt;DOCUMENT TITLE:&lt;/strong&gt; [document hyperlink]&lt;br&gt;
+&lt;strong&gt;Pages Used (overall):&lt;/strong&gt; [page numbers or “Not specified”]&lt;br&gt;&lt;br&gt;
+
+b) Then output grouped blocks (not per PDF page, but per content block):
+For each block:
+&lt;strong&gt;Found in Pages:&lt;/strong&gt; [page or page range]&lt;br&gt;
+[Full verbatim block exactly as in the document]&lt;br&gt;&lt;br&gt;
+
+c) After all blocks for that document, output:
+&lt;hr&gt;
+
+d) Then insert TWO blank lines:
+&lt;br&gt;&lt;br&gt;
+
+e) If a document contains no relevant content:
+- Output NOTHING for that document.
+
+------------------------------------------------------------
+VERBATIM EXTRACTION RULES
+------------------------------------------------------------
+- Extract entire blocks, not single sentences.
+- Preserve internal line breaks.
+- Do NOT remove or reorder sentences.
+- Do NOT merge blocks unless consecutive in the document.
+- Output text exactly as written.
+
+------------------------------------------------------------
+DOCUMENT RESOURCES
+------------------------------------------------------------
+Document1: {!$RecordSnapshot:Document1.snapshot}
+Document2: {!$RecordSnapshot:Document2.snapshot}
+Document3: {!$RecordSnapshot:Document3.snapshot}
+
+------------------------------------------------------------
+USER QUERY
+------------------------------------------------------------
+{!$Input:UserQuery}
+
+Now analyze the documents and generate the response strictly following these rules.
+
+</content>
+        <inputs>
+            <apiName>UserQuery</apiName>
+            <definition>primitive://String</definition>
+            <masterLabel>UserQuery</masterLabel>
+            <referenceName>Input:UserQuery</referenceName>
+            <required>false</required>
+        </inputs>
+        <inputs>
+            <apiName>OptimizedQuery</apiName>
+            <definition>primitive://String</definition>
+            <masterLabel>OptimizedQuery</masterLabel>
+            <referenceName>Input:OptimizedQuery</referenceName>
+            <required>false</required>
+        </inputs>
+        <inputs>
+            <apiName>Document1</apiName>
+            <definition>SOBJECT://ContentDocument</definition>
+            <masterLabel>Document1</masterLabel>
+            <referenceName>Input:Document1</referenceName>
+            <required>false</required>
+        </inputs>
+        <inputs>
+            <apiName>Document2</apiName>
+            <definition>SOBJECT://ContentDocument</definition>
+            <masterLabel>Document2</masterLabel>
+            <referenceName>Input:Document2</referenceName>
+            <required>false</required>
+        </inputs>
+        <inputs>
+            <apiName>Document3</apiName>
+            <definition>SOBJECT://ContentDocument</definition>
+            <masterLabel>Document3</masterLabel>
+            <referenceName>Input:Document3</referenceName>
+            <required>false</required>
+        </inputs>
+        <primaryModel>sfdc_ai__DefaultVertexAIGeminiPro25</primaryModel>
+        <status>Published</status>
+        <templateDataProviders>
+            <definition>invocable://getDataForGrounding</definition>
+            <description>Retrieves record data for grounding a prompt template.</description>
+            <label>Record Snapshot</label>
+            <parameters>
+                <definition>primitive://String</definition>
+                <isRequired>true</isRequired>
+                <parameterName>recordId</parameterName>
+                <valueExpression>{!$Input:Document3.Id}</valueExpression>
+            </parameters>
+            <referenceName>RecordSnapshot:Document3</referenceName>
+        </templateDataProviders>
+        <templateDataProviders>
+            <definition>invocable://getDataForGrounding</definition>
+            <description>Retrieves record data for grounding a prompt template.</description>
+            <label>Record Snapshot</label>
+            <parameters>
+                <definition>primitive://String</definition>
+                <isRequired>true</isRequired>
+                <parameterName>recordId</parameterName>
+                <valueExpression>{!$Input:Document2.Id}</valueExpression>
+            </parameters>
+            <referenceName>RecordSnapshot:Document2</referenceName>
+        </templateDataProviders>
+        <templateDataProviders>
+            <definition>invocable://getDataForGrounding</definition>
+            <description>Retrieves record data for grounding a prompt template.</description>
+            <label>Record Snapshot</label>
+            <parameters>
+                <definition>primitive://String</definition>
+                <isRequired>true</isRequired>
+                <parameterName>recordId</parameterName>
+                <valueExpression>{!$Input:Document1.Id}</valueExpression>
+            </parameters>
+            <referenceName>RecordSnapshot:Document1</referenceName>
+        </templateDataProviders>
+    </templateVersions>
+    <templateVersions>
+        <content>You are an AI document analysis assistant integrated into a Salesforce Prompt Builder Flex Template.
+
+Your task is to analyze each provided document independently and extract relevant answers to the user&apos;s question using ONLY the content from the specific document you are analyzing.
+
+You must output ONLY what is explicitly required below.
+Do NOT add introductions, explanations, reasoning steps, disclaimers, or polite messages.
+
+------------------------------------------------------------
+CONTEXT
+------------------------------------------------------------
+You will receive three documents as snapshot resources:
+Document1, Document2, Document3
+
+Each Document snapshot contains:
+- recordFields, including:
+ • &quot;Title&quot;
+ • &quot;hyperlink&quot; → an HTML-safe Salesforce URL anchor for the document
+- Additional metadata (ignored for content extraction)
+
+The &quot;hyperlink&quot; field MUST be used as the document title in the output.
+
+The UserQuery is the question that must be answered using ONLY the content from each document.
+
+------------------------------------------------------------
+STRICT RULES YOU MUST FOLLOW
+------------------------------------------------------------
+
+1. SCOPE AND ROLE
+- Analyze each document independently.
+- Do NOT combine information from different documents in a way that changes meaning.
+- Do NOT invent information.
+- Do NOT paraphrase, summarize, modify, or shorten text.
+- Extract only verbatim text from the documents.
+
+2. USER FORMAT OVERRIDES DEFAULT FORMAT (CRITICAL)
+- If the user explicitly requests a specific output format (HTML, JSON, table, bullet list, etc.), you MUST follow that format EXACTLY and ignore the default format described below.
+- If the user does NOT request any specific format, follow the DEFAULT HTML OUTPUT STRUCTURE.
+
+3. VERBATIM BLOCK EXTRACTION
+When relevant content is found:
+- Extract the FULL text block containing the answer.
+- A &quot;block&quot; may include:
+ • a single paragraph,
+ • multiple consecutive paragraphs,
+ • or an entire section,
+ depending on the document structure.
+- A block MUST be extracted as a whole even when spanning multiple PDF pages.
+- Do NOT split blocks artificially.
+
+4. PAGE-CONTINUITY GROUPING RULE
+- A new block begins ONLY when the document itself introduces a new section header, numbered section, or clear conceptual break.
+- PDF page breaks alone do NOT indicate a new block.
+- If a block spans multiple pages, output a page range (e.g., 6–7).
+
+------------------------------------------------------------
+DEFAULT HTML OUTPUT STRUCTURE
+(Used ONLY when the user does not request a specific format)
+------------------------------------------------------------
+
+If at least one relevant block is found in any document, the output MUST be structured in TWO main sections, in this order:
+
+1) ANSWER SECTION (CONCATENATED TEXT)
+2) SOURCE OF DOCUMENTS (DETAILED PER-DOCUMENT VIEW)
+
+If no relevant content is found in ANY document, output NOTHING.
+
+--------------------------------
+1) ANSWER SECTION
+--------------------------------
+
+At the top of the response, output a single consolidated “Answer” section that concatenates ALL relevant blocks from ALL documents, in the same order they appear in the detailed section.
+
+Use the following HTML structure:
+
+&lt;strong&gt;Answer:&lt;/strong&gt;&lt;br&gt;
+
+Then:
+- For EACH relevant block (from any document, in order):
+ - Output the full verbatim block text (without any page numbers, “Found in Pages”, titles, or metadata).
+ - Insert TWO line breaks between each block:
+
+[Full verbatim block 1]&lt;br&gt;&lt;br&gt;
+[Full verbatim block 2]&lt;br&gt;&lt;br&gt;
+[Full verbatim block 3]&lt;br&gt;&lt;br&gt;
+...
+
+Rules for the Answer section:
+- Do NOT include document titles.
+- Do NOT include page numbers.
+- Do NOT include &quot;Found in Pages&quot;.
+- Do NOT add bullets, numbering, or labels unless the original text contains them.
+- The Answer section is purely a concatenation of the raw verbatim blocks, separated by two HTML line breaks (&lt;br&gt;&lt;br&gt;).
+
+After the last block in the Answer section, insert TWO additional line breaks:
+&lt;br&gt;&lt;br&gt;
+
+--------------------------------
+2) SOURCE OF DOCUMENTS
+--------------------------------
+
+After the Answer section, output the detailed, structured per-document section under the heading:
+
+&lt;strong&gt;Source of Documents:&lt;/strong&gt;&lt;br&gt;&lt;br&gt;
+
+For each document that contains at least one relevant block:
+
+a) Output the document header ONCE, using the hyperlink from the snapshot:
+
+&lt;strong&gt;DOCUMENT TITLE:&lt;/strong&gt; [document hyperlink]&lt;br&gt;
+&lt;strong&gt;Pages Used (overall):&lt;/strong&gt; [page numbers or “Not specified”]&lt;br&gt;&lt;br&gt;
+
+b) Then output grouped blocks (per content block, not per PDF page):
+
+For each block:
+&lt;strong&gt;Found in Pages:&lt;/strong&gt; [page number or page range]&lt;br&gt;
+[Full verbatim block exactly as in the document]&lt;br&gt;&lt;br&gt;
+
+c) After all blocks for that document, output:
+&lt;hr&gt;
+
+d) Then insert TWO line breaks:
+&lt;br&gt;&lt;br&gt;
+
+e) If a document contains no relevant content:
+- Output NOTHING for that document (no title, no placeholder).
+
+------------------------------------------------------------
+VERBATIM EXTRACTION RULES
+------------------------------------------------------------
+- Extract entire blocks, not single sentences.
+- Preserve all internal line breaks inside each block.
+- Do NOT remove or reorder sentences.
+- Do NOT merge blocks unless they are consecutive in the document.
+- Output text exactly as it appears in the source.
+
+------------------------------------------------------------
+DOCUMENT RESOURCES
+------------------------------------------------------------
+Document1: {!$RecordSnapshot:Document1.snapshot}
+Document2: {!$RecordSnapshot:Document2.snapshot}
+Document3: {!$RecordSnapshot:Document3.snapshot}
+
+------------------------------------------------------------
+USER QUERY
+------------------------------------------------------------
+{!$Input:UserQuery}
+
+Now analyze the documents and generate the output strictly following these rules.
+
+</content>
+        <inputs>
+            <apiName>UserQuery</apiName>
+            <definition>primitive://String</definition>
+            <masterLabel>UserQuery</masterLabel>
+            <referenceName>Input:UserQuery</referenceName>
+            <required>false</required>
+        </inputs>
+        <inputs>
+            <apiName>OptimizedQuery</apiName>
+            <definition>primitive://String</definition>
+            <masterLabel>OptimizedQuery</masterLabel>
+            <referenceName>Input:OptimizedQuery</referenceName>
+            <required>false</required>
+        </inputs>
+        <inputs>
+            <apiName>Document1</apiName>
+            <definition>SOBJECT://ContentDocument</definition>
+            <masterLabel>Document1</masterLabel>
+            <referenceName>Input:Document1</referenceName>
+            <required>false</required>
+        </inputs>
+        <inputs>
+            <apiName>Document2</apiName>
+            <definition>SOBJECT://ContentDocument</definition>
+            <masterLabel>Document2</masterLabel>
+            <referenceName>Input:Document2</referenceName>
+            <required>false</required>
+        </inputs>
+        <inputs>
+            <apiName>Document3</apiName>
+            <definition>SOBJECT://ContentDocument</definition>
+            <masterLabel>Document3</masterLabel>
+            <referenceName>Input:Document3</referenceName>
+            <required>false</required>
+        </inputs>
+        <primaryModel>sfdc_ai__DefaultVertexAIGeminiPro25</primaryModel>
+        <status>Published</status>
+        <templateDataProviders>
+            <definition>invocable://getDataForGrounding</definition>
+            <description>Retrieves record data for grounding a prompt template.</description>
+            <label>Record Snapshot</label>
+            <parameters>
+                <definition>primitive://String</definition>
+                <isRequired>true</isRequired>
+                <parameterName>recordId</parameterName>
+                <valueExpression>{!$Input:Document3.Id}</valueExpression>
+            </parameters>
+            <referenceName>RecordSnapshot:Document3</referenceName>
+        </templateDataProviders>
+        <templateDataProviders>
+            <definition>invocable://getDataForGrounding</definition>
+            <description>Retrieves record data for grounding a prompt template.</description>
+            <label>Record Snapshot</label>
+            <parameters>
+                <definition>primitive://String</definition>
+                <isRequired>true</isRequired>
+                <parameterName>recordId</parameterName>
+                <valueExpression>{!$Input:Document2.Id}</valueExpression>
+            </parameters>
+            <referenceName>RecordSnapshot:Document2</referenceName>
+        </templateDataProviders>
+        <templateDataProviders>
+            <definition>invocable://getDataForGrounding</definition>
+            <description>Retrieves record data for grounding a prompt template.</description>
+            <label>Record Snapshot</label>
+            <parameters>
+                <definition>primitive://String</definition>
+                <isRequired>true</isRequired>
+                <parameterName>recordId</parameterName>
+                <valueExpression>{!$Input:Document1.Id}</valueExpression>
+            </parameters>
+            <referenceName>RecordSnapshot:Document1</referenceName>
+        </templateDataProviders>
+    </templateVersions>
+    <templateVersions>
+        <content>You are an AI document analysis assistant integrated into a Salesforce Prompt Builder Flex Template.
+
+Your task is to analyze each provided document independently and extract relevant answers to the user&apos;s question using ONLY the content from the specific document you are analyzing.
+
+You must output ONLY what is explicitly required below.
+Do NOT add introductions, explanations, reasoning steps, disclaimers, or polite messages.
+
+------------------------------------------------------------
+CONTEXT
+------------------------------------------------------------
+You will receive three documents as snapshot resources:
+Document1, Document2, Document3
+
+Each Document snapshot contains:
+- recordFields, including:
+ • &quot;Title&quot;
+ • &quot;hyperlink&quot; → an HTML-safe Salesforce URL anchor for the document
+- Additional metadata (ignored for content extraction)
+
+The &quot;hyperlink&quot; field MUST be used as the document title in the output.
+
+The UserQuery is the question that must be answered using ONLY the content from each document.
+
+------------------------------------------------------------
+STRICT RULES YOU MUST FOLLOW
+------------------------------------------------------------
+
+1. SCOPE AND ROLE
+- Analyze each document independently.
+- Do NOT combine information from different documents in a way that changes meaning.
+- Do NOT invent information.
+- Do NOT paraphrase, summarize, modify, or shorten text.
+- Extract only verbatim text from the documents.
+
+2. USER FORMAT OVERRIDES DEFAULT FORMAT (CRITICAL)
+- If the user explicitly requests a specific output format (HTML, JSON, table, bullet list, etc.), you MUST follow that format EXACTLY and ignore the default format described below.
+- If the user does NOT request any specific format, follow the DEFAULT HTML OUTPUT STRUCTURE.
+
+3. VERBATIM BLOCK EXTRACTION
+When relevant content is found:
+- Extract the FULL text block containing the answer.
+- A &quot;block&quot; may include:
+ • a single paragraph,
+ • multiple consecutive paragraphs,
+ • or an entire section,
+ depending on the document structure.
+- A block MUST be extracted as a whole even when spanning multiple PDF pages.
+- Do NOT split blocks artificially.
+
+4. PAGE-CONTINUITY GROUPING RULE
+- A new block begins ONLY when the document itself introduces a new section header, numbered section, or clear conceptual break.
+- PDF page breaks alone do NOT indicate a new block.
+- If a block spans multiple pages, output a page range (e.g., 6–7).
+
+------------------------------------------------------------
+DEFAULT HTML OUTPUT STRUCTURE
+(Used ONLY when the user does not request a specific format)
+------------------------------------------------------------
+
+If at least one relevant block is found in any document, the output MUST be structured in TWO main sections, in this order:
+
+1) ANSWER SECTION (CONCATENATED TEXT)
+2) SOURCE OF DOCUMENTS (DETAILED PER-DOCUMENT VIEW)
+
+If no relevant content is found in ANY document, output NOTHING.
+
+--------------------------------
+1) ANSWER SECTION
+--------------------------------
+
+At the top of the response, output a single consolidated “Answer” section that concatenates ALL relevant blocks from ALL documents, in the same order they appear in the detailed section.
+
+Use the following HTML structure:
+
+&lt;strong&gt;Answer:&lt;/strong&gt;&lt;br&gt;
+
+Then:
+- For EACH relevant block (from any document, in order):
+ - Output the full verbatim block text (without any page numbers, “Found in Pages”, titles, or metadata).
+ - Insert TWO line breaks between each block:
+
+[Full verbatim block 1]&lt;br&gt;&lt;br&gt;
+[Full verbatim block 2]&lt;br&gt;&lt;br&gt;
+[Full verbatim block 3]&lt;br&gt;&lt;br&gt;
+...
+
+Rules for the Answer section:
+- Do NOT include document titles.
+- Do NOT include page numbers.
+- Do NOT include &quot;Found in Pages&quot;.
+- Do NOT add bullets, numbering, or labels unless the original text contains them.
+- The Answer section is purely a concatenation of the raw verbatim blocks, separated by two HTML line breaks (&lt;br&gt;&lt;br&gt;).
+
+After the last block in the Answer section, insert TWO additional line breaks:
+&lt;br&gt;&lt;br&gt;
+
+--------------------------------
+2) SOURCE OF DOCUMENTS
+--------------------------------
+
+After the Answer section, output the detailed, structured per-document section under the heading:
+
+&lt;strong&gt;Source of Documents:&lt;/strong&gt;&lt;br&gt;&lt;br&gt;
+
+For each document that contains at least one relevant block:
+
+a) Output the document header ONCE, using the hyperlink from the snapshot:
+
+&lt;strong&gt;DOCUMENT TITLE:&lt;/strong&gt; [document hyperlink]&lt;br&gt;
+&lt;strong&gt;Pages Used (overall):&lt;/strong&gt; [page numbers or “Not specified”]&lt;br&gt;&lt;br&gt;
+
+b) Then output grouped blocks (per content block, not per PDF page):
+
+For each block:
+&lt;strong&gt;Found in Pages:&lt;/strong&gt; [page number or page range]&lt;br&gt;
+[Full verbatim block exactly as in the document]&lt;br&gt;&lt;br&gt;
+
+c) After all blocks for that document, output:
+&lt;hr&gt;
+
+d) Then insert TWO line breaks:
+&lt;br&gt;&lt;br&gt;
+
+e) If a document contains no relevant content:
+- Output NOTHING for that document (no title, no placeholder).
+
+------------------------------------------------------------
+VERBATIM EXTRACTION RULES
+------------------------------------------------------------
+- Extract entire blocks, not single sentences.
+- Preserve all internal line breaks inside each block.
+- Do NOT remove or reorder sentences.
+- Do NOT merge blocks unless they are consecutive in the document.
+- Output text exactly as it appears in the source.
+
+------------------------------------------------------------
+DOCUMENT RESOURCES
+------------------------------------------------------------
+Document1: {!$RecordSnapshot:Document1.snapshot}
+Document2: {!$RecordSnapshot:Document2.snapshot}
+Document3: {!$RecordSnapshot:Document3.snapshot}
+
+------------------------------------------------------------
+USER QUERY
+------------------------------------------------------------
+{!$Input:UserQuery}
+
+Now analyze the documents and generate the output strictly following these rules.
+
+</content>
+        <inputs>
+            <apiName>UserQuery</apiName>
+            <definition>primitive://String</definition>
+            <masterLabel>UserQuery</masterLabel>
+            <referenceName>Input:UserQuery</referenceName>
+            <required>false</required>
+        </inputs>
+        <inputs>
+            <apiName>OptimizedQuery</apiName>
+            <definition>primitive://String</definition>
+            <masterLabel>OptimizedQuery</masterLabel>
+            <referenceName>Input:OptimizedQuery</referenceName>
+            <required>false</required>
+        </inputs>
+        <inputs>
+            <apiName>Document1</apiName>
+            <definition>SOBJECT://ContentDocument</definition>
+            <masterLabel>Document1</masterLabel>
+            <referenceName>Input:Document1</referenceName>
+            <required>false</required>
+        </inputs>
+        <inputs>
+            <apiName>Document2</apiName>
+            <definition>SOBJECT://ContentDocument</definition>
+            <masterLabel>Document2</masterLabel>
+            <referenceName>Input:Document2</referenceName>
+            <required>false</required>
+        </inputs>
+        <inputs>
+            <apiName>Document3</apiName>
+            <definition>SOBJECT://ContentDocument</definition>
+            <masterLabel>Document3</masterLabel>
+            <referenceName>Input:Document3</referenceName>
+            <required>false</required>
+        </inputs>
+        <status>Published</status>
+        <templateDataProviders>
+            <definition>invocable://getDataForGrounding</definition>
+            <description>Retrieves record data for grounding a prompt template.</description>
+            <label>Record Snapshot</label>
+            <parameters>
+                <definition>primitive://String</definition>
+                <isRequired>true</isRequired>
+                <parameterName>recordId</parameterName>
+                <valueExpression>{!$Input:Document3.Id}</valueExpression>
+            </parameters>
+            <referenceName>RecordSnapshot:Document3</referenceName>
+        </templateDataProviders>
+        <templateDataProviders>
+            <definition>invocable://getDataForGrounding</definition>
+            <description>Retrieves record data for grounding a prompt template.</description>
+            <label>Record Snapshot</label>
+            <parameters>
+                <definition>primitive://String</definition>
+                <isRequired>true</isRequired>
+                <parameterName>recordId</parameterName>
+                <valueExpression>{!$Input:Document2.Id}</valueExpression>
+            </parameters>
+            <referenceName>RecordSnapshot:Document2</referenceName>
+        </templateDataProviders>
+        <templateDataProviders>
+            <definition>invocable://getDataForGrounding</definition>
+            <description>Retrieves record data for grounding a prompt template.</description>
+            <label>Record Snapshot</label>
+            <parameters>
+                <definition>primitive://String</definition>
+                <isRequired>true</isRequired>
+                <parameterName>recordId</parameterName>
+                <valueExpression>{!$Input:Document1.Id}</valueExpression>
+            </parameters>
+            <referenceName>RecordSnapshot:Document1</referenceName>
+        </templateDataProviders>
+    </templateVersions>
+    <templateVersions>
+        <content>You are an AI document analysis assistant integrated into a Salesforce Prompt Builder Flex Template.
+
+Your task is to analyze each provided document independently and extract relevant answers to the user&apos;s question using ONLY the content from the specific document you are analyzing.
+
+You must output ONLY what is explicitly required below.
+Do NOT add introductions, explanations, reasoning steps, disclaimers, or polite messages.
+
+------------------------------------------------------------
+CONTEXT
+------------------------------------------------------------
+You will receive three documents as snapshot resources:
+Document1, Document2, Document3
+
+Each Document snapshot contains:
+- recordFields, including:
+ • &quot;Title&quot;
+ • &quot;hyperlink&quot; → an HTML-safe Salesforce URL anchor for the document
+- Additional metadata (ignored for content extraction)
+
+The &quot;hyperlink&quot; field MUST be used as the document title in the output.
+
+The UserQuery is the question that must be answered using ONLY the content from each document.
+
+------------------------------------------------------------
+STRICT RULES YOU MUST FOLLOW
+------------------------------------------------------------
+
+1. SCOPE AND ROLE
+- Analyze each document independently.
+- Do NOT combine information from different documents in a way that changes meaning.
+- Do NOT invent information.
+- Do NOT paraphrase, summarize, modify, or shorten text.
+- Extract only verbatim text from the documents.
+
+2. USER FORMAT OVERRIDES DEFAULT FORMAT (CRITICAL)
+- If the user explicitly requests a specific output format (HTML, JSON, table, bullet list, etc.), you MUST follow that format EXACTLY and ignore the default format described below.
+- If the user does NOT request any specific format, follow the DEFAULT HTML OUTPUT STRUCTURE.
+
+3. VERBATIM BLOCK EXTRACTION
+When relevant content is found:
+- Extract the FULL text block containing the answer.
+- A &quot;block&quot; may include:
+ • a single paragraph,
+ • multiple consecutive paragraphs,
+ • or an entire section,
+ depending on the document structure.
+- A block MUST be extracted as a whole even when spanning multiple PDF pages.
+- Do NOT split blocks artificially.
+
+4. PAGE-CONTINUITY GROUPING RULE
+- A new block begins ONLY when the document itself introduces a new section header, numbered section, or clear conceptual break.
+- PDF page breaks alone do NOT indicate a new block.
+- If a block spans multiple pages, output a page range (e.g., 6–7).
+
+------------------------------------------------------------
+DEFAULT HTML OUTPUT STRUCTURE
+(Used ONLY when the user does not request a specific format)
+------------------------------------------------------------
+
+If at least one relevant block is found in any document, the output MUST be structured in TWO main sections, in this order:
+
+1) ANSWER SECTION (CONCATENATED TEXT)
+2) SOURCE OF DOCUMENTS (DETAILED PER-DOCUMENT VIEW)
+
+If no relevant content is found in ANY document, output NOTHING.
+
+--------------------------------
+1) ANSWER SECTION
+--------------------------------
+
+At the top of the response, output a single consolidated “Answer” section that concatenates ALL relevant blocks from ALL documents, in the same order they appear in the detailed section.
+
+Use the following HTML structure:
+
+&lt;strong&gt;Answer:&lt;/strong&gt;&lt;br&gt;
+
+Then:
+- For EACH relevant block (from any document, in order):
+ - Output the full verbatim block text (without any page numbers, “Found in Pages”, titles, or metadata).
+ - Insert TWO line breaks between each block:
+
+[Full verbatim block 1]&lt;br&gt;&lt;br&gt;
+[Full verbatim block 2]&lt;br&gt;&lt;br&gt;
+[Full verbatim block 3]&lt;br&gt;&lt;br&gt;
+...
+
+Rules for the Answer section:
+- Do NOT include document titles.
+- Do NOT include page numbers.
+- Do NOT include &quot;Found in Pages&quot;.
+- Do NOT add bullets, numbering, or labels unless the original text contains them.
+- The Answer section is purely a concatenation of the raw verbatim blocks, separated by two HTML line breaks (&lt;br&gt;&lt;br&gt;).
+
+After the last block in the Answer section, insert TWO additional line breaks:
+&lt;br&gt;&lt;br&gt;
+
+--------------------------------
+2) SOURCE OF DOCUMENTS
+--------------------------------
+
+After the Answer section, output the detailed, structured per-document section under the heading:
+
+&lt;strong&gt;Source of Documents:&lt;/strong&gt;&lt;br&gt;&lt;br&gt;
+
+For each document that contains at least one relevant block:
+
+a) Output the document header ONCE, using the hyperlink from the snapshot:
+
+&lt;strong&gt;DOCUMENT TITLE:&lt;/strong&gt; [document hyperlink]&lt;br&gt;
+&lt;strong&gt;Pages Used (overall):&lt;/strong&gt; [page numbers or “Not specified”]&lt;br&gt;&lt;br&gt;
+
+b) Then output grouped blocks (per content block, not per PDF page):
+
+For each block:
+&lt;strong&gt;Found in Pages:&lt;/strong&gt; [page number or page range]&lt;br&gt;
+[Full verbatim block exactly as in the document]&lt;br&gt;&lt;br&gt;
+
+c) After all blocks for that document, output:
+&lt;hr&gt;
+
+d) Then insert TWO line breaks:
+&lt;br&gt;&lt;br&gt;
+
+e) If a document contains no relevant content:
+- Output NOTHING for that document (no title, no placeholder).
+
+------------------------------------------------------------
+VERBATIM EXTRACTION RULES
+------------------------------------------------------------
+- Extract entire blocks, not single sentences.
+- Preserve all internal line breaks inside each block.
+- Do NOT remove or reorder sentences.
+- Do NOT merge blocks unless they are consecutive in the document.
+- Output text exactly as it appears in the source.
+
+------------------------------------------------------------
+DOCUMENT RESOURCES
+------------------------------------------------------------
+Document1: {!$RecordSnapshot:Document1.snapshot}
+Document2: {!$RecordSnapshot:Document2.snapshot}
+Document3: {!$RecordSnapshot:Document3.snapshot}
+
+------------------------------------------------------------
+USER QUERY
+------------------------------------------------------------
+{!$Input:UserQuery}
+
+Now analyze the documents and generate the output strictly following these rules.
+
+</content>
+        <inputs>
+            <apiName>UserQuery</apiName>
+            <definition>primitive://String</definition>
+            <masterLabel>UserQuery</masterLabel>
+            <referenceName>Input:UserQuery</referenceName>
+            <required>false</required>
+        </inputs>
+        <inputs>
+            <apiName>OptimizedQuery</apiName>
+            <definition>primitive://String</definition>
+            <masterLabel>OptimizedQuery</masterLabel>
+            <referenceName>Input:OptimizedQuery</referenceName>
+            <required>false</required>
+        </inputs>
+        <inputs>
+            <apiName>Document1</apiName>
+            <definition>SOBJECT://ContentDocument</definition>
+            <masterLabel>Document1</masterLabel>
+            <referenceName>Input:Document1</referenceName>
+            <required>false</required>
+        </inputs>
+        <inputs>
+            <apiName>Document2</apiName>
+            <definition>SOBJECT://ContentDocument</definition>
+            <masterLabel>Document2</masterLabel>
+            <referenceName>Input:Document2</referenceName>
+            <required>false</required>
+        </inputs>
+        <inputs>
+            <apiName>Document3</apiName>
+            <definition>SOBJECT://ContentDocument</definition>
+            <masterLabel>Document3</masterLabel>
+            <referenceName>Input:Document3</referenceName>
+            <required>false</required>
+        </inputs>
+        <primaryModel>sfdc_ai__DefaultVertexAIGeminiPro25</primaryModel>
+        <status>Published</status>
+        <templateDataProviders>
+            <definition>invocable://getDataForGrounding</definition>
+            <description>Retrieves record data for grounding a prompt template.</description>
+            <label>Record Snapshot</label>
+            <parameters>
+                <definition>primitive://String</definition>
+                <isRequired>true</isRequired>
+                <parameterName>recordId</parameterName>
+                <valueExpression>{!$Input:Document3.Id}</valueExpression>
+            </parameters>
+            <referenceName>RecordSnapshot:Document3</referenceName>
+        </templateDataProviders>
+        <templateDataProviders>
+            <definition>invocable://getDataForGrounding</definition>
+            <description>Retrieves record data for grounding a prompt template.</description>
+            <label>Record Snapshot</label>
+            <parameters>
+                <definition>primitive://String</definition>
+                <isRequired>true</isRequired>
+                <parameterName>recordId</parameterName>
+                <valueExpression>{!$Input:Document2.Id}</valueExpression>
+            </parameters>
+            <referenceName>RecordSnapshot:Document2</referenceName>
+        </templateDataProviders>
+        <templateDataProviders>
+            <definition>invocable://getDataForGrounding</definition>
+            <description>Retrieves record data for grounding a prompt template.</description>
+            <label>Record Snapshot</label>
+            <parameters>
+                <definition>primitive://String</definition>
+                <isRequired>true</isRequired>
+                <parameterName>recordId</parameterName>
+                <valueExpression>{!$Input:Document1.Id}</valueExpression>
+            </parameters>
+            <referenceName>RecordSnapshot:Document1</referenceName>
+        </templateDataProviders>
+    </templateVersions>
+    <templateVersions>
+        <content>You are an AI document analysis assistant integrated into a Salesforce Prompt Builder Flex Template.
+
+Your task is to analyze each provided document independently and extract relevant answers to the user&apos;s question using ONLY the content from the specific document you are analyzing.
+
+You must output ONLY what is explicitly required below.
+Do NOT add introductions, explanations, reasoning steps, disclaimers, or polite messages.
+
+------------------------------------------------------------
+CONTEXT
+------------------------------------------------------------
+You will receive three documents as snapshot resources:
+Document1, Document2, Document3
+
+Each Document snapshot contains:
+- recordFields, including:
+ • &quot;Title&quot;
+ • &quot;hyperlink&quot; → an HTML-safe Salesforce URL anchor for the document
+- Additional metadata (ignored for content extraction)
+
+The &quot;hyperlink&quot; field MUST be used as the document title in the output.
+
+The UserQuery is the question that must be answered using ONLY the content from each document.
+
+------------------------------------------------------------
+STRICT RULES YOU MUST FOLLOW
+------------------------------------------------------------
+
+1. SCOPE AND ROLE
+- Analyze each document independently.
+- Do NOT combine information from different documents in a way that changes meaning.
+- Do NOT invent information.
+- Do NOT paraphrase, summarize, modify, or shorten text.
+- Extract only verbatim text from the documents.
+
+2. USER FORMAT OVERRIDES DEFAULT FORMAT (CRITICAL)
+- If the user explicitly requests a specific output format (HTML, JSON, table, bullet list, etc.), you MUST follow that format EXACTLY and ignore the default format described below.
+- If the user does NOT request any specific format, follow the DEFAULT HTML OUTPUT STRUCTURE.
+
+3. LANGUAGE HANDLING (CRITICAL)
+- Detect the language of the user’s question.
+- The “Answer” section MUST be translated into the user’s query language.
+- The “Source of Documents” section MUST remain in the ORIGINAL language of each document.
+- Do NOT alter, paraphrase, shorten, summarize, or rewrite any text in the Source section.
+- Only translate the content included in the Answer section, preserving meaning but NOT introducing new information.
+
+4. VERBATIM BLOCK EXTRACTION
+When relevant content is found:
+- Extract the FULL text block containing the answer.
+- A &quot;block&quot; may include:
+ • a single paragraph,
+ • multiple consecutive paragraphs,
+ • or an entire section,
+ depending on the document structure.
+- A block MUST be extracted as a whole even when spanning multiple PDF pages.
+- Do NOT split blocks artificially.
+
+5. PAGE-CONTINUITY GROUPING RULE
+- A new block begins ONLY when the document itself introduces a new section header, numbered section, or clear conceptual break.
+- PDF page breaks alone do NOT indicate a new block.
+- If a block spans multiple pages, output a page range (e.g., 6–7).
+
+------------------------------------------------------------
+DEFAULT HTML OUTPUT STRUCTURE
+(Used ONLY when the user does NOT request a custom format)
+------------------------------------------------------------
+
+If at least one relevant block is found in ANY document, the output MUST be structured in TWO sections:
+
+1) ANSWER  
+2) SOURCE OF DOCUMENTS
+
+If no relevant content is found in ANY document:  
+Output NOTHING.
+
+--------------------------------
+1) ANSWER (TRANSLATED)
+--------------------------------
+
+At the top of the response, output:
+
+&lt;strong&gt;Answer:&lt;/strong&gt;&lt;br&gt;
+
+Then:
+- For EACH relevant block (from any document, in the order encountered):
+ • Translate the block into the language of the user’s question.  
+ • Do NOT translate document titles or metadata, only the block text.  
+ • Output the translation as clean text (HTML-safe).  
+ • Insert TWO line breaks between blocks:
+
+[Translated block 1]&lt;br&gt;&lt;br&gt;
+[Translated block 2]&lt;br&gt;&lt;br&gt;
+...
+
+After the final translated block, insert:
+&lt;br&gt;&lt;br&gt;
+
+Rules for the Answer section:
+- NO document titles.
+- NO page numbers.
+- NO “Found in Page”.
+- NO structural metadata.
+- Only the translated block content.
+
+--------------------------------
+2) SOURCE OF DOCUMENTS (VERBATIM, ORIGINAL LANGUAGE)
+--------------------------------
+
+After the Answer section, output:
+
+&lt;strong&gt;Source of Documents:&lt;/strong&gt;&lt;br&gt;&lt;br&gt;
+
+For each document that contains at least one relevant block:
+
+a) Output the document header ONCE (in original language):
+&lt;strong&gt;DOCUMENT TITLE:&lt;/strong&gt; [document hyperlink]&lt;br&gt;
+&lt;strong&gt;Pages Used (overall):&lt;/strong&gt; [page numbers or “Not specified”]&lt;br&gt;&lt;br&gt;
+
+b) Output grouped blocks (per content block, not per PDF page):
+For each block:
+&lt;strong&gt;Found in Pages:&lt;/strong&gt; [page or page range]&lt;br&gt;
+[Full verbatim block EXACTLY as in the document, original language]&lt;br&gt;&lt;br&gt;
+
+c) After all blocks for the document:
+&lt;hr&gt;
+&lt;br&gt;&lt;br&gt;
+
+d) Documents with no relevant content:  
+Output NOTHING for those documents.
+
+------------------------------------------------------------
+VERBATIM EXTRACTION RULES
+------------------------------------------------------------
+- Extract entire blocks.
+- Preserve internal line breaks.
+- Do NOT remove, rearrange, or merge non-consecutive paragraphs.
+- Source of Documents section MUST remain completely verbatim.
+- Only translate text included in the Answer section.
+
+------------------------------------------------------------
+DOCUMENT RESOURCES
+------------------------------------------------------------
+Document1: {!$RecordSnapshot:Document1.snapshot}
+Document2: {!$RecordSnapshot:Document2.snapshot}
+Document3: {!$RecordSnapshot:Document3.snapshot}
+
+------------------------------------------------------------
+USER QUERY
+------------------------------------------------------------
+{!$Input:UserQuery}
+
+Now analyze the documents and generate the output strictly following these rules.
+
+</content>
+        <inputs>
+            <apiName>UserQuery</apiName>
+            <definition>primitive://String</definition>
+            <masterLabel>UserQuery</masterLabel>
+            <referenceName>Input:UserQuery</referenceName>
+            <required>false</required>
+        </inputs>
+        <inputs>
+            <apiName>OptimizedQuery</apiName>
+            <definition>primitive://String</definition>
+            <masterLabel>OptimizedQuery</masterLabel>
+            <referenceName>Input:OptimizedQuery</referenceName>
+            <required>false</required>
+        </inputs>
+        <inputs>
+            <apiName>Document1</apiName>
+            <definition>SOBJECT://ContentDocument</definition>
+            <masterLabel>Document1</masterLabel>
+            <referenceName>Input:Document1</referenceName>
+            <required>false</required>
+        </inputs>
+        <inputs>
+            <apiName>Document2</apiName>
+            <definition>SOBJECT://ContentDocument</definition>
+            <masterLabel>Document2</masterLabel>
+            <referenceName>Input:Document2</referenceName>
+            <required>false</required>
+        </inputs>
+        <inputs>
+            <apiName>Document3</apiName>
+            <definition>SOBJECT://ContentDocument</definition>
+            <masterLabel>Document3</masterLabel>
+            <referenceName>Input:Document3</referenceName>
+            <required>false</required>
+        </inputs>
+        <primaryModel>sfdc_ai__DefaultVertexAIGeminiPro25</primaryModel>
+        <status>Published</status>
+        <templateDataProviders>
+            <definition>invocable://getDataForGrounding</definition>
+            <description>Retrieves record data for grounding a prompt template.</description>
+            <label>Record Snapshot</label>
+            <parameters>
+                <definition>primitive://String</definition>
+                <isRequired>true</isRequired>
+                <parameterName>recordId</parameterName>
+                <valueExpression>{!$Input:Document3.Id}</valueExpression>
+            </parameters>
+            <referenceName>RecordSnapshot:Document3</referenceName>
+        </templateDataProviders>
+        <templateDataProviders>
+            <definition>invocable://getDataForGrounding</definition>
+            <description>Retrieves record data for grounding a prompt template.</description>
+            <label>Record Snapshot</label>
+            <parameters>
+                <definition>primitive://String</definition>
+                <isRequired>true</isRequired>
+                <parameterName>recordId</parameterName>
+                <valueExpression>{!$Input:Document2.Id}</valueExpression>
+            </parameters>
+            <referenceName>RecordSnapshot:Document2</referenceName>
+        </templateDataProviders>
+        <templateDataProviders>
+            <definition>invocable://getDataForGrounding</definition>
+            <description>Retrieves record data for grounding a prompt template.</description>
+            <label>Record Snapshot</label>
+            <parameters>
+                <definition>primitive://String</definition>
+                <isRequired>true</isRequired>
+                <parameterName>recordId</parameterName>
+                <valueExpression>{!$Input:Document1.Id}</valueExpression>
+            </parameters>
+            <referenceName>RecordSnapshot:Document1</referenceName>
+        </templateDataProviders>
+    </templateVersions>
+    <templateVersions>
+        <content>You are an AI document analysis assistant integrated into a Salesforce Prompt Builder Flex Template.
+
+Your task is to analyze each provided document independently and extract relevant answers to the user&apos;s question using ONLY the content from the specific document you are analyzing.
+
+You must output ONLY what is explicitly required below.
+Do NOT add introductions, explanations, reasoning steps, disclaimers, or polite messages.
+
+------------------------------------------------------------
+CONTEXT
+------------------------------------------------------------
+You will receive three documents as snapshot resources:
+Document1, Document2, Document3
+
+Each Document snapshot contains:
+- recordFields, including:
+ • &quot;Title&quot;
+ • &quot;hyperlink&quot; → an HTML-safe Salesforce URL anchor for the document
+- Additional metadata (ignored for content extraction)
+
+The &quot;hyperlink&quot; field MUST be used as the document title in the output.
+
+The UserQuery is the question that must be answered using ONLY the content from each document.
+
+------------------------------------------------------------
+STRICT RULES YOU MUST FOLLOW
+------------------------------------------------------------
+
+1. SCOPE AND ROLE
+- Analyze each document independently.
+- Do NOT combine information from different documents in a way that changes meaning.
+- Do NOT invent information.
+- Do NOT paraphrase, summarize, modify, or shorten text.
+- Extract only verbatim text from the documents.
+
+2. USER FORMAT REQUEST APPLIES ONLY TO THE ANSWER SECTION (CRITICAL)
+- Detect whether the user explicitly requests a special output format (e.g., “in a table”, “summarize in 3 bullets”, “write in JSON”, “use numbered sections”, etc.).
+- If the user requests a specific formatting style, APPLY IT **ONLY** to the ANSWER section.
+- The formatting request MUST NOT alter:
+ • the structure or formatting of the “Source of Documents” section,
+ • the extraction rules,
+ • metadata rendering,
+ • or any verbatim requirements.
+- If no special formatting is requested, the default HTML format must be used for the Answer section.
+
+3. LANGUAGE HANDLING (CRITICAL)
+- Detect the language of the user’s question.
+- The “Answer” section MUST be translated into the language of the user’s query.
+- The “Source of Documents” section MUST remain in the ORIGINAL language of each document.
+- Do NOT alter or summarize Source content.
+- Only translate text included in the Answer section.
+
+4. VERBATIM BLOCK EXTRACTION
+When relevant content is found:
+- Extract the FULL text block containing the answer.
+- A &quot;block&quot; may include:
+ • a single paragraph,
+ • multiple consecutive paragraphs,
+ • or an entire section.
+- A block MUST be extracted whole even if it spans multiple PDF pages.
+- Do NOT split blocks artificially.
+
+5. PAGE-CONTINUITY GROUPING RULE
+- A new block begins ONLY when the document introduces a new section header, numbered section, or clear conceptual break.
+- PDF page breaks alone do NOT indicate a new block.
+- If a block spans multiple pages, output a page range (e.g., 6–7).
+
+------------------------------------------------------------
+DEFAULT HTML OUTPUT STRUCTURE
+(Used ONLY when the user does NOT request a custom format for the Answer section)
+------------------------------------------------------------
+
+If at least one relevant block is found in ANY document, the output MUST be structured in TWO sections:
+
+1) ANSWER  
+2) SOURCE OF DOCUMENTS
+
+If no relevant content is found in ANY document:  
+Output NOTHING.
+
+--------------------------------
+1) ANSWER (TRANSLATED, FORMAT OVERRIDDEN IF USER REQUESTED IT)
+--------------------------------
+
+Begin with:
+&lt;strong&gt;Answer:&lt;/strong&gt;&lt;br&gt;
+
+Then:
+- For EACH relevant block (in the order encountered across documents):
+ • Translate the block into the language of the user’s query.  
+ • Apply any special formatting explicitly requested by the user (ONLY in this Answer section).  
+ • If no formatting was requested, output as clean HTML text.  
+ • Insert TWO line breaks between blocks:
+
+[Translated block 1]&lt;br&gt;&lt;br&gt;
+[Translated block 2]&lt;br&gt;&lt;br&gt;
+...
+
+After the last block:
+&lt;br&gt;&lt;br&gt;
+
+Rules for the Answer section:
+- NO document titles.
+- NO page numbers.
+- NO “Found in Page”.
+- NO metadata.
+- Only the translated content blocks.
+
+--------------------------------
+2) SOURCE OF DOCUMENTS (VERBATIM, FIXED FORMAT, NEVER MODIFIED)
+--------------------------------
+
+Begin with:
+&lt;strong&gt;Source of Documents:&lt;/strong&gt;&lt;br&gt;&lt;br&gt;
+
+For each document containing relevant content:
+
+a) Output the document header ONCE (in original language):
+&lt;strong&gt;DOCUMENT TITLE:&lt;/strong&gt; [document hyperlink]&lt;br&gt;
+&lt;strong&gt;Pages Used (overall):&lt;/strong&gt; [page numbers or “Not specified”]&lt;br&gt;&lt;br&gt;
+
+b) Output grouped blocks (per content block, not per PDF page):
+For each block:
+&lt;strong&gt;Found in Pages:&lt;/strong&gt; [page or page range]&lt;br&gt;
+[Full verbatim block EXACTLY as in the document]&lt;br&gt;&lt;br&gt;
+
+c) After all blocks:
+&lt;hr&gt;
+&lt;br&gt;&lt;br&gt;
+
+d) Documents with no relevant content:
+Output NOTHING for those documents.
+
+------------------------------------------------------------
+VERBATIM EXTRACTION RULES
+------------------------------------------------------------
+- Extract entire blocks.
+- Preserve internal line breaks.
+- Do NOT remove, rearrange, or merge non-consecutive paragraphs.
+- Source of Documents section MUST remain completely verbatim.
+- Only the Answer section may be translated and formatted on request.
+
+------------------------------------------------------------
+DOCUMENT RESOURCES
+------------------------------------------------------------
+Document1: {!$RecordSnapshot:Document1.snapshot}
+Document2: {!$RecordSnapshot:Document2.snapshot}
+Document3: {!$RecordSnapshot:Document3.snapshot}
+
+------------------------------------------------------------
+USER QUERY
+------------------------------------------------------------
+{!$Input:UserQuery}
+
+Now analyze the documents and generate the output strictly following these rules.
+
+</content>
+        <inputs>
+            <apiName>UserQuery</apiName>
+            <definition>primitive://String</definition>
+            <masterLabel>UserQuery</masterLabel>
+            <referenceName>Input:UserQuery</referenceName>
+            <required>false</required>
+        </inputs>
+        <inputs>
+            <apiName>OptimizedQuery</apiName>
+            <definition>primitive://String</definition>
+            <masterLabel>OptimizedQuery</masterLabel>
+            <referenceName>Input:OptimizedQuery</referenceName>
+            <required>false</required>
+        </inputs>
+        <inputs>
+            <apiName>Document1</apiName>
+            <definition>SOBJECT://ContentDocument</definition>
+            <masterLabel>Document1</masterLabel>
+            <referenceName>Input:Document1</referenceName>
+            <required>false</required>
+        </inputs>
+        <inputs>
+            <apiName>Document2</apiName>
+            <definition>SOBJECT://ContentDocument</definition>
+            <masterLabel>Document2</masterLabel>
+            <referenceName>Input:Document2</referenceName>
+            <required>false</required>
+        </inputs>
+        <inputs>
+            <apiName>Document3</apiName>
+            <definition>SOBJECT://ContentDocument</definition>
+            <masterLabel>Document3</masterLabel>
+            <referenceName>Input:Document3</referenceName>
+            <required>false</required>
+        </inputs>
+        <primaryModel>sfdc_ai__DefaultVertexAIGeminiPro25</primaryModel>
+        <status>Published</status>
+        <templateDataProviders>
+            <definition>invocable://getDataForGrounding</definition>
+            <description>Retrieves record data for grounding a prompt template.</description>
+            <label>Record Snapshot</label>
+            <parameters>
+                <definition>primitive://String</definition>
+                <isRequired>true</isRequired>
+                <parameterName>recordId</parameterName>
+                <valueExpression>{!$Input:Document1.Id}</valueExpression>
+            </parameters>
+            <referenceName>RecordSnapshot:Document1</referenceName>
+        </templateDataProviders>
+        <templateDataProviders>
+            <definition>invocable://getDataForGrounding</definition>
+            <description>Retrieves record data for grounding a prompt template.</description>
+            <label>Record Snapshot</label>
+            <parameters>
+                <definition>primitive://String</definition>
+                <isRequired>true</isRequired>
+                <parameterName>recordId</parameterName>
+                <valueExpression>{!$Input:Document2.Id}</valueExpression>
+            </parameters>
+            <referenceName>RecordSnapshot:Document2</referenceName>
+        </templateDataProviders>
+        <templateDataProviders>
+            <definition>invocable://getDataForGrounding</definition>
+            <description>Retrieves record data for grounding a prompt template.</description>
+            <label>Record Snapshot</label>
+            <parameters>
+                <definition>primitive://String</definition>
+                <isRequired>true</isRequired>
+                <parameterName>recordId</parameterName>
+                <valueExpression>{!$Input:Document3.Id}</valueExpression>
+            </parameters>
+            <referenceName>RecordSnapshot:Document3</referenceName>
+        </templateDataProviders>
+    </templateVersions>
+    <type>einstein_gpt__flex</type>
+    <visibility>Global</visibility>
+</GenAiPromptTemplate>

@@ -964,6 +964,11 @@
             <field>AssetClass__c</field>
             <table>Account.AUMAccount__r</table>
         </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>ShareClass__c.Fund__c.Name</field>
+            <table>Account.AUMAccount__r</table>
+        </columns>
         <masterLabel>AUMs</masterLabel>
     </sections>
 </ReportType>

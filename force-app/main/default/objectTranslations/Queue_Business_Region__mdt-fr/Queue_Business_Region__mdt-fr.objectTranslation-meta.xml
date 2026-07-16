@@ -9,5 +9,12 @@
         <value>Queues Business Regions</value>
     </caseValues>
     <gender>Neuter</gender>
+    <layouts>
+        <layout>Queue Business Region Layout</layout>
+        <sections>
+            <label><!-- Custom Links --></label>
+            <section>Custom Links</section>
+        </sections>
+    </layouts>
     <startsWith>Consonant</startsWith>
 </CustomObjectTranslation>

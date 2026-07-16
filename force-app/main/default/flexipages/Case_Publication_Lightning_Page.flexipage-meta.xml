@@ -197,6 +197,16 @@
                 <identifier>RecordOwnerIdField</identifier>
             </fieldInstance>
         </itemInstances>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>none</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.ReworkCount__c</fieldItem>
+                <identifier>RecordReworkCount_cField</identifier>
+            </fieldInstance>
+        </itemInstances>
         <name>Facet-95177b90-f82b-4b77-b563-c6410a9f9c4d</name>
         <type>Facet</type>
     </flexiPageRegions>
@@ -263,6 +273,26 @@
                         <rightValue>Published</rightValue>
                     </criteria>
                 </visibilityRule>
+            </fieldInstance>
+        </itemInstances>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>none</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.HandledBy__c</fieldItem>
+                <identifier>RecordHandledBy_cField</identifier>
+            </fieldInstance>
+        </itemInstances>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>readonly</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.Translation_mode__c</fieldItem>
+                <identifier>RecordTranslation_mode_cField</identifier>
             </fieldInstance>
         </itemInstances>
         <name>Facet-46f6db6d-53dc-44fe-a9ea-9aea550b55f7</name>

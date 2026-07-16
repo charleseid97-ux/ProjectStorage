@@ -3,7 +3,7 @@
     <fullName>timezone__c</fullName>
     <inlineHelpText>The city is indicative. The actual time is defined by GMT.</inlineHelpText>
     <label>Timezone</label>
-    <required>false</required>
+    <required>true</required>
     <trackFeedHistory>false</trackFeedHistory>
     <trackHistory>true</trackHistory>
     <trackTrending>false</trackTrending>
@@ -23,7 +23,7 @@
             </value>
             <value>
                 <fullName>Europe/Paris</fullName>
-                <default>true</default>
+                <default>false</default>
                 <label>Paris Time</label>
             </value>
             <value>

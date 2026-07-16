@@ -10,47 +10,7 @@
     <valueSet>
         <restricted>true</restricted>
         <valueSetDefinition>
-            <sorted>false</sorted>
-            <value>
-                <fullName>France</fullName>
-                <default>false</default>
-                <label>France</label>
-            </value>
-            <value>
-                <fullName>United Kingdom</fullName>
-                <default>false</default>
-                <label>United Kingdom</label>
-            </value>
-            <value>
-                <fullName>Spain</fullName>
-                <default>false</default>
-                <label>Spain</label>
-            </value>
-            <value>
-                <fullName>Germany</fullName>
-                <default>false</default>
-                <label>Germany</label>
-            </value>
-            <value>
-                <fullName>Italy</fullName>
-                <default>false</default>
-                <label>Italy</label>
-            </value>
-            <value>
-                <fullName>Switzerland</fullName>
-                <default>false</default>
-                <label>Switzerland</label>
-            </value>
-            <value>
-                <fullName>Belgium</fullName>
-                <default>false</default>
-                <label>Belgium</label>
-            </value>
-            <value>
-                <fullName>Luxembourg</fullName>
-                <default>false</default>
-                <label>Luxembourg</label>
-            </value>
+            <sorted>true</sorted>
             <value>
                 <fullName>Andorra</fullName>
                 <default>false</default>
@@ -62,9 +22,39 @@
                 <label>Austria</label>
             </value>
             <value>
+                <fullName>Belgium</fullName>
+                <default>false</default>
+                <label>Belgium</label>
+            </value>
+            <value>
                 <fullName>Canada</fullName>
                 <default>false</default>
                 <label>Canada</label>
+            </value>
+            <value>
+                <fullName>Digital</fullName>
+                <default>false</default>
+                <label>Digital</label>
+            </value>
+            <value>
+                <fullName>Finland</fullName>
+                <default>false</default>
+                <label>Finland</label>
+            </value>
+            <value>
+                <fullName>France</fullName>
+                <default>false</default>
+                <label>France</label>
+            </value>
+            <value>
+                <fullName>Germany</fullName>
+                <default>false</default>
+                <label>Germany</label>
+            </value>
+            <value>
+                <fullName>Guernsey</fullName>
+                <default>false</default>
+                <label>Guernsey</label>
             </value>
             <value>
                 <fullName>Hungary</fullName>
@@ -77,6 +67,11 @@
                 <label>Ireland</label>
             </value>
             <value>
+                <fullName>Italy</fullName>
+                <default>false</default>
+                <label>Italy</label>
+            </value>
+            <value>
                 <fullName>Japan</fullName>
                 <default>false</default>
                 <label>Japan</label>
@@ -87,9 +82,19 @@
                 <label>Latvia</label>
             </value>
             <value>
+                <fullName>Liechtenstein</fullName>
+                <default>false</default>
+                <label>Liechtenstein</label>
+            </value>
+            <value>
                 <fullName>Lithuania</fullName>
                 <default>false</default>
                 <label>Lithuania</label>
+            </value>
+            <value>
+                <fullName>Luxembourg</fullName>
+                <default>false</default>
+                <label>Luxembourg</label>
             </value>
             <value>
                 <fullName>Monaco</fullName>
@@ -117,14 +122,29 @@
                 <label>Singapore</label>
             </value>
             <value>
+                <fullName>Spain</fullName>
+                <default>false</default>
+                <label>Spain</label>
+            </value>
+            <value>
                 <fullName>Sweden</fullName>
                 <default>false</default>
                 <label>Sweden</label>
             </value>
             <value>
+                <fullName>Switzerland</fullName>
+                <default>false</default>
+                <label>Switzerland</label>
+            </value>
+            <value>
                 <fullName>United Arab Emirates</fullName>
                 <default>false</default>
                 <label>United Arab Emirates</label>
+            </value>
+            <value>
+                <fullName>United Kingdom</fullName>
+                <default>false</default>
+                <label>United Kingdom</label>
             </value>
             <value>
                 <fullName>United States</fullName>
@@ -135,21 +155,6 @@
                 <fullName>Uruguay</fullName>
                 <default>false</default>
                 <label>Uruguay</label>
-            </value>
-            <value>
-                <fullName>Digital</fullName>
-                <default>false</default>
-                <label>Digital</label>
-            </value>
-            <value>
-                <fullName>Finland</fullName>
-                <default>false</default>
-                <label>Finland</label>
-            </value>
-            <value>
-                <fullName>Liechtenstein</fullName>
-                <default>false</default>
-                <label>Liechtenstein</label>
             </value>
         </valueSetDefinition>
     </valueSet>

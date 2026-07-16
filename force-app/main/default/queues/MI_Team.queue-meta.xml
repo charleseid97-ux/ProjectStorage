@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Queue xmlns="http://soap.sforce.com/2006/04/metadata">
+    <doesIncludeBosses>true</doesIncludeBosses>
     <doesSendEmailToMembers>false</doesSendEmailToMembers>
     <email>workgroup.market.intelligence@carmignac.com</email>
     <name>Business Intelligence</name>

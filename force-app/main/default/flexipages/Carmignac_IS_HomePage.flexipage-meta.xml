@@ -140,6 +140,44 @@
         <itemInstances>
             <componentInstance>
                 <componentInstanceProperties>
+                    <name>approvalSystem</name>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>cardTitle</name>
+                    <value>Agreements and Grids to Approve</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>objectApiName</name>
+                    <value>Grid__c,Convention__c</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>queues</name>
+                </componentInstanceProperties>
+                <componentName>customApprovalInbox</componentName>
+                <identifier>c_customApprovalInbox</identifier>
+            </componentInstance>
+        </itemInstances>
+        <itemInstances>
+            <componentInstance>
+                <componentInstanceProperties>
+                    <name>dashboardName</name>
+                    <value>PMszeurzUXIWYxKnyjTLNLXXotXcQy</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>hideOnError</name>
+                    <value>true</value>
+                </componentInstanceProperties>
+                <componentName>desktopDashboards:embeddedDashboard</componentName>
+                <identifier>desktopDashboards_embeddedDashboard4</identifier>
+            </componentInstance>
+        </itemInstances>
+        <name>Facet-b2938ffe-5afe-47f4-b1f8-2bacfccf67db</name>
+        <type>Facet</type>
+    </flexiPageRegions>
+    <flexiPageRegions>
+        <itemInstances>
+            <componentInstance>
+                <componentInstanceProperties>
                     <name>active</name>
                     <value>true</value>
                 </componentInstanceProperties>
@@ -181,6 +219,20 @@
                 </componentInstanceProperties>
                 <componentName>flexipage:tab</componentName>
                 <identifier>flexipage_tab3</identifier>
+            </componentInstance>
+        </itemInstances>
+        <itemInstances>
+            <componentInstance>
+                <componentInstanceProperties>
+                    <name>body</name>
+                    <value>Facet-b2938ffe-5afe-47f4-b1f8-2bacfccf67db</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>title</name>
+                    <value>Agreements and Grids</value>
+                </componentInstanceProperties>
+                <componentName>flexipage:tab</componentName>
+                <identifier>flexipage_tab4</identifier>
             </componentInstance>
         </itemInstances>
         <name>Facet-899e1ad7-2a1b-4f47-9fdb-7639285f1f92</name>

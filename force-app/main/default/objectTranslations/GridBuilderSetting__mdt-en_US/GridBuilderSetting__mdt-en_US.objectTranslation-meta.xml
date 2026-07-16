@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObjectTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <caseValues>
+        <plural>false</plural>
+        <value>Grid Builder Setting</value>
+    </caseValues>
+    <caseValues>
+        <plural>true</plural>
+        <value>Grid Builder Settings</value>
+    </caseValues>
+    <layouts>
+        <layout>Grid Builder Setting Layout</layout>
+        <sections>
+            <label><!-- Agreement Settings --></label>
+            <section>Agreement Settings</section>
+        </sections>
+        <sections>
+            <label><!-- Custom Links --></label>
+            <section>Custom Links</section>
+        </sections>
+        <sections>
+            <label><!-- Filter Settings --></label>
+            <section>Filter Settings</section>
+        </sections>
+        <sections>
+            <label><!-- Result Settings --></label>
+            <section>Result Settings</section>
+        </sections>
+        <sections>
+            <label><!-- Share Type Settings --></label>
+            <section>Share Type Settings</section>
+        </sections>
+    </layouts>
+    <startsWith>Consonant</startsWith>
+</CustomObjectTranslation>

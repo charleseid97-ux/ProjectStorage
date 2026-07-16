@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <help><!-- Enter a JSON object. Each key is a tracked field API name (e.g. &quot;Name__c&quot;), its value is an array of email addresses. Use &quot;*&quot; to subscribe to all fields. Example: {&quot;Name__c&quot;: [&quot;a@x.com&quot;], &quot;*&quot;: [&quot;admin@x.com&quot;]} --></help>
+    <label><!-- Alert Recipients (JSON) --></label>
+    <name>AlertRecipients__c</name>
+</CustomFieldTranslation>

@@ -14,10 +14,5 @@
         <operation>equals</operation>
         <value>Sub Publication Request</value>
     </filters>
-    <filters>
-        <field>On_Hold__c</field>
-        <operation>equals</operation>
-        <value>0</value>
-    </filters>
     <label>Publication Kanban</label>
 </ListView>

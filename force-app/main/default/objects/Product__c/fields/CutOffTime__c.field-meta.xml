@@ -12,7 +12,7 @@ This is the official cut-off time as defined by the Transfer Agent (TA). Please 
     <valueSet>
         <restricted>true</restricted>
         <valueSetDefinition>
-            <sorted>true</sorted>
+            <sorted>false</sorted>
             <value>
                 <fullName>09:00 CET</fullName>
                 <default>false</default>
@@ -22,6 +22,11 @@ This is the official cut-off time as defined by the Transfer Agent (TA). Please 
                 <fullName>10:30 CET</fullName>
                 <default>false</default>
                 <label>10:30 CET</label>
+            </value>
+            <value>
+                <fullName>11:00 CET</fullName>
+                <default>false</default>
+                <label>11:00 CET</label>
             </value>
             <value>
                 <fullName>13:00 CET</fullName>

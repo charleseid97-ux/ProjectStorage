@@ -11,6 +11,8 @@
     <columns>Approved_by_Compliance__c</columns>
     <columns>CORE.USERS.ALIAS</columns>
     <columns>PARENT_NAME</columns>
+    <columns>CAMPAIGN.RECORDTYPE</columns>
+    <columns>CAMPAIGN.CAMPAIGN_TYPE</columns>
     <filterScope>Everything</filterScope>
     <filters>
         <field>CAMPAIGN.RECORDTYPE</field>

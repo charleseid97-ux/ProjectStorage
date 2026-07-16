@@ -5,6 +5,14 @@
         <description>Narrative_Biography_Created</description>
         <protected>false</protected>
         <recipients>
+            <recipient>DCR_Dissemination</recipient>
+            <type>group</type>
+        </recipients>
+        <recipients>
+            <recipient>Digital_Marketing</recipient>
+            <type>group</type>
+        </recipients>
+        <recipients>
             <recipient>mira.eid.external-crm@carmignac.com</recipient>
             <type>user</type>
         </recipients>
@@ -15,6 +23,14 @@
         <fullName>Narrative_Biography_Updated</fullName>
         <description>Narrative_Biography_Updated</description>
         <protected>false</protected>
+        <recipients>
+            <recipient>DCR_Dissemination</recipient>
+            <type>group</type>
+        </recipients>
+        <recipients>
+            <recipient>Digital_Marketing</recipient>
+            <type>group</type>
+        </recipients>
         <recipients>
             <recipient>mira.eid.external-crm@carmignac.com</recipient>
             <type>user</type>

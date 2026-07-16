@@ -856,7 +856,7 @@
         </values>
     </picklistValues>
     <picklistValues>
-        <picklist>DomiciliedIn__c</picklist>
+        <picklist>DomiciledIn__c</picklist>
         <values>
             <fullName>FR</fullName>
             <default>false</default>
@@ -973,15 +973,7 @@
     <picklistValues>
         <picklist>SubType__c</picklist>
         <values>
-            <fullName>Long</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Short</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Standard</fullName>
+            <fullName>Default</fullName>
             <default>true</default>
         </values>
     </picklistValues>
@@ -990,6 +982,21 @@
         <values>
             <fullName>Biography</fullName>
             <default>true</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Usage__c</picklist>
+        <values>
+            <fullName>Data Vendor Dissemination</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Reporting</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Website</fullName>
+            <default>false</default>
         </values>
     </picklistValues>
 </RecordType>

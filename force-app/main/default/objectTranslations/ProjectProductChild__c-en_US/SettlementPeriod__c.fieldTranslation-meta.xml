@@ -1,6 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
-    <help><!-- SettlementPeriod Field --></help>
-    <label><!-- SettlementPeriod --></label>
+    <help>
+        <!-- This text will be included in the “Other Information” section of the PRIIPs KID. 
+Other wording will be automatically included and depending on each fund/share type in the same section such as:
+“This unit is an accumulation unit.”
+“The Fund&apos;s custodian is BNP Paribas, S.A” and 
+“The fund prospectus and latest key information document, as well as the latest annual report are available on the website www.carmignac.com.” -->
+    </help>
+    <label><!-- Settlement Period --></label>
     <name>SettlementPeriod__c</name>
 </CustomFieldTranslation>

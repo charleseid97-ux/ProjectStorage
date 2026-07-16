@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <help><!-- Link this record to its parent Approval Lock Config. --></help>
+    <label><!-- Lock Config --></label>
+    <name>LockConfig__c</name>
+    <relationshipLabel><!-- Approval Lock Field Exemption Configs --></relationshipLabel>
+</CustomFieldTranslation>

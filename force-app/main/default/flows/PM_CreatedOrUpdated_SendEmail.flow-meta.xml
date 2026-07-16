@@ -8,7 +8,7 @@
         <actionName>FundManager__c.PM_Created</actionName>
         <actionType>emailAlert</actionType>
         <connector>
-            <targetReference>PM_PictureUpdate</targetReference>
+            <targetReference>PM_Created_Comm_Team</targetReference>
         </connector>
         <flowTransactionModel>CurrentTransaction</flowTransactionModel>
         <inputParameters>
@@ -18,6 +18,26 @@
             </value>
         </inputParameters>
         <nameSegment>FundManager__c.PM_Created</nameSegment>
+        <offset>0</offset>
+    </actionCalls>
+    <actionCalls>
+        <name>PM_Created_Comm_Team</name>
+        <label>PM_Created_Comm_Team</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <actionName>FundManager__c.PM_Created_Comm_Team</actionName>
+        <actionType>emailAlert</actionType>
+        <connector>
+            <targetReference>PM_PictureUpdate</targetReference>
+        </connector>
+        <flowTransactionModel>CurrentTransaction</flowTransactionModel>
+        <inputParameters>
+            <name>SObjectRowId</name>
+            <value>
+                <elementReference>$Record.Id</elementReference>
+            </value>
+        </inputParameters>
+        <nameSegment>FundManager__c.PM_Created_Comm_Team</nameSegment>
         <offset>0</offset>
     </actionCalls>
     <actionCalls>
@@ -72,14 +92,13 @@
         <offset>0</offset>
     </actionCalls>
     <apiVersion>66.0</apiVersion>
-    <areMetricsLoggedToDataCloud>false</areMetricsLoggedToDataCloud>
     <decisions>
         <name>Created_or_updated</name>
         <label>Created or Updated</label>
         <locationX>0</locationX>
         <locationY>0</locationY>
         <defaultConnector>
-            <targetReference>Picture_Added</targetReference>
+            <targetReference>Picture_Updated_Check</targetReference>
         </defaultConnector>
         <defaultConnectorLabel>Updated</defaultConnectorLabel>
         <rules>
@@ -99,19 +118,19 @@
         </rules>
     </decisions>
     <decisions>
-        <name>Picture_Added</name>
-        <label>Picture Added</label>
+        <name>Picture_Updated_Check</name>
+        <label>Picture Updated Check</label>
         <locationX>0</locationX>
         <locationY>0</locationY>
         <defaultConnector>
             <targetReference>PM_Updated</targetReference>
         </defaultConnector>
-        <defaultConnectorLabel>No</defaultConnectorLabel>
+        <defaultConnectorLabel>Other fields Updated</defaultConnectorLabel>
         <rules>
-            <name>yes</name>
-            <conditionLogic>and</conditionLogic>
+            <name>Picture_Updated</name>
+            <conditionLogic>or</conditionLogic>
             <conditions>
-                <leftValueReference>$Record.PictureURL__c</leftValueReference>
+                <leftValueReference>$Record.Picture__c</leftValueReference>
                 <operator>IsChanged</operator>
                 <rightValue>
                     <booleanValue>true</booleanValue>
@@ -120,7 +139,7 @@
             <connector>
                 <targetReference>PM_PictureAdded</targetReference>
             </connector>
-            <label>Yes</label>
+            <label>Picture Updated</label>
         </rules>
     </decisions>
     <environments>Default</environments>

@@ -3,6 +3,11 @@
     <doesIncludeBosses>false</doesIncludeBosses>
     <doesSendEmailToMembers>false</doesSendEmailToMembers>
     <name>HOC ME</name>
+    <queueMembers>
+        <users>
+            <user>christophe.younes-crm@carmignac.com</user>
+        </users>
+    </queueMembers>
     <queueSobject>
         <sobjectType>Convention__c</sobjectType>
     </queueSobject>

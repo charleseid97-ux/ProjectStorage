@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <label><!-- Logic --></label>
+    <name>Logic__c</name>
+    <picklistValues>
+        <masterLabel>!=</masterLabel>
+        <translation><!-- != --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>=</masterLabel>
+        <translation><!-- = --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>IN</masterLabel>
+        <translation><!-- IN --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>LIKE</masterLabel>
+        <translation><!-- LIKE --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>NOT IN</masterLabel>
+        <translation><!-- NOT IN --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>NOT LIKE</masterLabel>
+        <translation><!-- NOT LIKE --></translation>
+    </picklistValues>
+</CustomFieldTranslation>

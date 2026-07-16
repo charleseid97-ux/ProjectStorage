@@ -774,6 +774,26 @@
             <field>PRIIPSCategory__c</field>
             <table>Product__c</table>
         </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>LiquidityManagementToolLMT__c</field>
+            <table>Product__c</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>InitialLabPeriod__c</field>
+            <table>Product__c</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>NoticePeriodRedemption__c</field>
+            <table>Product__c</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>NoticePeriodSubscription__c</field>
+            <table>Product__c</table>
+        </columns>
         <masterLabel>Products</masterLabel>
     </sections>
     <sections>
@@ -1605,6 +1625,61 @@
         <columns>
             <checkedByDefault>false</checkedByDefault>
             <field>Feeder__c</field>
+            <table>Product__c.Share_Classes__r</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>TaxDeferredSwitchEligibleES__c</field>
+            <table>Product__c.Share_Classes__r</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>TECHRegistredCountries__c</field>
+            <table>Product__c.Share_Classes__r</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>ProductName__c</field>
+            <table>Product__c.Share_Classes__r</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>OngoingChargesKIID__c</field>
+            <table>Product__c.Share_Classes__r</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>EffectiveIndirectFees__c</field>
+            <table>Product__c.Share_Classes__r</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>PerformanceFeesKIID__c</field>
+            <table>Product__c.Share_Classes__r</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>PRIIPSKIDSubscriptionFee__c</field>
+            <table>Product__c.Share_Classes__r</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>FeederName__c</field>
+            <table>Product__c.Share_Classes__r</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>HasCommercializationPeriod__c</field>
+            <table>Product__c.Share_Classes__r</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>CommercializationEndDate__c</field>
+            <table>Product__c.Share_Classes__r</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>TECHProdcutDomicieldIn__c</field>
             <table>Product__c.Share_Classes__r</table>
         </columns>
         <masterLabel>Share Classes</masterLabel>

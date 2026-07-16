@@ -36,6 +36,12 @@
                 <default>false</default>
                 <label>IS Agreement</label>
             </value>
+            <value>
+                <fullName>Sub-distributor via Platform</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Sub-distributor via Platform</label>
+            </value>
         </valueSetDefinition>
     </valueSet>
 </CustomField>

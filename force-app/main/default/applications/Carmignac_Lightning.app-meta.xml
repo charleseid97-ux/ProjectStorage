@@ -38,8 +38,8 @@
     </actionOverrides>
     <actionOverrides>
         <actionName>View</actionName>
-        <comment>Action override created by Lightning App Builder during activation.</comment>
-        <content>Campaign_Record_Page5</content>
+        <comment>Action override updated by Lightning App Builder during activation.</comment>
+        <content>Campaign_Record_PageEvent</content>
         <formFactor>Large</formFactor>
         <skipRecordTypeSelect>false</skipRecordTypeSelect>
         <type>Flexipage</type>
@@ -3690,7 +3690,7 @@
     </profileActionOverrides>
     <profileActionOverrides>
         <actionName>View</actionName>
-        <content>Narrative</content>
+        <content>Biography</content>
         <formFactor>Large</formFactor>
         <pageOrSobjectType>Narrative__c</pageOrSobjectType>
         <recordType>Narrative__c.Biography</recordType>
@@ -3699,7 +3699,7 @@
     </profileActionOverrides>
     <profileActionOverrides>
         <actionName>View</actionName>
-        <content>Narrative</content>
+        <content>Biography</content>
         <formFactor>Large</formFactor>
         <pageOrSobjectType>Narrative__c</pageOrSobjectType>
         <recordType>Narrative__c.Biography</recordType>
@@ -3708,7 +3708,7 @@
     </profileActionOverrides>
     <profileActionOverrides>
         <actionName>View</actionName>
-        <content>Narrative</content>
+        <content>Biography</content>
         <formFactor>Large</formFactor>
         <pageOrSobjectType>Narrative__c</pageOrSobjectType>
         <recordType>Narrative__c.Biography</recordType>
@@ -3717,7 +3717,7 @@
     </profileActionOverrides>
     <profileActionOverrides>
         <actionName>View</actionName>
-        <content>Narrative</content>
+        <content>Biography</content>
         <formFactor>Large</formFactor>
         <pageOrSobjectType>Narrative__c</pageOrSobjectType>
         <recordType>Narrative__c.Biography</recordType>
@@ -3726,7 +3726,7 @@
     </profileActionOverrides>
     <profileActionOverrides>
         <actionName>View</actionName>
-        <content>Narrative</content>
+        <content>Biography</content>
         <formFactor>Large</formFactor>
         <pageOrSobjectType>Narrative__c</pageOrSobjectType>
         <recordType>Narrative__c.Biography</recordType>
@@ -3735,7 +3735,7 @@
     </profileActionOverrides>
     <profileActionOverrides>
         <actionName>View</actionName>
-        <content>Narrative</content>
+        <content>Biography</content>
         <formFactor>Large</formFactor>
         <pageOrSobjectType>Narrative__c</pageOrSobjectType>
         <recordType>Narrative__c.Biography</recordType>
@@ -3744,7 +3744,7 @@
     </profileActionOverrides>
     <profileActionOverrides>
         <actionName>View</actionName>
-        <content>Narrative</content>
+        <content>Biography</content>
         <formFactor>Large</formFactor>
         <pageOrSobjectType>Narrative__c</pageOrSobjectType>
         <recordType>Narrative__c.Biography</recordType>
@@ -3753,7 +3753,7 @@
     </profileActionOverrides>
     <profileActionOverrides>
         <actionName>View</actionName>
-        <content>Narrative</content>
+        <content>Biography</content>
         <formFactor>Large</formFactor>
         <pageOrSobjectType>Narrative__c</pageOrSobjectType>
         <recordType>Narrative__c.Biography</recordType>
@@ -3762,7 +3762,7 @@
     </profileActionOverrides>
     <profileActionOverrides>
         <actionName>View</actionName>
-        <content>Narrative</content>
+        <content>Biography</content>
         <formFactor>Large</formFactor>
         <pageOrSobjectType>Narrative__c</pageOrSobjectType>
         <recordType>Narrative__c.Biography</recordType>
@@ -3771,7 +3771,7 @@
     </profileActionOverrides>
     <profileActionOverrides>
         <actionName>View</actionName>
-        <content>Narrative</content>
+        <content>Biography</content>
         <formFactor>Large</formFactor>
         <pageOrSobjectType>Narrative__c</pageOrSobjectType>
         <recordType>Narrative__c.Biography</recordType>
@@ -3780,7 +3780,7 @@
     </profileActionOverrides>
     <profileActionOverrides>
         <actionName>View</actionName>
-        <content>Narrative</content>
+        <content>Biography</content>
         <formFactor>Large</formFactor>
         <pageOrSobjectType>Narrative__c</pageOrSobjectType>
         <recordType>Narrative__c.Biography</recordType>
@@ -3789,7 +3789,7 @@
     </profileActionOverrides>
     <profileActionOverrides>
         <actionName>View</actionName>
-        <content>Narrative</content>
+        <content>Biography</content>
         <formFactor>Large</formFactor>
         <pageOrSobjectType>Narrative__c</pageOrSobjectType>
         <recordType>Narrative__c.Biography</recordType>
@@ -3798,7 +3798,7 @@
     </profileActionOverrides>
     <profileActionOverrides>
         <actionName>View</actionName>
-        <content>Narrative</content>
+        <content>Biography</content>
         <formFactor>Large</formFactor>
         <pageOrSobjectType>Narrative__c</pageOrSobjectType>
         <recordType>Narrative__c.Biography</recordType>
@@ -3807,7 +3807,7 @@
     </profileActionOverrides>
     <profileActionOverrides>
         <actionName>View</actionName>
-        <content>Narrative</content>
+        <content>Biography</content>
         <formFactor>Large</formFactor>
         <pageOrSobjectType>Narrative__c</pageOrSobjectType>
         <recordType>Narrative__c.Biography</recordType>
@@ -3816,7 +3816,7 @@
     </profileActionOverrides>
     <profileActionOverrides>
         <actionName>View</actionName>
-        <content>Narrative</content>
+        <content>Biography</content>
         <formFactor>Large</formFactor>
         <pageOrSobjectType>Narrative__c</pageOrSobjectType>
         <recordType>Narrative__c.Biography</recordType>
@@ -4228,6 +4228,724 @@
         <type>Flexipage</type>
         <profile>Carmignac - Minimum Access</profile>
     </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>ESG_Request_Lightning_Page</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>Case</pageOrSobjectType>
+        <recordType>Case.ESG</recordType>
+        <type>Flexipage</type>
+        <profile>Carmignac - Business Developer</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>ESG_Request_Lightning_Page</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>Case</pageOrSobjectType>
+        <recordType>Case.ESG</recordType>
+        <type>Flexipage</type>
+        <profile>Carmignac - Campaign Automation</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>ESG_Request_Lightning_Page</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>Case</pageOrSobjectType>
+        <recordType>Case.ESG</recordType>
+        <type>Flexipage</type>
+        <profile>Carmignac - Contributor</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>ESG_Request_Lightning_Page</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>Case</pageOrSobjectType>
+        <recordType>Case.ESG</recordType>
+        <type>Flexipage</type>
+        <profile>Carmignac - CRM</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>ESG_Request_Lightning_Page</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>Case</pageOrSobjectType>
+        <recordType>Case.ESG</recordType>
+        <type>Flexipage</type>
+        <profile>Carmignac - Event</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>ESG_Request_Lightning_Page</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>Case</pageOrSobjectType>
+        <recordType>Case.ESG</recordType>
+        <type>Flexipage</type>
+        <profile>Carmignac - Interface</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>ESG_Request_Lightning_Page</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>Case</pageOrSobjectType>
+        <recordType>Case.ESG</recordType>
+        <type>Flexipage</type>
+        <profile>Carmignac - Interface Etouches</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>ESG_Request_Lightning_Page</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>Case</pageOrSobjectType>
+        <recordType>Case.ESG</recordType>
+        <type>Flexipage</type>
+        <profile>Carmignac - Investment Solutions</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>ESG_Request_Lightning_Page</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>Case</pageOrSobjectType>
+        <recordType>Case.ESG</recordType>
+        <type>Flexipage</type>
+        <profile>Carmignac - Investor Services</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>ESG_Request_Lightning_Page</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>Case</pageOrSobjectType>
+        <recordType>Case.ESG</recordType>
+        <type>Flexipage</type>
+        <profile>Carmignac - Legal and Compliance</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>ESG_Request_Lightning_Page</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>Case</pageOrSobjectType>
+        <recordType>Case.ESG</recordType>
+        <type>Flexipage</type>
+        <profile>Carmignac - Market Intelligence</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>ESG_Request_Lightning_Page</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>Case</pageOrSobjectType>
+        <recordType>Case.ESG</recordType>
+        <type>Flexipage</type>
+        <profile>Carmignac - Minimum Access</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>ESG_Request_Lightning_Page</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>Case</pageOrSobjectType>
+        <recordType>Case.ESG</recordType>
+        <type>Flexipage</type>
+        <profile>Carmignac - PE</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>ESG_Request_Lightning_Page</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>Case</pageOrSobjectType>
+        <recordType>Case.ESG</recordType>
+        <type>Flexipage</type>
+        <profile>Carmignac - Standard User</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>ESG_Request_Lightning_Page</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>Case</pageOrSobjectType>
+        <recordType>Case.ESG</recordType>
+        <type>Flexipage</type>
+        <profile>Carmignac - System Administrator</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>ESG_Request_Lightning_Page</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>Case</pageOrSobjectType>
+        <recordType>Case.ESG</recordType>
+        <type>Flexipage</type>
+        <profile>Carmignac - WebHelp</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>ESG_Request_Lightning_Page</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>Case</pageOrSobjectType>
+        <recordType>Case.ESG</recordType>
+        <type>Flexipage</type>
+        <profile>Minimum Access - Salesforce</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>ESG_Request_Lightning_Page</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>Case</pageOrSobjectType>
+        <recordType>Case.ESG</recordType>
+        <type>Flexipage</type>
+        <profile>Minimum Access - API Only Integrations</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>ESG_Request_Lightning_Page</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>Case</pageOrSobjectType>
+        <recordType>Case.ESG</recordType>
+        <type>Flexipage</type>
+        <profile>MarketingProfile</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>ESG_Request_Lightning_Page</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>Case</pageOrSobjectType>
+        <recordType>Case.ESG</recordType>
+        <type>Flexipage</type>
+        <profile>Marketing Landing Pages Profile</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>ESG_Request_Lightning_Page</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>Case</pageOrSobjectType>
+        <recordType>Case.ESG</recordType>
+        <type>Flexipage</type>
+        <profile>Read Only</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>ESG_Request_Lightning_Page</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>Case</pageOrSobjectType>
+        <recordType>Case.ESG</recordType>
+        <type>Flexipage</type>
+        <profile>Standard</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>ESG_Request_Lightning_Page</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>Case</pageOrSobjectType>
+        <recordType>Case.ESG</recordType>
+        <type>Flexipage</type>
+        <profile>Admin</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Integration_Log_Record_Page</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>Integration_Log__c</pageOrSobjectType>
+        <type>Flexipage</type>
+        <profile>Carmignac - System Administrator</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Biography</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>Narrative__c</pageOrSobjectType>
+        <recordType>Narrative__c.Biography</recordType>
+        <type>Flexipage</type>
+        <profile>Carmignac - Minimum Access</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Biography</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>Narrative__c</pageOrSobjectType>
+        <recordType>Narrative__c.Biography</recordType>
+        <type>Flexipage</type>
+        <profile>Minimum Access - API Only Integrations</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Biography</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>Narrative__c</pageOrSobjectType>
+        <recordType>Narrative__c.Biography</recordType>
+        <type>Flexipage</type>
+        <profile>Minimum Access - Salesforce</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Biography</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>Narrative__c</pageOrSobjectType>
+        <recordType>Narrative__c.Biography</recordType>
+        <type>Flexipage</type>
+        <profile>MarketingProfile</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Biography</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>Narrative__c</pageOrSobjectType>
+        <recordType>Narrative__c.Biography</recordType>
+        <type>Flexipage</type>
+        <profile>Read Only</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Biography</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>Narrative__c</pageOrSobjectType>
+        <recordType>Narrative__c.Biography</recordType>
+        <type>Flexipage</type>
+        <profile>Sales Insights Integration User</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Biography</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>Narrative__c</pageOrSobjectType>
+        <recordType>Narrative__c.Biography</recordType>
+        <type>Flexipage</type>
+        <profile>SalesforceIQ Integration User</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Biography</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>Narrative__c</pageOrSobjectType>
+        <recordType>Narrative__c.Biography</recordType>
+        <type>Flexipage</type>
+        <profile>Salesforce API Only System Integrations</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Biography</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>Narrative__c</pageOrSobjectType>
+        <recordType>Narrative__c.Biography</recordType>
+        <type>Flexipage</type>
+        <profile>SolutionManager</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Biography</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>Narrative__c</pageOrSobjectType>
+        <recordType>Narrative__c.Biography</recordType>
+        <type>Flexipage</type>
+        <profile>Standard</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Biography</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>Narrative__c</pageOrSobjectType>
+        <recordType>Narrative__c.Biography</recordType>
+        <type>Flexipage</type>
+        <profile>Admin</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>Tab</actionName>
+        <content>Carmignac_Contributor_Home_PAge</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>standard-home</pageOrSobjectType>
+        <type>Flexipage</type>
+        <profile>Carmignac - Contributor</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Event_Record_Page</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>Event__c</pageOrSobjectType>
+        <recordType>Event__c.event</recordType>
+        <type>Flexipage</type>
+        <profile>Carmignac - Business Developer</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Event_Record_Page</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>Event__c</pageOrSobjectType>
+        <recordType>Event__c.event</recordType>
+        <type>Flexipage</type>
+        <profile>Carmignac - Campaign Automation</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Event_Record_Page</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>Event__c</pageOrSobjectType>
+        <recordType>Event__c.event</recordType>
+        <type>Flexipage</type>
+        <profile>Carmignac - Contributor</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Event_Record_Page</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>Event__c</pageOrSobjectType>
+        <recordType>Event__c.event</recordType>
+        <type>Flexipage</type>
+        <profile>Carmignac - CRM</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Event_Record_Page</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>Event__c</pageOrSobjectType>
+        <recordType>Event__c.event</recordType>
+        <type>Flexipage</type>
+        <profile>Carmignac - Event</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Event_Record_Page</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>Event__c</pageOrSobjectType>
+        <recordType>Event__c.event</recordType>
+        <type>Flexipage</type>
+        <profile>Carmignac - Investment Solutions</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Event_Record_Page</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>Event__c</pageOrSobjectType>
+        <recordType>Event__c.event</recordType>
+        <type>Flexipage</type>
+        <profile>Carmignac - Market Intelligence</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Event_Record_Page</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>Event__c</pageOrSobjectType>
+        <recordType>Event__c.event</recordType>
+        <type>Flexipage</type>
+        <profile>Carmignac - PE</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Event_Record_Page</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>Event__c</pageOrSobjectType>
+        <recordType>Event__c.event</recordType>
+        <type>Flexipage</type>
+        <profile>Carmignac - System Administrator</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>MeetingDaysPage</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>Event__c</pageOrSobjectType>
+        <recordType>Event__c.MeetingDays</recordType>
+        <type>Flexipage</type>
+        <profile>Carmignac - Business Developer</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>MeetingDaysPage</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>Event__c</pageOrSobjectType>
+        <recordType>Event__c.MeetingDays</recordType>
+        <type>Flexipage</type>
+        <profile>Carmignac - Campaign Automation</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>MeetingDaysPage</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>Event__c</pageOrSobjectType>
+        <recordType>Event__c.MeetingDays</recordType>
+        <type>Flexipage</type>
+        <profile>Carmignac - Contributor</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>MeetingDaysPage</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>Event__c</pageOrSobjectType>
+        <recordType>Event__c.MeetingDays</recordType>
+        <type>Flexipage</type>
+        <profile>Carmignac - CRM</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>MeetingDaysPage</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>Event__c</pageOrSobjectType>
+        <recordType>Event__c.MeetingDays</recordType>
+        <type>Flexipage</type>
+        <profile>Carmignac - Event</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>MeetingDaysPage</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>Event__c</pageOrSobjectType>
+        <recordType>Event__c.MeetingDays</recordType>
+        <type>Flexipage</type>
+        <profile>Carmignac - Investment Solutions</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>MeetingDaysPage</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>Event__c</pageOrSobjectType>
+        <recordType>Event__c.MeetingDays</recordType>
+        <type>Flexipage</type>
+        <profile>Carmignac - Market Intelligence</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>MeetingDaysPage</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>Event__c</pageOrSobjectType>
+        <recordType>Event__c.MeetingDays</recordType>
+        <type>Flexipage</type>
+        <profile>Carmignac - PE</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>MeetingDaysPage</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>Event__c</pageOrSobjectType>
+        <recordType>Event__c.MeetingDays</recordType>
+        <type>Flexipage</type>
+        <profile>Carmignac - System Administrator</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>MeetingDaysPage</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>Event__c</pageOrSobjectType>
+        <recordType>Event__c.Meeting</recordType>
+        <type>Flexipage</type>
+        <profile>Carmignac - Business Developer</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>MeetingDaysPage</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>Event__c</pageOrSobjectType>
+        <recordType>Event__c.Meeting</recordType>
+        <type>Flexipage</type>
+        <profile>Carmignac - Campaign Automation</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>MeetingDaysPage</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>Event__c</pageOrSobjectType>
+        <recordType>Event__c.Meeting</recordType>
+        <type>Flexipage</type>
+        <profile>Carmignac - Contributor</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>MeetingDaysPage</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>Event__c</pageOrSobjectType>
+        <recordType>Event__c.Meeting</recordType>
+        <type>Flexipage</type>
+        <profile>Carmignac - CRM</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>MeetingDaysPage</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>Event__c</pageOrSobjectType>
+        <recordType>Event__c.Meeting</recordType>
+        <type>Flexipage</type>
+        <profile>Carmignac - Event</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>MeetingDaysPage</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>Event__c</pageOrSobjectType>
+        <recordType>Event__c.Meeting</recordType>
+        <type>Flexipage</type>
+        <profile>Carmignac - Investment Solutions</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>MeetingDaysPage</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>Event__c</pageOrSobjectType>
+        <recordType>Event__c.Meeting</recordType>
+        <type>Flexipage</type>
+        <profile>Carmignac - Market Intelligence</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>MeetingDaysPage</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>Event__c</pageOrSobjectType>
+        <recordType>Event__c.Meeting</recordType>
+        <type>Flexipage</type>
+        <profile>Carmignac - PE</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>MeetingDaysPage</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>Event__c</pageOrSobjectType>
+        <recordType>Event__c.Meeting</recordType>
+        <type>Flexipage</type>
+        <profile>Carmignac - System Administrator</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>CustomGridRecordPage</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>Grid__c</pageOrSobjectType>
+        <recordType>Grid__c.CustomGrid</recordType>
+        <type>Flexipage</type>
+        <profile>Carmignac - Business Developer</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>CustomGridRecordPage</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>Grid__c</pageOrSobjectType>
+        <recordType>Grid__c.CustomGrid</recordType>
+        <type>Flexipage</type>
+        <profile>Carmignac - Campaign Automation</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>CustomGridRecordPage</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>Grid__c</pageOrSobjectType>
+        <recordType>Grid__c.CustomGrid</recordType>
+        <type>Flexipage</type>
+        <profile>Carmignac - Contributor</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>CustomGridRecordPage</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>Grid__c</pageOrSobjectType>
+        <recordType>Grid__c.CustomGrid</recordType>
+        <type>Flexipage</type>
+        <profile>Carmignac - CRM</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>CustomGridRecordPage</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>Grid__c</pageOrSobjectType>
+        <recordType>Grid__c.CustomGrid</recordType>
+        <type>Flexipage</type>
+        <profile>Carmignac - Event</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>CustomGridRecordPage</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>Grid__c</pageOrSobjectType>
+        <recordType>Grid__c.CustomGrid</recordType>
+        <type>Flexipage</type>
+        <profile>Carmignac - Interface</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>CustomGridRecordPage</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>Grid__c</pageOrSobjectType>
+        <recordType>Grid__c.CustomGrid</recordType>
+        <type>Flexipage</type>
+        <profile>Carmignac - Interface Etouches</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>CustomGridRecordPage</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>Grid__c</pageOrSobjectType>
+        <recordType>Grid__c.CustomGrid</recordType>
+        <type>Flexipage</type>
+        <profile>Carmignac - Investment Solutions</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>CustomGridRecordPage</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>Grid__c</pageOrSobjectType>
+        <recordType>Grid__c.CustomGrid</recordType>
+        <type>Flexipage</type>
+        <profile>Carmignac - Investor Services</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>CustomGridRecordPage</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>Grid__c</pageOrSobjectType>
+        <recordType>Grid__c.CustomGrid</recordType>
+        <type>Flexipage</type>
+        <profile>Carmignac - Legal and Compliance</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>CustomGridRecordPage</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>Grid__c</pageOrSobjectType>
+        <recordType>Grid__c.CustomGrid</recordType>
+        <type>Flexipage</type>
+        <profile>Carmignac - Market Intelligence</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>CustomGridRecordPage</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>Grid__c</pageOrSobjectType>
+        <recordType>Grid__c.CustomGrid</recordType>
+        <type>Flexipage</type>
+        <profile>Carmignac - Minimum Access</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>CustomGridRecordPage</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>Grid__c</pageOrSobjectType>
+        <recordType>Grid__c.CustomGrid</recordType>
+        <type>Flexipage</type>
+        <profile>Carmignac - PE</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>CustomGridRecordPage</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>Grid__c</pageOrSobjectType>
+        <recordType>Grid__c.CustomGrid</recordType>
+        <type>Flexipage</type>
+        <profile>Carmignac - Standard User</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>CustomGridRecordPage</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>Grid__c</pageOrSobjectType>
+        <recordType>Grid__c.CustomGrid</recordType>
+        <type>Flexipage</type>
+        <profile>Carmignac - System Administrator</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>CustomGridRecordPage</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>Grid__c</pageOrSobjectType>
+        <recordType>Grid__c.CustomGrid</recordType>
+        <type>Flexipage</type>
+        <profile>Carmignac - WebHelp</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>CustomGridRecordPage</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>Grid__c</pageOrSobjectType>
+        <recordType>Grid__c.CustomGrid</recordType>
+        <type>Flexipage</type>
+        <profile>Admin</profile>
+    </profileActionOverrides>
     <setupExperience>all</setupExperience>
     <tabs>standard-home</tabs>
     <tabs>standard-Account</tabs>
@@ -4242,6 +4960,9 @@
     <tabs>Audience_Management</tabs>
     <tabs>standard-Campaign</tabs>
     <tabs>TranslationRequests</tabs>
+    <tabs>EventsOverView</tabs>
+    <tabs>BooklyInbox</tabs>
+    <tabs>Event__c</tabs>
     <tabs>Seismic</tabs>
     <tabs>Macro_Fund_update__c</tabs>
     <tabs>Meeting_Note__c</tabs>
@@ -4262,6 +4983,9 @@
     <tabs>Related_Party_Contact__c</tabs>
     <tabs>Platform_Flow_AUM__c</tabs>
     <tabs>standard-B2bHome</tabs>
+    <tabs>RFP_Library__c</tabs>
+    <tabs>ESG_Requests</tabs>
+    <tabs>RegDocs__c</tabs>
     <uiType>Lightning</uiType>
     <utilityBar>Carmignac_UtilityBar</utilityBar>
 </CustomApplication>

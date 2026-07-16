@@ -32,8 +32,9 @@ IF(TEXT({!$Record.BusinessDevelopmentRegion__c})=&quot;BP_NO&quot;, &quot;Nordic
 IF(TEXT({!$Record.BusinessDevelopmentRegion__c})=&quot;BP_ES&quot;, &quot;Spain&quot;,
 IF(TEXT({!$Record.BusinessDevelopmentRegion__c})=&quot;BP_CH&quot;, &quot;Switzerland&quot;,
 IF(TEXT({!$Record.BusinessDevelopmentRegion__c})=&quot;BP_TW&quot;, &quot;Taiwan&quot;,
+IF(TEXT({!$Record.BusinessDevelopmentRegion__c})=&quot;BP_ME&quot;, &quot;Middle East&quot;,
 IF(TEXT({!$Record.BusinessDevelopmentRegion__c})=&quot;BP_UK&quot;, &quot;United Kingdom&quot;,&quot;&quot;
-))))))))))))))</expression>
+)))))))))))))))</expression>
     </formulas>
     <interviewLabel>FL_After_save_Company_Team_field {!$Flow.CurrentDateTime}</interviewLabel>
     <label>FL_After_save_Update_Company_Team_field</label>
