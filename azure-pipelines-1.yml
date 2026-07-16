@@ -1,0 +1,133 @@
+trigger: none
+
+pr: none
+
+schedules:
+  # Exécution chaque vendredi à 15:00 UTC.
+  - cron: '0 15 * * 5'
+    displayName: 'Weekly PROD release notes'
+    branches:
+      include:
+        - release
+    always: true
+
+pool:
+  vmImage: 'ubuntu-latest'
+
+variables:
+  # Identifiant du pipeline Azure DevOps qui déploie en PROD.
+  PROD_PIPELINE_DEFINITION_ID: '1072'
+
+  # Branche utilisée pour les déploiements PROD.
+  PROD_BRANCH: 'refs/heads/release'
+
+  # Période temporaire de test : deux mois glissants.
+  RELEASE_NOTES_LOOKBACK_MONTHS: 2
+
+stages:
+- stage: RELEASE_NOTES
+  displayName: 'Generate PROD release notes'
+  jobs:
+  - job: GenerateReleaseNotes
+    displayName: 'Generate release notes from deployed User Stories'
+    steps:
+    - checkout: none
+
+    - bash: |
+        set -euo pipefail
+
+        # Calcule la période de recherche sur les deux derniers mois glissants.
+        END_DATE=$(date -u +'%Y-%m-%dT%H:%M:%SZ')
+        START_DATE=$(date -u -d "$(RELEASE_NOTES_LOOKBACK_MONTHS) months ago" +'%Y-%m-%dT%H:%M:%SZ')
+
+        echo "Release notes period: $START_DATE to $END_DATE"
+
+        # Encode les dates avant l'appel à l'API Azure DevOps.
+        START_DATE_ENCODED=$(jq -rn --arg value "$START_DATE" '$value|@uri')
+        END_DATE_ENCODED=$(jq -rn --arg value "$END_DATE" '$value|@uri')
+        BRANCH_ENCODED=$(jq -rn --arg value "$(PROD_BRANCH)" '$value|@uri')
+
+        BUILDS_URL="$(System.CollectionUri)$(System.TeamProject)/_apis/build/builds?definitions=$(PROD_PIPELINE_DEFINITION_ID)&branchName=$BRANCH_ENCODED&resultFilter=succeeded&minTime=$START_DATE_ENCODED&maxTime=$END_DATE_ENCODED&queryOrder=finishTimeDescending&%24top=1000&api-version=7.1"
+
+        # Récupère uniquement les exécutions PROD réussies sur la période.
+        curl --fail --silent --show-error \
+          -H "Authorization: Bearer $SYSTEM_ACCESSTOKEN" \
+          "$BUILDS_URL" \
+          -o builds.json
+
+        jq -r '.value[].id' builds.json > build-ids.txt
+        BUILD_COUNT=$(wc -l < build-ids.txt | tr -d ' ')
+
+        echo "Successful PROD builds found: $BUILD_COUNT"
+
+        # Récupère les Work Items associés à chaque build PROD.
+        : > work-item-ids.txt
+
+        while IFS= read -r BUILD_ID; do
+          [[ -z "$BUILD_ID" ]] && continue
+
+          WORK_ITEMS_URL="$(System.CollectionUri)$(System.TeamProject)/_apis/build/builds/$BUILD_ID/workitems?%24top=1000&api-version=7.1"
+
+          curl --fail --silent --show-error \
+            -H "Authorization: Bearer $SYSTEM_ACCESSTOKEN" \
+            "$WORK_ITEMS_URL" \
+            | jq -r '.value[].id' >> work-item-ids.txt
+        done < build-ids.txt
+
+        # Supprime les doublons présents dans plusieurs déploiements.
+        sort -u work-item-ids.txt -o work-item-ids.txt
+        : > user-stories.jsonl
+
+        while IFS= read -r WORK_ITEM_ID; do
+          [[ -z "$WORK_ITEM_ID" ]] && continue
+
+          WORK_ITEM_URL="$(System.CollectionUri)$(System.TeamProject)/_apis/wit/workitems/$WORK_ITEM_ID?fields=System.Id,System.Title,System.WorkItemType,System.State,System.AssignedTo&api-version=7.1"
+
+          curl --fail --silent --show-error \
+            -H "Authorization: Bearer $SYSTEM_ACCESSTOKEN" \
+            "$WORK_ITEM_URL" \
+            | jq -c 'select(.fields["System.WorkItemType"] == "User Story")' >> user-stories.jsonl
+        done < work-item-ids.txt
+
+        # Génère la release note HTML.
+        START_DISPLAY=$(date -u -d "$START_DATE" +'%d/%m/%Y')
+        END_DISPLAY=$(date -u -d "$END_DATE" +'%d/%m/%Y')
+        USER_STORY_COUNT=$(wc -l < user-stories.jsonl | tr -d ' ')
+
+        {
+          echo '<html><body style="font-family:Arial,sans-serif;">'
+          echo '<h2>Salesforce PROD - Release Note</h2>'
+          echo "<p><strong>Période :</strong> $START_DISPLAY au $END_DISPLAY</p>"
+          echo "<p><strong>Déploiements PROD réussis :</strong> $BUILD_COUNT<br>"
+          echo "<strong>User Stories livrées :</strong> $USER_STORY_COUNT</p>"
+
+          if [[ "$USER_STORY_COUNT" -eq 0 ]]; then
+            echo '<p>Aucune User Story Azure DevOps liée aux déploiements trouvés.</p>'
+          else
+            echo '<table style="border-collapse:collapse;width:100%;">'
+            echo '<tr><th style="border:1px solid #ddd;padding:8px;text-align:left;">US</th><th style="border:1px solid #ddd;padding:8px;text-align:left;">Titre</th><th style="border:1px solid #ddd;padding:8px;text-align:left;">Statut</th><th style="border:1px solid #ddd;padding:8px;text-align:left;">Assignée à</th></tr>'
+
+            jq -sr --arg collection "$(System.CollectionUri)" --arg project "$(System.TeamProject)" '
+              sort_by(.id)[] |
+              .id as $id |
+              .fields["System.Title"] as $title |
+              .fields["System.State"] as $state |
+              (.fields["System.AssignedTo"].displayName // "Non assignée") as $assigned |
+              "<tr><td style=\"border:1px solid #ddd;padding:8px;\"><a href=\"\($collection)\($project)/_workitems/edit/\($id)\">US-\($id)</a></td><td style=\"border:1px solid #ddd;padding:8px;\">\($title | @html)</td><td style=\"border:1px solid #ddd;padding:8px;\">\($state | @html)</td><td style=\"border:1px solid #ddd;padding:8px;\">\($assigned | @html)</td></tr>"
+            ' user-stories.jsonl
+
+            echo '</table>'
+          fi
+
+          echo '</body></html>'
+        } > release-note.html
+      displayName: 'Generate release note from PROD deployments'
+      env:
+        SYSTEM_ACCESSTOKEN: $(System.AccessToken)
+
+    - task: PublishPipelineArtifact@1
+      displayName: 'Publish generated release note'
+      inputs:
+        targetPath: '$(System.DefaultWorkingDirectory)/release-note.html'
+        artifact: 'weekly-release-note'
+        publishLocation: 'pipeline'
