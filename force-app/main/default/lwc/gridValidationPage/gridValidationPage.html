@@ -42,8 +42,9 @@
                                     onclick={handleToggleGridSection}
                                     aria-expanded={section.isOpen}>
                                     <lightning-icon
-                                        icon-name="utility:switch"
+                                        icon-name={section.toggleIconName}
                                         class="slds-section__title-action-icon slds-button__icon slds-button__icon_left"
+                                        alternative-text="Toggle section"
                                         size="x-small">
                                     </lightning-icon>
                                     <span class="slds-truncate" title={section.label}>{section.label}</span>
