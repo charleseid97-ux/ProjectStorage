@@ -70,7 +70,7 @@ export default class GridValidationPage extends LightningElement {
     get displaySections() {
         const products = this.validationProducts || [];
         if (!this.sortByGrid) {
-            return [{ key: 'all', showHeader: false, isOpen: true, toggleIconName: 'utility:chevrondown', sectionClass: 'slds-section slds-is-open grid-sort-section', products }];
+            return [{ key: 'all', showHeader: false, isOpen: true, toggleIconName: 'utility:chevrondown', sectionClass: 'slds-section grid-sort-section', products }];
         }
         const noGridLabel = this.labels.Grid_NoStandardGrid;
         const grouped = new Map();
@@ -94,7 +94,7 @@ export default class GridValidationPage extends LightningElement {
                 showHeader: true,
                 isOpen: isOpen,
                 toggleIconName: isOpen ? 'utility:chevrondown' : 'utility:chevronright',
-                sectionClass: isOpen ? 'slds-section slds-is-open grid-sort-section' : 'slds-section grid-sort-section',
+                sectionClass: 'slds-section grid-sort-section',
                 products: grouped.get(gridLabel)
             };
         });
