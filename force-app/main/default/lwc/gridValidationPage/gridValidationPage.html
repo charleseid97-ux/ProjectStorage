@@ -35,21 +35,12 @@
                 <template for:each={displaySections} for:item="section">
                     <div key={section.key} class={section.sectionClass}>
                         <template if:true={section.showHeader}>
-                            <h3 class="slds-section__title">
-                                <button
-                                    class="slds-button slds-section__title-action"
-                                    data-key={section.key}
-                                    onclick={handleToggleGridSection}
-                                    aria-expanded={section.isOpen}>
-                                    <lightning-icon
-                                        icon-name={section.toggleIconName}
-                                        class="slds-section__title-action-icon slds-button__icon slds-button__icon_left"
-                                        alternative-text="Toggle section"
-                                        size="x-small">
-                                    </lightning-icon>
-                                    <span class="slds-truncate" title={section.label}>{section.label}</span>
-                                </button>
-                            </h3>
+                            <button class="custom-accordion-header" data-key={section.key} onclick={handleToggleGridSection} aria-expanded={section.isOpen}>
+                                <div class="main-header-left">
+                                    <lightning-icon class="accordion-toggle-icon" icon-name={section.toggleIconName} alternative-text="Toggle section" size="x-small"></lightning-icon>
+                                    <span class="header-title header-title--large">{section.label}</span>
+                                </div>
+                            </button>
                         </template>
                         <template if:true={section.isOpen}>
                             <div class="custom-accordion">

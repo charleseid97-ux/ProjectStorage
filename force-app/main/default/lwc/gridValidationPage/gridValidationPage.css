@@ -244,18 +244,3 @@
     flex-direction: column;
     row-gap: 10px;
 }
-
-.validation-sections .slds-section {
-    margin: 0;
-}
-
-.slds-section__title {
-    align-items: baseline;
-    font-size: x-large;
-    height: 40px;
-}
-
-.slds-section__title-action {
-    align-items: baseline;
-    background: #dbdbdb;
-}
