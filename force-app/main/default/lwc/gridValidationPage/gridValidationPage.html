@@ -9,6 +9,17 @@
         <div class="validation-controls">
             <div class="validation-controls-left">
                 <lightning-button label={toggleAllLabel} variant="neutral" onclick={handleToggleAllSections}></lightning-button>
+                <div class="sort-toggle" role="group" aria-label={labels.Grid_SortBy}>
+                    <span class={sortThumbClass} aria-hidden="true"></span>
+                    <button type="button" class={sortAlphaOptionClass} data-mode="alpha" aria-pressed={sortAlphaPressed} onclick={handleSortModeSelect}>
+                        <span class="sort-toggle-caption">{labels.Grid_SortBy}</span>
+                        <span class="sort-toggle-label">{labels.Grid_SortAlphabetical}</span>
+                    </button>
+                    <button type="button" class={sortGridOptionClass} data-mode="grid" aria-pressed={sortByGrid} onclick={handleSortModeSelect}>
+                        <span class="sort-toggle-caption">{labels.Grid_SortBy}</span>
+                        <span class="sort-toggle-label">{labels.Grid_SortStandardGrid}</span>
+                    </button>
+                </div>
             </div>
             <div class="validation-controls-right">
                 <template if:true={simulationAccessDenied}>
@@ -20,71 +31,95 @@
             </div>
         </div>
         <template if:true={hasValidationResults}>
-            <div class="custom-accordion">
-                <template for:each={validationProducts} for:item="prod">
-                    <div key={prod.productId} class="custom-accordion-item">
-                        <button class="custom-accordion-header" style={prod.sectionStyle} data-id={prod.productId} aria-expanded={prod.isOpen} onclick={handleToggleValidationSection}>
-                            <div class="main-header-left">
-                                <lightning-icon class="accordion-toggle-icon" icon-name={prod.toggleIconName} alternative-text="Toggle section" size="x-small"></lightning-icon>
-                                <div class="header-left">
-                                    <span class="header-title header-title--large">{prod.productLabel}</span>
-                                    <div class="header-grids">
-                                        <template if:true={prod.headerGrid}>
-                                            <span class="header-sep">—</span>
-                                            <span class="header-grids-label">{prod.headerGrid}</span>
-                                        </template>
-                                        <span class="header-sep">—</span>
-                                    </div>
-                                    <span class="header-counts">{prod.selectedCount} selected / {prod.totalShareClasses} total | {prod.missingCount} missing</span>
-                                </div>
-                            </div>
-                            <div class="accordion-header-messages">
-                                <template if:true={prod.headerMessagesText}>
-                                    <span class="accordion-message">{prod.headerMessagesText}</span>
-                                </template>
-                                <lightning-button-icon class="remove-product-button"
-                                                       icon-name="utility:delete"
-                                                       alternative-text={labels.Grid_RemoveProduct}
-                                                       title={labels.Grid_RemoveProduct}
-                                                       data-id={prod.productId}
-                                                       onclick={handleRemoveProduct}
-                                                       disabled={prod.noShareClassesSelected}>
-                                </lightning-button-icon>
-                            </div>
-                        </button>
-
-                        <template if:true={prod.isOpen}>
-                            <div class="table-scroll-container">
-                                <table class="slds-table slds-table_cell-buffer slds-table_bordered validation-table">
-                                    <colgroup>
-                                        <template for:each={validationColumns} for:item="col">
-                                            <col key={col.apiName} style={validationColumnWidthStyle}/>
-                                        </template>
-                                    </colgroup>
-                                    <thead>
-                                        <tr class="slds-line-height_reset">
-                                            <template for:each={validationColumns} for:item="col">
-                                                <th class={col.class} key={col.apiName} scope="col">
-                                                    <div class="slds-truncate" title={col.label}>{col.label}</div>
-                                                </th>
-                                            </template>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <template for:each={prod.shareClasses} for:item="sc">
-                                            <tr key={sc.shareClassId} class={sc.rowClass}>
-                                                <template for:each={sc.cells} for:item="cell">
-                                                    <td key={cell.label} data-label={cell.label}>
-                                                        <div class={cell.class} title={cell.value}>{cell.value}</div>
-                                                    </td>
+            <div class="validation-sections">
+                <template for:each={displaySections} for:item="section">
+                    <div key={section.key} class={section.sectionClass}>
+                        <template if:true={section.showHeader}>
+                            <h3 class="slds-section__title">
+                                <button
+                                    class="slds-button slds-section__title-action"
+                                    data-key={section.key}
+                                    onclick={handleToggleGridSection}
+                                    aria-expanded={section.isOpen}>
+                                    <lightning-icon
+                                        icon-name="utility:switch"
+                                        class="slds-section__title-action-icon slds-button__icon slds-button__icon_left"
+                                        size="x-small">
+                                    </lightning-icon>
+                                    <span class="slds-truncate" title={section.label}>{section.label}</span>
+                                </button>
+                            </h3>
+                        </template>
+                        <template if:true={section.isOpen}>
+                            <div class="custom-accordion">
+                                <template for:each={section.products} for:item="prod">
+                                    <div key={prod.productId} class="custom-accordion-item">
+                                        <button class="custom-accordion-header" style={prod.sectionStyle} data-id={prod.productId} aria-expanded={prod.isOpen} onclick={handleToggleValidationSection}>
+                                            <div class="main-header-left">
+                                                <lightning-icon class="accordion-toggle-icon" icon-name={prod.toggleIconName} alternative-text="Toggle section" size="x-small"></lightning-icon>
+                                                <div class="header-left">
+                                                    <span class="header-title header-title--large">{prod.productLabel}</span>
+                                                    <div class="header-grids">
+                                                        <template if:true={prod.headerGrid}>
+                                                            <span class="header-sep">—</span>
+                                                            <span class="header-grids-label">{prod.headerGrid}</span>
+                                                        </template>
+                                                        <span class="header-sep">—</span>
+                                                    </div>
+                                                    <span class="header-counts">{prod.selectedCount} selected / {prod.totalShareClasses} total | {prod.missingCount} missing</span>
+                                                </div>
+                                            </div>
+                                            <div class="accordion-header-messages">
+                                                <template if:true={prod.headerMessagesText}>
+                                                    <span class="accordion-message">{prod.headerMessagesText}</span>
                                                 </template>
-                                                <td class="alignCenter" data-label="Action">
-                                                    <lightning-button class="custom-button" variant={sc.actionVariant} label={sc.actionLabel} data-id={sc.shareClassId} data-product={prod.productId} data-selected={sc.isSelected} onclick={handleToggleShareClass} disabled={sc.addDisabled}></lightning-button>
-                                                </td>
-                                            </tr>
+                                                <lightning-button-icon class="remove-product-button"
+                                                                       icon-name="utility:delete"
+                                                                       alternative-text={labels.Grid_RemoveProduct}
+                                                                       title={labels.Grid_RemoveProduct}
+                                                                       data-id={prod.productId}
+                                                                       onclick={handleRemoveProduct}
+                                                                       disabled={prod.noShareClassesSelected}>
+                                                </lightning-button-icon>
+                                            </div>
+                                        </button>
+
+                                        <template if:true={prod.isOpen}>
+                                            <div class="table-scroll-container">
+                                                <table class="slds-table slds-table_cell-buffer slds-table_bordered validation-table">
+                                                    <colgroup>
+                                                        <template for:each={validationColumns} for:item="col">
+                                                            <col key={col.apiName} style={validationColumnWidthStyle}/>
+                                                        </template>
+                                                    </colgroup>
+                                                    <thead>
+                                                        <tr class="slds-line-height_reset">
+                                                            <template for:each={validationColumns} for:item="col">
+                                                                <th class={col.class} key={col.apiName} scope="col">
+                                                                    <div class="slds-truncate" title={col.label}>{col.label}</div>
+                                                                </th>
+                                                            </template>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <template for:each={prod.shareClasses} for:item="sc">
+                                                            <tr key={sc.shareClassId} class={sc.rowClass}>
+                                                                <template for:each={sc.cells} for:item="cell">
+                                                                    <td key={cell.label} data-label={cell.label}>
+                                                                        <div class={cell.class} title={cell.value}>{cell.value}</div>
+                                                                    </td>
+                                                                </template>
+                                                                <td class="alignCenter" data-label="Action">
+                                                                    <lightning-button class="custom-button" variant={sc.actionVariant} label={sc.actionLabel} data-id={sc.shareClassId} data-product={prod.productId} data-selected={sc.isSelected} onclick={handleToggleShareClass} disabled={sc.addDisabled}></lightning-button>
+                                                                </td>
+                                                            </tr>
+                                                        </template>
+                                                    </tbody>
+                                                </table>
+                                            </div>
                                         </template>
-                                    </tbody>
-                                </table>
+                                    </div>
+                                </template>
                             </div>
                         </template>
                     </div>
