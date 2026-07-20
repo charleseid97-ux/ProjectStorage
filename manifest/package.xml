@@ -1,27 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Package xmlns="http://soap.sforce.com/2006/04/metadata">
     <types>
-        <members>RegistrationCountryActionController</members>
-        <members>RegistrationCountryActionControllerTest</members>
-        <members>RegistrationCountryApiService</members>
-        <members>RegistrationCountryApiServiceTest</members>
-        <members>RegistrationCountryNotificationService</members>
-        <name>ApexClass</name>
-    </types>
-    <types>
-        <members>registrationCountryAction</members>
-        <name>LightningComponentBundle</name>
-    </types>
-    <types>
-        <members>Share_Class__c.ManageRegistrationCountriesRequests</members>
-        <name>QuickAction</name>
-    </types>
-
-    <types>
-        <members>CountryRegNeeded</members>
-        <name>GlobalValueSet</name>
-    </types> 
-    
-       
+        <members>NewEvent</members>
+        <name>Flow</name>
+    </types>     
     <version>65.0</version>
 </Package>
