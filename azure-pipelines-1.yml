@@ -1,0 +1,207 @@
+trigger: none
+
+pr: none
+
+schedules:
+  # Exécution chaque jeudi à 07:00 UTC, soit 09:00 en France en heure d'été.
+  - cron: '0 7 * * 4'
+    displayName: 'Weekly PROD release notes'
+    branches:
+      include:
+        - release
+    always: true
+
+pool:
+  vmImage: 'ubuntu-latest'
+
+variables:
+  # Identifiant du pipeline contenant l'étape Quick Deploy.
+  PROD_PIPELINE_DEFINITION_ID: '1072'
+
+  # Branche utilisée pour les déploiements PROD.
+  PROD_BRANCH: 'refs/heads/release'
+
+  # Nom ou partie du nom de l'étape/stage Quick Deploy dans la timeline Azure DevOps.
+  QUICK_DEPLOY_RECORD_NAME: 'Quick Deploy'
+
+  # Période hebdomadaire analysée.
+  RELEASE_NOTES_LOOKBACK_DAYS: 7
+
+stages:
+- stage: RELEASE_NOTES
+  displayName: 'Generate PROD release notes'
+  jobs:
+  - job: GenerateReleaseNotes
+    displayName: 'Generate Quick Deploy history and deduplicated US list'
+    steps:
+    - checkout: none
+
+    - bash: |
+        set -euo pipefail
+
+        # Calcule la période hebdomadaire analysée.
+        END_DATE=$(date -u +'%Y-%m-%dT%H:%M:%SZ')
+        START_DATE=$(date -u -d "$(RELEASE_NOTES_LOOKBACK_DAYS) days ago" +'%Y-%m-%dT%H:%M:%SZ')
+
+        echo "Release notes period: $START_DATE to $END_DATE"
+
+        # Encode les paramètres avant l'appel à l'API Azure DevOps.
+        START_DATE_ENCODED=$(jq -rn --arg value "$START_DATE" '$value|@uri')
+        END_DATE_ENCODED=$(jq -rn --arg value "$END_DATE" '$value|@uri')
+        BRANCH_ENCODED=$(jq -rn --arg value "$(PROD_BRANCH)" '$value|@uri')
+
+        BUILDS_URL="$(System.CollectionUri)$(System.TeamProject)/_apis/build/builds?definitions=$(PROD_PIPELINE_DEFINITION_ID)&branchName=$BRANCH_ENCODED&minTime=$START_DATE_ENCODED&maxTime=$END_DATE_ENCODED&queryOrder=finishTimeDescending&%24top=1000&api-version=7.1"
+
+        # Récupère les exécutions du pipeline PROD sur la période.
+        curl --fail --silent --show-error \
+          -H "Authorization: Bearer $SYSTEM_ACCESSTOKEN" \
+          "$BUILDS_URL" \
+          -o builds.json
+
+        : > quick-deploy-builds.jsonl
+
+        # Vérifie dans la timeline de chaque build que Quick Deploy a réellement réussi.
+        jq -r '.value[].id' builds.json | while IFS= read -r BUILD_ID; do
+          [[ -z "$BUILD_ID" ]] && continue
+
+          TIMELINE_URL="$(System.CollectionUri)$(System.TeamProject)/_apis/build/builds/$BUILD_ID/timeline?api-version=7.1"
+          BUILD_URL="$(System.CollectionUri)$(System.TeamProject)/_apis/build/builds/$BUILD_ID?api-version=7.1"
+
+          curl --fail --silent --show-error \
+            -H "Authorization: Bearer $SYSTEM_ACCESSTOKEN" \
+            "$TIMELINE_URL" \
+            -o timeline.json
+
+          QUICK_DEPLOY_EXECUTED=$(jq -r --arg recordName "$(QUICK_DEPLOY_RECORD_NAME)" '
+            any(
+              .records[]?;
+              ((.name // "") | ascii_downcase | contains($recordName | ascii_downcase))
+              and .state == "completed"
+              and .result == "succeeded"
+            )
+          ' timeline.json)
+
+          [[ "$QUICK_DEPLOY_EXECUTED" != "true" ]] && continue
+
+          # Recharge le build pour obtenir le numéro, l'utilisateur et la date d'exécution.
+          curl --fail --silent --show-error \
+            -H "Authorization: Bearer $SYSTEM_ACCESSTOKEN" \
+            "$BUILD_URL" \
+            -o build.json
+
+          # Récupère le message du commit Git lorsque le build ne le fournit pas directement.
+          SOURCE_VERSION_MESSAGE=$(jq -r '.sourceVersionMessage // empty' build.json)
+          REPOSITORY_ID=$(jq -r '.repository.id // empty' build.json)
+          SOURCE_VERSION=$(jq -r '.sourceVersion // empty' build.json)
+
+          if [[ -z "$SOURCE_VERSION_MESSAGE" && -n "$REPOSITORY_ID" && -n "$SOURCE_VERSION" ]]; then
+            COMMIT_URL="$(System.CollectionUri)$(System.TeamProject)/_apis/git/repositories/$REPOSITORY_ID/commits/$SOURCE_VERSION?api-version=7.1"
+
+            SOURCE_VERSION_MESSAGE=$(curl --fail --silent --show-error \
+              -H "Authorization: Bearer $SYSTEM_ACCESSTOKEN" \
+              "$COMMIT_URL" \
+              | jq -r '.comment // empty')
+          fi
+
+          # Ajoute le message résolu aux informations du build.
+          jq -c --arg resolvedSourceVersionMessage "$SOURCE_VERSION_MESSAGE" \
+            '. + {resolvedSourceVersionMessage: $resolvedSourceVersionMessage}' \
+            build.json >> quick-deploy-builds.jsonl
+        done
+
+        # Prépare les dates affichées dans les deux fichiers HTML.
+        START_DISPLAY=$(date -u -d "$START_DATE" +'%d/%m/%Y')
+        END_DISPLAY=$(date -u -d "$END_DATE" +'%d/%m/%Y')
+        # Formate la date pour l'utiliser dans les noms de fichiers.
+        END_DISPLAY_FILE=$(date -u -d "$END_DATE" +'%Y-%m-%d')
+        QUICK_DEPLOY_COUNT=$(wc -l < quick-deploy-builds.jsonl | tr -d ' ')
+
+        # Rend la date disponible aux tâches de publication suivantes.
+        echo "##vso[task.setvariable variable=RELEASE_NOTES_END_FILE]$END_DISPLAY_FILE"
+
+        # Génère le premier fichier avec les commits/merges ayant exécuté Quick Deploy.
+        {
+          echo '<html><body style="font-family:Arial,sans-serif;">'
+          echo '<h2>Salesforce PROD - Historique Quick Deploy</h2>'
+          echo "<p><strong>Période :</strong> $START_DISPLAY au $END_DISPLAY</p>"
+
+          if [[ "$QUICK_DEPLOY_COUNT" -eq 0 ]]; then
+            echo '<p>Aucune exécution réussie de Quick Deploy trouvée.</p>'
+          else
+            echo '<table style="border-collapse:collapse;width:100%;">'
+            echo '<tr><th style="border:1px solid #ddd;padding:8px;text-align:left;">Commit / merge</th><th style="border:1px solid #ddd;padding:8px;text-align:left;">Exécuté par</th><th style="border:1px solid #ddd;padding:8px;text-align:left;">Date</th></tr>'
+
+            jq -sr --arg collection "$(System.CollectionUri)" --arg project "$(System.TeamProject)" '
+              sort_by(.finishTime) | reverse[] |
+              (.resolvedSourceVersionMessage // .sourceVersionMessage // "Sans description") as $message |
+              ("#" + (.buildNumber // "Sans numéro") + " • " + $message) as $description |
+              (.requestedFor.displayName // "Utilisateur inconnu") as $requestedFor |
+              (.finishTime // .queueTime // "") as $date |
+              (($date[0:19] + "Z") | fromdateiso8601 | strftime("%d/%m/%Y %H:%M UTC")) as $formattedDate |
+              "<tr><td style=\"border:1px solid #ddd;padding:8px;\"><a href=\"\($collection)\($project)/_build/results?buildId=\(.id)\">\($description | @html)</a></td><td style=\"border:1px solid #ddd;padding:8px;\">\($requestedFor | @html)</td><td style=\"border:1px solid #ddd;padding:8px;\">\($formattedDate)</td></tr>"
+            ' quick-deploy-builds.jsonl
+
+            echo '</table>'
+          fi
+
+          echo '</body></html>'
+        } > "quick-deploy-history-$END_DISPLAY_FILE.html"
+
+        # Extrait et dédoublonne les US depuis le nom du commit/merge et la branche source.
+        if [[ "$QUICK_DEPLOY_COUNT" -gt 0 ]]; then
+          jq -sr '
+            .[] |
+            [(.resolvedSourceVersionMessage // .sourceVersionMessage // ""), (.sourceBranch // "")] |
+            join(" ") |
+            scan("(?i)US[-_][0-9]+") |
+            ascii_upcase |
+            gsub("_"; "-")
+          ' quick-deploy-builds.jsonl | sort -u > user-stories.txt
+        else
+          : > user-stories.txt
+        fi
+
+        USER_STORY_COUNT=$(wc -l < user-stories.txt | tr -d ' ')
+
+        # Génère le second fichier avec uniquement les US déduites et dédoublonnées.
+        {
+          echo '<html><body style="font-family:Arial,sans-serif;">'
+          echo '<h2>Salesforce PROD - User Stories livrées</h2>'
+          echo "<p><strong>Période :</strong> $START_DISPLAY au $END_DISPLAY</p>"
+
+          if [[ "$USER_STORY_COUNT" -eq 0 ]]; then
+            echo '<p>Aucune User Story déduite des noms de commits, merges ou branches.</p>'
+          else
+            echo '<table style="border-collapse:collapse;width:100%;">'
+            echo '<tr><th style="border:1px solid #ddd;padding:8px;text-align:left;">US</th></tr>'
+
+            while IFS= read -r US_NAME; do
+              [[ -z "$US_NAME" ]] && continue
+              US_ID=${US_NAME#US-}
+              echo "<tr><td style=\"border:1px solid #ddd;padding:8px;\"><a href=\"$(System.CollectionUri)$(System.TeamProject)/_workitems/edit/$US_ID\">$US_NAME</a></td></tr>"
+            done < user-stories.txt
+
+            echo '</table>'
+          fi
+
+          echo '</body></html>'
+        } > "release-note-us-$END_DISPLAY_FILE.html"
+      displayName: 'Generate Quick Deploy HTML files'
+      env:
+        SYSTEM_ACCESSTOKEN: $(System.AccessToken)
+
+    - task: PublishPipelineArtifact@1
+      displayName: 'Publish Quick Deploy history'
+      condition: always()
+      inputs:
+        targetPath: '$(System.DefaultWorkingDirectory)/quick-deploy-history-$(RELEASE_NOTES_END_FILE).html'
+        artifact: 'quick-deploy-history-$(RELEASE_NOTES_END_FILE)'
+        publishLocation: 'pipeline'
+
+    - task: PublishPipelineArtifact@1
+      displayName: 'Publish deduplicated User Stories'
+      condition: always()
+      inputs:
+        targetPath: '$(System.DefaultWorkingDirectory)/release-note-us-$(RELEASE_NOTES_END_FILE).html'
+        artifact: 'release-note-us-$(RELEASE_NOTES_END_FILE)'
+        publishLocation: 'pipeline'
