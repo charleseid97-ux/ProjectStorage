@@ -32,9 +32,19 @@
                 <label>Investment Advisor</label>
             </value>
             <value>
+                <fullName>Investor w/o agreement</fullName>
+                <default>false</default>
+                <label>Investor w/o agreement</label>
+            </value>
+            <value>
                 <fullName>IS Agreement</fullName>
                 <default>false</default>
                 <label>IS Agreement</label>
+            </value>
+            <value>
+                <fullName>Sub-distributor via Platform</fullName>
+                <default>false</default>
+                <label>Sub-distributor via Platform</label>
             </value>
         </valueSetDefinition>
     </valueSet>

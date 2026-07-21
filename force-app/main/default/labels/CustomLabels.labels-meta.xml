@@ -771,6 +771,13 @@ UY-&gt;LU</value>
         <value>No share classes found to add to the Grid.</value>
     </labels>
     <labels>
+        <fullName>Grid_NoStandardGrid</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Section title for products without a single standard grid</shortDescription>
+        <value>No Standard Grid</value>
+    </labels>
+    <labels>
         <fullName>Grid_PendingApprovalWarning</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -1153,6 +1160,27 @@ Il calcolo viene adattato alla data di variazione delle spese effettivamente app
         <protected>false</protected>
         <shortDescription>Warning message for partial import</shortDescription>
         <value>Some rows failed. Review details below.</value>
+    </labels>
+    <labels>
+        <fullName>Grid_SortBy</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Small caption above the sort toggle options</shortDescription>
+        <value>Sort by</value>
+    </labels>
+    <labels>
+        <fullName>Grid_SortProduct</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Sort toggle option for product sorting</shortDescription>
+        <value>Product</value>
+    </labels>
+    <labels>
+        <fullName>Grid_SortStandardGrid</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Sort toggle option for standard grid sorting</shortDescription>
+        <value>Standard Grid</value>
     </labels>
     <labels>
         <fullName>Grid_SortedBy</fullName>

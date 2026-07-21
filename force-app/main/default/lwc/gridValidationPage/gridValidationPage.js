@@ -32,6 +32,9 @@ export default class GridValidationPage extends LightningElement {
     @track gridPickerShareClass;
     @track gridPickerProductId;
 
+    @track sortByGrid = false;
+    @track closedGridSections = {};
+
     labels = LABELS;
     previousIdsKey;
     validationFieldsMap;
@@ -60,6 +63,40 @@ export default class GridValidationPage extends LightningElement {
 
     get toggleAllLabel() {
         return this.allExpanded ? this.labels.UI_CollapseAll : this.labels.UI_ExpandAll;
+    }
+
+    // Sections rendered by the template: one headerless section in alphabetical
+    // mode, or one collapsible section per standard grid when sorting by grid.
+    get displaySections() {
+        const products = this.validationProducts || [];
+        if (!this.sortByGrid) {
+            return [{ key: 'all', showHeader: false, isOpen: true, toggleIconName: 'utility:chevrondown', products }];
+        }
+        const noGridLabel = this.labels.Grid_NoStandardGrid;
+        const grouped = new Map();
+        products.forEach(prod => {
+            const gridLabel = prod.headerGrid || noGridLabel;
+            if (!grouped.has(gridLabel)) {
+                grouped.set(gridLabel, []);
+            }
+            grouped.get(gridLabel).push(prod);
+        });
+        const gridLabels = [...grouped.keys()].sort((a, b) => {
+            if (a === noGridLabel) return 1;
+            if (b === noGridLabel) return -1;
+            return a.localeCompare(b, undefined, { numeric: true });
+        });
+        return gridLabels.map(gridLabel => {
+            const isOpen = !this.closedGridSections[gridLabel];
+            return {
+                key: gridLabel,
+                label: gridLabel,
+                showHeader: true,
+                isOpen: isOpen,
+                toggleIconName: isOpen ? 'utility:chevrondown' : 'utility:chevronright',
+                products: grouped.get(gridLabel)
+            };
+        });
     }
 
     connectedCallback() {
@@ -234,6 +271,31 @@ export default class GridValidationPage extends LightningElement {
         this.selectedShareClasses = next;
         this.dispatchEvent(new CustomEvent('removeproduct', { detail: { productId, criteriaList: this.criteriaList } }));
         this.runValidation();
+    }
+
+    get sortAlphaPressed() {
+        return !this.sortByGrid;
+    }
+
+    get sortThumbClass() {
+        return this.sortByGrid ? 'sort-toggle-thumb sort-toggle-thumb_grid' : 'sort-toggle-thumb';
+    }
+
+    get sortAlphaOptionClass() {
+        return this.sortByGrid ? 'sort-toggle-option' : 'sort-toggle-option sort-toggle-option_active';
+    }
+
+    get sortGridOptionClass() {
+        return this.sortByGrid ? 'sort-toggle-option sort-toggle-option_active' : 'sort-toggle-option';
+    }
+
+    handleSortModeSelect(event) {
+        this.sortByGrid = event.currentTarget.dataset.mode === 'grid';
+    }
+
+    handleToggleGridSection(event) {
+        const key = event.currentTarget.dataset.key;
+        this.closedGridSections = { ...this.closedGridSections, [key]: !this.closedGridSections[key] };
     }
 
     handleToggleAllSections() {
