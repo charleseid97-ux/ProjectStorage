@@ -1178,6 +1178,10 @@
             <fullName>Investment Advisor</fullName>
             <default>false</default>
         </values>
+        <values>
+            <fullName>Sub-distributor via Platform</fullName>
+            <default>false</default>
+        </values>
     </picklistValues>
     <picklistValues>
         <picklist>SPC_Status__c</picklist>

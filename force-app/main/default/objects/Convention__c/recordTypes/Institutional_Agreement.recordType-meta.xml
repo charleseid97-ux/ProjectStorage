@@ -1186,6 +1186,10 @@
             <fullName>Investment Advisor</fullName>
             <default>false</default>
         </values>
+        <values>
+            <fullName>Investor w/o agreement</fullName>
+            <default>false</default>
+        </values>
     </picklistValues>
     <picklistValues>
         <picklist>SPC_Status__c</picklist>
