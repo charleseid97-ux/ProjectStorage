@@ -682,8 +682,12 @@ matchingLegalEntityByCompany.put(le.Company__c, le);
                 agrIds.add(agr.Id);
             }
         }
-        
-        for (Agreement_Role__c role : [SELECT Id, Role__c, Agreement__r.Code_Type__c 
+
+        if (agrIds.isEmpty()) {
+            return;
+        }
+
+        for (Agreement_Role__c role : [SELECT Id, Role__c, Agreement__r.Code_Type__c
                                        FROM Agreement_Role__c
                                        WHERE Agreement__c IN :agrIds 
                                        AND Role__c != 'Carmignac Entity']){
