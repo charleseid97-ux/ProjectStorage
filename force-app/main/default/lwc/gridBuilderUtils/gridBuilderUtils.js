@@ -104,6 +104,7 @@ import Grid_NoProductsToDisplay from '@salesforce/label/c.Grid_NoProductsToDispl
 import Grid_NoProductsToValidate from '@salesforce/label/c.Grid_NoProductsToValidate';
 import Grid_NoShareClassesFound from '@salesforce/label/c.Grid_NoShareClassesFound';
 import Grid_NoShareClassesToAdd from '@salesforce/label/c.Grid_NoShareClassesToAdd';
+import Grid_NoStandardGrid from '@salesforce/label/c.Grid_NoStandardGrid';
 import Grid_PendingApprovalWarning from '@salesforce/label/c.Grid_PendingApprovalWarning';
 import Grid_ProductAlreadyAssignedWarning from '@salesforce/label/c.Grid_ProductAlreadyAssignedWarning';
 import Grid_ProductNameLabel from '@salesforce/label/c.Grid_ProductNameLabel';
@@ -135,6 +136,9 @@ import Grid_ShareClassesNotAdded_NotInGrid from '@salesforce/label/c.Grid_ShareC
 import Grid_ShareTypeFilterIndependentInfo from '@salesforce/label/c.Grid_ShareTypeFilterIndependentInfo';
 import Grid_ShareTypesLabel from '@salesforce/label/c.Grid_ShareTypesLabel';
 import Grid_SomeRowsFailed from '@salesforce/label/c.Grid_SomeRowsFailed';
+import Grid_SortProduct from '@salesforce/label/c.Grid_SortProduct';
+import Grid_SortBy from '@salesforce/label/c.Grid_SortBy';
+import Grid_SortStandardGrid from '@salesforce/label/c.Grid_SortStandardGrid';
 import Grid_SortedBy from '@salesforce/label/c.Grid_SortedBy';
 import Grid_StandardGridsSelected from '@salesforce/label/c.Grid_StandardGridsSelected';
 import Grid_StartDate from '@salesforce/label/c.Grid_StartDate';
@@ -189,13 +193,13 @@ export const LABELS = {
     Grid_MissingShareClass, Grid_MissingShareClasses, Grid_NoActiveGridAssigned, Grid_NoDetailsFound, Grid_NoExcludedProducts,
     Grid_NoGridAvailable, Grid_NoGridSelectionFound, Grid_NoNewShareClassesAdded, Grid_NoProducts,
     Grid_NoProductsFound, Grid_NoProductsFoundValidation, Grid_NoProductsMatched, Grid_NoProductsSelected,
-    Grid_NoProductsToDisplay, Grid_NoProductsToValidate, Grid_NoShareClassesFound, Grid_NoShareClassesToAdd,
+    Grid_NoProductsToDisplay, Grid_NoProductsToValidate, Grid_NoShareClassesFound, Grid_NoShareClassesToAdd, Grid_NoStandardGrid,
     Grid_PendingApprovalWarning, Grid_ProductAlreadyAssignedWarning, Grid_ProductNameLabel, Grid_ProductsRecap,
     Grid_RemoveFilter, Grid_RemoveProduct, Grid_ResetAll, Grid_ResetAll_Confirm, Grid_ResetAll_Success,
     Grid_ResetFilters, Grid_RowErrors, Grid_GridRulesCreated, Grid_GridRulesUpdated, Grid_GridsUpserted, Grid_Saved_Success, Grid_ScopesUpserted,
     Grid_SelectExcelFile, Grid_SelectGrid, Grid_SelectShareTypes, Grid_Selection, Grid_SettingNotFound,
     Grid_ShareClassesAdded, Grid_ShareClassesAddedTitle, Grid_ShareClassesNotAdded_DifferentGrid, Grid_ShareClassesNotAdded_NotInGrid,
-    Grid_ShareTypeFilterIndependentInfo, Grid_ShareTypesLabel, Grid_SomeRowsFailed, Grid_SortedBy,
+    Grid_ShareTypeFilterIndependentInfo, Grid_ShareTypesLabel, Grid_SomeRowsFailed, Grid_SortProduct, Grid_SortBy, Grid_SortStandardGrid, Grid_SortedBy,
     Grid_StandardGridsSelected, Grid_StartDate, Grid_SystemFilters, Grid_Team, Grid_Title, Grid_SaveGrid,
     Grid_SubmitForApproval, Grid_SubmittedForApproval, Grid_Comments, Grid_CommentsPlaceholder,
     Grid_ValidateGrid, Grid_ValidationErrors,
