@@ -12,6 +12,8 @@
  ────────────────────────────────────── */
 public without sharing class CustomApprovalInboxController {
 
+    private static final String DATE_FORMAT = 'dd/MM/yyyy HH:mm';
+
     // ─── Entry point ─────────────────────────────────────────────────────────────
     @AuraEnabled(cacheable=false)
     public static List<ItemToApprove> getItemsToApprove(String objectApiName, String approvalSystem, String queueDevNames) {
@@ -186,7 +188,7 @@ public without sharing class CustomApprovalInboxController {
             item.objectLabel             = info?.label;
             item.submittedByName         = wi.ProcessInstance?.SubmittedBy?.Name;
             item.previousApproverName    = wi.ProcessInstance?.LastModifiedBy?.Name;
-            item.submissionDateFormatted = wi.CreatedDate != null ? wi.CreatedDate.format('dd/MM/yyyy HH:mm') : '';
+            item.submissionDateFormatted = wi.CreatedDate != null ? wi.CreatedDate.format(DATE_FORMAT) : '';
             item.submissionDate          = wi.CreatedDate;
             item.isStandardApproval      = true;
             item.displayFields           = buildDisplayFieldEntries(targetId, displayPathsByObjType.get(objType), displayRecordsById, objType, fieldDescribeCache, sobjectInfoCache);
@@ -573,9 +575,9 @@ public without sharing class CustomApprovalInboxController {
 
         item.submittedByName         = submittedByPerApproval.containsKey(s.CustomApproval__c) ? submittedByPerApproval.get(s.CustomApproval__c) : s.CustomApproval__r?.SubmittedBy__r?.Name;
         item.assignedToName          = s.AssignedToName__c;
-        item.stepDateFormatted       = s.CreatedDate != null ? s.CreatedDate.format('dd/MM/yyyy HH:mm') : '';
+        item.stepDateFormatted       = s.CreatedDate != null ? s.CreatedDate.format(DATE_FORMAT) : '';
         item.previousApproverName    = s.PreviousApprover__r?.Name;
-        item.submissionDateFormatted = s.CustomApproval__r?.CreatedDate != null ? s.CustomApproval__r.CreatedDate.format('dd/MM/yyyy HH:mm') : '';
+        item.submissionDateFormatted = s.CustomApproval__r?.CreatedDate != null ? s.CustomApproval__r.CreatedDate.format(DATE_FORMAT) : '';
         item.submissionDate          = s.CustomApproval__r?.CreatedDate;
         item.displayFields           = displayFieldsByStep.get(s.Id);
         if (String.isNotBlank(s.AssignedTo__c) && s.AssignedTo__c.startsWith('00G')) {
