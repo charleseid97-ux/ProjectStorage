@@ -663,8 +663,25 @@ stages:
       )
     )
   jobs:
+    # Bloque le pipeline jusqu'a une approbation manuelle explicite.
+    - job: WaitForProdApproval
+      displayName: 'Wait for PROD manual approval'
+      pool: server
+      timeoutInMinutes: 4320
+      steps:
+        - task: ManualValidation@1
+          displayName: 'Approve PROD quick deploy'
+          timeoutInMinutes: 1440
+          inputs:
+            # Les utilisateurs ayant la permission Queue builds peuvent agir.
+            notifyUsers: ''
+            instructions: 'Verifier la validation Salesforce PROD avant de lancer le quick deploy.'
+            onTimeout: 'reject'
+
     - deployment: Deploy_PROD_Quick
       displayName: 'Deploy to Salesforce PROD with validated id'
+      dependsOn: WaitForProdApproval
+      condition: succeeded()
 
       # Cet environnement porte l'approbation manuelle du deploiement PROD.
       environment: 'PROD Salesforce Deploy'
