@@ -11,29 +11,29 @@
         <valueSetDefinition>
             <sorted>false</sorted>
             <value>
-                <fullName>Rebates</fullName>
+                <fullName>REBATES</fullName>
                 <default>false</default>
-                <label>Rebates</label>
+                <label>REBATES</label>
             </value>
             <value>
-                <fullName>Investment Solution - Rebates</fullName>
+                <fullName>INVESTMENT SOLUTION - REBATES</fullName>
                 <default>false</default>
-                <label>Investment Solution - Rebates</label>
+                <label>INVESTMENT SOLUTION - REBATES</label>
             </value>
             <value>
-                <fullName>Platform Fees</fullName>
+                <fullName>PLATFORM FEES</fullName>
                 <default>false</default>
-                <label>Platform Fees</label>
+                <label>PLATFORM FEES</label>
             </value>
             <value>
-                <fullName>Other Fees</fullName>
+                <fullName>OTHER FEES</fullName>
                 <default>false</default>
-                <label>Other Fees</label>
+                <label>OTHER FEES</label>
             </value>
             <value>
-                <fullName>No Remuneration</fullName>
+                <fullName>NO REMUNERATION</fullName>
                 <default>false</default>
-                <label>No Remuneration</label>
+                <label>NO REMUNERATION</label>
             </value>
             <value>
                 <fullName>IX FEE</fullName>
@@ -42,22 +42,22 @@
                 <label>IX FEE</label>
             </value>
             <value>
-                <fullName>Mandates</fullName>
+                <fullName>MANDATES</fullName>
                 <default>false</default>
                 <isActive>false</isActive>
-                <label>Mandates</label>
+                <label>MANDATES</label>
             </value>
             <value>
-                <fullName>Platform</fullName>
+                <fullName>PLATFORM</fullName>
                 <default>false</default>
                 <isActive>false</isActive>
-                <label>Platform</label>
+                <label>PLATFORM</label>
             </value>
             <value>
-                <fullName>STEC fees</fullName>
+                <fullName>STEC FEES</fullName>
                 <default>false</default>
                 <isActive>false</isActive>
-                <label>STEC fees</label>
+                <label>STEC FEES</label>
             </value>
         </valueSetDefinition>
     </valueSet>
