@@ -373,6 +373,38 @@ matchingLegalEntityByCompany.put(le.Company__c, le);
         
     }
     
+    /**
+    * @description Sets Role__c from RecordType + Code_Type__c when Role__c is blank, based on the mapping stored in the Agreement_RoleMapping custom label.
+    * @param newAgreements agreements being updated
+    */
+    public static void populateRoleFromCodeType(List<Convention__c> newAgreements) {
+        Map<String, String> roleByGroupAndCodeType = parseAgreementRoleMapping();
+
+        for (Convention__c agr : newAgreements) {
+            if (agr.Role__c != null || agr.RecordTypeId == null) { continue; }
+
+            String group = AgreementUtil.ROLE_MAPPING_GROUP_BY_RECORDTYPE_DEVNAME.get(agr.RecordTypeId);
+            String mappingKey = (group != null) ? group + '.' + agr.Code_Type__c : null;
+
+            if (mappingKey != null && roleByGroupAndCodeType.containsKey(mappingKey)) {
+                agr.Role__c = roleByGroupAndCodeType.get(mappingKey);
+            }
+        }
+    }
+
+    private static Map<String, String> parseAgreementRoleMapping() {
+        Map<String, String> mapping = new Map<String, String>();
+        String labelValue = System.Label.Agreement_RoleMapping;
+        if (String.isBlank(labelValue)) { return mapping; }
+        for (String line : labelValue.split('\n')) {
+            List<String> parts = line.trim().split('->');
+            if (parts.size() == 2 && String.isNotBlank(parts[0].trim())) {
+                mapping.put(parts[0].trim(), parts[1].trim());
+            }
+        }
+        return mapping;
+    }
+
     public static void handleBeforeUpdate(List<Convention__c> newAgreements, map<id, Convention__c> oldAgreements) {
 
         List<Id> accountIds = new List<Id>();
