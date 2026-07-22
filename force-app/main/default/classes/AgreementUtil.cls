@@ -6,11 +6,55 @@
 **/
 global with sharing class AgreementUtil {
 
-    final public static String IS_RECTYPE_ID = Schema.SObjectType.Convention__c.getRecordTypeInfosByDeveloperName().get('IS_Agreement').getRecordTypeId();
-    final public static String SUB_DISRECTYPE_ID = Schema.SObjectType.Convention__c.getRecordTypeInfosByDeveloperName().get('Sub_distributor_Agreement_Request').getRecordTypeId();
-    final public static String TECH_RECTYPE_ID = Schema.SObjectType.Convention__c.getRecordTypeInfosByDeveloperName().get('Technical_Agreement').getRecordTypeId();
-    final public static String INV_WITHRECTYPE_ID = Schema.SObjectType.Convention__c.getRecordTypeInfosByDeveloperName().get('Investor_without_Agreement_Request').getRecordTypeId();
-    final public static String REQ_RECTYPE_ID = Schema.SObjectType.Convention__c.getRecordTypeInfosByDeveloperName().get('Request_Agreement').getRecordTypeId();
+    //Investor without Agreement
+    final public static String INST_RECTYPE_DEVNAME = 'Institutional_Agreement';
+    final public static String INV_WITHRECTYPE_DEVNAME = 'Investor_without_Agreement_Request';
+    final public static String INV_WITH_FULL_RECTYPE_DEVNAME = 'Investor_without_Agreement_Request_Full';
+    final public static String INST_RECTYPE_ID = Schema.SObjectType.Convention__c.getRecordTypeInfosByDeveloperName().get(INST_RECTYPE_DEVNAME).getRecordTypeId();
+    final public static String INV_WITHRECTYPE_ID = Schema.SObjectType.Convention__c.getRecordTypeInfosByDeveloperName().get(INV_WITHRECTYPE_DEVNAME).getRecordTypeId();
+    final public static String INV_WITH_FULL_RECTYPE_ID = Schema.SObjectType.Convention__c.getRecordTypeInfosByDeveloperName().get(INV_WITH_FULL_RECTYPE_DEVNAME).getRecordTypeId();
+
+    //Sub-distributor via Platforms
+    final public static String SUB_DIS_RECTYPE_DEVNAME = 'Sub_distributor_Agreement';
+    final public static String SUB_DISRECTYPE_DEVNAME = 'Sub_distributor_Agreement_Request';
+    final public static String SUB_DIS_REQ_FULL_RECTYPE_DEVNAME = 'Sub_distributor_Agreement_Request_Full';
+    final public static String SUB_DIS_RECTYPE_ID = Schema.SObjectType.Convention__c.getRecordTypeInfosByDeveloperName().get(SUB_DIS_RECTYPE_DEVNAME).getRecordTypeId();
+    final public static String SUB_DISRECTYPE_ID = Schema.SObjectType.Convention__c.getRecordTypeInfosByDeveloperName().get(SUB_DISRECTYPE_DEVNAME).getRecordTypeId();
+    final public static String SUB_DIS_REQ_FULL_RECTYPE_ID = Schema.SObjectType.Convention__c.getRecordTypeInfosByDeveloperName().get(SUB_DIS_REQ_FULL_RECTYPE_DEVNAME).getRecordTypeId();
+
+    //Intermediary Agreement
+    final public static String AGR_RECTYPE_DEVNAME = 'Agreement';
+    final public static String REQ_RECTYPE_DEVNAME = 'Request_Agreement';
+    final public static String REQ_FULL_RECTYPE_DEVNAME = 'Request_Agreement_Full';
+    final public static String AGR_RECTYPE_ID = Schema.SObjectType.Convention__c.getRecordTypeInfosByDeveloperName().get(AGR_RECTYPE_DEVNAME).getRecordTypeId();
+    final public static String REQ_RECTYPE_ID = Schema.SObjectType.Convention__c.getRecordTypeInfosByDeveloperName().get(REQ_RECTYPE_DEVNAME).getRecordTypeId();
+    final public static String REQ_FULL_RECTYPE_ID = Schema.SObjectType.Convention__c.getRecordTypeInfosByDeveloperName().get(REQ_FULL_RECTYPE_DEVNAME).getRecordTypeId();
+
+    //IS Agreement
+    final public static String IS_RECTYPE_DEVNAME = 'IS_Agreement';
+    final public static String IS_RECTYPE_ID = Schema.SObjectType.Convention__c.getRecordTypeInfosByDeveloperName().get(IS_RECTYPE_DEVNAME).getRecordTypeId();
+
+    //Technical Agreement
+    final public static String TECH_RECTYPE_DEVNAME = 'Technical_Agreement';
+    final public static String TECH_RECTYPE_ID = Schema.SObjectType.Convention__c.getRecordTypeInfosByDeveloperName().get(TECH_RECTYPE_DEVNAME).getRecordTypeId();
+
+    //Several Record Types share the exact same Code_Type__c -> Role__c mapping, so in the Agreement_RoleMapping
+    //label they're grouped under one representative Record Type's DeveloperName instead of repeating the same
+    //lines for each Record Type. Keyed by RecordTypeId and valued by the matching DeveloperName constant above,
+    //so no runtime describe is needed to resolve the group's DeveloperName.
+    final public static Map<Id, String> ROLE_MAPPING_GROUP_BY_RECORDTYPE_DEVNAME = new Map<Id, String>{
+        AGR_RECTYPE_ID              => AGR_RECTYPE_DEVNAME,
+        REQ_RECTYPE_ID              => AGR_RECTYPE_DEVNAME,
+        REQ_FULL_RECTYPE_ID         => AGR_RECTYPE_DEVNAME,
+        SUB_DIS_RECTYPE_ID          => SUB_DIS_RECTYPE_DEVNAME,
+        SUB_DISRECTYPE_ID           => SUB_DIS_RECTYPE_DEVNAME,
+        SUB_DIS_REQ_FULL_RECTYPE_ID => SUB_DIS_RECTYPE_DEVNAME,
+        IS_RECTYPE_ID               => IS_RECTYPE_DEVNAME,
+        INST_RECTYPE_ID             => INST_RECTYPE_DEVNAME,
+        INV_WITHRECTYPE_ID          => INST_RECTYPE_DEVNAME,
+        INV_WITH_FULL_RECTYPE_ID    => INST_RECTYPE_DEVNAME,
+        TECH_RECTYPE_ID             => TECH_RECTYPE_DEVNAME
+    };
 
     //Company data validation
     public static void validateCompanySnapshot(Convention__c agg, Account c) {
