@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>AllowedCountryRegistrationStatus__c</fullName>
+    <description>Will be used in the query on object Country__c to retrieve corresponding Share_Class__c records</description>
+    <fieldManageability>DeveloperControlled</fieldManageability>
+    <inlineHelpText>Each Country Registration Status must be on a line</inlineHelpText>
+    <label>Allowed Country Registration Status</label>
+    <required>true</required>
+    <type>TextArea</type>
+</CustomField>

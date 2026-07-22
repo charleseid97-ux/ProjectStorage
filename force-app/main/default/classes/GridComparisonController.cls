@@ -114,7 +114,7 @@ public with sharing class GridComparisonController {
         if (String.isNotBlank(countriesOfDistribution)) {
             GridBuilderHelper.GridSettings gridSettings = GridBuilderHelper.getGridSettings('CustomGridBuilderSetting', countriesOfDistribution, false, new List<String>());
             if (gridSettings != null) {
-                List<String> conditions = GridBuilderHelper.buildDefaultConditions(true, true, countriesOfDistribution, gridSettings.shareTypeWrp, false, new List<String>());
+                List<String> conditions = GridBuilderHelper.buildDefaultConditions(true, true, countriesOfDistribution, gridSettings.shareTypeWrp, false, gridSettings.allowedCountryRegStatus, new List<String>());
                 String whereClause = String.join(conditions, ' AND ');
                 for (Share_Class__c sc : Database.query('SELECT Id FROM Share_Class__c WHERE ' + whereClause)) {
                     validShareClassIds.add(sc.Id);
