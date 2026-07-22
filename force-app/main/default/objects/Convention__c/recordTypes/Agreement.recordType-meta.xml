@@ -206,6 +206,10 @@
             <fullName>UK Execution only Platform Agreement</fullName>
             <default>false</default>
         </values>
+        <values>
+            <fullName>US Offshore Agreement</fullName>
+            <default>false</default>
+        </values>
     </picklistValues>
     <picklistValues>
         <picklist>Countries_of_Distribution__c</picklist>

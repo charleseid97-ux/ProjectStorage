@@ -33,6 +33,27 @@ US-&gt;LU
 UY-&gt;LU</value>
     </labels>
     <labels>
+        <fullName>Agreement_RoleMapping</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Agreement RecordType DeveloperName.CodeType to Role Mapping</shortDescription>
+        <value>Agreement.Distribution Agreement->Distribution Delegate
+Agreement.Execution only Platform Agreement->Distribution Intermediary
+Agreement.Placement Agreement->Distribution Intermediary
+Agreement.Private Placement Agreement->Distribution Intermediary
+Agreement.French IFA Agreement->Investment Advisor
+Agreement.Platform Master Agreement->Distribution Delegate
+Agreement.US Offshore Agreement->Distribution Intermediary
+Sub_distributor_Agreement.Sub-distributor via Platforms->Sub-distributor via Platform
+IS_Agreement.IS Advisory->IS Agreement
+IS_Agreement.IS Dedicated Product Distribution->IS Agreement
+IS_Agreement.IS Master Feeder->IS Agreement
+IS_Agreement.IS Portfolio Management Delegation->IS Agreement
+Institutional_Agreement.Direct Investor->Investor w/o agreement
+Institutional_Agreement.UK intermediaries (none platform)->Investor w/o agreement
+Technical_Agreement.Technical->Code Technique</value>
+    </labels>
+    <labels>
         <fullName>ADD_TO_EVENT_CAMPAIGN</fullName>
         <language>en_US</language>
         <protected>false</protected>
