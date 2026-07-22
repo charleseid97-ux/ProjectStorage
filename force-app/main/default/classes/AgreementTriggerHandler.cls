@@ -30,6 +30,11 @@ public class AgreementTriggerHandler implements  ITriggerHandler {
             SM034_AgreementService.validateAgreementWhenApproved((Map<Id, Convention__c>) newItems,(Map<Id, Convention__c>) oldItems);
         }
 
+        //Auto-populate Role__c from Code_Type__c when Role__c is blank
+        if (PAD.canTrigger('populateAgreementRole')) {
+            SM034_AgreementService.populateRoleFromCodeType((List<Convention__c>) newItems.values());
+        }
+
     }
 
     public void BeforeDelete(Map<Id, SObject> oldItems) { }

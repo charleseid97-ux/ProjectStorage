@@ -170,6 +170,10 @@
             <fullName>End Investor</fullName>
             <default>false</default>
         </values>
+        <values>
+            <fullName>UK intermediaries (none platform)</fullName>
+            <default>false</default>
+        </values>
     </picklistValues>
     <picklistValues>
         <picklist>Countries_of_Distribution__c</picklist>
