@@ -43,7 +43,8 @@ public with sharing class GridBuilderHelper {
                                                                 WHERE IsActive__c = true
                                                                 ORDER BY SortOrder__c ASC LIMIT 10), FilterLimit__c, FilterDefaultLogic__c, FilterValueSeparator__c,
                                                                     AllShareTypeOptions__c, DefaultShareTypeInclusion__c, DefinitiveShareTypeExclusion__c,
-                                                                    FieldsToDisplay__c, DefaultSortFields__c, AgreementSelectionMode__c, AgreementQueryConditions__c
+                                                                    FieldsToDisplay__c, DefaultSortFields__c, AgreementSelectionMode__c, AgreementQueryConditions__c,
+                                                                    AllowedCountryRegistrationStatus__c
                                                      FROM GridBuilderSetting__mdt
                                                      WHERE DeveloperName = :gridBuilderSettingName LIMIT 1];
         if (gridSetting == null || gridSetting.isEmpty()) {
@@ -452,6 +453,7 @@ public with sharing class GridBuilderHelper {
     private static String getRegisteredCountriesCondition(String countriesOfDistribution) {
         String mappedCountries = applyREGCountryMapping(countriesOfDistribution, ';');
         String countriesInListLiteral = toSoqlInListLiteral(mappedCountries, ';');
+        List<String> countryRegistrationStatuses = new List<String>{'REG', 'INSTITUTIONAL_ONLY', 'SEMIPRO'}
         String condition = String.isNotBlank(countriesInListLiteral) ? 'Id IN (SELECT ShareClass__c FROM Country__c WHERE (RegistrationStatus__c = \'REG\' OR RegistrationStatus__c = \'INSTITUTIONAL_ONLY\') and ShareClass__c != null AND Country__c IN '+countriesInListLiteral+')' : '';
         return condition;
     }
