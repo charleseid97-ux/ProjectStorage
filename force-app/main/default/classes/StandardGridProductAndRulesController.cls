@@ -16,7 +16,7 @@ public with sharing class StandardGridProductAndRulesController {
 
     @AuraEnabled(cacheable=true)
     public static ShareClassComposition getShareClassComposition(String gridId) {
-        GridBuilderSetting__mdt setting = [SELECT DefaultShareTypeInclusion__c, DefinitiveShareTypeExclusion__c FROM GridBuilderSetting__mdt WHERE DeveloperName = 'CustomGridBuilderSetting' LIMIT 1];
+        GridBuilderSetting__mdt setting = [SELECT DefaultShareTypeInclusion__c, DefinitiveShareTypeExclusion__c, AllowedCountryRegistrationStatus__c FROM GridBuilderSetting__mdt WHERE DeveloperName = 'CustomGridBuilderSetting' LIMIT 1];
         Set<String> defaultTypes = new Set<String>(GridBuilderHelper.stringToList(setting.DefaultShareTypeInclusion__c, ','));
 
         String countriesOfDistribution = null;
@@ -28,7 +28,7 @@ public with sharing class StandardGridProductAndRulesController {
         GridBuilderController.AvailableGridsResult gridsResult = GridBuilderController.getAvailableGrids(countriesOfDistribution, '');
         List<String> availableGridIds = new List<String>(gridsResult.gridShareClassIds.keySet());
 
-        Map<String, Set<String>> availableFundsByShareType = buildAvailableFundsByShareType(countriesOfDistribution, setting.DefinitiveShareTypeExclusion__c, availableGridIds);
+        Map<String, Set<String>> availableFundsByShareType = buildAvailableFundsByShareType(countriesOfDistribution, setting.DefinitiveShareTypeExclusion__c, setting.AllowedCountryRegistrationStatus__c, availableGridIds);
 
         Map<String, Set<String>> restrictedMap   = new Map<String, Set<String>>();
         Map<String, Set<String>> unrestrictedMap = new Map<String, Set<String>>();
@@ -92,10 +92,11 @@ public with sharing class StandardGridProductAndRulesController {
         return result;
     }
 
-    private static Map<String, Set<String>> buildAvailableFundsByShareType(String countriesOfDistribution, String definitiveShareTypeExclusion, List<String> availableGridIds) {
+    private static Map<String, Set<String>> buildAvailableFundsByShareType(String countriesOfDistribution, String definitiveShareTypeExclusion, String allowedCountryRegistrationStatus, List<String> availableGridIds) {
         Map<String, Set<String>> result = new Map<String, Set<String>>();
         GridBuilderHelper.ShareTypeWrapper shareTypeWrp = new GridBuilderHelper.ShareTypeWrapper(null, definitiveShareTypeExclusion, new List<Map<String, String>>(), new List<String>());
-        List<String> conditions = GridBuilderHelper.buildDefaultConditions(true, true, countriesOfDistribution, shareTypeWrp, false, availableGridIds);
+        String allowedCountryRegStatus = String.isNotBlank(allowedCountryRegistrationStatus) ? allowedCountryRegistrationStatus : GridBuilderHelper.defaultAllowedCountryRegistrationStatus;
+        List<String> conditions = GridBuilderHelper.buildDefaultConditions(true, true, countriesOfDistribution, shareTypeWrp, false, allowedCountryRegStatus, availableGridIds);
         String whereClause = String.join(conditions, ' AND ');
         for (Share_Class__c sc : Database.query('SELECT Type__c, Fund__r.Name FROM Share_Class__c WHERE ' + whereClause)) {
             String type = sc.Type__c;

@@ -41,7 +41,7 @@ public with sharing class GridValidationController {
 
     private static String buildValidationWhereClause(GridBuilderHelper.GridSettings gridSettings, String countriesOfDistribution, Set<Id> productIds, List<String> availableGridIds) {
         //Build default conditions
-        List<String> whereFragments = GridBuilderHelper.buildDefaultConditions(true, true, countriesOfDistribution, gridSettings.shareTypeWrp, false, availableGridIds);
+        List<String> whereFragments = GridBuilderHelper.buildDefaultConditions(true, true, countriesOfDistribution, gridSettings.shareTypeWrp, false, gridSettings.allowedCountryRegistrationStatus, availableGridIds);
 
         //Build productIds where
         whereFragments.add(' Fund__c IN '+ GridBuilderHelper.toSoqlInListLiteral(String.join(productIds, ','), ','));
