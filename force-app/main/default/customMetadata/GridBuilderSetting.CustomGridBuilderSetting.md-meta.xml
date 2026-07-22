@@ -17,6 +17,12 @@ RecordType.Name != &apos;IS Agreement&apos;</value>
         <value xsi:type="xsd:string">AW-R, A1, A2, FW-R, X, XP, X2, AFER, B, M, A, AW, E, F, FW, I, IW, MyInvestor</value>
     </values>
     <values>
+        <field>AllowedCountryRegistrationStatus__c</field>
+        <value xsi:type="xsd:string">REG
+INSTITUTIONAL_ONLY
+SEMIPRO</value>
+    </values>
+    <values>
         <field>DefaultShareTypeInclusion__c</field>
         <value xsi:type="xsd:string">A, AW, B, E, F, FW, I, IW</value>
     </values>
