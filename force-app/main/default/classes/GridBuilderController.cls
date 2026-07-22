@@ -346,7 +346,7 @@ public with sharing class GridBuilderController {
 
     private static String buildWhereClause(GridBuilderHelper.GridSettings gridSettings, GridCriteria__c criteria, FilterFragments filterFragments, String countriesOfDistribution, List<String> selectedShareTypes, List<String> availableGridIds) {
         //Build default conditions
-        List<String> whereFragments = GridBuilderHelper.buildDefaultConditions(true, true, countriesOfDistribution, gridSettings.shareTypeWrp, false, availableGridIds);
+        List<String> whereFragments = GridBuilderHelper.buildDefaultConditions(true, true, countriesOfDistribution, gridSettings.shareTypeWrp, false, gridSettings.allowedCountryRegStatus, availableGridIds);
 
         //Build selected share types condition
         String selectedShareTypesWhere = '';
