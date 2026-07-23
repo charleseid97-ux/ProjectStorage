@@ -419,7 +419,7 @@ _applyVisibilityRules() {
             presentationStatus: null,
             startTime: null,
             endTime: null,
-            date: this.defaultSpeakerDate || null,
+            date: null,
             showSlidesLanguage: false,
             speakerPills: [],
             productPills: []
