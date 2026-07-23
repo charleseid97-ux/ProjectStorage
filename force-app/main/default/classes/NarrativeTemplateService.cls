@@ -1,4 +1,4 @@
-public class NarrativeTemplateService {
+public without sharing class NarrativeTemplateService {
 
     private static final String TYPE_PRIIPS = 'PRIIPS';
     private static final String LANGUAGE_EN = 'EN';
