@@ -11,7 +11,7 @@
     </types>
      -->
     <types>
-          <members>NarrativeTemplate.PRIIPSFCPCounterpartyRisk</members>
+        <members>NarrativeTemplate.PRIIPSFCPCounterpartyRisk</members>
         <members>NarrativeTemplate.PRIIPSFCPCreditRisk</members>
         <members>NarrativeTemplate.PRIIPSFCPLiquidityRisk</members>
         <members>NarrativeTemplate.PRIIPSFCPPooledSecondariesRisk</members>
@@ -23,5 +23,8 @@
         <members>NarrativeTemplate.PRIIPSSICAVICAVRisksChina</members>
         <name>CustomMetadata</name>
     </types>
+    <types>
+        <members>ProjectProductBatchController</members>
+        <members>ProjectProductBatch</members>        
     <version>65.0</version>
 </Package>
