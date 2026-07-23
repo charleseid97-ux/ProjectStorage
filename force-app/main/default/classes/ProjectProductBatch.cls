@@ -196,9 +196,11 @@ global class ProjectProductBatch implements Database.Batchable<SObject>, Databas
         entry.expirationDate = Date.today().addDays(
             recordsFailedWrapper[0] == 0 ? 100 : 365
         );
-        entry.correlationId = String.valueOf(batchJobId);
         entry.apexClass = 'ProjectProductBatch';
         entry.methodName = 'finish';
+        
+        // Applique le Job Id comme identifiant de corrélation pour les logs créés
+        OperationLogService.setCorrelationId(String.valueOf(batchJobId));
 
         OperationLogService.log(entry);
         OperationLogService.flush();
