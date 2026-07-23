@@ -1,33 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Package xmlns="http://soap.sforce.com/2006/04/metadata">
     <types>
-        <members>NarrativeTemplate__mdt</members>
-        <name>CustomObject</name>
+        <members>PMT_Benchmark_Long_Name_Update</members>
+        <members>FL_Screen_BenchmarkComposite</members>
+        <name>Flow</name>
     </types>
-   <!-- <types>
-        <members>Product__c.RiskNotConsideredinIndicator__c</members>
-        <name>CustomField</name>
-   
-    </types>
-     -->
-    <types>
-        <members>NarrativeTemplate.PRIIPSFCPCounterpartyRisk</members>
-        <members>NarrativeTemplate.PRIIPSFCPCreditRisk</members>
-        <members>NarrativeTemplate.PRIIPSFCPLiquidityRisk</members>
-        <members>NarrativeTemplate.PRIIPSFCPPooledSecondariesRisk</members>
-        <members>NarrativeTemplate.PRIIPSFCPRisksChina</members>
-        <members>NarrativeTemplate.PRIIPSSICAVICAVCounterpartyRisk</members>
-        <members>NarrativeTemplate.PRIIPSSICAVICAVCreditRisk</members>
-        <members>NarrativeTemplate.PRIIPSSICAVICAVLiquidityRisk</members>
-        <members>NarrativeTemplate.PRIIPSSICAVICAVPooledSecondariesRisk</members>
-        <members>NarrativeTemplate.PRIIPSSICAVICAVRisksChina</members>
-        <name>CustomMetadata</name>
-    </types>
-    <types>
-        <members>ProjectProductBatchController</members>
-        <members>ProjectProductBatch</members>
-        <members>NarrativeTemplateService</members>          
-        <name>ApexClass</name>
-    </types>      
+
     <version>65.0</version>
 </Package>
