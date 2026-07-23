@@ -5,8 +5,8 @@ import getProducts from '@salesforce/apex/sessionSpeakerProductRepeaterCTRL.getP
 import getSpeakerContacts from '@salesforce/apex/CustomCalendarHelper.getSpeakerContacts';
 import getDefaultSpeakerForEvent from '@salesforce/apex/sessionSpeakerProductRepeaterCTRL.getDefaultSpeakerForEvent';
 import getEventCategory from '@salesforce/apex/sessionSpeakerProductRepeaterCTRL.getEventCategory';
-const uniq = () => Math.random().toString(36).slice(2);
-
+// Génère une clé unique avec un générateur cryptographiquement sécurisé.
+const uniq = () => crypto.randomUUID();
 export default class SessionSpeakerProductRepeater extends LightningElement {
     // Flow inputs/outputs (do not rename)
     @api defaultSpeakerDate;
