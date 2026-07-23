@@ -4,5 +4,13 @@
         <members>NewEvent</members>
         <name>Flow</name>
     </types>     
+
+  <!-- Lightning Web Components -->
+  <types>
+    <members>SessionSpeakerProductRepeater</members>  
+    <name>LightningComponentBundle</name>
+  </types>
+
+    
     <version>65.0</version>
 </Package>
