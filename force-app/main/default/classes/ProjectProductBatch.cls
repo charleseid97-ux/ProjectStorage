@@ -99,7 +99,15 @@ global class ProjectProductBatch implements Database.Batchable<SObject>, Databas
             DurationMs__c        = Datetime.now().getTime() - startTime.getTime()
         );
         insert batchLog;
-        System.debug('batchStatus ' + batchStatus + ' recordsProcessed ' + recordsProcessed +' recordsSuccess '+ insertedRecords.size() + 'recordsFailed ' + recordsFailed  );
+
+        // Enregistre un résumé technique unique pour cette exécution du batch
+        logBatchExecution(
+            BC.getJobId(),
+            batchStatus
+        );
+
+        System.debug('batchStatus ' + batchStatus + ' recordsProcessed ' + recordsProcessed + ' recordsSuccess ' + insertedRecords.size() + ' recordsFailed ' + recordsFailedWrapper[0]);
+        
         try {  
             //ProjectProductBatchController.sendEmail();
             // Préparation du mail
@@ -156,5 +164,43 @@ global class ProjectProductBatch implements Database.Batchable<SObject>, Databas
         } catch (Exception ex) {
             System.debug(ex.getMessage());
         }
+    }
+    // Enregistre le résumé final de l'exécution dans OperationLog__c
+    private void logBatchExecution(
+        Id batchJobId,
+        String batchStatus
+    ) {
+        Map<String, Object> context = new Map<String, Object>{
+            'status' => batchStatus,
+            'recordsProcessed' => recordsProcessed,
+            'recordsSuccessful' => insertedRecords.size(),
+            'recordsFailed' => recordsFailedWrapper[0],
+            'durationMs' => Datetime.now().getTime() - startTime.getTime(),
+            'errorMessages' => errorMessages
+        };
+
+        // Utilise le job Apex comme source et comme identifiant de corrélation
+        OperationLogService.Entry entry = new OperationLogService.Entry();
+        entry.level = recordsFailedWrapper[0] == 0
+            ? OperationLogService.Level.INFO
+            : OperationLogService.Level.ERROR;
+        entry.sourceRecordId = String.valueOf(batchJobId);
+        entry.sourceObjectApiName = 'AsyncApexJob';
+        entry.operation = 'ProjectProductBatchExecution';
+        entry.message = recordsFailedWrapper[0] == 0
+            ? 'ProjectProductBatch completed successfully.'
+            : 'ProjectProductBatch completed with errors.';
+        entry.contextJson = JSON.serialize(context);
+
+        // Conserve plus longtemps les logs contenant des erreurs
+        entry.expirationDate = Date.today().addDays(
+            recordsFailedWrapper[0] == 0 ? 100 : 365
+        );
+        entry.correlationId = String.valueOf(batchJobId);
+        entry.apexClass = 'ProjectProductBatch';
+        entry.methodName = 'finish';
+
+        OperationLogService.log(entry);
+        OperationLogService.flush();
     }
 }
