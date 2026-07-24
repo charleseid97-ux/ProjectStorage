@@ -474,7 +474,7 @@ public without sharing class sessionSpeakerProductService {
     List<SessionSpeakerProduct__c> speakers = [
         SELECT Session__c, SpeakerContact__c,
             SpeakerContact__r.Name, SpeakerContact__r.Account.Name,
-            Language__c, PresentationStatus__c,
+            Language__c, speakerLanguage__c, PresentationStatus__c, Date__c,
             startTime__c, endTime__c,
             strategy__c, strategy__r.Name
         FROM SessionSpeakerProduct__c
