@@ -115,12 +115,74 @@
 
                                                         </td>
                                                     </tr>  
-                                                    <apex:outputPanel rendered="{!relatedTo.AudienceCompany__c == 'One company'}" layout="none">
+                                                    <!-- Display the sales owner when available -->
+                                                    <apex:outputPanel rendered="{!NOT(ISBLANK(relatedTo.salesOwner__c))}" layout="none">
                                                         <tr>
-                                                            <td valign="top" style="padding:4px 0; color:#6b7280;">Company</td>
-                                                            <td valign="top" style="padding:4px 0;">{!relatedTo.Company__r.Name}</td>
+                                                            <td valign="top" style="padding:4px 0; color:#6b7280;">Sales Owner</td>
+                                                            <td valign="top" style="padding:4px 0;">{!relatedTo.salesOwner__r.Name}</td>
                                                         </tr>
                                                     </apex:outputPanel>
+
+                                                    <!-- Display the organizer when available -->
+                                                    <apex:outputPanel rendered="{!NOT(ISBLANK(relatedTo.Organizer__c))}" layout="none">
+                                                        <tr>
+                                                            <td valign="top" style="padding:4px 0; color:#6b7280;">Organizer</td>
+                                                            <td valign="top" style="padding:4px 0;">{!relatedTo.Organizer__r.Name}</td>
+                                                        </tr>
+                                                    </apex:outputPanel>
+
+                                                    <!-- Display the audience only when provided -->
+                                                    <apex:outputPanel rendered="{!NOT(ISBLANK(relatedTo.AudienceCompany__c))}" layout="none">
+                                                        <tr>
+                                                            <td valign="top" style="padding:4px 0; color:#6b7280;">Audience</td>
+                                                            <td valign="top" style="padding:4px 0;">{!relatedTo.AudienceCompany__c}</td>
+                                                        </tr>
+                                                    </apex:outputPanel>
+
+                                                    <!-- Display the company only when provided -->
+                                                    <apex:outputPanel rendered="{!NOT(ISBLANK(relatedTo.company__c))}" layout="none">
+                                                        <tr>
+                                                            <td valign="top" style="padding:4px 0; color:#6b7280;">Company</td>
+                                                            <td valign="top" style="padding:4px 0;">{!relatedTo.company__r.Name}</td>
+                                                        </tr>
+                                                    </apex:outputPanel>
+
+                                                    <!-- Display the client type only when provided -->
+                                                    <apex:outputPanel rendered="{!NOT(ISBLANK(relatedTo.clientType__c))}" layout="none">
+                                                        <tr>
+                                                            <td valign="top" style="padding:4px 0; color:#6b7280;">Client type</td>
+                                                            <td valign="top" style="padding:4px 0;">{!relatedTo.clientType__c}</td>
+                                                        </tr>
+                                                    </apex:outputPanel>
+
+                                                    <!-- Display the targeted attendees only when greater than zero -->
+                                                    <apex:outputPanel rendered="{!BLANKVALUE(relatedTo.targetedAttendees__c, 0) > 0}" layout="none">
+                                                        <tr>
+                                                            <td valign="top" style="padding:4px 0; color:#6b7280;">Targeted number of attendees</td>
+                                                            <td valign="top" style="padding:4px 0;">
+                                                                <apex:outputText value="{0,number,0}">
+                                                                    <apex:param value="{!relatedTo.targetedAttendees__c}" />
+                                                                </apex:outputText>
+                                                            </td>
+                                                        </tr>
+                                                    </apex:outputPanel>
+
+                                                    <!-- Display all attending contacts only when attendees exist -->
+                                                    <apex:repeat value="{!relatedTo.EventAttendees__r}" var="firstAttendee" rows="1">
+                                                        <tr>
+                                                            <td valign="top" style="padding:4px 0; color:#6b7280;">Attending contacts</td>
+                                                            <td valign="top" style="padding:4px 0;">
+
+                                                                <!-- Display populated contacts on one line -->
+                                                                <apex:repeat value="{!relatedTo.EventAttendees__r}" var="attendee">
+                                                                    <apex:outputPanel rendered="{!NOT(ISBLANK(attendee.Contact__c))}" layout="none">
+                                                                        <apex:outputText value=", " rendered="{!attendee.Id != firstAttendee.Id}" />
+                                                                        {!attendee.Contact__r.Name}
+                                                                    </apex:outputPanel>
+                                                                </apex:repeat>
+                                                            </td>
+                                                        </tr>
+                                                    </apex:repeat>
                                                                                                                                                         
                                                 </table>
 

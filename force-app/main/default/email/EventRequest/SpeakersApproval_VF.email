@@ -120,12 +120,58 @@
 
                                                         </td>
                                                     </tr>
-                                                    <apex:outputPanel rendered="{!relatedTo.Event__r.AudienceCompany__c == 'One company'}" layout="none">
+                                                    <!-- Display the sales owner when available -->
+                                                    <apex:outputPanel rendered="{!NOT(ISBLANK(relatedTo.Event__r.salesOwner__c))}" layout="none">
                                                         <tr>
-                                                            <td valign="top" style="padding:4px 0; color:#6b7280;">Company</td>
-                                                            <td valign="top" style="padding:4px 0;">{!relatedTo.Event__r.Company__r.Name}</td>
+                                                            <td valign="top" style="padding:4px 0; color:#6b7280;">Sales Owner</td>
+                                                            <td valign="top" style="padding:4px 0;">{!relatedTo.Event__r.salesOwner__r.Name}</td>
                                                         </tr>
                                                     </apex:outputPanel>
+
+                                                    <!-- Display the organizer when available -->
+                                                    <apex:outputPanel rendered="{!NOT(ISBLANK(relatedTo.Event__r.Organizer__c))}" layout="none">
+                                                        <tr>
+                                                            <td valign="top" style="padding:4px 0; color:#6b7280;">Organizer</td>
+                                                            <td valign="top" style="padding:4px 0;">{!relatedTo.Event__r.Organizer__r.Name}</td>
+                                                        </tr>
+                                                    </apex:outputPanel>
+
+                                                    <!-- Display the audience only when provided -->
+                                                    <apex:outputPanel rendered="{!NOT(ISBLANK(relatedTo.Event__r.AudienceCompany__c))}" layout="none">
+                                                        <tr>
+                                                            <td valign="top" style="padding:4px 0; color:#6b7280;">Audience</td>
+                                                            <td valign="top" style="padding:4px 0;">{!relatedTo.Event__r.AudienceCompany__c}</td>
+                                                        </tr>
+                                                    </apex:outputPanel>
+
+                                                    <!-- Display the company only when provided -->
+                                                    <apex:outputPanel rendered="{!NOT(ISBLANK(relatedTo.Event__r.company__c))}" layout="none">
+                                                        <tr>
+                                                            <td valign="top" style="padding:4px 0; color:#6b7280;">Company</td>
+                                                            <td valign="top" style="padding:4px 0;">{!relatedTo.Event__r.company__r.Name}</td>
+                                                        </tr>
+                                                    </apex:outputPanel>
+
+                                                    <!-- Display the client type only when provided -->
+                                                    <apex:outputPanel rendered="{!NOT(ISBLANK(relatedTo.Event__r.clientType__c))}" layout="none">
+                                                        <tr>
+                                                            <td valign="top" style="padding:4px 0; color:#6b7280;">Client type</td>
+                                                            <td valign="top" style="padding:4px 0;">{!relatedTo.Event__r.clientType__c}</td>
+                                                        </tr>
+                                                    </apex:outputPanel>
+
+                                                    <!-- Display the targeted attendees only when greater than zero -->
+                                                    <apex:outputPanel rendered="{!BLANKVALUE(relatedTo.Event__r.targetedAttendees__c, 0) > 0}" layout="none">
+                                                        <tr>
+                                                            <td valign="top" style="padding:4px 0; color:#6b7280;">Targeted number of attendees</td>
+                                                            <td valign="top" style="padding:4px 0;">
+                                                                <apex:outputText value="{0,number,0}">
+                                                                    <apex:param value="{!relatedTo.Event__r.targetedAttendees__c}" />
+                                                                </apex:outputText>
+                                                            </td>
+                                                        </tr>
+                                                    </apex:outputPanel>
+                                                
                                                 </table>
 
                                                 <apex:outputPanel rendered="{!NOT(ISBLANK(relatedTo.Event__r.meetingGoal__c))}">

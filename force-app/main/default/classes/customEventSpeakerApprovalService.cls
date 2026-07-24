@@ -33,8 +33,8 @@ public without sharing class customEventSpeakerApprovalService {
         List<SessionSpeakerProduct__c> ssp = [
             SELECT Session__c, SpeakerContact__c,
                 SpeakerContact__r.Name, SpeakerContact__r.Account.Name,
-                Language__c, PresentationStatus__c,startTime__c,endTime__c,
-                strategy__c, strategy__r.Name
+                Language__c, speakerLanguage__c, PresentationStatus__c, Date__c,
+                startTime__c, endTime__c, strategy__c, strategy__r.Name
             FROM SessionSpeakerProduct__c
             WHERE Session__c IN :eventIds
             AND SpeakerContact__c != null
@@ -263,7 +263,7 @@ public without sharing class customEventSpeakerApprovalService {
             SELECT Session__c, SpeakerContact__c,
                     strategy__r.Name, strategy__r.AssetClass__c,
                     Session__r.RecordType.Name,
-                    Language__c,presentationStatus__c,
+                    Language__c, speakerLanguage__c, presentationStatus__c, Date__c,
                     startTime__c, endTime__c
             FROM SessionSpeakerProduct__c
             WHERE Session__c IN :eventIdsToProcess
@@ -824,9 +824,10 @@ public without sharing class customEventSpeakerApprovalService {
         parts.add(
             '<tr>' +
                 '<th align="left" style="padding:6px 0; border-bottom:1px solid #e5e7eb;">Speaker</th>' +
+                '<th align="left" style="padding:6px 0; border-bottom:1px solid #e5e7eb;">Date</th>' +
                 '<th align="left" style="padding:6px 0; border-bottom:1px solid #e5e7eb;">Time Slot</th>' +
-                '<th align="left" style="padding:6px 0; border-bottom:1px solid #e5e7eb;">Language</th>' +
-                '<th align="left" style="padding:6px 0; border-bottom:1px solid #e5e7eb;">Presentation</th>' +
+                '<th align="left" style="padding:6px 0; border-bottom:1px solid #e5e7eb;">Speech</th>' +
+                '<th align="left" style="padding:6px 0; border-bottom:1px solid #e5e7eb;">Slides</th>' +
                 '<th align="left" style="padding:6px 0; border-bottom:1px solid #e5e7eb;">Products</th>' +
             '</tr>'
         );
@@ -842,13 +843,17 @@ public without sharing class customEventSpeakerApprovalService {
             String productsText = productNames.isEmpty()
                 ? '—'
                 : esc(String.join(productNames, ', '));
+            String dateText = formatDate(row.sessionDate);
             String timeSlotText = buildTimeSlotText(row.startTime, row.endTime);
+            String slidesText = buildSlidesText(row.presentationStatus, row.language);
+
             parts.add(
                 '<tr>' +
                 '<td ' + TD_STYLE + '>' + esc(row.speakerName) + '</td>' +
+                '<td ' + TD_STYLE + '>' + esc(dateText) + '</td>' +
                 '<td ' + TD_STYLE + '>' + esc(timeSlotText) + '</td>' +
-                '<td ' + TD_STYLE + '>' + esc(row.language) + '</td>' +
-                '<td ' + TD_STYLE + '>' + esc(row.presentationStatus) + '</td>' +
+                '<td ' + TD_STYLE + '>' + esc(row.speakerLanguage) + '</td>' +
+                '<td ' + TD_STYLE + '>' + esc(slidesText) + '</td>' +
                 '<td ' + TD_STYLE + '>' + productsText + '</td>' +
                 '</tr>'
             );
@@ -857,6 +862,22 @@ public without sharing class customEventSpeakerApprovalService {
         parts.add('</table>');
         return String.join(parts, '');
     }
+        // Affiche "not required" lorsque les slides ne sont pas requises.
+    private static String buildSlidesText(String presentationStatus, String language) {
+        if (presentationStatus == 'notRequired') {
+            return 'not required';
+        }
+
+        return String.isBlank(language) ? '—' : language;
+    }
+
+    // Formate la date de la session pour l'affichage HTML.
+    private static String formatDate(Date sessionDate) {
+        if (sessionDate == null) return '—';
+
+        return sessionDate.format();
+    }
+
     private static String buildTimeSlotText(Time startTime, Time endTime) {
         if (startTime == null || endTime == null) return '—';
 
@@ -871,6 +892,14 @@ public without sharing class customEventSpeakerApprovalService {
 
         return h + ':' + m;
     }
+    
+    // Convertit une date JSON Salesforce au format Date Apex.
+    private static Date parseDateFromJson(Object value) {
+        if (value == null || String.isBlank(String.valueOf(value))) return null;
+
+        return Date.valueOf(String.valueOf(value));
+    }
+
     private static Time parseTimeFromJson(Object value) {
         if (value == null) return null;
 
@@ -976,7 +1005,9 @@ public without sharing class customEventSpeakerApprovalService {
                         fake.SpeakerContact__r = contactById.get(speakerId);
 
                         fake.Language__c = (String) row.get('Language__c');
+                        fake.speakerLanguage__c = (String) row.get('speakerLanguage__c');
                         fake.PresentationStatus__c = (String) row.get('PresentationStatus__c');
+                        fake.Date__c = parseDateFromJson(row.get('Date__c'));
                         fake.startTime__c = parseTimeFromJson(row.get('startTime__c'));
                         fake.endTime__c = parseTimeFromJson(row.get('endTime__c'));
                         String strategyIdStr = (String) row.get('strategy__c');
@@ -1009,7 +1040,9 @@ public without sharing class customEventSpeakerApprovalService {
         public String speakerName;
         public String accountName;
         public String language;
+        public String speakerLanguage;
         public String presentationStatus;
+        public Date sessionDate;
         public Time startTime;
         public Time endTime;
         public Set<String> products = new Set<String>();
@@ -1045,7 +1078,9 @@ public without sharing class customEventSpeakerApprovalService {
                         ? s.SpeakerContact__r.Account.Name
                         : '';
                     row.language = s.Language__c;
+                    row.speakerLanguage = s.speakerLanguage__c;
                     row.presentationStatus = s.PresentationStatus__c;
+                    row.sessionDate = s.Date__c;
 
                     rowsBySpeakerId.put(s.SpeakerContact__c, row);
                 }
@@ -1053,8 +1088,14 @@ public without sharing class customEventSpeakerApprovalService {
                 if (String.isBlank(row.language) && String.isNotBlank(s.Language__c)) {
                     row.language = s.Language__c;
                 }
+                if (String.isBlank(row.speakerLanguage) && String.isNotBlank(s.speakerLanguage__c)) {
+                    row.speakerLanguage = s.speakerLanguage__c;
+                }
                 if (String.isBlank(row.presentationStatus) && String.isNotBlank(s.PresentationStatus__c)) {
                     row.presentationStatus = s.PresentationStatus__c;
+                }
+                if (row.sessionDate == null && s.Date__c != null) {
+                    row.sessionDate = s.Date__c;
                 }
                 if (row.startTime == null && s.startTime__c != null) {
                     row.startTime = s.startTime__c;
@@ -1074,7 +1115,12 @@ public without sharing class customEventSpeakerApprovalService {
                 row.speakerName = 'Unknown';
                 row.accountName = '';
                 row.language = s.Language__c;
+                row.speakerLanguage = s.speakerLanguage__c;
                 row.presentationStatus = s.PresentationStatus__c;
+                row.sessionDate = s.Date__c;
+                row.startTime = s.startTime__c;
+                row.endTime = s.endTime__c;
+
                 if (s.strategy__r != null && String.isNotBlank(s.strategy__r.Name)) {
                     row.products.add(s.strategy__r.Name);
                 }
