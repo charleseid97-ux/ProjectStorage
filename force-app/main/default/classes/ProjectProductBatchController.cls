@@ -211,12 +211,16 @@ public class ProjectProductBatchController {
                 );
             }
 
+            // Création des narratives Risk depuis les templates Custom Metadata
+            List<Narrative__c> riskNarratives =
+                NarrativeTemplateService.buildRiskNarratives(insertedProducts.values());
+
             List<SObject> toUpsert = new List<SObject>();
             toUpsert.addAll(priipsShareclassNarratives);
+            toUpsert.addAll(riskNarratives);
             toUpsert.addAll(listFundManagerAssignmentToUpdate);
             toUpsert.addAll(listNarrative);
             toUpsert.addAll(taxDataToUpdate);
-
             upsertAndLog(toUpsert, debugInformation, errorMessages, recordsFailed, insertedRecords);
 
             debugInformation.add('[END] Fund/Shareclass creation complete.');
@@ -287,6 +291,20 @@ public class ProjectProductBatchController {
             if (!productsToUpdate.isEmpty()) {
                 update productsToUpdate;
                 debugInformation.add('[UPDATE] Products updated: ' + productsToUpdate.size());
+
+                // Création ou mise à jour des narratives Risk liées aux produits
+                List<SObject> riskNarratives = new List<SObject>();
+                riskNarratives.addAll(
+                    NarrativeTemplateService.buildRiskNarratives(productsToUpdate)
+                );
+
+                upsertAndLog(
+                    riskNarratives,
+                    debugInformation,
+                    errorMessages,
+                    recordsFailed,
+                    insertedRecords
+                );
             }
 
             upsertProductNarratives(

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomMetadata xmlns="http://soap.sforce.com/2006/04/metadata" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <label>PRIIPS FCP Pooled secondaries risk</label>
+    <protected>false</protected>
+    <values>
+        <field>Content__c</field>
+        <value xsi:type="xsd:string">Pooled investments in secondaries risk: the fund will have the opportunity to acquire a portfolio of investment funds or direct investments from a seller. Some of the investments in the portfolio may be less attractive than others, and some of the sponsors or controlling investors may be more familiar or experienced than others. In these cases, the fund may not be able to exclude the less attractive investments from its purchases for reasons beyond the control of the fund.</value>
+    </values>
+    <values>
+        <field>Language__c</field>
+        <value xsi:type="xsd:string">EN</value>
+    </values>
+    <values>
+        <field>LegalForm__c</field>
+        <value xsi:type="xsd:string">FCP</value>
+    </values>
+    <values>
+        <field>Subtype__c</field>
+        <value xsi:type="xsd:string">Pooled investments in secondaries risk</value>
+    </values>
+    <values>
+        <field>Type__c</field>
+        <value xsi:type="xsd:string">PRIIPS</value>
+    </values>
+</CustomMetadata>
