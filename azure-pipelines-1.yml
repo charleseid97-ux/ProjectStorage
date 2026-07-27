@@ -161,17 +161,24 @@ stages:
           : > user-stories.txt
         fi
 
-        # Récupère les titres des User Stories depuis Azure DevOps.
+        # Récupère les titres des User Stories sans interrompre la génération du fichier HTML.
+        echo '{"value":[]}' > work-items.json
+
         if [[ "$USER_STORY_COUNT" -gt 0 ]]; then
           USER_STORY_IDS=$(sed 's/^US-//' user-stories.txt | paste -sd, -)
           WORK_ITEMS_URL="$(System.CollectionUri)$(System.TeamProject)/_apis/wit/workitems?ids=$USER_STORY_IDS&fields=System.Title&errorPolicy=Omit&api-version=7.1"
 
-          curl --fail --silent --show-error \
+          # Conserve une réponse vide si l'API Work Items est inaccessible.
+          if ! curl --fail --silent --show-error \
             -H "Authorization: Bearer $SYSTEM_ACCESSTOKEN" \
             "$WORK_ITEMS_URL" \
-            -o work-items.json
-        else
-          echo '{"value":[]}' > work-items.json
+            -o work-items-response.json; then
+            echo "##vso[task.logissue type=warning]Impossible de récupérer les titres des User Stories."
+          elif jq -e '.value | arrays' work-items-response.json > /dev/null; then
+            mv work-items-response.json work-items.json
+          else
+            echo "##vso[task.logissue type=warning]Réponse Work Items invalide."
+          fi
         fi
 
         # Génère le second fichier avec uniquement les US déduites et dédoublonnées.
@@ -191,7 +198,9 @@ stages:
               US_ID=${US_NAME#US-}
 
               # Recherche et sécurise le titre avant son insertion dans le HTML.
-              US_TITLE=$(jq -r --argjson id "$US_ID" '.value[] | select(.id == $id) | .fields["System.Title"] // "Titre introuvable"' work-items.json)
+              US_TITLE=$(jq -r --argjson id "$US_ID" '
+                first(.value[]? | select(.id == $id) | .fields["System.Title"]) // "Titre introuvable"
+              ' work-items.json)
               US_TITLE_HTML=$(jq -rn --arg value "$US_TITLE" '$value | @html')
 
               echo "<tr><td style=\"border:1px solid #ddd;padding:8px;\"><a href=\"$(System.CollectionUri)$(System.TeamProject)/_workitems/edit/$US_ID\">$US_NAME</a></td><td style=\"border:1px solid #ddd;padding:8px;\">$US_TITLE_HTML</td></tr>"
