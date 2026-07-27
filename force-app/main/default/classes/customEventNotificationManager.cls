@@ -5,8 +5,18 @@ public without sharing class customEventNotificationManager {
     private static String SUBJECT_PLACEHOLDER = '[!subject]';
     private static String MESSAGE_PLACEHOLDER = '[!message]';
     private static String PRESENTATION_GLOBAL_GROUP = 'BooklyAlertProductAll';
-    // Lance l'envoi des demandes de présentation selon les stratégies configurées.
+    // Lance l'envoi standard des demandes de présentation.
     public static void requestPresentation(List<SessionSpeakerProduct__c> ssps) {
+
+        requestPresentation(ssps, null);
+    }
+
+
+    // Lance l'envoi avec un message spécifique pour une modification.
+    public static void requestPresentation(
+        List<SessionSpeakerProduct__c> ssps,
+        String notificationMessage
+    ) {
 
         System.debug('NOTIF STEP 1 - requestPresentation START, SSP count = ' + (ssps == null ? 0 : ssps.size()));
 
@@ -96,7 +106,11 @@ public without sharing class customEventNotificationManager {
                 return;
             }
 
-            sendPresentationEmails(sspsByUsername, usersByUsername);
+            sendPresentationEmails(
+                sspsByUsername,
+                usersByUsername,
+                notificationMessage
+            );
 
             System.debug('NOTIF END - requestPresentation FINISHED');
         } catch (Exception e) {
@@ -332,6 +346,21 @@ public without sharing class customEventNotificationManager {
         Map<String, User> usersByUsername
     ) {
 
+        sendPresentationEmails(
+            sspsByUsername,
+            usersByUsername,
+            null
+        );
+    }
+
+
+    // Construit et envoie une notification avec un message optionnel.
+    public static void sendPresentationEmails(
+        Map<String, List<SessionSpeakerProduct__c>> sspsByUsername,
+        Map<String, User> usersByUsername,
+        String notificationMessage
+    ) {
+
         EmailTemplate template = [
             SELECT Id
             FROM EmailTemplate
@@ -372,8 +401,14 @@ public without sharing class customEventNotificationManager {
             }
         }
 
+        String presentationMessage = String.isBlank(notificationMessage)
+            ? 'Please prepare the following presentations:'
+            : notificationMessage;
+
+        // Utilise le message de modification lorsqu'il est fourni.
         String html = '<div style="font-size:15px; line-height:22px;">'
-            + 'Please prepare the following presentations:<br/><ul>';
+            + presentationMessage
+            + '<br/><ul>';
 
         for (SessionSpeakerProduct__c ssp : uniqueSspsById.values()) {
 
@@ -571,47 +606,122 @@ public without sharing class customEventNotificationManager {
 
         system.debug('=======Error sendEventStatusEmails');
 
-        // Load VF template
-        EmailTemplate template = [
-            SELECT Id
-            FROM EmailTemplate
-            WHERE DeveloperName = 'BooklyGenericNotif_VF'
-            LIMIT 1
-        ];
+        EmailTemplate template;
+
+        // Charge le template avant de préparer les notifications.
+        try {
+            template = [
+                SELECT Id
+                FROM EmailTemplate
+                WHERE DeveloperName = 'BooklyGenericNotif_VF'
+                LIMIT 1
+            ];
+        } catch (Exception e) {
+
+            // Journalise l'erreur pour chaque événement concerné.
+            for (Event__c evt : events) {
+                logEventNotification(
+                    OperationLogService.Level.ERROR,
+                    evt.Id,
+                    'EventStatusNotificationTemplateLoading',
+                    'sendEventStatusEmails',
+                    'Unable to load the BooklyGenericNotif_VF email template.',
+                    null,
+                    e
+                );
+            }
+
+            OperationLogService.flush();
+            return;
+        }
 
         List<Messaging.SingleEmailMessage> emails = new List<Messaging.SingleEmailMessage>();
+        List<Id> eventIdsByEmail = new List<Id>();
+        List<List<String>> recipientsByEmail = new List<List<String>>();
+        Boolean hasPendingLogs = false;
 
+        // Prépare une notification par événement.
         for (Event__c evt : events) {
 
             Set<String> recipients = buildRecipients(evt, salesTeamEmails);
+
             if (recipients.isEmpty()) {
                 system.debug('=======Error : no recipients');
+
+                // Aucun email ne peut être envoyé sans destinataire.
+                logEventNotification(
+                    OperationLogService.Level.ERROR,
+                    evt.Id,
+                    'EventStatusNotificationPreparation',
+                    'sendEventStatusEmails',
+                    'No recipient found for the event status notification.',
+                    null,
+                    null
+                );
+
+                hasPendingLogs = true;
                 continue;
             }
 
-            // Build subject + message
             String message = buildStatusMessage(evt);
             system.debug('======= Message'+message);
+
             if (String.isBlank(message)) {
                 system.debug('=======Error : no Message');
+
+                // Aucun email ne peut être envoyé sans message.
+                logEventNotification(
+                    OperationLogService.Level.ERROR,
+                    evt.Id,
+                    'EventStatusNotificationPreparation',
+                    'sendEventStatusEmails',
+                    'No message found for the event status notification.',
+                    new List<String>(recipients),
+                    null
+                );
+
+                hasPendingLogs = true;
                 continue;
             }
+
             String subjectValue = message;
+            String finalSubject;
+            String finalBody;
 
-            // Render template once per event (use any user, will override recipients later)
-            Id anyUserId = UserInfo.getUserId();
+            // Effectue le rendu du template pour l'événement.
+            try {
 
-            Messaging.SingleEmailMessage rendered =
-                Messaging.renderStoredEmailTemplate(template.Id, anyUserId, evt.Id);
+                Messaging.SingleEmailMessage rendered =
+                    Messaging.renderStoredEmailTemplate(
+                        template.Id,
+                        UserInfo.getUserId(),
+                        evt.Id
+                    );
 
-            // Replace placeholders
-            String finalSubject = rendered.getSubject().replace(SUBJECT_PLACEHOLDER , subjectValue);
+                finalSubject =
+                    rendered.getSubject().replace(SUBJECT_PLACEHOLDER , subjectValue);
 
-            String finalBody = rendered.getHtmlBody()
-                .replace(SUBJECT_PLACEHOLDER , subjectValue)
-                .replace(MESSAGE_PLACEHOLDER , message);
+                finalBody = rendered.getHtmlBody()
+                    .replace(SUBJECT_PLACEHOLDER , subjectValue)
+                    .replace(MESSAGE_PLACEHOLDER , message);
 
-            // Build final email
+            } catch (Exception e) {
+
+                logEventNotification(
+                    OperationLogService.Level.ERROR,
+                    evt.Id,
+                    'EventStatusNotificationTemplateRendering',
+                    'sendEventStatusEmails',
+                    'Unable to render the BooklyGenericNotif_VF email template.',
+                    new List<String>(recipients),
+                    e
+                );
+
+                hasPendingLogs = true;
+                continue;
+            }
+
+            // Construit l'email final.
             Messaging.SingleEmailMessage mail = new Messaging.SingleEmailMessage();
             system.debug('====sendStatus===recipients :'+recipients);
             system.debug('=======sendStatus :'+finalSubject);
@@ -620,6 +730,7 @@ public without sharing class customEventNotificationManager {
             mail.setSubject(finalSubject);
             mail.setHtmlBody(finalBody);
             mail.setSaveAsActivity(false);
+
             System.debug(
                 '=== notif sent to recipients=' + new List<String>(recipients)
                 + ' | eventId=' + evt.Id
@@ -627,23 +738,83 @@ public without sharing class customEventNotificationManager {
                 + ' | recordType=' + (evt.RecordType != null ? evt.RecordType.DeveloperName : null)
                 + ' | subject=' + finalSubject
             );
+
+            // Conserve le contexte correspondant à chaque email.
             emails.add(mail);
+            eventIdsByEmail.add(evt.Id);
+            recipientsByEmail.add(new List<String>(recipients));
         }
 
-        // Send in bulk
+        // Envoie les notifications préparées en une seule opération.
         if (!emails.isEmpty()) {
-            Messaging.SendEmailResult[] results = Messaging.sendEmail(emails, false);
-            System.debug('=== notif sendEmail called, emails count=' + emails.size());
 
-            for (Integer i = 0; i < results.size(); i++) {
+            try {
+
+                Messaging.SendEmailResult[] results =
+                    Messaging.sendEmail(emails, false);
+
                 System.debug(
-                    '=== notif result index=' + i
-                    + ' success=' + results[i].isSuccess()
-                    + ' errors=' + results[i].getErrors()
+                    '=== notif sendEmail called, emails count=' + emails.size()
                 );
+
+                // Journalise le résultat de chaque notification.
+                for (Integer i = 0; i < results.size(); i++) {
+
+                    if (results[i].isSuccess()) {
+                        logEventNotification(
+                            OperationLogService.Level.INFO,
+                            eventIdsByEmail[i],
+                            'EventStatusNotificationSending',
+                            'sendEventStatusEmails',
+                            'Event status notification sent successfully.',
+                            recipientsByEmail[i],
+                            null
+                        );
+                    } else {
+                        logEventNotification(
+                            OperationLogService.Level.ERROR,
+                            eventIdsByEmail[i],
+                            'EventStatusNotificationSending',
+                            'sendEventStatusEmails',
+                            'Unable to send event status notification: '
+                                + joinSendEmailErrors(results[i].getErrors()),
+                            recipientsByEmail[i],
+                            null
+                        );
+                    }
+
+                    System.debug(
+                        '=== notif result index=' + i
+                        + ' success=' + results[i].isSuccess()
+                        + ' errors=' + results[i].getErrors()
+                    );
+                }
+
+            } catch (Exception e) {
+
+                // Journalise l'exception pour chaque email préparé.
+                for (Integer i = 0; i < eventIdsByEmail.size(); i++) {
+                    logEventNotification(
+                        OperationLogService.Level.ERROR,
+                        eventIdsByEmail[i],
+                        'EventStatusNotificationSending',
+                        'sendEventStatusEmails',
+                        'Unexpected error while sending event status notification.',
+                        recipientsByEmail[i],
+                        e
+                    );
+                }
+            } finally {
+                OperationLogService.flush();
             }
         }
+
+        // Insère les logs lorsqu'aucun email n'a pu être préparé.
+        if (emails.isEmpty() && hasPendingLogs) {
+            OperationLogService.flush();
+        }
     }
+
     /**
      * Build recipients list (organizer + sales owner + sales team)
      */
@@ -664,16 +835,63 @@ public without sharing class customEventNotificationManager {
             toAddresses.add(evt.SalesOwner__r.Email);
         }
 
-        // Submitted => Owner instead of Sales Team
+        // Submitted => CRM distribution list or standard Owner email
         if (evt.Status__c == 'SubmittedToEventTeam') {
 
-            if (evt.Owner != null && String.isNotBlank(evt.Owner.Email)) {
+            Boolean ownerIsCrm =
+                evt.Owner != null &&
+                evt.Owner.UserRole != null &&
+                String.isNotBlank(evt.Owner.UserRole.Name) &&
+                evt.Owner.UserRole.Name.endsWith(' - CRM');
+
+            Set<String> crmDistributionKeys = new Set<String>();
+
+            // Déduit les listes CRM depuis le rôle du Owner.
+            if (ownerIsCrm) {
+
+                String roleCountry =
+                    evt.Owner.UserRole.Name.substringBefore(' - CRM');
+
+                if (roleCountry == 'UK') {
+                    crmDistributionKeys.add('United Kingdom');
+                } else if (roleCountry == 'Luxembourg & Netherlands') {
+
+                    // Ce rôle doit notifier les deux listes de distribution.
+                    crmDistributionKeys.add('Luxembourg');
+                    crmDistributionKeys.add('Netherlands');
+                } else {
+                    crmDistributionKeys.add(roleCountry);
+                }
+            }
+
+            Boolean crmDistributionFound = false;
+
+            // Ajoute toutes les listes CRM correspondant au rôle du Owner.
+            for (String crmDistributionKey : crmDistributionKeys) {
+
+                if (!salesTeamEmails.containsKey(crmDistributionKey)) {
+                    continue;
+                }
+
+                toAddresses.addAll(
+                    salesTeamEmails.get(crmDistributionKey)
+                );
+
+                crmDistributionFound = true;
+            }
+
+            // Utilise l'email du Owner uniquement si aucune liste CRM n'est trouvée.
+            if (!crmDistributionFound &&
+                evt.Owner != null &&
+                String.isNotBlank(evt.Owner.Email)) {
+
                 toAddresses.add(evt.Owner.Email);
             }
 
-        } else if (String.isNotBlank(evt.SalesTeam__c) && salesTeamEmails.containsKey(evt.SalesTeam__c)) {
+        } else if (String.isNotBlank(evt.SalesTeam__c) &&
+            salesTeamEmails.containsKey(evt.SalesTeam__c)) {
 
-            // Sales Team (from metadata)
+            // Sales Team from custom metadata
             toAddresses.addAll(salesTeamEmails.get(evt.SalesTeam__c));
         }
 
@@ -752,17 +970,43 @@ public without sharing class customEventNotificationManager {
 
         System.debug('=======NotifOneToOneMDCreated=======' + events.size());
 
-        EmailTemplate template = [
-            SELECT Id
-            FROM EmailTemplate
-            WHERE DeveloperName = 'BooklyGenericNotif_VF'
-            LIMIT 1
-        ];
+        EmailTemplate template;
+
+        // Charge le template utilisé par les notifications.
+        try {
+            template = [
+                SELECT Id
+                FROM EmailTemplate
+                WHERE DeveloperName = 'BooklyGenericNotif_VF'
+                LIMIT 1
+            ];
+        } catch (Exception e) {
+
+            // Journalise l'erreur pour chaque événement concerné.
+            for (Event__c evt : events) {
+                logEventNotification(
+                    OperationLogService.Level.ERROR,
+                    evt.Id,
+                    'OneToOneMeetingDaysTemplateLoading',
+                    'NotifOneToOneMDCreated',
+                    'Unable to load the BooklyGenericNotif_VF email template.',
+                    null,
+                    e
+                );
+            }
+
+            OperationLogService.flush();
+            return;
+        }
 
         Map<String, List<String>> salesTeamEmails = loadSalesTeamEmails();
 
         List<Messaging.SingleEmailMessage> emails = new List<Messaging.SingleEmailMessage>();
+        List<Id> eventIdsByEmail = new List<Id>();
+        List<List<String>> recipientsByEmail = new List<List<String>>();
+        Boolean hasPendingLogs = false;
 
+        // Prépare une notification par événement.
         for (Event__c evt : events) {
 
             String salesTeam = evt.SalesTeam__c;
@@ -771,8 +1015,23 @@ public without sharing class customEventNotificationManager {
                 salesTeam = evt.parentEvent__r.SalesTeam__c;
             }
 
-            if (String.isBlank(salesTeam) || !salesTeamEmails.containsKey(salesTeam)) {
+            if (String.isBlank(salesTeam) ||
+                !salesTeamEmails.containsKey(salesTeam)) {
+
                 System.debug('=== No Sales Team found for event : ' + evt.Id);
+
+                // La notification ne peut pas être envoyée sans configuration.
+                logEventNotification(
+                    OperationLogService.Level.ERROR,
+                    evt.Id,
+                    'OneToOneMeetingDaysNotificationPreparation',
+                    'NotifOneToOneMDCreated',
+                    'No CRM distribution list found for Sales Team: ' + salesTeam,
+                    null,
+                    null
+                );
+
+                hasPendingLogs = true;
                 continue;
             }
 
@@ -786,20 +1045,43 @@ public without sharing class customEventNotificationManager {
                 + 'Please proceed with creating and completing your one-to-one meetings '
                 + 'in order to book the speakers with your clients.';
 
-            Messaging.SingleEmailMessage rendered =
-                Messaging.renderStoredEmailTemplate(
-                    template.Id,
-                    UserInfo.getUserId(),
-                    evt.Id
+            String finalSubject;
+            String finalBody;
+
+            // Effectue le rendu du template pour l'événement.
+            try {
+
+                Messaging.SingleEmailMessage rendered =
+                    Messaging.renderStoredEmailTemplate(
+                        template.Id,
+                        UserInfo.getUserId(),
+                        evt.Id
+                    );
+
+                finalSubject =
+                    rendered.getSubject().replace(SUBJECT_PLACEHOLDER , subjectValue);
+
+                finalBody = rendered.getHtmlBody()
+                    .replace(SUBJECT_PLACEHOLDER , subjectValue)
+                    .replace(MESSAGE_PLACEHOLDER , message);
+
+            } catch (Exception e) {
+
+                logEventNotification(
+                    OperationLogService.Level.ERROR,
+                    evt.Id,
+                    'OneToOneMeetingDaysTemplateRendering',
+                    'NotifOneToOneMDCreated',
+                    'Unable to render the BooklyGenericNotif_VF email template.',
+                    new List<String>(recipients),
+                    e
                 );
 
-            String finalSubject =
-                rendered.getSubject().replace(SUBJECT_PLACEHOLDER , subjectValue);
+                hasPendingLogs = true;
+                continue;
+            }
 
-            String finalBody = rendered.getHtmlBody()
-                .replace(SUBJECT_PLACEHOLDER , subjectValue)
-                .replace(MESSAGE_PLACEHOLDER , message);
-
+            // Construit l'email final.
             Messaging.SingleEmailMessage mail = new Messaging.SingleEmailMessage();
 
             mail.setToAddresses(new List<String>(recipients));
@@ -812,26 +1094,79 @@ public without sharing class customEventNotificationManager {
                 + ' | eventId=' + evt.Id
             );
 
+            // Conserve le contexte correspondant à chaque email.
             emails.add(mail);
+            eventIdsByEmail.add(evt.Id);
+            recipientsByEmail.add(new List<String>(recipients));
         }
 
+        // Envoie les notifications préparées en une seule opération.
         if (!emails.isEmpty()) {
 
-            Messaging.SendEmailResult[] results =
-                Messaging.sendEmail(emails, false);
+            try {
 
-            System.debug(
-                '=== 1to1MeetingDays CREATED emails count=' + emails.size()
-            );
-
-            for (Integer i = 0; i < results.size(); i++) {
+                Messaging.SendEmailResult[] results =
+                    Messaging.sendEmail(emails, false);
 
                 System.debug(
-                    '=== notif result index=' + i
-                    + ' success=' + results[i].isSuccess()
-                    + ' errors=' + results[i].getErrors()
+                    '=== 1to1MeetingDays CREATED emails count=' + emails.size()
                 );
+
+                // Journalise le résultat de chaque notification.
+                for (Integer i = 0; i < results.size(); i++) {
+
+                    if (results[i].isSuccess()) {
+                        logEventNotification(
+                            OperationLogService.Level.INFO,
+                            eventIdsByEmail[i],
+                            'OneToOneMeetingDaysCreatedNotificationSending',
+                            'NotifOneToOneMDCreated',
+                            'One-to-one Meeting Days creation notification sent successfully.',
+                            recipientsByEmail[i],
+                            null
+                        );
+                    } else {
+                        logEventNotification(
+                            OperationLogService.Level.ERROR,
+                            eventIdsByEmail[i],
+                            'OneToOneMeetingDaysCreatedNotificationSending',
+                            'NotifOneToOneMDCreated',
+                            'Unable to send one-to-one Meeting Days creation notification: '
+                                + joinSendEmailErrors(results[i].getErrors()),
+                            recipientsByEmail[i],
+                            null
+                        );
+                    }
+
+                    System.debug(
+                        '=== notif result index=' + i
+                        + ' success=' + results[i].isSuccess()
+                        + ' errors=' + results[i].getErrors()
+                    );
+                }
+
+            } catch (Exception e) {
+
+                // Journalise l'exception pour chaque email préparé.
+                for (Integer i = 0; i < eventIdsByEmail.size(); i++) {
+                    logEventNotification(
+                        OperationLogService.Level.ERROR,
+                        eventIdsByEmail[i],
+                        'OneToOneMeetingDaysCreatedNotificationSending',
+                        'NotifOneToOneMDCreated',
+                        'Unexpected error while sending one-to-one Meeting Days creation notification.',
+                        recipientsByEmail[i],
+                        e
+                    );
+                }
+            } finally {
+                OperationLogService.flush();
             }
+        }
+
+        // Insère les logs lorsqu'aucun email n'a pu être préparé.
+        if (emails.isEmpty() && hasPendingLogs) {
+            OperationLogService.flush();
         }
     }
     /**
@@ -869,8 +1204,8 @@ public without sharing class customEventNotificationManager {
                 city__c, locationName__c, locationAddress__c, locationPostCode__c,
                 country__c, AudienceCompany__c, Company__r.Name,
                 meetingGoal__c, meetingBackground__c, description__c, speakersHTML__c,
-                Organizer__r.Email, SalesOwner__r.Email, Owner.Email, RecordType.DeveloperName,parentEvent__c
-            FROM Event__c
+                Organizer__r.Email, SalesOwner__r.Email, Owner.Email, Owner.UserRole.Name, RecordType.DeveloperName,parentEvent__c
+                FROM Event__c
             WHERE Id IN :eventIds
         ];
 
@@ -1083,33 +1418,59 @@ public without sharing class customEventNotificationManager {
             return;
         }
 
-        // Reload all fields required for recipients + email content
-        List<Event__c> eventsWithData = [
-            SELECT Id, Name, Campaign__c,
-            Campaign__r.Name,
-            Organizer__r.Email,
-            SalesOwner__r.Email,
-            SalesTeam__c
-            FROM Event__c
-            WHERE Id IN :new Map<Id, Event__c>(events).keySet()
-            AND Campaign__c != null
-        ];
+        List<Event__c> eventsWithData;
+
+        // Recharge les champs nécessaires à la notification.
+        try {
+            eventsWithData = [
+                SELECT Id, Name, Campaign__c,
+                Campaign__r.Name,
+                Organizer__r.Email,
+                SalesOwner__r.Email,
+                SalesTeam__c
+                FROM Event__c
+                WHERE Id IN :new Map<Id, Event__c>(events).keySet()
+                AND Campaign__c != null
+            ];
+        } catch (Exception e) {
+
+            // Journalise l'erreur pour chaque événement fourni.
+            for (Event__c evt : events) {
+                logEventNotification(
+                    OperationLogService.Level.ERROR,
+                    evt.Id,
+                    'CampaignCreatedNotificationDataLoading',
+                    'notifyCampaignCreated',
+                    'Unable to load Campaign notification data.',
+                    null,
+                    e
+                );
+            }
+
+            OperationLogService.flush();
+            return;
+        }
 
         Map<String, List<String>> salesTeamEmails = loadSalesTeamEmails();
 
         List<Messaging.SingleEmailMessage> emails =
             new List<Messaging.SingleEmailMessage>();
+        List<Id> eventIdsByEmail = new List<Id>();
+        List<List<String>> recipientsByEmail = new List<List<String>>();
+        Boolean hasPendingLogs = false;
 
+        // Prépare une notification par événement.
         for (Event__c evt : eventsWithData) {
 
             Set<String> recipients = new Set<String>();
-            
+
             // Organizer
             if (evt.Organizer__r != null &&
                 String.isNotBlank(evt.Organizer__r.Email)) {
 
                 recipients.add(evt.Organizer__r.Email);
             }
+
             // CRM notification emails from metadata
             if (String.isNotBlank(evt.SalesTeam__c) &&
                 salesTeamEmails.containsKey(evt.SalesTeam__c)) {
@@ -1120,42 +1481,368 @@ public without sharing class customEventNotificationManager {
             }
 
             if (recipients.isEmpty()) {
+
+                // La notification ne peut pas être envoyée sans destinataire.
+                logEventNotification(
+                    OperationLogService.Level.ERROR,
+                    evt.Id,
+                    'CampaignCreatedNotificationPreparation',
+                    'notifyCampaignCreated',
+                    'No recipient found for the Campaign creation notification.',
+                    null,
+                    null
+                );
+
+                hasPendingLogs = true;
                 continue;
             }
 
-            // Build Campaign URL
-            String campaignUrl =
-                URL.getOrgDomainUrl().toExternalForm()
-                + '/'
-                + evt.Campaign__c;
+            String body;
+            String subject;
 
-            // Build HTML body from label
-            String body =
-                System.Label.BooklyCampaignCreatedMessage
-                    .replace('{!campaignUrl}', campaignUrl);
+            // Construit le contenu de la notification.
+            try {
 
-            // Build subject from label
-            String subject =
-                System.Label.BooklyCampaignCreatedSubject
-                    .replace('{!campaignName}', evt.Campaign__r.Name);
+                String campaignUrl =
+                    URL.getOrgDomainUrl().toExternalForm()
+                    + '/'
+                    + evt.Campaign__c;
 
+                body =
+                    System.Label.BooklyCampaignCreatedMessage
+                        .replace('{!campaignUrl}', campaignUrl);
+
+                subject =
+                    System.Label.BooklyCampaignCreatedSubject
+                        .replace('{!campaignName}', evt.Campaign__r.Name);
+
+            } catch (Exception e) {
+
+                logEventNotification(
+                    OperationLogService.Level.ERROR,
+                    evt.Id,
+                    'CampaignCreatedNotificationPreparation',
+                    'notifyCampaignCreated',
+                    'Unable to prepare the Campaign creation notification.',
+                    new List<String>(recipients),
+                    e
+                );
+
+                hasPendingLogs = true;
+                continue;
+            }
+
+            // Construit l'email final.
             Messaging.SingleEmailMessage mail =
                 new Messaging.SingleEmailMessage();
 
-            // Build notification email
             mail.setToAddresses(new List<String>(recipients));
             mail.setSubject(subject);
             mail.setHtmlBody(body);
             mail.setSaveAsActivity(false);
 
+            // Conserve le contexte correspondant à chaque email.
             emails.add(mail);
+            eventIdsByEmail.add(evt.Id);
+            recipientsByEmail.add(new List<String>(recipients));
         }
 
-        // Send all notifications in one call
+        // Envoie les notifications préparées en une seule opération.
         if (!emails.isEmpty()) {
-            Messaging.sendEmail(emails, false);
+
+            try {
+
+                Messaging.SendEmailResult[] results =
+                    Messaging.sendEmail(emails, false);
+
+                // Journalise le résultat de chaque notification.
+                for (Integer i = 0; i < results.size(); i++) {
+
+                    if (results[i].isSuccess()) {
+                        logEventNotification(
+                            OperationLogService.Level.INFO,
+                            eventIdsByEmail[i],
+                            'CampaignCreatedNotificationSending',
+                            'notifyCampaignCreated',
+                            'Campaign creation notification sent successfully.',
+                            recipientsByEmail[i],
+                            null
+                        );
+                    } else {
+                        logEventNotification(
+                            OperationLogService.Level.ERROR,
+                            eventIdsByEmail[i],
+                            'CampaignCreatedNotificationSending',
+                            'notifyCampaignCreated',
+                            'Unable to send Campaign creation notification: '
+                                + joinSendEmailErrors(results[i].getErrors()),
+                            recipientsByEmail[i],
+                            null
+                        );
+                    }
+                }
+
+            } catch (Exception e) {
+
+                // Journalise l'exception pour chaque email préparé.
+                for (Integer i = 0; i < eventIdsByEmail.size(); i++) {
+                    logEventNotification(
+                        OperationLogService.Level.ERROR,
+                        eventIdsByEmail[i],
+                        'CampaignCreatedNotificationSending',
+                        'notifyCampaignCreated',
+                        'Unexpected error while sending Campaign creation notification.',
+                        recipientsByEmail[i],
+                        e
+                    );
+                }
+            } finally {
+                OperationLogService.flush();
+            }
+        }
+
+        // Insère les logs lorsqu'aucun email n'a pu être préparé.
+        if (emails.isEmpty() && hasPendingLogs) {
+            OperationLogService.flush();
         }
     }
+
+    // Charge les emails configurés pour une liste de stratégies.
+    public static Set<String> loadPresentationRecipientEmailsForStrategyIds(
+        Set<Id> strategyIds
+    ) {
+
+        Set<String> recipients = new Set<String>();
+
+        if (strategyIds == null || strategyIds.isEmpty()) {
+            return recipients;
+        }
+
+        Map<String, Set<String>> strategyToUsernames =
+            loadStrategyToUsernamesMap();
+
+        Set<String> usernames = new Set<String>();
+
+        // Convertit les Strategy Ids en Strategy Codes de la metadata.
+        for (Strategy__c strategy : [
+            SELECT Id, Code__c
+            FROM Strategy__c
+            WHERE Id IN :strategyIds
+        ]) {
+
+            if (String.isBlank(strategy.Code__c)) {
+                continue;
+            }
+
+            Set<String> configuredUsernames =
+                strategyToUsernames.get(
+                    strategy.Code__c.trim().toLowerCase()
+                );
+
+            if (configuredUsernames != null) {
+                usernames.addAll(configuredUsernames);
+            }
+        }
+
+        Map<String, User> usersByUsername =
+            loadUsersByUsername(usernames);
+
+        // Ajoute les emails des utilisateurs configurés.
+        for (User userRecord : usersByUsername.values()) {
+
+            if (String.isNotBlank(userRecord.Email)) {
+                recipients.add(userRecord.Email.trim());
+            }
+        }
+
+        Map<String, List<User>> usersByGroupName =
+            loadUsersByGroupName(
+                new Set<String>{ PRESENTATION_GLOBAL_GROUP }
+            );
+
+        // Ajoute les membres actifs du groupe global.
+        for (User userRecord : usersByGroupName.get(PRESENTATION_GLOBAL_GROUP)) {
+
+            if (String.isNotBlank(userRecord.Email)) {
+                recipients.add(userRecord.Email.trim());
+            }
+        }
+
+        return recipients;
+    }
+
+
+    // Envoie une notification Bookly générique et journalise le résultat.
+    public static void sendGenericBooklyNotification(
+        Id eventId,
+        Set<String> recipients,
+        String subjectValue,
+        String message,
+        String operation,
+        List<Id> relatedRecordIds
+    ) {
+
+        List<String> recipientValues =
+            recipients == null
+                ? new List<String>()
+                : new List<String>(recipients);
+
+        if (eventId == null ||
+            recipientValues.isEmpty() ||
+            String.isBlank(subjectValue) ||
+            String.isBlank(message)) {
+
+            // Journalise une notification impossible à préparer.
+            logGenericBooklyNotification(
+                OperationLogService.Level.ERROR,
+                eventId,
+                operation,
+                'Generic Bookly notification could not be prepared.',
+                recipientValues,
+                subjectValue,
+                relatedRecordIds,
+                null
+            );
+
+            return;
+        }
+
+        try {
+
+            EmailTemplate template = [
+                SELECT Id
+                FROM EmailTemplate
+                WHERE DeveloperName = 'BooklyGenericNotif_VF'
+                LIMIT 1
+            ];
+
+            // Effectue le rendu du template pour l'événement.
+            Messaging.SingleEmailMessage rendered =
+                Messaging.renderStoredEmailTemplate(
+                    template.Id,
+                    UserInfo.getUserId(),
+                    eventId
+                );
+
+            String finalSubject =
+                rendered.getSubject()
+                    .replace(SUBJECT_PLACEHOLDER, subjectValue);
+
+            String finalBody =
+                rendered.getHtmlBody()
+                    .replace(SUBJECT_PLACEHOLDER, subjectValue)
+                    .replace(MESSAGE_PLACEHOLDER, message);
+
+            Messaging.SingleEmailMessage mail =
+                new Messaging.SingleEmailMessage();
+
+            // Construit l'email avec les destinataires fournis.
+            mail.setToAddresses(recipientValues);
+            mail.setSubject(finalSubject);
+            mail.setHtmlBody(finalBody);
+            mail.setSaveAsActivity(false);
+
+            Messaging.SendEmailResult[] results =
+                Messaging.sendEmail(
+                    new List<Messaging.SingleEmailMessage>{ mail },
+                    false
+                );
+
+            // Journalise le résultat retourné par Salesforce.
+            for (Messaging.SendEmailResult result : results) {
+
+                if (result.isSuccess()) {
+                    logGenericBooklyNotification(
+                        OperationLogService.Level.INFO,
+                        eventId,
+                        operation,
+                        'Generic Bookly notification sent successfully.',
+                        recipientValues,
+                        subjectValue,
+                        relatedRecordIds,
+                        null
+                    );
+
+                    continue;
+                }
+
+                logGenericBooklyNotification(
+                    OperationLogService.Level.ERROR,
+                    eventId,
+                    operation,
+                    'Unable to send generic Bookly notification: '
+                        + joinSendEmailErrors(result.getErrors()),
+                    recipientValues,
+                    subjectValue,
+                    relatedRecordIds,
+                    null
+                );
+            }
+
+        } catch (Exception e) {
+
+            // Journalise les erreurs de template, rendu ou envoi.
+            logGenericBooklyNotification(
+                OperationLogService.Level.ERROR,
+                eventId,
+                operation,
+                'Unexpected error while sending generic Bookly notification.',
+                recipientValues,
+                subjectValue,
+                relatedRecordIds,
+                e
+            );
+        }
+    }
+
+
+    // Crée un Operation Log pour une notification Bookly générique.
+    private static void logGenericBooklyNotification(
+        OperationLogService.Level level,
+        Id eventId,
+        String operation,
+        String message,
+        List<String> recipients,
+        String subjectValue,
+        List<Id> relatedRecordIds,
+        Exception exceptionValue
+    ) {
+
+        List<String> recipientValues =
+            recipients == null ? new List<String>() : recipients;
+
+        List<Id> recordIds =
+            relatedRecordIds == null ? new List<Id>() : relatedRecordIds;
+
+        Map<String, Object> context = new Map<String, Object>();
+
+        // Conserve le contexte nécessaire au diagnostic.
+        context.put('recipients', recipientValues);
+        context.put('recipientCount', recipientValues.size());
+        context.put('subject', subjectValue);
+        context.put('relatedRecordIds', recordIds);
+
+        OperationLogService.Entry entry =
+            new OperationLogService.Entry();
+
+        entry.level = level;
+        entry.sourceRecordId =
+            eventId == null ? null : String.valueOf(eventId);
+        entry.sourceObjectApiName = 'Event__c';
+        entry.operation = String.isBlank(operation)
+            ? 'GenericBooklyNotification'
+            : operation;
+
+        // Renseigne les informations affichées dans le viewer.
+        entry.message = message;
+        entry.contextJson = JSON.serialize(context);
+        entry.apexClass = 'customEventNotificationManager';
+        entry.methodName = 'sendGenericBooklyNotification';
+        entry.exceptionValue = exceptionValue;
+
+        OperationLogService.log(entry);
+    }
+
 
         // Collecte les SSP liés à la notification pour les ajouter au contexte de log.
     private static List<Id> collectPresentationSspIds(
@@ -1354,6 +2041,42 @@ public without sharing class customEventNotificationManager {
         context.put('notificationReasonsText', formatPresentationNotificationReasons(strategiesByUsername));
 
         return JSON.serialize(context);
+    }
+
+
+    // Crée un Operation Log lié à l'événement pour une notification.
+    private static void logEventNotification(
+        OperationLogService.Level level,
+        Id eventId,
+        String operation,
+        String methodName,
+        String message,
+        List<String> recipients,
+        Exception exceptionValue
+    ) {
+
+        Map<String, Object> context = new Map<String, Object>();
+        List<String> recipientValues =
+            recipients == null ? new List<String>() : recipients;
+
+        // Conserve les destinataires utilisés pendant l'envoi.
+        context.put('recipients', recipientValues);
+        context.put('recipientCount', recipientValues.size());
+
+        OperationLogService.Entry entry = new OperationLogService.Entry();
+        entry.level = level;
+        entry.sourceRecordId = eventId == null ? null : String.valueOf(eventId);
+        entry.sourceObjectApiName = 'Event__c';
+        entry.operation = operation;
+
+        // Renseigne les informations visibles dans Operation Log Viewer.
+        entry.message = message;
+        entry.contextJson = JSON.serialize(context);
+        entry.apexClass = 'customEventNotificationManager';
+        entry.methodName = methodName;
+        entry.exceptionValue = exceptionValue;
+
+        OperationLogService.log(entry);
     }
 
 

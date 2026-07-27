@@ -1,20 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Package xmlns="http://soap.sforce.com/2006/04/metadata">
-  <!-- Email Templates -->
-  <types>
-    <members>EventRequest</members>
-    <members>EventRequest/SpeakersApproval_VF</members>
-    <members>EventRequest/EventTeam_VF</members>
-    <members>EventRequest/PresentationRequest_VF</members> 
-    <members>EventRequest/BooklyGenericNotif_VF</members>     
-    <members>EventRequest/OrganizerApproval_VF</members> 
-    <members>EventRequest/BooklyInvitation_VF</members>           
-    <name>EmailTemplate</name>
-  </types>
-  <types>
-        <members>sessionSpeakerProductService</members>        
-        <members>customEventSpeakerApprovalService</members>        
+    <types>
+        <members>BooklyModificationsManagement</members>
+        <members>EventApprovalController</members>
+        <members>customEventHandler</members>
+        <members>sessionSpeakerProductHandler</members>
+        <members>customEventNotificationManager</members>
         <name>ApexClass</name>
-  </types>  
-  <version>65.0</version>
+    </types>
+    <types>
+        <members>Event__c.ApprovalStateId__c</members>
+        <members>Event__c.approvalURL__c</members>
+        <members>EventSpeakerApprovals__c.approvalURL__c</members>
+        <name>CustomField</name>
+    </types>
+    <types>
+        <members>eventApprovalsPanel</members>
+        <members>speakerProductsBySession</members>
+        <name>LightningComponentBundle</name>
+    </types>
+    <version>64.0</version>
 </Package>

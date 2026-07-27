@@ -3,6 +3,7 @@ public without sharing class EventApprovalController {
     public String recordId { get; set; }
     public String openRecordId { get; private set; } // Record réellement ouvert par le bouton
     public String actionParam { get; set; }
+    public String stateId { get; set; }
     public String workItemId { get; set; }
     public String processInstanceId { get; set; }
     public String resultMessage { get; set; }
@@ -15,9 +16,11 @@ public without sharing class EventApprovalController {
     // Permet d'afficher le formulaire de rejet
     public Boolean showRejectForm { get; set; }
 
+    // Initialise les paramètres reçus depuis le lien email.
     public EventApprovalController() {
         recordId = ApexPages.currentPage().getParameters().get('eid');
         actionParam = ApexPages.currentPage().getParameters().get('action');
+        stateId = ApexPages.currentPage().getParameters().get('stateId');
         openRecordId = recordId; // Par défaut, on ouvre le record cible
         isSuccess = false;
         showRejectForm = false;
@@ -38,6 +41,10 @@ public without sharing class EventApprovalController {
         }
 
         resolveOpenRecordId();
+
+        if (!validateApprovalState()) {
+            return null;
+        }
 
         if (actionParam != null && actionParam.toLowerCase() == 'reject') {
             showRejectForm = true;
@@ -61,6 +68,10 @@ public without sharing class EventApprovalController {
 
         try {
             resolveOpenRecordId();
+
+            if (!validateApprovalState()) {
+                return null;
+            }
 
             if (actionParam != null && actionParam.toLowerCase() == 'reject' && String.isBlank(rejectComment)) {
                 resultMessage = 'Error';
@@ -113,7 +124,7 @@ public without sharing class EventApprovalController {
                 isSuccess = true;
             } else {
                 resultMessage = 'Error';
-                errorMessage = String.join(result.getErrors(), ', ');
+                errorMessage = joinApprovalErrors(result.getErrors());
             }
 
         } catch (Exception e) {
@@ -147,5 +158,36 @@ public without sharing class EventApprovalController {
             // recordId non castable en Id ou objet non accessible :
             // on garde openRecordId = recordId
         }
+    }
+
+    // Bloque les liens d'approbation obsolètes après modification de la demande.
+    private Boolean validateApprovalState() {
+        BooklyModificationsManagement.ApprovalStateValidationResult validation =
+            BooklyModificationsManagement.validateApprovalState(recordId, stateId);
+
+        if (validation == null || validation.isValid == true) {
+            return true;
+        }
+
+        // Le formulaire de rejet ne doit pas rester accessible si le lien est obsolète.
+        resultMessage = 'Request updated';
+        errorMessage = validation.message;
+        showRejectForm = false;
+        isSuccess = false;
+        return false;
+    }
+
+    // Convertit les erreurs Approval.ProcessResult en texte lisible.
+    private static String joinApprovalErrors(Database.Error[] errors) {
+        if (errors == null || errors.isEmpty()) {
+            return '';
+        }
+
+        List<String> messages = new List<String>();
+        for (Database.Error error : errors) {
+            messages.add(String.valueOf(error.getStatusCode()) + ': ' + error.getMessage());
+        }
+
+        return String.join(messages, ', ');
     }
 }

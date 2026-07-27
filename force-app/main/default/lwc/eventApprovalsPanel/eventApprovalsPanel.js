@@ -3,15 +3,39 @@ import getApprovalsForEvent from '@salesforce/apex/EventApprovalsPanelController
 import actOnWorkitem from '@salesforce/apex/EventApprovalsPanelController.actOnWorkitem';
 import recallApproval from '@salesforce/apex/EventApprovalsPanelController.recallApproval';
 import { ShowToastEvent } from 'lightning/platformShowToastEvent';
+import {
+    registerRefreshHandler,
+    unregisterRefreshHandler
+} from 'lightning/refresh';
+
 
 export default class EventApprovalsPanel extends LightningElement {
     @api recordId;
     @track pending = [];
     @track processed = [];
     @track isLoading = false;
+    refreshHandlerId;
 
+    // Enregistre le composant pour recevoir les demandes de rafraîchissement.
     connectedCallback() {
+        this.refreshHandlerId = registerRefreshHandler(
+            this.template.host,
+            this.handleRefresh.bind(this)
+        );
+
         this.load();
+    }
+
+    // Désenregistre le composant lorsqu'il est retiré de la page.
+    disconnectedCallback() {
+        if (this.refreshHandlerId !== undefined) {
+            unregisterRefreshHandler(this.refreshHandlerId);
+        }
+    }
+
+    // Recharge les approbations lorsque la vue demande un rafraîchissement.
+    handleRefresh() {
+        return this.load().then(() => true);
     }
 
     load() {
