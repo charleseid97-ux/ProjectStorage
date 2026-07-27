@@ -161,6 +161,9 @@ stages:
           : > user-stories.txt
         fi
 
+        # Calcule le nombre de User Stories extraites.
+        USER_STORY_COUNT=$(wc -l < user-stories.txt | tr -d ' ')
+
         # Initialise une réponse vide pour garantir la génération du fichier HTML.
         echo '{"value":[]}' > work-items.json
 
