@@ -124,7 +124,8 @@ public with sharing class VFC16_SequantisGenerateDraft {
                                 MinSustainableInvest__c, MinTaxAlignment__c, SFDRCategory__c, IsUsingPAI__c, EET20080__c, EET20190__c, 
                                 EET20200__c, EET20210__c, EET20400__c, EET20430__c, EET20460__c, EET20250__c, AMFESGCommunication__c, HasCarbonTarget__c, EET60440__c, FundSpecificExclusions__c,
                                 EndDate__c, Product__c,ParentProduct__r.Product_Name__c,InvestmentObjective__c,IntentedRetailInvestor__c,ReasonForRHP__c,RedeemCondition__c,LMT__c,
-                                internalShortName__c,TECH_RTName__c, BaseCurrency__c,RecordTypeId,DefaultLanguage__c,SettlementPeriod__c,OtherRelevantInformation__c
+                                internalShortName__c,TECH_RTName__c, BaseCurrency__c,RecordTypeId,DefaultLanguage__c,SettlementPeriod__c,OtherRelevantInformation__c,
+                                RiskNotConsideredinIndicator__c 
                             FROM ProjectProduct__c
                             WHERE Id = :projectShareClassRec.ProjectProduct__c];
         system.debug('====callSequantisService=======endDate = ' + ProjectProductRec.EndDate__c); 
@@ -292,7 +293,8 @@ public with sharing class VFC16_SequantisGenerateDraft {
             payload.put('shareClassInvestmentObjective', shareClassInvestmentObjectiveNoHTML);
             payload.put('performanceFeesCommentEPT', projectShareClassRec.PerformanceFeeEPTKID__c);
             payload.put('performanceFeesComment', projectShareClassRec.PerformanceFeeUCITSKIID__c);
-
+            payload.put('riskNarrative', ProjectProductRec.RiskNotConsideredinIndicator__c);
+            
             if(narratives.size() > 0 ){payload.put('managementCompany',  narratives[0].Name );}
 
         }else if (rtId == shareclassCreationRecordTypeId) {
