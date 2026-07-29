@@ -161,7 +161,29 @@ stages:
           : > user-stories.txt
         fi
 
+        # Calcule le nombre de User Stories extraites.
         USER_STORY_COUNT=$(wc -l < user-stories.txt | tr -d ' ')
+
+        # Initialise une réponse vide pour garantir la génération du fichier HTML.
+        echo '{"value":[]}' > work-items.json
+
+        if [[ "$USER_STORY_COUNT" -gt 0 ]]; then
+          USER_STORY_IDS=$(sed 's/^US-//' user-stories.txt | paste -sd, -)
+          WORK_ITEMS_URL="$(System.CollectionUri)$(System.TeamProject)/_apis/wit/workitems?ids=$USER_STORY_IDS&fields=System.Title&errorPolicy=Omit&api-version=7.1"
+
+          # Récupère les titres sans arrêter le script en cas d'erreur API.
+          curl --silent --show-error \
+            -H "Authorization: Bearer $SYSTEM_ACCESSTOKEN" \
+            "$WORK_ITEMS_URL" \
+            -o work-items-response.json || true
+
+          # Utilise la réponse uniquement lorsqu'elle contient une liste valide.
+          if jq -e '.value | type == "array"' work-items-response.json > /dev/null 2>&1; then
+            mv work-items-response.json work-items.json
+          else
+            echo "##vso[task.logissue type=warning]Impossible de récupérer les titres des User Stories."
+          fi
+        fi
 
         # Génère le second fichier avec uniquement les US déduites et dédoublonnées.
         {
@@ -173,12 +195,22 @@ stages:
             echo '<p>Aucune User Story déduite des noms de commits, merges ou branches.</p>'
           else
             echo '<table style="border-collapse:collapse;width:100%;">'
-            echo '<tr><th style="border:1px solid #ddd;padding:8px;text-align:left;">US</th></tr>'
+            echo '<tr><th style="border:1px solid #ddd;padding:8px;text-align:left;">US</th><th style="border:1px solid #ddd;padding:8px;text-align:left;">Titre</th></tr>'
 
             while IFS= read -r US_NAME; do
               [[ -z "$US_NAME" ]] && continue
               US_ID=${US_NAME#US-}
-              echo "<tr><td style=\"border:1px solid #ddd;padding:8px;\"><a href=\"$(System.CollectionUri)$(System.TeamProject)/_workitems/edit/$US_ID\">$US_NAME</a></td></tr>"
+
+              # Recherche et sécurise le titre avant son insertion dans le HTML.
+              # Recherche le titre sans interrompre le script lorsqu'une US est absente.
+              US_TITLE=$(jq -r --argjson id "$US_ID" '
+                [.value[]? | select(.id == $id) | .fields["System.Title"]][0] // "Titre introuvable"
+              ' work-items.json 2>/dev/null || echo "Titre introuvable")
+
+              # Protège le titre avant son insertion dans le fichier HTML.
+              US_TITLE_HTML=$(jq -rn --arg value "$US_TITLE" '$value | @html')
+
+              echo "<tr><td style=\"border:1px solid #ddd;padding:8px;\"><a href=\"$(System.CollectionUri)$(System.TeamProject)/_workitems/edit/$US_ID\">$US_NAME</a></td><td style=\"border:1px solid #ddd;padding:8px;\">$US_TITLE_HTML</td></tr>"
             done < user-stories.txt
 
             echo '</table>'
