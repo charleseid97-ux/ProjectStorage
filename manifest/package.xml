@@ -4,5 +4,9 @@
         <members>prospaceAlerts</members>
         <name>LightningComponentBundle</name>
     </types>
+    <types>
+        <members>TaxEmailService</members>        
+        <name>ApexClass</name>
+  </types>  
     <version>64.0</version>
 </Package>

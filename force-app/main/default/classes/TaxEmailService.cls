@@ -407,11 +407,6 @@ public with sharing class TaxEmailService {
             email.setPlainTextBody(textBody);
         }
 
-        Id oweaId = getOrgWideEmailAddressId('salesforcesupport@carmignac.com');
-
-        if (oweaId != null) {
-            email.setOrgWideEmailAddressId(oweaId);
-        }
 
         Messaging.EmailFileAttachment attachment = new Messaging.EmailFileAttachment();
         attachment.setFileName(buildUkQuarterlyFileName(quarterStartDate, quarterEndDate));
@@ -565,11 +560,7 @@ public with sharing class TaxEmailService {
             email.setPlainTextBody(textBody);
         }
 
-        Id oweaId = getOrgWideEmailAddressId('salesforcesupport@carmignac.com');
 
-        if (oweaId != null) {
-            email.setOrgWideEmailAddressId(oweaId);
-        }
 
         return email;
     }
@@ -687,14 +678,25 @@ public with sharing class TaxEmailService {
             + String.valueOf(d.day()).leftPad(2, '0');
     }
 
+    // Envoie tous les emails avec l’adresse Salesforce Support comme expéditeur
     private static void sendEmails(List<Messaging.SingleEmailMessage> emails) {
+        Id orgWideEmailAddressId =
+            getOrgWideEmailAddressId('salesforcesupport@carmignac.com');
+
+        // Applique systématiquement l’expéditeur à chaque email du service
+        if (orgWideEmailAddressId != null) {
+            for (Messaging.SingleEmailMessage email : emails) {
+                email.setOrgWideEmailAddressId(orgWideEmailAddressId);
+            }
+        }
+
         try {
             Messaging.sendEmail(emails);
         } catch (EmailException e) {
             // Intentionally ignored to avoid blocking business process
         }
     }
-
+    
     private static List<String> splitEmails(String rawEmails) {
         List<String> results = new List<String>();
 
