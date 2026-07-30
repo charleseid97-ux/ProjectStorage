@@ -41,7 +41,8 @@ public class SM016_CampaignMemberTriggerHandlerTest {
             Account accTest = TestFactory.getSimpleAccount();
             insert accTest;
             
-            Contact testContact1 = TestFactory.getSimpleNoProfileContact(accTest.Id, 'TestFName','LastNameTestCarmignac','65432345','TechwbesiteId','mail@mail1.com','mail@mail1.com','mail@mail1.com');
+            // Utilise des emails distincts pour éviter la règle de doublon
+            Contact testContact1 = TestFactory.getSimpleNoProfileContact(accTest.Id, 'TestFName','LastNameTestCarmignac','65432345','TechwbesiteId1','professional1@mail.com','personal1@mail.com','team1@mail.com');
             insert testContact1;
             Category_Event__c categ = new Category_Event__c(Name='Category 1',Campaign__c =camp1.Id ,Tech_Category_Event_ID_Etouches__c='1234');   
             insert categ;
