@@ -181,7 +181,8 @@ public with sharing class VFC17_PrintEvents {
             'WHERE startDate__c != null ' +
             'AND endDate__c != null ' +
             'AND startDate__c <= :endDate ' +
-            'AND endDate__c >= :startDate';
+            'AND endDate__c >= :startDate ' +
+            'AND (Status__c = null OR Status__c != \'Cancelled\')';
 
         if (salesTeamFilters != null && !salesTeamFilters.isEmpty()) {
             soql += ' AND SalesTeam__c IN :salesTeamFilters';

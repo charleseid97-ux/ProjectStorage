@@ -68,6 +68,10 @@ public with sharing class CustomCalendarHelper {
         Id rtMeetingDays = isEventContext ? tryGetMeetingDaysRecordTypeId(t) : null;
 
         List<String> whereParts = new List<String>();
+
+        // Exclut les événements annulés dans tous les contextes du calendrier.
+        whereParts.add('(Status__c = null OR Status__c != \'Cancelled\')');
+
         if (isEventContext) {
             whereParts.add(buildParentClause(parentFieldName, recordId, rtMeetingDays));
         }
