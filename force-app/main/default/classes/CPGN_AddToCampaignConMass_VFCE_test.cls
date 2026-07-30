@@ -29,8 +29,31 @@ public class CPGN_AddToCampaignConMass_VFCE_test {
             Insert oAccount1;
             
             list<Contact> listContact1  = new list<Contact>();
-            Contact oContact1 = TestFactory.getSimpleNoProfileContact(oAccount1.Id,'FirstNameTU', 'LastName1', TECH_ContactTechSUNID,TECH_WebSiteID,PROFESSIONAL_EMAIL,PERSONAL_EMAIL,TEAM_EMAIL);
-            Contact oContact2 = TestFactory.getSimpleContactToSetProfile(oAccount1.Id,'FirstNameTest', 'LastName2', TECH_ContactTechSUNID2,TECH_WebSiteID2,PROFESSIONAL_EMAIL2,PERSONAL_EMAIL2,TEAM_EMAIL2);
+            // Génère un suffixe unique pour éviter les doublons sur les champs uniques
+            String uniqueSuffix = String.valueOf(DateTime.now().getTime());
+
+            Contact oContact1 = TestFactory.getSimpleNoProfileContact(
+                oAccount1.Id,
+                'FirstNameTU',
+                'LastName1',
+                uniqueSuffix.right(7),
+                uniqueSuffix.right(7),
+                'ProfessionalEmailTU' + uniqueSuffix + '@carmignac.com',
+                'PersonalEmailTU' + uniqueSuffix + '@carmignac.com',
+                'TeamEmailTU' + uniqueSuffix + '@carmignac.com'
+            );
+
+            // Utilise des valeurs différentes pour le deuxième contact
+            Contact oContact2 = TestFactory.getSimpleContactToSetProfile(
+                oAccount1.Id,
+                'FirstNameTest',
+                'LastName2',
+                String.valueOf(Long.valueOf(uniqueSuffix.right(7)) + 1),
+                String.valueOf(Long.valueOf(uniqueSuffix.right(7)) + 2),
+                'ProfessionalEmailTU2' + uniqueSuffix + '@carmignac.com',
+                'PersonalEmailTU2' + uniqueSuffix + '@carmignac.com',
+                'TeamEmailTU2' + uniqueSuffix + '@carmignac.com'
+            );
 
             insert oContact1;
             insert oContact2;

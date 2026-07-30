@@ -141,8 +141,9 @@ public class SM016_CampaignMemberTriggerHandlerTest {
 
             for (Integer i = 0; i < batchsize ; i++) {
 
-                contacts.add(TestFactory.getSimpleNoProfileContact(accTest.Id, 'TestFName '+i,'LastNameTestCarmignac '+String.valueOf(Math.round(Math.random()*1000)),'6543234'+i,'TechwbesiteId'+i,
-                        'mail@mail'+i+'.com','mail@mail'+i+'.com','mail@mail'+i+'.com'));
+                // Utilise une valeur distincte pour chaque type d'email
+                contacts.add(TestFactory.getSimpleNoProfileContact(accTest.Id, 'TestFName '+i,'LastNameTestCarmignac '+i,'6543234'+i,'TechwbesiteId'+i,
+                        'professional'+i+'@mail.com','personal'+i+'@mail.com','team'+i+'@mail.com'));
             }
             insert contacts;
 

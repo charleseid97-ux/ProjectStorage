@@ -151,7 +151,10 @@ System.assert(Limits.getQueries() < 0.9 * Limits.getLimitQueries());
             testContact1.WebsiteLanguage__c = 'French';
             listContact.add(testContact1);
             
-            Contact testContact2 = TestFactory.getSimpleNoProfileContact(accTest.Id, 'TestFName2','LastNameTestCarmignac2','654323452','TechwbesiteId2','mail@mail2.com','mail@mail2.com','mail@mail2.com');
+            // Génère un suffixe unique pour les champs soumis à une contrainte d'unicité
+            String uniqueSuffix = String.valueOf(DateTime.now().getTime());
+
+            Contact testContact2 = TestFactory.getSimpleNoProfileContact(accTest.Id, 'TestFName2','LastNameTestCarmignac2','654323452' + uniqueSuffix,'TechwbesiteId2' + uniqueSuffix,'professional2' + uniqueSuffix + '@mail.com','personal2' + uniqueSuffix + '@mail.com','team2' + uniqueSuffix + '@mail.com');
             testContact2.LastName = 'BraconnierTEST';
             testContact2.Firstname = 'Fabien';
             testContact2.WebsiteRole__c = '1';

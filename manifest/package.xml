@@ -1,8 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Package xmlns="http://soap.sforce.com/2006/04/metadata">
   <types>
-        <members>VFC16_SequantisGenerateDraft</members>        
+        <members>VFC16_SequantisGenerateDraft</members>
+        <members>CPGN_AddToCampaignConMass_VFCE_test</members>
+        <members>SM004_ContactTriggerHandlerTest</members>
+        <members>SM016_CampaignMemberTriggerHandlerTest</members>
         <name>ApexClass</name>
-  </types>  
+  </types>
   <version>65.0</version>
 </Package>
