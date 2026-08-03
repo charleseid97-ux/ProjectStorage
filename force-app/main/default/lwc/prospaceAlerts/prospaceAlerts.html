@@ -6,12 +6,12 @@
   @last modified by  : Khadija EL GDAOUNI
 -->
 <template>
-   <template lwc:if={contactNotSynchronised}>
+   <!--<template lwc:if={contactNotSynchronised}>
     <div class="slds-text-heading_medium slds-align_absolute-center" style="color:#747474;">
         {customLabelsReference.contactNotSynchronizedMSG}
     </div>
-   </template>
-   <template lwc:elseif={showSpinner}>
+   </template>-->
+   <template lwc:if={showSpinner}>
     <div style="height: 10rem; position:relative">
         <lightning-spinner alternative-text="Loading" size="x-small"></lightning-spinner>
     </div>           
