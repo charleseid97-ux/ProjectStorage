@@ -1,10 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Package xmlns="http://soap.sforce.com/2006/04/metadata">
-  <types>
-        <members>CustomCalendarHelper</members>
-        <members>VFC17_PrintEvents</members>
-        <members>VFC18_EventAgenda</members>
-        <name>ApexClass</name>
-  </types>
-  <version>65.0</version>
+    <types>
+        <members>prospaceAlerts</members>
+        <name>LightningComponentBundle</name>
+    </types>
+    <version>64.0</version>
 </Package>
