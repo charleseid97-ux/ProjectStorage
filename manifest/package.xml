@@ -5,7 +5,8 @@
         <name>LightningComponentBundle</name>
     </types>
     <types>
-        <members>TaxEmailService</members>        
+        <members>TaxEmailService</members>
+        <members>taxDataAction</members>
         <name>ApexClass</name>
   </types>  
     <version>64.0</version>

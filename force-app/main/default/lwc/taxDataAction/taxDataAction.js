@@ -74,22 +74,9 @@ export default class TaxDataAction extends LightningElement {
         }
     }
 
+    // Met à jour indépendamment les demandes fiscales belges sélectionnées
     handleBETypeChange(event) {
-        let selectedValues = [...(event.detail.value || [])];
-
-        const BE_TIS = 'BE TIS';
-        const BE_ASSET_TEST = 'BE Asset Test';
-
-        const hasBeTis = selectedValues.includes(BE_TIS);
-        const hasBeAssetTest = selectedValues.includes(BE_ASSET_TEST);
-
-        if (hasBeTis && !hasBeAssetTest) {
-            selectedValues.push(BE_ASSET_TEST);
-        } else if (hasBeAssetTest && !hasBeTis) {
-            selectedValues.push(BE_TIS);
-        }
-
-        this.beTypeValues = [...new Set(selectedValues)];
+        this.beTypeValues = [...(event.detail.value || [])];
     }
 
     handleClosureSelectionChange(event) {
