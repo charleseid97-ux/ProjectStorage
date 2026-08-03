@@ -2,10 +2,11 @@
 <Package xmlns="http://soap.sforce.com/2006/04/metadata">
     <types>
         <members>prospaceAlerts</members>
+        <members>taxDataAction</members>
         <name>LightningComponentBundle</name>
     </types>
     <types>
-        <members>TaxEmailService</members>        
+        <members>TaxEmailService</members>
         <name>ApexClass</name>
   </types>  
     <version>64.0</version>
