@@ -66,8 +66,13 @@ public with sharing class SM026_Contact_Website {
             connectAndSendContacts(contactJson, aContactToSendList[0], websiteEndpoint, 'POST');
 
     }
-
+    /**
+     * Désactivé : Salesforce ne synchronise plus les contacts avec CarmignacWebsite.
+     */
     public static void connectAndSendContacts(String aContactJson, Contact aContactToSent, String aWebsiteEndpoint, String aWebsiteMethod) {
+        return;
+    }
+  /*  public static void connectAndSendContacts(String aContactJson, Contact aContactToSent, String aWebsiteEndpoint, String aWebsiteMethod) {
 
         HttpRequest req = new HttpRequest();
         HttpResponse res = new HttpResponse();
@@ -144,7 +149,7 @@ public with sharing class SM026_Contact_Website {
             EM023_Log.insertLogError(listLogError);
         }
 
-    }
+    }*/
 
     private static String generateContactJson(List<Contact> aContactToSendList) {
 

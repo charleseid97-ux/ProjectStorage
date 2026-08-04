@@ -196,7 +196,12 @@ public class SM029_WebCommunication {
 
         Messaging.sendEmail(new Messaging.SingleEmailMessage[]{ mail });
     }
-
+    /**
+     * Désactivé : Salesforce ne synchronise plus les abonnements avec CarmignacWebsite.
+     */
+    public static void connectAndSendWebComm(String webCommJson, List<Web_Communication__c> aWebComToSentList, String aWebsiteEndpoint, String aWebsiteMethod) {
+        return;
+    }
     /**
     * Perform HTTP request and add JSON body; Update WebCommunication fields with website response
     *
@@ -205,7 +210,7 @@ public class SM029_WebCommunication {
     * @param aWebsiteEndpoint
     * @param aWebsiteMethod
     */
-    public static void connectAndSendWebComm(String webCommJson, List<Web_Communication__c> aWebComToSentList, String aWebsiteEndpoint, String aWebsiteMethod) {
+   /* public static void connectAndSendWebComm(String webCommJson, List<Web_Communication__c> aWebComToSentList, String aWebsiteEndpoint, String aWebsiteMethod) {
 
         HttpRequest req = new HttpRequest();
         HttpResponse res = new HttpResponse();
@@ -304,7 +309,7 @@ public class SM029_WebCommunication {
         }
 
 
-    }
+    }*/
 
     /**
     *

@@ -259,8 +259,13 @@ public with sharing class SM026_Lead_Website {
 
         
     }
-    
+        /**
+     * Désactivé : Salesforce ne synchronise plus les leads avec CarmignacWebsite.
+     */
     public void connectAndSendLeads(String aLeadJson, Lead aLeadToSent, String aWebsiteEndpoint, String aWebsiteMethod){
+        return;
+    }
+ /*   public void connectAndSendLeads(String aLeadJson, Lead aLeadToSent, String aWebsiteEndpoint, String aWebsiteMethod){
         
         HttpRequest req = new HttpRequest();
         HttpResponse res = new HttpResponse();
@@ -331,7 +336,7 @@ public with sharing class SM026_Lead_Website {
             EM023_Log.insertLogError(listLogError);
         }
         
-    }
+    }*/
     
     private String generateLeadJson(List<Lead> aLeadToSendList){
         
