@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Package xmlns="http://soap.sforce.com/2006/04/metadata">
-    <types>
-        <members>SM026_Contact_Website</members>
-        <members>SM026_Lead_Website</members>
-        <members>SM029_WebCommunication</members>
-        <name>ApexClass</name>
+ <types>
+        <members>Contact.FundPathId__c</members>
+        <members>Account.FundPathId__c</members>
+        <name>CustomField</name>
     </types>
     <version>64.0</version>
 </Package>
