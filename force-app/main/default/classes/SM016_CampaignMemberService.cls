@@ -4,6 +4,11 @@
 
 public with sharing class SM016_CampaignMemberService {
 
+    private static final String RECORD_TYPE_EVENT_AND_MEETING = 'Event_and_Meeting';
+    private static final String RECORD_TYPE_NEWSLETTERS = 'Newsletters';
+    private static final Set<String> POST_MEETING_TYPES = new Set<String>(System.Label.CampaignMember_OptOut_PostMeetingTypes.split(';'));
+    private static final String OPT_OUT_ERROR_MESSAGE = System.Label.CampaignMember_OptOut_BlockedMessage;
+
     private static String CLASS_NAME = SM016_CampaignMemberService.class.getName();
     //private static list<EM023_Log.errorToLog> listLogError = new list<EM023_Log.errorToLog>();
     //private static integer CST_NBRepriseApiAventri = 3;
@@ -96,7 +101,7 @@ public with sharing class SM016_CampaignMemberService {
     }
     
     public static void checkUnicity(List<CampaignMember> newItems) {
-        system.debug('Check Unicity Start');
+        System.debug('Check Unicity Start');
         
         /*Map<Id, Set<String>> mapCampaignEmails = new Map<Id, Set<String>>();
         // Parcourir les nouveaux membres et les ajouter au map 
@@ -105,7 +110,7 @@ public with sharing class SM016_CampaignMemberService {
                 mapCampaignEmails.put(cm.CampaignId, new Set<String>()); 
             } 
             if (mapCampaignEmails.get(cm.CampaignId).contains(cm.Event_Email__c)) {
-                system.debug('duplicate '); 
+                System.debug('duplicate '); 
                 cm.addError('Error : Duplicates Campaign Member'); 
             } else {
                 mapCampaignEmails.get(cm.CampaignId).add(cm.Event_Email__c); 
@@ -120,246 +125,268 @@ public with sharing class SM016_CampaignMemberService {
                                                                 WHERE Id IN :campaignIds]);
         
         for(CampaignMember newCM :newItems){
-            system.debug('newCM : '+newCM.Event_Email__c);
+            System.debug('newCM : '+newCM.Event_Email__c);
             for(CampaignMember cm : mapCampaigns.get(newCM.CampaignId).CampaignMembers){
-                system.debug('cm : '+cm);
+                System.debug('cm : '+cm);
                 if(newCM.Event_Email__c == cm.Event_Email__c){
-                    system.debug('duplicate ');
+                    System.debug('duplicate ');
                     newCM.addError('Error : Duplicates Campaign Member');
                 }
             }
         }    */    
         
-        system.debug('Check Unicity End');
+        System.debug('Check Unicity End');
     }
-    
+
+    /**
+    * Blocks creation of a CampaignMember when its related Contact/Lead has opted out of
+    * newsletters or events, based on the parent Campaign's record type and Type.
+    * Ported from the CampaignMember_OptOutValidation flow to run in BeforeInsert.
+    */
     public static void blockOptOutEvent(List<CampaignMember> newItems) {
-        /*
-        system.debug('blockOptOutEvent');
+        Set<Id> campaignIds = new Set<Id>();
         Set<Id> contactIds = new Set<Id>();
         Set<Id> leadIds = new Set<Id>();
-        
-    	String recordTypeId = Schema.SObjectType.Campaign.getRecordTypeInfosByDeveloperName().get('Event_and_Meeting').getRecordTypeId();
-		system.debug('rec id : '+recordTypeId.substring(0,15));
-        
+
         for (CampaignMember cm : newItems) {
+            campaignIds.add(cm.CampaignId);
             if (cm.ContactId != null) {
                 contactIds.add(cm.ContactId);
-            }else if(cm.LeadId != null) {
+            }
+            if (cm.LeadId != null) {
                 leadIds.add(cm.LeadId);
             }
         }
 
-        Map<Id, Contact> contactsMap = new Map<Id, Contact>(
-            [SELECT Id, Invitation_Opt_Out__c FROM Contact WHERE Id IN :contactIds]
-        );
-        Map<Id, Lead> leadsMap = new Map<Id, Lead>(
-            [SELECT Id, Event_Opt_Out__c FROM Lead WHERE Id IN :leadIds]
-        );
-    
+        Map<Id, Campaign> campaignsById = new Map<Id, Campaign>([SELECT Id, Type, RecordType.DeveloperName FROM Campaign WHERE Id IN :campaignIds]);
+        Map<Id, Contact> contactsById = new Map<Id, Contact>([SELECT Id, Invitation_Opt_Out__c, Newsletter_Opt_Out__c FROM Contact WHERE Id IN :contactIds]);
+        Map<Id, Lead> leadsById = new Map<Id, Lead>([SELECT Id, Event_Opt_Out__c, Prospect_Opt_out__c FROM Lead WHERE Id IN :leadIds]);
+
         for (CampaignMember cm : newItems) {
-            system.debug('rec id : '+cm.Tech_CampaignRecordType__c);
-            if (recordTypeId.substring(0,15) == cm.Tech_CampaignRecordType__c && ((cm.ContactId != null && contactsMap.containsKey(cm.ContactId)) || (cm.LeadId != null && leadsMap.containsKey(cm.LeadId)))) {
-                Contact relatedContact = contactsMap.get(cm.ContactId);
-                Lead relatedLead = leadsMap.get(cm.LeadId);
-                if ((relatedContact!=null && relatedContact.Invitation_Opt_Out__c) || (relatedLead!=null && relatedLead?.Event_Opt_Out__c)) {
-                    cm.addError('Error: You can\'t create a campaign member because the associated contact/Lead has opted out of events.');
-                }
+            Campaign camp = campaignsById.get(cm.CampaignId);
+            String recordType = camp?.RecordType?.DeveloperName;
+            if (recordType != RECORD_TYPE_EVENT_AND_MEETING && recordType != RECORD_TYPE_NEWSLETTERS) {
+                continue;
+            }
+
+            Contact con = contactsById.get(cm.ContactId);
+            Lead lead = leadsById.get(cm.LeadId);
+            Boolean isEventOptedOut = (con != null && con.Invitation_Opt_Out__c) || (lead != null && lead.Event_Opt_Out__c);
+
+            Boolean shouldBlock;
+            if (recordType == RECORD_TYPE_EVENT_AND_MEETING) {
+                shouldBlock = isEventOptedOut;
+            } else if (isPostMeetingType(camp.Type)) {
+                shouldBlock = isEventOptedOut;
+            } else {
+                shouldBlock = (con != null && con.Newsletter_Opt_Out__c) || (lead != null && lead.Prospect_Opt_out__c);
+            }
+
+            if (shouldBlock) {
+                cm.addError(OPT_OUT_ERROR_MESSAGE);
             }
         }
-            system.debug('blockOptOutEvent');
-*/
+    }
+
+    private static Boolean isPostMeetingType(String campaignType) {
+        if (String.isBlank(campaignType)) {
+            return false;
         }
+        for (String postMeetingType : POST_MEETING_TYPES) {
+            if (postMeetingType.equalsIgnoreCase(campaignType)) {
+                return true;
+            }
+        }
+        return false;
+    }
     
+    public static void sendCallWSLyyti(List<CampaignMember> newItems, Map<Id, CampaignMember> oldItems) {
     
-    	public static void sendCallWSLyyti(List<CampaignMember> newItems, Map<Id, CampaignMember> oldItems) {
+        Set<Id> cmIdsToSend = new Set<Id>();
+        Set<Id> cmIdsToGet = new Set<Id>();
         
-            Set<Id> cmIdsToSend = new Set<Id>();
-            Set<Id> cmIdsToGet = new Set<Id>();
-            
-            if(oldItems != null){
-                system.debug('>>>>>>>>>>> oldItems + '+oldItems);
-                system.debug('>>>>>>>>>>> new + '+newItems);
-                for(CampaignMember cm :newItems){
-                    if(cm.LastModifiedById != System.label.UsernameId_Lyyti && cm.LyytiId__c != null && cm.status != 'Invited' && cm.status != 'Cancelled' && ((cm.status != oldItems.get(cm.Id).status && ((cm.status == 'Declined' && !cm.Cancelled__c) || cm.status != 'Declined')) || (cm.Cancelled__c && !oldItems.get(cm.Id).Cancelled__c)) ){
-                        
-                            cmIdsToSend.add(cm.Id);
-                        
-                    }
-                }
-            }else{
-                system.debug('>>>>>>>>>>> newItems + '+newItems);
-                for(CampaignMember cm :newItems){
-                	if(cm.LyytiId__c==null && cm.LastModifiedById!=null ){
-                        if(cm.LastModifiedById != System.label.UsernameId_Lyyti){
-                            //cmIdsToSend.add(cm.Id);
-                        }else{
-                            //Case : participant created by Lyyti
-                            cmIdsToGet.add(cm.Id);
-                        }
-                    }
+        if(oldItems != null){
+            System.debug('>>>>>>>>>>> oldItems + '+oldItems);
+            System.debug('>>>>>>>>>>> new + '+newItems);
+            for(CampaignMember cm :newItems){
+                if(cm.LastModifiedById != System.label.UsernameId_Lyyti && cm.LyytiId__c != null && cm.status != 'Invited' && cm.status != 'Cancelled' && ((cm.status != oldItems.get(cm.Id).status && ((cm.status == 'Declined' && !cm.Cancelled__c) || cm.status != 'Declined')) || (cm.Cancelled__c && !oldItems.get(cm.Id).Cancelled__c)) ) {
+                    cmIdsToSend.add(cm.Id);
                 }
             }
-                
-           
-            if(cmIdsToSend.size()>0){
-                system.debug('>>>>>>>>>>> cmIdsToSend + '+cmIdsToSend);
-                callWS(cmIdsToSend, false);
-            }
-            if(cmIdsToGet.size()>0){
-                system.debug('>>>>>>>>>>> cmIdsToGet + '+cmIdsToGet);
-                callWS(cmIdsToGet, true);
-            }
-            
         }
-    
-        @future(callout=true)
-        public static void callWS(Set<Id> memberIds, Boolean fromLyyti) {
-     
-            List<CampaignMember> cmToUpdate = new List<CampaignMember>();
-            if(fromLyyti){
-                List<CampaignMember> cmToProcess = [SELECT Id, CampaignId, Campaign.LyytiId__c,FirstName,Campaign.Tech_ParticipantType__c,Cancelled__c,Category_Event_lookup__r.Name,
-                                            LastName,Email,Status,LyytiId__c,Contact.Owner.Name,Lead.Owner.Name,Language__c,CompanyOrAccount,LastModifiedBy.Username,Category_name__c,
-                                            Contact.Invitation_Opt_Out__c,Lead.Event_Opt_Out__c
-                                            FROM CampaignMember 
-                                            WHERE Id IN :memberIds];
-
-                Map<Id, Set<String>> emailsByCampaign = new Map<Id, Set<String>>();
-                
-                for (CampaignMember cm : cmToProcess) {
-                    if (cm.CampaignId == null || String.isBlank(cm.Email)) continue;
-                    
-                    String email = cm.Email.trim().toLowerCase();
-
-                    if (!emailsByCampaign.containsKey(cm.CampaignId)) {
-                        emailsByCampaign.put(cm.CampaignId, new Set<String>());
+        else {
+            System.debug('>>>>>>>>>>> newItems + '+newItems);
+            for(CampaignMember cm :newItems){
+                if(cm.LyytiId__c==null && cm.LastModifiedById!=null ){
+                    if(cm.LastModifiedById != System.label.UsernameId_Lyyti){
+                        //cmIdsToSend.add(cm.Id);
                     }
-                    emailsByCampaign.get(cm.CampaignId).add(email);
-                }
-                List<Campaign> campaigns = [SELECT Id, LyytiId__c,(SELECT Id, CampaignId, Campaign.LyytiId__c,FirstName,
-                                                                LastName,Email,Status,LyytiId__c,Contact.Owner.Name,Lead.Owner.Name,Language__c,CompanyOrAccount  
-                                                                FROM CampaignMembers WHERE ID IN :memberIds)
-                                            FROM Campaign 
-                                            WHERE Id IN :emailsByCampaign.keySet()];
-                for (Campaign c : campaigns) {
-                    Set<String> targetEmails = emailsByCampaign.get(c.Id);
-                    Integer LIMIT_SIZE = 500; // ou 500
-                    Integer offset = 0;
-                    if (targetEmails == null || targetEmails.isEmpty()) continue;
-
-                    WS_LyytiGetParticipantTypes typeSender = new WS_LyytiGetParticipantTypes(c);
-                    typeSender.sendInDataToExternalService();
-
-                    Map<String, String> participantTypeNameById = typeSender.participantTypeNameById;
-
-                    WS_GetEventParticipants sender = new WS_GetEventParticipants(c, targetEmails, LIMIT_SIZE, offset, participantTypeNameById);
-
-                    while (true) {
-                        sender.offsetSize = offset;           // avancer la page
-                        sender.sendInDataToExternalService(); // remplit idEmailMap + retire de remainingEmails
-
-                        // Stop si tout trouvé
-                        if (sender.remainingEmails.isEmpty()) break;
-
-                        // Stop si la page est vide / incomplète => plus rien à paginer
-                        if (sender.pageItemCount == null || sender.pageItemCount < LIMIT_SIZE) break;
-
-                        offset += LIMIT_SIZE;
-
-                        // Sécurité anti-boucle infinie (optionnel)
-                        if (offset > 200000) break;
-                    }
-
-                    for(CampaignMember cm :c.CampaignMembers){
-                        String cmEmail = (cm.Email == null) ? null : cm.Email.trim().toLowerCase();
-                    
-                        if (cmEmail != null && sender.idEmailMap.containsKey(cmEmail)) {
-                            CampaignMember cmUpdate = new CampaignMember(Id = cm.Id);
-
-                            if (cm.LyytiId__c == null) {
-                                cmUpdate.LyytiId__c = sender.idEmailMap.get(cmEmail);
-                            }
-
-                            if (sender.sourceEmailMap.containsKey(cmEmail)) {
-                                cmUpdate.Lyyti_Source__c = sender.sourceEmailMap.get(cmEmail);
-                            }
-
-                            cmToUpdate.add(cmUpdate);
-                        }
+                    else{
+                        //Case : participant created by Lyyti
+                        cmIdsToGet.add(cm.Id);
                     }
                 }
-            }else{
-                List<CampaignMember> cmToProcess = [SELECT Id, CampaignId, Campaign.LyytiId__c,FirstName,Campaign.Tech_ParticipantType__c,Cancelled__c,Category_Event_lookup__r.Name,
-                                            LastName,Email,Status,LyytiId__c,Contact.Owner.Name,Lead.Owner.Name,Language__c,CompanyOrAccount,LastModifiedBy.Username,Category_name__c,
-                                            Contact.Invitation_Opt_Out__c,Lead.Event_Opt_Out__c
-                                            FROM CampaignMember 
-                                            WHERE Id IN :memberIds LIMIT 50];
-                cmToUpdate = getCMToUpdate(cmToProcess,null,null);
             }
-            if(cmToUpdate.size()>0){
-                update cmToUpdate;
-            }
-            
         }
+        
+        if(cmIdsToSend.size()>0){
+            System.debug('>>>>>>>>>>> cmIdsToSend + '+cmIdsToSend);
+            callWS(cmIdsToSend, false);
+        }
+        if(cmIdsToGet.size()>0){
+            System.debug('>>>>>>>>>>> cmIdsToGet + '+cmIdsToGet);
+            callWS(cmIdsToGet, true);
+        }
+    }
     
-        public static List<CampaignMember> getCMToUpdate(List<CampaignMember> cmToProcess, Integer participant_type, String campaignLyytiId){
-            List<CampaignMember> cmToUpdate = new List<CampaignMember>();
+    @future(callout=true)
+    public static void callWS(Set<Id> memberIds, Boolean fromLyyti) {
+        List<CampaignMember> cmToUpdate = new List<CampaignMember>();
+        if(fromLyyti) {
+            List<CampaignMember> cmToProcess = [SELECT Id, CampaignId, Campaign.LyytiId__c,FirstName,Campaign.Tech_ParticipantType__c,Cancelled__c,Category_Event_lookup__r.Name,
+                                        LastName,Email,Status,LyytiId__c,Contact.Owner.Name,Lead.Owner.Name,Language__c,CompanyOrAccount,LastModifiedBy.Username,Category_name__c,
+                                        Contact.Invitation_Opt_Out__c,Lead.Event_Opt_Out__c
+                                        FROM CampaignMember 
+                                        WHERE Id IN :memberIds];
+
+            Map<Id, Set<String>> emailsByCampaign = new Map<Id, Set<String>>();
+            
             for (CampaignMember cm : cmToProcess) {
-                if(cm.Campaign.LyytiId__c!=null && !cm.Contact.Invitation_Opt_Out__c && !cm.Lead.Event_Opt_Out__c){
-                    system.debug('>>>>>>>>>>> cm + '+cm);
-                    String lyytiId;
-                    Boolean changeStatus = false;
+                if (cm.CampaignId == null || String.isBlank(cm.Email)) continue;
+                
+                String email = cm.Email.trim().toLowerCase();
+
+                if (!emailsByCampaign.containsKey(cm.CampaignId)) {
+                    emailsByCampaign.put(cm.CampaignId, new Set<String>());
+                }
+                emailsByCampaign.get(cm.CampaignId).add(email);
+            }
+            List<Campaign> campaigns = [SELECT Id, LyytiId__c, (SELECT Id, CampaignId, Campaign.LyytiId__c, FirstName,
+                                                                LastName, Email, Status, LyytiId__c, Contact.Owner.Name, 
+                                                                Lead.Owner.Name, Language__c, CompanyOrAccount  
+                                                                FROM CampaignMembers WHERE ID IN :memberIds)
+                                        FROM Campaign 
+                                        WHERE Id IN :emailsByCampaign.keySet()];
+            for (Campaign c : campaigns) {
+                Set<String> targetEmails = emailsByCampaign.get(c.Id);
+                Integer LIMIT_SIZE = 500; // ou 500
+                Integer offset = 0;
+                if (targetEmails == null || targetEmails.isEmpty()) continue;
+
+                WS_LyytiGetParticipantTypes typeSender = new WS_LyytiGetParticipantTypes(c);
+                typeSender.sendInDataToExternalService();
+
+                Map<String, String> participantTypeNameById = typeSender.participantTypeNameById;
+
+                WS_GetEventParticipants sender = new WS_GetEventParticipants(c, targetEmails, LIMIT_SIZE, offset, participantTypeNameById);
+
+                while (true) {
+                    sender.offsetSize = offset;           // avancer la page
+                    sender.sendInDataToExternalService(); // remplit idEmailMap + retire de remainingEmails
+
+                    // Stop si tout trouvé
+                    if (sender.remainingEmails.isEmpty()) break;
+
+                    // Stop si la page est vide / incomplète => plus rien à paginer
+                    if (sender.pageItemCount == null || sender.pageItemCount < LIMIT_SIZE) break;
+
+                    offset += LIMIT_SIZE;
+
+                    // Sécurité anti-boucle infinie (optionnel)
+                    if (offset > 200000) break;
+                }
+
+                for(CampaignMember cm :c.CampaignMembers){
+                    String cmEmail = (cm.Email == null) ? null : cm.Email.trim().toLowerCase();
+                
+                    if (cmEmail != null && sender.idEmailMap.containsKey(cmEmail)) {
+                        CampaignMember cmUpdate = new CampaignMember(Id = cm.Id);
+
+                        if (cm.LyytiId__c == null) {
+                            cmUpdate.LyytiId__c = sender.idEmailMap.get(cmEmail);
+                        }
+
+                        if (sender.sourceEmailMap.containsKey(cmEmail)) {
+                            cmUpdate.Lyyti_Source__c = sender.sourceEmailMap.get(cmEmail);
+                        }
+
+                        cmToUpdate.add(cmUpdate);
+                    }
+                }
+            }
+        }
+        else {
+            List<CampaignMember> cmToProcess = [SELECT Id, CampaignId, Campaign.LyytiId__c,FirstName,Campaign.Tech_ParticipantType__c,Cancelled__c,Category_Event_lookup__r.Name,
+                                        LastName,Email,Status,LyytiId__c,Contact.Owner.Name,Lead.Owner.Name,Language__c,CompanyOrAccount,LastModifiedBy.Username,Category_name__c,
+                                        Contact.Invitation_Opt_Out__c,Lead.Event_Opt_Out__c
+                                        FROM CampaignMember 
+                                        WHERE Id IN :memberIds LIMIT 50];
+            cmToUpdate = getCMToUpdate(cmToProcess,null,null);
+        }
+        if(cmToUpdate.size()>0){
+            update cmToUpdate;
+        }
+    }
     
-                    if (cm.Status == 'Invited' && cm.LyytiId__c==null) {
-                        /*
-                        WS_SendCampaignMembers sender = new WS_SendCampaignMembers(cm, 'notreacted', participant_type, campaignLyytiId);            
+    public static List<CampaignMember> getCMToUpdate(List<CampaignMember> cmToProcess, Integer participant_type, String campaignLyytiId){
+        List<CampaignMember> cmToUpdate = new List<CampaignMember>();
+        for (CampaignMember cm : cmToProcess) {
+            if(cm.Campaign.LyytiId__c!=null && !cm.Contact.Invitation_Opt_Out__c && !cm.Lead.Event_Opt_Out__c) {
+                System.debug('>>>>>>>>>>> cm + '+cm);
+                String lyytiId;
+                Boolean changeStatus = false;
+
+                if (cm.Status == 'Invited' && cm.LyytiId__c==null) {
+                    /*
+                    WS_SendCampaignMembers sender = new WS_SendCampaignMembers(cm, 'notreacted', participant_type, campaignLyytiId);            
+                    sender.sendInDataToExternalService();
+                    lyytiId = sender.uid !=null ? String.valueOf(sender.uid):null;
+                    */
+                }
+                else if (cm.Cancelled__c) {
+                    WS_UpdateCampaignMembers sender = new WS_UpdateCampaignMembers(cm, 'cancelled', null);            
+                    sender.sendInDataToExternalService();
+                    changeStatus = true;
+                    System.debug('changeStatus :'+changeStatus);
+                }
+                else if (cm.Status == 'Declined') {
+                    if(cm.LyytiId__c == null) {
+                        /*WS_SendCampaignMembers sender = new WS_SendCampaignMembers(cm, 'reactedno', participant_type, campaignLyytiId);            
                         sender.sendInDataToExternalService();
-                        lyytiId = sender.uid !=null ? String.valueOf(sender.uid):null;
-                        */
-                    }else if (cm.Cancelled__c) {
-    
-                        WS_UpdateCampaignMembers sender = new WS_UpdateCampaignMembers(cm, 'cancelled', null);            
+                        lyytiId = sender.uid !=null ? String.valueOf(sender.uid):null;*/
+                    } 
+                    else {
+                        // call WS to update status
+                        WS_UpdateCampaignMembers sender = new WS_UpdateCampaignMembers(cm, 'reactedno', null);            
                         sender.sendInDataToExternalService();
-                        changeStatus = true;
-                        system.debug('changeStatus :'+changeStatus);
-    
-                    }else if (cm.Status == 'Declined') {
-                        if(cm.LyytiId__c == null){
-                            /*WS_SendCampaignMembers sender = new WS_SendCampaignMembers(cm, 'reactedno', participant_type, campaignLyytiId);            
-                            sender.sendInDataToExternalService();
-                            lyytiId = sender.uid !=null ? String.valueOf(sender.uid):null;*/
-                        }else{
-                            // call WS to update status
-                            WS_UpdateCampaignMembers sender = new WS_UpdateCampaignMembers(cm, 'reactedno', null);            
-                            sender.sendInDataToExternalService();
-                        }
-    
-                    }else if (cm.Status == 'Attended') {
-    
-                        if(cm.LyytiId__c == null){
-                            /*WS_SendCampaignMembers sender = new WS_SendCampaignMembers(cm, 'show', participant_type, campaignLyytiId);            
-                            sender.sendInDataToExternalService();
-                            lyytiId = sender.uid !=null ? String.valueOf(sender.uid):null;*/
-                        }else{
-                            // call WS to update status
-                            WS_UpdateCampaignMembers sender = new WS_UpdateCampaignMembers(cm, 'show', null);            
-                            sender.sendInDataToExternalService();
-                        }
-    
-                    }else if (cm.Status == 'No Show') {
-    
-                        if(cm.LyytiId__c == null){
-                            /*WS_SendCampaignMembers sender = new WS_SendCampaignMembers(cm, 'noshow', participant_type, campaignLyytiId);            
-                            sender.sendInDataToExternalService();
-                            lyytiId = sender.uid !=null ? String.valueOf(sender.uid):null;*/
-                        }else{
-                            // call WS to update status
-                            WS_UpdateCampaignMembers sender = new WS_UpdateCampaignMembers(cm, 'noshow', null);            
-                            sender.sendInDataToExternalService();
-                        }
-    
-                    } else if (cm.Status == 'Confirmed') {
-                        if(cm.LastModifiedBy.Username != System.label.Username_Lyyti){
+                    }
+                }
+                else if (cm.Status == 'Attended') {
+                    if(cm.LyytiId__c == null) {
+                        /*WS_SendCampaignMembers sender = new WS_SendCampaignMembers(cm, 'show', participant_type, campaignLyytiId);            
+                        sender.sendInDataToExternalService();
+                        lyytiId = sender.uid !=null ? String.valueOf(sender.uid):null;*/
+                    }
+                    else {
+                        // call WS to update status
+                        WS_UpdateCampaignMembers sender = new WS_UpdateCampaignMembers(cm, 'show', null);            
+                        sender.sendInDataToExternalService();
+                    }
+                }
+                else if (cm.Status == 'No Show') {
+                    if(cm.LyytiId__c == null) {
+                        /*WS_SendCampaignMembers sender = new WS_SendCampaignMembers(cm, 'noshow', participant_type, campaignLyytiId);            
+                        sender.sendInDataToExternalService();
+                        lyytiId = sender.uid !=null ? String.valueOf(sender.uid):null;*/
+                    }
+                    else {
+                        // call WS to update status
+                        WS_UpdateCampaignMembers sender = new WS_UpdateCampaignMembers(cm, 'noshow', null);            
+                        sender.sendInDataToExternalService();
+                    }
+                } 
+                else if (cm.Status == 'Confirmed') {
+                    if(cm.LastModifiedBy.Username != System.label.Username_Lyyti){
                         if(cm.LyytiId__c == null){
                             /*WS_SendCampaignMembers sender1 = new WS_SendCampaignMembers(cm, 'notreacted', participant_type, campaignLyytiId);            
                             sender1.sendInDataToExternalService();
@@ -368,7 +395,7 @@ public with sharing class SM016_CampaignMemberService {
                             //WS_SendCampaignMembers sender = new WS_SendCampaignMembers(cm, 'reactedyes', participant_type, campaignLyytiId);            
                             //sender.sendInDataToExternalService();
                             //lyytiId = sender.uid !=null ? String.valueOf(sender.uid):null;
-    
+
                             if (lyytiId != null) {
                                 WS_UpdateCampaignMembers sender = new WS_UpdateCampaignMembers(cm, 'reactedyes', lyytiId);            
                                 sender.sendInDataToExternalService();
@@ -376,34 +403,31 @@ public with sharing class SM016_CampaignMemberService {
                                 WS_SendConfirmationLyyti sendConfirm = new WS_SendConfirmationLyyti(lyytiId);            
                                 sendConfirm.sendInDataToExternalService();
                             }*/
-                        }else{
-    
-                                // call WS to update status
-                                WS_UpdateCampaignMembers sender = new WS_UpdateCampaignMembers(cm, 'reactedyes', null);            
-                                sender.sendInDataToExternalService();
-                                
-                                WS_SendConfirmationLyyti sendConfirm = new WS_SendConfirmationLyyti(cm.LyytiId__c);            
-                                sendConfirm.sendInDataToExternalService();
+                        } 
+                        else {
+                            // call WS to update status
+                            WS_UpdateCampaignMembers sender = new WS_UpdateCampaignMembers(cm, 'reactedyes', null);            
+                            sender.sendInDataToExternalService();
+                            
+                            WS_SendConfirmationLyyti sendConfirm = new WS_SendConfirmationLyyti(cm.LyytiId__c);            
+                            sendConfirm.sendInDataToExternalService();
                         }
-                        }
-                        
-                    }
-                    
-    
-                    if(lyytiId!=null){
-                        /*cm.LyytiId__c = lyytiId;
-                        cmToUpdate.add(cm);*/
-                    }
-                    if(changeStatus){
-                        system.debug('changeStatus 2 :'+changeStatus);
-                        cm.Status = 'Declined';
-                        cmToUpdate.add(cm);
                     }
                 }
-            }
-            return cmToUpdate;
-        }
 
+                if(lyytiId!=null){
+                    /*cm.LyytiId__c = lyytiId;
+                    cmToUpdate.add(cm);*/
+                }
+                if(changeStatus){
+                    System.debug('changeStatus 2 :'+changeStatus);
+                    cm.Status = 'Declined';
+                    cmToUpdate.add(cm);
+                }
+            }
+        }
+        return cmToUpdate;
+    }
 
     /**
     * @author JLC
