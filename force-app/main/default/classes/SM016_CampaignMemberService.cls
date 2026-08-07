@@ -6,8 +6,8 @@ public with sharing class SM016_CampaignMemberService {
 
     private static final String RECORD_TYPE_EVENT_AND_MEETING = 'Event_and_Meeting';
     private static final String RECORD_TYPE_NEWSLETTERS = 'Newsletters';
-    private static final Set<String> POST_MEETING_TYPES = new Set<String>{ 'Post-Meeting / Info', 'Post-Meeting / Replay' };
-    private static final String OPT_OUT_ERROR_MESSAGE = 'This Campaign Member can\'t be added: Contact/Lead has opted out of newsletters or events.';
+    private static final Set<String> POST_MEETING_TYPES = new Set<String>(System.Label.CampaignMember_OptOut_PostMeetingTypes.split(';'));
+    private static final String OPT_OUT_ERROR_MESSAGE = System.Label.CampaignMember_OptOut_BlockedMessage;
 
     private static String CLASS_NAME = SM016_CampaignMemberService.class.getName();
     //private static list<EM023_Log.errorToLog> listLogError = new list<EM023_Log.errorToLog>();
