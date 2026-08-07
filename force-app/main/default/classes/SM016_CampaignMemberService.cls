@@ -162,6 +162,10 @@ public with sharing class SM016_CampaignMemberService {
         Map<Id, Contact> contactsById = new Map<Id, Contact>([SELECT Id, Invitation_Opt_Out__c, Newsletter_Opt_Out__c FROM Contact WHERE Id IN :contactIds]);
         Map<Id, Lead> leadsById = new Map<Id, Lead>([SELECT Id, Event_Opt_Out__c, Prospect_Opt_out__c FROM Lead WHERE Id IN :leadIds]);
 
+        Boolean isLyytiUser = UserInfo.getUserName() == System.Label.Username_Lyyti;
+        Map<Id, Contact> contactsToOptIn = new Map<Id, Contact>();
+        Map<Id, Lead> leadsToOptIn = new Map<Id, Lead>();
+
         for (CampaignMember cm : newItems) {
             Campaign camp = campaignsById.get(cm.CampaignId);
             String recordType = camp?.RecordType?.DeveloperName;
@@ -169,14 +173,20 @@ public with sharing class SM016_CampaignMemberService {
                 continue;
             }
 
+            Boolean isEventOptOutScope = recordType == RECORD_TYPE_EVENT_AND_MEETING || isPostMeetingType(camp.Type);
             Contact con = contactsById.get(cm.ContactId);
             Lead lead = leadsById.get(cm.LeadId);
+
+            if (isEventOptOutScope && isLyytiUser) {
+                optBackInContactOrLead(con, lead, contactsToOptIn, leadsToOptIn);
+            }
+
             Boolean isEventOptedOut = (con != null && con.Invitation_Opt_Out__c) || (lead != null && lead.Event_Opt_Out__c);
 
             Boolean shouldBlock;
             if (recordType == RECORD_TYPE_EVENT_AND_MEETING) {
                 shouldBlock = isEventOptedOut;
-            } else if (isPostMeetingType(camp.Type)) {
+            } else if (isEventOptOutScope) {
                 shouldBlock = isEventOptedOut;
             } else {
                 shouldBlock = (con != null && con.Newsletter_Opt_Out__c) || (lead != null && lead.Prospect_Opt_out__c);
@@ -185,6 +195,13 @@ public with sharing class SM016_CampaignMemberService {
             if (shouldBlock) {
                 cm.addError(OPT_OUT_ERROR_MESSAGE);
             }
+        }
+
+        if (!contactsToOptIn.isEmpty()) {
+            update contactsToOptIn.values();
+        }
+        if (!leadsToOptIn.isEmpty()) {
+            update leadsToOptIn.values();
         }
     }
 
@@ -198,6 +215,21 @@ public with sharing class SM016_CampaignMemberService {
             }
         }
         return false;
+    }
+
+    /**
+    * When a CampaignMember is created by the Lyyti integration user for a previously
+    * event-opted-out Contact/Lead, treat it as them opting back in instead of blocking it.
+    */
+    private static void optBackInContactOrLead(Contact con, Lead lead, Map<Id, Contact> contactsToOptIn, Map<Id, Lead> leadsToOptIn) {
+        if (con != null && con.Invitation_Opt_Out__c) {
+            con.Invitation_Opt_Out__c = false;
+            contactsToOptIn.put(con.Id, con);
+        }
+        if (lead != null && lead.Event_Opt_Out__c) {
+            lead.Event_Opt_Out__c = false;
+            leadsToOptIn.put(lead.Id, lead);
+        }
     }
     
     public static void sendCallWSLyyti(List<CampaignMember> newItems, Map<Id, CampaignMember> oldItems) {
