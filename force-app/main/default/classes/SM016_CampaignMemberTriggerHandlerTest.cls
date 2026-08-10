@@ -97,8 +97,9 @@ public class SM016_CampaignMemberTriggerHandlerTest {
         User u = TestFactory.getCarmignacUserTestApex();
         u.BypassProcessBuilders__c = true;
         u.BypassApexTriggers__c = 'UserAfterInsert;UserAfterUpdate';
-
         update u;
+
+        String atMailDotCom = '@mail.com';
         System.runAs(u){
             // Test Begin
 
@@ -144,7 +145,7 @@ public class SM016_CampaignMemberTriggerHandlerTest {
 
                 // Utilise une valeur distincte pour chaque type d'email
                 contacts.add(TestFactory.getSimpleNoProfileContact(accTest.Id, 'TestFName '+i,'LastNameTestCarmignac '+i,'6543234'+i,'TechwbesiteId'+i,
-                        'professional'+i+'@mail.com','personal'+i+'@mail.com','team'+i+'@mail.com'));
+                        'professional'+i+atMailDotCom,'personal'+i+atMailDotCom,'team'+i+atMailDotCom));
             }
             insert contacts;
 
