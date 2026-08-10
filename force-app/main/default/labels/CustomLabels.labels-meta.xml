@@ -133,6 +133,20 @@ Technical_Agreement.Technical->Code Technique</value>
         <value>https://carmignac-crm.my.salesforce.com/sfc/p/58000000ZABI/a/1i0000012xn9/ir8Yw6XeBQ2pv2tW_nT.BSyLplzKT8r_wUr9U8x0aGE</value>
     </labels>
     <labels>
+        <fullName>CampaignMember_OptOut_BlockedMessage</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>CampaignMember OptOut Blocked Message</shortDescription>
+        <value>This Campaign Member can&apos;t be added: Contact/Lead has opted out of newsletters or events.</value>
+    </labels>
+    <labels>
+        <fullName>CampaignMember_OptOut_PostMeetingTypes</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>CampaignMember OptOut Post Meeting Types</shortDescription>
+        <value>Post-Meeting / Info;Post-Meeting / Replay</value>
+    </labels>
+    <labels>
         <fullName>CPGN_Add_To_Campaign</fullName>
         <categories>CPGN, Campaign, Add2Campaign</categories>
         <language>en_US</language>

@@ -369,4 +369,136 @@ public class SM016_CampaignMemberTriggerHandlerTest {
         handler.AfterUndelete(null);
 
     }
+
+    // -- blockOptOutEvent (CampaignMember_OptOutValidation flow ported to BeforeInsert) --
+
+    private static void assertOptOutBlocked(CampaignMember campMember) {
+        try {
+            insert campMember;
+            System.assert(false, 'Expected the opt-out validation to block this campaign member.');
+        } catch (DmlException e) {
+            System.assert(e.getMessage().contains('opted out'), 'Unexpected error: ' + e.getMessage());
+        }
+    }
+
+    static testMethod void blockOptOutEvent_EventAndMeeting_ContactOptedOut_BlocksTest(){
+
+        User u = TestFactory.getCarmignacUserTestApex();
+
+        System.runAs(u){
+            TestFactory.createCustomSettings();
+
+            Campaign camp = TestFactory.getSimpleCampaignEvents();
+            insert camp;
+
+            Account accTest = TestFactory.getSimpleAccount();
+            insert accTest;
+
+            Contact testContact = TestFactory.getSimpleNoProfileContact(accTest.Id, 'TestFName', 'LastNameTestCarmignac', '65432345', 'TechwbesiteId', 'mail@mail1.com', 'mail@mail1.com', 'mail@mail1.com');
+            testContact.Invitation_Opt_Out__c = true;
+            insert testContact;
+
+            assertOptOutBlocked(new CampaignMember(ContactId = testContact.Id, CampaignId = camp.Id));
+        }
+    }
+
+    static testMethod void blockOptOutEvent_EventAndMeeting_LeadOptedOut_BlocksTest(){
+
+        User u = TestFactory.getCarmignacUserTestApex();
+
+        System.runAs(u){
+            TestFactory.createCustomSettings();
+
+            Campaign camp = TestFactory.getSimpleCampaignEvents();
+            insert camp;
+
+            Lead testLead = TestFactory.getSimpleLead();
+            testLead.Event_Opt_Out__c = true;
+            insert testLead;
+
+            assertOptOutBlocked(new CampaignMember(LeadId = testLead.Id, CampaignId = camp.Id));
+        }
+    }
+
+    static testMethod void blockOptOutEvent_EventAndMeeting_NotOptedOut_AllowsTest(){
+
+        User u = TestFactory.getCarmignacUserTestApex();
+
+        System.runAs(u){
+            TestFactory.createCustomSettings();
+
+            Campaign camp = TestFactory.getSimpleCampaignEvents();
+            insert camp;
+
+            Account accTest = TestFactory.getSimpleAccount();
+            insert accTest;
+
+            Contact testContact = TestFactory.getSimpleNoProfileContact(accTest.Id, 'TestFName', 'LastNameTestCarmignac', '65432345', 'TechwbesiteId', 'mail@mail1.com', 'mail@mail1.com', 'mail@mail1.com');
+            insert testContact;
+
+            insert new CampaignMember(ContactId = testContact.Id, CampaignId = camp.Id);
+        }
+    }
+
+    static testMethod void blockOptOutEvent_Newsletters_PostMeetingType_ContactOptedOut_BlocksTest(){
+
+        User u = TestFactory.getCarmignacUserTestApex();
+
+        System.runAs(u){
+            TestFactory.createCustomSettings();
+
+            Campaign camp = TestFactory.getCampaignNewsletter();
+            camp.Type = 'Post-Meeting / Info';
+            insert camp;
+
+            Account accTest = TestFactory.getSimpleAccount();
+            insert accTest;
+
+            Contact testContact = TestFactory.getSimpleNoProfileContact(accTest.Id, 'TestFName', 'LastNameTestCarmignac', '65432345', 'TechwbesiteId', 'mail@mail1.com', 'mail@mail1.com', 'mail@mail1.com');
+            testContact.Invitation_Opt_Out__c = true;
+            testContact.Newsletter_Opt_Out__c = false;
+            insert testContact;
+
+            assertOptOutBlocked(new CampaignMember(ContactId = testContact.Id, CampaignId = camp.Id));
+        }
+    }
+
+    static testMethod void blockOptOutEvent_Newsletters_NonPostMeetingType_LeadOptedOut_BlocksTest(){
+
+        User u = TestFactory.getCarmignacUserTestApex();
+
+        System.runAs(u){
+            TestFactory.createCustomSettings();
+
+            Campaign camp = TestFactory.getCampaignNewsletter();
+            insert camp;
+
+            Lead testLead = TestFactory.getSimpleLead();
+            testLead.Prospect_Opt_out__c = true;
+            testLead.Event_Opt_Out__c = false;
+            insert testLead;
+
+            assertOptOutBlocked(new CampaignMember(LeadId = testLead.Id, CampaignId = camp.Id));
+        }
+    }
+
+    static testMethod void blockOptOutEvent_Newsletters_NotOptedOut_AllowsTest(){
+
+        User u = TestFactory.getCarmignacUserTestApex();
+
+        System.runAs(u){
+            TestFactory.createCustomSettings();
+
+            Campaign camp = TestFactory.getCampaignNewsletter();
+            insert camp;
+
+            Account accTest = TestFactory.getSimpleAccount();
+            insert accTest;
+
+            Contact testContact = TestFactory.getSimpleNoProfileContact(accTest.Id, 'TestFName', 'LastNameTestCarmignac', '65432345', 'TechwbesiteId', 'mail@mail1.com', 'mail@mail1.com', 'mail@mail1.com');
+            insert testContact;
+
+            insert new CampaignMember(ContactId = testContact.Id, CampaignId = camp.Id);
+        }
+    }
 }
