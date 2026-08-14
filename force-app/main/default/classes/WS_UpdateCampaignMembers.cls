@@ -34,34 +34,14 @@ public class WS_UpdateCampaignMembers extends RestCallout{
         return 'PATCH';
     }
 
-    public String getSignature(){
+    public HttpRequest setHeaderAndEndpoint(){
         String callString = 'events/' + recordToTreat.Campaign.LyytiId__c + '/participants/' + this.lyytiId.split('-')[1];
 
-        String msg = String.join(new List<String>{
-            this.publicKey,
-            String.valueOf(this.timestamp),
-            callString
-        }, ',');
-
-        // Encode the string
-        String msgBase64 = EncodingUtil.base64Encode(Blob.valueOf(msg));
-        
-        // Generate HMAC Signature
-        Blob macKey = Blob.valueOf(this.privateKey);
-        Blob input = Blob.valueOf(msgBase64);
-        Blob hmac = Crypto.generateMac('hmacSHA256', input, macKey);
-        
-        // Convert To Hex
-        String signature = EncodingUtil.convertToHex(hmac);
-        return signature;
-    }
-
-    public HttpRequest setHeaderAndEndpoint(){
         HttpRequest req = new HttpRequest();
-        
+
         req.setHeader( 'Accept', 'application/json; charset=utf-8' );
         req.setHeader( 'Content-Type', 'application/merge-patch+json' );
-        req.setHeader( 'Authorization', 'LYYTI-API-V2 public_key='+this.publicKey+', timestamp='+this.timestamp+', signature='+getSignature() );
+        req.setHeader( 'Authorization', LyytiSignatureUtil.buildAuthorizationHeader(this.publicKey, this.privateKey, this.timestamp, callString) );
         req.setEndpoint(LyytiCredentials__mdt.getInstance('Authentication').URL__c+'/events/' + recordToTreat.Campaign.LyytiId__c + '/participants/' + this.lyytiId.split('-')[1]);
         req.setBody(setJsonBody());
         return req;

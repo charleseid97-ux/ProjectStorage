@@ -6,6 +6,7 @@ public class WS_LyytiGetParticipantTypes extends RestCallout {
     public String privateKey;
 
     public Map<String, String> participantTypeNameById = new Map<String, String>();
+    public Boolean success = false;
 
     public WS_LyytiGetParticipantTypes(Campaign recordToTreat) {
         this.recordToTreat = recordToTreat;
@@ -18,27 +19,10 @@ public class WS_LyytiGetParticipantTypes extends RestCallout {
         return 'GET';
     }
 
-    public String getSignature() {
-        String callString = 'participant_types/' + recordToTreat.LyytiId__c;
-
-        String msg = String.join(new List<String>{
-            this.publicKey,
-            String.valueOf(this.timestamp),
-            callString
-        }, ',');
-
-        String msgBase64 = EncodingUtil.base64Encode(Blob.valueOf(msg));
-        Blob hmac = Crypto.generateMac(
-            'hmacSHA256',
-            Blob.valueOf(msgBase64),
-            Blob.valueOf(this.privateKey)
-        );
-
-        return EncodingUtil.convertToHex(hmac);
-    }
-
     public HttpRequest setHeaderAndEndpoint() {
         this.timestamp = System.now().getTime() / 1000;
+
+        String callString = 'participant_types/' + recordToTreat.LyytiId__c;
 
         HttpRequest req = new HttpRequest();
 
@@ -46,9 +30,7 @@ public class WS_LyytiGetParticipantTypes extends RestCallout {
         req.setHeader('Content-Type', 'application/json');
         req.setHeader(
             'Authorization',
-            'LYYTI-API-V2 public_key=' + this.publicKey +
-            ', timestamp=' + this.timestamp +
-            ', signature=' + getSignature()
+            LyytiSignatureUtil.buildAuthorizationHeader(this.publicKey, this.privateKey, this.timestamp, callString)
         );
 
         req.setEndpoint(
@@ -65,8 +47,9 @@ public class WS_LyytiGetParticipantTypes extends RestCallout {
 
     public override void processResponse(HttpResponse response) {
         participantTypeNameById.clear();
+        this.success = response.getStatusCode() == 200;
 
-        if (response.getStatusCode() != 200) {
+        if (!this.success) {
             System.debug(
                 'WS_LyytiGetParticipantTypes status: ' +
                 response.getStatusCode() + ' ' + response.getStatus()
