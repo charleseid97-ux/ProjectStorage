@@ -127,4 +127,63 @@ public class BATCH_UpdateCampaignMemberLyytiSrcTest {
         System.assert(!logs.isEmpty(), 'A failure log should have been written for the campaign');
         System.assertEquals('ERROR', logs[0].Level__c);
     }
+
+    @isTest
+    static void execute_reprocessesMembersPreviouslyMarkedUnknown() {
+        Campaign camp = [SELECT Id FROM Campaign LIMIT 1];
+        Contact con = [SELECT Id FROM Contact LIMIT 1];
+        Category_Event__c category = [SELECT Id FROM Category_Event__c LIMIT 1];
+
+        // Previously resolved to "Unknown" (e.g. participant wasn't in Lyyti yet at the time) -> must be retried.
+        CampaignMember cm = insertMember(camp.Id, con.Id, category.Id, '1704919-2001');
+        cm.Lyyti_Source__c = 'Unknown';
+        update cm;
+
+        Test.startTest();
+
+        Test.setMock(HttpCalloutMock.class, new MockHttpLyytiMultiEndpoint(PARTICIPANT_TYPES_JSON, PARTICIPANTS_JSON));
+        Database.executeBatch(new BATCH_UpdateCampaignMemberLyytiSource());
+
+        Test.stopTest();
+
+        CampaignMember result = [SELECT Id, Lyyti_Source__c FROM CampaignMember WHERE Id = :cm.Id];
+        System.assertEquals('Website', result.Lyyti_Source__c, 'A member previously marked Unknown must be re-resolved on a later run');
+    }
+
+    @isTest
+    static void execute_respectsPerCampaignCapAndLeavesOverflowForNextRun() {
+        Campaign camp = [SELECT Id FROM Campaign LIMIT 1];
+        Contact con = [SELECT Id FROM Contact LIMIT 1];
+        Category_Event__c category = [SELECT Id FROM Category_Event__c LIMIT 1];
+
+        CampaignMember cmWithinCap = insertMember(camp.Id, con.Id, category.Id, '1704919-2001');
+        CampaignMember cmOverCap = insertMember(camp.Id, con.Id, category.Id, '1704919-2002');
+
+        Integer originalCap = BATCH_UpdateCampaignMemberLyytiSource.maxMembersPerCampaignPerRun;
+        BATCH_UpdateCampaignMemberLyytiSource.maxMembersPerCampaignPerRun = 1;
+
+        Test.startTest();
+
+        Test.setMock(HttpCalloutMock.class, new MockHttpLyytiMultiEndpoint(PARTICIPANT_TYPES_JSON, PARTICIPANTS_JSON));
+        Database.executeBatch(new BATCH_UpdateCampaignMemberLyytiSource());
+
+        Test.stopTest();
+
+        BATCH_UpdateCampaignMemberLyytiSource.maxMembersPerCampaignPerRun = originalCap;
+
+        Map<Id, CampaignMember> updated = new Map<Id, CampaignMember>([SELECT Id, Lyyti_Source__c FROM CampaignMember WHERE Id IN :new List<Id>{ cmWithinCap.Id, cmOverCap.Id }]);
+
+        Integer resolvedCount = 0;
+        Integer stillPendingCount = 0;
+        for (CampaignMember cm : updated.values()) {
+            if (cm.Lyyti_Source__c == null) {
+                stillPendingCount++;
+            } else {
+                resolvedCount++;
+            }
+        }
+
+        System.assertEquals(1, resolvedCount, 'Only the capped number of members should be resolved in a single run');
+        System.assertEquals(1, stillPendingCount, 'The overflow member must stay unresolved so the next scheduled run picks it up');
+    }
 }

@@ -4,6 +4,9 @@ public class BATCH_UpdateCampaignMemberLyytiSource implements Database.Batchable
     private static final String SOURCE_INVITED = 'Invited';
     private static final String SOURCE_SALESFORCE = 'Salesforce';
 
+    @TestVisible
+    private static Integer maxMembersPerCampaignPerRun = 9000;
+
     public Database.QueryLocator start(Database.BatchableContext BC) {
         return Database.getQueryLocator([SELECT Id, LyytiId__c
                                          FROM Campaign
@@ -28,7 +31,8 @@ public class BATCH_UpdateCampaignMemberLyytiSource implements Database.Batchable
                                   FROM CampaignMember
                                   WHERE CampaignId IN :campaignIds
                                   AND LyytiId__c != null
-                                  AND (Lyyti_Source__c = null OR Lyyti_Source__c = 'Unknown')]) {
+                                  AND (Lyyti_Source__c = null OR Lyyti_Source__c = 'Unknown')
+                                  LIMIT :maxMembersPerCampaignPerRun]) {
             if (!membersByCampaignId.containsKey(cm.CampaignId)) {
                 membersByCampaignId.put(cm.CampaignId, new List<CampaignMember>());
             }
