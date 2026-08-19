@@ -1,14 +1,19 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <Package xmlns="http://soap.sforce.com/2006/04/metadata">
     <types>
-        <members>SM016_CampaignMemberService</members>
-        <members>SM016_CampaignMemberTriggerHandlerTest</members>
+        <members>BATCH_UpdateCampaignMemberLyytiSource</members>
+        <members>BATCH_UpdateCampaignMemberLyytiSrcTest</members>
+        <members>LyytiSignatureUtil</members>
+        <members>LyytiSignatureUtilTest</members>
+        <members>MockHttpLyytiMultiEndpoint</members>
+        <members>WS_GetEventParticipants</members>
+        <members>WS_GetEventParticipantType</members>
+        <members>WS_LyytiGetParticipantTypes</members>
+        <members>WS_SendCampaign</members>
+        <members>WS_SendCampaignMembers</members>
+        <members>WS_SendConfirmationLyyti</members>
+        <members>WS_UpdateCampaignMembers</members>
         <name>ApexClass</name>
-    </types>
-    <types>
-        <members>CampaignMember_OptOut_BlockedMessage</members>
-        <members>CampaignMember_OptOut_PostMeetingTypes</members>
-        <name>CustomLabel</name>
     </types>
     <version>61.0</version>
 </Package>

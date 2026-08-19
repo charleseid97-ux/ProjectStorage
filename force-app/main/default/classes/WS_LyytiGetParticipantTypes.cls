@@ -6,6 +6,7 @@ public class WS_LyytiGetParticipantTypes extends RestCallout {
     public String privateKey;
 
     public Map<String, String> participantTypeNameById = new Map<String, String>();
+    public Boolean success = false;
 
     public WS_LyytiGetParticipantTypes(Campaign recordToTreat) {
         this.recordToTreat = recordToTreat;
@@ -18,43 +19,18 @@ public class WS_LyytiGetParticipantTypes extends RestCallout {
         return 'GET';
     }
 
-    public String getSignature() {
-        String callString = 'participant_types/' + recordToTreat.LyytiId__c;
-
-        String msg = String.join(new List<String>{
-            this.publicKey,
-            String.valueOf(this.timestamp),
-            callString
-        }, ',');
-
-        String msgBase64 = EncodingUtil.base64Encode(Blob.valueOf(msg));
-        Blob hmac = Crypto.generateMac(
-            'hmacSHA256',
-            Blob.valueOf(msgBase64),
-            Blob.valueOf(this.privateKey)
-        );
-
-        return EncodingUtil.convertToHex(hmac);
-    }
-
     public HttpRequest setHeaderAndEndpoint() {
         this.timestamp = System.now().getTime() / 1000;
+
+        String callString = 'participant_types/' + recordToTreat.LyytiId__c;
 
         HttpRequest req = new HttpRequest();
 
         req.setHeader('Accept', 'application/json; charset=utf-8');
         req.setHeader('Content-Type', 'application/json');
-        req.setHeader(
-            'Authorization',
-            'LYYTI-API-V2 public_key=' + this.publicKey +
-            ', timestamp=' + this.timestamp +
-            ', signature=' + getSignature()
-        );
+        req.setHeader('Authorization', LyytiSignatureUtil.buildAuthorizationHeader(this.publicKey, this.privateKey, this.timestamp, callString));
 
-        req.setEndpoint(
-            LyytiCredentials__mdt.getInstance('Authentication').URL__c +
-            '/participant_types/' + recordToTreat.LyytiId__c
-        );
+        req.setEndpoint(LyytiCredentials__mdt.getInstance('Authentication').URL__c + '/participant_types/' + recordToTreat.LyytiId__c);
 
         return req;
     }
@@ -65,28 +41,21 @@ public class WS_LyytiGetParticipantTypes extends RestCallout {
 
     public override void processResponse(HttpResponse response) {
         participantTypeNameById.clear();
+        this.success = response.getStatusCode() == 200;
 
-        if (response.getStatusCode() != 200) {
-            System.debug(
-                'WS_LyytiGetParticipantTypes status: ' +
-                response.getStatusCode() + ' ' + response.getStatus()
-            );
+        if (!this.success) {
+            System.debug('WS_LyytiGetParticipantTypes status: ' + response.getStatusCode() + ' ' + response.getStatus());
             return;
         }
 
-        Map<String, Object> body =
-            (Map<String, Object>) JSON.deserializeUntyped(response.getBody());
+        Map<String, Object> body = (Map<String, Object>) JSON.deserializeUntyped(response.getBody());
 
-        if (body == null || !body.containsKey('results')) {
-            return;
-        }
+        if (body == null || !body.containsKey('results')) return;
 
-        Map<String, Object> results =
-            (Map<String, Object>) body.get('results');
+        Map<String, Object> results = (Map<String, Object>) body.get('results');
 
         for (String resultKey : results.keySet()) {
-            Map<String, Object> typeData =
-                (Map<String, Object>) results.get(resultKey);
+            Map<String, Object> typeData = (Map<String, Object>) results.get(resultKey);
 
             String typeId = String.valueOf(typeData.get('id'));
             String typeLabel = getDescriptionLabel(typeData);
@@ -100,24 +69,15 @@ public class WS_LyytiGetParticipantTypes extends RestCallout {
     }
 
     private static String getDescriptionLabel(Map<String, Object> typeData) {
-        if (typeData == null || !typeData.containsKey('description')) {
-            return null;
-        }
+        if (typeData == null || !typeData.containsKey('description')) return null;
 
-        Map<String, Object> description =
-            (Map<String, Object>) typeData.get('description');
+        Map<String, Object> description = (Map<String, Object>) typeData.get('description');
 
-        if (description == null) {
-            return null;
-        }
+        if (description == null) return null;
 
-        if (description.containsKey('fr') && description.get('fr') != null) {
-            return String.valueOf(description.get('fr'));
-        }
+        if (description.containsKey('fr') && description.get('fr') != null) return String.valueOf(description.get('fr'));
 
-        if (description.containsKey('en') && description.get('en') != null) {
-            return String.valueOf(description.get('en'));
-        }
+        if (description.containsKey('en') && description.get('en') != null) return String.valueOf(description.get('en'));
 
         for (String lang : description.keySet()) {
             if (description.get(lang) != null) {
@@ -131,7 +91,8 @@ public class WS_LyytiGetParticipantTypes extends RestCallout {
     public void sendInDataToExternalService() {
         try {
             callEndPoint(setHeaderAndEndpoint());
-        } catch (Exception e) {
+        } 
+        catch (Exception e) {
             System.debug('WS_LyytiGetParticipantTypes callout error: ' + e.getMessage());
         }
     }
