@@ -1,3 +1,10 @@
+/** ──────────────────────────────────────
+ * @description Test class for LyytiSignatureUtil.
+ *              Validates the signature against a known-answer vector, determinism for identical inputs,
+ *              divergence when the call string changes, and the Authorization header format.
+ * @author Charles EID
+ * @testCoverage LyytiSignatureUtil (100%)   [19-08-26]
+────────────────────────────────────── */
 @isTest
 public class LyytiSignatureUtilTest {
 

@@ -1,3 +1,9 @@
+/** ──────────────────────────────────────
+ * @description HttpCalloutMock routing to a participant-types response or a participants response
+ *              depending on which Lyyti endpoint the request targets, with a configurable status code
+ *              for simulating callout failures.
+ * @author Charles EID
+────────────────────────────────────── */
 @isTest
 global class MockHttpLyytiMultiEndpoint implements HttpCalloutMock {
 

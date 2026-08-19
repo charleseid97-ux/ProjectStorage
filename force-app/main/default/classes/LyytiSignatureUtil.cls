@@ -1,3 +1,11 @@
+/** ──────────────────────────────────────
+ * @description Builds the LYYTI-API-V2 request signature and Authorization header used by all Lyyti
+ *              callouts (HMAC-SHA256 of the base64-encoded public key/timestamp/call string, keyed by
+ *              the private key).
+ * @author Charles EID
+ * @testClass LyytiSignatureUtilTest
+ * @coverage 100%   [19-08-26]
+────────────────────────────────────── */
 public inherited sharing class LyytiSignatureUtil {
 
     public static String sign(String publicKey, String privateKey, Long timestamp, String callString) {

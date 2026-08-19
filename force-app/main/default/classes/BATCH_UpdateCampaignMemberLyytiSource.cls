@@ -1,3 +1,11 @@
+/** ──────────────────────────────────────
+ * @description Scheduled/batch job that backfills CampaignMember.Lyyti_Source__c for members synced from
+ *              Lyyti events. For each Campaign still having unresolved members, calls the Lyyti participant
+ *              type and participant APIs to resolve each member's source, remapping "Invited" to "Salesforce".
+ * @author Charles EID
+ * @testClass BATCH_UpdateCampaignMemberLyytiSrcTest
+ * @coverage 92%   [19-08-26]
+────────────────────────────────────── */
 public class BATCH_UpdateCampaignMemberLyytiSource implements Database.Batchable<sObject>, Database.AllowsCallouts, Schedulable {
 
     private static final String SOURCE_UNKNOWN = 'Unknown';

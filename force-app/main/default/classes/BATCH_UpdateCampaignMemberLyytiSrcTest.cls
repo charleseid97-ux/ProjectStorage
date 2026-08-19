@@ -1,3 +1,11 @@
+/** ──────────────────────────────────────
+ * @description Test class for BATCH_UpdateCampaignMemberLyytiSource.
+ *              Validates source resolution and the "Invited" -> "Salesforce" business rule, the scheduled
+ *              run, retry behavior on callout failure and on previously-"Unknown" members, and the
+ *              per-campaign member cap that keeps a single run under the DML row limit.
+ * @author Charles EID
+ * @testCoverage BATCH_UpdateCampaignMemberLyytiSource (92%)   [19-08-26]
+────────────────────────────────────── */
 @isTest
 public class BATCH_UpdateCampaignMemberLyytiSrcTest {
 
