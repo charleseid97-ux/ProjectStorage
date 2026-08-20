@@ -224,11 +224,9 @@ export default class GridAgreementsSelection extends LightningElement {
     get isSalesOwnerDisabled()  { return !((this.selectedValues?.length > 0) || !!this.recId || !!this.selectedTeam); }
     get salesOwnerFilter() {
         const criteria = [{ fieldPath: 'IsActive', operator: 'eq', value: true }];
-        if (this.userProfile && !this.userProfile.includes('Admin')) {
-            criteria.push({ fieldPath: 'Profile.Name', operator: 'eq', value: this.userProfile });
-            if (this.userProfile === 'Carmignac - CRM' && this.selectedTeam) {
-                criteria.push({ fieldPath: 'Team__c', operator: 'eq', value: this.selectedTeam });
-            }
+        const isAdmin = this.userProfile && this.userProfile.includes('Admin');
+        if (!isAdmin && this.userProfile === 'Carmignac - CRM' && this.selectedTeam) {
+            criteria.push({ fieldPath: 'Team__c', operator: 'eq', value: this.selectedTeam });
         }
         return { criteria };
     }
