@@ -225,8 +225,11 @@ export default class GridAgreementsSelection extends LightningElement {
     get salesOwnerFilter() {
         const criteria = [{ fieldPath: 'IsActive', operator: 'eq', value: true }];
         const isAdmin = this.userProfile && this.userProfile.includes('Admin');
-        if (!isAdmin && this.userProfile === 'Carmignac - CRM' && this.selectedTeam) {
-            criteria.push({ fieldPath: 'Team__c', operator: 'eq', value: this.selectedTeam });
+        if (!isAdmin) {
+            criteria.push({ fieldPath: 'Profile.Name', operator: 'eq', value: 'Carmignac - Business Developer' });
+            if (this.userProfile === 'Carmignac - CRM' && this.selectedTeam) {
+                criteria.push({ fieldPath: 'Team__c', operator: 'eq', value: this.selectedTeam });
+            }
         }
         return { criteria };
     }
