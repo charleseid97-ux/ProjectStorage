@@ -1,12 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Package xmlns="http://soap.sforce.com/2006/04/metadata">
-	<types>
-        <members>Grid__c.SalesOwner__c</members>
-        <name>CustomField</name>
+    <types>
+        <members>ContactTriggerHandler</members>
+        <members>SM007_ContactTriggerHandler</members>
+        <members>ContactTH</members>
+        <members>OptOutHelper</members>
+        <name>ApexClass</name>
     </types>
     <types>
-        <members>gridAgreementsSelection</members>
-        <name>LightningComponentBundle</name>
+        <members>ContactTrigger</members>
+        <name>ApexTrigger</name>
     </types>
     <version>66.0</version>
 </Package>
