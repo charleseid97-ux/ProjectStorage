@@ -5,6 +5,15 @@
     <description>Sales representative responsible for this grid. Used as the point of contact for any remuneration-related questions.</description>
     <inlineHelpText>The Sales representative to contact for any questions regarding applicable remuneration.</inlineHelpText>
     <label>Sales Owner</label>
+    <lookupFilter>
+        <active>true</active>
+        <filterItems>
+            <field>User.Profile.Name</field>
+            <operation>equals</operation>
+            <value>Carmignac - Business Developer</value>
+        </filterItems>
+        <isOptional>false</isOptional>
+    </lookupFilter>
     <referenceTo>User</referenceTo>
     <relationshipLabel>Grids (Sales Owner)</relationshipLabel>
     <relationshipName>SalesOwnerGrids</relationshipName>
