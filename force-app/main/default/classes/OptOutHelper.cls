@@ -82,6 +82,32 @@ public class OptOutHelper {
         }
     }
 
+    // Prospace_Opt_Out__c drives Web_Communication__c.IsActive__c for all related communications (and vice versa via
+    // SM029_WebCommunicationTriggerHandler.onAfterUpdate, which only ever flips Prospace_Opt_Out__c false when the
+    // Prospace site user reactivates a communication — that write is a no-op here since we've already set it false,
+    // so this does not recurse).
+    public static void syncWebCommunicationActivation(List<Contact> newContacts, Map<Id, Contact> oldContacts) {
+        Map<Id, Boolean> optOutByContactId = new Map<Id, Boolean>();
+
+        for (Contact c : newContacts) {
+            if (c.Prospace_Opt_Out__c != oldContacts.get(c.Id).Prospace_Opt_Out__c) {
+                optOutByContactId.put(c.Id, c.Prospace_Opt_Out__c);
+            }
+        }
+        if (optOutByContactId.isEmpty()) return;
+
+        List<Web_Communication__c> webComsToUpdate = new List<Web_Communication__c>();
+        for (Web_Communication__c wc : [SELECT Id, Contact__c, Contact__r.Prospace_Opt_Out__c, IsActive__c
+                                         FROM Web_Communication__c
+                                         WHERE Contact__c IN :optOutByContactId.keySet()]) {
+            Boolean shouldBeActive = !optOutByContactId.get(wc.Contact__c);
+            if (wc.IsActive__c != shouldBeActive) {
+                webComsToUpdate.add(new Web_Communication__c(Id = wc.Id, IsActive__c = shouldBeActive));
+            }
+        }
+        if (!webComsToUpdate.isEmpty()) update webComsToUpdate;
+    }
+
     public static void getLastModifiedOptOut(List<Contact> records, Map<Id, Contact> oldContacts) {
         try {
             for (Contact record : records) {
