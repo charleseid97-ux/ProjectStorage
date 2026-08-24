@@ -6,7 +6,7 @@
  * @last modified by  : SILA Nicolas
 **/
 
-public class OptOutHelper {
+public without sharing class OptOutHelper {
     private static final Map<String, String> CODE_TO_EXPLANATION_MAP = new Map<String, String>{ 
     '5.0.0'=>'Unknown issue', '5.1.0'=>'Other address status'  , '5.1.1'=>'Bad destination mailbox address'  , 
     '5.1.2'=>'Bad destination system address'  , '5.1.3'=>'Bad destination mailbox address syntax', '5.1.4'=>'Destination mailbox address ambiguous', 
