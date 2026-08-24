@@ -34,9 +34,20 @@ public class SM007_ContactTriggerHandler {
                 c.HasOptedOutOfEmail = true ;
             }
             if(c.HasOptedOutOfEmail == true){
-                c.Newsletter_Opt_Out__c = true ; 
-                c.Invitation_Opt_Out__c = true ; 
+                c.Newsletter_Opt_Out__c = true ;
+                c.Invitation_Opt_Out__c = true ;
                 c.Prospace_Opt_Out__c = true ;
+            }
+
+            // Moved from ContactTH.onBeforeInsert (that class can be deleted)
+            if (c.Proposed_Contact_Owner__c != null) {
+                User currentOwner = ContactUtil.getCurrentUser(c.ownerId);
+                User proposedOwner = ContactUtil.getCurrentUser(c.Proposed_Contact_Owner__c);
+                Boolean autoApprove = ContactUtil.autoApproveChange(currentOwner.BusinessDevelopmentRegions__c, proposedOwner.BusinessDevelopmentRegions__c);
+                if (autoApprove) {
+                    c.OwnerId = c.Proposed_Contact_Owner__c;
+                    c.Proposed_Contact_Owner__c = null;
+                }
             }
         }
         //Update incremental value in custom settings
