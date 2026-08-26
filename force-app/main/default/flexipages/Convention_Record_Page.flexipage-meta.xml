@@ -352,6 +352,39 @@
                 <identifier>RecordNoGridRequired_cField2</identifier>
             </fieldInstance>
         </itemInstances>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>required</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.AssetAge__c</fieldItem>
+                <identifier>RecordAssetAge_cField</identifier>
+                <visibilityRule>
+                    <booleanFilter>1 OR 2 OR 3 OR 4</booleanFilter>
+                    <criteria>
+                        <leftValue>{!Record.MasterConvention__r.Name}</leftValue>
+                        <operator>EQUAL</operator>
+                        <rightValue>L198</rightValue>
+                    </criteria>
+                    <criteria>
+                        <leftValue>{!Record.MasterConvention__r.Name}</leftValue>
+                        <operator>EQUAL</operator>
+                        <rightValue>L710</rightValue>
+                    </criteria>
+                    <criteria>
+                        <leftValue>{!Record.MasterConvention__r.Name}</leftValue>
+                        <operator>EQUAL</operator>
+                        <rightValue>1263</rightValue>
+                    </criteria>
+                    <criteria>
+                        <leftValue>{!Record.MasterConvention__r.Name}</leftValue>
+                        <operator>EQUAL</operator>
+                        <rightValue>L1263</rightValue>
+                    </criteria>
+                </visibilityRule>
+            </fieldInstance>
+        </itemInstances>
         <name>Facet-e70f4b89-9a71-4b58-8c44-682bd30f333e</name>
         <type>Facet</type>
     </flexiPageRegions>
@@ -1760,10 +1793,6 @@
         <itemInstances>
             <componentInstance>
                 <componentInstanceProperties>
-                    <name>label</name>
-                    <value>Tabs</value>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
                     <name>tabs</name>
                     <value>maintabs</value>
                 </componentInstanceProperties>
@@ -2105,10 +2134,6 @@
     <flexiPageRegions>
         <itemInstances>
             <componentInstance>
-                <componentInstanceProperties>
-                    <name>label</name>
-                    <value>Tabs</value>
-                </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>tabs</name>
                     <value>sidebartabs</value>
