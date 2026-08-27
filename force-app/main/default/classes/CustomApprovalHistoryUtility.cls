@@ -18,7 +18,8 @@ public without sharing class CustomApprovalHistoryUtility {
         result.success      = false;
         result.errorMessage = null;
         try {
-            List<ApprovalStepConfig__mdt> allSteps = [SELECT Id, DeveloperName, StepOrder__c, StepLabel__c, ApprovalMode__c, ProcessConfig__r.TargetLabelFieldApiName__c
+            List<ApprovalStepConfig__mdt> allSteps = [SELECT Id, DeveloperName, StepOrder__c, StepLabel__c, ApprovalMode__c, EntryCriteria__c,
+                                                              ProcessConfig__r.TargetLabelFieldApiName__c, ProcessConfig__r.ObjectType__c
                                                       FROM ApprovalStepConfig__mdt
                                                       WHERE ProcessConfig__r.DeveloperName = :processName
                                                       ORDER BY StepOrder__c ASC];
@@ -26,7 +27,11 @@ public without sharing class CustomApprovalHistoryUtility {
                 result.errorMessage = 'No step configuration found for process: ' + processName;
                 return result;
             }
-            ApprovalStepConfig__mdt initialStep = allSteps[0];
+            ApprovalStepConfig__mdt initialStep = findFirstMatchingStep(allSteps, recordId, allSteps[0].ProcessConfig__r?.ObjectType__c);
+            if (initialStep == null) {
+                result.errorMessage = 'No step matched entry criteria for process: ' + processName;
+                return result;
+            }
 
             List<ApproverAssignment> assignments = resolveApprovers(processName, initialStep, recordId, null);
             if (assignments.isEmpty()) {
@@ -136,7 +141,7 @@ public without sharing class CustomApprovalHistoryUtility {
     }
 
     private static void handleApprove(StepContext ctx, List<CustomApprovalStep__c> siblings, Set<Id> allCurrentIds, List<Id> userInputApproverIds) {
-        ApprovalStepConfig__mdt stepCfg = [SELECT ApprovalMode__c, StepOrder__c
+        ApprovalStepConfig__mdt stepCfg = [SELECT ApprovalMode__c, StepOrder__c, ProcessConfig__r.ObjectType__c
                                            FROM ApprovalStepConfig__mdt
                                            WHERE DeveloperName = :ctx.stepDevName
                                            LIMIT 1];
@@ -148,14 +153,14 @@ public without sharing class CustomApprovalHistoryUtility {
             recallSteps(siblings, ctx.currentUserId, null);
         }
 
-        List<ApprovalStepConfig__mdt> nextSteps = [SELECT Id, DeveloperName, StepLabel__c, ApprovalMode__c, StepOrder__c
+        List<ApprovalStepConfig__mdt> remainingSteps = [SELECT Id, DeveloperName, StepLabel__c, ApprovalMode__c, StepOrder__c, EntryCriteria__c
                                                    FROM ApprovalStepConfig__mdt
                                                    WHERE ProcessConfig__r.DeveloperName = :ctx.processName
                                                      AND StepOrder__c > :stepCfg.StepOrder__c
-                                                   ORDER BY StepOrder__c ASC LIMIT 1];
+                                                   ORDER BY StepOrder__c ASC];
+        ApprovalStepConfig__mdt nextStep = findFirstMatchingStep(remainingSteps, ctx.targetRecordId, stepCfg.ProcessConfig__r?.ObjectType__c);
 
-        if (!nextSteps.isEmpty()) {
-            ApprovalStepConfig__mdt nextStep = nextSteps[0];
+        if (nextStep != null) {
             List<ApproverAssignment> nextAssignments = resolveApprovers(ctx.processName, nextStep, ctx.targetRecordId, userInputApproverIds);
             Set<Id> nextIds = new Set<Id>();
             for (ApproverAssignment a : nextAssignments) {
@@ -216,6 +221,27 @@ public without sharing class CustomApprovalHistoryUtility {
             'currentApproverIds' => currentIds != null ? new List<Id>(currentIds) : new List<Id>(),
             'nextApproverIds'    => nextIds    != null ? new List<Id>(nextIds)    : null
         };
+    }
+
+    // ─── Step selection (entry criteria) ──────────────────────────────────────────
+    // Returns the first step (in the given, already-ordered list) whose EntryCriteria__c
+    // matches the target record, or null if none match (caller decides what that means:
+    // submission failure for the initial step, "no next step" / final approval otherwise).
+    private static ApprovalStepConfig__mdt findFirstMatchingStep(List<ApprovalStepConfig__mdt> orderedSteps, Id recordId, String objectType) {
+        for (ApprovalStepConfig__mdt step : orderedSteps) {
+            if (stepCriteriaMet(recordId, objectType, step.EntryCriteria__c)) {
+                return step;
+            }
+        }
+        return null;
+    }
+
+    // EntryCriteria__c is a literal SOQL WHERE-clause fragment configured by admins via custom
+    // metadata (same trust level as TargetFieldApiName__c/FieldValue__c elsewhere in this class).
+    private static Boolean stepCriteriaMet(Id recordId, String objectType, String criteriaText) {
+        if (String.isBlank(criteriaText)) return true;
+        String query = 'SELECT Id FROM ' + objectType + ' WHERE Id = :recordId AND (' + criteriaText + ')';
+        return !Database.query(query).isEmpty();
     }
 
     // ─── resolveApprovers ────────────────────────────────────────────────────────

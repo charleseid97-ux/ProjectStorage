@@ -1,9 +1,65 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Package xmlns="http://soap.sforce.com/2006/04/metadata">
     <types>
+        <members>ApprovalStepConfig__mdt.EntryCriteria__c</members>
+        <name>CustomField</name>
+    </types>
+    <types>
+        <members>CustomApprovalHistoryUtility</members>
+        <members>GridHOCApproverResolver</members>
+        <members>GridTopManagementApproverResolver</members>
+        <members>HOCApproverResolver</members>
+        <members>TopManagementApproverResolver</members>
+        <members>AgreementHOCApproverResolver</members>
+        <members>AgreementTopManagementApproverResolver</members>
+        <name>ApexClass</name>
+    </types>
+    <types>
         <members>gridSubmitAmendmentForApproval</members>
         <members>customApprovalSubmitScreen</members>
+        <members>conventionSubmitAgreementTermination</members>
+        <members>conventionSubmitForApproval</members>
         <name>LightningComponentBundle</name>
+    </types>
+    <types>
+        <members>Convention__c.SubmitAgreementTermination</members>
+        <members>Convention__c.SubmitForApproval</members>
+        <name>QuickAction</name>
+    </types>
+    <types>
+        <members>ApprovalProcessConfig.AgreementTermination</members>
+        <members>ApprovalProcessConfig.AgreementRequestApproval</members>
+        <members>ApprovalStepConfig.AgreementTermination_HOC</members>
+        <members>ApprovalStepConfig.AgreementTermination_TopMngt</members>
+        <members>ApprovalStepConfig.AgreementTermination_Legal</members>
+        <members>ApprovalStepConfig.AgreementRequestApproval_HOC</members>
+        <members>ApprovalStepConfig.AgreementRequestApproval_DCODO</members>
+        <members>ApprovalStepConfig.AgreementRequestApproval_Compliance</members>
+        <members>ApprovalStepConfig.AgreementRequestApproval_TopMngt</members>
+        <members>ApprovalStepConfig.AgreementRequestApproval_Legal</members>
+        <members>ApprovalStepApproverConfig.AgreementTermination_HOC</members>
+        <members>ApprovalStepApproverConfig.AgreementTermination_TopMngt</members>
+        <members>ApprovalStepApproverConfig.AgreementTermination_Legal</members>
+        <members>ApprovalStepApproverConfig.AgreementRequestApproval_HOC</members>
+        <members>ApprovalStepApproverConfig.AgreementRequestApproval_DCODO_KYD</members>
+        <members>ApprovalStepApproverConfig.AgreementRequestApproval_DCODO_Rebate</members>
+        <members>ApprovalStepApproverConfig.AgreementRequestApproval_Compliance</members>
+        <members>ApprovalStepApproverConfig.AgreementRequestApproval_TopMngt</members>
+        <members>ApprovalStepApproverConfig.AgreementRequestApproval_Legal</members>
+        <members>ApprovalActionConfig.AgreementTermination_InitialSubmission</members>
+        <members>ApprovalActionConfig.AgreementTermination_HOCApproval</members>
+        <members>ApprovalActionConfig.AgreementTermination_TopMngtApproval</members>
+        <members>ApprovalActionConfig.AgreementTermination_FinalApproval</members>
+        <members>ApprovalActionConfig.AgreementTermination_FinalRejection</members>
+        <members>ApprovalActionConfig.AgreementTermination_Recall</members>
+        <members>ApprovalActionConfig.AgreementRequestApproval_InitialSubmission</members>
+        <members>ApprovalActionConfig.AgreementRequestApproval_HOCApproval</members>
+        <members>ApprovalActionConfig.AgreementRequestApproval_DCODOApproval</members>
+        <members>ApprovalActionConfig.AgreementRequestApproval_ComplianceApproval</members>
+        <members>ApprovalActionConfig.AgreementRequestApproval_FinalApproval</members>
+        <members>ApprovalActionConfig.AgreementRequestApproval_FinalRejection</members>
+        <members>ApprovalActionConfig.AgreementRequestApproval_Recall</members>
+        <name>CustomMetadata</name>
     </types>
     <version>66.0</version>
 </Package>
