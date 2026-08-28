@@ -170,6 +170,10 @@
             <fullName>End Investor</fullName>
             <default>false</default>
         </values>
+        <values>
+            <fullName>UK intermediaries (none platform)</fullName>
+            <default>false</default>
+        </values>
     </picklistValues>
     <picklistValues>
         <picklist>Countries_of_Distribution__c</picklist>
@@ -1182,6 +1186,10 @@
             <fullName>Investment Advisor</fullName>
             <default>false</default>
         </values>
+        <values>
+            <fullName>Investor w/o agreement</fullName>
+            <default>false</default>
+        </values>
     </picklistValues>
     <picklistValues>
         <picklist>SPC_Status__c</picklist>
@@ -1310,6 +1318,10 @@
         </values>
         <values>
             <fullName>Luxembourg</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Middle East</fullName>
             <default>false</default>
         </values>
         <values>

@@ -3,6 +3,10 @@
     <label>Japon</label>
     <protected>false</protected>
     <values>
+        <field>ADGroupEmail__c</field>
+        <value xsi:nil="true"/>
+    </values>
+    <values>
         <field>Business_region__c</field>
         <value xsi:type="xsd:string">BP_JP</value>
     </values>

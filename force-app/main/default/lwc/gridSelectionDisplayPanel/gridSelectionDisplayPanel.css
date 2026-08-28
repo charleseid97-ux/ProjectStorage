@@ -109,6 +109,13 @@
     margin-left: 10px;
 }
 
+.grid-change-combobox {
+    min-width: 160px;
+    max-width: 220px;
+    margin-left: 10px;
+    flex-shrink: 0;
+}
+
 .main-header-left {
     display: flex;
     align-items: center;

@@ -87,6 +87,19 @@
                                                     </div>
                                                 </div>
                                             </button>
+                                            <template if:true={prod.showGridChange}>
+                                                <lightning-combobox class="grid-change-combobox"
+                                                                    name="gridChange"
+                                                                    label={labels.Grid_ChangeGrid}
+                                                                    variant="label-hidden"
+                                                                    title={labels.Grid_ChangeGrid}
+                                                                    value={prod.currentGridId}
+                                                                    options={prod.gridChangeOptions}
+                                                                    data-id={prod.productId}
+                                                                    data-current-grid={prod.currentGridId}
+                                                                    onchange={handleChangeProductGrid}>
+                                                </lightning-combobox>
+                                            </template>
                                             <lightning-button-icon class="remove-product-button"
                                                                 icon-name="utility:delete"
                                                                 alternative-text={labels.Grid_RemoveProduct}

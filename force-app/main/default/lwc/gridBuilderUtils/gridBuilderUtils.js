@@ -51,6 +51,8 @@ import Grid_AutoIncludeHelpText from '@salesforce/label/c.Grid_AutoIncludeHelpTe
 import Grid_AutoIncludeLabel from '@salesforce/label/c.Grid_AutoIncludeLabel';
 import Grid_AutomaticUpdate from '@salesforce/label/c.Grid_AutomaticUpdate';
 import Grid_Builder from '@salesforce/label/c.Grid_Builder';
+import Grid_ChangeGrid from '@salesforce/label/c.Grid_ChangeGrid';
+import Grid_ChangeGridSuccess from '@salesforce/label/c.Grid_ChangeGridSuccess';
 import Grid_Comparison_ActiveGridIsCurrent from '@salesforce/label/c.Grid_Comparison_ActiveGridIsCurrent';
 import Grid_Comparison_NoActiveGrid from '@salesforce/label/c.Grid_Comparison_NoActiveGrid';
 import Grid_CreatedSuccess from '@salesforce/label/c.Grid_CreatedSuccess';
@@ -102,6 +104,7 @@ import Grid_NoProductsToDisplay from '@salesforce/label/c.Grid_NoProductsToDispl
 import Grid_NoProductsToValidate from '@salesforce/label/c.Grid_NoProductsToValidate';
 import Grid_NoShareClassesFound from '@salesforce/label/c.Grid_NoShareClassesFound';
 import Grid_NoShareClassesToAdd from '@salesforce/label/c.Grid_NoShareClassesToAdd';
+import Grid_NoStandardGrid from '@salesforce/label/c.Grid_NoStandardGrid';
 import Grid_PendingApprovalWarning from '@salesforce/label/c.Grid_PendingApprovalWarning';
 import Grid_ProductAlreadyAssignedWarning from '@salesforce/label/c.Grid_ProductAlreadyAssignedWarning';
 import Grid_ProductNameLabel from '@salesforce/label/c.Grid_ProductNameLabel';
@@ -133,6 +136,9 @@ import Grid_ShareClassesNotAdded_NotInGrid from '@salesforce/label/c.Grid_ShareC
 import Grid_ShareTypeFilterIndependentInfo from '@salesforce/label/c.Grid_ShareTypeFilterIndependentInfo';
 import Grid_ShareTypesLabel from '@salesforce/label/c.Grid_ShareTypesLabel';
 import Grid_SomeRowsFailed from '@salesforce/label/c.Grid_SomeRowsFailed';
+import Grid_SortProduct from '@salesforce/label/c.Grid_SortProduct';
+import Grid_SortBy from '@salesforce/label/c.Grid_SortBy';
+import Grid_SortStandardGrid from '@salesforce/label/c.Grid_SortStandardGrid';
 import Grid_SortedBy from '@salesforce/label/c.Grid_SortedBy';
 import Grid_StandardGridsSelected from '@salesforce/label/c.Grid_StandardGridsSelected';
 import Grid_StartDate from '@salesforce/label/c.Grid_StartDate';
@@ -177,7 +183,7 @@ export const LABELS = {
     Agreement_SubmittedForApproval,
     Grid_AddFilter, Grid_AddRestrictedShareTypes, Grid_AddToGrid, Grid_AgreementErrorLoadingSettings, Grid_Agreements,
     Grid_AllRowsImported, Grid_AlreadySelected, Grid_ApplyFilters, Grid_AutoIncludeHelpText, Grid_AutoIncludeLabel,
-    Grid_AutomaticUpdate, Grid_Builder, Grid_Comparison_ActiveGridIsCurrent, Grid_Comparison_NoActiveGrid, Grid_CreatedSuccess, Grid_CriteriaCreated, Grid_CriteriaDetailsCreated, Grid_CriteriaHistory,
+    Grid_AutomaticUpdate, Grid_Builder, Grid_ChangeGrid, Grid_ChangeGridSuccess, Grid_Comparison_ActiveGridIsCurrent, Grid_Comparison_NoActiveGrid, Grid_CreatedSuccess, Grid_CriteriaCreated, Grid_CriteriaDetailsCreated, Grid_CriteriaHistory,
     Grid_CriteriaLabel, Grid_CriteriaNumber, Grid_AgreementGridTimeline, Grid_AgreementGridRecap, Grid_CurrentGridRecap, Grid_DetailsTitle, Grid_DifferentGridsSelected,
     Grid_ErrorLoadingGrids, Grid_ErrorLoadingProducts, Grid_ErrorLoadingSettings, Grid_ErrorRetrievingProducts,
     Grid_ErrorSavingGrid, Grid_ErrorValidatingProducts, Grid_ExcelImportTitle, Grid_ExcludedProducts,
@@ -187,13 +193,13 @@ export const LABELS = {
     Grid_MissingShareClass, Grid_MissingShareClasses, Grid_NoActiveGridAssigned, Grid_NoDetailsFound, Grid_NoExcludedProducts,
     Grid_NoGridAvailable, Grid_NoGridSelectionFound, Grid_NoNewShareClassesAdded, Grid_NoProducts,
     Grid_NoProductsFound, Grid_NoProductsFoundValidation, Grid_NoProductsMatched, Grid_NoProductsSelected,
-    Grid_NoProductsToDisplay, Grid_NoProductsToValidate, Grid_NoShareClassesFound, Grid_NoShareClassesToAdd,
+    Grid_NoProductsToDisplay, Grid_NoProductsToValidate, Grid_NoShareClassesFound, Grid_NoShareClassesToAdd, Grid_NoStandardGrid,
     Grid_PendingApprovalWarning, Grid_ProductAlreadyAssignedWarning, Grid_ProductNameLabel, Grid_ProductsRecap,
     Grid_RemoveFilter, Grid_RemoveProduct, Grid_ResetAll, Grid_ResetAll_Confirm, Grid_ResetAll_Success,
     Grid_ResetFilters, Grid_RowErrors, Grid_GridRulesCreated, Grid_GridRulesUpdated, Grid_GridsUpserted, Grid_Saved_Success, Grid_ScopesUpserted,
     Grid_SelectExcelFile, Grid_SelectGrid, Grid_SelectShareTypes, Grid_Selection, Grid_SettingNotFound,
     Grid_ShareClassesAdded, Grid_ShareClassesAddedTitle, Grid_ShareClassesNotAdded_DifferentGrid, Grid_ShareClassesNotAdded_NotInGrid,
-    Grid_ShareTypeFilterIndependentInfo, Grid_ShareTypesLabel, Grid_SomeRowsFailed, Grid_SortedBy,
+    Grid_ShareTypeFilterIndependentInfo, Grid_ShareTypesLabel, Grid_SomeRowsFailed, Grid_SortProduct, Grid_SortBy, Grid_SortStandardGrid, Grid_SortedBy,
     Grid_StandardGridsSelected, Grid_StartDate, Grid_SystemFilters, Grid_Team, Grid_Title, Grid_SaveGrid,
     Grid_SubmitForApproval, Grid_SubmittedForApproval, Grid_Comments, Grid_CommentsPlaceholder,
     Grid_ValidateGrid, Grid_ValidationErrors,
@@ -473,46 +479,53 @@ export function buildShareTypesKey(shareTypes) {
     return values.join('|');
 }
 
+const ISIN_DETAIL_SPEC = { Object__c: 'Share_Class__c', Field__c: 'ISIN__c', objectLabel: 'Share Class', fieldLabel: 'ISIN' };
+const PRODUCT_NAME_DETAIL_SPEC = { Object__c: 'Product__c', Field__c: 'ProductName__c', objectLabel: 'Product', fieldLabel: 'Product Name' };
+
 export function updateCriteriaWithIsins(criteriaDetails, isins, logic, separator = ';') {
-    const isinArray = (Array.isArray(isins) ? isins : []).filter(val => val);
-    if (!isinArray.length) {
+    return updateCriteriaDetailValues(criteriaDetails, ISIN_DETAIL_SPEC, isins, logic, separator);
+}
+
+export function updateCriteriaDetailValues(criteriaDetails, fieldSpec, values, logic, separator = ';') {
+    const valueArray = (Array.isArray(values) ? values : []).filter(val => val);
+    if (!valueArray.length) {
         return criteriaDetails;
     }
     const details = (criteriaDetails || []).slice();
     const idx = details.findIndex(d =>
-        d.Object__c === 'Share_Class__c' &&
-        d.Field__c === 'ISIN__c' &&
+        d.Object__c === fieldSpec.Object__c &&
+        d.Field__c === fieldSpec.Field__c &&
         d.Logic__c === logic &&
         d.TECHOrigin__c === 'System'
     );
     const currentValues = idx >= 0 && details[idx].Value__c ? details[idx].Value__c.split(separator).map(val => val.trim()).filter(val => val) : [];
     const valueSet = new Set(currentValues);
-    isinArray.forEach(isin => {
-        if (valueSet.has(isin)) {
-            valueSet.delete(isin);
-        } 
+    valueArray.forEach(value => {
+        if (valueSet.has(value)) {
+            valueSet.delete(value);
+        }
         else {
-            valueSet.add(isin);
+            valueSet.add(value);
         }
     });
     const nextValues = Array.from(valueSet);
     if (nextValues.length) {
         const detail = {
-            Object__c: 'Share_Class__c',
-            Field__c: 'ISIN__c',
+            Object__c: fieldSpec.Object__c,
+            Field__c: fieldSpec.Field__c,
             Logic__c: logic,
             Value__c: nextValues.join(' ' + separator + ' '),
             TECHOrigin__c: 'System',
-            objectLabel: 'Share Class',
-            fieldLabel: 'ISIN'
+            objectLabel: fieldSpec.objectLabel,
+            fieldLabel: fieldSpec.fieldLabel
         };
         if (idx >= 0) {
             details[idx] = { ...details[idx], ...detail };
-        } 
+        }
         else {
             details.push(detail);
         }
-    } 
+    }
     else if (idx >= 0) {
         details.splice(idx, 1);
     }
@@ -602,6 +615,40 @@ export function updateCriteriaListWithIsins(criteriaList, criteriaRefId, isins, 
             return entry;
         }
         const updatedDetails = updateCriteriaWithIsins(entry.criteriaDetails, isins, logic, separator);
+        return { ...entry, criteriaDetails: updatedDetails };
+    });
+}
+
+export function excludeProductNamesFromCriteria(criteriaList, criteriaRefId, productNames, separator = ';') {
+    if (!criteriaList || !criteriaRefId) {
+        return criteriaList || [];
+    }
+    const names = (Array.isArray(productNames) ? productNames : []).filter(val => val);
+    if (!names.length) {
+        return criteriaList;
+    }
+    return criteriaList.map(entry => {
+        if (entry.id !== criteriaRefId) {
+            return entry;
+        }
+        // Names already covered by an existing "ProductName IN" detail are removed from it
+        // instead of getting a contradictory "NOT IN" exclusion on the same criteria
+        let remaining = [...names];
+        const details = [];
+        (entry.criteriaDetails || []).forEach(detail => {
+            const isProductInDetail = detail.Object__c === PRODUCT_NAME_DETAIL_SPEC.Object__c && detail.Field__c === PRODUCT_NAME_DETAIL_SPEC.Field__c && detail.Logic__c === 'IN';
+            if (!isProductInDetail) {
+                details.push(detail);
+                return;
+            }
+            const values = splitCriteriaValues(detail.Value__c, separator);
+            const nextValues = values.filter(value => !remaining.includes(value));
+            remaining = remaining.filter(name => !values.includes(name));
+            if (nextValues.length) {
+                details.push({ ...detail, Value__c: nextValues.join(' ' + separator + ' ') });
+            }
+        });
+        const updatedDetails = remaining.length ? updateCriteriaDetailValues(details, PRODUCT_NAME_DETAIL_SPEC, remaining, 'NOT IN', separator) : details;
         return { ...entry, criteriaDetails: updatedDetails };
     });
 }

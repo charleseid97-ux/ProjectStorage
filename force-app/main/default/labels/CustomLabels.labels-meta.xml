@@ -33,6 +33,27 @@ US-&gt;LU
 UY-&gt;LU</value>
     </labels>
     <labels>
+        <fullName>Agreement_RoleMapping</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Agreement RecordType DeveloperName.CodeType to Role Mapping</shortDescription>
+        <value>Agreement.Distribution Agreement->Distribution Delegate
+Agreement.Execution only Platform Agreement->Distribution Intermediary
+Agreement.Placement Agreement->Distribution Intermediary
+Agreement.Private Placement Agreement->Distribution Intermediary
+Agreement.French IFA Agreement->Investment Advisor
+Agreement.Platform Master Agreement->Distribution Delegate
+Agreement.US Offshore Agreement->Distribution Intermediary
+Sub_distributor_Agreement.Sub-distributor via Platforms->Sub-distributor via Platform
+IS_Agreement.IS Advisory->IS Agreement
+IS_Agreement.IS Dedicated Product Distribution->IS Agreement
+IS_Agreement.IS Master Feeder->IS Agreement
+IS_Agreement.IS Portfolio Management Delegation->IS Agreement
+Institutional_Agreement.Direct Investor->Investor w/o agreement
+Institutional_Agreement.UK intermediaries (none platform)->Investor w/o agreement
+Technical_Agreement.Technical->Code Technique</value>
+    </labels>
+    <labels>
         <fullName>ADD_TO_EVENT_CAMPAIGN</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -110,6 +131,20 @@ UY-&gt;LU</value>
         <protected>false</protected>
         <shortDescription>CAMPAIGN_MEMBER_TEMPLATE_URL</shortDescription>
         <value>https://carmignac-crm.my.salesforce.com/sfc/p/58000000ZABI/a/1i0000012xn9/ir8Yw6XeBQ2pv2tW_nT.BSyLplzKT8r_wUr9U8x0aGE</value>
+    </labels>
+    <labels>
+        <fullName>CampaignMember_OptOut_BlockedMessage</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>CampaignMember OptOut Blocked Message</shortDescription>
+        <value>This Campaign Member can&apos;t be added: Contact/Lead has opted out of newsletters or events.</value>
+    </labels>
+    <labels>
+        <fullName>CampaignMember_OptOut_PostMeetingTypes</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>CampaignMember OptOut Post Meeting Types</shortDescription>
+        <value>Post-Meeting / Info;Post-Meeting / Replay</value>
     </labels>
     <labels>
         <fullName>CPGN_Add_To_Campaign</fullName>
@@ -384,6 +419,20 @@ UY-&gt;LU</value>
         <protected>false</protected>
         <shortDescription>Title of the Grid Builder module</shortDescription>
         <value>Grid Builder</value>
+    </labels>
+    <labels>
+        <fullName>Grid_ChangeGrid</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Action label to change the standard grid of a product</shortDescription>
+        <value>Change grid</value>
+    </labels>
+    <labels>
+        <fullName>Grid_ChangeGridSuccess</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Toast message after moving a product to another standard grid</shortDescription>
+        <value>{0} reassigned to grid {1}</value>
     </labels>
     <labels>
         <fullName>Grid_CreatedSuccess</fullName>
@@ -755,6 +804,13 @@ UY-&gt;LU</value>
         <protected>false</protected>
         <shortDescription>Message when no share classes are available to add to the Grid</shortDescription>
         <value>No share classes found to add to the Grid.</value>
+    </labels>
+    <labels>
+        <fullName>Grid_NoStandardGrid</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Section title for products without a single standard grid</shortDescription>
+        <value>No Standard Grid</value>
     </labels>
     <labels>
         <fullName>Grid_PendingApprovalWarning</fullName>
@@ -1139,6 +1195,27 @@ Il calcolo viene adattato alla data di variazione delle spese effettivamente app
         <protected>false</protected>
         <shortDescription>Warning message for partial import</shortDescription>
         <value>Some rows failed. Review details below.</value>
+    </labels>
+    <labels>
+        <fullName>Grid_SortBy</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Small caption above the sort toggle options</shortDescription>
+        <value>Sort by</value>
+    </labels>
+    <labels>
+        <fullName>Grid_SortProduct</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Sort toggle option for product sorting</shortDescription>
+        <value>Product</value>
+    </labels>
+    <labels>
+        <fullName>Grid_SortStandardGrid</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Sort toggle option for standard grid sorting</shortDescription>
+        <value>Standard Grid</value>
     </labels>
     <labels>
         <fullName>Grid_SortedBy</fullName>

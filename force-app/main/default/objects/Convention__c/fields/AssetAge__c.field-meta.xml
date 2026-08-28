@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>AssetAge__c</fullName>
+    <label>Asset Age</label>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>New Asset</fullName>
+                <default>false</default>
+                <label>New Asset</label>
+            </value>
+            <value>
+                <fullName>Legacy Asset</fullName>
+                <default>false</default>
+                <label>Legacy Asset</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

@@ -1808,7 +1808,7 @@
             <label>MeetingDay(s)</label>
         </rules>
     </decisions>
-    <description>add Validation for SSP inputs</description>
+    <description>event Path , mapp date and time</description>
     <environments>Default</environments>
     <formulas>
         <name>clickedDateToText</name>
@@ -4093,6 +4093,12 @@ LPAD(TEXT(DAY({!clickedDate})), 2, &quot;0&quot;)</expression>
                     <elementReference>SSPs</elementReference>
                 </value>
             </inputParameters>
+            <inputParameters>
+                <name>defaultSpeakerDate</name>
+                <value>
+                    <elementReference>MasterEvent.startDate__c</elementReference>
+                </value>
+            </inputParameters>
             <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
             <isRequired>true</isRequired>
             <outputParameters>
@@ -4976,6 +4982,24 @@ LPAD(TEXT(DAY({!clickedDate})), 2, &quot;0&quot;)</expression>
                 <name>inputValue</name>
                 <value>
                     <elementReference>SSPs</elementReference>
+                </value>
+            </inputParameters>
+            <inputParameters>
+                <name>defaultSpeakerDate</name>
+                <value>
+                    <elementReference>MasterEvent.startDate__c</elementReference>
+                </value>
+            </inputParameters>
+            <inputParameters>
+                <name>defaultStartTime</name>
+                <value>
+                    <elementReference>Start33</elementReference>
+                </value>
+            </inputParameters>
+            <inputParameters>
+                <name>defaultEndTime</name>
+                <value>
+                    <elementReference>End33</elementReference>
                 </value>
             </inputParameters>
             <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>

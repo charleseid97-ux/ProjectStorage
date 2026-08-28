@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Agreement_AgeAsset_MandatoryRule</fullName>
+    <active>true</active>
+    <description>All agreements related to the master agreements L198, L710, 1263 and L1263 must have an Age Asset</description>
+    <errorConditionFormula>AND(
+				OR(
+				    MasterConvention__r.Name = &apos;L198&apos;,
+		      MasterConvention__r.Name = &apos;L710&apos;, 
+				    MasterConvention__r.Name = &apos;1263&apos;, 
+				    MasterConvention__r.Name =	&apos;L1263&apos;
+    ),
+				ISBLANK(TEXT(AssetAge__c))
+)</errorConditionFormula>
+    <errorMessage>This sub-distributor agreement must have an age asset indication.</errorMessage>
+</ValidationRule>

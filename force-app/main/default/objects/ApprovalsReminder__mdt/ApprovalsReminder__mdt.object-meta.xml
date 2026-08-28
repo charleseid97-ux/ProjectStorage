@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObject xmlns="http://soap.sforce.com/2006/04/metadata">
+    <description>Configuration records for the Approvals Reminder Framework. Each record defines one alert scenario: which objects and queues to check for overdue pending approvals, and which queues to notify.</description>
+    <label>Approvals Reminder</label>
+    <pluralLabel>Approvals Reminders</pluralLabel>
+    <visibility>Public</visibility>
+</CustomObject>

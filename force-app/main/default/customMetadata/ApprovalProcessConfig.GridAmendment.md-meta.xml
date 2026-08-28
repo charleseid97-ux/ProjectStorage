@@ -3,7 +3,16 @@
     <label>Grid Amendment</label>
     <protected>false</protected>
     <values>
+        <field>InboxDisplayFields__c</field>
+        <value xsi:type="xsd:string">Agreement__r.Company__r.Name
+SelectedStandardGrids__c</value>
+    </values>
+    <values>
         <field>ObjectType__c</field>
         <value xsi:type="xsd:string">Grid__c</value>
+    </values>
+    <values>
+        <field>TargetLabelFieldApiName__c</field>
+        <value xsi:type="xsd:string">Name</value>
     </values>
 </CustomMetadata>

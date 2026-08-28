@@ -33,6 +33,11 @@ public without sharing class sessionSpeakerProductHandler implements ITriggerHan
             oldSspsToProcess
         );
 
+        BooklyModificationsManagement.registerSspModificationSessions(
+            oldSspsToProcess,
+            newSspsToProcess
+        );
+
         sessionSpeakerProductService.handleRequestedPresentationNotifications(
             newSspsToProcess,
             oldSspsToProcess
@@ -50,8 +55,7 @@ public without sharing class sessionSpeakerProductHandler implements ITriggerHan
         if (sspsToProcess.isEmpty()) return;
 
         sessionSpeakerProductService.updateEventNamesFromSSP(sspsToProcess.values());
-        customEventSpeakerApprovalService.refreshApprovalsFromSessions(collectSessionIds(sspsToProcess.values()));
-        
+        BooklyModificationsManagement.handleSessionSpeakerProductInsert(sspsToProcess.values());
     }
 
     public void afterUpdate(Map<Id, SObject> newItems, Map<Id, SObject> oldItems) {
@@ -66,15 +70,26 @@ public without sharing class sessionSpeakerProductHandler implements ITriggerHan
         );
 
         if (newSspsToProcess.isEmpty()) return;
-
-        customEventSpeakerApprovalService.updateApprovalSlots(
+ 
+        BooklyModificationsManagement.registerSspModificationSessions(
             oldSspsToProcess,
             newSspsToProcess
         );
 
-        sessionSpeakerProductService.updateEventNamesFromSSP(
-            newSspsToProcess.values()
-        );
+        BooklyModificationsManagement.isSspModificationNotificationRunning = true;
+
+        try {
+            sessionSpeakerProductService.updateEventNamesFromSSP(
+                newSspsToProcess.values()
+            );
+
+            BooklyModificationsManagement.handleSessionSpeakerProductUpdate(
+                oldSspsToProcess,
+                newSspsToProcess
+            );
+        } finally {
+            BooklyModificationsManagement.isSspModificationNotificationRunning = false;
+        }
     }
 
     public void afterDelete(Map<Id, SObject> oldItems) {
@@ -88,7 +103,8 @@ public without sharing class sessionSpeakerProductHandler implements ITriggerHan
         sessionSpeakerProductService.updateEventNamesFromSSP(
             oldSspsToProcess.values()
         );
-        customEventSpeakerApprovalService.refreshApprovalsFromSessions(collectSessionIds(oldSspsToProcess.values()));
+
+        BooklyModificationsManagement.handleSessionSpeakerProductDelete(oldSspsToProcess.values());
     }
 
     public void afterUndelete(Map<Id, SObject> oldItems) {
@@ -184,7 +200,7 @@ public without sharing class sessionSpeakerProductHandler implements ITriggerHan
         return result;
     }
 
-    // Collecte les sessions impactées par les SSP.
+    // Collecte les sessions impactees par les SSP.
     private static Set<Id> collectSessionIds(List<SessionSpeakerProduct__c> ssps) {
         Set<Id> sessionIds = new Set<Id>();
 

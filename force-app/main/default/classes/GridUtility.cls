@@ -28,6 +28,8 @@ public with sharing class GridUtility {
     public static final String GRID_STATUS_REJECTED          = 'Rejected';
 
     public static final String FIELD_EFF_MGT_FEES = 'EffectiveManagementFees__c';
+
+    public static final Integer BATCH_SIZE_GRID_DETAIL_REFRESH = 200;
     /** ──────────────────────────────────────
      * @description Single loop over agreements: classifies each into a transition bucket,
      *              performs Agreement field swaps, collects Grid__c approval updates,
@@ -217,7 +219,7 @@ public with sharing class GridUtility {
         for (Id agrId : agreementToGridMap.keySet()) {
             String gridIdStr = String.valueOf(agreementToGridMap.get(agrId));
             if (!approvalIdByGridId.containsKey(gridIdStr)) {
-                newCas.add(CustomApprovalHistoryUtility.createCustomApproval(gridIdStr, 'AgreementStandardApproval', 'Pending', null, null, null, true));
+                newCas.add(CustomApprovalHistoryUtility.createCustomApproval(gridIdStr, 'AgreementStandardApproval', 'Pending', null, null, null, true, null));
                 newCaGrids.add(gridIdStr);
             }
         }
@@ -254,7 +256,7 @@ public with sharing class GridUtility {
                 String  origId         = pis.OriginalActorId != null ? String.valueOf(pis.OriginalActorId) : assignedToId;
                 String  origName       = pis.OriginalActor?.Name != null ? pis.OriginalActor.Name : assignedName;
                 Id      actualApprover = isUser && (pis.StepStatus == 'Approved' || pis.StepStatus == 'Rejected') ? pis.ActorId : null;
-                steps.add(CustomApprovalHistoryUtility.createCustomApprovalStep(approvalId, pis.StepStatus, pis.StepStatus, stepStatus, false, assignedToId, assignedName, origId, origName, actualApprover, pis.CreatedDate, pis.Comments));
+                steps.add(CustomApprovalHistoryUtility.createCustomApprovalStep(approvalId, pis.StepStatus, pis.StepStatus, stepStatus, false, assignedToId, assignedName, origId, origName, actualApprover, pis.CreatedDate, pis.Comments, null));
             }
         }
         if (piWorkitems != null) {
@@ -263,7 +265,7 @@ public with sharing class GridUtility {
                 String assignedName = wk.Actor?.Name;
                 String origId       = wk.OriginalActorId != null ? String.valueOf(wk.OriginalActorId) : assignedToId;
                 String origName     = wk.OriginalActor?.Name != null ? wk.OriginalActor.Name : assignedName;
-                steps.add(CustomApprovalHistoryUtility.createCustomApprovalStep(approvalId, pendingLabel, pendingLabel, 'Pending', true, assignedToId, assignedName, origId, origName, null, null, null));
+                steps.add(CustomApprovalHistoryUtility.createCustomApprovalStep(approvalId, pendingLabel, pendingLabel, 'Pending', true, assignedToId, assignedName, origId, origName, null, null, null, null));
             }
         }
         return steps;
@@ -311,7 +313,7 @@ public with sharing class GridUtility {
         for (Id agrId : agreementToGridMap.keySet()) {
             String gridIdStr = String.valueOf(agreementToGridMap.get(agrId));
             if (!existingCaByGridId.containsKey(gridIdStr)) {
-                newCas.add(CustomApprovalHistoryUtility.createCustomApproval(gridIdStr, 'AgreementStandardApproval', 'Approved', null, null, null, true));
+                newCas.add(CustomApprovalHistoryUtility.createCustomApproval(gridIdStr, 'AgreementStandardApproval', 'Approved', null, null, null, true, null));
                 newCaGrids.add(gridIdStr);
             } else {
                 CustomApproval__c ca = existingCaByGridId.get(gridIdStr);
@@ -390,7 +392,7 @@ public with sharing class GridUtility {
                                                  FROM GridDetail__c
                                                  WHERE ShareClass__c IN :changedShareClassIds
                                                  AND Grid__r.RecordType.DeveloperName = 'StandardGrid'
-                                                 AND (EndDate__c = null OR EndDate__c >= :Date.today())];
+                                                 AND TECH_EffMgtFeesAuditHistory__c = null];
         if (currentStdDetails.isEmpty()) return;
 
         Set<Id> gridIds = new Set<Id>();
@@ -437,7 +439,7 @@ public with sharing class GridUtility {
         List<GridDetail__c> currentCustomDetails = [SELECT Id, Grid__c, GridCriteria__c, StandardGridDetail__c, StartDate__c, RecordTypeId
                                                     FROM GridDetail__c
                                                     WHERE StandardGridDetail__c IN :oldStdDetailIdToNewStdDetailId.keySet()
-                                                    AND (EndDate__c = null OR EndDate__c >= :Date.today())];
+                                                    AND StandardGridDetail__r.TECH_EffMgtFeesAuditHistory__c = null];
         if (currentCustomDetails.isEmpty()) return;
 
         List<GridDetail__c> oldCustomToUpdate = new List<GridDetail__c>();
@@ -468,11 +470,11 @@ public with sharing class GridUtility {
      *              and mirrors TECH_Business_Region__c → TECH_BusinessRegion__c
      *              and TECH_All_concerned_Business_Regions__c → TECH_AllConcernedBusinessRegions__c.
      ────────────────────────────────────── */
-    public static void syncBusinessRegionsFromAgreements(Map<Id, Convention__c> newAgreements, Map<Id, Convention__c> oldAgreements) {
+    public static void syncInformationFromAgreements(Map<Id, Convention__c> newAgreements, Map<Id, Convention__c> oldAgreements) {
         Set<Id> changedAgreementIds = new Set<Id>();
         for (Convention__c agr : newAgreements.values()) {
             Convention__c oldAgr = oldAgreements.get(agr.Id);
-            if (agr.TECH_Business_Region__c != oldAgr.TECH_Business_Region__c || agr.TECH_All_concerned_Business_Regions__c != oldAgr.TECH_All_concerned_Business_Regions__c) {
+            if (agr.TECH_Business_Region__c != oldAgr.TECH_Business_Region__c || agr.TECH_All_concerned_Business_Regions__c != oldAgr.TECH_All_concerned_Business_Regions__c || agr.Carmignac_Legal_Entity__c != oldAgr.Carmignac_Legal_Entity__c) {
                 changedAgreementIds.add(agr.Id);
             }
         }
@@ -486,7 +488,7 @@ public with sharing class GridUtility {
                              WHERE Agreement__c IN :changedAgreementIds
                              AND RecordTypeId = :customGridRtId]) {
             Convention__c agr = newAgreements.get(grid.Agreement__c);
-            toUpdate.add(new Grid__c(Id = grid.Id, TECH_BusinessRegion__c = agr.TECH_Business_Region__c, TECH_AllConcernedBusinessRegions__c = agr.TECH_All_concerned_Business_Regions__c));
+            toUpdate.add(new Grid__c(Id = grid.Id, TECH_BusinessRegion__c = agr.TECH_Business_Region__c, TECH_AllConcernedBusinessRegions__c = agr.TECH_All_concerned_Business_Regions__c, TECH_CarmignacLegalEntity__c = agr.Carmignac_Legal_Entity__c));
         }
         if (!toUpdate.isEmpty()) update toUpdate;
     }
@@ -526,5 +528,34 @@ public with sharing class GridUtility {
             toUpdate.add(new GridDetail__c(Id = gd.Id, EndDate__c = gridEndDateById.get(gd.Grid__c)));
         }
         if (!toUpdate.isEmpty()) update toUpdate;
+    }
+
+    // ── Recomputes SelectedStandardGrids__c: comma-separated names of the standard grids referenced by each grid's criteria ──
+    public static void updateSelectedStandardGrids(List<Id> gridIds) {
+        if (gridIds == null || gridIds.isEmpty()) return;
+
+        List<Grid__c> gridsToUpdate = new List<Grid__c>();
+        for (Grid__c grid : [SELECT Id, SelectedStandardGrids__c,
+                                (SELECT StandardGrid__r.Name, StandardGrid__r.Tech_SpecificStandardGrid__c 
+                                FROM GridCriteria__r 
+                                WHERE StandardGrid__c != null 
+                                ORDER BY StandardGrid__r.Tech_SpecificStandardGrid__c ASC, StandardGrid__r.Name ASC)
+                             FROM Grid__c
+                             WHERE Id IN :gridIds]) {
+            List<String> names = new List<String>();
+            Set<String> seenNames = new Set<String>();
+            for (GridCriteria__c gc : grid.GridCriteria__r) {
+                if (String.isNotBlank(gc.StandardGrid__r.Name) && seenNames.add(gc.StandardGrid__r.Name)) {
+                    names.add(gc.StandardGrid__r.Name);
+                }
+            }
+
+            String selectedStandardGrids = names.isEmpty() ? null : String.join(names, ', ').abbreviate(255);
+            if (selectedStandardGrids != grid.SelectedStandardGrids__c) {
+                gridsToUpdate.add(new Grid__c(Id = grid.Id, SelectedStandardGrids__c = selectedStandardGrids));
+            }
+        }
+
+        if (!gridsToUpdate.isEmpty()) update gridsToUpdate;
     }
 }

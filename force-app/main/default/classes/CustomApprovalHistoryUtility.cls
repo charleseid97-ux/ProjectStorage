@@ -5,7 +5,7 @@
  *              post-action execution (field updates, email alerts, custom Apex).
  * @author Charles EID
  * @testClass CustomApprovalHistoryUtilityTest
- * @coverage 65%   [20-05-26]
+ * @coverage 73%   [06-07-26]
  ────────────────────────────────────── */
 public without sharing class CustomApprovalHistoryUtility {
 
@@ -18,7 +18,7 @@ public without sharing class CustomApprovalHistoryUtility {
         result.success      = false;
         result.errorMessage = null;
         try {
-            List<ApprovalStepConfig__mdt> allSteps = [SELECT Id, DeveloperName, StepOrder__c, StepLabel__c, ApprovalMode__c
+            List<ApprovalStepConfig__mdt> allSteps = [SELECT Id, DeveloperName, StepOrder__c, StepLabel__c, ApprovalMode__c, ProcessConfig__r.TargetLabelFieldApiName__c
                                                       FROM ApprovalStepConfig__mdt
                                                       WHERE ProcessConfig__r.DeveloperName = :processName
                                                       ORDER BY StepOrder__c ASC];
@@ -36,12 +36,13 @@ public without sharing class CustomApprovalHistoryUtility {
 
             Id currentUserId = UserInfo.getUserId();
 
-            CustomApproval__c approval = createCustomApproval(String.valueOf(recordId), processName, 'Pending', currentUserId, initialStep.DeveloperName, comments, false);
+            String relatedToLabel = resolveRelatedToLabel(recordId, allSteps[0].ProcessConfig__r?.TargetLabelFieldApiName__c);
+            CustomApproval__c approval = createCustomApproval(String.valueOf(recordId), processName, 'Pending', currentUserId, initialStep.DeveloperName, comments, false, relatedToLabel);
             insert approval;
 
             List<CustomApprovalStep__c> steps = new List<CustomApprovalStep__c>();
-            steps.add(createCustomApprovalStep(approval.Id, 'Submitted', 'Submitted', 'Started', false, null, null, null, null, currentUserId, System.now(), comments));
-            steps.addAll(buildStepRecords(approval.Id, initialStep, assignments));
+            steps.add(createCustomApprovalStep(approval.Id, 'Submitted', 'Submitted', 'Started', false, null, null, null, null, currentUserId, System.now(), comments, null));
+            steps.addAll(buildStepRecords(approval.Id, initialStep, assignments, currentUserId));
             insert steps;
 
             Set<Id> initialApproverIds = new Set<Id>();
@@ -161,7 +162,7 @@ public without sharing class CustomApprovalHistoryUtility {
                 nextIds.add(a.approverId);
             }
             executeActions(ctx.processName, ctx.stepDevName, 'StepApproval', ctx.targetRecordId, buildContext(ctx.submittedById, allCurrentIds, nextIds));
-            insert buildStepRecords(ctx.approvalId, nextStep, nextAssignments);
+            insert buildStepRecords(ctx.approvalId, nextStep, nextAssignments, ctx.currentUserId);
             update new CustomApproval__c(Id = ctx.approvalId, CurrentStepDevName__c = nextStep.DeveloperName);
         } 
         else {
@@ -188,10 +189,10 @@ public without sharing class CustomApprovalHistoryUtility {
         update new CustomApproval__c(Id = approvalId, Status__c = status, CurrentStepDevName__c = null);
     }
 
-    private static List<CustomApprovalStep__c> buildStepRecords(Id approvalId, ApprovalStepConfig__mdt step, List<ApproverAssignment> assignments) {
+    private static List<CustomApprovalStep__c> buildStepRecords(Id approvalId, ApprovalStepConfig__mdt step, List<ApproverAssignment> assignments, Id previousApproverId) {
         List<CustomApprovalStep__c> records = new List<CustomApprovalStep__c>();
         for (ApproverAssignment a : assignments) {
-            records.add(createCustomApprovalStep(approvalId, step.DeveloperName, step.StepLabel__c, 'Pending', true, String.valueOf(a.approverId), a.approverName, String.valueOf(a.approverId), a.approverName, null, null, null));
+            records.add(createCustomApprovalStep(approvalId, step.DeveloperName, step.StepLabel__c, 'Pending', true, String.valueOf(a.approverId), a.approverName, String.valueOf(a.approverId), a.approverName, null, null, null, previousApproverId));
         }
         return records;
     }
@@ -371,57 +372,198 @@ public without sharing class CustomApprovalHistoryUtility {
     }
 
     // ─── Approval lock enforcement ────────────────────────────────────────────────
-    private static ApprovalLockConfig__mdt getLockConfig(String objectApiName) {
-        List<ApprovalLockConfig__mdt> configs = [SELECT StatusFieldApiName__c, LockedStatuses__c, ExemptFields__c
-                                                 FROM ApprovalLockConfig__mdt
-                                                 WHERE ObjectApiName__c = :objectApiName
-                                                   AND Active__c = true
-                                                 LIMIT 1];
-        return configs.isEmpty() ? null : configs[0];
+    private static Map<String, ApprovalLockConfig__mdt> getLockConfigs(Set<Schema.SObjectType> sObjTypes) {
+        Set<String> objectApiNames = new Set<String>();
+        for (Schema.SObjectType sObjType : sObjTypes) objectApiNames.add(sObjType.getDescribe().getName());
+
+        Map<String, ApprovalLockConfig__mdt> configsByObject = new Map<String, ApprovalLockConfig__mdt>();
+        for (ApprovalLockConfig__mdt config : [SELECT ObjectApiName__c, StatusFieldApiName__c, LockingStatuses__c, EnforceLockOnAdmins__c
+                                               FROM ApprovalLockConfig__mdt
+                                               WHERE ObjectApiName__c IN :objectApiNames
+                                                 AND Active__c = true]) {
+            if (!configsByObject.containsKey(config.ObjectApiName__c)) {
+                configsByObject.put(config.ObjectApiName__c, config); // first active config per object (mirrors the previous LIMIT 1)
+            }
+        }
+        return configsByObject;
     }
 
-    private static Set<String> splitCSV(String csv) {
-        Set<String> result = new Set<String>();
-        if (String.isBlank(csv)) return result;
-        for (String entry : csv.split(',')) {
+    private static List<String> splitLines(String text) {
+        List<String> result = new List<String>();
+        if (String.isBlank(text)) return result;
+        for (String entry : text.split('\r\n|\r|\n')) {
             String trimmed = entry.trim();
-            if (String.isNotBlank(trimmed)) result.add(trimmed.toLowerCase());
+            if (String.isNotBlank(trimmed)) result.add(trimmed);
         }
+        return result;
+    }
+
+    private static Boolean containsIgnoreCase(List<String> values, String target) {
+        if (target == null) return false;
+        for (String v : values) {
+            if (v.equalsIgnoreCase(target)) return true;
+        }
+        return false;
+    }
+
+    private static Id findQueueIdIgnoreCase(List<Group> queues, String developerName) {
+        for (Group g : queues) {
+            if (g.DeveloperName.equalsIgnoreCase(developerName)) return g.Id;
+        }
+        return null;
+    }
+
+    // Resolves every exempt field the current user is entitled to for this object: General-scope rows
+    // always apply, User/Queue-scope rows apply only when the current user or one of their queues matches.
+    private static List<String> resolveExemptFields(Id lockConfigId, Id currentUserId) {
+        List<String> result = new List<String>();
+        List<ApprovalLockFieldExemptionConfig__mdt> rows = [SELECT ScopeType__c, AssigneeValue__c, ExemptFields__c
+                                                             FROM ApprovalLockFieldExemptionConfig__mdt
+                                                             WHERE LockConfig__c = :lockConfigId
+                                                               AND Active__c = true];
+        if (rows.isEmpty()) return result;
+
+        Set<String> queueDevNames = new Set<String>();
+        for (ApprovalLockFieldExemptionConfig__mdt row : rows) {
+            if (row.ScopeType__c == 'Queue') queueDevNames.addAll(splitLines(row.AssigneeValue__c));
+        }
+
+        List<Group> queues = queueDevNames.isEmpty() ? new List<Group>() : [SELECT Id, DeveloperName FROM Group WHERE DeveloperName IN :queueDevNames AND Type = 'Queue'];
+        Map<Id, List<Id>> queueMemberMap = queues.isEmpty() ? new Map<Id, List<Id>>() : QueueMemberService.resolveMembers(new Map<Id, Group>(queues).keySet());
+
+        String currentUsername = UserInfo.getUsername();
+
+        for (ApprovalLockFieldExemptionConfig__mdt row : rows) {
+            Boolean applies = false;
+            if (row.ScopeType__c == 'General') {
+                applies = true;
+            } else if (row.ScopeType__c == 'User') {
+                applies = containsIgnoreCase(splitLines(row.AssigneeValue__c), currentUsername);
+            } else if (row.ScopeType__c == 'Queue') {
+                for (String devName : splitLines(row.AssigneeValue__c)) {
+                    Id queueId = findQueueIdIgnoreCase(queues, devName);
+                    List<Id> members = queueId == null ? null : queueMemberMap.get(queueId);
+                    if (members != null && members.contains(currentUserId)) {
+                        applies = true;
+                        break;
+                    }
+                }
+            }
+            if (applies) result.addAll(splitLines(row.ExemptFields__c));
+        }
+
         return result;
     }
 
     public static void enforceApprovalLock(List<SObject> newRecords, Map<Id, SObject> oldRecords) {
         if (newRecords == null || newRecords.isEmpty()) return;
 
-        String objectApiName = newRecords[0].getSObjectType().getDescribe().getName();
-        ApprovalLockConfig__mdt config = getLockConfig(objectApiName);
-        if (config == null) return;
+        // Group by SObjectType — trigger batches hold a single type, so this is usually one entry
+        Map<Schema.SObjectType, List<SObject>> recordsByType = new Map<Schema.SObjectType, List<SObject>>();
+        for (SObject newRecord : newRecords) {
+            Schema.SObjectType sObjType = newRecord.getSObjectType();
+            if (!recordsByType.containsKey(sObjType)) recordsByType.put(sObjType, new List<SObject>());
+            recordsByType.get(sObjType).add(newRecord);
+        }
 
-        Set<String> lockedStatuses = splitCSV(config.LockedStatuses__c);
-        Set<String> exemptFields   = splitCSV(config.ExemptFields__c);
+        Map<String, ApprovalLockConfig__mdt> configsByObject = getLockConfigs(recordsByType.keySet());
+        if (configsByObject.isEmpty()) return;
+
+        Id currentUserId = UserInfo.getUserId();
+        Boolean isAdmin = isAdministrator(currentUserId); // user-level fact, computed once — whether it bypasses the lock is decided per object type
+
+        for (Schema.SObjectType sObjType : recordsByType.keySet()) {
+            ApprovalLockConfig__mdt config = configsByObject.get(sObjType.getDescribe().getName());
+            if (config == null) continue;                                    // object not under approval lock
+            enforceApprovalLockForType(recordsByType.get(sObjType), oldRecords, config, currentUserId, isAdmin);
+        }
+    }
+
+    private static void enforceApprovalLockForType(List<SObject> typeRecords, Map<Id, SObject> oldRecords, ApprovalLockConfig__mdt config, Id currentUserId, Boolean isAdmin) {
+        if (!config.EnforceLockOnAdmins__c && isAdmin) return;               // admin bypass — per-object setting
+
+        List<String> lockedStatuses = splitLines(config.LockingStatuses__c);
+        List<String> exemptFields   = resolveExemptFields(config.Id, currentUserId);
         exemptFields.addAll(LOCK_SYSTEM_FIELDS);
         String statusField = config.StatusFieldApiName__c;
 
-        for (SObject newRecord : newRecords) {
+        // All trigger records of one type carry the same populated fields, so the fields to
+        // compare (populated, non-exempt, non-formula) and their labels are resolved once for the whole batch
+        Map<String, String> labelsByCheckableField = resolveCheckableFields(typeRecords[0], exemptFields);
+
+        for (SObject newRecord : typeRecords) {
             SObject oldRecord  = oldRecords.get((Id) newRecord.get('Id'));
             String  oldStatus  = (String) oldRecord.get(statusField);
             String  newStatus  = (String) newRecord.get(statusField);
 
-            if (!lockedStatuses.contains(oldStatus.toLowerCase())) continue;    // not in a locked status
-            if (newStatus != oldStatus) continue;                               // approval transition itself — allow
+            if (!containsIgnoreCase(lockedStatuses, oldStatus)) continue;    // not in a locked status
+            if (newStatus != oldStatus) continue;                            // approval transition itself — allow
 
-            for (String fieldName : newRecord.getPopulatedFieldsAsMap().keySet()) {
-                if (exemptFields.contains(fieldName.toLowerCase())) continue;
+            List<String> changedFieldLabels = new List<String>();
+            for (String fieldName : labelsByCheckableField.keySet()) {
                 if (newRecord.get(fieldName) != oldRecord.get(fieldName)) {
-                    newRecord.addError('This record is locked while in \'' + oldStatus + '\' status and cannot be edited.');
-                    break;
+                    changedFieldLabels.add(labelsByCheckableField.get(fieldName));
                 }
+            }
+            if (!changedFieldLabels.isEmpty()) {
+                newRecord.addError('This record is locked while in \'' + oldStatus + '\' status and cannot be edited. Blocked field change(s): ' + String.join(changedFieldLabels, ', ') + '.');
             }
         }
     }
 
+    // Returns the fields to lock-check (populated, non-exempt, non-formula) mapped to their labels,
+    // describing each field exactly once for both the isCalculated() filter and the error-message label
+    private static Map<String, String> resolveCheckableFields(SObject record, List<String> exemptFields) {
+        Map<String, String> labelsByField = new Map<String, String>();
+        Map<String, Schema.SObjectField> fieldTokens = record.getSObjectType().getDescribe().fields.getMap();
+        for (String fieldName : record.getPopulatedFieldsAsMap().keySet()) {
+            if (containsIgnoreCase(exemptFields, fieldName)) continue;
+            Schema.SObjectField token = fieldTokens.get(fieldName);
+            Schema.DescribeFieldResult fieldDescribe = token == null ? null : token.getDescribe();
+            if (fieldDescribe != null && (fieldDescribe.isCalculated() || fieldDescribe.isAutoNumber())) continue; // formula / rollup / autonumber — system-computed, never a user edit
+            labelsByField.put(fieldName, fieldDescribe == null ? fieldName : fieldDescribe.getLabel());
+        }
+        return labelsByField;
+    }
+
+    // ─── Label resolution ─────────────────────────────────────────────────────────
+    private static String resolveRelatedToLabel(Id recordId, String fieldApiName) {
+        if (recordId == null || String.isBlank(fieldApiName)) return null;
+        try {
+            String objType = recordId.getSObjectType().getDescribe().getName();
+            SObject rec = Database.query('SELECT ' + fieldApiName + ' FROM ' + objType + ' WHERE Id = :recordId LIMIT 1');
+            return (String) rec.get(fieldApiName);
+        } catch (Exception e) {
+            return null;
+        }
+    }
+
+    // ─── Shared permission helpers (used by history + inbox controllers) ─────────
+    public static Boolean isAdministrator(Id userId) {
+        for (PermissionSetAssignment psa : [SELECT Id
+                                            FROM PermissionSetAssignment
+                                            WHERE AssigneeId = :userId
+                                              AND PermissionSet.IsOwnedByProfile = true
+                                              AND PermissionSet.Profile.Name LIKE '%Administrator%' LIMIT 1]) {
+            return true;
+        }
+        return false;
+    }
+
+    public static Map<String, Boolean> buildStepConfigMap(Set<String> processDevNames) {
+        Map<String, Boolean> result = new Map<String, Boolean>();
+        for (ApprovalStepApproverConfig__mdt cfg : [SELECT StepConfig__r.DeveloperName, ApproverSource__c
+                                                    FROM ApprovalStepApproverConfig__mdt
+                                                    WHERE StepConfig__r.ProcessConfig__r.DeveloperName IN :processDevNames]) {
+            if (cfg.ApproverSource__c == 'UserInput') {
+                result.put(cfg.StepConfig__r.DeveloperName, true);
+            }
+        }
+        return result;
+    }
+
     // ─── Record factories ─────────────────────────────────────────────────────────
-    public static CustomApproval__c createCustomApproval(String targetRecordId, String processDevName, String status, Id submittedById, String currentStepDevName, String comments, Boolean readOnly) {
+    public static CustomApproval__c createCustomApproval(String targetRecordId, String processDevName, String status, Id submittedById, String currentStepDevName, String comments, Boolean readOnly, String relatedToLabel) {
         return new CustomApproval__c(
             TargetRecordId__c       = targetRecordId,
             Status__c               = status,
@@ -429,11 +571,12 @@ public without sharing class CustomApprovalHistoryUtility {
             ProcessDeveloperName__c = processDevName,
             CurrentStepDevName__c   = currentStepDevName,
             Comments__c             = comments,
-            TECH_ReadOnly__c        = readOnly
+            TECH_ReadOnly__c        = readOnly,
+            RelatedToLabel__c       = relatedToLabel
         );
     }
 
-    public static CustomApprovalStep__c createCustomApprovalStep(Id approvalId, String stepDevName, String stepLabel, String status, Boolean isCurrentStep, String assignedToId, String assignedToName, String origAssignedToId, String origAssignedToName, Id actualApproverId, Datetime actionDate, String comments) {
+    public static CustomApprovalStep__c createCustomApprovalStep(Id approvalId, String stepDevName, String stepLabel, String status, Boolean isCurrentStep, String assignedToId, String assignedToName, String origAssignedToId, String origAssignedToName, Id actualApproverId, Datetime actionDate, String comments, Id previousApproverId) {
         return new CustomApprovalStep__c(
             CustomApproval__c         = approvalId,
             StepDeveloperName__c      = stepDevName,
@@ -446,7 +589,8 @@ public without sharing class CustomApprovalHistoryUtility {
             OriginalAssignedToName__c = origAssignedToName,
             ActualApprover__c         = actualApproverId,
             ActionDate__c             = actionDate,
-            Comments__c               = comments
+            Comments__c               = comments,
+            PreviousApprover__c       = previousApproverId
         );
     }
 

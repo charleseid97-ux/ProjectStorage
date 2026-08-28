@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>AssigneeValue__c</fullName>
+    <description>One Username (when ScopeType__c = User) or Queue Developer Name (when ScopeType__c = Queue) per line. Ignored when ScopeType__c = General.</description>
+    <fieldManageability>DeveloperControlled</fieldManageability>
+    <inlineHelpText>Example (User scope): jdoe@company.com, one per line. Example (Queue scope): Legal_Queue, one per line.</inlineHelpText>
+    <label>Assignee Value</label>
+    <length>32768</length>
+    <type>LongTextArea</type>
+    <visibleLines>5</visibleLines>
+</CustomField>

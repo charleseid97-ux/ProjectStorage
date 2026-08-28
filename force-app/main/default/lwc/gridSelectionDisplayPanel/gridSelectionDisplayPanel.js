@@ -8,6 +8,8 @@ export default class GridSelectionDisplayPanel extends LightningElement {
     @api criteriaList = [];
     @api isOpen = false;
     @api showExcludedOnly = false;
+    @api gridOptions = [];
+    @api gridShareClassMap = {};
 
     labels = LABELS;
     openProductIds = [];
@@ -86,13 +88,36 @@ export default class GridSelectionDisplayPanel extends LightningElement {
                 return rightSelected - leftSelected;
             });
             const isOpen = openSet.has(group.productId);
+            const gridChange = this.buildGridChangeInfo(group.shareClasses);
             return {
                 ...group,
                 gridLabelText: Array.from(group.gridLabels).join(', '),
                 isOpen: isOpen,
-                toggleIconName: isOpen ? 'utility:chevrondown' : 'utility:chevronright'
+                toggleIconName: isOpen ? 'utility:chevrondown' : 'utility:chevronright',
+                currentGridId: gridChange.currentGridId,
+                gridChangeOptions: gridChange.options,
+                showGridChange: gridChange.show
             };
         });
+    }
+
+    buildGridChangeInfo(shareClasses) {
+        const selectedRows = (shareClasses || []).filter(sc => sc.isSelected);
+        const currentGridId = selectedRows.find(sc => sc.gridId)?.gridId || '';
+        if (!currentGridId || !(this.gridOptions || []).length) {
+            return { currentGridId: currentGridId, options: [], show: false };
+        }
+        const selectedIds = selectedRows.map(sc => sc.id);
+        const options = (this.gridOptions || [])
+            .filter(opt => {
+                if (opt.value === currentGridId) {
+                    return true;
+                }
+                const eligibleIds = new Set(this.gridShareClassMap?.[opt.value] || []);
+                return selectedIds.every(id => eligibleIds.has(id));
+            })
+            .map(opt => ({ label: opt.label, value: opt.value }));
+        return { currentGridId: currentGridId, options: options, show: options.length > 1 };
     }
 
     get includedProducts() {
@@ -181,6 +206,19 @@ export default class GridSelectionDisplayPanel extends LightningElement {
         }
         this.dispatchEvent(new CustomEvent('removeproduct', {
             detail: { productId: productId }
+        }));
+    }
+
+    handleChangeProductGrid(event) {
+        event.stopPropagation();
+        const productId = event.currentTarget.dataset.id;
+        const currentGridId = event.currentTarget.dataset.currentGrid;
+        const gridId = event.detail?.value;
+        if (!productId || !gridId || gridId === currentGridId) {
+            return;
+        }
+        this.dispatchEvent(new CustomEvent('changeproductgrid', {
+            detail: { productId: productId, gridId: gridId }
         }));
     }
 

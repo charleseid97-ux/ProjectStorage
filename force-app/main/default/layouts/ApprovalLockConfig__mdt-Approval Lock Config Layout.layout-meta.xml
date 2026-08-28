@@ -8,33 +8,25 @@
         <layoutColumns>
             <layoutItems>
                 <behavior>Required</behavior>
-                <field>MasterLabel</field>
-            </layoutItems>
-            <layoutItems>
-                <behavior>Required</behavior>
-                <field>DeveloperName</field>
-            </layoutItems>
-            <layoutItems>
-                <behavior>Required</behavior>
                 <field>ObjectApiName__c</field>
             </layoutItems>
-        </layoutColumns>
-        <layoutColumns>
             <layoutItems>
                 <behavior>Edit</behavior>
                 <field>Active__c</field>
             </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>EnforceLockOnAdmins__c</field>
+            </layoutItems>
+        </layoutColumns>
+        <layoutColumns>
             <layoutItems>
                 <behavior>Required</behavior>
                 <field>StatusFieldApiName__c</field>
             </layoutItems>
             <layoutItems>
                 <behavior>Required</behavior>
-                <field>LockedStatuses__c</field>
-            </layoutItems>
-            <layoutItems>
-                <behavior>Edit</behavior>
-                <field>ExemptFields__c</field>
+                <field>LockingStatuses__c</field>
             </layoutItems>
         </layoutColumns>
         <style>TwoColumnsTopToBottom</style>
@@ -46,8 +38,12 @@
         <label>System Information</label>
         <layoutColumns>
             <layoutItems>
-                <behavior>Readonly</behavior>
-                <field>CreatedById</field>
+                <behavior>Required</behavior>
+                <field>MasterLabel</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Required</behavior>
+                <field>DeveloperName</field>
             </layoutItems>
             <layoutItems>
                 <behavior>Required</behavior>
@@ -55,6 +51,10 @@
             </layoutItems>
         </layoutColumns>
         <layoutColumns>
+            <layoutItems>
+                <behavior>Readonly</behavior>
+                <field>CreatedById</field>
+            </layoutItems>
             <layoutItems>
                 <behavior>Readonly</behavior>
                 <field>LastModifiedById</field>
@@ -76,13 +76,22 @@
         <layoutColumns/>
         <style>CustomLinks</style>
     </layoutSections>
+    <relatedLists>
+        <fields>DeveloperName</fields>
+        <fields>MasterLabel</fields>
+        <fields>ScopeType__c</fields>
+        <fields>ExemptFields__c</fields>
+        <fields>AssigneeValue__c</fields>
+        <fields>Active__c</fields>
+        <relatedList>ApprovalLockFieldExemptionConfig__mdt.LockConfig__c</relatedList>
+    </relatedLists>
     <showEmailCheckbox>false</showEmailCheckbox>
     <showHighlightsPanel>false</showHighlightsPanel>
     <showInteractionLogPanel>false</showInteractionLogPanel>
     <showRunAssignmentRulesCheckbox>false</showRunAssignmentRulesCheckbox>
     <showSubmitAndAttachButton>false</showSubmitAndAttachButton>
     <summaryLayout>
-        <masterLabel>00hG5000008wFN3</masterLabel>
+        <masterLabel>00haT000006TTsu</masterLabel>
         <sizeX>4</sizeX>
         <sizeY>0</sizeY>
         <summaryLayoutStyle>Default</summaryLayoutStyle>

@@ -7,12 +7,13 @@
         <value xsi:type="xsd:boolean">true</value>
     </values>
     <values>
-        <field>ExemptFields__c</field>
-        <value xsi:type="xsd:string">Comment__c,BusinessBackground__c,GridIsReviewed__c,NextReviewDate__c,LastReviewSentDate__c</value>
+        <field>EnforceLockOnAdmins__c</field>
+        <value xsi:type="xsd:boolean">true</value>
     </values>
     <values>
-        <field>LockedStatuses__c</field>
-        <value xsi:type="xsd:string">Pending Approval,Approved</value>
+        <field>LockingStatuses__c</field>
+        <value xsi:type="xsd:string">Pending Approval
+Approved</value>
     </values>
     <values>
         <field>ObjectApiName__c</field>
