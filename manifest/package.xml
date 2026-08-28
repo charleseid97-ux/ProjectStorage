@@ -1,16 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Package xmlns="http://soap.sforce.com/2006/04/metadata">
-    <types>
-        <members>Convention__c.AssetAge__c</members>
-        <name>CustomField</name>
-    </types>
-    <types>
-        <members>Convention__c.Agreement_AgeAsset_MandatoryRule</members>
-        <name>ValidationRule</name>
-    </types>
-    <types>
-        <members>Convention_Record_Page</members>
-        <name>FlexiPage</name>
-    </types>
-    <version>66.0</version>
+	<types>
+		<members>AgreementTriggerHandler</members>
+		<members>SM034_AgreementService</members>
+		<name>ApexClass</name>
+	</types>
+	<!-- FLAG OFF -->
+	<version>66.0</version>
 </Package>
