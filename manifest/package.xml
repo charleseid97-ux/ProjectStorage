@@ -2,8 +2,8 @@
 <Package xmlns="http://soap.sforce.com/2006/04/metadata">
 	<types>
 		<members>AgreementTriggerHandler</members>
-		<members>AgreementUtil</members>
-		<members>SM034_AgreementService</members>
+		<!-- <members>AgreementUtil</members> -->
+		<!-- <members>SM034_AgreementService</members> -->
 		<name>ApexClass</name>
 	</types>
 	<types>
@@ -18,6 +18,6 @@
 		<members>Convention_Record_Page</members>
 		<name>FlexiPage</name>
 	</types>
-	<!-- FLAG ON -->
+	<!-- FLAG OFF -->
 	<version>66.0</version>
 </Package>
