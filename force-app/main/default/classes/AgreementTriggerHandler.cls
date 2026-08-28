@@ -17,6 +17,11 @@ public class AgreementTriggerHandler implements  ITriggerHandler {
         if (PAD.canTrigger('attachedKYD_DD')) {
             SM034_AgreementService.attachedKYD_DD((List<Convention__c>)newItems);
         }
+
+        //Auto-populate Role__c from Code_Type__c when Role__c is blank
+        if (PAD.canTrigger('populateAgreementRole')) {
+            SM034_AgreementService.populateRoleFromCodeType((List<Convention__c>) newItems);
+        }
     }
 
     public void BeforeUpdate(Map<Id, SObject> newItems, Map<Id, SObject> oldItems) {
@@ -32,7 +37,7 @@ public class AgreementTriggerHandler implements  ITriggerHandler {
 
         //Auto-populate Role__c from Code_Type__c when Role__c is blank
         if (PAD.canTrigger('populateAgreementRole')) {
-            SM034_AgreementService.populateRoleFromCodeType((List<Convention__c>) newItems.values());
+            SM034_AgreementService.populateRoleFromCodeType((List<Convention__c>)newItems.values());
         }
 
     }

@@ -6,6 +6,8 @@
 **/
 
 public with sharing class SM034_AgreementService {
+
+    public static final String CARMIGNAC_ENTITY = 'Carmignac Entity';
     
     public static void handleRollupCalculate(Map<Id, Convention__c> newItems, Map<Id, Convention__c> oldRecordsMap) {
         Set<Id> accountIds = new Set<Id>();
@@ -214,10 +216,10 @@ Role__c = rC.Role__c));
         
         for (Convention__c agr : newItems){
             if (agr.Carmignac_Legal_Entity__c == 'CGL' && CGL != null) {
-                roles.add(new Agreement_Role__c(Role__c = 'Carmignac Entity', Agreement__c = agr.Id, Legal_Entity__c = CGL));
+                roles.add(new Agreement_Role__c(Role__c = CARMIGNAC_ENTITY, Agreement__c = agr.Id, Legal_Entity__c = CGL));
             }
             else if (agr.Carmignac_Legal_Entity__c == 'CGF' && CGF != null) {
-                roles.add(new Agreement_Role__c(Role__c = 'Carmignac Entity', Agreement__c = agr.Id, Legal_Entity__c = CGF));
+                roles.add(new Agreement_Role__c(Role__c = CARMIGNAC_ENTITY, Agreement__c = agr.Id, Legal_Entity__c = CGF));
             }
         }
         
@@ -240,7 +242,7 @@ Id CGF = settings.get('CARMIGNAC_GESTION').Value__c;
 for (Convention__c agr : [SELECT Id, Code_Type__c, Company__r.LegalEntity__c, CurrencyIsoCode, Carmignac_Legal_Entity__c, RecordTypeId FROM Convention__c where id in :newItems.keySet()]) {
 
 Agreement_Role__c agrRoleCarmignac = new Agreement_Role__c();
-agrRoleCarmignac.Role__c = 'Carmignac Entity';
+agrRoleCarmignac.Role__c = CARMIGNAC_ENTITY;
 agrRoleCarmignac.Agreement__c = agr.Id;
 
 if (agr.Carmignac_Legal_Entity__c == 'CGL' && CGL != null) {
@@ -722,7 +724,7 @@ matchingLegalEntityByCompany.put(le.Company__c, le);
         for (Agreement_Role__c role : [SELECT Id, Role__c, Agreement__r.Code_Type__c
                                        FROM Agreement_Role__c
                                        WHERE Agreement__c IN :agrIds 
-                                       AND Role__c != 'Carmignac Entity']){
+                                       AND Role__c != :CARMIGNAC_ENTITY]){
             role.TECH_Agreement_CodeType__c = role.Agreement__r.Code_Type__c;
             role.Role__c = getMappingAgreementRole(role.Agreement__r.Code_Type__c);
             roleToUpdate.add(role);
