@@ -150,6 +150,10 @@
                 <div class="slds-col slds-size_3-of-4 slds-p-around_small lgc-bg">
                     <!-- Boutons Data Dic et Export -->
                     <div class="slds-grid slds-grid_align-end slds-m-bottom_small">
+                        <!-- Lance le Flow de création d'un nouveau produit IS -->
+                        <div class="slds-m-right_small">
+                            <lightning-button label="New IS Product" onclick={handleNewISProduct} variant="neutral"></lightning-button>
+                        </div>
                         <div class="slds-m-right_small">
                             <lightning-button label="Tax Transparency Matrix" onclick={handleOpenTaxTransparencyMatrix} variant="neutral"></lightning-button>
                         </div>
@@ -185,6 +189,31 @@
                     </template>
                 </div>
             </div>
+
+            <!-- Modal contenant le Flow de création d'un nouveau produit IS -->
+            <template if:true={isNewISProductModalOpen}>
+                <section role="dialog" tabindex="-1" aria-modal="true" class="slds-modal slds-fade-in-open">
+                    <div class="slds-modal__container">
+                        <header class="slds-modal__header">
+                            <lightning-button-icon icon-name="utility:close"
+                                alternative-text="Close"
+                                class="slds-modal__close"
+                                onclick={handleCloseNewISProduct}>
+                            </lightning-button-icon>
+                            <h2 class="slds-text-heading_medium">New IS Product</h2>
+                        </header>
+
+                        <!-- Le Flow démarre automatiquement à l'ouverture de la modal -->
+                        <div class="slds-modal__content slds-p-around_medium">
+                            <lightning-flow
+                                flow-api-name="New_IS_Product"
+                                onstatuschange={handleNewISProductStatusChange}>
+                            </lightning-flow>
+                        </div>
+                    </div>
+                </section>
+                <div class="slds-backdrop slds-backdrop_open"></div>
+            </template>
         </div>
     </div>
 </template>
