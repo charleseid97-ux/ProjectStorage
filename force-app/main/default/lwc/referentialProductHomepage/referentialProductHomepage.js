@@ -41,6 +41,7 @@ export default class ReferentialProductHomepage extends NavigationMixin(Lightnin
     @track reportId = ReportHomeProductCatalog;
     @track dataDicURL = DataDicURL;
     @track navCalendar = NAVCalendar;
+    @track isNewISProductModalOpen = false;
     assetClassOptions = [];
     legalFormOptions = [];
     fundTypeOptions = [];
@@ -422,6 +423,36 @@ export default class ReferentialProductHomepage extends NavigationMixin(Lightnin
         }, false);
     }
 
+    // Lance le Flow Salesforce de création d'un nouveau produit IS
+    handleNewISProduct() {
+        this[NavigationMixin.Navigate]({
+            type: 'standard__flow',
+            attributes: {
+                devName: 'New_IS_Product'
+            }
+        });
+    }
+
+    // Ouvre la Tax Transparency Matrix
+    // Ouvre la modal contenant le Flow New IS Product
+    handleNewISProduct() {
+        this.isNewISProductModalOpen = true;
+    }
+
+    // Ferme la modal du Flow New IS Product
+    handleCloseNewISProduct() {
+        this.isNewISProductModalOpen = false;
+    }
+
+    // Ferme automatiquement la modal lorsque le Flow est terminé
+    handleNewISProductStatusChange(event) {
+        if (event.detail.status === 'FINISHED' || event.detail.status === 'FINISHED_SCREEN') {
+            this.isNewISProductModalOpen = false;
+            this.refreshProductHierarchy();
+        }
+    }
+
+    // Ouvre la Tax Transparency Matrix
     handleOpenTaxTransparencyMatrix() {
         this[NavigationMixin.Navigate]({
             type: 'standard__navItemPage',
