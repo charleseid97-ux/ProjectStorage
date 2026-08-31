@@ -11,7 +11,8 @@
         <members>customEventSpeakerApprovalService</members>
         <members>sessionSpeakerProductHandler</members>
         <members>sessionSpeakerProductService</members>
-        <members>NotificationTitleGenerator</members>        
+        <members>NotificationTitleGenerator</members> 
+        <members>EventApprovalControllerTest</members>                
         <name>ApexClass</name>
     </types>
 
