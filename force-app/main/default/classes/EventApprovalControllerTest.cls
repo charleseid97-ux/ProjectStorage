@@ -25,14 +25,17 @@ private class EventApprovalControllerTest {
             ((User) data.get('OrganizerUser')).Id
         );
 
-        // Simule l'identifiant d'état présent dans le lien d'approbation.
-        evt.ApprovalStateId__c = 'TEST_STATE';
-        update evt;
+        // Récupère l'état d'approbation réellement généré lors de la création.
+        evt = [
+            SELECT Id, ApprovalStateId__c
+            FROM Event__c
+            WHERE Id = :evt.Id
+        ];
 
         Test.setCurrentPage(new PageReference('/apex/EventApproval'));
         ApexPages.currentPage().getParameters().put('eid', evt.Id);
         ApexPages.currentPage().getParameters().put('action', 'reject');
-        ApexPages.currentPage().getParameters().put('stateId', 'TEST_STATE');
+        ApexPages.currentPage().getParameters().put('stateId', evt.ApprovalStateId__c);
 
         Test.startTest();
         EventApprovalController ctrl = new EventApprovalController();
@@ -52,14 +55,17 @@ private class EventApprovalControllerTest {
             ((User) data.get('OrganizerUser')).Id
         );
 
-        // Simule l'identifiant d'état présent dans le lien d'approbation.
-        evt.ApprovalStateId__c = 'TEST_STATE';
-        update evt;
+        // Récupère l'état d'approbation réellement généré lors de la création.
+        evt = [
+            SELECT Id, ApprovalStateId__c
+            FROM Event__c
+            WHERE Id = :evt.Id
+        ];
 
         Test.setCurrentPage(new PageReference('/apex/EventApproval'));
         ApexPages.currentPage().getParameters().put('eid', evt.Id);
         ApexPages.currentPage().getParameters().put('action', 'reject');
-        ApexPages.currentPage().getParameters().put('stateId', 'TEST_STATE');
+        ApexPages.currentPage().getParameters().put('stateId', evt.ApprovalStateId__c);
 
         Test.startTest();
         EventApprovalController ctrl = new EventApprovalController();
@@ -81,14 +87,17 @@ private class EventApprovalControllerTest {
             ((User) data.get('OrganizerUser')).Id
         );
 
-        // Simule l'identifiant d'état présent dans le lien d'approbation.
-        evt.ApprovalStateId__c = 'TEST_STATE';
-        update evt;
+        // Récupère l'état d'approbation réellement généré lors de la création.
+        evt = [
+            SELECT Id, ApprovalStateId__c
+            FROM Event__c
+            WHERE Id = :evt.Id
+        ];
 
         Test.setCurrentPage(new PageReference('/apex/EventApproval'));
         ApexPages.currentPage().getParameters().put('eid', evt.Id);
         ApexPages.currentPage().getParameters().put('action', 'invalid');
-        ApexPages.currentPage().getParameters().put('stateId', 'TEST_STATE');
+        ApexPages.currentPage().getParameters().put('stateId', evt.ApprovalStateId__c);
 
         Test.startTest();
         EventApprovalController ctrl = new EventApprovalController();
@@ -140,14 +149,17 @@ private class EventApprovalControllerTest {
             ((User) data.get('OrganizerUser')).Id
         );
 
-        // Simule l'identifiant d'état présent dans le lien d'approbation.
-        evt.ApprovalStateId__c = 'TEST_STATE';
-        update evt;
+        // Récupère l'état d'approbation réellement généré lors de la création.
+        evt = [
+            SELECT Id, ApprovalStateId__c
+            FROM Event__c
+            WHERE Id = :evt.Id
+        ];
 
         Test.setCurrentPage(new PageReference('/apex/EventApproval'));
         ApexPages.currentPage().getParameters().put('eid', evt.Id);
         ApexPages.currentPage().getParameters().put('action', 'approve');
-        ApexPages.currentPage().getParameters().put('stateId', 'TEST_STATE');
+        ApexPages.currentPage().getParameters().put('stateId', evt.ApprovalStateId__c);
 
         Test.startTest();
         EventApprovalController ctrl = new EventApprovalController();
