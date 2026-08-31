@@ -160,6 +160,26 @@ public without sharing class customEventSpeakerApprovalService {
             }
         }
 
+        Set<Id> organizerApprovedEventIds = new Set<Id>();
+        for (Event__c newEvent : newEvents.values()) {
+            if (isOrganizerDecisionApproved(newEvent, oldEvents)) {
+                organizerApprovedEventIds.add(newEvent.Id);
+            }
+        }
+
+        // La dernière décision Organizer doit libérer l'Event si les SSP sont déjà traités.
+        if (!organizerApprovedEventIds.isEmpty()) {
+            Map<Id, String> statusesByEvent =
+                calculateEventStatusFromApprovals(organizerApprovedEventIds);
+
+            for (Id eventId : organizerApprovedEventIds) {
+                String status = statusesByEvent.get(eventId);
+                if (status != null) {
+                    newEvents.get(eventId).Status__c = status;
+                }
+            }
+        }
+
         // Pas de persist ici : les changements sur newEvents seront sauvegardés par le trigger BEFORE
         System.debug(LoggingLevel.INFO, 'markEventFullyApprovedIfNoSSP: processing finished');
     }
@@ -213,8 +233,32 @@ public without sharing class customEventSpeakerApprovalService {
             gr.bestSSPByKey
         );
         deleteOrphanApprovals(eventIdsToProcess, speakerContactIds);
-
         upsertApprovals(approvals);
+
+        // Recalcule immédiatement le statut après la synchronisation des approvals.
+        Map<Id, String> calculatedStatuses =
+            calculateEventStatusFromApprovals(eventIdsToProcess);
+
+        List<Event__c> eventsToUpdate = new List<Event__c>();
+
+        // Évite de laisser l'Event bloqué sans nouvelle approval à traiter.
+        for (Id eventId : calculatedStatuses.keySet()) {
+            String calculatedStatus = calculatedStatuses.get(eventId);
+
+            if (
+                calculatedStatus != null &&
+                calculatedStatus != customEventConstants.STATUS_WAITING_FOR_SPEAKER_APPROVALS
+            ) {
+                eventsToUpdate.add(new Event__c(
+                    Id = eventId,
+                    Status__c = calculatedStatus
+                ));
+            }
+        }
+
+        if (!eventsToUpdate.isEmpty()) {
+            update eventsToUpdate;
+        }
     }
 
     // -------------------------
@@ -458,10 +502,6 @@ public without sharing class customEventSpeakerApprovalService {
             (best != null && best.Session__r != null ? best.Session__r.RecordType.Name : '') + ' - ' +
             (best != null ? best.Language__c : '');
 
-        if (nameValue.length() > 80) {
-            nameValue = nameValue.substring(0, 80);
-        }
-
         EventSpeakerApprovals__c rec = new EventSpeakerApprovals__c(
             Name            = nameValue,
             Key__c          = fullKey,
@@ -483,12 +523,9 @@ public without sharing class customEventSpeakerApprovalService {
         return rec;
     }
 
-   /**
-     * Supprime les EventSpeakerApprovals__c orphelines :
-     * - pour les events donnés
-     * - si le Speaker__c n'est plus présent dans les SSP de l'event
-     *
-     * NB : les approvals déjà "Approved" ne sont jamais supprimées.
+    /**
+     * Supprime toutes les approvals d'un speaker lorsqu'il n'a plus
+     * aucun SessionSpeakerProduct__c lié à l'Event.
      */
     private static void deleteOrphanApprovals(
         Set<Id> eventIds,
@@ -498,27 +535,38 @@ public without sharing class customEventSpeakerApprovalService {
 
         List<EventSpeakerApprovals__c> toDelete = new List<EventSpeakerApprovals__c>();
 
+        // Charge toutes les approvals liées aux Events concernés.
         for (EventSpeakerApprovals__c ex : [
             SELECT Id, Speaker__c, Status__c,Event__c
             FROM EventSpeakerApprovals__c
             WHERE Event__c IN :eventIds
         ]) {
-            if (ex.Speaker__c != null && speakerContactIds != null && speakerContactIds.contains(ex.Speaker__c)) {
-                continue;
-            }
-
-            // Ne jamais supprimer une approval déjà approuvée.
+            // Conserve les approvals si le speaker possède encore au moins un SSP.
             if (
-                isTerminalApprovalStatus(ex.Status__c)
+                ex.Speaker__c != null &&
+                speakerContactIds != null &&
+                speakerContactIds.contains(ex.Speaker__c)
             ) {
                 continue;
             }
-            system.debug(LoggingLevel.INFO, 'ESA: marking approval for deletion, event=' + ex.Event__c + ', speaker=' + ex.Speaker__c + ', status=' + ex.Status__c);
+
+            // Supprime aussi les approvals déjà validées devenues orphelines.
+            system.debug(
+                LoggingLevel.INFO,
+                'ESA: marking approval for deletion, event=' + ex.Event__c +
+                ', speaker=' + ex.Speaker__c +
+                ', status=' + ex.Status__c
+            );
             toDelete.add(ex);
         }
 
         if (toDelete.isEmpty()) return;
-        system.debug(LoggingLevel.INFO, 'ESA: deleting orphan approvals count=' + toDelete.size());
+
+        // La prochaine réintégration du speaker recréera de nouvelles approvals.
+        system.debug(
+            LoggingLevel.INFO,
+            'ESA: deleting orphan approvals count=' + toDelete.size()
+        );
         delete toDelete;
     }
 
@@ -565,6 +613,11 @@ public without sharing class customEventSpeakerApprovalService {
                 // terminal approved -> do not upsert
                 skipped++;
                 continue;
+            }
+
+            // Une première notification Speaker ou HOP ne doit jamais reprendre un titre Event.
+            if (existing == null) {
+                a.NotificationTitle__c = NotificationTitleGenerator.getNewApprovalTitle();
             }
 
             // New or existing non-approved -> keep status from builder and queue for upsert
@@ -640,6 +693,21 @@ public without sharing class customEventSpeakerApprovalService {
 
         Map<Id, Map<String, Integer>> countsByEventAndStatus = queryApprovalCounts(eventIds);
 
+        Set<Id> eventsWithPendingOrganizerApproval = new Set<Id>();
+
+        // Identifie les Events ayant encore une approbation Organizer active
+        for (ProcessInstance processInstance : [
+            SELECT TargetObjectId
+            FROM ProcessInstance
+            WHERE TargetObjectId IN :eventIds
+            AND Status = 'Pending'
+            AND ProcessDefinition.DeveloperName = 'OrganizerApprovalProcess'
+        ]) {
+            eventsWithPendingOrganizerApproval.add(
+                processInstance.TargetObjectId
+            );
+        }
+
         List<Event__c> toUpdate = new List<Event__c>();
 
         for (Id evtId : countsByEventAndStatus.keySet()) {
@@ -676,10 +744,17 @@ public without sharing class customEventSpeakerApprovalService {
             }
 
             String newStatus;
-            if (recalled > 0) {
-                newStatus = customEventConstants.STATUS_WAITING_FOR_SPEAKER_APPROVALS;
+
+            // Une approbation Organizer active bloque le passage à FullyApproved
+            if (
+                recalled > 0 ||
+                eventsWithPendingOrganizerApproval.contains(evtId)
+            ) {
+                newStatus =
+                    customEventConstants.STATUS_WAITING_FOR_SPEAKER_APPROVALS;
             } else {
-                newStatus = shouldMarkFullyApproved(total, approved, rejected);
+                newStatus =
+                    shouldMarkFullyApproved(total, approved, rejected);
             }
 
             System.debug(LoggingLevel.INFO,

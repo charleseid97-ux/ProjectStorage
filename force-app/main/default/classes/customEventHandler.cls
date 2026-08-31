@@ -8,6 +8,7 @@ public without sharing class customEventHandler implements ITriggerHandler {
 
         if (eventsToProcess.isEmpty()) return;
 
+        BooklyModificationsManagement.initializeApprovalStateIds(eventsToProcess);
         customEventService.validateEvents(eventsToProcess, null);
         customEventService.setEventName(eventsToProcess, true);       
         customEventService.setDigitalLocation(eventsToProcess, null);
@@ -30,6 +31,13 @@ public without sharing class customEventHandler implements ITriggerHandler {
         customEventService.setDigitalLocation(newEventsToProcess.values(), oldEventsToProcess);
         customEventService.updateName(oldEventsToProcess, newEventsToProcess);
         customEventService.copyCompanyBillingAddressToEvent(newEventsToProcess.values(), oldEventsToProcess);
+
+        // Keep the Event waiting when a new Organizer approval is required
+        customEventService.setWaitingForOrganizerApproval(
+            newEventsToProcess.values(),
+            oldEventsToProcess
+        );
+
         customEventSpeakerApprovalService.prepareSpeakerHTMLforNotifications(newEventsToProcess, oldEventsToProcess);    
         customEventSpeakerApprovalService.markEventFullyApprovedIfNoSSP(newEventsToProcess, oldEventsToProcess);
         EventSpeakerApprovalsService.triggerRollupFromEventBeforeUpdate(newEventsToProcess, oldEventsToProcess);
@@ -37,6 +45,17 @@ public without sharing class customEventHandler implements ITriggerHandler {
         // That later update lets us rebuild the final event Name and then move the record
         // from Draft to SubmittedToEventTeam. The actual Approval.process call is done in after update.
         customEventService.setReadyForApprovalProcess(newEventsToProcess.values(), oldEventsToProcess);
+
+        // Prépare le titre avant la soumission des approbations Event dans AfterUpdate.
+        NotificationTitleGenerator.setEventNotificationTitles(
+            newEventsToProcess.values(),
+            oldEventsToProcess
+        );
+
+        BooklyModificationsManagement.refreshApprovalStateIdsOnEventChange(
+            newEventsToProcess.values(),
+            oldEventsToProcess
+        );
     }
 
     public void BeforeDelete(Map<Id, SObject> oldItems) {}

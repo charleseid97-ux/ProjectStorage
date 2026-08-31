@@ -162,15 +162,12 @@ public without sharing class sessionSpeakerProductService {
 
             String summary = buildSummary(data.productsByKey.get(key));
 
-            Contact speaker = speakerById.get(speakerId);
-            Boolean isAutoApproved = speaker != null && speaker.IsTopSpeaker__c == false;
-
             toInsert.add(new EventSpeakerApprovals__c(
                 Key__c          = key,
                 Event__c        = eventId,
                 Speaker__c      = speakerId,
                 ApproverUser__c = approverUserId,
-                Status__c       = isAutoApproved ? 'AutoApproved' : SUBMITTED_STATUS,
+                Status__c       = SUBMITTED_STATUS,
                 Summary__c      = summary
             ));
         }
@@ -284,7 +281,7 @@ public without sharing class sessionSpeakerProductService {
         if (speakerIds == null || speakerIds.isEmpty()) return new Map<Id, Contact>();
 
         return new Map<Id, Contact>([
-            SELECT Id, SpeakerAssistant__c, IsTopSpeaker__c
+            SELECT Id, SpeakerAssistant__c
             FROM Contact
             WHERE Id IN :speakerIds
         ]);
@@ -435,7 +432,7 @@ public without sharing class sessionSpeakerProductService {
         }
 
         List<SessionSpeakerProduct__c> sspsToUpdate = [
-            SELECT Id, PresentationStatus__c
+            SELECT Id, PresentationStatus__c, speakerLanguage__c
             FROM SessionSpeakerProduct__c
             WHERE Session__c IN :eventIdsToProcess
             AND PresentationStatus__c = :PRES_REQUIRED_STATUS
@@ -454,20 +451,20 @@ public without sharing class sessionSpeakerProductService {
     }
 
     public static void updateEventNamesFromSSP(List<SessionSpeakerProduct__c> ssps) {
-    if (ssps == null || ssps.isEmpty()) return;
+        if (ssps == null || ssps.isEmpty()) return;
 
-    Set<Id> eventIds = new Set<Id>();
-    for (SessionSpeakerProduct__c s : ssps) {
-        if (s.Session__c != null) eventIds.add(s.Session__c);
-    }
+        Set<Id> eventIds = new Set<Id>();
+        for (SessionSpeakerProduct__c s : ssps) {
+            if (s.Session__c != null) eventIds.add(s.Session__c);
+        }
 
-    if (eventIds.isEmpty()) return;
+        if (eventIds.isEmpty()) return;
 
-    List<Event__c> events = [
-        SELECT Id, Name, startDate__c, SalesTeam__c, Title__c, SpeakersHTML__c, Speakers__c
-        FROM Event__c
-        WHERE Id IN :eventIds
-    ];
+        List<Event__c> events = [
+            SELECT Id, Name, SpeakersHTML__c, startDate__c, SalesTeam__c, Title__c
+            FROM Event__c
+            WHERE Id IN :eventIds
+        ];
 
     if (events.isEmpty()) return;
 
@@ -492,31 +489,38 @@ public without sharing class sessionSpeakerProductService {
         eventToSpeakers.get(speaker.Session__c).add(speaker);
     }
 
-    Map<Id, String> oldNames = new Map<Id, String>();
+        Map<Id, String> oldNames = new Map<Id, String>();
         Map<Id, String> oldSpeakersHtml = new Map<Id, String>();
-        Map<Id, String> oldSpeakers = new Map<Id, String>();
+
+        // Conserve les valeurs avant le recalcul.
         for (Event__c e : events) {
             oldNames.put(e.Id, e.Name);
             oldSpeakersHtml.put(e.Id, e.SpeakersHTML__c);
-            oldSpeakers.put(e.Id, e.Speakers__c);
         }
 
         customEventService.setEventName(events, false);
 
-        List<Event__c> toUpdate = new List<Event__c>();
+        // Reconstruit le HTML avec les dernières données SSP présentes en base.
         for (Event__c e : events) {
-            List<SessionSpeakerProduct__c> eventSpeakers = eventToSpeakers.get(e.Id);
+            List<SessionSpeakerProduct__c> eventSpeakers =
+                eventToSpeakers.containsKey(e.Id)
+                    ? eventToSpeakers.get(e.Id)
+                    : new List<SessionSpeakerProduct__c>();
 
-            e.SpeakersHTML__c = customEventSpeakerApprovalService.buildSpeakersHtmlSingleSection(
-                'Speakers',
-                eventSpeakers
-            );
-            e.Speakers__c = customEventSpeakerApprovalService.buildSpeakersText(eventSpeakers);
+            e.SpeakersHTML__c =
+                customEventSpeakerApprovalService.buildSpeakersHtmlSingleSection(
+                    'Speakers',
+                    eventSpeakers
+                );
+        }
 
+        List<Event__c> toUpdate = new List<Event__c>();
+
+        // Met à jour l'Event si son nom ou son HTML speakers a changé.
+        for (Event__c e : events) {
             if (
                 oldNames.get(e.Id) != e.Name ||
-                oldSpeakersHtml.get(e.Id) != e.SpeakersHTML__c ||
-                oldSpeakers.get(e.Id) != e.Speakers__c
+                oldSpeakersHtml.get(e.Id) != e.SpeakersHTML__c
             ) {
                 toUpdate.add(e);
             }
