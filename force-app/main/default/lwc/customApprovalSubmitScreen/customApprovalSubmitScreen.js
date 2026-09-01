@@ -8,8 +8,8 @@
  * @author Charles EID
  */
 import { LightningElement, api } from 'lwc';
-import { CloseActionScreenEvent } from 'lightning/actions';
 import { ShowToastEvent } from 'lightning/platformShowToastEvent';
+import { RefreshEvent } from 'lightning/refresh';
 import submitForApproval from '@salesforce/apex/CustomApprovalHistoryUtility.submitForApproval';
 
 export default class CustomApprovalSubmitScreen extends LightningElement {
@@ -34,7 +34,7 @@ export default class CustomApprovalSubmitScreen extends LightningElement {
     }
 
     handleCancel() {
-        this.dispatchEvent(new CloseActionScreenEvent());
+        this.requestClose();
     }
 
     handleSubmit() {
@@ -48,7 +48,8 @@ export default class CustomApprovalSubmitScreen extends LightningElement {
                     message : this.successMessage,
                     variant : 'success'
                 }));
-                this.dispatchEvent(new CloseActionScreenEvent());
+                this.dispatchEvent(new RefreshEvent());
+                this.requestClose();
             } else {
                 this.errorMessage = result.errorMessage || this.defaultErrorMessage;
             }
@@ -58,5 +59,12 @@ export default class CustomApprovalSubmitScreen extends LightningElement {
         }).finally(() => {
             this.isLoading = false;
         });
+    }
+
+    // The Quick Action wrapper (this component's parent) is the one actually registered as the lightning__RecordAction target, so it's the one that must dispatch CloseActionScreenEvent
+    // That only works from the literal action component, not from a nested child. 
+    // This component instead fires a plain "close" event that the parent listens for (onclose) and turns into the real CloseActionScreenEvent.
+    requestClose() {
+        this.dispatchEvent(new CustomEvent('close'));
     }
 }
