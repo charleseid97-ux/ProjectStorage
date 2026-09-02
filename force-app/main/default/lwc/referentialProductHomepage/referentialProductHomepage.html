@@ -150,10 +150,12 @@
                 <div class="slds-col slds-size_3-of-4 slds-p-around_small lgc-bg">
                     <!-- Boutons Data Dic et Export -->
                     <div class="slds-grid slds-grid_align-end slds-m-bottom_small">
-                        <!-- Lance le Flow de création d'un nouveau produit IS -->
-                        <div class="slds-m-right_small">
-                            <lightning-button label="New IS Product" onclick={handleNewISProduct} variant="neutral"></lightning-button>
-                        </div>
+                        <!-- Affiche le bouton uniquement si l'utilisateur possède la Custom Permission PRPIS -->
+                        <template if:true={canCreateISProduct}>
+                            <div class="slds-m-right_small">
+                                <lightning-button label="New IS Product" onclick={handleNewISProduct} variant="neutral"></lightning-button>
+                            </div>
+                        </template>
                         <div class="slds-m-right_small">
                             <lightning-button label="Tax Transparency Matrix" onclick={handleOpenTaxTransparencyMatrix} variant="neutral"></lightning-button>
                         </div>
