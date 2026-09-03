@@ -286,22 +286,22 @@ public with sharing class VFC16_SequantisGenerateDraft {
             } 
             payload.put('rhp', ProjectProductRec.RecommendedHoldingPeriod__c);
             payload.put('rhpUnit', escapeHTML(ProjectProductRec.RecommendedHoldingPeriodUnit__c));
-            payload.put('reasonForRedemptionShareClass',projectShareClassRec.ReasonforRHPRedemptionShareclass__c );
+            payload.put('reasonForRedemptionShareClass',escapeHTML(projectShareClassRec.ReasonforRHPRedemptionShareclass__c ));
             payload.put('investmentObjective', projectInvestmentObjectiveNoHTML);
-            payload.put('sortieAnticipee1', ProjectProductRec.ReasonForRHP__c);
-            payload.put('typeInvestisseur', ProjectProductRec.IntentedRetailInvestor__c);
+            payload.put('sortieAnticipee1', escapeHTML( ProjectProductRec.ReasonForRHP__c));
+            payload.put('typeInvestisseur', escapeHTML( ProjectProductRec.IntentedRetailInvestor__c));
             payload.put('shareClassInvestmentObjective', shareClassInvestmentObjectiveNoHTML);
-            payload.put('performanceFeesCommentEPT', projectShareClassRec.PerformanceFeeEPTKID__c);
-            payload.put('performanceFeesComment', projectShareClassRec.PerformanceFeeUCITSKIID__c);
+            payload.put('performanceFeesCommentEPT', escapeHTML( projectShareClassRec.PerformanceFeeEPTKID__c));
+            payload.put('performanceFeesComment', escapeHTML(projectShareClassRec.PerformanceFeeUCITSKIID__c));
             payload.put('riskNarrative', ProjectProductRec.RiskNotConsideredinIndicator__c);
             
             if(narratives.size() > 0 ){payload.put('managementCompany',  narratives[0].Name );}
 
         }else if (rtId == shareclassCreationRecordTypeId) {
-            payload.put('reasonForRedemptionShareClass',projectShareClassRec.ReasonforRHPRedemptionShareclass__c );
+            payload.put('reasonForRedemptionShareClass',escapeHTML( projectShareClassRec.ReasonforRHPRedemptionShareclass__c ));
             payload.put('shareClassInvestmentObjective', shareClassInvestmentObjectiveNoHTML);
-            payload.put('performanceFeesCommentEPT', projectShareClassRec.PerformanceFeeEPTKID__c);
-            payload.put('performanceFeesComment', projectShareClassRec.PerformanceFeeUCITSKIID__c);
+            payload.put('performanceFeesCommentEPT', escapeHTML(projectShareClassRec.PerformanceFeeEPTKID__c));
+            payload.put('performanceFeesComment', escapeHTML(projectShareClassRec.PerformanceFeeUCITSKIID__c));
         }
        // payload.put('fundcurrency',  ProjectProductRec.BaseCurrency__c); //champ pas encore créé coté Sequantis
         //payload.put('????'  shareClassInvestmentObjectiveNoHTML
