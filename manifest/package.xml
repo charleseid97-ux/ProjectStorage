@@ -1,12 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Package xmlns="http://soap.sforce.com/2006/04/metadata">
 	<types>
-        <members>Grid__c.SalesOwner__c</members>
-        <name>CustomField</name>
+        <members>CustomApprovalHistoryUtility</members>
+        <members>CustomApprovalHistoryUtilityTest</members>
+        <members>GridAmendmentAgreementStatusAction</members>
+        <members>GridAmendmentAgreementStatusActionTest</members>
+        <members>GridUtility</members>
+        <members>GridStandardApprovalMirrorQueueable</members>
+        <name>ApexClass</name>
     </types>
     <types>
-        <members>gridAgreementsSelection</members>
-        <name>LightningComponentBundle</name>
+        <members>ApprovalActionConfig.GridAmendment_InitialAgreementUpdate</members>
+        <name>CustomMetadata</name>
     </types>
     <version>66.0</version>
 </Package>
