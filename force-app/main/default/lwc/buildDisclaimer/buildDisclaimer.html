@@ -1,0 +1,110 @@
+<template>
+    <lightning-card title="Build Disclaimer" icon-name="standard:document">
+        <template if:true={isLoading}>
+            <lightning-spinner alternative-text="Loading" size="medium"></lightning-spinner>
+        </template>
+
+        <div class="slds-p-around_medium">
+            <div class="slds-form-element slds-m-bottom_medium">
+                <lightning-dual-listbox
+                    label="Products"
+                    source-label="Available"
+                    selected-label="Selected"
+                    options={productOptions}
+                    value={selectedProducts}
+                    onchange={handleProductsChange}>
+                </lightning-dual-listbox>
+            </div>
+
+            <div class="slds-form-element slds-m-bottom_medium">
+                <c-multi-select-search-list
+                    label="Source"
+                    options={sourceOptions}
+                    value={selectedSources}
+                    enable-select-all="true"
+                    onchange={handleSourceChange}>
+                </c-multi-select-search-list>
+            </div>
+
+            <div class="slds-form-element slds-m-bottom_medium">
+                <lightning-dual-listbox
+                    label="Content"
+                    source-label="Available"
+                    selected-label="Selected"
+                    options={contentOptions}
+                    value={selectedContentTypes}
+                    onchange={handleContentChange}>
+                </lightning-dual-listbox>
+            </div>
+
+            <div class="slds-form-element slds-m-bottom_medium">
+                <c-multi-select-search-list
+                    label="Media"
+                    options={mediaOptions}
+                    value={selectedMedia}
+                    enable-select-all="true"
+                    onchange={handleMediaChange}>
+                </c-multi-select-search-list>
+            </div>
+
+            <div class="slds-form-element slds-m-bottom_medium">
+                <lightning-combobox
+                    label="Country"
+                    options={countryOptions}
+                    value={selectedCountry}
+                    onchange={handleCountryChange}>
+                </lightning-combobox>
+            </div>
+
+            <div class="slds-m-bottom_medium">
+                <lightning-button
+                    label="Search"
+                    variant="brand"
+                    disabled={isSearchDisabled}
+                    onclick={handleSearch}>
+                </lightning-button>
+            </div>
+
+            <template if:true={hasSearched}>
+                <div class="slds-box slds-m-bottom_medium">
+                    <h3 class="slds-text-heading_small slds-m-bottom_small">
+                        End Disclaimer ({endDisclaimerCount} matching narrative(s))
+                    </h3>
+                    <lightning-textarea
+                        label="End Disclaimer content"
+                        variant="label-hidden"
+                        value={endDisclaimerContent}
+                        disabled="true">
+                    </lightning-textarea>
+                </div>
+
+                <div class="slds-box slds-m-bottom_medium">
+                    <h3 class="slds-text-heading_small slds-m-bottom_small">
+                        Footnote ({footnoteCount} matching narrative(s))
+                    </h3>
+                    <lightning-textarea
+                        label="Footnote content"
+                        variant="label-hidden"
+                        value={footnoteContent}
+                        disabled="true">
+                    </lightning-textarea>
+                </div>
+            </template>
+        </div>
+
+        <div slot="footer" class="slds-align_absolute-center">
+            <lightning-button
+                label="Cancel"
+                variant="neutral"
+                class="slds-m-right_small"
+                onclick={handleCancel}>
+            </lightning-button>
+            <lightning-button
+                label="Build Disclaimer"
+                variant="brand"
+                disabled={isBuildDisabled}
+                onclick={handleBuild}>
+            </lightning-button>
+        </div>
+    </lightning-card>
+</template>

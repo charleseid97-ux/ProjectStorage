@@ -1,12 +1,48 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Package xmlns="http://soap.sforce.com/2006/04/metadata">
-	<types>
-        <members>Grid__c.SalesOwner__c</members>
+    <types>
+        <members>Narrative__c.Source__c</members>
+        <members>Narrative__c.ContentType__c</members>
+        <members>Narrative__c.NumberOfFunds__c</members>
+        <members>Narrative__c.Type__c</members>
+        <members>Narrative__c.Media__c</members>
         <name>CustomField</name>
     </types>
     <types>
-        <members>gridAgreementsSelection</members>
+        <members>Narrative__c.Disclaimer</members>
+        <name>RecordType</name>
+    </types>
+    <types>
+        <members>Disclaimer__c</members>
+        <members>DisclaimerDetail__c</members>
+        <name>CustomObject</name>
+    </types>
+    <types>
+        <members>Disclaimer__c</members>
+        <members>DisclaimerDetail__c</members>
+        <members>BuildDisclaimer</members>
+        <name>CustomTab</name>
+    </types>
+    <types>
+        <members>Disclaimer__c.BuildDisclaimer</members>
+        <name>WebLink</name>
+    </types>
+    <types>
+        <members>BuildDisclaimer</members>
+        <name>FlexiPage</name>
+    </types>
+    <types>
+        <members>buildDisclaimer</members>
         <name>LightningComponentBundle</name>
+    </types>
+    <types>
+        <members>DisclaimerBuilderController</members>
+        <members>DisclaimerBuilderControllerTest</members>
+        <name>ApexClass</name>
+    </types>
+    <types>
+        <members>DisclaimerBuilderPermissions</members>
+        <name>PermissionSet</name>
     </types>
     <version>66.0</version>
 </Package>
