@@ -13,14 +13,51 @@
         <valueSetDefinition>
             <sorted>false</sorted>
             <value>
-                <fullName>True</fullName>
-                <default>true</default>
-                <label>True</label>
+                <fullName>Y</fullName>
+                <default>false</default>
+                <label>Y</label>
+            </value>
+            <value>
+                <fullName>N</fullName>
+                <default>false</default>
+                <label>N</label>
+            </value>
+            <value>
+                <fullName>P</fullName>
+                <default>false</default>
+                <label>P</label>
+            </value>
+            <value>
+                <fullName>C</fullName>
+                <default>false</default>
+                <label>C</label>
+            </value>
+            <value>
+                <fullName>A</fullName>
+                <default>false</default>
+                <label>A</label>
+            </value>
+            <value>
+                <fullName>T</fullName>
+                <default>false</default>
+                <label>T</label>
+            </value>
+            <value>
+                <fullName>Z</fullName>
+                <default>false</default>
+                <label>Z</label>
             </value>
             <value>
                 <fullName>False</fullName>
                 <default>false</default>
+                <isActive>false</isActive>
                 <label>False</label>
+            </value>
+            <value>
+                <fullName>True</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>True</label>
             </value>
         </valueSetDefinition>
     </valueSet>

@@ -2,6 +2,8 @@
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>InvestmentObjective__c</fullName>
     <encryptionScheme>None</encryptionScheme>
+    <inlineHelpText>This investment objective will be included in the PRIIPS KID and Key Investor Information Document (KIID).
+When share class-specific wording is required, it may be completed using the text “Shareclass Investment Objective” available in the share class menu.</inlineHelpText>
     <label>Investment Objective</label>
     <length>5000</length>
     <trackHistory>false</trackHistory>
