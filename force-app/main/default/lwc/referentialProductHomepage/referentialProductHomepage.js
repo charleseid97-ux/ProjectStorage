@@ -65,6 +65,7 @@ export default class ReferentialProductHomepage extends NavigationMixin(Lightnin
     selectedDividendP = '';
     searchKey = '';
     isActiveProducts = true;
+    isISProducts = false;
     isRI = false;
 
     // value of show SRI checkbox
@@ -240,6 +241,7 @@ export default class ReferentialProductHomepage extends NavigationMixin(Lightnin
         selectedCurrency: this.selectedCurrency,
         searchKey: this.searchKey,
         isActiveProducts: this.isActiveProducts,
+        isISProducts: this.isISProducts,
         sfdr: this.selectedSFDR
         })
         .then(result => {
@@ -333,9 +335,17 @@ export default class ReferentialProductHomepage extends NavigationMixin(Lightnin
         this.refreshProductHierarchy();
     }
 
+    // Met à jour le filtre des produits actifs
     handleActiveProductsChange(event) {
         this.isActiveProducts = event.target.checked;
         console.log('isActiveProducts :'+ this.isActiveProducts);
+        this.refreshProductHierarchy();
+    }
+
+    // Affiche uniquement les produits IS lorsque la case est cochée
+    handleISProductsChange(event) {
+        this.isISProducts = event.target.checked;
+        console.log('isISProducts :'+ this.isISProducts);
         this.refreshProductHierarchy();
     }
 
@@ -357,6 +367,7 @@ export default class ReferentialProductHomepage extends NavigationMixin(Lightnin
         this.selectedDividendP = '';
         this.searchKey = '';
         this.isActiveProducts = true;
+        this.isISProducts = false;
         this.isRI = false;
         
         // Réinitialiser les inputs dans le DOM (si nécessaire)
@@ -377,6 +388,8 @@ export default class ReferentialProductHomepage extends NavigationMixin(Lightnin
                 input.checked = false;
             }else if (input.type === 'checkbox' && dataId === 'isActiveProducts') {
                 input.checked = true;
+            }else if (input.type === 'checkbox' && dataId === 'isISProducts') {
+                input.checked = false;
             } else if (input.name === 'searchAll') {
                 input.value = '';
             }
