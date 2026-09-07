@@ -30,6 +30,7 @@ import CURRENCY from '@salesforce/schema/Share_Class__c.Currency__c';
 import SHARECLASSTYPE from '@salesforce/schema/Share_Class__c.Type__c';
 import DIVIDENDPOLICY from '@salesforce/schema/Share_Class__c.DividendPolicy__c';
 
+import hasPRPISPermission from '@salesforce/customPermission/PRPIS';
 
 export default class ReferentialProductHomepage extends NavigationMixin(LightningElement) 
 {
@@ -99,6 +100,11 @@ export default class ReferentialProductHomepage extends NavigationMixin(Lightnin
         }
     }
 
+        // Indique si l'utilisateur possède la Custom Permission PRPIS
+    get canCreateISProduct() {
+        return hasPRPISPermission;
+    }
+    
     // Récupère les valeurs du champ picklist
     @wire(getPicklistValues, {
         recordTypeId: '$strategyObjectInfo.data.defaultRecordTypeId',
