@@ -6,7 +6,7 @@
  * @last modified by  : Khadija EL GDAOUNI
 **/
 import { LightningElement, api, track, wire } from 'lwc';
-import getProductHierarchy from '@salesforce/apex/productHierarchyController.getProductHierarchy';
+//import getProductHierarchy from '@salesforce/apex/productHierarchyController.getProductHierarchy';
 import getAllProductHierarchy from '@salesforce/apex/ReferentialProductHomepageCtrl.getAllProducts';
 import getPickListValues from '@salesforce/apex/PicklistController.getPickListValuesCustomContries';
 import logClick from '@salesforce/apex/ReferentialProductHomepageCtrl.logClick';
