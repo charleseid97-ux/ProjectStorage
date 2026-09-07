@@ -1,51 +1,55 @@
 /** ──────────────────────────────────────
- * @description Mirrors the native Salesforce Standard Approval Process (ProcessInstance/
- *              ProcessInstanceStep/ProcessInstanceWorkitem) for a first Grid onto the custom
- *              approval objects (CustomApproval__c/CustomApprovalStep__c), so the custom
- *              approval history UI shows progress/final state for first-grid approvals that
- *              actually run through the standard Salesforce approval process.
- *              Runs "without sharing" because it must read/update CustomApproval__c
- *              (OWD Private, no sharing rules) regardless of which non-admin user's
- *              transaction enqueued it - e.g. the approver finalizing the approval is rarely
- *              the same user (or in the same role hierarchy) as the original submitter who
- *              owns the earlier CustomApproval__c record. Under "with sharing" a mismatch
- *              between submitter/approver caused the existing record to be invisible to the
- *              approver, so a duplicate CustomApproval__c was created instead of updating it.
+ * @description Mirrors the native Standard Approval Process (ProcessInstance/Step/Workitem) for a
+ *              first Grid onto the custom approval objects (CustomApproval__c/CustomApprovalStep__c).
+ *              Runs "without sharing" since CustomApproval__c (OWD Private) must stay readable/
+ *              writable across different submitters/approvers, not just the enqueuing user.
+ *              One routine handles both Pending and Approved mirroring (targetCaStatus), relying on
+ *              ProcessInstanceWorkitem being naturally empty once the process is finished, and
+ *              queries ProcessInstance without a Status filter so a step-level field update firing
+ *              a step early can't leave the mirror deleted with nothing rebuilt.
  * @author Charles EID
  ────────────────────────────────────── */
 public without sharing class GridStandardApprovalMirrorQueueable implements Queueable {
-    private Map<Id, Id>     progressMap;
-    private Map<Id, String> progressLabels;
-    private Map<Id, Id>     finalMap;
+    private Map<Id, Id>     agreementToGridMap;
+    private Map<Id, String> targetStatusByAgreement;
+    private Map<Id, String> pendingStepLabels;
 
-    public GridStandardApprovalMirrorQueueable(Map<Id, Id> progressMap, Map<Id, String> progressLabels, Map<Id, Id> finalMap) {
-        this.progressMap    = progressMap;
-        this.progressLabels = progressLabels;
-        this.finalMap       = finalMap;
+    public GridStandardApprovalMirrorQueueable(Map<Id, Id> agreementToGridMap, Map<Id, String> targetStatusByAgreement, Map<Id, String> pendingStepLabels) {
+        this.agreementToGridMap      = agreementToGridMap;
+        this.targetStatusByAgreement = targetStatusByAgreement;
+        this.pendingStepLabels       = pendingStepLabels;
     }
 
     public void execute(QueueableContext ctx) {
-        if (!progressMap.isEmpty()) syncFirstGridApprovalProgress(progressMap, progressLabels);
-        if (!finalMap.isEmpty())    finalizeFirstGridApprovalMirror(finalMap);
+        // Grouped by target status so a single bulk trigger run mixing still-pending and just-approved
+        // agreements (different records, same batch) is mirrored correctly for each.
+        Map<String, Map<Id, Id>> agreementToGridMapByStatus = new Map<String, Map<Id, Id>>();
+        for (Id agrId : agreementToGridMap.keySet()) {
+            String status = targetStatusByAgreement.get(agrId);
+            if (!agreementToGridMapByStatus.containsKey(status)) agreementToGridMapByStatus.put(status, new Map<Id, Id>());
+            agreementToGridMapByStatus.get(status).put(agrId, agreementToGridMap.get(agrId));
+        }
+        for (String status : agreementToGridMapByStatus.keySet()) {
+            mirrorFirstGridApproval(agreementToGridMapByStatus.get(status), pendingStepLabels, status);
+        }
     }
 
-    private static void syncFirstGridApprovalProgress(Map<Id, Id> agreementToGridMap, Map<Id, String> pendingStepLabels) {
+    private static void mirrorFirstGridApproval(Map<Id, Id> agreementToGridMap, Map<Id, String> pendingStepLabels, String targetCaStatus) {
         Map<Id, Id> piIdToAgrId = new Map<Id, Id>();
         Map<Id, Id> agrIdToPiId = new Map<Id, Id>();
-        for (ProcessInstance pi : [SELECT Id, TargetObjectId FROM ProcessInstance
-                                    WHERE TargetObjectId IN :agreementToGridMap.keySet()
-                                      AND Status = 'Pending'
-                                    ORDER BY CreatedDate DESC]) {
+        for (ProcessInstance pi : [SELECT Id, TargetObjectId 
+                                   FROM ProcessInstance
+                                   WHERE TargetObjectId IN :agreementToGridMap.keySet()
+                                   ORDER BY CreatedDate DESC]) {
             if (!agrIdToPiId.containsKey(pi.TargetObjectId)) {
                 agrIdToPiId.put(pi.TargetObjectId, pi.Id);
                 piIdToAgrId.put(pi.Id, pi.TargetObjectId);
             }
         }
 
-        Map<Id, List<ProcessInstanceStep>>     stepsByPi     = new Map<Id, List<ProcessInstanceStep>>();
+        Map<Id, List<ProcessInstanceStep>> stepsByPi = new Map<Id, List<ProcessInstanceStep>>();
         Map<Id, List<ProcessInstanceWorkitem>> workitemsByPi = new Map<Id, List<ProcessInstanceWorkitem>>();
-        for (ProcessInstanceStep pis : [SELECT Id, ProcessInstanceId, StepStatus, Comments, CreatedDate,
-                                               ActorId, Actor.Name, OriginalActorId, OriginalActor.Name
+        for (ProcessInstanceStep pis : [SELECT Id, ProcessInstanceId, StepStatus, Comments, CreatedDate, ActorId, Actor.Name, OriginalActorId, OriginalActor.Name
                                         FROM ProcessInstanceStep
                                         WHERE ProcessInstanceId IN :piIdToAgrId.keySet()
                                         ORDER BY CreatedDate ASC]) {
@@ -59,50 +63,61 @@ public without sharing class GridStandardApprovalMirrorQueueable implements Queu
             workitemsByPi.get(wk.ProcessInstanceId).add(wk);
         }
 
-        // Build approvalId map — bulk query then bulk insert for new records
+        // Build approvalId map — bulk query then bulk insert/update for new/existing records
         Set<String> allGridIdStrs = new Set<String>();
         for (Id agrId : agreementToGridMap.keySet()) allGridIdStrs.add(String.valueOf(agreementToGridMap.get(agrId)));
 
-        Map<String, Id> approvalIdByGridId = new Map<String, Id>();
-        for (CustomApproval__c ca : [SELECT Id, TargetRecordId__c FROM CustomApproval__c
-                                      WHERE TargetRecordId__c IN :allGridIdStrs
-                                        AND ProcessDeveloperName__c = 'AgreementStandardApproval'
-                                        AND Status__c = 'Pending']) {
-            approvalIdByGridId.put(ca.TargetRecordId__c, ca.Id);
+        Map<String, CustomApproval__c> existingCaByGridId = new Map<String, CustomApproval__c>();
+        for (CustomApproval__c ca : [SELECT Id, Status__c, TargetRecordId__c 
+                                     FROM CustomApproval__c
+                                     WHERE TargetRecordId__c IN :allGridIdStrs
+                                     AND ProcessDeveloperName__c = 'AgreementStandardApproval']) {
+            existingCaByGridId.put(ca.TargetRecordId__c, ca);
         }
 
-        List<CustomApproval__c> newCas     = new List<CustomApproval__c>();
-        List<String>            newCaGrids = new List<String>();
+        Map<String, Id> approvalIdByGridId = new Map<String, Id>();
+        List<CustomApproval__c> newCas = new List<CustomApproval__c>();
+        List<String> newCaGrids = new List<String>();
+        List<CustomApproval__c> casToUpdate = new List<CustomApproval__c>();
+
         for (Id agrId : agreementToGridMap.keySet()) {
             String gridIdStr = String.valueOf(agreementToGridMap.get(agrId));
-            if (!approvalIdByGridId.containsKey(gridIdStr)) {
-                newCas.add(CustomApprovalHistoryUtility.createCustomApproval(gridIdStr, 'AgreementStandardApproval', 'Pending', null, null, null, true, null));
+            if (!existingCaByGridId.containsKey(gridIdStr)) {
+                newCas.add(CustomApprovalHistoryUtility.createCustomApproval(gridIdStr, 'AgreementStandardApproval', targetCaStatus, null, null, null, true, null));
                 newCaGrids.add(gridIdStr);
+            } 
+            else {
+                CustomApproval__c ca = existingCaByGridId.get(gridIdStr);
+                approvalIdByGridId.put(gridIdStr, ca.Id);
+                if (ca.Status__c != targetCaStatus) {
+                    ca.Status__c = targetCaStatus;
+                    casToUpdate.add(ca);
+                }
             }
         }
         if (!newCas.isEmpty()) {
             insert newCas;
             for (Integer i = 0; i < newCas.size(); i++) approvalIdByGridId.put(newCaGrids[i], newCas[i].Id);
         }
+        if (!casToUpdate.isEmpty()) update casToUpdate;
 
         delete [SELECT Id FROM CustomApprovalStep__c WHERE CustomApproval__c IN :approvalIdByGridId.values()];
 
         List<CustomApprovalStep__c> allSteps = new List<CustomApprovalStep__c>();
         for (Id agrId : agreementToGridMap.keySet()) {
             String gridIdStr  = String.valueOf(agreementToGridMap.get(agrId));
-            Id     approvalId = approvalIdByGridId.get(gridIdStr);
+            Id approvalId = approvalIdByGridId.get(gridIdStr);
             if (approvalId == null) continue;
             Id piId = agrIdToPiId.get(agrId);
-            allSteps.addAll(buildProgressSteps(approvalId, pendingStepLabels.get(agrId),
-                piId != null ? stepsByPi.get(piId) : null,
-                piId != null ? workitemsByPi.get(piId) : null));
+            allSteps.addAll(buildProgressSteps(approvalId, pendingStepLabels.get(agrId), piId != null ? stepsByPi.get(piId) : null, piId != null ? workitemsByPi.get(piId) : null));
         }
         if (!allSteps.isEmpty()) insert allSteps;
     }
 
-    private static List<CustomApprovalStep__c> buildProgressSteps(Id approvalId, String pendingLabel,
-        List<ProcessInstanceStep> piSteps, List<ProcessInstanceWorkitem> piWorkitems) {
-
+    // Completed steps (piSteps) are always mirrored as-is. A pending workitem (piWorkitems) only
+    // exists while the process is still in progress - a finished ProcessInstance has none, so this
+    // naturally emits no "Pending" placeholder for the final-approval call site.
+    private static List<CustomApprovalStep__c> buildProgressSteps(Id approvalId, String pendingLabel, List<ProcessInstanceStep> piSteps, List<ProcessInstanceWorkitem> piWorkitems) {
         List<CustomApprovalStep__c> steps = new List<CustomApprovalStep__c>();
         if (piSteps != null) {
             for (ProcessInstanceStep pis : piSteps) {
@@ -126,78 +141,6 @@ public without sharing class GridStandardApprovalMirrorQueueable implements Queu
             }
         }
         return steps;
-    }
-
-    private static void finalizeFirstGridApprovalMirror(Map<Id, Id> agreementToGridMap) {
-        Map<Id, Id> piIdToAgrId = new Map<Id, Id>();
-        Map<Id, Id> agrIdToPiId = new Map<Id, Id>();
-        for (ProcessInstance pi : [SELECT Id, TargetObjectId FROM ProcessInstance
-                                    WHERE TargetObjectId IN :agreementToGridMap.keySet()
-                                      AND Status = 'Approved'
-                                    ORDER BY CreatedDate DESC]) {
-            if (!agrIdToPiId.containsKey(pi.TargetObjectId)) {
-                agrIdToPiId.put(pi.TargetObjectId, pi.Id);
-                piIdToAgrId.put(pi.Id, pi.TargetObjectId);
-            }
-        }
-
-        Map<Id, List<ProcessInstanceStep>> stepsByPi = new Map<Id, List<ProcessInstanceStep>>();
-        for (ProcessInstanceStep pis : [SELECT Id, ProcessInstanceId, StepStatus, Comments, CreatedDate,
-                                               ActorId, Actor.Name, OriginalActorId, OriginalActor.Name
-                                        FROM ProcessInstanceStep
-                                        WHERE ProcessInstanceId IN :piIdToAgrId.keySet()
-                                        ORDER BY CreatedDate ASC]) {
-            if (!stepsByPi.containsKey(pis.ProcessInstanceId)) stepsByPi.put(pis.ProcessInstanceId, new List<ProcessInstanceStep>());
-            stepsByPi.get(pis.ProcessInstanceId).add(pis);
-        }
-
-        // Build approvalId map — bulk query then bulk insert/update for new/existing records
-        Set<String> allGridIdStrs = new Set<String>();
-        for (Id agrId : agreementToGridMap.keySet()) allGridIdStrs.add(String.valueOf(agreementToGridMap.get(agrId)));
-
-        Map<String, CustomApproval__c> existingCaByGridId = new Map<String, CustomApproval__c>();
-        for (CustomApproval__c ca : [SELECT Id, Status__c, TargetRecordId__c FROM CustomApproval__c
-                                      WHERE TargetRecordId__c IN :allGridIdStrs
-                                        AND ProcessDeveloperName__c = 'AgreementStandardApproval']) {
-            existingCaByGridId.put(ca.TargetRecordId__c, ca);
-        }
-
-        Map<String, Id>        approvalIdByGridId = new Map<String, Id>();
-        List<CustomApproval__c> newCas            = new List<CustomApproval__c>();
-        List<String>            newCaGrids        = new List<String>();
-        List<CustomApproval__c> casToUpdate       = new List<CustomApproval__c>();
-
-        for (Id agrId : agreementToGridMap.keySet()) {
-            String gridIdStr = String.valueOf(agreementToGridMap.get(agrId));
-            if (!existingCaByGridId.containsKey(gridIdStr)) {
-                newCas.add(CustomApprovalHistoryUtility.createCustomApproval(gridIdStr, 'AgreementStandardApproval', 'Approved', null, null, null, true, null));
-                newCaGrids.add(gridIdStr);
-            } else {
-                CustomApproval__c ca = existingCaByGridId.get(gridIdStr);
-                approvalIdByGridId.put(gridIdStr, ca.Id);
-                if (ca.Status__c != 'Approved') {
-                    ca.Status__c = 'Approved';
-                    casToUpdate.add(ca);
-                }
-            }
-        }
-        if (!newCas.isEmpty()) {
-            insert newCas;
-            for (Integer i = 0; i < newCas.size(); i++) approvalIdByGridId.put(newCaGrids[i], newCas[i].Id);
-        }
-        if (!casToUpdate.isEmpty()) update casToUpdate;
-
-        delete [SELECT Id FROM CustomApprovalStep__c WHERE CustomApproval__c IN :approvalIdByGridId.values()];
-
-        List<CustomApprovalStep__c> allSteps = new List<CustomApprovalStep__c>();
-        for (Id agrId : agreementToGridMap.keySet()) {
-            String gridIdStr  = String.valueOf(agreementToGridMap.get(agrId));
-            Id     approvalId = approvalIdByGridId.get(gridIdStr);
-            Id     piId       = agrIdToPiId.get(agrId);
-            if (approvalId == null || piId == null) continue;
-            allSteps.addAll(buildProgressSteps(approvalId, null, stepsByPi.get(piId), null));
-        }
-        if (!allSteps.isEmpty()) insert allSteps;
     }
 
     private static String mapStandardStepStatus(String sfStatus) {

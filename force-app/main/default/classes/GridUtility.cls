@@ -29,6 +29,10 @@ public with sharing class GridUtility {
 
     public static final String FIELD_EFF_MGT_FEES = 'EffectiveManagementFees__c';
 
+    // CustomApproval__c Status__c values, for GridStandardApprovalMirrorQueueable
+    public static final String CA_STATUS_PENDING  = 'Pending';
+    public static final String CA_STATUS_APPROVED = 'Approved';
+
     public static final Integer BATCH_SIZE_GRID_DETAIL_REFRESH = 200;
     /** ──────────────────────────────────────
      * @description Single loop over agreements: classifies each into a transition bucket,
@@ -51,9 +55,9 @@ public with sharing class GridUtility {
         Map<Id, Date>     oldGridEndDates       = new Map<Id, Date>();      // old Grid EndDate set at approval for both Scenario 1 and 2
         Set<Id>           immediateOldGridIds   = new Set<Id>();             // Scenario 2: old Active AGT → Inactive immediately in updateTimelines
 
-        Map<Id, Id>     firstGridProgressMap = new Map<Id, Id>();    // agrId → Grid_Request__c (isA — standard AP in progress)
-        Map<Id, String> progressStepLabels   = new Map<Id, String>(); // agrId → Approval_Status__c (label for the pending step)
-        Map<Id, Id>     firstGridFinalMap    = new Map<Id, Id>();    // agrId → Grid_Request__c (isB — standard AP approved)
+        Map<Id, Id>     firstGridApprovalMap  = new Map<Id, Id>();     // agrId → Grid_Request__c (isA or isB — standard AP mirroring)
+        Map<Id, String> firstGridTargetStatus = new Map<Id, String>(); // agrId → target CustomApproval__c Status__c ('Pending' for isA, 'Approved' for isB)
+        Map<Id, String> progressStepLabels    = new Map<Id, String>(); // agrId → Approval_Status__c (label for the pending step, isA only)
 
         List<String> firstGridTerminalStatuses  = new List<String>{AGR_STATUS_PRE_APPROVAL, AGR_STATUS_APPROVAL_COMPLETE, AGR_STATUS_APPROVAL_REJECTED}; // A: excluded from "intermediate"
         List<String> amendmentNonSubmitStatuses = new List<String>{AGR_AMDMT_NEED_SUBMISSION, AGR_AMDMT_APPROVAL_REJECTED, AGR_AMDMT_APPROVED};          // C: excluded from "submitted"
@@ -98,12 +102,14 @@ public with sharing class GridUtility {
                 submittedAgrToGridIds.put(agr.Id, new List<Id>{ agr.Grid_Request__c });
                 gridApprovalUpdates.put(agr.Grid_Request__c, GRID_STATUS_PENDING_APPROVAL);
             }
-            if (isA) {
-                firstGridProgressMap.put(agr.Id, agr.Grid_Request__c);
+            // Standard AP mirroring (A or B) — target CustomApproval__c status; the step label is
+            // only ever read while still Pending, so setting it unconditionally is harmless for B.
+            if (isA || isB) {
+                firstGridApprovalMap.put(agr.Id, agr.Grid_Request__c);
+                firstGridTargetStatus.put(agr.Id, isA ? CA_STATUS_PENDING : CA_STATUS_APPROVED);
                 progressStepLabels.put(agr.Id, agr.Approval_Status__c);
             }
             // Approved (B or D) — three scenarios based on chronology and start date
-            if (isB) firstGridFinalMap.put(agr.Id, agr.Grid_Request__c);
             if (isB || isD) {
                 handleApprovalTransition(agr, activeAgtStartByAgreement, requestAgtStartByAgreement, gridApprovalUpdates, approvedAgrToGridIds, historicalAgrToGridIds, oldGridEndDates, immediateOldGridIds);
             }
@@ -120,8 +126,8 @@ public with sharing class GridUtility {
 
         updateGrids(gridApprovalUpdates, oldGridEndDates);
         AgreementGridTimelineUtility.updateTimelines(submittedAgrToGridIds, approvedAgrToGridIds, rejectedAgrToGridIds, recalledAgrToGridIds, historicalAgrToGridIds, immediateOldGridIds);
-        if (!firstGridProgressMap.isEmpty() || !firstGridFinalMap.isEmpty()) {
-            System.enqueueJob(new GridStandardApprovalMirrorQueueable(firstGridProgressMap, progressStepLabels, firstGridFinalMap));
+        if (!firstGridApprovalMap.isEmpty()) {
+            System.enqueueJob(new GridStandardApprovalMirrorQueueable(firstGridApprovalMap, firstGridTargetStatus, progressStepLabels));
         }
     }
 
