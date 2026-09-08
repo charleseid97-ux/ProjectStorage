@@ -48,7 +48,7 @@ public class AgreementTest {
     private static final String agreementQuery =
         'SELECT Id, Status__c, Company__c, RecordTypeId, Grid__c, Grid__r.Name, Agreement_Type__c, Code_Type__c, MasterConvention__c, Primary_Rebate_Contact__c, Carmignac_Legal_Entity__c, ' +
         'SignedDate__c, Amendment_Approval_Status__c, Agreement_Termination_Status__c, Approval_Status__c, MasterConvention__r.Company__c, NumberOfUnvalidatedAgreementRole__c, ' +
-        'KYD_DD_Oversight_Status__c, KYD_Due_Diligence_Oversight__c, KYD_Responsible__c, Preliminary_Risk_Assesment__c, Compliance_Clearing__c, Grid_Request_Approved__c ' +
+        'KYD_DD_Oversight_Status__c, KYD_Due_Diligence_Oversight__c, KYD_Responsible__c, Preliminary_Risk_Assesment__c, Compliance_Clearing__c, Grid_Request_Approved__c, TECH_AgreementRequestFinalized__c ' +
         'FROM Convention__c';
 
     // ─── @TestSetup ───────────────────────────────────────────────────────────
