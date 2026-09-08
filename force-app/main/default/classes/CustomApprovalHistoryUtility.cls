@@ -341,8 +341,25 @@ public without sharing class CustomApprovalHistoryUtility {
     }
 
     private static void executeFieldUpdate(ApprovalActionConfig__mdt cfg, Id targetRecordId) {
-        SObject obj = targetRecordId.getSObjectType().newSObject(targetRecordId);
-        obj.put(cfg.TargetFieldApiName__c, cfg.FieldValue__c);
+        List<String> parts = cfg.TargetFieldApiName__c.split('\\.');
+        String finalField = parts.remove(parts.size() - 1);
+
+        Id updateRecordId = targetRecordId;
+        if (!parts.isEmpty()) {
+            String relationshipPath = String.join(parts, '.');
+            String objectApiName = targetRecordId.getSObjectType().getDescribe().getName();
+            SObject rec = Database.query('SELECT ' + relationshipPath + '.Id FROM ' + objectApiName + ' WHERE Id = :targetRecordId LIMIT 1');
+
+            SObject parentRec = rec;
+            for (String part : parts) {
+                parentRec = parentRec.getSObject(part);
+                if (parentRec == null) return;
+            }
+            updateRecordId = (Id) parentRec.get('Id');
+        }
+
+        SObject obj = updateRecordId.getSObjectType().newSObject(updateRecordId);
+        obj.put(finalField, cfg.FieldValue__c);
         update obj;
     }
 
@@ -487,9 +504,9 @@ public without sharing class CustomApprovalHistoryUtility {
         exemptFields.addAll(LOCK_SYSTEM_FIELDS);
         String statusField = config.StatusFieldApiName__c;
 
-        // All trigger records of one type carry the same populated fields, so the fields to
-        // compare (populated, non-exempt, non-formula) and their labels are resolved once for the whole batch
-        Map<String, String> labelsByCheckableField = resolveCheckableFields(typeRecords[0], exemptFields);
+        // All trigger records of one type share the same schema, so the fields to compare
+        // (non-exempt, non-formula) and their labels are resolved once for the whole batch
+        Map<String, String> labelsByCheckableField = resolveCheckableFields(typeRecords[0].getSObjectType(), exemptFields);
 
         for (SObject newRecord : typeRecords) {
             SObject oldRecord  = oldRecords.get((Id) newRecord.get('Id'));
@@ -511,17 +528,18 @@ public without sharing class CustomApprovalHistoryUtility {
         }
     }
 
-    // Returns the fields to lock-check (populated, non-exempt, non-formula) mapped to their labels,
-    // describing each field exactly once for both the isCalculated() filter and the error-message label
-    private static Map<String, String> resolveCheckableFields(SObject record, List<String> exemptFields) {
+    // Returns the fields to lock-check (non-exempt, non-formula) mapped to their labels, describing
+    // each field exactly once for both the isCalculated() filter and the error-message label.
+    // Built from the object's schema rather than any single record's populated fields, so a field
+    // that gets cleared to null (and would otherwise vanish from getPopulatedFieldsAsMap()) is still checked.
+    private static Map<String, String> resolveCheckableFields(Schema.SObjectType sObjType, List<String> exemptFields) {
         Map<String, String> labelsByField = new Map<String, String>();
-        Map<String, Schema.SObjectField> fieldTokens = record.getSObjectType().getDescribe().fields.getMap();
-        for (String fieldName : record.getPopulatedFieldsAsMap().keySet()) {
+        Map<String, Schema.SObjectField> fieldTokens = sObjType.getDescribe().fields.getMap();
+        for (String fieldName : fieldTokens.keySet()) {
             if (containsIgnoreCase(exemptFields, fieldName)) continue;
-            Schema.SObjectField token = fieldTokens.get(fieldName);
-            Schema.DescribeFieldResult fieldDescribe = token == null ? null : token.getDescribe();
-            if (fieldDescribe != null && (fieldDescribe.isCalculated() || fieldDescribe.isAutoNumber())) continue; // formula / rollup / autonumber — system-computed, never a user edit
-            labelsByField.put(fieldName, fieldDescribe == null ? fieldName : fieldDescribe.getLabel());
+            Schema.DescribeFieldResult fieldDescribe = fieldTokens.get(fieldName).getDescribe();
+            if (fieldDescribe.isCalculated() || fieldDescribe.isAutoNumber()) continue; // formula / rollup / autonumber — system-computed, never a user edit
+            labelsByField.put(fieldName, fieldDescribe.getLabel());
         }
         return labelsByField;
     }
