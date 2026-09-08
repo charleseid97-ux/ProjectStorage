@@ -5,6 +5,45 @@ private class RegistrationCountryActionControllerTest {
     private static final String REGISTERED_COUNTRIES_ERROR =
         'One or more selected countries are already registered for this share class. Please remove the registered countries before saving.';
 
+    // Simulates successful authentication and a configurable catalog response.
+    private class SequantisCalloutMock implements HttpCalloutMock {
+        private Integer registrationStatusCode;
+        private String registrationResponseBody;
+        private Boolean throwCalloutException;
+
+        // Creates one mock response scenario for the Sequantis integration.
+        SequantisCalloutMock(
+            Integer statusCode,
+            String responseBody,
+            Boolean shouldThrowException
+        ) {
+            registrationStatusCode = statusCode;
+            registrationResponseBody = responseBody;
+            throwCalloutException = shouldThrowException;
+        }
+
+        // Returns the authentication or registration response according to the endpoint.
+        public HttpResponse respond(HttpRequest request) {
+            if (throwCalloutException) {
+                throw new CalloutException('Mock Sequantis callout exception.');
+            }
+
+            HttpResponse response = new HttpResponse();
+
+            // Returns the technical token expected by the registration request.
+            if (request.getEndpoint().contains('/rest/authentication/')) {
+                response.setStatusCode(200);
+                response.setBody('1618075391563505891');
+                return response;
+            }
+
+            // Returns the configured CARMIGNAC_CATALOG response.
+            response.setStatusCode(registrationStatusCode);
+            response.setBody(registrationResponseBody);
+            return response;
+        }
+    }
+
     // Verifies ordered normalization without requiring every type to be populated.
     @IsTest
     static void normalizeCountrySelections() {
@@ -61,46 +100,19 @@ private class RegistrationCountryActionControllerTest {
         System.assertEquals(REGISTERED_COUNTRIES_ERROR, capturedException.getMessage());
     }
 
-    // Verifies the preparation result while the external API is not configured.
+    // Verifies HTTP 202 processing and the success email notification path.
     @IsTest
-    static void returnPendingResultBeforeMappingsExist() {
+    static void submitAndNotifyTeamsAfterHttp202() {
         String activeCountry = findFirstActiveCountryValue();
         Id shareClassId = prepareControllerOverrides();
-
-        RegistrationCountryApiService.Response apiResponse =
-            new RegistrationCountryApiService.Response();
-        apiResponse.configured = false;
-        RegistrationCountryApiService.responseOverride = apiResponse;
-
-        Test.startTest();
-        RegistrationCountryActionController.SubmitResult result =
-            RegistrationCountryActionController.submitRegistrationCountryRequest(
-                shareClassId,
-                new List<String>{ activeCountry },
-                new List<String>(),
-                new List<String>(),
-                'Pending mapping comment'
-            );
-        Test.stopTest();
-
-        System.assertEquals(false, result.submitted);
-        System.assertEquals(true, result.pendingMappings);
-    }
-
-    // Verifies HTTP 200 processing and the success email notification path.
-    @IsTest
-    static void submitAndNotifyTeamsAfterHttp200() {
-        String activeCountry = findFirstActiveCountryValue();
-        Id shareClassId = prepareControllerOverrides();
-
-        RegistrationCountryApiService.Response apiResponse =
-            new RegistrationCountryApiService.Response();
-        apiResponse.configured = true;
-        apiResponse.statusCode = 200;
-        apiResponse.externalId = 'EXT-100';
-        RegistrationCountryApiService.responseOverride = apiResponse;
         RegistrationCountryNotificationService.recipientEmailsOverride =
             new Set<String>{ getCurrentUserEmail() };
+
+        // Simulates the response currently returned by CARMIGNAC_CATALOG.
+        Test.setMock(
+            HttpCalloutMock.class,
+            new SequantisCalloutMock(202, 'Registration', false)
+        );
 
         Test.startTest();
         RegistrationCountryActionController.SubmitResult result =
@@ -115,21 +127,22 @@ private class RegistrationCountryActionControllerTest {
         Test.stopTest();
 
         System.assertEquals(true, result.submitted);
-        System.assertEquals(200, result.statusCode);
+        System.assertEquals(false, result.failed);
+        System.assertEquals(202, result.statusCode);
         System.assertEquals(1, emailInvocations);
     }
 
-    // Verifies that a non-200 response triggers a failure email and blocks success.
+    // Verifies that a non-success response triggers a failure email.
     @IsTest
-    static void notifySubmittingUserAfterNon200Response() {
+    static void notifySubmittingUserAfterHttp400() {
         String activeCountry = findFirstActiveCountryValue();
         Id shareClassId = prepareControllerOverrides();
 
-        RegistrationCountryApiService.Response apiResponse =
-            new RegistrationCountryApiService.Response();
-        apiResponse.configured = true;
-        apiResponse.statusCode = 401;
-        RegistrationCountryApiService.responseOverride = apiResponse;
+        // Simulates a body validation error returned by Sequantis.
+        Test.setMock(
+            HttpCalloutMock.class,
+            new SequantisCalloutMock(400, 'Invalid registration request.', false)
+        );
 
         Test.startTest();
         RegistrationCountryActionController.SubmitResult result =
@@ -138,23 +151,28 @@ private class RegistrationCountryActionControllerTest {
                 new List<String>{ activeCountry },
                 new List<String>(),
                 new List<String>(),
-                'Authentication failure comment'
+                'Failure email comment'
             );
         Integer emailInvocations = Limits.getEmailInvocations();
         Test.stopTest();
 
         System.assertEquals(true, result.failed);
-        System.assertEquals(401, result.statusCode);
+        System.assertEquals(false, result.submitted);
+        System.assertEquals(400, result.statusCode);
         System.assertEquals(1, emailInvocations);
     }
-
 
     // Verifies that an authentication or callout exception sends a failure email.
     @IsTest
     static void notifySubmittingUserAfterApiException() {
         String activeCountry = findFirstActiveCountryValue();
         Id shareClassId = prepareControllerOverrides();
-        RegistrationCountryApiService.throwExceptionOverride = true;
+
+        // Forces the service call to fail before receiving an HTTP response.
+        Test.setMock(
+            HttpCalloutMock.class,
+            new SequantisCalloutMock(null, null, true)
+        );
 
         Test.startTest();
         RegistrationCountryActionController.SubmitResult result =
@@ -169,6 +187,7 @@ private class RegistrationCountryActionControllerTest {
         Test.stopTest();
 
         System.assertEquals(true, result.failed);
+        System.assertEquals(false, result.submitted);
         System.assertEquals(null, result.statusCode);
         System.assertEquals(1, emailInvocations);
     }
@@ -188,11 +207,12 @@ private class RegistrationCountryActionControllerTest {
         System.assertEquals('Missing Share Class Id.', capturedException.getMessage());
     }
 
-    // Creates test overrides for record and Country__c registration queries.
+    // Creates test overrides for Share Class and registration queries.
     private static Id prepareControllerOverrides() {
         Id shareClassId = buildUnknownShareClassId();
         RegistrationCountryActionController.shareClassNameOverride = 'Test Share Class';
-        RegistrationCountryActionController.registeredCountriesOverride = new Set<String>();
+        RegistrationCountryActionController.registeredCountriesOverride =
+            new Set<String>();
         return shareClassId;
     }
 
@@ -206,9 +226,10 @@ private class RegistrationCountryActionControllerTest {
         ].Email;
     }
 
-    // Builds a valid but non-existing Share Class identifier for isolated tests.
+    // Builds a valid but non-existing Share Class identifier.
     private static Id buildUnknownShareClassId() {
-        Schema.SObjectType objectType = Schema.getGlobalDescribe().get('Share_Class__c');
+        Schema.SObjectType objectType =
+            Schema.getGlobalDescribe().get('Share_Class__c');
         String keyPrefix = objectType.getDescribe().getKeyPrefix();
         return (Id) (keyPrefix + '000000000000');
     }
@@ -224,7 +245,10 @@ private class RegistrationCountryActionControllerTest {
             }
         }
 
-        System.assert(false, 'Country__c.Country__c must contain one active value.');
+        System.assert(
+            false,
+            'Country__c.Country__c must contain one active value.'
+        );
         return null;
     }
 }

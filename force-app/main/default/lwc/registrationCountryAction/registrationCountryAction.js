@@ -53,9 +53,14 @@ export default class RegistrationCountryAction extends LightningElement {
         this.loadError = '';
 
         try {
-            // Keeps only the active options returned by the Apex controller.
+            // Removes countries already linked to the selected Share Class.
             const context = await getContext({ shareClassId: recordId });
-            this.allCountryOptions = context?.countryOptions || [];
+            const existingCountries = new Set(
+                context?.existingCountries || []
+            );
+
+            this.allCountryOptions = (context?.countryOptions || [])
+                .filter(option => !existingCountries.has(option.value));
         } catch (error) {
             this.contextRequestRecordId = null;
             this.loadError = this.getErrorMessage(error);
