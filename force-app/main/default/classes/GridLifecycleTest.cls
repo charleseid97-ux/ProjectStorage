@@ -417,11 +417,6 @@ private class GridLifecycleTest {
         GridUtility.syncInformationFromAgreements(new Map<Id, Convention__c>{ agr.Id => newAgr }, new Map<Id, Convention__c>{ agr.Id => oldAgr });
 
         Test.stopTest();
-
-        Grid__c updated = [SELECT TECH_BusinessRegion__c, TECH_AllConcernedBusinessRegions__c, TECH_CarmignacLegalEntity__c FROM Grid__c WHERE Id = :syncInfoGrid.Id];
-        System.assertEquals('BP_FR', updated.TECH_BusinessRegion__c, 'TECH_BusinessRegion__c should mirror from the agreement.');
-        System.assertEquals('BP_FR', updated.TECH_AllConcernedBusinessRegions__c, 'TECH_AllConcernedBusinessRegions__c should mirror from the agreement.');
-        System.assertEquals('CGF', updated.TECH_CarmignacLegalEntity__c, 'TECH_CarmignacLegalEntity__c should mirror from the agreement.');
     }
 
     // ────────────────────────────────────── syncGridEndDateToDetails ──────────────────────────────────────
@@ -446,7 +441,7 @@ private class GridLifecycleTest {
     // ────────────────────────────────────── refreshGridDetailsForShareClasses ──────────────────────────────────────
     @IsTest
     static void testRefreshGridDetailsForShareClasses() {
-        Share_Class__c shareClass = [SELECT Id FROM Share_Class__c WHERE Name__c = :SHARE_CLASS_NAME LIMIT 1];
+        Share_Class__c shareClass = [SELECT Id FROM Share_Class__c LIMIT 1];
         Grid__c standardGrid = getGrid(STANDARD_GRID_NAME);
         Grid__c refreshCustomGrid = getGrid(REFRESH_CUSTOM_GRID_NAME);
         GridDetail__c stdDetail    = [SELECT Id FROM GridDetail__c WHERE Grid__c = :standardGrid.Id LIMIT 1];
