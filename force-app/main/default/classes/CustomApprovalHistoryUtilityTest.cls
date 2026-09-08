@@ -154,6 +154,25 @@ public with sharing class CustomApprovalHistoryUtilityTest {
     }
 
     @IsTest
+    static void testEnforceApprovalLock_BlocksFieldClearedToNull() {
+        // Regression test: resolveCheckableFields used to source its field list from the NEW record's
+        // getPopulatedFieldsAsMap(), so a field cleared to null (absent from that map) silently escaped
+        // detection — users could remove EndDate__c on a locked Grid but not put it back. Fixed by
+        // building the checkable-field list from the object's schema instead of any record's population.
+        Grid__c grid = GridTestSetupHelper.getTestGridByName(GridTestSetupHelper.GRID_NAME_S1);
+        Grid__c oldGrid = new Grid__c(Id = grid.Id, ApprovalStatus__c = 'Approved', EndDate__c = Date.today());
+        Grid__c newGrid = new Grid__c(Id = grid.Id, ApprovalStatus__c = 'Approved', EndDate__c = null);
+
+        Test.startTest();
+
+        CustomApprovalHistoryUtility.enforceApprovalLock(new List<SObject>{ newGrid }, new Map<Id, SObject>{ grid.Id => oldGrid });
+
+        Test.stopTest();
+
+        System.assert(newGrid.hasErrors(), 'Clearing EndDate__c on a locked, non-exempt Grid should be blocked even though the new value is null.');
+    }
+
+    @IsTest
     static void testEnforceApprovalLock_AllowsGeneralExemptField() {
         // Comment__c is on the Grid General-scope exemption row (ApprovalLockFieldExemptionConfig.Grid_General) —
         // covers both the baseline "everyone" exemption and the line-based ExemptFields__c parsing.
