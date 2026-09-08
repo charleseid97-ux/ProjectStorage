@@ -327,6 +327,11 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
+        <editable>true</editable>
+        <field>Convention__c.TECH_AgreementRequestFinalized__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
         <editable>false</editable>
         <field>CustomApprovalStep__c.ActionDate__c</field>
         <readable>true</readable>
