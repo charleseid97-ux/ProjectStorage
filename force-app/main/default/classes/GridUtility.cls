@@ -32,6 +32,7 @@ public with sharing class GridUtility {
     // CustomApproval__c Status__c values, for GridStandardApprovalMirrorQueueable
     public static final String CA_STATUS_PENDING  = 'Pending';
     public static final String CA_STATUS_APPROVED = 'Approved';
+    public static final String CA_STATUS_REJECTED = 'Rejected';
 
     public static final Integer BATCH_SIZE_GRID_DETAIL_REFRESH = 200;
     /** ──────────────────────────────────────
@@ -44,7 +45,7 @@ public with sharing class GridUtility {
      *              D) Amendment approved      → field swap + Grid Approved
      *              E) Grid rejected (first or amendment) → Grid Rejected
      *              F) Grid recalled           → AGT → Draft
-     *              G) Agreement Request truly finalized (final step) → re-mirror only
+     *              G) Agreement Request truly finalized (final step, approved or rejected) → re-mirror only
      ────────────────────────────────────── */
     public static void handleAgreementGridTransitions(List<Convention__c> newAgreements, Map<Id, Convention__c> oldAgreements) {
         Map<Id, String>   gridApprovalUpdates    = new Map<Id, String>();
@@ -97,18 +98,19 @@ public with sharing class GridUtility {
             isD = !isFirstGrid && newAmdmt  == AGR_AMDMT_APPROVED && agr.Grid_Request_Approved__c && !oldAgr.Grid_Request_Approved__c;                                      // D: Amendment approved (transition false → true only)
             isE = newAmdmt  == AGR_AMDMT_APPROVAL_REJECTED && oldAmdmt != AGR_AMDMT_APPROVAL_REJECTED && agr.Grid_Request__c != null;                                       // E: Grid rejected (first or amendment)
             isF = !isFirstGrid && oldAmdmt == AGR_AMDMT_APPROVAL_REQUIRED && newAmdmt == AGR_AMDMT_NEED_SUBMISSION && agr.Grid_Request__c != null;                        // F: Grid recalled
-            isG = !oldAgr.TECH_AgreementRequestFinalized__c && agr.TECH_AgreementRequestFinalized__c;                                                                        // G: Agreement Request truly finalized (final step) — re-mirror only
+            isG = !oldAgr.TECH_AgreementRequestFinalized__c && agr.TECH_AgreementRequestFinalized__c;                                                                        // G: Agreement Request truly finalized (final step, approved or rejected) — re-mirror only
 
             // Pending Approval (A or C) — grid + AGT → Pending Approval
             if (isA || isC) {
                 submittedAgrToGridIds.put(agr.Id, new List<Id>{ agr.Grid_Request__c });
                 gridApprovalUpdates.put(agr.Grid_Request__c, GRID_STATUS_PENDING_APPROVAL);
             }
-            // Standard AP mirroring (A: Pending, B/G: Approved) — Grid_Request__c may already be
-            // swapped to Grid__c by the time G fires, hence the fallback.
+            // Standard AP mirroring (A: Pending, B/G: Approved or Rejected) — G fires on either
+            // outcome, so the target status is read off Approval_Status__c rather than assumed.
+            // Grid_Request__c may already be swapped to Grid__c by the time G fires, hence the fallback.
             if (isA || isB || isG) {
                 firstGridApprovalMap.put(agr.Id, agr.Grid_Request__c != null ? agr.Grid_Request__c : agr.Grid__c);
-                firstGridTargetStatus.put(agr.Id, isA ? CA_STATUS_PENDING : CA_STATUS_APPROVED);
+                firstGridTargetStatus.put(agr.Id, isA ? CA_STATUS_PENDING : (newStatus == AGR_STATUS_APPROVAL_REJECTED ? CA_STATUS_REJECTED : CA_STATUS_APPROVED));
                 progressStepLabels.put(agr.Id, agr.Approval_Status__c);
             }
             // Approved (B or D) — three scenarios based on chronology and start date
