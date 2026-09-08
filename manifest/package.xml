@@ -14,6 +14,10 @@
         <name>PermissionSet</name>
     </types>
     <types>
+        <members>Convention__c.TECH_AgreementRequestFinalized__c</members>
+        <name>CustomField</name>
+    </types>
+    <types>
         <members>ApprovalActionConfig.GridAmendment_InitialAgreementUpdate</members>
         <name>CustomMetadata</name>
     </types>

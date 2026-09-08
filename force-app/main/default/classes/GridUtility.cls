@@ -44,6 +44,7 @@ public with sharing class GridUtility {
      *              D) Amendment approved      → field swap + Grid Approved
      *              E) Grid rejected (first or amendment) → Grid Rejected
      *              F) Grid recalled           → AGT → Draft
+     *              G) Agreement Request truly finalized (final step) → re-mirror only
      ────────────────────────────────────── */
     public static void handleAgreementGridTransitions(List<Convention__c> newAgreements, Map<Id, Convention__c> oldAgreements) {
         Map<Id, String>   gridApprovalUpdates    = new Map<Id, String>();
@@ -79,7 +80,7 @@ public with sharing class GridUtility {
         }
 
         String oldStatus, newStatus, oldAmdmt, newAmdmt;
-        Boolean isFirstGrid, isA, isB, isC, isD, isE, isF;
+        Boolean isFirstGrid, isA, isB, isC, isD, isE, isF, isG;
 
         for (Convention__c agr : newAgreements) {
             Convention__c oldAgr = oldAgreements.get(agr.Id);
@@ -96,16 +97,17 @@ public with sharing class GridUtility {
             isD = !isFirstGrid && newAmdmt  == AGR_AMDMT_APPROVED && agr.Grid_Request_Approved__c && !oldAgr.Grid_Request_Approved__c;                                      // D: Amendment approved (transition false → true only)
             isE = newAmdmt  == AGR_AMDMT_APPROVAL_REJECTED && oldAmdmt != AGR_AMDMT_APPROVAL_REJECTED && agr.Grid_Request__c != null;                                       // E: Grid rejected (first or amendment)
             isF = !isFirstGrid && oldAmdmt == AGR_AMDMT_APPROVAL_REQUIRED && newAmdmt == AGR_AMDMT_NEED_SUBMISSION && agr.Grid_Request__c != null;                        // F: Grid recalled
+            isG = !oldAgr.TECH_AgreementRequestFinalized__c && agr.TECH_AgreementRequestFinalized__c;                                                                        // G: Agreement Request truly finalized (final step) — re-mirror only
 
             // Pending Approval (A or C) — grid + AGT → Pending Approval
             if (isA || isC) {
                 submittedAgrToGridIds.put(agr.Id, new List<Id>{ agr.Grid_Request__c });
                 gridApprovalUpdates.put(agr.Grid_Request__c, GRID_STATUS_PENDING_APPROVAL);
             }
-            // Standard AP mirroring (A or B) — target CustomApproval__c status; the step label is
-            // only ever read while still Pending, so setting it unconditionally is harmless for B.
-            if (isA || isB) {
-                firstGridApprovalMap.put(agr.Id, agr.Grid_Request__c);
+            // Standard AP mirroring (A: Pending, B/G: Approved) — Grid_Request__c may already be
+            // swapped to Grid__c by the time G fires, hence the fallback.
+            if (isA || isB || isG) {
+                firstGridApprovalMap.put(agr.Id, agr.Grid_Request__c != null ? agr.Grid_Request__c : agr.Grid__c);
                 firstGridTargetStatus.put(agr.Id, isA ? CA_STATUS_PENDING : CA_STATUS_APPROVED);
                 progressStepLabels.put(agr.Id, agr.Approval_Status__c);
             }
@@ -126,9 +128,14 @@ public with sharing class GridUtility {
 
         updateGrids(gridApprovalUpdates, oldGridEndDates);
         AgreementGridTimelineUtility.updateTimelines(submittedAgrToGridIds, approvedAgrToGridIds, rejectedAgrToGridIds, recalledAgrToGridIds, historicalAgrToGridIds, immediateOldGridIds);
-        if (!firstGridApprovalMap.isEmpty()) {
-            System.enqueueJob(new GridStandardApprovalMirrorQueueable(firstGridApprovalMap, firstGridTargetStatus, progressStepLabels));
-        }
+        mirrorApprovalProcess(firstGridApprovalMap, firstGridTargetStatus, progressStepLabels);
+    }
+
+    // Mirrors the Agreement Request's standard approval process (progress/final) onto CustomApproval__c —
+    // a separate concern from the grid/AGT lifecycle handled above, kept as its own unit for clarity.
+    private static void mirrorApprovalProcess(Map<Id, Id> agreementToGridMap, Map<Id, String> targetStatusByAgreement, Map<Id, String> pendingStepLabels) {
+        if (agreementToGridMap.isEmpty()) return;
+        System.enqueueJob(new GridStandardApprovalMirrorQueueable(agreementToGridMap, targetStatusByAgreement, pendingStepLabels));
     }
 
     private static void handleApprovalTransition(Convention__c agr,
