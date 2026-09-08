@@ -1,27 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Package xmlns="http://soap.sforce.com/2006/04/metadata">
-	<types>
-        <members>AgreementTest</members>
-        <members>CustomApprovalHistoryUtility</members>
-        <members>CustomApprovalHistoryUtilityTest</members>
-        <members>GridAmendmentAgreementStatusAction</members>
-        <members>GridAmendmentAgreementStatusActionTest</members>
-        <members>GridUtility</members>
-        <members>GridLifecycleTest</members>
-        <members>GridStandardApprovalMirrorQueueable</members>
-        <name>ApexClass</name>
-    </types>
     <types>
-        <members>Grid_BaseAccess</members>
-        <name>PermissionSet</name>
-    </types>
-    <types>
-        <members>Convention__c.TECH_AgreementRequestFinalized__c</members>
+        <members>ApprovalStepConfig__mdt.EntryCriteria__c</members>
         <name>CustomField</name>
     </types>
     <types>
-        <members>ApprovalActionConfig.GridAmendment_InitialAgreementUpdate</members>
-        <name>CustomMetadata</name>
+        <members>CustomApprovalHistoryUtility</members>
+        <members>GridHOCApproverResolver</members>
+        <members>GridTopManagementApproverResolver</members>
+        <members>HOCApproverResolver</members>
+        <members>TopManagementApproverResolver</members>
+        <name>ApexClass</name>
+    </types>
+    <types>
+        <members>gridSubmitAmendmentForApproval</members>
+        <members>customApprovalSubmitScreen</members>
+        <name>LightningComponentBundle</name>
     </types>
     <version>66.0</version>
 </Package>
