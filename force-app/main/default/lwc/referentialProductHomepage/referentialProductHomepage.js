@@ -6,7 +6,7 @@
  * @last modified by  : Khadija EL GDAOUNI
 **/
 import { LightningElement, api, track, wire } from 'lwc';
-import getProductHierarchy from '@salesforce/apex/productHierarchyController.getProductHierarchy';
+//import getProductHierarchy from '@salesforce/apex/productHierarchyController.getProductHierarchy';
 import getAllProductHierarchy from '@salesforce/apex/ReferentialProductHomepageCtrl.getAllProducts';
 import getPickListValues from '@salesforce/apex/PicklistController.getPickListValuesCustomContries';
 import logClick from '@salesforce/apex/ReferentialProductHomepageCtrl.logClick';
@@ -30,6 +30,7 @@ import CURRENCY from '@salesforce/schema/Share_Class__c.Currency__c';
 import SHARECLASSTYPE from '@salesforce/schema/Share_Class__c.Type__c';
 import DIVIDENDPOLICY from '@salesforce/schema/Share_Class__c.DividendPolicy__c';
 
+import hasPRPISPermission from '@salesforce/customPermission/PRPIS';
 
 export default class ReferentialProductHomepage extends NavigationMixin(LightningElement) 
 {
@@ -41,6 +42,7 @@ export default class ReferentialProductHomepage extends NavigationMixin(Lightnin
     @track reportId = ReportHomeProductCatalog;
     @track dataDicURL = DataDicURL;
     @track navCalendar = NAVCalendar;
+    @track isNewISProductModalOpen = false;
     assetClassOptions = [];
     legalFormOptions = [];
     fundTypeOptions = [];
@@ -63,6 +65,7 @@ export default class ReferentialProductHomepage extends NavigationMixin(Lightnin
     selectedDividendP = '';
     searchKey = '';
     isActiveProducts = true;
+    isISProducts = false;
     isRI = false;
 
     // value of show SRI checkbox
@@ -98,6 +101,11 @@ export default class ReferentialProductHomepage extends NavigationMixin(Lightnin
         }
     }
 
+        // Indique si l'utilisateur possède la Custom Permission PRPIS
+    get canCreateISProduct() {
+        return hasPRPISPermission;
+    }
+    
     // Récupère les valeurs du champ picklist
     @wire(getPicklistValues, {
         recordTypeId: '$strategyObjectInfo.data.defaultRecordTypeId',
@@ -233,6 +241,7 @@ export default class ReferentialProductHomepage extends NavigationMixin(Lightnin
         selectedCurrency: this.selectedCurrency,
         searchKey: this.searchKey,
         isActiveProducts: this.isActiveProducts,
+        isISProducts: this.isISProducts,
         sfdr: this.selectedSFDR
         })
         .then(result => {
@@ -326,9 +335,17 @@ export default class ReferentialProductHomepage extends NavigationMixin(Lightnin
         this.refreshProductHierarchy();
     }
 
+    // Met à jour le filtre des produits actifs
     handleActiveProductsChange(event) {
         this.isActiveProducts = event.target.checked;
         console.log('isActiveProducts :'+ this.isActiveProducts);
+        this.refreshProductHierarchy();
+    }
+
+    // Affiche uniquement les produits IS lorsque la case est cochée
+    handleISProductsChange(event) {
+        this.isISProducts = event.target.checked;
+        console.log('isISProducts :'+ this.isISProducts);
         this.refreshProductHierarchy();
     }
 
@@ -350,6 +367,7 @@ export default class ReferentialProductHomepage extends NavigationMixin(Lightnin
         this.selectedDividendP = '';
         this.searchKey = '';
         this.isActiveProducts = true;
+        this.isISProducts = false;
         this.isRI = false;
         
         // Réinitialiser les inputs dans le DOM (si nécessaire)
@@ -370,6 +388,8 @@ export default class ReferentialProductHomepage extends NavigationMixin(Lightnin
                 input.checked = false;
             }else if (input.type === 'checkbox' && dataId === 'isActiveProducts') {
                 input.checked = true;
+            }else if (input.type === 'checkbox' && dataId === 'isISProducts') {
+                input.checked = false;
             } else if (input.name === 'searchAll') {
                 input.value = '';
             }
@@ -422,6 +442,36 @@ export default class ReferentialProductHomepage extends NavigationMixin(Lightnin
         }, false);
     }
 
+    // Lance le Flow Salesforce de création d'un nouveau produit IS
+    handleNewISProduct() {
+        this[NavigationMixin.Navigate]({
+            type: 'standard__flow',
+            attributes: {
+                devName: 'New_IS_Product'
+            }
+        });
+    }
+
+    // Ouvre la Tax Transparency Matrix
+    // Ouvre la modal contenant le Flow New IS Product
+    handleNewISProduct() {
+        this.isNewISProductModalOpen = true;
+    }
+
+    // Ferme la modal du Flow New IS Product
+    handleCloseNewISProduct() {
+        this.isNewISProductModalOpen = false;
+    }
+
+    // Ferme automatiquement la modal lorsque le Flow est terminé
+    handleNewISProductStatusChange(event) {
+        if (event.detail.status === 'FINISHED' || event.detail.status === 'FINISHED_SCREEN') {
+            this.isNewISProductModalOpen = false;
+            this.refreshProductHierarchy();
+        }
+    }
+
+    // Ouvre la Tax Transparency Matrix
     handleOpenTaxTransparencyMatrix() {
         this[NavigationMixin.Navigate]({
             type: 'standard__navItemPage',

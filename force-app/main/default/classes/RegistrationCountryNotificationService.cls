@@ -1,15 +1,18 @@
 public without sharing class RegistrationCountryNotificationService {
-    // Uses the exact Public Group labels supplied by the business specification.
-    private static final Set<String> TEAM_GROUP_NAMES = new Set<String>{
-        'Product Strategy',
-        'Legal',
-        'DCR',
-        'Fund Marketing',
-        'Digital Marketing'
+    // Uses the exact Public Group API names configured in Salesforce.
+    private static final Set<String> TEAM_GROUP_API_NAMES = new Set<String>{
+        'PMTProductStrategy',
+        'PMTLegal',
+        'PMTDCR',
+        'PMTFundMarketing',
+        'PMTDigitalMarketing'
     };
 
     // Limits each outbound message to a safe number of recipient addresses.
     private static final Integer RECIPIENTS_PER_EMAIL = 100;
+
+    // Identifie le template Visualforce utilisé pour les emails de succès.
+    private static final String SUCCESS_TEMPLATE_DEVELOPER_NAME ='CountryRegistration';
 
     // Allows tests to bypass Public Group configuration and use known recipients.
     @TestVisible private static Set<String> recipientEmailsOverride;
@@ -18,21 +21,59 @@ public without sharing class RegistrationCountryNotificationService {
     public class NotificationException extends Exception {
     }
 
-    // Sends the successful API submission details to all configured team members.
+    // Sends the successful API submission with the CountryRegistration template.
     public static void sendSuccessEmail(
         RegistrationCountryApiService.Request request,
         RegistrationCountryApiService.Response response
     ) {
         Set<String> recipientEmails = resolveTeamRecipientEmails();
-        String subject = '[Registration Countries] Request submitted - ' + request.shareClassName;
+        EmailTemplate successTemplate = [
+            SELECT Id
+            FROM EmailTemplate
+            WHERE DeveloperName = :SUCCESS_TEMPLATE_DEVELOPER_NAME
+            AND IsActive = true
+            LIMIT 1
+        ];
 
-        // Includes the component comment and every country selection in the message.
-        String body =
-            'The Registration Country request was submitted successfully to the external service.\n\n' +
-            buildRequestDetails(request) + '\n\n' +
-            'API status: ' + String.valueOf(response.statusCode) + '\n' +
-            'External reference: ' + safeText(response.externalId, 'Not provided');
-        sendEmails(recipientEmails, subject, body);
+        // Renders the Visualforce merge fields for the user and Share Class.
+        Messaging.SingleEmailMessage renderedEmail =
+            Messaging.renderStoredEmailTemplate(
+                successTemplate.Id,
+                UserInfo.getUserId(),
+                request.shareClassId
+            );
+        String htmlBody = renderedEmail.getHtmlBody();
+
+        // Replaces the request values that are not available as merge fields.
+        htmlBody = htmlBody.replace(
+            '@@RETAIL_COUNTRIES@@',
+            formatCountries(request.countriesByType.get('Retail')).escapeHtml4()
+        );
+        htmlBody = htmlBody.replace(
+            '@@INSTITUTIONAL_COUNTRIES@@',
+            formatCountries(request.countriesByType.get('Institutional')).escapeHtml4()
+        );
+        htmlBody = htmlBody.replace(
+            '@@SEMI_PRO_COUNTRIES@@',
+            formatCountries(request.countriesByType.get('Semi-Pro')).escapeHtml4()
+        );
+
+        // Adds the comment and returned HTTP status to the rendered template.
+        htmlBody = htmlBody.replace(
+            '@@COMMENT@@',
+            safeText(request.comment, 'None').escapeHtml4()
+        );
+        htmlBody = htmlBody.replace(
+            '@@API_STATUS@@',
+            String.valueOf(response.statusCode)
+        );
+
+        sendEmails(
+            recipientEmails,
+            renderedEmail.getSubject(),
+            htmlBody,
+            true
+        );
     }
 
     // Sends an API failure notification only to the user who submitted the request.
@@ -63,7 +104,12 @@ public without sharing class RegistrationCountryNotificationService {
             'API status: ' + statusText + '\n' +
             'Problem: ' + safeText(failureReason, 'External service submission failed.') + '\n\n' +
             'Please contact support if the problem continues.';
-        sendEmails(new Set<String>{ submittingUser.Email }, subject, body);
+        sendEmails(
+            new Set<String>{ submittingUser.Email },
+            subject,
+            body,
+            false
+        );
     }
 
     // Resolves active users from the five exact Public Group names.
@@ -74,29 +120,29 @@ public without sharing class RegistrationCountryNotificationService {
         }
 
         List<Group> teamGroups = [
-            SELECT Id, Name
+            SELECT Id, DeveloperName
             FROM Group
             WHERE Type = 'Regular'
-            AND Name IN :TEAM_GROUP_NAMES
+            AND DeveloperName IN :TEAM_GROUP_API_NAMES
         ];
-        Set<String> foundGroupNames = new Set<String>();
+        Set<String> foundGroupApiNames = new Set<String>();
         Set<Id> rootGroupIds = new Set<Id>();
 
         // Collects every configured team group and detects missing configuration.
         for (Group teamGroup : teamGroups) {
-            foundGroupNames.add(teamGroup.Name);
+            foundGroupApiNames.add(teamGroup.DeveloperName);
             rootGroupIds.add(teamGroup.Id);
         }
 
-        Set<String> missingGroupNames = new Set<String>();
-        missingGroupNames.addAll(TEAM_GROUP_NAMES);
-        missingGroupNames.removeAll(foundGroupNames);
-        if (!missingGroupNames.isEmpty()) {
-            List<String> sortedMissingNames = new List<String>(missingGroupNames);
-            sortedMissingNames.sort();
+        Set<String> missingGroupApiNames = new Set<String>();
+        missingGroupApiNames.addAll(TEAM_GROUP_API_NAMES);
+        missingGroupApiNames.removeAll(foundGroupApiNames);
+        if (!missingGroupApiNames.isEmpty()) {
+            List<String> sortedMissingApiNames = new List<String>(missingGroupApiNames);
+            sortedMissingApiNames.sort();
             throw new NotificationException(
                 'Missing Registration Country Public Groups: ' +
-                String.join(sortedMissingNames, ', ') + '.'
+                String.join(sortedMissingApiNames, ', ') + '.'
             );
         }
 
@@ -176,11 +222,31 @@ public without sharing class RegistrationCountryNotificationService {
             'Comment: ' + safeText(request.comment, 'None');
     }
 
-    // Formats one type as a readable comma-separated country list.
+    // Formats one type with the complete country labels.
     private static String formatCountries(List<String> countries) {
-        return countries == null || countries.isEmpty()
-            ? 'None'
-            : String.join(countries, ', ');
+        if (countries == null || countries.isEmpty()) {
+            return 'None';
+        }
+
+        // Builds the mapping between Salesforce values and displayed labels.
+        Map<String, String> labelsByValue = new Map<String, String>();
+        Schema.DescribeFieldResult fieldDescribe =
+            Schema.SObjectType.Country__c.fields.Country__c;
+
+        for (Schema.PicklistEntry entry : fieldDescribe.getPicklistValues()) {
+            labelsByValue.put(entry.getValue(), entry.getLabel());
+        }
+
+        // Replaces each technical value while preserving the original order.
+        List<String> countryLabels = new List<String>();
+        for (String country : countries) {
+            String countryLabel = labelsByValue.get(country);
+            countryLabels.add(
+                String.isBlank(countryLabel) ? country : countryLabel
+            );
+        }
+
+        return String.join(countryLabels, ', ');
     }
 
     // Replaces blank optional values with a readable fallback.
@@ -188,11 +254,12 @@ public without sharing class RegistrationCountryNotificationService {
         return String.isBlank(value) ? fallbackValue : value.trim();
     }
 
-    // Sends one or more messages and fails when Salesforce rejects an email.
+    // Sends HTML or plain-text messages and detects Salesforce email failures.
     private static void sendEmails(
         Set<String> recipientEmails,
         String subject,
-        String body
+        String body,
+        Boolean useHtmlBody
     ) {
         List<String> sortedEmails = new List<String>(recipientEmails);
         sortedEmails.sort();
@@ -211,9 +278,26 @@ public without sharing class RegistrationCountryNotificationService {
             }
 
             Messaging.SingleEmailMessage message = new Messaging.SingleEmailMessage();
+
+            // Uses the shared Org-Wide Email Address instead of the connected user's address.
+            OrgWideEmailAddress senderAddress = [
+                SELECT Id
+                FROM OrgWideEmailAddress
+                WHERE Address = 'noreplysalesforce@carmignac.com'
+                LIMIT 1
+            ];
+            message.setOrgWideEmailAddressId(senderAddress.Id);
+
             message.setToAddresses(emailBatch);
             message.setSubject(subject);
-            message.setPlainTextBody(body);
+
+            // Uses HTML only for the rendered success template.
+            if (useHtmlBody) {
+                message.setHtmlBody(body);
+            } else {
+                message.setPlainTextBody(body);
+            }
+
             message.setSaveAsActivity(false);
             messages.add(message);
         }

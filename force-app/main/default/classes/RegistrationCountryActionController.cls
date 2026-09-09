@@ -34,17 +34,24 @@ public with sharing class RegistrationCountryActionController {
     // Contains the data required when the quick action opens.
     public class ContextResult {
         @AuraEnabled public List<CountryOption> countryOptions;
+        @AuraEnabled public List<String> existingCountries;
     }
 
     // Stores the Share Class data required by validation and notifications.
     private class ShareClassContext {
         Id recordId;
         String recordName;
+        String isin;
 
-        // Creates an immutable context from the queried Share Class.
-        ShareClassContext(Id shareClassId, String shareClassName) {
+        // Creates one Share Class context used by the Sequantis request.
+        ShareClassContext(
+            Id shareClassId,
+            String shareClassName,
+            String shareClassIsin
+        ) {
             recordId = shareClassId;
             recordName = shareClassName;
+            isin = shareClassIsin;
         }
     }
 
@@ -83,6 +90,11 @@ public with sharing class RegistrationCountryActionController {
             loadShareClass(shareClassId);
             ContextResult result = new ContextResult();
             result.countryOptions = buildCountryOptions();
+
+            // Convertit le Set Apex en List compatible avec @AuraEnabled.
+            result.existingCountries = new List<String>(
+                loadExistingCountries(shareClassId)
+            );
             return result;
         } catch (BusinessValidationException exceptionValue) {
             throw new AuraHandledException(exceptionValue.getMessage());
@@ -92,6 +104,25 @@ public with sharing class RegistrationCountryActionController {
             throw new AuraHandledException('Unable to load registration country request data.');
         }
     }
+    // Loads every country already linked to the selected Share Class.
+    private static Set<String> loadExistingCountries(Id shareClassId) {
+        Set<String> existingCountries = new Set<String>();
+
+        // Uses the picklist value because it matches the LWC option value.
+        for (Country__c countryRecord : [
+            SELECT Country__c
+            FROM Country__c
+            WHERE ShareClass__c = :shareClassId
+            WITH USER_MODE
+        ]) {
+            if (String.isNotBlank(countryRecord.Country__c)) {
+                existingCountries.add(countryRecord.Country__c);
+            }
+        }
+
+        return existingCountries;
+    }
+
 
     // Receives the complete LWC selection as one serialized JSON payload.
     @AuraEnabled
@@ -186,8 +217,12 @@ public with sharing class RegistrationCountryActionController {
                 return buildApiNotConfiguredResult(emailSent);
             }
 
-            // Treats HTTP 200 as the only successful external response.
-            if (apiResponse.statusCode == 200) {
+            // Considère toutes les réponses HTTP 2xx comme un succès.
+            if (
+                apiResponse.statusCode != null &&
+                apiResponse.statusCode >= 200 &&
+                apiResponse.statusCode < 300
+            ) {
                 Boolean emailSent = sendSuccessNotificationSafely(apiRequest, apiResponse);
                 logApiSuccess(
                     shareClassId,
@@ -238,14 +273,18 @@ public with sharing class RegistrationCountryActionController {
         }
     }
 
-    // Loads one accessible Share Class record with the name used in notifications.
+    // Loads one accessible Share Class record with the ISIN used by Sequantis.
     private static ShareClassContext loadShareClass(Id shareClassId) {
         if (Test.isRunningTest() && shareClassNameOverride != null) {
-            return new ShareClassContext(shareClassId, shareClassNameOverride);
+            return new ShareClassContext(
+                shareClassId,
+                shareClassNameOverride,
+                'TEST_ISIN'
+            );
         }
 
         List<Share_Class__c> records = [
-            SELECT Id, Name
+            SELECT Id, Name, ISIN__c
             FROM Share_Class__c
             WHERE Id = :shareClassId
             WITH USER_MODE
@@ -256,7 +295,18 @@ public with sharing class RegistrationCountryActionController {
             throw new BusinessValidationException('Share Class not found.');
         }
 
-        return new ShareClassContext(records[0].Id, records[0].Name);
+        // The ISIN is required to identify the Share Class in Sequantis.
+        if (String.isBlank(records[0].ISIN__c)) {
+            throw new BusinessValidationException(
+                'The Share Class ISIN is required.'
+            );
+        }
+
+        return new ShareClassContext(
+            records[0].Id,
+            records[0].Name,
+            records[0].ISIN__c
+        );
     }
 
     // Builds active country options from Country__c.Country__c.
@@ -455,7 +505,10 @@ public with sharing class RegistrationCountryActionController {
             new RegistrationCountryApiService.Request();
         request.shareClassId = shareClassRecord.recordId;
         request.shareClassName = shareClassRecord.recordName;
+        request.isin = shareClassRecord.isin;
         request.countriesByType = countriesByType;
+
+        // Le commentaire reste disponible pour les logs et notifications.
         request.comment = String.isBlank(comment) ? '' : comment.trim();
         return request;
     }
@@ -580,6 +633,7 @@ public with sharing class RegistrationCountryActionController {
         context.put('result', 'SUCCESS');
         context.put('statusCode', response.statusCode);
         context.put('externalId', response.externalId);
+        context.put('payload', response.requestPayload);
         context.put('notificationEmailSent', emailSent);
 
         OperationLogService.Entry entry = buildLogEntry(
@@ -606,6 +660,7 @@ public with sharing class RegistrationCountryActionController {
         context.put('result', 'ERROR');
         context.put('statusCode', response.statusCode);
         context.put('externalId', response.externalId);
+        context.put('payload', response.requestPayload);
 
         OperationLogService.Entry entry = buildLogEntry(
             shareClassId,

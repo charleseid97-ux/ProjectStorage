@@ -1,0 +1,20 @@
+<template>
+    <template if:true={modalTitle}>
+        <div class="slds-modal__header">
+            <h2 class="slds-text-heading_medium">{modalTitle}</h2>
+        </div>
+    </template>
+    <div class="slds-p-around_medium">
+        <template if:true={isLoading}>
+            <lightning-spinner alternative-text="Submitting" size="small"></lightning-spinner>
+        </template>
+        <template if:true={errorMessage}>
+            <p class="slds-text-color_error slds-m-bottom_small">{errorMessage}</p>
+        </template>
+        <lightning-textarea label={commentsLabel} placeholder={commentsPlaceholder} value={comments} onchange={handleCommentsChange} rows="6"></lightning-textarea>
+    </div>
+    <div class="slds-modal__footer">
+        <lightning-button label={cancelLabel} onclick={handleCancel}></lightning-button>
+        <lightning-button class="slds-m-left_small" label={submitLabel} variant="brand" onclick={handleSubmit} disabled={isLoading}></lightning-button>
+    </div>
+</template>

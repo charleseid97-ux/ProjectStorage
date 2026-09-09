@@ -1,0 +1,110 @@
+<messaging:emailTemplate subject="[Registration Countries] Request submitted - {!relatedTo.Name}"
+    recipientType="User"
+    relatedToType="Share_Class__c">
+
+    <messaging:htmlEmailBody >
+        <html>
+            <body style="margin:0;padding:0;background-color:#f4f6f8;font-family:Arial,sans-serif;color:#243447;">
+                <table width="100%" cellpadding="0" cellspacing="0" border="0" style="background-color:#f4f6f8;padding:24px 0;">
+                    <tr>
+                        <td align="center">
+                            <table width="640" cellpadding="0" cellspacing="0" border="0" style="width:640px;max-width:640px;background-color:#ffffff;border-radius:8px;overflow:hidden;">
+                                <tr>
+                                    <td style="background-color:#172b4d;padding:24px 32px;">
+                                        <div style="font-size:22px;font-weight:bold;color:#ffffff;">
+                                            NEW REGISTRATION REQUEST
+                                        </div>
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <td style="padding:28px 32px;">
+                                        <!-- Displays the current status of the registration transfer -->
+                                        <div style="font-size:14px;line-height:22px;">
+                                            The below registration has been transferred to Sequantis and is now awaiting legal action..
+                                        </div>
+
+                                        <table width="100%" cellpadding="0" cellspacing="0" border="0" style="margin-top:24px;border-collapse:collapse;">
+                                            <tr>
+                                                <td style="padding:12px 0;border-bottom:1px solid #e6e9ed;width:180px;font-size:13px;color:#6b778c;">
+                                                    Share Class
+                                                </td>
+                                                <td style="padding:12px 0;border-bottom:1px solid #e6e9ed;font-size:14px;font-weight:bold;">
+                                                    {!relatedTo.Name}
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td style="padding:12px 0;border-bottom:1px solid #e6e9ed;font-size:13px;color:#6b778c;">
+                                                    ISIN
+                                                </td>
+                                                <td style="padding:12px 0;border-bottom:1px solid #e6e9ed;font-size:14px;">
+                                                    {!relatedTo.ISIN__c}
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td style="padding:12px 0;border-bottom:1px solid #e6e9ed;font-size:13px;color:#6b778c;">
+                                                    Submitted by
+                                                </td>
+                                                <td style="padding:12px 0;border-bottom:1px solid #e6e9ed;font-size:14px;">
+                                                    {!recipient.Name} &lt;{!recipient.Email}&gt;
+                                                </td>
+                                            </tr>
+                                        </table>
+
+                                        <div style="margin-top:28px;font-size:16px;font-weight:bold;color:#172b4d;">
+                                            Requested registrations
+                                        </div>
+
+                                        <table width="100%" cellpadding="0" cellspacing="0" border="0" style="margin-top:12px;border-collapse:collapse;">
+                                            <tr>
+                                                <td style="padding:12px;background-color:#f7f8fa;border-bottom:4px solid #ffffff;width:150px;font-size:13px;font-weight:bold;">
+                                                    Retail
+                                                </td>
+                                                <td style="padding:12px;background-color:#f7f8fa;border-bottom:4px solid #ffffff;font-size:14px;">
+                                                    @@RETAIL_COUNTRIES@@
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td style="padding:12px;background-color:#f7f8fa;border-bottom:4px solid #ffffff;font-size:13px;font-weight:bold;">
+                                                    Institutional
+                                                </td>
+                                                <td style="padding:12px;background-color:#f7f8fa;border-bottom:4px solid #ffffff;font-size:14px;">
+                                                    @@INSTITUTIONAL_COUNTRIES@@
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td style="padding:12px;background-color:#f7f8fa;font-size:13px;font-weight:bold;">
+                                                    Semi-Pro
+                                                </td>
+                                                <td style="padding:12px;background-color:#f7f8fa;font-size:14px;">
+                                                    @@SEMI_PRO_COUNTRIES@@
+                                                </td>
+                                            </tr>
+                                        </table>
+
+                                        <div style="margin-top:28px;font-size:16px;font-weight:bold;color:#172b4d;">
+                                            Comment
+                                        </div>
+                                        <div style="margin-top:10px;padding:14px;background-color:#f7f8fa;border-left:4px solid #172b4d;font-size:14px;line-height:21px;">
+                                            @@COMMENT@@
+                                        </div>
+
+                                        <div style="margin-top:24px;font-size:13px;color:#6b778c;">
+                                            API status: <strong>@@API_STATUS@@</strong>
+                                        </div>
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <td style="padding:18px 32px;background-color:#f7f8fa;font-size:11px;color:#8993a4;text-align:center;">
+                                        This is an automated notification from Salesforce.
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+                </table>
+            </body>
+        </html>
+    </messaging:htmlEmailBody>
+</messaging:emailTemplate>

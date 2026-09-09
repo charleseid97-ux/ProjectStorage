@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>DividendAmountScCcy__c</fullName>
+    <description>Dividend amount per share expressed in the Share Class quotation currency. Source VOM: DividendUnit.</description>
+    <label>Dividend Amount - SC CCY</label>
+    <precision>18</precision>
+    <required>false</required>
+    <scale>8</scale>
+    <type>Number</type>
+</CustomField>

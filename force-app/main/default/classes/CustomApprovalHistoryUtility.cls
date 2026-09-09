@@ -1,8 +1,6 @@
 /** ──────────────────────────────────────
- * @description Core service class for the custom approval process engine.
- *              Handles submission, step-by-step approval/rejection/recall flows,
- *              approver resolution (configured, dynamic, user-input), and
- *              post-action execution (field updates, email alerts, custom Apex).
+ * @description Core service class for the custom approval process engine. Handles submission, step-by-step approval/rejection/recall flows,
+ *              approver resolution (configured, dynamic, user-input), and post-action execution (field updates, email alerts, custom Apex).
  * @author Charles EID
  * @testClass CustomApprovalHistoryUtilityTest
  * @coverage 73%   [06-07-26]
@@ -18,7 +16,8 @@ public without sharing class CustomApprovalHistoryUtility {
         result.success      = false;
         result.errorMessage = null;
         try {
-            List<ApprovalStepConfig__mdt> allSteps = [SELECT Id, DeveloperName, StepOrder__c, StepLabel__c, ApprovalMode__c, ProcessConfig__r.TargetLabelFieldApiName__c
+            List<ApprovalStepConfig__mdt> allSteps = [SELECT Id, DeveloperName, StepOrder__c, StepLabel__c, ApprovalMode__c, EntryCriteria__c,
+                                                              ProcessConfig__r.TargetLabelFieldApiName__c, ProcessConfig__r.ObjectType__c
                                                       FROM ApprovalStepConfig__mdt
                                                       WHERE ProcessConfig__r.DeveloperName = :processName
                                                       ORDER BY StepOrder__c ASC];
@@ -26,7 +25,11 @@ public without sharing class CustomApprovalHistoryUtility {
                 result.errorMessage = 'No step configuration found for process: ' + processName;
                 return result;
             }
-            ApprovalStepConfig__mdt initialStep = allSteps[0];
+            ApprovalStepConfig__mdt initialStep = findFirstMatchingStep(allSteps, recordId, allSteps[0].ProcessConfig__r?.ObjectType__c);
+            if (initialStep == null) {
+                result.errorMessage = 'No step matched entry criteria for process: ' + processName;
+                return result;
+            }
 
             List<ApproverAssignment> assignments = resolveApprovers(processName, initialStep, recordId, null);
             if (assignments.isEmpty()) {
@@ -136,7 +139,7 @@ public without sharing class CustomApprovalHistoryUtility {
     }
 
     private static void handleApprove(StepContext ctx, List<CustomApprovalStep__c> siblings, Set<Id> allCurrentIds, List<Id> userInputApproverIds) {
-        ApprovalStepConfig__mdt stepCfg = [SELECT ApprovalMode__c, StepOrder__c
+        ApprovalStepConfig__mdt stepCfg = [SELECT ApprovalMode__c, StepOrder__c, ProcessConfig__r.ObjectType__c
                                            FROM ApprovalStepConfig__mdt
                                            WHERE DeveloperName = :ctx.stepDevName
                                            LIMIT 1];
@@ -148,14 +151,14 @@ public without sharing class CustomApprovalHistoryUtility {
             recallSteps(siblings, ctx.currentUserId, null);
         }
 
-        List<ApprovalStepConfig__mdt> nextSteps = [SELECT Id, DeveloperName, StepLabel__c, ApprovalMode__c, StepOrder__c
+        List<ApprovalStepConfig__mdt> remainingSteps = [SELECT Id, DeveloperName, StepLabel__c, ApprovalMode__c, StepOrder__c, EntryCriteria__c
                                                    FROM ApprovalStepConfig__mdt
                                                    WHERE ProcessConfig__r.DeveloperName = :ctx.processName
                                                      AND StepOrder__c > :stepCfg.StepOrder__c
-                                                   ORDER BY StepOrder__c ASC LIMIT 1];
+                                                   ORDER BY StepOrder__c ASC];
+        ApprovalStepConfig__mdt nextStep = findFirstMatchingStep(remainingSteps, ctx.targetRecordId, stepCfg.ProcessConfig__r?.ObjectType__c);
 
-        if (!nextSteps.isEmpty()) {
-            ApprovalStepConfig__mdt nextStep = nextSteps[0];
+        if (nextStep != null) {
             List<ApproverAssignment> nextAssignments = resolveApprovers(ctx.processName, nextStep, ctx.targetRecordId, userInputApproverIds);
             Set<Id> nextIds = new Set<Id>();
             for (ApproverAssignment a : nextAssignments) {
@@ -216,6 +219,24 @@ public without sharing class CustomApprovalHistoryUtility {
             'currentApproverIds' => currentIds != null ? new List<Id>(currentIds) : new List<Id>(),
             'nextApproverIds'    => nextIds    != null ? new List<Id>(nextIds)    : null
         };
+    }
+
+    // ─── Step selection (entry criteria) ──────────────────────────────────────────
+    // Returns the first step (in the given, already-ordered list) whose EntryCriteria__c matches the target record, or null if none match (caller decides what that means: submission failure for the initial step, "no next step" / final approval otherwise).
+    private static ApprovalStepConfig__mdt findFirstMatchingStep(List<ApprovalStepConfig__mdt> orderedSteps, Id recordId, String objectType) {
+        for (ApprovalStepConfig__mdt step : orderedSteps) {
+            if (stepCriteriaMet(recordId, objectType, step.EntryCriteria__c)) {
+                return step;
+            }
+        }
+        return null;
+    }
+
+    // EntryCriteria__c is a literal SOQL WHERE-clause fragment configured by admins via custom metadata (same trust level as TargetFieldApiName__c/FieldValue__c elsewhere in this class).
+    private static Boolean stepCriteriaMet(Id recordId, String objectType, String criteriaText) {
+        if (String.isBlank(criteriaText)) return true;
+        String query = 'SELECT Id FROM ' + objectType + ' WHERE Id = :recordId AND (' + criteriaText + ')';
+        return !Database.query(query).isEmpty();
     }
 
     // ─── resolveApprovers ────────────────────────────────────────────────────────
@@ -341,8 +362,25 @@ public without sharing class CustomApprovalHistoryUtility {
     }
 
     private static void executeFieldUpdate(ApprovalActionConfig__mdt cfg, Id targetRecordId) {
-        SObject obj = targetRecordId.getSObjectType().newSObject(targetRecordId);
-        obj.put(cfg.TargetFieldApiName__c, cfg.FieldValue__c);
+        List<String> parts = cfg.TargetFieldApiName__c.split('\\.');
+        String finalField = parts.remove(parts.size() - 1);
+
+        Id updateRecordId = targetRecordId;
+        if (!parts.isEmpty()) {
+            String relationshipPath = String.join(parts, '.');
+            String objectApiName = targetRecordId.getSObjectType().getDescribe().getName();
+            SObject rec = Database.query('SELECT ' + relationshipPath + '.Id FROM ' + objectApiName + ' WHERE Id = :targetRecordId LIMIT 1');
+
+            SObject parentRec = rec;
+            for (String part : parts) {
+                parentRec = parentRec.getSObject(part);
+                if (parentRec == null) return;
+            }
+            updateRecordId = (Id) parentRec.get('Id');
+        }
+
+        SObject obj = updateRecordId.getSObjectType().newSObject(updateRecordId);
+        obj.put(finalField, cfg.FieldValue__c);
         update obj;
     }
 
@@ -487,9 +525,9 @@ public without sharing class CustomApprovalHistoryUtility {
         exemptFields.addAll(LOCK_SYSTEM_FIELDS);
         String statusField = config.StatusFieldApiName__c;
 
-        // All trigger records of one type carry the same populated fields, so the fields to
-        // compare (populated, non-exempt, non-formula) and their labels are resolved once for the whole batch
-        Map<String, String> labelsByCheckableField = resolveCheckableFields(typeRecords[0], exemptFields);
+        // All trigger records of one type share the same schema, so the fields to compare
+        // (non-exempt, non-formula) and their labels are resolved once for the whole batch
+        Map<String, String> labelsByCheckableField = resolveCheckableFields(typeRecords[0].getSObjectType(), exemptFields);
 
         for (SObject newRecord : typeRecords) {
             SObject oldRecord  = oldRecords.get((Id) newRecord.get('Id'));
@@ -511,17 +549,18 @@ public without sharing class CustomApprovalHistoryUtility {
         }
     }
 
-    // Returns the fields to lock-check (populated, non-exempt, non-formula) mapped to their labels,
-    // describing each field exactly once for both the isCalculated() filter and the error-message label
-    private static Map<String, String> resolveCheckableFields(SObject record, List<String> exemptFields) {
+    // Returns the fields to lock-check (non-exempt, non-formula) mapped to their labels, describing
+    // each field exactly once for both the isCalculated() filter and the error-message label.
+    // Built from the object's schema rather than any single record's populated fields, so a field
+    // that gets cleared to null (and would otherwise vanish from getPopulatedFieldsAsMap()) is still checked.
+    private static Map<String, String> resolveCheckableFields(Schema.SObjectType sObjType, List<String> exemptFields) {
         Map<String, String> labelsByField = new Map<String, String>();
-        Map<String, Schema.SObjectField> fieldTokens = record.getSObjectType().getDescribe().fields.getMap();
-        for (String fieldName : record.getPopulatedFieldsAsMap().keySet()) {
+        Map<String, Schema.SObjectField> fieldTokens = sObjType.getDescribe().fields.getMap();
+        for (String fieldName : fieldTokens.keySet()) {
             if (containsIgnoreCase(exemptFields, fieldName)) continue;
-            Schema.SObjectField token = fieldTokens.get(fieldName);
-            Schema.DescribeFieldResult fieldDescribe = token == null ? null : token.getDescribe();
-            if (fieldDescribe != null && (fieldDescribe.isCalculated() || fieldDescribe.isAutoNumber())) continue; // formula / rollup / autonumber — system-computed, never a user edit
-            labelsByField.put(fieldName, fieldDescribe == null ? fieldName : fieldDescribe.getLabel());
+            Schema.DescribeFieldResult fieldDescribe = fieldTokens.get(fieldName).getDescribe();
+            if (fieldDescribe.isCalculated() || fieldDescribe.isAutoNumber()) continue; // formula / rollup / autonumber — system-computed, never a user edit
+            labelsByField.put(fieldName, fieldDescribe.getLabel());
         }
         return labelsByField;
     }

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>EntryCriteria__c</fullName>
+    <description>Optional literal SOQL WHERE-clause fragment. If blank, the step always runs. If set, the step only runs when the target record matches this condition (e.g. RecordType.DeveloperName IN ('X','Y')) — otherwise it's skipped and the engine moves to the next step (or finishes the approval if this was the last one).</description>
+    <fieldManageability>SubscriberControlled</fieldManageability>
+    <inlineHelpText>Optional literal SOQL WHERE-clause fragment evaluated against the target record. Leave blank for the step to always run.</inlineHelpText>
+    <label>Entry Criteria</label>
+    <length>4000</length>
+    <type>LongTextArea</type>
+    <visibleLines>5</visibleLines>
+</CustomField>

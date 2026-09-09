@@ -10,9 +10,9 @@ public with sharing class CTL_SearchSubscriptionProduct {
 
     @AuraEnabled(cacheable=true)
     public static List<Share_Class__c> getShareClasses() {
-        return ([SELECT Id, Name, Fund__c, Fund__r.Product_Name__c,Fund__r.Name,   TechIsActive__c, ISIN_Code__c,Share_Class_Type__c
+        return ([SELECT Id, Name, Fund__c, Fund__r.ProductName__c,Fund__r.Name,   TechIsActive__c, ISIN_Code__c,Share_Class_Type__c
                             FROM Share_Class__c
-                            WHERE TechIsActive__c = TRUE order by Fund__r.Product_Name__c  asc ,Name asc]);
+                            WHERE TechIsActive__c = TRUE order by Fund__r.ProductName__c  asc ,Name asc]);
     }
     @AuraEnabled(cacheable=false)
     public static PickListFieldsValues getDistinctValues() {
@@ -39,23 +39,23 @@ public with sharing class CTL_SearchSubscriptionProduct {
 
     @AuraEnabled(cacheable=true)
     public static List<Product__c> getFundWithShareClasses() {
-        return ([SELECT Id,Name,Product_Name__c,(SELECT Id, Name,ISIN_Code__c FROM Share_Classes__r WHERE TechIsActive__c =true ORDER BY Name ASC) 
-                    FROM Product__c WHERE Validity__c=true AND RecordType.Name='Fund'  ORDER BY Product_Name__c ASC]);
+        return ([SELECT Id,Name,ProductName__c,(SELECT Id, Name,ISIN_Code__c FROM Share_Classes__r WHERE TechIsActive__c =true ORDER BY Name ASC) 
+                    FROM Product__c WHERE Validity__c=true AND RecordType.Name='Fund'  ORDER BY ProductName__c ASC]);
     }
 
     @AuraEnabled(cacheable=true)
     public static List<Share_Class__c> getShareClassesByCountry(String countryCode) {
         if (String.isNotBlank(countryCode)) {
-            return ([SELECT Id, Name,Fund__c,Fund__r.Product_Name__c,Fund__r.Name,ISIN_Code__c,
-                                                            Fund__r.Strategy__c,Fund__r.Strategy__r.Name,Fund__r.Strategy__r.Product_Name__c,Share_Class_Type__c
+            return ([SELECT Id, Name,Fund__c,Fund__r.ProductName__c,Fund__r.Name,ISIN_Code__c,
+                                                            Fund__r.Strategy__c,Fund__r.Strategy__r.Name,Fund__r.Strategy__r.ProductName__c,Share_Class_Type__c
                                                     FROM Share_Class__c
-                                                    WHERE TechIsActive__c = TRUE AND Fund__c!=null AND Fund__r.Strategy__c!=null  order by Fund__r.Strategy__r.Product_Name__c,Fund__r.Product_Name__c  asc ,Name asc]);
+                                                    WHERE TechIsActive__c = TRUE AND Fund__c!=null AND Fund__r.Strategy__c!=null  order by Fund__r.Strategy__r.ProductName__c,Fund__r.ProductName__c  asc ,Name asc]);
         }
         else {
-            return ([SELECT Id, Name, Fund__c, Fund__r.Product_Name__c,Fund__r.Name,ISIN_Code__c,
-                        Fund__r.Strategy__c,Fund__r.Strategy__r.Name,Fund__r.Strategy__r.Product_Name__c,Share_Class_Type__c
+            return ([SELECT Id, Name, Fund__c, Fund__r.ProductName__c,Fund__r.Name,ISIN_Code__c,
+                        Fund__r.Strategy__c,Fund__r.Strategy__r.Name,Fund__r.Strategy__r.ProductName__c,Share_Class_Type__c
                 FROM Share_Class__c
-                WHERE TechIsActive__c = TRUE AND Fund__c!=null AND Fund__r.Strategy__c!=null order by Fund__r.Strategy__r.Product_Name__c,Fund__r.Product_Name__c  asc ,Name asc]);
+                WHERE TechIsActive__c = TRUE AND Fund__c!=null AND Fund__r.Strategy__c!=null order by Fund__r.Strategy__r.ProductName__c,Fund__r.ProductName__c  asc ,Name asc]);
         }
     }
 
@@ -84,19 +84,31 @@ public with sharing class CTL_SearchSubscriptionProduct {
             alertVal.add(mdt.MasterLabel);
             alertDevName.add(mdt.DeveloperName);
         }
-        List<Id> shareClassCountryids = new List<Id>();
+        Set<Id> shareClassCountryids = new Set<Id>();
+        Set<String> overrideIsins = new Set<String>();
         /*for (ShareclassRegistration_Website__c shareClassReg : [SELECT Share_Class__c FROM ShareclassRegistration_Website__c WHERE Country__c =:countryCode AND isDisplay__c = true ]) {
             shareClassCountryids.add(shareClassReg.Share_Class__c);
         }*/
         if(countryCode =='XI'){
             countryCode = 'LU';
         }
+
+        // Récupère les Share Classes officiellement enregistrées pour le pays.
         for (Country__c c : [
             SELECT ShareClass__c 
             FROM Country__c 
             WHERE Country__c = :countryCode AND ShareClass__c != null
         ]) {
             shareClassCountryids.add(c.ShareClass__c);
+        }
+
+        // Récupère les ISIN autorisés temporairement pour le pays.
+        for (ProspaceShareClassOverride__mdt overrideRecord : [
+            SELECT ISIN__c
+            FROM ProspaceShareClassOverride__mdt
+            WHERE Country__c = :countryCode AND ISIN__c != null
+        ]) {
+            overrideIsins.add(overrideRecord.ISIN__c);
         }
 
         String query =
@@ -109,7 +121,7 @@ public with sharing class CTL_SearchSubscriptionProduct {
         '      OR (AlertType__c IN :alertDevName)' +
         '      OR (AlertType__c IN :alertVal)))' +
         ' FROM Share_Class__c' +
-        ' WHERE Id IN :shareClassCountryids' +
+        ' WHERE (Id IN :shareClassCountryids OR ISIN__c IN :overrideIsins)' +
         '   AND TechIsActive__c = TRUE' +
         '   AND Fund__c != null' +
         '   AND Fund__r.FundStrategy__c != null';
