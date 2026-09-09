@@ -1,0 +1,15 @@
+.main-div {
+    width: 100%;
+    display: flex;
+    gap: 20px;
+    flex-direction: column;
+}
+
+.criteria-div {
+    display: flex;
+    gap: 20px;
+}
+
+.criteria-div > div{
+    flex: 1;
+}

@@ -909,6 +909,21 @@
                 <default>false</default>
                 <label>Yield_to_maturity</label>
             </value>
+            <value>
+                <fullName>Mandatory disclaimer</fullName>
+                <default>false</default>
+                <label>Mandatory disclaimer</label>
+            </value>
+            <value>
+                <fullName>Simulated Performances</fullName>
+                <default>false</default>
+                <label>Simulated Performances</label>
+            </value>
+            <value>
+                <fullName>Risk Scale</fullName>
+                <default>false</default>
+                <label>Risk Scale</label>
+            </value>
         </valueSetDefinition>
         <valueSettings>
             <controllingFieldValue>Investment Objective</controllingFieldValue>
@@ -1007,6 +1022,26 @@
         <valueSettings>
             <controllingFieldValue>PRIIPs</controllingFieldValue>
             <valueName>Performance_fee_EPT/KID</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Footnote</controllingFieldValue>
+            <controllingFieldValue>End Disclaimer</controllingFieldValue>
+            <valueName>Performance</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Footnote</controllingFieldValue>
+            <controllingFieldValue>End Disclaimer</controllingFieldValue>
+            <valueName>Mandatory disclaimer</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Footnote</controllingFieldValue>
+            <controllingFieldValue>End Disclaimer</controllingFieldValue>
+            <valueName>Simulated Performances</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Footnote</controllingFieldValue>
+            <controllingFieldValue>End Disclaimer</controllingFieldValue>
+            <valueName>Risk Scale</valueName>
         </valueSettings>
         <valueSettings>
             <controllingFieldValue>Glossary</controllingFieldValue>

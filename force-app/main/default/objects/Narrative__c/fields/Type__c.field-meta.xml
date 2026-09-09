@@ -45,6 +45,16 @@
                 <label>PRIIPs</label>
             </value>
             <value>
+                <fullName>Footnote</fullName>
+                <default>false</default>
+                <label>Footnote</label>
+            </value>
+            <value>
+                <fullName>End Disclaimer</fullName>
+                <default>false</default>
+                <label>End Disclaimer</label>
+            </value>
+            <value>
                 <fullName>Benchmark</fullName>
                 <default>false</default>
                 <isActive>false</isActive>
