@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObject xmlns="http://soap.sforce.com/2006/04/metadata">
+    <deploymentStatus>Deployed</deploymentStatus>
+    <description>Stores the dividend distribution history for a Share Class. Records are supplied from VOM by Data Integration and attached to the corresponding Share Class through its ISIN.</description>
+    <enableActivities>false</enableActivities>
+    <enableBulkApi>true</enableBulkApi>
+    <enableFeeds>false</enableFeeds>
+    <enableHistory>false</enableHistory>
+    <enableReports>true</enableReports>
+    <label>Share Class Dividend</label>
+    <nameField>
+        <displayFormat>SCD-{000000}</displayFormat>
+        <label>Share Class Dividend Number</label>
+        <type>AutoNumber</type>
+    </nameField>
+    <pluralLabel>Share Class Dividends</pluralLabel>
+    <sharingModel>ReadWrite</sharingModel>
+</CustomObject>

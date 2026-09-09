@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>DividendFrequency__c</fullName>
+    <description>Distribution frequency received from VOM, for example Monthly or Quarterly. Kept as text so Data Integration can load any frequency supplied by VOM without deployment changes.</description>
+    <label>Dividend Frequency</label>
+    <length>40</length>
+    <required>false</required>
+    <type>Text</type>
+</CustomField>

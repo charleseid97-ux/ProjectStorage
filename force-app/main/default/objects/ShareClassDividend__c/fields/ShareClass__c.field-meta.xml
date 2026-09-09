@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>ShareClass__c</fullName>
+    <deleteConstraint>Restrict</deleteConstraint>
+    <description>Share Class to which this dividend distribution belongs. Data Integration resolves the Share Class from the VOM Isin value.</description>
+    <label>Share Class</label>
+    <referenceTo>Share_Class__c</referenceTo>
+    <relationshipLabel>Dividend History</relationshipLabel>
+    <relationshipName>DividendHistory</relationshipName>
+    <required>true</required>
+    <type>Lookup</type>
+</CustomField>
