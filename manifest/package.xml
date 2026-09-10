@@ -1,21 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Package xmlns="http://soap.sforce.com/2006/04/metadata">
     <types>
-        <members>ApprovalStepConfig__mdt.EntryCriteria__c</members>
-        <name>CustomField</name>
-    </types>
-    <types>
-        <members>CustomApprovalHistoryUtility</members>
-        <members>GridHOCApproverResolver</members>
-        <members>GridTopManagementApproverResolver</members>
-        <members>HOCApproverResolver</members>
-        <members>TopManagementApproverResolver</members>
+        <members>UtilitiesMoveContact</members>
+        <members>CommonTestData</members>
         <name>ApexClass</name>
     </types>
-    <types>
-        <members>gridSubmitAmendmentForApproval</members>
-        <members>customApprovalSubmitScreen</members>
-        <name>LightningComponentBundle</name>
-    </types>
+
     <version>64.0</version>
 </Package>

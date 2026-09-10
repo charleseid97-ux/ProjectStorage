@@ -124,12 +124,12 @@ public with sharing class UtilitiesMoveContact {
         
         update cont;
         
-        List<Case> WTPList = new List<Case>();
+       /* List<Case> WTPList = new List<Case>();
         for(Case WTP : [SELECT AccountId FROM Case WHERE ContactId =: cont.Id]) {
-        	WTP.AccountId = cont.AccountId;
+           WTP.AccountId = cont.AccountId;
             WTPList.add(WTP);
         }
-        update WTPList;
+        update WTPList;*/
         
     }
     
