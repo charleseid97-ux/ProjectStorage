@@ -1,6 +1,6 @@
 /**
  * @description       : 
- * @author            : SILA Nicolas
+ * @author            : SILA Nicolas.
  * @group             : 
  * @last modified on  : 07-15-2024
  * @last modified by  : SILA Nicolas
