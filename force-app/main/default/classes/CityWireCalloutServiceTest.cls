@@ -29,9 +29,9 @@ private class CityWireCalloutServiceTest {
 
     @isTest
     static void testSuccessSingleManager() {
-        String body = '{"SummaryDisclaimer":"disclaimer","Managers":[' +
-            '{"ID":12345,"FirstName":"John","LastName":"Doe","ImageSrc":"https://citywire.com/john.png",' +
-            '"Rating":{"RatingValue":3,"RatingDate":"2026-03-01"}}' +
+        String body = '{"ISIN":"FR0000000001","SummaryDisclaimer":"disclaimer","RatingDate":"2026-03-01","PublishDate":"2026-02-15","Managers":[' +
+            '{"ID":12345,"FirstName":"John","LastName":"Doe",' +
+            '"Rating":{"RatingValue":3,"Description":"desc","ImageSrc":"https://citywire.com/john.png","Disclaimer":"disc"}}' +
         ']}';
         Test.setMock(HttpCalloutMock.class, new CityWireMock(200, body));
 
@@ -39,16 +39,18 @@ private class CityWireCalloutServiceTest {
         CityWireCalloutService.CityWireFundResponseWrapper result = CityWireCalloutService.getFund('FR0000000001');
         Test.stopTest();
 
+        System.assertEquals('2026-03-01', result.RatingDate, 'RatingDate is at the fund level, not per-manager');
         System.assertEquals(1, result.Managers.size());
         System.assertEquals(12345, result.Managers[0].ID);
         System.assertEquals(3, result.Managers[0].Rating.RatingValue);
+        System.assertEquals('https://citywire.com/john.png', result.Managers[0].Rating.ImageSrc, 'ImageSrc is nested under Rating, not on the manager directly');
     }
 
     @isTest
     static void testSuccessMultipleManagers() {
-        String body = '{"SummaryDisclaimer":"disclaimer","Managers":[' +
-            '{"ID":111,"FirstName":"A","LastName":"B","ImageSrc":"https://citywire.com/a.png","Rating":{"RatingValue":1,"RatingDate":"2026-01-01"}},' +
-            '{"ID":222,"FirstName":"C","LastName":"D","ImageSrc":"https://citywire.com/c.png","Rating":{"RatingValue":2,"RatingDate":"2026-02-01"}}' +
+        String body = '{"ISIN":"FR0000000002","SummaryDisclaimer":"disclaimer","RatingDate":"2026-01-01","PublishDate":"2026-01-01","Managers":[' +
+            '{"ID":111,"FirstName":"A","LastName":"B","Rating":{"RatingValue":1,"ImageSrc":"https://citywire.com/a.png"}},' +
+            '{"ID":222,"FirstName":"C","LastName":"D","Rating":{"RatingValue":2,"ImageSrc":"https://citywire.com/c.png"}}' +
         ']}';
         Test.setMock(HttpCalloutMock.class, new CityWireMock(200, body));
 

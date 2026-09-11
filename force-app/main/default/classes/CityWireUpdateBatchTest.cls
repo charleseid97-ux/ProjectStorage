@@ -44,9 +44,9 @@ private class CityWireUpdateBatchTest {
     }
 
     private static String managerBody(Decimal cityWireId, Decimal rating, String ratingDate, String imageSrc) {
-        return '{"SummaryDisclaimer":"d","Managers":[' +
-            '{"ID":' + cityWireId + ',"FirstName":"John","LastName":"Doe","ImageSrc":"' + imageSrc + '",' +
-            '"Rating":{"RatingValue":' + rating + ',"RatingDate":"' + ratingDate + '"}}' +
+        return '{"SummaryDisclaimer":"d","RatingDate":"' + ratingDate + '","Managers":[' +
+            '{"ID":' + cityWireId + ',"FirstName":"John","LastName":"Doe",' +
+            '"Rating":{"RatingValue":' + rating + ',"ImageSrc":"' + imageSrc + '"}}' +
         ']}';
     }
 

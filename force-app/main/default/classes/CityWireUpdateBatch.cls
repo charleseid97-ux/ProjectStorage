@@ -71,9 +71,9 @@ public without sharing class CityWireUpdateBatch implements Database.Batchable<S
 
                 if (response.Managers == null || response.Managers.isEmpty()) {
                     OperationLogService.warn(shareClass.Id, OPERATION_LOOKUP, 'Citywire returned no manager data for ISIN ' + shareClass.ISIN__c + '.');
-                } 
+                }
                 else {
-                    mergeManagers(response.Managers);
+                    mergeManagers(response.Managers, response.RatingDate);
                 }
             } 
             catch (CityWireCalloutService.CityWireCalloutException ex) {
@@ -85,25 +85,26 @@ public without sharing class CityWireUpdateBatch implements Database.Batchable<S
         OperationLogService.flush();
     }
 
-    private void mergeManagers(List<CityWireCalloutService.CityWireManagerWrapper> managers) {
+    private void mergeManagers(List<CityWireCalloutService.CityWireManagerWrapper> managers, String fundRatingDateStr) {
+        Date ratingDate = parseRatingDate(fundRatingDateStr);
+
         for (CityWireCalloutService.CityWireManagerWrapper manager : managers) {
             if (manager.ID == null) {
                 continue;
             }
 
             Decimal ratingValue = manager.Rating != null ? manager.Rating.RatingValue : null;
-            String ratingDateStr = manager.Rating != null ? manager.Rating.RatingDate : null;
-            Date ratingDate = parseRatingDate(ratingDateStr);
+            String imageSrc = manager.Rating != null ? manager.Rating.ImageSrc : null;
 
             ManagerAggregate existing = managerResults.get(manager.ID);
             if (existing == null) {
                 ManagerAggregate agg = new ManagerAggregate();
                 agg.rating = ratingValue;
-                agg.url = manager.ImageSrc;
+                agg.url = imageSrc;
                 agg.ratingDate = ratingDate;
                 managerResults.put(manager.ID, agg);
-            } 
-            else if (existing.rating != ratingValue || existing.url != manager.ImageSrc || existing.ratingDate != ratingDate) {
+            }
+            else if (existing.rating != ratingValue || existing.url != imageSrc || existing.ratingDate != ratingDate) {
                 existing.hasConflict = true;
             }
         }
