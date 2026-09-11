@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>FailureAlertThresholdPct__c</fullName>
+    <description>Failure rate percentage above which a Citywire run sends an alert email.</description>
+    <externalId>false</externalId>
+    <fieldManageability>DeveloperControlled</fieldManageability>
+    <inlineHelpText>If the percentage of failed ISIN callouts in a run exceeds this value, an alert email is sent (requires the Alert Queue and Alert Email Template fields to also be set).</inlineHelpText>
+    <label>Failure Alert Threshold (%)</label>
+    <precision>5</precision>
+    <required>false</required>
+    <scale>2</scale>
+    <type>Number</type>
+    <unique>false</unique>
+</CustomField>
