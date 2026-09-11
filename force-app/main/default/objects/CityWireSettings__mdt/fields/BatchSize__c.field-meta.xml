@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>BatchSize__c</fullName>
+    <description>Batch size passed to Database.executeBatch when scheduling CityWireUpdateBatch.</description>
+    <externalId>false</externalId>
+    <fieldManageability>DeveloperControlled</fieldManageability>
+    <inlineHelpText>Number of Share_Class__c records processed per execute() scope of the Citywire ratings batch. Keep well under the 100-callout-per-transaction governor limit.</inlineHelpText>
+    <label>Batch Size</label>
+    <precision>3</precision>
+    <required>false</required>
+    <scale>0</scale>
+    <type>Number</type>
+    <unique>false</unique>
+</CustomField>
