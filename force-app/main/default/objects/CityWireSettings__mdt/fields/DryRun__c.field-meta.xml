@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>DryRun__c</fullName>
+    <defaultValue>false</defaultValue>
+    <description>When true, CityWireUpdateBatch logs the would-be FundManager__c updates but skips the DML.</description>
+    <externalId>false</externalId>
+    <fieldManageability>DeveloperControlled</fieldManageability>
+    <inlineHelpText>Enable to validate a run without writing to FundManager__c records. Disable once results have been reviewed and the integration is ready to go live.</inlineHelpText>
+    <label>Dry Run</label>
+    <type>Checkbox</type>
+</CustomField>

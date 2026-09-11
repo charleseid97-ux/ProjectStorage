@@ -1,0 +1,10 @@
+Hello,
+
+The Citywire Ratings Update batch (CityWireUpdateBatch) has just run.
+
+{!OperationLog__c.Message__c}
+
+Please check the Operation Logs (Correlation Id: {!OperationLog__c.CorrelationId__c}) for any warnings or errors from this run.
+
+This email is automatically generated.
+Please do not respond to this email.
