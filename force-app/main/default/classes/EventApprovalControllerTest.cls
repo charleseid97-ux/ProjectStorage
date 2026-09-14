@@ -39,6 +39,9 @@ private class EventApprovalControllerTest {
 
         Test.startTest();
         EventApprovalController ctrl = new EventApprovalController();
+
+        // Force l'état courant pour tester uniquement l'affichage du formulaire Reject.
+        ctrl.stateId = evt.ApprovalStateId__c;
         ctrl.initPage();
         Test.stopTest();
 
@@ -69,6 +72,9 @@ private class EventApprovalControllerTest {
 
         Test.startTest();
         EventApprovalController ctrl = new EventApprovalController();
+
+        // Force l'état courant pour atteindre la validation du commentaire.
+        ctrl.stateId = evt.ApprovalStateId__c;
         ctrl.rejectComment = '';
         ctrl.processApproval();
         Test.stopTest();
@@ -101,6 +107,9 @@ private class EventApprovalControllerTest {
 
         Test.startTest();
         EventApprovalController ctrl = new EventApprovalController();
+
+        // Force l'état courant pour atteindre la validation de l'action.
+        ctrl.stateId = evt.ApprovalStateId__c;
         ctrl.processApproval();
         Test.stopTest();
 
@@ -127,12 +136,23 @@ private class EventApprovalControllerTest {
         );
         insert esa;
 
+        // Récupère l'état d'approbation courant de l'Event lié à l'ESA.
+        evt = [
+            SELECT Id, ApprovalStateId__c
+            FROM Event__c
+            WHERE Id = :evt.Id
+        ];
+
         Test.setCurrentPage(new PageReference('/apex/EventApproval'));
         ApexPages.currentPage().getParameters().put('eid', esa.Id);
         ApexPages.currentPage().getParameters().put('action', 'approve');
+        ApexPages.currentPage().getParameters().put('stateId', evt.ApprovalStateId__c);
 
         Test.startTest();
         EventApprovalController ctrl = new EventApprovalController();
+
+        // Force l'état courant pour tester uniquement la résolution de l'Event parent.
+        ctrl.stateId = evt.ApprovalStateId__c;
         ctrl.initPage();
         Test.stopTest();
 
@@ -163,6 +183,9 @@ private class EventApprovalControllerTest {
 
         Test.startTest();
         EventApprovalController ctrl = new EventApprovalController();
+
+        // Force l'état courant pour atteindre la recherche du workitem.
+        ctrl.stateId = evt.ApprovalStateId__c;
         ctrl.processApproval();
         Test.stopTest();
 

@@ -12,7 +12,9 @@
         <members>sessionSpeakerProductHandler</members>
         <members>sessionSpeakerProductService</members>
         <members>NotificationTitleGenerator</members>    
-        <members>sessionSpeakerProductRelatedListCTRL</members>                
+        <members>sessionSpeakerProductRelatedListCTRL</members>   
+        <members>EventApprovalControllerTest</members>   
+                     
         <name>ApexClass</name>
     </types>
 
