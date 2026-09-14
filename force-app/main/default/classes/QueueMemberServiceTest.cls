@@ -35,6 +35,38 @@ public class QueueMemberServiceTest {
         System.assertEquals(null, result, 'Should return null for unknown queue');
     }
 
+    @IsTest
+    static void testGetQueueId_ListOverload_FoundAndPartial() {
+        Group q1 = createQueue('QMS_Test_Queue_List_A');
+        Group q2 = createQueue('QMS_Test_Queue_List_B');
+
+        Test.startTest();
+        Set<Id> result = QueueMemberService.getQueueId(new List<String>{ 'QMS_Test_Queue_List_A', 'QMS_Test_Queue_List_B', 'QMS_NonExistent_XYZ' });
+        Test.stopTest();
+
+        System.assertEquals(2, result.size(), 'Should resolve the two existing queues and ignore the unknown one');
+        System.assert(result.contains(q1.Id), 'Should contain the first queue Id');
+        System.assert(result.contains(q2.Id), 'Should contain the second queue Id');
+    }
+
+    @IsTest
+    static void testGetQueueId_ListOverload_EmptyInput() {
+        Test.startTest();
+        Set<Id> result = QueueMemberService.getQueueId(new List<String>());
+        Test.stopTest();
+
+        System.assertEquals(0, result.size(), 'Should return an empty set for an empty list');
+    }
+
+    @IsTest
+    static void testGetQueueId_ListOverload_NullInput() {
+        Test.startTest();
+        Set<Id> result = QueueMemberService.getQueueId((List<String>) null);
+        Test.stopTest();
+
+        System.assertEquals(0, result.size(), 'Should return an empty set for a null list');
+    }
+
     // ─── resolveMembers ───────────────────────────────────────────────────────
     @IsTest
     static void testResolveMembers_EmptyInput() {

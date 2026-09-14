@@ -111,7 +111,22 @@ public without sharing class QueueMemberService {
     }
 
     public static Id getQueueId(String developerName) {
-        List<Group> groups = [SELECT Id FROM Group WHERE DeveloperName = :developerName AND Type = 'Queue' LIMIT 1];
+        List<Group> groups = queryQueuesByDeveloperName(new Set<String>{ developerName });
         return groups.isEmpty() ? null : groups[0].Id;
+    }
+
+    public static Set<Id> getQueueId(List<String> developerNames) {
+        Set<Id> queueIds = new Set<Id>();
+        if (developerNames == null || developerNames.isEmpty()) return queueIds;
+
+        for (Group g : queryQueuesByDeveloperName(new Set<String>(developerNames))) {
+            queueIds.add(g.Id);
+        }
+        return queueIds;
+    }
+
+    private static List<Group> queryQueuesByDeveloperName(Set<String> developerNames) {
+        if (developerNames == null || developerNames.isEmpty()) return new List<Group>();
+        return [SELECT Id FROM Group WHERE DeveloperName IN :developerNames AND Type = 'Queue'];
     }
 }
