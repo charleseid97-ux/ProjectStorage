@@ -188,12 +188,6 @@ public class ProjectShareclassChildHandler {
                     Boolean hasBeTis = valuesSet.contains(BE_TIS);
                     Boolean hasBeAssetTest = valuesSet.contains(BE_ASSET_TEST);
                     system.debug('hasBeTis: ' + hasBeTis + ', hasBeAssetTest: ' + hasBeAssetTest);
-                    if (hasBeTis && !hasBeAssetTest) {
-                        valuesSet.add(BE_ASSET_TEST);
-                    } else if (hasBeAssetTest && !hasBeTis) {
-                        valuesSet.add(BE_TIS);
-                    }
-
                     newRec.TaxTransparency__c = String.join(new List<String>(valuesSet), ';');
                 }
 
