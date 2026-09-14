@@ -7,6 +7,11 @@
 ────────────────────────────────────── */
 public without sharing class CityWireUpdateBatch implements Database.Batchable<SObject>, Database.AllowsCallouts, Database.Stateful, Schedulable {
 
+    private static final String APEX_CLASS_NAME = 'CityWireUpdateBatch';
+    private static final String METHOD_SCHEDULABLE_EXECUTE = 'execute(SchedulableContext)';
+    private static final String METHOD_BATCHABLE_EXECUTE = 'execute(BatchableContext)';
+    private static final String METHOD_FINISH = 'finish';
+
     private static final Integer DEFAULT_BATCH_SIZE = 20;
     private static final String OPERATION_LOOKUP = 'CityWireFundLookup';
     private static final String OPERATION_CONFLICT = 'CityWireConflictDetected';
@@ -15,6 +20,7 @@ public without sharing class CityWireUpdateBatch implements Database.Batchable<S
     private static final String OPERATION_UPDATED = 'CityWireFundManagerUpdated';
     private static final String OPERATION_UPDATE_FAILED = 'CityWireFundManagerUpdateFailed';
     private static final String OPERATION_SUMMARY = 'CityWireRatingsSummary';
+    private static final String OPERATION_SCHEDULE_SKIP = 'CityWireScheduleSkip';
 
     // Keys used in the finish() outcome map (cityWireIdsByOutcome) — every managed Citywire ID lands in exactly one of these,
     // so the buckets always sum to managerResults.size(), independent of the ISIN-level processed/failed counts.
@@ -43,7 +49,7 @@ public without sharing class CityWireUpdateBatch implements Database.Batchable<S
     // ── Schedulable entry point ──────────────────────────────
     public void execute(SchedulableContext sc) {
         if (isRunning()) {
-            OperationLogService.info(null, 'CityWireScheduleSkip', 'CityWireUpdateBatch is already running; skipping this scheduled fire.');
+            OperationLogService.logWithContext(OperationLogService.Level.INFO, (Id) null, OPERATION_SCHEDULE_SKIP, 'CityWireUpdateBatch is already running; skipping this scheduled fire.', new Map<String, Object>{ 'alreadyRunning' => true }, APEX_CLASS_NAME, METHOD_SCHEDULABLE_EXECUTE);
             OperationLogService.flush();
             return;
         }
@@ -82,7 +88,7 @@ public without sharing class CityWireUpdateBatch implements Database.Batchable<S
                 CityWireCalloutService.CityWireFundResponseWrapper response = CityWireCalloutService.getFund(shareClass.ISIN__c);
 
                 if (response.Managers == null || response.Managers.isEmpty()) {
-                    OperationLogService.warn(shareClass.Id, OPERATION_LOOKUP, 'Citywire returned no manager data for ISIN ' + shareClass.ISIN__c + '.');
+                    OperationLogService.logWithContext(OperationLogService.Level.WARN, shareClass.Id, OPERATION_LOOKUP, 'Citywire returned no manager data for ISIN ' + shareClass.ISIN__c + '.', new Map<String, Object>{ 'isin' => shareClass.ISIN__c }, APEX_CLASS_NAME, METHOD_BATCHABLE_EXECUTE);
                 }
                 else {
                     mergeManagers(response.Managers, response.RatingDate);
@@ -90,7 +96,7 @@ public without sharing class CityWireUpdateBatch implements Database.Batchable<S
             }
             catch (CityWireCalloutService.CityWireCalloutException ex) {
                 failedCount++;
-                OperationLogService.error(shareClass.Id, OPERATION_LOOKUP, 'Citywire callout failed for ISIN ' + shareClass.ISIN__c + '.', ex);
+                OperationLogService.logWithContext(OperationLogService.Level.ERROR, shareClass.Id, OPERATION_LOOKUP, 'Citywire callout failed for ISIN ' + shareClass.ISIN__c + '.', new Map<String, Object>{ 'isin' => shareClass.ISIN__c }, ex, APEX_CLASS_NAME, METHOD_BATCHABLE_EXECUTE);
             }
         }
 
@@ -120,25 +126,20 @@ public without sharing class CityWireUpdateBatch implements Database.Batchable<S
             if (agg.hasConflict) {
                 recordOutcome(cityWireIdsByOutcome, OUTCOME_CONFLICTED, cityWireId);
                 String message = 'Conflicting Citywire ratings detected for manager ID ' + cityWireId + ' across ISINs; excluded from update.';
-                if (match != null) {
-                    OperationLogService.warn(match.Id, OPERATION_CONFLICT, message);
-                }
-                else {
-                    OperationLogService.log('WARN', null, 'FundManager__c', OPERATION_CONFLICT, message, null, null);
-                }
+                OperationLogService.logWithContext(OperationLogService.Level.WARN, match != null ? String.valueOf(match.Id) : null, 'FundManager__c', OPERATION_CONFLICT, message, new Map<String, Object>{ 'cityWireId' => cityWireId, 'matched' => match != null }, null, APEX_CLASS_NAME, METHOD_FINISH);
                 continue;
             }
 
             if (match == null) {
                 recordOutcome(cityWireIdsByOutcome, OUTCOME_UNMATCHED, cityWireId);
-                OperationLogService.log('WARN', null, 'FundManager__c', OPERATION_UNMATCHED, 'No FundManager__c found for Citywire manager ID ' + cityWireId + '.', null, null);
+                OperationLogService.logWithContext(OperationLogService.Level.WARN, (String) null, 'FundManager__c', OPERATION_UNMATCHED, 'No FundManager__c found for Citywire manager ID ' + cityWireId + '.', new Map<String, Object>{ 'cityWireId' => cityWireId }, null, APEX_CLASS_NAME, METHOD_FINISH);
                 continue;
             }
 
             Boolean changed = match.CityWireRating__c != agg.rating || match.CityWireURL__c != agg.url || match.CityWireDate__c != agg.ratingDate;
             if (!changed) {
                 recordOutcome(cityWireIdsByOutcome, OUTCOME_NO_CHANGE, cityWireId);
-                OperationLogService.info(match.Id, OPERATION_NOCHANGE, 'The matched fund manager doesn\'t need updating.');
+                OperationLogService.logWithContext(OperationLogService.Level.INFO, match.Id, OPERATION_NOCHANGE, 'The matched fund manager doesn\'t need updating.', new Map<String, Object>{ 'cityWireId' => cityWireId }, APEX_CLASS_NAME, METHOD_FINISH);
                 continue;
             }
 
@@ -162,7 +163,7 @@ public without sharing class CityWireUpdateBatch implements Database.Batchable<S
 
                 if (saveResults[i].isSuccess()) {
                     recordOutcome(cityWireIdsByOutcome, OUTCOME_UPDATED, cityWireId);
-                    OperationLogService.info(record.Id, OPERATION_UPDATED, 'FundManager__c updated with Citywire rating ' + record.CityWireRating__c + '.');
+                    OperationLogService.logWithContext(OperationLogService.Level.INFO, record.Id, OPERATION_UPDATED, 'FundManager__c updated with Citywire rating ' + record.CityWireRating__c + '.', new Map<String, Object>{ 'cityWireId' => cityWireId, 'rating' => record.CityWireRating__c, 'url' => record.CityWireURL__c }, APEX_CLASS_NAME, METHOD_FINISH);
                 }
                 else {
                     recordOutcome(cityWireIdsByOutcome, OUTCOME_UPDATE_FAILED, cityWireId);
@@ -170,7 +171,7 @@ public without sharing class CityWireUpdateBatch implements Database.Batchable<S
                     for (Database.Error dmlError : saveResults[i].getErrors()) {
                         errorMessages.add(dmlError.getStatusCode() + ': ' + dmlError.getMessage());
                     }
-                    OperationLogService.error(record.Id, OPERATION_UPDATE_FAILED, 'FundManager__c update failed for Citywire manager ID ' + cityWireId + ': ' + String.join(errorMessages, ' | '));
+                    OperationLogService.logWithContext(OperationLogService.Level.ERROR, record.Id, OPERATION_UPDATE_FAILED, 'FundManager__c update failed for Citywire manager ID ' + cityWireId + ': ' + String.join(errorMessages, ' | '), new Map<String, Object>{ 'cityWireId' => cityWireId, 'errors' => errorMessages }, APEX_CLASS_NAME, METHOD_FINISH);
                 }
             }
         }
@@ -251,20 +252,16 @@ public without sharing class CityWireUpdateBatch implements Database.Batchable<S
             'cityWireIdsByOutcome' => cityWireIdsByOutcome
         };
 
-        OperationLogService.Entry entry = new OperationLogService.Entry();
-        entry.level = (failedCount > 0 || updateFailedCount > 0 || dryRun) ? OperationLogService.Level.WARN : OperationLogService.Level.INFO;
-        entry.operation = OPERATION_SUMMARY;
-        entry.message = 'Citywire ratings sync finished: ' + processedCount + ' ISINs processed (' + failedCount + ' failed)\n' +
+        String message = 'Citywire ratings sync finished: ' + processedCount + ' ISINs processed (' + failedCount + ' failed)\n' +
                         totalManagers + ' distinct managers evaluated, of which:\n' +
                         updatedCount + ' updated' + (dryRun ? ' (dry run, ' + wouldUpdateCount + ' would update)' : '') + '\n' +
                         (updateFailedCount > 0 ? updateFailedCount + ' failed to update\n' : '') +
                         noChangeCount + ' unchanged\n' +
                         unmatchedCount + ' unmatched\n' +
                         conflictCount + ' conflicts.';
-        entry.contextJson = JSON.serialize(context);
-        entry.apexClass = 'CityWireUpdateBatch';
-        entry.methodName = 'finish';
-        OperationLogService.log(entry);
+
+        OperationLogService.Level level = (failedCount > 0 || updateFailedCount > 0 || dryRun) ? OperationLogService.Level.WARN : OperationLogService.Level.INFO;
+        OperationLogService.logWithContext(level, (String) null, null, OPERATION_SUMMARY, message, context, null, APEX_CLASS_NAME, METHOD_FINISH);
     }
 
     private void sendAlert(CityWireSettings__mdt settings, Boolean dryRun, Integer updatedCount, Integer updateFailedCount) {
