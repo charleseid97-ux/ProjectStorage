@@ -90,6 +90,32 @@ public without sharing class OperationLogService {
         log(entry);
     }
 
+    // Ajoute un log avec contexte structuré et un ApexClass__c/MethodName__c fournis par l'appelant.
+    public static void logWithContext(Level level, Id sourceRecordId, String operation, String message, Map<String, Object> context, String apexClass, String methodName) {
+        logWithContext(level, sourceRecordId, operation, message, context, null, apexClass, methodName);
+    }
+
+    // Variante enrichie d'une exception.
+    public static void logWithContext(Level level, Id sourceRecordId, String operation, String message, Map<String, Object> context, Exception ex, String apexClass, String methodName) {
+        logWithContext(level, sourceRecordId == null ? null : String.valueOf(sourceRecordId), resolveObjectApiName(sourceRecordId), operation, message, context, ex, apexClass, methodName);
+    }
+
+    // Variante sans Id Salesforce valide (ex. identifiant externe non matché) : sourceObjectApiName doit être fourni explicitement, tout comme apexClass/methodName.
+    public static void logWithContext(Level level, String sourceRecordId, String sourceObjectApiName, String operation, String message, Map<String, Object> context, Exception ex, String apexClass, String methodName) {
+        Entry entry = new Entry();
+        entry.level = level;
+        entry.sourceRecordId = sourceRecordId;
+        entry.sourceObjectApiName = sourceObjectApiName;
+        entry.operation = operation;
+        entry.message = message;
+        entry.contextJson = context != null ? JSON.serialize(context) : null;
+        entry.exceptionValue = ex;
+        entry.apexClass = apexClass;
+        entry.methodName = methodName;
+
+        log(entry);
+    }
+
     // Ajoute un log générique avec tous les champs utiles personnalisables.
     public static void log(String level, String sourceRecordId, String sourceObjectApiName, String operation, String message, String contextJson, Date expirationDate) {
         Entry entry = new Entry();
