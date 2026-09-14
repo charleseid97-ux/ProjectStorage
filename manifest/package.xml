@@ -7,6 +7,8 @@
         <members>CityWireCalloutServiceTest</members>
         <members>QueueMemberService</members>
         <members>QueueMemberServiceTest</members>
+        <members>EmailService</members>
+        <members>EmailServiceTest</members>
         <name>ApexClass</name>
     </types>
     <types>
@@ -40,6 +42,10 @@
     <types>
         <members>CityWireSettings__mdt-City Wire Settings Layout</members>
         <name>Layout</name>
+    </types>
+    <types>
+        <members>EmailService_DefaultOrgWideAddress</members>
+        <name>CustomLabel</name>
     </types>
     <version>66.0</version>
 </Package>

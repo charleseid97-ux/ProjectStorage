@@ -12,7 +12,18 @@ public without sharing class CityWireUpdateBatch implements Database.Batchable<S
     private static final String OPERATION_CONFLICT = 'CityWireConflictDetected';
     private static final String OPERATION_NOCHANGE = 'CityWireNoChangeDetected';
     private static final String OPERATION_UNMATCHED = 'CityWireUnmatchedManager';
+    private static final String OPERATION_UPDATED = 'CityWireFundManagerUpdated';
+    private static final String OPERATION_UPDATE_FAILED = 'CityWireFundManagerUpdateFailed';
     private static final String OPERATION_SUMMARY = 'CityWireRatingsSummary';
+
+    // Keys used in the finish() outcome map (cityWireIdsByOutcome) — every managed Citywire ID lands in exactly one of these,
+    // so the buckets always sum to managerResults.size(), independent of the ISIN-level processed/failed counts.
+    private static final String OUTCOME_UPDATED = 'Updated';
+    private static final String OUTCOME_WOULD_UPDATE = 'WouldUpdate';
+    private static final String OUTCOME_UPDATE_FAILED = 'UpdateFailed';
+    private static final String OUTCOME_UNMATCHED = 'Unmatched';
+    private static final String OUTCOME_CONFLICTED = 'Conflicted';
+    private static final String OUTCOME_NO_CHANGE = 'NoChange';
 
     private Map<Decimal, ManagerAggregate> managerResults = new Map<Decimal, ManagerAggregate>();
     private Integer processedCount = 0;
@@ -76,7 +87,7 @@ public without sharing class CityWireUpdateBatch implements Database.Batchable<S
                 else {
                     mergeManagers(response.Managers, response.RatingDate);
                 }
-            } 
+            }
             catch (CityWireCalloutService.CityWireCalloutException ex) {
                 failedCount++;
                 OperationLogService.error(shareClass.Id, OPERATION_LOOKUP, 'Citywire callout failed for ISIN ' + shareClass.ISIN__c + '.', ex);
@@ -84,6 +95,90 @@ public without sharing class CityWireUpdateBatch implements Database.Batchable<S
         }
 
         OperationLogService.flush();
+    }
+
+    public void finish(Database.BatchableContext bc) {
+        CityWireSettings__mdt settings = CityWireSettings__mdt.getInstance('Default');
+        Boolean dryRun = dryRunOverride != null ? dryRunOverride : (settings != null && settings.DryRun__c == true);
+
+        Set<Decimal> allManagerIds = managerResults.keySet();
+        Map<Decimal, FundManager__c> fundManagerByCityWireId = new Map<Decimal, FundManager__c>();
+        for (FundManager__c fm : [SELECT Id, CityWireId__c, CityWireRating__c, CityWireURL__c, CityWireDate__c
+                                  FROM FundManager__c
+                                  WHERE CityWireId__c IN :allManagerIds]) {
+            fundManagerByCityWireId.put(fm.CityWireId__c, fm);
+        }
+
+        Map<String, List<String>> cityWireIdsByOutcome = new Map<String, List<String>>();
+        List<FundManager__c> updateCandidates = new List<FundManager__c>();
+        List<Decimal> updateCandidateCityWireIds = new List<Decimal>();
+
+        for (Decimal cityWireId : managerResults.keySet()) {
+            ManagerAggregate agg = managerResults.get(cityWireId);
+            FundManager__c match = fundManagerByCityWireId.get(cityWireId);
+
+            if (agg.hasConflict) {
+                recordOutcome(cityWireIdsByOutcome, OUTCOME_CONFLICTED, cityWireId);
+                String message = 'Conflicting Citywire ratings detected for manager ID ' + cityWireId + ' across ISINs; excluded from update.';
+                if (match != null) {
+                    OperationLogService.warn(match.Id, OPERATION_CONFLICT, message);
+                }
+                else {
+                    OperationLogService.log('WARN', null, 'FundManager__c', OPERATION_CONFLICT, message, null, null);
+                }
+                continue;
+            }
+
+            if (match == null) {
+                recordOutcome(cityWireIdsByOutcome, OUTCOME_UNMATCHED, cityWireId);
+                OperationLogService.log('WARN', null, 'FundManager__c', OPERATION_UNMATCHED, 'No FundManager__c found for Citywire manager ID ' + cityWireId + '.', null, null);
+                continue;
+            }
+
+            Boolean changed = match.CityWireRating__c != agg.rating || match.CityWireURL__c != agg.url || match.CityWireDate__c != agg.ratingDate;
+            if (!changed) {
+                recordOutcome(cityWireIdsByOutcome, OUTCOME_NO_CHANGE, cityWireId);
+                OperationLogService.info(match.Id, OPERATION_NOCHANGE, 'The matched fund manager doesn\'t need updating.');
+                continue;
+            }
+
+            match.CityWireRating__c = agg.rating;
+            match.CityWireURL__c = agg.url;
+            match.CityWireDate__c = agg.ratingDate;
+            updateCandidates.add(match);
+            updateCandidateCityWireIds.add(cityWireId);
+        }
+
+        if (dryRun) {
+            for (Decimal cityWireId : updateCandidateCityWireIds) {
+                recordOutcome(cityWireIdsByOutcome, OUTCOME_WOULD_UPDATE, cityWireId);
+            }
+        }
+        else if (!updateCandidates.isEmpty()) {
+            List<Database.SaveResult> saveResults = Database.update(updateCandidates, false);
+            for (Integer i = 0; i < saveResults.size(); i++) {
+                Decimal cityWireId = updateCandidateCityWireIds[i];
+                FundManager__c record = updateCandidates[i];
+
+                if (saveResults[i].isSuccess()) {
+                    recordOutcome(cityWireIdsByOutcome, OUTCOME_UPDATED, cityWireId);
+                    OperationLogService.info(record.Id, OPERATION_UPDATED, 'FundManager__c updated with Citywire rating ' + record.CityWireRating__c + '.');
+                }
+                else {
+                    recordOutcome(cityWireIdsByOutcome, OUTCOME_UPDATE_FAILED, cityWireId);
+                    List<String> errorMessages = new List<String>();
+                    for (Database.Error dmlError : saveResults[i].getErrors()) {
+                        errorMessages.add(dmlError.getStatusCode() + ': ' + dmlError.getMessage());
+                    }
+                    OperationLogService.error(record.Id, OPERATION_UPDATE_FAILED, 'FundManager__c update failed for Citywire manager ID ' + cityWireId + ': ' + String.join(errorMessages, ' | '));
+                }
+            }
+        }
+
+        logSummary(dryRun, cityWireIdsByOutcome);
+        OperationLogService.flush();
+
+        sendAlert(settings, dryRun, countFor(cityWireIdsByOutcome, OUTCOME_UPDATED), countFor(cityWireIdsByOutcome, OUTCOME_UPDATE_FAILED));
     }
 
     private void mergeManagers(List<CityWireCalloutService.CityWireManagerWrapper> managers, String fundRatingDateStr) {
@@ -115,132 +210,77 @@ public without sharing class CityWireUpdateBatch implements Database.Batchable<S
         }
         try {
             return Date.valueOf(value.length() > 10 ? value.substring(0, 10) : value);
-        } 
+        }
         catch (Exception ex) {
             return null;
         }
     }
 
-    public void finish(Database.BatchableContext bc) {
-        CityWireSettings__mdt settings = CityWireSettings__mdt.getInstance('Default');
-        Boolean dryRun = dryRunOverride != null ? dryRunOverride : (settings != null && settings.DryRun__c == true);
-
-        Set<Decimal> allManagerIds = managerResults.keySet();
-        Map<Decimal, FundManager__c> fundManagerByCityWireId = new Map<Decimal, FundManager__c>();
-        for (FundManager__c fm : [SELECT Id, CityWireId__c, CityWireRating__c, CityWireURL__c, CityWireDate__c
-                                  FROM FundManager__c
-                                  WHERE CityWireId__c IN :allManagerIds]) {
-            fundManagerByCityWireId.put(fm.CityWireId__c, fm);
+    private void recordOutcome(Map<String, List<String>> cityWireIdsByOutcome, String outcome, Decimal cityWireId) {
+        if (!cityWireIdsByOutcome.containsKey(outcome)) {
+            cityWireIdsByOutcome.put(outcome, new List<String>());
         }
-
-        List<FundManager__c> updateList = new List<FundManager__c>();
-        List<String> unmatchedIds = new List<String>();
-        List<String> conflictedIds = new List<String>();
-        List<String> noChangeIds = new List<String>();
-        Integer conflictCount = 0;
-        Integer unmatchedCount = 0;
-        Integer noChangeCount = 0;
-
-        for (Decimal cityWireId : managerResults.keySet()) {
-            ManagerAggregate agg = managerResults.get(cityWireId);
-            FundManager__c match = fundManagerByCityWireId.get(cityWireId);
-
-            if (agg.hasConflict) {
-                conflictCount++;
-                conflictedIds.add(String.valueOf(cityWireId));
-                String message = 'Conflicting Citywire ratings detected for manager ID ' + cityWireId + ' across ISINs; excluded from update.';
-                if (match != null) {
-                    OperationLogService.warn(match.Id, OPERATION_CONFLICT, message);
-                } 
-                else {
-                    logWithoutRecord(OPERATION_CONFLICT, message);
-                }
-                continue;
-            }
-
-            if (match == null) {
-                unmatchedCount++;
-                unmatchedIds.add(String.valueOf(cityWireId));
-                logWithoutRecord(OPERATION_UNMATCHED, 'No FundManager__c found for Citywire manager ID ' + cityWireId + '.');
-                continue;
-            }
-
-            Boolean changed = match.CityWireRating__c != agg.rating || match.CityWireURL__c != agg.url || match.CityWireDate__c != agg.ratingDate;
-            if (!changed) {
-                noChangeCount++;
-                noChangeIds.add(String.valueOf(cityWireId));
-                OperationLogService.info(match.Id, OPERATION_NOCHANGE, 'The matched fund manager doesn\'t need updating');
-                continue;
-            }
-
-            match.CityWireRating__c = agg.rating;
-            match.CityWireURL__c = agg.url;
-            match.CityWireDate__c = agg.ratingDate;
-            updateList.add(match);
-        }
-
-        if (!dryRun && !updateList.isEmpty()) {
-            Database.update(updateList, false);
-        }
-        Integer updatedCount = dryRun ? 0 : updateList.size();
-
-        logSummary(dryRun, updatedCount, dryRun ? updateList.size() : 0, unmatchedCount, conflictCount, noChangeCount, unmatchedIds, conflictedIds, noChangeIds);
-        OperationLogService.flush();
-
-        sendAlert(settings, dryRun, updatedCount);
+        cityWireIdsByOutcome.get(outcome).add(String.valueOf(cityWireId));
     }
 
-    private void logWithoutRecord(String operation, String message) {
-        OperationLogService.Entry entry = new OperationLogService.Entry();
-        entry.level = OperationLogService.Level.WARN;
-        entry.sourceObjectApiName = 'FundManager__c';
-        entry.operation = operation;
-        entry.message = message;
-        entry.apexClass = 'CityWireUpdateBatch';
-        entry.methodName = 'finish';
-        OperationLogService.log(entry);
+    private static Integer countFor(Map<String, List<String>> cityWireIdsByOutcome, String outcome) {
+        List<String> ids = cityWireIdsByOutcome.get(outcome);
+        return ids == null ? 0 : ids.size();
     }
 
-    private void logSummary(Boolean dryRun, Integer updatedCount, Integer wouldUpdateCount, Integer unmatchedCount, Integer conflictCount, Integer noChangeCount, List<String> unmatchedIds, List<String> conflictedIds, List<String> noChangeIds) {
+    private void logSummary(Boolean dryRun, Map<String, List<String>> cityWireIdsByOutcome) {
+        Integer updatedCount = countFor(cityWireIdsByOutcome, OUTCOME_UPDATED);
+        Integer wouldUpdateCount = countFor(cityWireIdsByOutcome, OUTCOME_WOULD_UPDATE);
+        Integer updateFailedCount = countFor(cityWireIdsByOutcome, OUTCOME_UPDATE_FAILED);
+        Integer unmatchedCount = countFor(cityWireIdsByOutcome, OUTCOME_UNMATCHED);
+        Integer conflictCount = countFor(cityWireIdsByOutcome, OUTCOME_CONFLICTED);
+        Integer noChangeCount = countFor(cityWireIdsByOutcome, OUTCOME_NO_CHANGE);
+        Integer totalManagers = managerResults.size();
+
         Map<String, Object> context = new Map<String, Object>{
-            'processed' => processedCount,
+            'isinsProcessed' => processedCount,
+            'isinsFailed' => failedCount,
+            'totalManagersEvaluated' => totalManagers,
             'updated' => updatedCount,
             'wouldUpdate' => wouldUpdateCount,
+            'updateFailed' => updateFailedCount,
             'unmatched' => unmatchedCount,
-            'failed' => failedCount,
             'conflicts' => conflictCount,
-            'dryRun' => dryRun,
-            'unmatchedIds' => unmatchedIds,
-            'conflictedIds' => conflictedIds,
             'unchanged' => noChangeCount,
-            'unchangedIds' => noChangeIds
+            'dryRun' => dryRun,
+            'cityWireIdsByOutcome' => cityWireIdsByOutcome
         };
 
         OperationLogService.Entry entry = new OperationLogService.Entry();
-        entry.level = (failedCount > 0 || dryRun) ? OperationLogService.Level.WARN : OperationLogService.Level.INFO;
+        entry.level = (failedCount > 0 || updateFailedCount > 0 || dryRun) ? OperationLogService.Level.WARN : OperationLogService.Level.INFO;
         entry.operation = OPERATION_SUMMARY;
-        entry.message = 'Citywire ratings sync finished: ' + processedCount + ' processed\n' + 
-                        updatedCount + ' updated' + (dryRun ? ' (dry run, ' + wouldUpdateCount + ' would update)' : '') + '\n' + 
-                        unmatchedCount + ' unmatched\n' + 
-                        failedCount + ' failed\n' + 
-                        conflictCount + ' conflicts\n' +
-                        noChangeCount + ' unchanged.';
+        entry.message = 'Citywire ratings sync finished: ' + processedCount + ' ISINs processed (' + failedCount + ' failed)\n' +
+                        totalManagers + ' distinct managers evaluated, of which:\n' +
+                        updatedCount + ' updated' + (dryRun ? ' (dry run, ' + wouldUpdateCount + ' would update)' : '') + '\n' +
+                        (updateFailedCount > 0 ? updateFailedCount + ' failed to update\n' : '') +
+                        noChangeCount + ' unchanged\n' +
+                        unmatchedCount + ' unmatched\n' +
+                        conflictCount + ' conflicts.';
         entry.contextJson = JSON.serialize(context);
         entry.apexClass = 'CityWireUpdateBatch';
         entry.methodName = 'finish';
         OperationLogService.log(entry);
     }
 
-    private void sendAlert(CityWireSettings__mdt settings, Boolean dryRun, Integer updatedCount) {
+    private void sendAlert(CityWireSettings__mdt settings, Boolean dryRun, Integer updatedCount, Integer updateFailedCount) {
         if (settings == null || !settings.EnableAlerts__c) return;
 
-        List<String> queueDeveloperNames = parseQueueDeveloperNames(settings.AlertQueuesDeveloperName__c);
-        if (queueDeveloperNames.isEmpty() || String.isBlank(settings.AlertEmailTemplateDeveloperName__c)) return;
+        List<String> queueDeveloperNames = parseLines(settings.AlertQueuesDeveloperName__c);
+        List<String> additionalEmailAddresses = parseLines(settings.AlertAdditionalEmailAddresses__c);
+        Boolean hasQueueRecipients = !queueDeveloperNames.isEmpty();
+        Boolean hasRawRecipients = !additionalEmailAddresses.isEmpty();
+        if ((!hasQueueRecipients && !hasRawRecipients) || String.isBlank(settings.AlertEmailTemplateDeveloperName__c)) return;
 
         Boolean failureRateBreached = processedCount > 0 && settings.FailureAlertThresholdPct__c != null && (Decimal.valueOf(failedCount) / Decimal.valueOf(processedCount) * 100) > settings.FailureAlertThresholdPct__c;
         Boolean zeroUpdatesBreached = !dryRun && updatedCount == 0 && settings.AlertOnZeroUpdates__c == true;
+        Boolean updateFailuresOccurred = updateFailedCount > 0;
 
-        if (!failureRateBreached && !zeroUpdatesBreached) return;
+        if (!failureRateBreached && !zeroUpdatesBreached && !updateFailuresOccurred) return;
 
         Id summaryLogId = null;
         List<OperationLog__c> logs = [SELECT Id FROM OperationLog__c
@@ -250,19 +290,23 @@ public without sharing class CityWireUpdateBatch implements Database.Batchable<S
             summaryLogId = logs[0].Id;
         }
 
-        Set<Id> queueIds = QueueMemberService.getQueueId(queueDeveloperNames);
-        if (queueIds.isEmpty()) return;
-
-        Map<Id, List<Id>> resolved = QueueMemberService.resolveMembers(queueIds);
         Set<Id> recipientUserIds = new Set<Id>();
-        for (List<Id> members : resolved.values()) {
-            recipientUserIds.addAll(members);
+        if (hasQueueRecipients) {
+            Set<Id> queueIds = QueueMemberService.getQueueId(queueDeveloperNames);
+            if (!queueIds.isEmpty()) {
+                Map<Id, List<Id>> resolved = QueueMemberService.resolveMembers(queueIds);
+                for (List<Id> members : resolved.values()) {
+                    recipientUserIds.addAll(members);
+                }
+            }
         }
 
-        EmailService.sendTemplateEmail(settings.AlertEmailTemplateDeveloperName__c, summaryLogId, recipientUserIds);
+        if (recipientUserIds.isEmpty() && !hasRawRecipients) return;
+
+        EmailService.sendTemplateEmail(settings.AlertEmailTemplateDeveloperName__c, summaryLogId, recipientUserIds, additionalEmailAddresses);
     }
 
-    private static List<String> parseQueueDeveloperNames(String rawLines) {
+    private static List<String> parseLines(String rawLines) {
         List<String> result = new List<String>();
         if (String.isBlank(rawLines)) return result;
 

@@ -48,6 +48,60 @@ public class EmailServiceTest {
         System.assert(true, 'Should handle missing template gracefully');
     }
 
+    // ─── sendTemplateEmail (4-arg overload, with raw additional addresses) ─────
+    @IsTest
+    static void testSendTemplateEmail_FourArg_NullEverything() {
+        Test.startTest();
+
+        EmailService.sendTemplateEmail('SomeTemplate', null, null, null);
+
+        Test.stopTest();
+
+        System.assert(true, 'Should handle null recipients and null additional addresses without error');
+    }
+
+    @IsTest
+    static void testSendTemplateEmail_FourArg_TemplateNotFound() {
+        Test.startTest();
+
+        EmailService.sendTemplateEmail('NonExistent_Template_XYZ', null, new Set<Id>(), new List<String>{ 'someone@example.com' });
+
+        Test.stopTest();
+
+        System.assert(true, 'Should handle a missing template gracefully even with raw addresses supplied');
+    }
+
+    @IsTest
+    static void testSendTemplateEmail_FourArg_RawAddressesOnly() {
+        Test.startTest();
+
+        // Governor limits reset at Test.startTest(), so both the "before" and "after" reads must happen inside the same window as the call under test.
+        Integer invocationsBefore = Limits.getEmailInvocations();
+
+        // Blank lines must be skipped, not sent as an empty "to" address
+        EmailService.sendTemplateEmail('CityWireSyncAlert', null, new Set<Id>(), new List<String>{ 'ops-alert@example.com', ' ', 'second-alert@example.com' });
+
+        Integer invocationsAfter = Limits.getEmailInvocations();
+        Test.stopTest();
+
+        System.assert(invocationsAfter > invocationsBefore, 'Should attempt to send emails to the raw addresses via the real template');
+    }
+
+    @IsTest
+    static void testSendTemplateEmail_FourArg_UserAndRawAddressesCombined() {
+        Id currentUserId = UserInfo.getUserId();
+
+        Test.startTest();
+
+        Integer invocationsBefore = Limits.getEmailInvocations();
+        EmailService.sendTemplateEmail('CityWireSyncAlert', null, new Set<Id>{ currentUserId }, new List<String>{ 'ops-alert@example.com' });
+        Integer invocationsAfter = Limits.getEmailInvocations();
+
+        Test.stopTest();
+
+        System.assert(invocationsAfter > invocationsBefore, 'Should attempt to send emails to both the user and the raw address recipients');
+    }
+
     // ─── resolveRecipientIds ──────────────────────────────────────────────────
     @IsTest
     static void testResolveRecipientIds_EmptyTypes() {

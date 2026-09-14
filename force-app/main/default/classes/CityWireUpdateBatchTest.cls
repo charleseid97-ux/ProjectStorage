@@ -7,10 +7,12 @@ private class CityWireUpdateBatchTest {
     private static final String ISIN_CONFLICT_B = 'FR0000000004';
     private static final String ISIN_FAILING = 'FR0000000005';
     private static final String ISIN_EMPTY = 'FR0000000006';
+    private static final String ISIN_UPDATE_FAILURE = 'FR0000000007';
 
     private static final Decimal CITYWIRE_ID_MATCHED = 12345;
     private static final Decimal CITYWIRE_ID_UNMATCHED = 55555;
     private static final Decimal CITYWIRE_ID_CONFLICT = 99999;
+    private static final Decimal CITYWIRE_ID_UPDATE_FAILURE = 77777;
 
     private class RoutingMock implements HttpCalloutMock {
         Map<String, String> bodyByIsin = new Map<String, String>();
@@ -57,7 +59,9 @@ private class CityWireUpdateBatchTest {
             .withBody(ISIN_CONFLICT_A, managerBody(CITYWIRE_ID_CONFLICT, 4, '2026-01-01', 'https://citywire.com/conflict-a.png'))
             .withBody(ISIN_CONFLICT_B, managerBody(CITYWIRE_ID_CONFLICT, 5, '2026-01-02', 'https://citywire.com/conflict-b.png'))
             .withFailure(ISIN_FAILING)
-            .withBody(ISIN_EMPTY, '{"SummaryDisclaimer":"d","Managers":[]}');
+            .withBody(ISIN_EMPTY, '{"SummaryDisclaimer":"d","Managers":[]}')
+            // Rating 999 overflows FundManager__c.CityWireRating__c (Number(2,0), max 99) to force a DML failure on update.
+            .withBody(ISIN_UPDATE_FAILURE, managerBody(CITYWIRE_ID_UPDATE_FAILURE, 999, '2026-04-01', 'https://citywire.com/77777.png'));
     }
 
     @TestSetup
@@ -75,6 +79,7 @@ private class CityWireUpdateBatchTest {
         shareClasses.add(buildMainActiveShareClass(product.Id, 'SC ConflictB', ISIN_CONFLICT_B));
         shareClasses.add(buildMainActiveShareClass(product.Id, 'SC Failing', ISIN_FAILING));
         shareClasses.add(buildMainActiveShareClass(product.Id, 'SC Empty', ISIN_EMPTY));
+        shareClasses.add(buildMainActiveShareClass(product.Id, 'SC UpdateFailure', ISIN_UPDATE_FAILURE));
 
         Share_Class__c notMain = buildMainActiveShareClass(product.Id, 'SC NotMain', 'FR0000000099');
         notMain.IsMainShareClass__c = 'False';
@@ -84,6 +89,7 @@ private class CityWireUpdateBatchTest {
 
         insert new FundManager__c(Name = 'Matched Manager', EmpId__c = 1, CityWireId__c = CITYWIRE_ID_MATCHED);
         insert new FundManager__c(Name = 'Conflict Manager', EmpId__c = 2, CityWireId__c = CITYWIRE_ID_CONFLICT);
+        insert new FundManager__c(Name = 'Update Failure Manager', EmpId__c = 3, CityWireId__c = CITYWIRE_ID_UPDATE_FAILURE);
     }
 
     private static Share_Class__c buildMainActiveShareClass(Id fundId, String name, String isin) {
@@ -207,6 +213,31 @@ private class CityWireUpdateBatchTest {
         System.assertEquals(1, summaryLogs.size());
         Map<String, Object> context = (Map<String, Object>) JSON.deserializeUntyped(summaryLogs[0].Context__c);
         System.assertEquals(0, (Integer) context.get('updated'), 'A manager whose rating/URL/date has not changed should not be re-updated');
+    }
+
+    @isTest
+    static void testUpdateFailure_logsErrorAndDoesNotBlockOtherRecords() {
+        Test.setMock(HttpCalloutMock.class, defaultMock());
+        CityWireUpdateBatch.dryRunOverride = false;
+
+        Test.startTest();
+        Database.executeBatch(new CityWireUpdateBatch(), 20);
+        Test.stopTest();
+
+        // The record that fails DML (rating out of range) stays untouched...
+        FundManager__c failedRecord = [SELECT CityWireRating__c FROM FundManager__c WHERE CityWireId__c = :CITYWIRE_ID_UPDATE_FAILURE];
+        System.assertEquals(null, failedRecord.CityWireRating__c, 'A failed DML update must not leave a partial value on the record');
+
+        // ...while the unrelated matched record still updates in the same run (partial success, per-record allOrNone=false).
+        FundManager__c updated = [SELECT CityWireRating__c FROM FundManager__c WHERE CityWireId__c = :CITYWIRE_ID_MATCHED];
+        System.assertEquals(3, updated.CityWireRating__c);
+
+        List<OperationLog__c> errorLogs = [SELECT Message__c FROM OperationLog__c WHERE Operation__c = 'CityWireFundManagerUpdateFailed'];
+        System.assertEquals(1, errorLogs.size());
+
+        List<OperationLog__c> summaryLogs = [SELECT Context__c FROM OperationLog__c WHERE Operation__c = 'CityWireRatingsSummary' ORDER BY CreatedDate DESC LIMIT 1];
+        Map<String, Object> context = (Map<String, Object>) JSON.deserializeUntyped(summaryLogs[0].Context__c);
+        System.assertEquals(1, (Integer) context.get('updateFailed'), 'The summary context should account for the failed update');
     }
 
     @isTest
