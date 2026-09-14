@@ -86,6 +86,13 @@ public without sharing class customEventHandler implements ITriggerHandler {
         if (newEventsToProcess.isEmpty()) return;
 
         customEventSpeakerApprovalService.createOrUpdateSpeakerApprovals(newEventsToProcess, oldEventsToProcess);
+
+        // A City/Country change invalidates every previous Speaker Assistant decision.
+        customEventSpeakerApprovalService.restartSpeakerApprovalsForLocationChange(
+            newEventsToProcess.values(),
+            oldEventsToProcess
+        );
+
         sessionSpeakerProductService.requestRequiredPresentationsForWaitingEvents(newEventsToProcess, oldEventsToProcess);
         // Send approval notification email if status changes to SubmittedToEventTeam
         //customEventNotificationService.manageNotifications(newEventsToProcess, oldEventsToProcess);

@@ -116,10 +116,10 @@ public without sharing class BooklyModificationsManagement {
 
     // Synchronizes approvals after a SessionSpeakerProduct__c insert.
     public static void handleSessionSpeakerProductInsert(List<SessionSpeakerProduct__c> newSsps) {
+        // Un nouveau speaker repasse d'abord obligatoirement par Event Team.
+        // Les approvals Speaker/HOP seront créées après validation Event Team.
         resubmitEventTeamApprovalForNewSpeakers(newSsps);
 
-        refreshWaitingSpeakerApprovals(collectSessionIds(newSsps));
-        resubmitHopApprovalsForInsertedSsps(newSsps);
         OperationLogService.flush();
     }
 
@@ -190,7 +190,38 @@ public without sharing class BooklyModificationsManagement {
 
         if (eventsWithNewSpeaker.isEmpty()) return;
 
+        List<Approval.ProcessWorkitemRequest> organizerRemovalRequests =
+            new List<Approval.ProcessWorkitemRequest>();
+
+        // Ferme l'approval Organizer active avant de relancer l'Event Team.
+        for (ProcessInstanceWorkitem workitem : [
+            SELECT Id, ProcessInstance.TargetObjectId
+            FROM ProcessInstanceWorkitem
+            WHERE ProcessInstance.TargetObjectId IN :eventsWithNewSpeaker
+            AND ProcessInstance.ProcessDefinition.DeveloperName =
+                'OrganizerApprovalProcess'
+        ]) {
+            Approval.ProcessWorkitemRequest removalRequest =
+                new Approval.ProcessWorkitemRequest();
+
+            // L'approval Organizer devient obsolète après l'ajout du speaker.
+            removalRequest.setWorkitemId(workitem.Id);
+            removalRequest.setAction('Removed');
+            removalRequest.setComments(
+                'New speaker added. Event Team approval restarted.'
+            );
+
+            organizerRemovalRequests.add(removalRequest);
+        }
+
+        // Salesforce doit libérer l'Event avant sa nouvelle soumission.
+        if (!organizerRemovalRequests.isEmpty()) {
+            Approval.process(organizerRemovalRequests);
+        }
+
         Set<Id> eventsWithPendingApproval = new Set<Id>();
+
+        // Vérifie qu'aucun autre process n'est encore actif après le retrait Organizer.
         for (ProcessInstance processInstance : [
             SELECT TargetObjectId
             FROM ProcessInstance
@@ -302,8 +333,14 @@ public without sharing class BooklyModificationsManagement {
         }
 
         resubmitEventTeamApprovalForNewSpeakers(sspsWithNewSpeaker);
-        refreshWaitingSpeakerApprovals(impactedSessionIds);
+
+        // Relance d'abord précisément l'approval impactée par la modification du SSP.
+        // Un changement de Date__c remet ainsi l'approval Speaker à Submitted,
+        // même si elle était déjà Approved pendant WaitingForSpeakerApprovals.
         resubmitTargetedApprovalsForSspChanges(oldMap, newMap);
+
+        // Synchronise ensuite les autres approvals encore nécessaires sur l'Event.
+        refreshWaitingSpeakerApprovals(impactedSessionIds);
 
         // Notifie l'ancien speaker uniquement s'il ne possède plus de SSP sur l'Event.
         List<SessionSpeakerProduct__c> removedSpeakerSsps =

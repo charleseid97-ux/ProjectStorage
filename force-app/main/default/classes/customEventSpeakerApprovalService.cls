@@ -1273,6 +1273,107 @@ public without sharing class customEventSpeakerApprovalService {
         refreshApprovalsFromSessions(sessionIds);
     }
     
+        // Restarts every existing Speaker Assistant approval after a location change.
+    public static void restartSpeakerApprovalsForLocationChange(
+        List<Event__c> newEvents,
+        Map<Id, Event__c> oldEvents
+    ) {
+        if (newEvents == null || newEvents.isEmpty() || oldEvents == null) return;
+
+        Set<Id> eventIds = new Set<Id>();
+
+        // Only approved or speaker-approval Events are concerned.
+        for (Event__c newEvent : newEvents) {
+            Event__c oldEvent = oldEvents.get(newEvent.Id);
+            if (oldEvent == null) continue;
+
+            Boolean locationChanged =
+                newEvent.City__c != oldEvent.City__c ||
+                newEvent.Country__c != oldEvent.Country__c;
+
+            if (
+                locationChanged &&
+                (
+                    oldEvent.Status__c == customEventConstants.STATUS_FULLY_APPROVED ||
+                    oldEvent.Status__c == customEventConstants.STATUS_WAITING_FOR_SPEAKER_APPROVALS
+                )
+            ) {
+                eventIds.add(newEvent.Id);
+            }
+        }
+
+        if (eventIds.isEmpty()) return;
+
+        List<EventSpeakerApprovals__c> approvals = [
+            SELECT Id, Event__c, ApproverUser__c
+            FROM EventSpeakerApprovals__c
+            WHERE Event__c IN :eventIds
+            AND approvalType__c = 'Speaker'
+            AND ApproverUser__c != null
+        ];
+
+        if (approvals.isEmpty()) return;
+
+        Set<Id> approvalIds = new Map<Id, EventSpeakerApprovals__c>(approvals).keySet();
+        List<Approval.ProcessWorkitemRequest> removalRequests =
+            new List<Approval.ProcessWorkitemRequest>();
+
+        // Close pending Speaker approvals before restarting them.
+        for (ProcessInstanceWorkitem workitem : [
+            SELECT Id
+            FROM ProcessInstanceWorkitem
+            WHERE ProcessInstance.TargetObjectId IN :approvalIds
+            AND ProcessInstance.ProcessDefinition.DeveloperName = 'SpeakerApproval'
+        ]) {
+            Approval.ProcessWorkitemRequest removalRequest =
+                new Approval.ProcessWorkitemRequest();
+
+            removalRequest.setWorkitemId(workitem.Id);
+            removalRequest.setAction('Removed');
+            removalRequest.setComments(
+                'Location changed. Speaker approval restarted.'
+            );
+
+            removalRequests.add(removalRequest);
+        }
+
+        // Release approvals currently waiting for a Speaker Assistant.
+        if (!removalRequests.isEmpty()) {
+            Approval.process(removalRequests);
+        }
+
+        // Reset approved and pending Speaker approvals with the new notification.
+        for (EventSpeakerApprovals__c approvalRecord : approvals) {
+            approvalRecord.Status__c =
+                customEventConstants.APPROVAL_STATUS_SUBMITTED;
+            approvalRecord.NotificationTitle__c =
+                NotificationTitleGenerator.getUpdatedApprovalTitle();
+            approvalRecord.NotificationDetails__c =
+                'The location has changed';
+        }
+
+        update approvals;
+
+        List<Approval.ProcessRequest> submissionRequests =
+            new List<Approval.ProcessRequest>();
+
+        // Resubmit every existing Speaker Assistant approval.
+        for (EventSpeakerApprovals__c approvalRecord : approvals) {
+            Approval.ProcessSubmitRequest submissionRequest =
+                new Approval.ProcessSubmitRequest();
+
+            submissionRequest.setObjectId(approvalRecord.Id);
+            submissionRequest.setProcessDefinitionNameOrId('SpeakerApproval');
+            submissionRequest.setSkipEntryCriteria(true);
+
+            submissionRequests.add(submissionRequest);
+        }
+
+        if (!submissionRequests.isEmpty()) {
+            Approval.process(submissionRequests);
+        }
+    }    
+
     /**
      * Recharge les SSP d’une ou plusieurs sessions et synchronise les approvals.
      * Les approvals ne sont recalculées que pour les events en
