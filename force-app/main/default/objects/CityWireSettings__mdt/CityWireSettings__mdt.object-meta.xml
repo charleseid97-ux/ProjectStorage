@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObject xmlns="http://soap.sforce.com/2006/04/metadata">
+    <description>Configuration for the Citywire fund manager ratings integration (CityWireUpdateBatch): batch size, callout timeout, Named Credential reference, dry-run toggle, and failure alerting.</description>
+    <label>City Wire Settings</label>
+    <pluralLabel>City Wire Settings</pluralLabel>
+    <visibility>Public</visibility>
+</CustomObject>
