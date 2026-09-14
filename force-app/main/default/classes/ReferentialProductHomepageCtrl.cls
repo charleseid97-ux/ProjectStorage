@@ -62,16 +62,26 @@ public class ReferentialProductHomepageCtrl {
                         'Validity__c, Strategy__r.Validity__c, Asset_Class__r.Validity__c, ' +
                         'Last_AUM_Previous_Year__c, Last_AUM_Available__c, YTD_Net_Flows__c, LegalForm__c, VehicleType__c, SFDRcategory__c ' +
                     ' FROM Product__c '+
-                    ' WHERE Tech_NotDisplayedProductCatalog__c = false '+
-                    ' AND RecordTypeId = :fundRecordTypeId '+
-                    ' AND VehicleType__c = \'Funds\' ';
-        if (fundIdsFromShares.size() > 0)                           fundQuery += ' AND Id IN :fundIdsFromShares';
+                    ' WHERE Tech_NotDisplayedProductCatalog__c = false ';
+
+        // Le catalogue standard conserve exactement le comportement actuel
+        if (isISProducts != true) {
+            fundQuery += ' AND RecordTypeId = :fundRecordTypeId ';
+            fundQuery += ' AND VehicleType__c = \'Funds\' ';
+        }
+
+        // Le catalogue IS accepte tous les Vehicle Types
+        if (isISProducts == true) {
+            fundQuery += ' AND InvestSolutionScope__c = true ';
+        }
+
+        // En mode standard, conserve la dépendance actuelle aux Share Classes
+        if (isISProducts != true && fundIdsFromShares.size() > 0)  fundQuery += ' AND Id IN :fundIdsFromShares';
         if (String.isNotBlank(assetClass))                          fundQuery += ' AND FundStrategy__r.AssetClass__c = :assetClass';
         if (String.isNotBlank(legalForm))                           fundQuery += ' AND LegalForm__c = :legalForm';
         if (String.isNotBlank(fundType))                            fundQuery += ' AND VehicleType__c = :fundType';
         if (String.isNotBlank(searchKey) && sharesList.isEmpty())   fundQuery += ' AND (Name LIKE \'%'+  searchKey + '%\' OR ProductName__c LIKE \'%'+  searchKey + '%\')';
-        // Lorsque le filtre IS Products est actif, conserve uniquement les produits InvestSolution
-        if (isISProducts == true)                                  fundQuery += ' AND InvestSolutionScope__c = true';
+ 
         if (String.isNotBlank(sfdr))                                fundQuery += ' AND (SFDRcategory__c =: sfdr )';
 
         List<Product__c> filteredFunds = Database.query(fundQuery);
@@ -132,8 +142,12 @@ public class ReferentialProductHomepageCtrl {
 
         List<productHierarchyController.ItemDTO> highLevelItems = new List<productHierarchyController.ItemDTO>();
 
-        // Un filtre actif affiche directement la liste des produits correspondants
-        if (isISProducts == true || String.isNotBlank(searchKey) || String.isNotBlank(assetClass) || String.isNotBlank(legalForm) || String.isNotBlank(fundType) || String.isNotBlank(sfdr) || String.isNotBlank(SCType) || String.isNotBlank(dividendPolicy) || String.isNotBlank(selectedCurrency) || (String.isNotBlank(country) && country != 'All countries')) {
+        // Le mode IS regroupe les produits par VehicleType__c
+        if (isISProducts == true) {
+            allStrategies = buildISProductHierarchy(filteredFunds, fundToSharesMap);
+        }
+        // Les filtres standards conservent l'affichage actuel par produit
+        else if (String.isNotBlank(searchKey) || String.isNotBlank(assetClass) || String.isNotBlank(legalForm) || String.isNotBlank(fundType) || String.isNotBlank(sfdr) || String.isNotBlank(SCType) || String.isNotBlank(dividendPolicy) || String.isNotBlank(selectedCurrency) || (String.isNotBlank(country) && country != 'All countries')) {
             System.debug('<<<<here 1');
             highLevelItems = ProductHierarchyHelper.getFundsItemsWithSharesReferential(filteredFunds, fundToSharesMap, true);
             allStrategies = new productHierarchyController.ItemDTO('All Products', null, null, null, null, null, false, true, true, true, highLevelItems);
@@ -155,5 +169,68 @@ public class ReferentialProductHomepageCtrl {
             ButtonType__c = buttonType
         );
         insert log;
+    }
+        // Construit la hiérarchie IS en regroupant les produits par Vehicle Type
+    private static productHierarchyController.ItemDTO buildISProductHierarchy(
+        List<Product__c> products,
+        Map<Id, List<Share_Class__c>> fundToSharesMap
+    ) {
+        Map<String, List<Product__c>> vehicleTypeToProducts = new Map<String, List<Product__c>>();
+
+        // Regroupe chaque produit IS selon son VehicleType__c
+        for (Product__c product : products) {
+            String vehicleType = String.isBlank(product.VehicleType__c) ? 'Other' : product.VehicleType__c;
+
+            if (!vehicleTypeToProducts.containsKey(vehicleType)) {
+                vehicleTypeToProducts.put(vehicleType, new List<Product__c>());
+            }
+            vehicleTypeToProducts.get(vehicleType).add(product);
+        }
+
+        List<String> vehicleTypes = new List<String>(vehicleTypeToProducts.keySet());
+        vehicleTypes.sort();
+
+        List<productHierarchyController.ItemDTO> vehicleTypeItems = new List<productHierarchyController.ItemDTO>();
+
+        // Construit un niveau de hiérarchie pour chaque Vehicle Type
+        for (String vehicleType : vehicleTypes) {
+            List<productHierarchyController.ItemDTO> productItems =
+                ProductHierarchyHelper.getFundsItemsWithSharesReferential(
+                    vehicleTypeToProducts.get(vehicleType),
+                    fundToSharesMap,
+                    true
+                );
+
+            vehicleTypeItems.add(
+                new productHierarchyController.ItemDTO(
+                    vehicleType,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    false,
+                    true,
+                    true,
+                    true,
+                    productItems
+                )
+            );
+        }
+
+        // Retourne la racine spécifique au catalogue IS
+        return new productHierarchyController.ItemDTO(
+            'IS Products',
+            null,
+            null,
+            null,
+            null,
+            null,
+            false,
+            true,
+            true,
+            true,
+            vehicleTypeItems
+        );
     }
 }
