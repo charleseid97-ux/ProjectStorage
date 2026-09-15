@@ -25,7 +25,7 @@
             <name>Exist</name>
             <conditionLogic>and</conditionLogic>
             <conditions>
-                <leftValueReference>Get_Duplicate_Narrative.Id</leftValueReference>
+                <leftValueReference>Get_Duplicate_Third_Parties.Id</leftValueReference>
                 <operator>IsNull</operator>
                 <rightValue>
                     <booleanValue>false</booleanValue>
@@ -60,8 +60,8 @@
     </processMetadataValues>
     <processType>AutoLaunchedFlow</processType>
     <recordLookups>
-        <name>Get_Duplicate_Narrative</name>
-        <label>Get Duplicate Narrative</label>
+        <name>Get_Duplicate_Third_Parties</name>
+        <label>Get Duplicate Third Parties</label>
         <locationX>0</locationX>
         <locationY>0</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
@@ -101,7 +101,7 @@
         <locationY>0</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
-            <targetReference>Get_Duplicate_Narrative</targetReference>
+            <targetReference>Get_Duplicate_Third_Parties</targetReference>
         </connector>
         <filterLogic>and</filterLogic>
         <filters>
@@ -129,7 +129,7 @@
             <targetReference>Third_Parties_RecordType</targetReference>
         </connector>
     </start>
-    <status>Draft</status>
+    <status>Active</status>
     <variables>
         <name>errorMessage</name>
         <dataType>String</dataType>
