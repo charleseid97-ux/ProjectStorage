@@ -159,13 +159,11 @@
             <value>
                 <fullName>UK intermediaries (none platform)</fullName>
                 <default>false</default>
-                <isActive>false</isActive>
                 <label>UK intermediaries (none platform)</label>
             </value>
             <value>
                 <fullName>US Offshore Agreement</fullName>
                 <default>false</default>
-                <isActive>false</isActive>
                 <label>US Offshore Agreement</label>
             </value>
         </valueSetDefinition>
@@ -243,6 +241,15 @@
         <valueSettings>
             <controllingFieldValue>Master</controllingFieldValue>
             <valueName>UK Execution only Platform Agreement</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Standard</controllingFieldValue>
+            <controllingFieldValue>Master</controllingFieldValue>
+            <valueName>US Offshore Agreement</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Standard</controllingFieldValue>
+            <valueName>UK intermediaries (none platform)</valueName>
         </valueSettings>
     </valueSet>
 </CustomField>

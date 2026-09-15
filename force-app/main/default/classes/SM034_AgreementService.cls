@@ -6,6 +6,8 @@
 **/
 
 public with sharing class SM034_AgreementService {
+
+    public static final String CARMIGNAC_ENTITY = 'Carmignac Entity';
     
     public static void handleRollupCalculate(Map<Id, Convention__c> newItems, Map<Id, Convention__c> oldRecordsMap) {
         Set<Id> accountIds = new Set<Id>();
@@ -214,10 +216,10 @@ Role__c = rC.Role__c));
         
         for (Convention__c agr : newItems){
             if (agr.Carmignac_Legal_Entity__c == 'CGL' && CGL != null) {
-                roles.add(new Agreement_Role__c(Role__c = 'Carmignac Entity', Agreement__c = agr.Id, Legal_Entity__c = CGL));
+                roles.add(new Agreement_Role__c(Role__c = CARMIGNAC_ENTITY, Agreement__c = agr.Id, Legal_Entity__c = CGL));
             }
             else if (agr.Carmignac_Legal_Entity__c == 'CGF' && CGF != null) {
-                roles.add(new Agreement_Role__c(Role__c = 'Carmignac Entity', Agreement__c = agr.Id, Legal_Entity__c = CGF));
+                roles.add(new Agreement_Role__c(Role__c = CARMIGNAC_ENTITY, Agreement__c = agr.Id, Legal_Entity__c = CGF));
             }
         }
         
@@ -240,7 +242,7 @@ Id CGF = settings.get('CARMIGNAC_GESTION').Value__c;
 for (Convention__c agr : [SELECT Id, Code_Type__c, Company__r.LegalEntity__c, CurrencyIsoCode, Carmignac_Legal_Entity__c, RecordTypeId FROM Convention__c where id in :newItems.keySet()]) {
 
 Agreement_Role__c agrRoleCarmignac = new Agreement_Role__c();
-agrRoleCarmignac.Role__c = 'Carmignac Entity';
+agrRoleCarmignac.Role__c = CARMIGNAC_ENTITY;
 agrRoleCarmignac.Agreement__c = agr.Id;
 
 if (agr.Carmignac_Legal_Entity__c == 'CGL' && CGL != null) {
@@ -373,6 +375,38 @@ matchingLegalEntityByCompany.put(le.Company__c, le);
         
     }
     
+    /**
+    * @description Sets Role__c from RecordType + Code_Type__c when Role__c is blank, based on the mapping stored in the Agreement_RoleMapping custom label.
+    * @param newAgreements agreements being updated
+    */
+    public static void populateRoleFromCodeType(List<Convention__c> newAgreements) {
+        Map<String, String> roleByGroupAndCodeType = parseAgreementRoleMapping();
+
+        for (Convention__c agr : newAgreements) {
+            if (agr.Role__c != null || agr.RecordTypeId == null) { continue; }
+
+            String grp = AgreementUtil.ROLE_MAPPING_GROUP_BY_RECORDTYPE_DEVNAME.get(agr.RecordTypeId);
+            String mappingKey = (grp != null) ? grp + '.' + agr.Code_Type__c : null;
+
+            if (mappingKey != null && roleByGroupAndCodeType.containsKey(mappingKey)) {
+                agr.Role__c = roleByGroupAndCodeType.get(mappingKey);
+            }
+        }
+    }
+
+    private static Map<String, String> parseAgreementRoleMapping() {
+        Map<String, String> mapping = new Map<String, String>();
+        String labelValue = System.Label.Agreement_RoleMapping;
+        if (String.isBlank(labelValue)) { return mapping; }
+        for (String line : labelValue.split('\n')) {
+            List<String> parts = line.trim().split('->');
+            if (parts.size() == 2 && String.isNotBlank(parts[0].trim())) {
+                mapping.put(parts[0].trim(), parts[1].trim());
+            }
+        }
+        return mapping;
+    }
+
     public static void handleBeforeUpdate(List<Convention__c> newAgreements, map<id, Convention__c> oldAgreements) {
 
         List<Id> accountIds = new List<Id>();
@@ -532,68 +566,89 @@ matchingLegalEntityByCompany.put(le.Company__c, le);
     }
     
     public static void validateAgreementWhenApproved(Map<Id, Convention__c> newMap, Map<Id, Convention__c> oldMap) {
-        for (Convention__c c : newMap.values()) {
-            validateStepsApproval(c, oldMap.get(c.id));
-        }
-    }
-    
-    public static void validateStepsApproval(Convention__c agr, Convention__c oldAgreement) {
-        
-        String approvalStep = getApprovalStepName(agr);
-        
-        switch on approvalStep {
-            when 'Agreement Request IS Approval' {
-                if (approvedAction(agr, oldAgreement, 'DCO Approval', 'HOC Approval')) {
-                    validateRequestISApprovalKYD(agr, oldAgreement);
-                    validateRequestISApprovalRiskLevel(agr);
+
+        Map<Id, List<String>> approvalStepByAgreementId = getAgreementToPendingStepsMap(newMap);
+
+        for (Convention__c agr : newMap.values()) {
+            Convention__c oldAgreement = oldMap.get(agr.Id);
+            List<String> approvalSteps = approvalStepByAgreementId.containsKey(agr.Id) ? approvalStepByAgreementId.get(agr.Id) : new List<String>();
+
+            for (String approvalStep : approvalSteps) {
+                if(approvalStep == 'Agreement Request IS Approval') {
+                    if (approvedAction(agr, oldAgreement, 'DCO Approval', 'HOC Approval')) {
+                        validateRequestISApprovalKYD(agr, oldAgreement);
+                        validateRequestISApprovalRiskLevel(agr);
+                    }
                 }
-            }
-            when 'Agreement Request Compliance Approval' {
-                if (approvedAction(agr, oldAgreement, 'Compliance Approval', 'DCO Approval')) {
-                    validateRequestComplianceApproval(agr);
+                if(approvalStep == 'Agreement Request Compliance Approval') {
+                    if (approvedAction(agr, oldAgreement, 'Compliance Approval', 'DCO Approval')) {
+                        validateRequestComplianceApproval(agr);
+                    }
                 }
-            }
-            when 'Agreement Amendment Legal Approval' {
-                if (!isAgreementRoleValidated(agr, oldAgreement)) {
-                    agr.Name.addError(System.label.Validate_Agreement_Roles_Error_message);
+                if(approvalStep == 'GridAmendment_Legal' || approvalStep == 'Change Renewal Legal Approval') {
+                    if (!isAgreementRoleValidated(agr, oldAgreement)) {
+                        agr.addError(System.label.Validate_Agreement_Roles_Error_message);
+                    }
                 }
-            }
-            when 'Agreement Renewal Legal Approval' {
-                if (!isAgreementRoleValidated(agr, oldAgreement)) {
-                    agr.Name.addError(System.label.Validate_Agreement_Roles_Error_message);
-                }
-            }
-            when 'Agreement Renewal with GRID Legal Approval' {
-                if (!isAgreementRoleValidated(agr, oldAgreement)) {
-                    agr.Name.addError(System.label.Validate_Agreement_Roles_Error_message);
-                }
-            }
-            when else {
             }
         }
     }
-    
+
     /**
 * @author JLC
-* @description Check if agreement has a pending approval process
-* @param agr
+* @description Check which agreements have a pending approval, either a standard approval
+*              process on the agreement itself or a custom approval (CustomApproval__c)
+*              on one of its related Grid__c records
+* @param newMap agreements to check
 *
-* @return approval step name if exist else empty
+* @return map of agreement Id to pending approval step name (agreements without a pending approval are absent)
 */
-    public static String getApprovalStepName(Convention__c agr) {
-        String approvalStep = '';
-        ProcessInstance[] pi = [SELECT Id, TargetObjectId, Status FROM ProcessInstance WHERE TargetObjectId = :agr.Id AND Status = 'Pending' ORDER BY CreatedDate DESC];
-        
-        ProcessInstanceNode[] pin;
-        if (!pi.isEmpty()) {
-            pin = [SELECT Id, NodeStatus, ProcessNodeName, ProcessInstanceId FROM ProcessInstanceNode WHERE ProcessInstanceId = :pi[0].Id AND NodeStatus = 'Pending'];
+    public static Map<Id, List<String>> getAgreementToPendingStepsMap(Map<Id, Convention__c> newMap) {
+        Map<Id, List<String>> approvalStepByAgreementId = new Map<Id, List<String>>();
+
+        // Keep only the most recent pending ProcessInstance per agreement
+        Map<Id, Id> agreementIdByProcessInstanceId = new Map<Id, Id>();
+        Set<Id> agreementIdsWithProcessInstance = new Set<Id>();
+        for (ProcessInstance pi : [SELECT Id, TargetObjectId FROM ProcessInstance
+                                   WHERE TargetObjectId IN :newMap.keySet() AND Status = 'Pending'
+                                   ORDER BY CreatedDate DESC]) {
+            if (agreementIdsWithProcessInstance.add(pi.TargetObjectId)) {
+                agreementIdByProcessInstanceId.put(pi.Id, pi.TargetObjectId);
+            }
         }
-        
-        if (pin != null && !pin.isEmpty()) {
-            approvalStep = pin[0].ProcessNodeName;
+
+        if (!agreementIdByProcessInstanceId.isEmpty()) {
+            for (ProcessInstanceNode pin : [SELECT Id, NodeStatus, ProcessNodeName, ProcessInstanceId FROM ProcessInstanceNode
+                                            WHERE ProcessInstanceId IN :agreementIdByProcessInstanceId.keySet() AND NodeStatus = 'Pending']) {
+                Id agreementId = agreementIdByProcessInstanceId.get(pin.ProcessInstanceId);
+                if (!approvalStepByAgreementId.containsKey(agreementId)) {
+                    approvalStepByAgreementId.put(agreementId, new List<String>());
+                }
+                approvalStepByAgreementId.get(agreementId).add(pin.ProcessNodeName);
+            }
         }
-        
-        return approvalStep;
+
+        Map<String, String> agreementIdByGridIdStr = new Map<String, String>();
+        for (Grid__c grid : [SELECT Id, Agreement__c FROM Grid__c WHERE Agreement__c IN :newMap.keySet()]) {
+            agreementIdByGridIdStr.put(grid.Id, grid.Agreement__c);
+        }
+
+        if (!agreementIdByGridIdStr.isEmpty()) {
+            String agrId;
+            for (CustomApproval__c ca : [SELECT Id, TargetRecordId__c, CurrentStepDevName__c FROM CustomApproval__c
+                                            WHERE TECH_ReadOnly__c = false 
+                                            AND Status__c = 'Pending'
+                                            AND CurrentStepDevName__c = 'GridAmendment_Legal'
+                                            AND TargetRecordId__c IN :agreementIdByGridIdStr.keySet()]) {
+                agrId = agreementIdByGridIdStr.get(ca.TargetRecordId__c);
+                if (!approvalStepByAgreementId.containsKey(agrId)) {
+                    approvalStepByAgreementId.put(agrId, new List<String>());
+                }
+                approvalStepByAgreementId.get(agrId).add(ca.CurrentStepDevName__c);
+            }
+        }
+
+        return approvalStepByAgreementId;
     }
     
     public static boolean isAgreementRoleValidated(Convention__c agr, Convention__c oldAgr) {
@@ -653,7 +708,6 @@ matchingLegalEntityByCompany.put(le.Company__c, le);
 * @param oldMap map of old values agreements
 */
     public static void updateAgreementRoleWhenCodeTypeChange(Map<Id, Convention__c> newMap, Map<Id, Convention__c> oldMap) {
-        
         Set<Id> agrIds = new Set<Id>();
         List<Agreement_Role__c> roleToUpdate = new List<Agreement_Role__c>();
         
@@ -662,17 +716,22 @@ matchingLegalEntityByCompany.put(le.Company__c, le);
                 agrIds.add(agr.Id);
             }
         }
-        
-        for (Agreement_Role__c role : [SELECT Id, Role__c, Agreement__r.Code_Type__c FROM Agreement_Role__c
-                                       WHERE Agreement__c IN :agrIds AND Role__c != 'Carmignac Entity']){
-                                           role.TECH_Agreement_CodeType__c = role.Agreement__r.Code_Type__c;
-                                           role.Role__c = getMappingAgreementRole(role.Agreement__r.Code_Type__c);
-                                           roleToUpdate.add(role);
-                                       }
+
+        if (agrIds.isEmpty()) {
+            return;
+        }
+
+        for (Agreement_Role__c role : [SELECT Id, Role__c, Agreement__r.Code_Type__c
+                                       FROM Agreement_Role__c
+                                       WHERE Agreement__c IN :agrIds 
+                                       AND Role__c != :CARMIGNAC_ENTITY]){
+            role.TECH_Agreement_CodeType__c = role.Agreement__r.Code_Type__c;
+            role.Role__c = getMappingAgreementRole(role.Agreement__r.Code_Type__c);
+            roleToUpdate.add(role);
+        }
         
         if (!roleToUpdate.isEmpty()) {
             update roleToUpdate;
         }
     }
-    
 }

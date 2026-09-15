@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomMetadata xmlns="http://soap.sforce.com/2006/04/metadata" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <label>PRIIPS SICAV ICAV Credit risk</label>
+    <protected>false</protected>
+    <values>
+        <field>Content__c</field>
+        <value xsi:type="xsd:string">Credit risk: the sub-fund is invested in securities whose credit rating may decline, meaning there is a risk that the issuer may not be able to meet its commitments. Should an issuer&apos;s creditworthiness deteriorate, the value of the bonds or derivatives linked to this issuer may fall.</value>
+    </values>
+    <values>
+        <field>Language__c</field>
+        <value xsi:type="xsd:string">EN</value>
+    </values>
+    <values>
+        <field>LegalForm__c</field>
+        <value xsi:type="xsd:string">SICAV/ICAV</value>
+    </values>
+    <values>
+        <field>Subtype__c</field>
+        <value xsi:type="xsd:string">Credit risk</value>
+    </values>
+    <values>
+        <field>Type__c</field>
+        <value xsi:type="xsd:string">PRIIPS</value>
+    </values>
+</CustomMetadata>

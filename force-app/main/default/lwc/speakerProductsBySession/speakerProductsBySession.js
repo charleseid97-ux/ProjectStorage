@@ -1,4 +1,5 @@
 import { LightningElement, api, track, wire } from 'lwc';
+import { RefreshEvent } from 'lightning/refresh';
 import { getRecord, getFieldValue } from 'lightning/uiRecordApi';
 import PARENT_EVENT_FIELD from '@salesforce/schema/Event__c.parentEvent__c';
 import START_DATE_FIELD from '@salesforce/schema/Event__c.startDate__c';
@@ -212,6 +213,9 @@ export default class SpeakerProductsBySession extends LightningElement {
             this.impactedCount = impacted;
             this.isEditOpen = false;
             await this.load();
+
+            // Demande aux autres composants de la page de recharger leurs données.
+            this.dispatchEvent(new RefreshEvent());
         } catch (e) {
             // eslint-disable-next-line no-console
             console.error('[speakerProductsBySession] saveEdit error', e);

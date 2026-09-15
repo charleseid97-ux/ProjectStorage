@@ -1,0 +1,154 @@
+.container {
+    padding: 0 1rem 1rem;
+}
+
+.header-row {
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: 0.75rem;
+}
+
+.spinner-container {
+    min-height: 8rem;
+    position: relative;
+}
+
+.priips-content {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+
+.team-block {
+    border: 1px solid #dddbda;
+    border-radius: 0.25rem;
+    overflow: hidden;
+}
+
+.team-summary {
+    background: #f3f3f3;
+    border-bottom: 1px solid #dddbda;
+    color: #181818;
+    cursor: pointer;
+    font-size: 1rem;
+    font-weight: 600;
+    line-height: 1.5rem;
+    padding: 0.65rem 0.85rem;
+}
+
+.team-summary:hover {
+    background: #ecebea;
+}
+
+.team-body {
+    background: #ffffff;
+    padding: 0.5rem 0.85rem 0.85rem;
+}
+
+.record-block {
+    background: #ffffff;
+    border: 1px solid #e5e5e5;
+    border-left: 3px solid #dddbda;
+    border-radius: 0.25rem;
+    margin-top: 0.85rem;
+    padding: 0.75rem 0.85rem 0.25rem;
+}
+
+.record-block + .record-block {
+    margin-top: 1rem;
+}
+
+.record-block[open] {
+    background: #fcfcfc;
+}
+
+.record-summary {
+    border-bottom: 1px solid #c9c9c9;
+    color: #2e2e2e;
+    cursor: pointer;
+    font-size: 0.95rem;
+    font-weight: 600;
+    line-height: 1.5rem;
+    margin-bottom: 0.75rem;
+    padding-bottom: 0.45rem;
+}
+
+.record-summary:hover {
+    color: #0176d3;
+}
+
+.field-grid {
+    display: grid;
+    gap: 1rem 1.75rem;
+    grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr));
+    padding: 0.25rem 0 0.75rem;
+}
+
+.field-item {
+    min-width: 0;
+}
+
+.field-label {
+    color: #3e3e3c;
+    font-size: 0.75rem;
+    margin-bottom: 0.25rem;
+}
+
+.field-value {
+    border-bottom: 1px solid #c9c9c9;
+    color: #080707;
+    font-size: 0.875rem;
+    min-height: 1.5rem;
+    overflow-wrap: anywhere;
+    padding-bottom: 0.25rem;
+}
+
+.field-value-required-empty {
+    background: #fef1f1;
+    border-bottom-color: #ba0517;
+    box-shadow: inset 3px 0 0 #ba0517;
+    color: #ba0517;
+    padding-left: 0.5rem;
+}
+
+.field-value-optional-empty {
+    background: #fff3e0;
+    border-bottom-color: #fe9339;
+    box-shadow: inset 3px 0 0 #fe9339;
+    color: #8a4b00;
+    padding-left: 0.5rem;
+}
+
+.empty-box,
+.warning-box,
+.error-box {
+    border-radius: 0.35rem;
+    margin: 0.5rem 0;
+    padding: 0.75rem;
+}
+
+.empty-box {
+    background: #ffffff;
+    border: 1px dashed #dddbda;
+    color: #706e6b;
+}
+
+.warning-box {
+    background: #fff7d6;
+    border: 1px solid #ffb75d;
+}
+
+.error-box {
+    background: #ba0517;
+    color: #ffffff;
+}
+
+
+.field-item-full-width {
+    grid-column: 1 / -1;
+}
+
+.field-value-long-text {
+    line-height: 1.35rem;
+    white-space: normal;
+}

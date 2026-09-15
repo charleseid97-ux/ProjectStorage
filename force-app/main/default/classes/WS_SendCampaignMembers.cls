@@ -5,7 +5,7 @@
  * @last modified on  : 12-03-2025
  * @last modified by  : Khadija EL GDAOUNI
 **/
-public class WS_SendCampaignMembers extends RestCallout{
+public class WS_SendCampaignMembers extends RestCallout {
 
     public Long timestamp;
     public CampaignMember recordToTreat;
@@ -24,64 +24,38 @@ public class WS_SendCampaignMembers extends RestCallout{
         this.timestamp = System.now().getTime() / 1000;
         this.publicKey = LyytiCredentials__mdt.getInstance('Authentication').PublicKey__c;
         this.privateKey = LyytiCredentials__mdt.getInstance('Authentication').PrivateKey__c;
-        //this.timestamp = 1719409271;
     }
 
-    public WS_SendCampaignMembers() {
-        
-    }
+    public WS_SendCampaignMembers() { }
 
-
-    public override String getMethod(){
+    public override String getMethod() {
         return 'POST';
     }
 
-    public String getSignature(){
+    public HttpRequest setHeaderAndEndpoint() {
         String callString = 'participants/' + this.campaignLyytiId;// +'?check_unique=true';
 
-        String msg = String.join(new List<String>{
-            this.publicKey,
-            String.valueOf(this.timestamp),
-            callString
-        }, ',');
-
-        // Encode the string
-        String msgBase64 = EncodingUtil.base64Encode(Blob.valueOf(msg));
-        
-        // Generate HMAC Signature
-        Blob macKey = Blob.valueOf(this.privateKey);
-        Blob input = Blob.valueOf(msgBase64);
-        Blob hmac = Crypto.generateMac('hmacSHA256', input, macKey);
-        
-        // Convert To Hex
-        String signature = EncodingUtil.convertToHex(hmac);
-        return signature;
-    }
-
-    public HttpRequest setHeaderAndEndpoint(){
-   
         HttpRequest req = new HttpRequest();
-        
-        req.setHeader( 'Accept', 'application/json; charset=utf-8' );
-        req.setHeader( 'Content-Type', 'application/json' );
-        req.setHeader( 'Authorization', 'LYYTI-API-V2 public_key='+this.publicKey+', timestamp='+this.timestamp+', signature='+getSignature() );
+
+        req.setHeader('Accept', 'application/json; charset=utf-8');
+        req.setHeader('Content-Type', 'application/json');
+        req.setHeader('Authorization', LyytiSignatureUtil.buildAuthorizationHeader(this.publicKey, this.privateKey, this.timestamp, callString));
+
         req.setEndpoint(LyytiCredentials__mdt.getInstance('Authentication').URL__c+'/participants/'+this.campaignLyytiId);
+
         req.setBody(setJsonBody());
         return req;
     }
 
-    public override String setJsonBody(){
+    public override String setJsonBody() {
         return new WS_SendCampaignMembersBuild().buildBody(recordToTreat, status, participant_type);
-        
     }
 
-    public override void processResponse(HttpResponse response){
-        
-        
+    public override void processResponse(HttpResponse response) {
         if (response.getStatusCode() != 200) {
-            System.debug('The status code returned was not expected: ' +
-                    response.getStatusCode() + ' ' + response.getStatus());   
-        }else{
+            System.debug('The status code returned was not expected: ' + response.getStatusCode() + ' ' + response.getStatus());   
+        }
+        else {
             // Get Json Body Result
             String jsonReceived = response.getBody(); 
             Map<String, Object> parsedJson = (Map<String, Object>)JSON.deserializeUntyped(jsonReceived);
@@ -106,14 +80,11 @@ public class WS_SendCampaignMembers extends RestCallout{
         }
     }
 
-    
-
-    
     public void sendInDataToExternalService() {
-
-        try{
+        try {
             callEndPoint(setHeaderAndEndpoint());
-        }catch(Exception e){
+        }
+        catch(Exception e){
             //********************** add account id
             System.debug('***call API' + e.getMessage());
             System.debug('*** ' + e.getCause());

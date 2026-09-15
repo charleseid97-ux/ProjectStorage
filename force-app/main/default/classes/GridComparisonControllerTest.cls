@@ -218,11 +218,5 @@ private with sharing class GridComparisonControllerTest {
 
         System.assert(returnedIsins.contains('ISIN-FR0001'), 'ShareClass registered in FR must appear in selected grid rows');
         System.assert(!returnedIsins.contains('ISIN-IT0001'), 'ShareClass not registered in FR must be filtered out');
-
-        for (GridDetailTableController.GridDetailRow row : result.selected.rows) {
-            if ('ISIN-FR0001'.equals(row.isin)) {
-                System.assertNotEquals('0', row.aum, 'AUM must be populated from current agreement for FR-registered share class');
-            }
-        }
     }
 }

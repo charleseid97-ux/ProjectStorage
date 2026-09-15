@@ -4,9 +4,10 @@ public class ReferentialProductHomepageCtrl {
     static final Id assetClassRecordTypeId = Schema.SObjectType.Product__c.getRecordTypeInfosByDeveloperName().get('Asset_Class').getRecordTypeId();  
     static final Id regionalRecordTypeId = Schema.SObjectType.Product__c.getRecordTypeInfosByDeveloperName().get('Sub_Asset_Class').getRecordTypeId();  
 
+    // Récupère les produits selon les filtres sélectionnés dans le catalogue
     @AuraEnabled
     public static string getAllProducts(Boolean showSRI, Boolean showRF, Boolean showAC, String country, String assetClass, String SCType, String dividendPolicy,
-                                        String legalForm, String fundType, String selectedCurrency, String searchKey, Boolean isActiveProducts, String sfdr) {
+                                        String legalForm, String fundType, String selectedCurrency, String searchKey, Boolean isActiveProducts, Boolean isISProducts, String sfdr) {
 
         productHierarchyController.ItemDTO allStrategies = new productHierarchyController.ItemDTO();
 
@@ -69,6 +70,8 @@ public class ReferentialProductHomepageCtrl {
         if (String.isNotBlank(legalForm))                           fundQuery += ' AND LegalForm__c = :legalForm';
         if (String.isNotBlank(fundType))                            fundQuery += ' AND VehicleType__c = :fundType';
         if (String.isNotBlank(searchKey) && sharesList.isEmpty())   fundQuery += ' AND (Name LIKE \'%'+  searchKey + '%\' OR ProductName__c LIKE \'%'+  searchKey + '%\')';
+        // Lorsque le filtre IS Products est actif, conserve uniquement les produits InvestSolution
+        if (isISProducts == true)                                   fundQuery += ' AND InvestSolutionScope__c = true';
         if (String.isNotBlank(sfdr))                                fundQuery += ' AND (SFDRcategory__c =: sfdr )';
 
         List<Product__c> filteredFunds = Database.query(fundQuery);
@@ -129,7 +132,8 @@ public class ReferentialProductHomepageCtrl {
 
         List<productHierarchyController.ItemDTO> highLevelItems = new List<productHierarchyController.ItemDTO>();
 
-        if (String.isNotBlank(searchKey) || String.isNotBlank(assetClass) || String.isNotBlank(legalForm) || String.isNotBlank(fundType) || String.isNotBlank(sfdr) || String.isNotBlank(SCType) || String.isNotBlank(dividendPolicy) || String.isNotBlank(selectedCurrency) || (String.isNotBlank(country) && country != 'All countries')) {
+        // Un filtre actif affiche directement la liste des produits correspondants
+        if (isISProducts == true || String.isNotBlank(searchKey) || String.isNotBlank(assetClass) || String.isNotBlank(legalForm) || String.isNotBlank(fundType) || String.isNotBlank(sfdr) || String.isNotBlank(SCType) || String.isNotBlank(dividendPolicy) || String.isNotBlank(selectedCurrency) || (String.isNotBlank(country) && country != 'All countries')) {
             System.debug('<<<<here 1');
             highLevelItems = ProductHierarchyHelper.getFundsItemsWithSharesReferential(filteredFunds, fundToSharesMap, true);
             allStrategies = new productHierarchyController.ItemDTO('All Products', null, null, null, null, null, false, true, true, true, highLevelItems);

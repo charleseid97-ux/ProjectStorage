@@ -1,6 +1,6 @@
 /**
  * @description       : 
- * @author            : SILA Nicolas
+ * @author            : SILA Nicolas.
  * @group             : 
  * @last modified on  : 07-15-2024
  * @last modified by  : SILA Nicolas
@@ -18,6 +18,8 @@ public with sharing class RecordTypeController {
                 recordTypes.add(new RecordTypeWrapper(rt.Id, rt.Name, rt.Description, '/lightning/n/TranslationRequests'));
             }else if(rt.DeveloperName == 'Content_Feedback'){
                 recordTypes.add(new RecordTypeWrapper(rt.Id, rt.Name, rt.Description, '/lightning/n/Content_Feedback'));
+            }else if(rt.DeveloperName == 'ESG'){
+                recordTypes.add(new RecordTypeWrapper(rt.Id, rt.Name, rt.Description, '/lightning/n/ESG_Requests'));
             } else {
                 recordTypes.add(new RecordTypeWrapper(rt.Id, rt.Name, rt.Description, '/lightning/o/Case/new?backgroundContext=lightning/o/Case/list?filterName=__Recent&recordTypeId='+rt.Id));
             }   

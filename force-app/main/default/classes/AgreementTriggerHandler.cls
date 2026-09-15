@@ -17,6 +17,11 @@ public class AgreementTriggerHandler implements  ITriggerHandler {
         if (PAD.canTrigger('attachedKYD_DD')) {
             SM034_AgreementService.attachedKYD_DD((List<Convention__c>)newItems);
         }
+
+        //Auto-populate Role__c from Code_Type__c when Role__c is blank
+        if (PAD.canTrigger('populateAgreementRole')) {
+            SM034_AgreementService.populateRoleFromCodeType((List<Convention__c>) newItems);
+        }
     }
 
     public void BeforeUpdate(Map<Id, SObject> newItems, Map<Id, SObject> oldItems) {
@@ -28,6 +33,11 @@ public class AgreementTriggerHandler implements  ITriggerHandler {
         //Validation for approval process
         if (PAD.canTrigger('validateAgreementWhenApproved')) {
             SM034_AgreementService.validateAgreementWhenApproved((Map<Id, Convention__c>) newItems,(Map<Id, Convention__c>) oldItems);
+        }
+
+        //Auto-populate Role__c from Code_Type__c when Role__c is blank
+        if (PAD.canTrigger('populateAgreementRole')) {
+            SM034_AgreementService.populateRoleFromCodeType((List<Convention__c>)newItems.values());
         }
 
     }
@@ -62,7 +72,7 @@ public class AgreementTriggerHandler implements  ITriggerHandler {
             SM034_AgreementService.updateAgreementRoleWhenCodeTypeChange((Map<Id, Convention__c>) newItems, (Map<Id, Convention__c>) oldItems);
         }
         if (PAD.canTrigger('syncGridBusinessRegions')) {
-            GridUtility.syncBusinessRegionsFromAgreements((Map<Id, Convention__c>) newItems, (Map<Id, Convention__c>) oldItems);
+            GridUtility.syncInformationFromAgreements((Map<Id, Convention__c>) newItems, (Map<Id, Convention__c>) oldItems);
         }
     }
 

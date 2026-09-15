@@ -224,8 +224,9 @@ export default class GridAgreementsSelection extends LightningElement {
     get isSalesOwnerDisabled()  { return !((this.selectedValues?.length > 0) || !!this.recId || !!this.selectedTeam); }
     get salesOwnerFilter() {
         const criteria = [{ fieldPath: 'IsActive', operator: 'eq', value: true }];
-        if (this.userProfile && !this.userProfile.includes('Admin')) {
-            criteria.push({ fieldPath: 'Profile.Name', operator: 'eq', value: this.userProfile });
+        const isAdmin = this.userProfile && this.userProfile.includes('Admin');
+        if (!isAdmin) {
+            criteria.push({ fieldPath: 'Profile.Name', operator: 'eq', value: 'Carmignac - Business Developer' });
             if (this.userProfile === 'Carmignac - CRM' && this.selectedTeam) {
                 criteria.push({ fieldPath: 'Team__c', operator: 'eq', value: this.selectedTeam });
             }
@@ -382,7 +383,8 @@ export default class GridAgreementsSelection extends LightningElement {
 
     handleLoadPreviousToggle(e) {
         this.loadPreviousGrid = e.target.checked;
-        if (this.loadPreviousGrid && this.existingGridType) {
+        // MULTI RULE can inherit details from any previous grid: keep the user's choice untouched
+        if (this.loadPreviousGrid && this.existingGridType && this.agType !== 'MULTI RULE') {
             this.agType = this.existingGridType;
             if (this.agType === 'MULTI RULE') {
                 this.isAutoGridUpdate = false;

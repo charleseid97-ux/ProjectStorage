@@ -204,66 +204,70 @@ User u = DM023_User.getListByIds(UserIdList).get(0);
         return userTechTest;
     }
     
-    // BGU 11/04/2017
-    /*public static User getCarmignacUserTestApex()
-    {            
-        List<Id> UserIdList = new  List<Id>();
-        Id idTempUser;
-        
-        String TestIfPartCopy = URL.getSalesforceBaseUrl().toExternalForm();
-        Boolean test = TestIfPartCopy.contains('PARTCOPY');
-        if (test){
-            //PARTCOPY
-            idTempUser = '00558000002Fv5r';
-        }else{
-            //PROD
-            idTempUser = '00558000001rQp1';
-        } 
-        
-        UserIdList.add(idTempUser);
-        
-        User u = DM023_User.getListByIds(UserIdList).get(0);
-        
-        return u;
-    }*/
-    
-    public static User getCarmignacUserTestApex()
-    {                    
-        
-        //Profile prof = getAdminProfile();
+    public static User getCarmignacUserTestApex() {                    
         Profile prof = getSimpleCarmignacProfile();
         UserRole usrole = getSimpleRole();
         
-        User u = new User
-            (
-                alias = 'TestApex'
-                , email='UserTestApex'+System.now().getTime()+'@carmignac.com' 
-                , emailencodingkey='ISO-8859-1'
-                , userroleId =usrole.Id
-                , Phone='+3312345678'
-                , firstname='firstTest' 
-                , lastname='UserTestApex' 
-                , languagelocalekey='fr' 
-                , localesidkey='fr_FR_EURO'
-                , ProfileId = prof.Id
-                , timezonesidkey='Europe/Paris'
-                , username='UserTestApex'+System.now().getTime()+'-crm@carmignac.com'
-                , TECH_UserEmail__c = 'TECH_UserEmail'+System.now().getTime()
-                //, TECH_UserExternalID__c = '46579864513'
-                , Position__c = 'Business Developer'
-                //, BusinessDevelopmentRegions__c = 'France'
-                , BusinessDevelopmentRegions__c = 'BP_FR'
-                , IsActive = true
-                , BypassApexTriggers__c = ''
-                , BypassProcessBuilders__c = true
-                , BypassValidationRules__c = true
-                , BypassWorkflowRules__c = true
-                , Bypass_Duplicate_Rules__c = true
-            );
+        User u = new User(
+            alias = 'TestApex',
+            email='UserTestApex'+System.now().getTime()+'@carmignac.com',
+            emailencodingkey='ISO-8859-1',
+            userroleId =usrole.Id,
+            Phone='+3312345678',
+            firstname='firstTest',
+            lastname='UserTestApex',
+            languagelocalekey='fr',
+            localesidkey='fr_FR_EURO',
+            ProfileId = prof.Id,
+            timezonesidkey='Europe/Paris',
+            username='UserTestApex'+System.now().getTime()+'-crm@carmignac.com',
+            TECH_UserEmail__c = 'TECH_UserEmail'+System.now().getTime(),
+            //TECH_UserExternalID__c = '46579864513',
+            Position__c = 'Business Developer',
+            //BusinessDevelopmentRegions__c = 'France',
+            BusinessDevelopmentRegions__c = 'BP_FR',
+            IsActive = true,
+            BypassApexTriggers__c = '',
+            BypassProcessBuilders__c = true,
+            BypassValidationRules__c = true,
+            BypassWorkflowRules__c = true,
+            Bypass_Duplicate_Rules__c = true
+        );
         insert u;
         return u;
     }
-    
+
+    public static User getCarmignacAdminUserTestApex() {
+        Profile prof = getAdminProfile();
+        UserRole usrole = getSimpleRole();
+
+        User u = new User (
+            alias = 'AdmTest',
+            email='AdminTestApex'+System.now().getTime()+'@carmignac.com',
+            emailencodingkey='ISO-8859-1',
+            userroleId =usrole.Id,
+            Phone='+3312345678',
+            firstname='firstAdmin',
+            lastname='AdminTestApex',
+            languagelocalekey='fr',
+            localesidkey='fr_FR_EURO',
+            ProfileId = prof.Id,
+            timezonesidkey='Europe/Paris',
+            username='AdminTestApex'+System.now().getTime()+'-crm@carmignac.com',
+            TECH_UserEmail__c = 'TECH_UserEmail'+System.now().getTime(),
+            Position__c = 'Business Developer',
+            BusinessDevelopmentRegions__c = 'BP_FR',
+            IsActive = true,
+            BypassApexTriggers__c = '',
+            BypassProcessBuilders__c = true,
+            BypassValidationRules__c = true,
+            BypassWorkflowRules__c = true,
+            Bypass_Duplicate_Rules__c = true
+        );
+        insert u;
+        return u;
+    }
+
     public static User getInterfaceEtouchesUser()
     {
         Profile profile = getEtouchesInterfaceProfile();

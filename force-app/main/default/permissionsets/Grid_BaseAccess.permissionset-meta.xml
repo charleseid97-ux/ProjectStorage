@@ -25,6 +25,10 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>ApprovalsReminderBatch</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>CustomAlertScheduler</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -37,7 +41,15 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>CustomApprovalInboxController</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>EmailService</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>GridAmendmentAgreementStatusAction</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
@@ -61,11 +73,19 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>GridCriteriaTriggerHandler</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>GridCriteriaUtility</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
         <apexClass>GridDetailBuilder</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>GridDetailRefreshBatch</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
@@ -105,6 +125,10 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>GridStandardApprovalMirrorQueueable</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>GridTopManagementApproverResolver</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -125,11 +149,19 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>IApprovalsRecipientResolver</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>IApproverResolver</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
         <apexClass>ICustomAlerter</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>LegalApprovalsRecipientResolver</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
@@ -162,6 +194,10 @@
     </customMetadataTypeAccesses>
     <customMetadataTypeAccesses>
         <enabled>true</enabled>
+        <name>ApprovalLockFieldExemptionConfig__mdt</name>
+    </customMetadataTypeAccesses>
+    <customMetadataTypeAccesses>
+        <enabled>true</enabled>
         <name>ApprovalProcessConfig__mdt</name>
     </customMetadataTypeAccesses>
     <customMetadataTypeAccesses>
@@ -171,6 +207,10 @@
     <customMetadataTypeAccesses>
         <enabled>true</enabled>
         <name>ApprovalStepConfig__mdt</name>
+    </customMetadataTypeAccesses>
+    <customMetadataTypeAccesses>
+        <enabled>true</enabled>
+        <name>ApprovalsReminder__mdt</name>
     </customMetadataTypeAccesses>
     <customMetadataTypeAccesses>
         <enabled>true</enabled>
@@ -238,6 +278,36 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>Convention__c.Grid_Request_Approved__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Convention__c.Grid_Request_Start_Date__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Convention__c.Grid_Request__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Convention__c.Grid_Start_Date__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Convention__c.Grid__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Convention__c.NoGridRequired__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>Convention__c.PaymentModeCurrency__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -254,6 +324,11 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Convention__c.RelatedAgreement__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Convention__c.TECH_AgreementRequestFinalized__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -298,6 +373,16 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
+        <field>CustomApprovalStep__c.PreviousApprover__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>CustomApprovalStep__c.RelatedTo__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
         <field>CustomApprovalStep__c.StepLabel__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -309,6 +394,11 @@
     <fieldPermissions>
         <editable>false</editable>
         <field>CustomApproval__c.CurrentStepDevName__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>CustomApproval__c.RelatedToLabel__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -397,6 +487,11 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
+        <editable>false</editable>
+        <field>GridDetail__c.StandardGridName__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
         <editable>true</editable>
         <field>GridDetail__c.StartDate__c</field>
         <readable>true</readable>
@@ -404,6 +499,11 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>GridDetail__c.TECH_EffMgtFeesAuditHistory__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>GridDetail__c.TotalAUMEur__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -553,6 +653,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>Grid__c.SelectedStandardGrids__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>Grid__c.StartDate__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -660,7 +765,7 @@
         <allowRead>true</allowRead>
         <modifyAllRecords>false</modifyAllRecords>
         <object>GridDetail__c</object>
-        <viewAllFields>false</viewAllFields>
+        <viewAllFields>true</viewAllFields>
         <viewAllRecords>false</viewAllRecords>
     </objectPermissions>
     <objectPermissions>

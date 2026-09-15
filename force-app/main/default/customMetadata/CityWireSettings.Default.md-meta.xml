@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomMetadata xmlns="http://soap.sforce.com/2006/04/metadata" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <label>Default</label>
+    <protected>false</protected>
+    <values>
+        <field>AlertAdditionalEmailAddresses__c</field>
+        <value xsi:type="xsd:string">salesforcesupport@carmignac.com</value>
+    </values>
+    <values>
+        <field>AlertEmailTemplateDeveloperName__c</field>
+        <value xsi:type="xsd:string">CityWireSyncAlert</value>
+    </values>
+    <values>
+        <field>AlertOnZeroUpdates__c</field>
+        <value xsi:type="xsd:boolean">true</value>
+    </values>
+    <values>
+        <field>AlertQueuesDeveloperName__c</field>
+        <value xsi:nil="true"/>
+    </values>
+    <values>
+        <field>BatchSize__c</field>
+        <value xsi:type="xsd:double">20.0</value>
+    </values>
+    <values>
+        <field>DryRun__c</field>
+        <value xsi:type="xsd:boolean">false</value>
+    </values>
+    <values>
+        <field>EnableAlerts__c</field>
+        <value xsi:type="xsd:boolean">true</value>
+    </values>
+    <values>
+        <field>FailureAlertThresholdPct__c</field>
+        <value xsi:type="xsd:double">50.0</value>
+    </values>
+    <values>
+        <field>MaxRatingAgeMonths__c</field>
+        <value xsi:type="xsd:double">3.0</value>
+    </values>
+    <values>
+        <field>NamedCredentialDeveloperName__c</field>
+        <value xsi:type="xsd:string">CityWireApi</value>
+    </values>
+    <values>
+        <field>TimeoutMs__c</field>
+        <value xsi:type="xsd:double">20000.0</value>
+    </values>
+</CustomMetadata>

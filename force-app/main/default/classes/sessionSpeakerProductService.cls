@@ -466,7 +466,28 @@ public without sharing class sessionSpeakerProductService {
             WHERE Id IN :eventIds
         ];
 
-        if (events.isEmpty()) return;
+    if (events.isEmpty()) return;
+
+    List<SessionSpeakerProduct__c> speakers = [
+        SELECT Session__c, SpeakerContact__c,
+            SpeakerContact__r.Name, SpeakerContact__r.Account.Name,
+            Language__c, speakerLanguage__c, PresentationStatus__c, Date__c,
+            startTime__c, endTime__c,
+            strategy__c, strategy__r.Name
+        FROM SessionSpeakerProduct__c
+        WHERE Session__c IN :eventIds
+        AND SpeakerContact__c != null
+        ORDER BY Session__c, SpeakerContact__c
+    ];
+
+    Map<Id, List<SessionSpeakerProduct__c>> eventToSpeakers = new Map<Id, List<SessionSpeakerProduct__c>>();
+    for (SessionSpeakerProduct__c speaker : speakers) {
+        if (!eventToSpeakers.containsKey(speaker.Session__c)) {
+            eventToSpeakers.put(speaker.Session__c, new List<SessionSpeakerProduct__c>());
+        }
+
+        eventToSpeakers.get(speaker.Session__c).add(speaker);
+    }
 
         Map<Id, String> oldNames = new Map<Id, String>();
         for (Event__c e : events) {

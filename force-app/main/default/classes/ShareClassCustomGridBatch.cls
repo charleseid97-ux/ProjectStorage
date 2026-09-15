@@ -116,5 +116,7 @@ public class ShareClassCustomGridBatch implements Database.Batchable<SObject> {
 
     // private void sendGridUpdateNotification(Grid__c grid) { /* V2 */ }
 
-    public void finish(Database.BatchableContext bc) {}
+    public void finish(Database.BatchableContext bc) {
+        Database.executeBatch(new GridDetailRefreshBatch(), GridUtility.BATCH_SIZE_GRID_DETAIL_REFRESH);
+    }
 }

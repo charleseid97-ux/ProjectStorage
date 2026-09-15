@@ -8,7 +8,6 @@ import { LightningElement, api, track } from 'lwc';
 import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 import { reduceError } from 'c/gridBuilderUtils';
 import getApprovalHistory from '@salesforce/apex/CustomApprovalHistoryController.getApprovalHistory';
-import processApproval from '@salesforce/apex/CustomApprovalHistoryController.processApproval';
 
 const STATUS_CLASS_MAP = {
     Approved  : 'status-approved',
@@ -40,10 +39,6 @@ export default class CustomApprovalHistory extends LightningElement {
 
     isModalOpen          = false;
     selectedRow          = null;
-    isActionLoading      = false;
-    actionError          = null;
-    nextApproverIds      = [];
-    modalComments        = '';
 
     // ── Getters ──────────────────────────────────────────────────────────────
     get hasRows()           { return this.rows && this.rows.length > 0; }
@@ -51,17 +46,22 @@ export default class CustomApprovalHistory extends LightningElement {
     get hasProcessStatus()  { return !!this.processStatus; }
     get headerTitle()       { return `Approval History (${(this.rows || []).length})`; }
 
-    get showModalApproveReject() {
-        return this.selectedRow && this.selectedRow.isPending && this.selectedRow.canApproveOrReject;
-    }
-    get showModalRecall() {
-        return this.canRecall;
-    }
-    get showNextApproverInput() {
-        return this.selectedRow && this.selectedRow.nextApproverSource === 'UserInput';
-    }
-    get showModalInputs() {
-        return this.selectedRow && this.selectedRow.isPending;
+    get modalSelectedRow() {
+        if (!this.selectedRow) return null;
+        return {
+            stepId             : this.selectedRow.stepId,
+            displayTitle       : this.selectedRow.stepName,
+            isPending          : this.selectedRow.isPending,
+            canApproveOrReject : this.selectedRow.canApproveOrReject,
+            nextApproverSource : this.selectedRow.nextApproverSource,
+            stepName           : this.selectedRow.stepName,
+            stepDateFormatted  : this.selectedRow.stepDateFormatted,
+            status             : this.selectedRow.status,
+            statusClass        : this.selectedRow.statusClass,
+            assignedTo         : this.selectedRow.assignedTo,
+            actualApprover     : this.selectedRow.actualApprover,
+            comments           : this.selectedRow.comments
+        };
     }
 
     // ── Data Loading ─────────────────────────────────────────────────────────
@@ -108,7 +108,7 @@ export default class CustomApprovalHistory extends LightningElement {
     }
 
     handleHeaderRecall() {
-        const firstPending = (this.rows || []).find(r => r.isPending && r.workItemId) || null;
+        const firstPending = (this.rows || []).find(r => r.isPending && r.stepId) || null;
         if (firstPending) this._openModal(firstPending);
     }
 
@@ -119,34 +119,21 @@ export default class CustomApprovalHistory extends LightningElement {
         if (row) this._openModal(row);
     }
 
-    // ── Modal Actions ─────────────────────────────────────────────────────────
-    handleModalApprove() {
-        this._submitAction('Approve', this.modalComments, this.nextApproverIds);
-    }
-
-    handleModalReject() {
-        this._submitAction('Reject', this.modalComments, []);
-    }
-
-    handleModalRecall() {
-        this._submitAction('Removed', this.modalComments, []);
-    }
-
+    // ── Modal events ──────────────────────────────────────────────────────────
     handleModalClose() {
-        this.isModalOpen     = false;
-        this.selectedRow     = null;
-        this.nextApproverIds = [];
-        this.modalComments   = '';
-        this.actionError     = null;
+        this.isModalOpen = false;
+        this.selectedRow = null;
     }
 
-    handleNextApproverChange(event) {
-        const id = event.detail && event.detail.recordId;
-        this.nextApproverIds = id ? [id] : [];
-    }
-
-    handleModalCommentChange(event) {
-        this.modalComments = event.target.value;
+    handleActionComplete(event) {
+        const action = event.detail.action;
+        this.handleModalClose();
+        this.dispatchEvent(new ShowToastEvent({
+            title   : 'Success',
+            message : `Action "${action}" completed successfully.`,
+            variant : 'success'
+        }));
+        this.loadData();
     }
 
     // ── Private Helpers ───────────────────────────────────────────────────────
@@ -155,43 +142,7 @@ export default class CustomApprovalHistory extends LightningElement {
     }
 
     _openModal(row) {
-        this.selectedRow     = row;
-        this.nextApproverIds = [];
-        this.modalComments   = '';
-        this.actionError     = null;
-        this.isModalOpen     = true;
-    }
-
-    _submitAction(action, comments, nextApproverIds) {
-        if (!this.selectedRow || !this.selectedRow.workItemId) return;
-
-        this.isActionLoading = true;
-        this.actionError     = null;
-
-        processApproval({
-            workItemId      : this.selectedRow.workItemId,
-            action          : action,
-            comments        : comments || null,
-            nextApproverIds : nextApproverIds || []
-        })
-        .then(result => {
-            if (result.success) {
-                this.handleModalClose();
-                this.dispatchEvent(new ShowToastEvent({
-                    title   : 'Success',
-                    message : `Action "${action}" completed successfully.`,
-                    variant : 'success'
-                }));
-                this.loadData();
-            } else {
-                this.actionError = result.errorMessage || 'An error occurred.';
-            }
-        })
-        .catch(error => {
-            this.actionError = reduceError(error);
-        })
-        .finally(() => {
-            this.isActionLoading = false;
-        });
+        this.selectedRow = row;
+        this.isModalOpen = true;
     }
 }

@@ -7,6 +7,10 @@
 **/
 
 public with sharing class VFC16_SequantisGenerateDraft {
+    // Centralise le Named Credential et les chemins relatifs Sequantis.
+    private static final String SEQUANTIS_ENDPOINT = 'callout:Sequantis';
+    private static final String AUTHENTICATION_PATH = '/rest/authentication/';
+    private static final String PROJECT_PATH = '/rest/CARMIGNAC_PROJECT';    
     public  Id recordId {get;set;}
     public static String selectedRecordId {get;set;}
     public List<SelectOption> shareclassOptions {get;set;}
@@ -52,8 +56,8 @@ public with sharing class VFC16_SequantisGenerateDraft {
 
         try {
             // Étape 1 — Récupération du token OAuth2
-            String token = fetchAccessToken('/rest/authentication');
-            
+            // Utilise le chemin d'authentification centralisé.
+            String token = fetchAccessToken(AUTHENTICATION_PATH);            
             // Étape 2 — Appel du secallSequantisServicervice pour générer le PDF
             String pdfString = callSequantisService(token, selectedRecordId,true);
             if(pdfString.startsWith('<br/> generation failed')){
@@ -78,7 +82,7 @@ public with sharing class VFC16_SequantisGenerateDraft {
     private void updateAllShareClasses() {   
         
             // Step 1 — Fetch authentication token
-            String token = fetchAccessToken('/rest/authentication');
+            String token = fetchAccessToken(AUTHENTICATION_PATH);
 
             // Step 2 — Iterate through all share class IDs
             for (ProjectShareclass__c shareClass : shareClasses) {
@@ -115,7 +119,7 @@ public with sharing class VFC16_SequantisGenerateDraft {
                                 LeveragedReturn__c, PensionSchemeGer__c, MayTerminateEarlier__c, ExecutionOnly__c, AppropTest__c, InvestAdvice__c, PortfolioManagement__c,
                                 ProjectProduct__c, ShareclassInvestmentObjective__c, InvestorType__c,PerformanceFeeUCITSKIID__c,PerformanceFeeEPTKID__c, MaxPerfFees__c,
                                 PerformanceFeeMethod__c,MaxRedemptionFeesSubfund__c,MaxRedemptionFeesManCo__c,OngoingCostsExante__c,OngoingChargesKIID__c,ReasonforRHPRedemptionShareclass__c
-                                ,MaxConversionFee__c,IsPayingTrailerFees__c
+                                ,MaxConversionFee__c,IsPayingTrailerFees__c,CountryRegNeededInstitutional__c,CountryRegNeededRetail__c,CountryRegNeededSemipro__c
                                 FROM projectShareClass__c
                                 WHERE id = :projectShareClassId];
         
@@ -123,7 +127,9 @@ public with sharing class VFC16_SequantisGenerateDraft {
                                 BenchmarkName__c, MaturityDate__c, CutOffTime__c, AssetClass__c, LEICode__c, ESGLabel__c,
                                 MinSustainableInvest__c, MinTaxAlignment__c, SFDRCategory__c, IsUsingPAI__c, EET20080__c, EET20190__c, 
                                 EET20200__c, EET20210__c, EET20400__c, EET20430__c, EET20460__c, EET20250__c, AMFESGCommunication__c, HasCarbonTarget__c, EET60440__c, FundSpecificExclusions__c,
-                                EndDate__c, Product__c,ParentProduct__r.ProductName__c,InvestmentObjective__c,IntentedRetailInvestor__c,ReasonForRHP__c,RedeemCondition__c,LMT__c,
+                                EndDate__c, Product__c,
+                               // ParentProduct__r.ProductName__c,
+                                InvestmentObjective__c,IntentedRetailInvestor__c,ReasonForRHP__c,RedeemCondition__c,LMT__c,
                                 internalShortName__c,TECH_RTName__c, BaseCurrency__c,RecordTypeId,DefaultLanguage__c,SettlementPeriod__c,OtherRelevantInformation__c,
                                 RiskNotConsideredinIndicator__c 
                             FROM ProjectProduct__c
@@ -254,10 +260,10 @@ public with sharing class VFC16_SequantisGenerateDraft {
         payload.put('settlementPeriod',escapeHTML(ProjectProductRec.SettlementPeriod__c));
         payload.put('otherRelevantInformation',escapeHTML(ProjectProductRec.OtherRelevantInformation__c));    
          
-        if (ProjectProductRec.ParentProduct__r != null &&
+       /* if (ProjectProductRec.ParentProduct__r != null &&
             ProjectProductRec.ParentProduct__r.ProductName__c != null) {
             payload.put('parentProduct', ProjectProductRec.ParentProduct__r.ProductName__c);
-        }
+        }*/
 
 
         payload.put('maxRedemptionFeesFund',  projectShareClassRec.MaxRedemptionFeesSubfund__c);
@@ -277,6 +283,25 @@ public with sharing class VFC16_SequantisGenerateDraft {
         payload.put('userMail', UserInfo.getUserEmail());
         Id rtId = ProjectProductRec.RecordTypeId;
 
+        // Ajoute les pays uniquement pour les créations de produit ou de share class.
+        if (
+            rtId == fundCreationRecordTypeId ||
+            rtId == shareclassCreationRecordTypeId
+        ) {
+            payload.put(
+                'countryRegNeededSemPro',
+                projectShareClassRec.CountryRegNeededSemipro__c
+            );
+            payload.put(
+                'countryRegNeededInstit',
+                projectShareClassRec.CountryRegNeededInstitutional__c
+            );
+            payload.put(
+                'countryRegNeededRetail',
+                projectShareClassRec.CountryRegNeededRetail__c
+            );
+        }
+
         if (rtId == fundCreationRecordTypeId) {
             if (ProjectProductRec.RecommendedHoldingPeriod__c == null ){
                 errorMsg += '<br/> Recommended Holding Period is required. ';
@@ -288,17 +313,17 @@ public with sharing class VFC16_SequantisGenerateDraft {
             payload.put('rhpUnit', escapeHTML(ProjectProductRec.RecommendedHoldingPeriodUnit__c));
             payload.put('reasonForRedemptionShareClass',escapeHTML(projectShareClassRec.ReasonforRHPRedemptionShareclass__c ));
             payload.put('investmentObjective', projectInvestmentObjectiveNoHTML);
-            payload.put('sortieAnticipee1', escapeHTML( ProjectProductRec.ReasonForRHP__c));
-            payload.put('typeInvestisseur', escapeHTML( ProjectProductRec.IntentedRetailInvestor__c));
+            payload.put('sortieAnticipee1', escapeHTML(ProjectProductRec.ReasonForRHP__c));
+            payload.put('typeInvestisseur', escapeHTML(ProjectProductRec.IntentedRetailInvestor__c));
             payload.put('shareClassInvestmentObjective', shareClassInvestmentObjectiveNoHTML);
-            payload.put('performanceFeesCommentEPT', escapeHTML( projectShareClassRec.PerformanceFeeEPTKID__c));
+            payload.put('performanceFeesCommentEPT', escapeHTML(projectShareClassRec.PerformanceFeeEPTKID__c));
             payload.put('performanceFeesComment', escapeHTML(projectShareClassRec.PerformanceFeeUCITSKIID__c));
             payload.put('riskNarrative', ProjectProductRec.RiskNotConsideredinIndicator__c);
             
             if(narratives.size() > 0 ){payload.put('managementCompany',  narratives[0].Name );}
 
         }else if (rtId == shareclassCreationRecordTypeId) {
-            payload.put('reasonForRedemptionShareClass',escapeHTML( projectShareClassRec.ReasonforRHPRedemptionShareclass__c ));
+            payload.put('reasonForRedemptionShareClass',escapeHTML(projectShareClassRec.ReasonforRHPRedemptionShareclass__c ));
             payload.put('shareClassInvestmentObjective', shareClassInvestmentObjectiveNoHTML);
             payload.put('performanceFeesCommentEPT', escapeHTML(projectShareClassRec.PerformanceFeeEPTKID__c));
             payload.put('performanceFeesComment', escapeHTML(projectShareClassRec.PerformanceFeeUCITSKIID__c));
@@ -311,9 +336,8 @@ public with sharing class VFC16_SequantisGenerateDraft {
         req.setHeader('Authorization', 'Bearer ' + token); 
         req.setHeader('Content-Type','application/json');
         req.setMethod('POST');
-        req.setEndpoint('callout:Sequantis/rest/CARMIGNAC_PROJECT');
-        
-
+        // Utilise l'URL de base configurée dans le Named Credential.
+        req.setEndpoint(SEQUANTIS_ENDPOINT + PROJECT_PATH);
         // Sérialisation du Map en JSON
         system.debug('payload====='+JSON.serialize(payload));
         payloadKeys = new List<String>(payload.keySet());
@@ -369,9 +393,8 @@ public with sharing class VFC16_SequantisGenerateDraft {
      public static String fetchAccessToken(String tokenPath) {
         HttpRequest req = new HttpRequest();
         req.setMethod('POST');
-        // Utilise le Named Credential
-        //req.setEndpoint('callout:Sequantis' + tokenPath);
-        req.setEndpoint('callout:Sequantis/rest/authentication/');
+        // Utilise l'URL de base configurée dans le Named Credential.
+        req.setEndpoint(SEQUANTIS_ENDPOINT + tokenPath);
         req.setHeader('Content-Type', 'application/json');
         String username = Label.seqlgn;
         String password = Label.seqpwd;

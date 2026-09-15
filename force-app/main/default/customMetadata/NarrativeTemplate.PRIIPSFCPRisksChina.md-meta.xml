@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomMetadata xmlns="http://soap.sforce.com/2006/04/metadata" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <label>PRIIPS FCP Risks China</label>
+    <protected>false</protected>
+    <values>
+        <field>Content__c</field>
+        <value xsi:type="xsd:string">Risks associated with China: investing in this fund entails risks associated with China, especially risks associated the use of Stock Connect (a system facilitating equity investment in the A shares market via a Hong Kong-based entity acting as the sub-fund&apos;s nominee). Investors are advised to familiarise themselves with the specific risks of this system, as well as with other risks linked to investments in China (CIBM, RQFII status...) as outlined in the prospectus.</value>
+    </values>
+    <values>
+        <field>Language__c</field>
+        <value xsi:type="xsd:string">EN</value>
+    </values>
+    <values>
+        <field>LegalForm__c</field>
+        <value xsi:type="xsd:string">FCP</value>
+    </values>
+    <values>
+        <field>Subtype__c</field>
+        <value xsi:type="xsd:string">Risks associated with China</value>
+    </values>
+    <values>
+        <field>Type__c</field>
+        <value xsi:type="xsd:string">PRIIPS</value>
+    </values>
+</CustomMetadata>

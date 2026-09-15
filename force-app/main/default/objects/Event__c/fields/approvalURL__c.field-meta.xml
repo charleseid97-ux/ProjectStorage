@@ -8,8 +8,9 @@
 )
 &amp; &quot;apex/EventApproval?eid=&quot;
 &amp; Id
+&amp; &quot;&amp;stateId=&quot;
+&amp; ApprovalStateId__c
 &amp; &quot;&amp;action=&quot;</formula>
-    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
     <label>Approval URL</label>
     <required>false</required>
     <trackHistory>false</trackHistory>
