@@ -2,7 +2,10 @@
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>ExDividendDate__c</fullName>
     <description>Ex-dividend date of the distribution. Source VOM: ExecutionDate. The semantic equivalence between ExecutionDate and the Ex-Dividend Date must be confirmed with DDI/business.</description>
+    <encryptionScheme>None</encryptionScheme>
+    <externalId>false</externalId>
     <label>Ex-Dividend Date</label>
     <required>false</required>
+    <trackTrending>false</trackTrending>
     <type>Date</type>
 </CustomField>

@@ -3,10 +3,12 @@
     <fullName>ShareClass__c</fullName>
     <deleteConstraint>Restrict</deleteConstraint>
     <description>Share Class to which this dividend distribution belongs. Data Integration resolves the Share Class from the VOM Isin value.</description>
+    <externalId>false</externalId>
     <label>Share Class</label>
     <referenceTo>Share_Class__c</referenceTo>
     <relationshipLabel>Dividend History</relationshipLabel>
     <relationshipName>DividendHistory</relationshipName>
     <required>true</required>
+    <trackTrending>false</trackTrending>
     <type>Lookup</type>
 </CustomField>
