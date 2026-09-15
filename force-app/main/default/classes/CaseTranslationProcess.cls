@@ -11,6 +11,9 @@ public class CaseTranslationProcess {
     private static final Id subPublicationRecordTypeId = Schema.SObjectType.Case.getRecordTypeInfosByName().get('Sub Publication Request').getRecordTypeId();
     private static final Map<String, Set<String>> languageWebsitePicklist = DependencyPicklistApex.getFieldDependencies('Case', 'Sub_Target_language__c','TargetWebsite__c');
 
+    private static final String POST_EDITING = 'Post-editing';
+    private static final String FULL_HUMAIN = 'Full humain';
+
     @AuraEnabled(cacheable=true)
     public static List<String> getTargetWebsiteOptions(List<String> target_languages) {
         List<String> websites = new List<String>();
@@ -365,7 +368,7 @@ public class CaseTranslationProcess {
                                                 AND HasAttachment = true 
                                                 AND fromAddress IN :agencyEmails) 
                                     AND RecordTypeId = :subTranslationRecordTypeId 
-                                    AND (Translation_mode__c = 'Post-editing' OR Translation_mode__c = 'Full humain')]) {
+                                    AND (Translation_mode__c = :POST_EDITING OR Translation_mode__c = :FULL_HUMAIN)]) {
 
             translationCase.Status = 'Proofreading Validation';
             translationCase.TECH_TargetReceived__c = true;
@@ -401,7 +404,7 @@ public class CaseTranslationProcess {
                                     FROM Case 
                                     WHERE Id IN (SELECT ParentId FROM EmailMessage WHERE Id IN :emailIds  AND Incoming = true AND HasAttachment = true AND fromAddress IN :agencyEmails) 
                                     AND RecordTypeId =: subTranslationRecordTypeId 
-                                    AND (Translation_mode__c = 'Post-editing' OR Translation_mode__c = 'Full humain')])
+                                    AND (Translation_mode__c = :POST_EDITING OR Translation_mode__c = :FULL_HUMAIN)])
         {
             translationCase.Status = 'Proofreading Validation';
             translationCase.TECH_TargetReceived__c = true;
@@ -436,7 +439,7 @@ public class CaseTranslationProcess {
             FROM Case
             WHERE ParentId IN :casesIds
             AND RecordTypeId =: subTranslationRecordTypeId
-            AND (Translation_mode__c = 'Post-editing' OR Translation_mode__c = 'Full humain')
+            AND (Translation_mode__c = :POST_EDITING OR Translation_mode__c = :FULL_HUMAIN)
             AND Sub_Target_language__c != 'French'
             AND Sub_Target_language__c != 'English'
         ];
