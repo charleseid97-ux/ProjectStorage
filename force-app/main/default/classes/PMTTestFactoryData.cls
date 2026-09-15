@@ -20,7 +20,7 @@ public class PMTTestFactoryData {
             InvestmentStrategy__c = 'Sample Strategy',
             DomiciledIn__c = 'FR',
             ProjectStatus__c = 'Closed',
-            Product_Name__c = 'toto',
+            ProductName__c = 'toto',
             SFDRCategory__c = '0',
             LegalForm__c = 'Other'
         );
@@ -136,7 +136,7 @@ public class PMTTestFactoryData {
     public static Product__c getProduct(Id recId, String code, String name, Boolean isActive){
       Product__c prod = new Product__c (RecordTypeId = recId,
                                  Name = code,
-                                 Product_Name__c = name,
+                                 ProductName__c = name,
                                  Validity__c = isActive);
         insert prod;
         return prod;

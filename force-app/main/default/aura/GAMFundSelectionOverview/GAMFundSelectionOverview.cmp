@@ -39,7 +39,7 @@
                             <aura:iteration items="{!v.productList}" var="product">
                                 <tr scope="row" class="dataRow">
                                     <th>
-                                        {!product.Name} <lightning:helptext content="{!product.Product_Name__c}" />
+                                        {!product.Name} <lightning:helptext content="{!product.ProductName__c}" />
                                     </th>
                                     <aura:iteration items="{!v.FSUList}" var="FSU">
                                         <td style="text-align:center;">

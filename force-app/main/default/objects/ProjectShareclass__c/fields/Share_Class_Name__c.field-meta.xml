@@ -2,43 +2,104 @@
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>Share_Class_Name__c</fullName>
     <externalId>false</externalId>
-    <formula>IF(
-  ISBLANK(ProjectProduct__r.ProductName__c),
-  ProjectProduct__r.Product__r.Product_Name__c &amp; &quot; &quot;,
-    ProjectProduct__r.ProductName__c &amp; &quot; &quot;
-) &amp;
+    <formula>/* =Champ de référence pour le naming ShareClass (logique métier). Toute évolution doit être répliquée dans l&apos;apex ShareClassHandler (Product Catalog) pour éviter des incohérences sur les règles de nommage */
 IF(
-  ISBLANK(Text(Type__c)),
-  &quot;&quot;,
-  Text(Type__c) &amp; &quot; &quot;
-) &amp;
+				ProjectProduct__r.RecordType.DeveloperName != &quot;FundShareClassModification&quot;,
+				IF(
+								LegalForm__c = &quot;OEIC&quot;,
 
-IF(
-  ISBLANK(Text(Currency__c)),
-  &quot;&quot;,
-  Text(Currency__c)&amp; &quot; &quot;
-) &amp;
+								/* ================= OEIC CASE ================= */
 
-IF(
-  Text(DividendPolicy__c) = &quot;Accumulating&quot;,
-  &quot;Acc &quot;,
-  IF(
-    Text(DividendPolicy__c)= &quot;Distributing&quot;,
-    CASE(
-      DividendFrequency__c,
-      &quot;Monthly&quot;, &quot;Mdis &quot;,
-      &quot;Quarterly&quot;, &quot;Qdis &quot;,
-      &quot;SemiAnnually&quot;, &quot;Sdis &quot;,
-      &quot;Annually&quot;, &quot;Ydis &quot;,
-      &quot;&quot;
-    ),
-    &quot;&quot;
-  )
-) &amp;
+								IF(
+												TEXT(DividendPolicy__c) = &quot;Accumulating&quot;,
 
-IF(Text(CurrencyHedging__c )= &quot;True&quot;,
-  &quot;Hdg&quot;,
-  &quot;&quot;
+												/* ---- OEIC + ACCUMULATING ---- */
+												IF(
+																ISBLANK(ProjectProduct__r.ProductName__c),
+																ProjectProduct__r.Product__r.ProductName__c &amp; &quot; &quot;,
+																ProjectProduct__r.ProductName__c &amp; &quot; &quot;
+												) &amp;
+												IF(ISBLANK(TEXT(Type__c)), &quot;&quot;, TEXT(Type__c) &amp; &quot; &quot;) &amp;
+												IF(ISBLANK(TEXT(Currency__c)), &quot;&quot;, TEXT(Currency__c) &amp; &quot; &quot;) &amp;
+												IF(
+																TEXT(CurrencyHedging__c) = &quot;True&quot;,
+																&quot;Acc Hdg&quot;,
+																&quot;Acc&quot;
+												),
+
+												IF(
+																TEXT(DividendPolicy__c) = &quot;Income&quot;,
+
+																/* ---- OEIC + Income ---- */
+																IF(
+																				ISBLANK(ProjectProduct__r.ProductName__c),
+																				ProjectProduct__r.Product__r.ProductName__c &amp; &quot; &quot;,
+																				ProjectProduct__r.ProductName__c &amp; &quot; &quot;
+																) &amp;
+																IF(ISBLANK(TEXT(Type__c)), &quot;&quot;, TEXT(Type__c) &amp; &quot; &quot;) &amp;
+																IF(ISBLANK(TEXT(Currency__c)), &quot;&quot;, TEXT(Currency__c) &amp; &quot; &quot;) &amp;
+																IF(
+																				TEXT(CurrencyHedging__c) = &quot;True&quot;,
+																				&quot;Inc Hdg&quot;,
+																				&quot;Inc&quot;
+																),
+
+																/* ---- If other Dividend Policy under OEIC ---- */
+																NULL
+												)
+								),
+
+								/* ================= ORIGINAL LOGIC (NON-OEIC) ================= */
+
+								IF(
+												ISBLANK(ProjectProduct__r.ProductName__c),
+												ProjectProduct__r.Product__r.ProductName__c &amp; &quot; &quot;,
+												ProjectProduct__r.ProductName__c &amp; &quot; &quot;
+								) &amp;
+
+								IF(ISBLANK(TEXT(Type__c)), &quot;&quot;, TEXT(Type__c) &amp; &quot; &quot;) &amp;
+
+								IF(
+												TEXT(Type__c) = &quot;MyInvestor&quot;,
+												&quot;&quot;,
+												IF(ISBLANK(TEXT(Currency__c)), &quot;&quot;, TEXT(Currency__c) &amp; &quot; &quot;) &amp;
+
+												IF(
+																TEXT(DividendPolicy__c) = &quot;Accumulating&quot;,
+																&quot;Acc &quot;,
+																IF(
+																				TEXT(DividendPolicy__c) = &quot;Distributing&quot;,
+																				CASE(
+																								TEXT(DividendFrequency__c),
+																								&quot;Monthly&quot;, &quot;Mdis &quot;,
+																								&quot;Quarterly&quot;, &quot;Qdis &quot;,
+																								&quot;Semi-Annually&quot;, &quot;Sdis &quot;,
+																								&quot;Annually&quot;, &quot;Ydis &quot;,
+																								&quot;Weekly&quot;, &quot;Wdis &quot;,
+																								&quot;Daily&quot;, &quot;Ddis &quot;,
+																								&quot;&quot;
+																				),
+																				IF(
+																								TEXT(DividendPolicy__c) = &quot;Income&quot;,
+																								CASE(
+																												TEXT(DividendFrequency__c),
+																												&quot;Monthly&quot;, &quot;Minc &quot;,
+																												&quot;Quarterly&quot;, &quot;Qinc &quot;,
+																												&quot;Semi-Annually&quot;, &quot;Sinc &quot;,
+																												&quot;Annually&quot;, &quot;Yinc &quot;,
+																												&quot;Weekly&quot;, &quot;Winc &quot;,
+																												&quot;Daily&quot;, &quot;Dinc &quot;,
+																												&quot;inc &quot;
+																								),
+																								&quot;&quot;
+																				)
+																)
+												) &amp;
+
+												IF(TEXT(CurrencyHedging__c) = &quot;True&quot;, &quot;Hdg&quot;, &quot;&quot;)
+								)
+				),
+				ShareClassNamePreModif__c
 )</formula>
     <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
     <label>Share Class Name</label>

@@ -22,8 +22,8 @@ private class CustomReportMatrixControllerTest {
                 ProductName__c       = 'Product ' + i,
                 FundStrategy__c      = strategy.Id,
                 InternalShortName__c = 'PROD' + i,
-                Legal_Status__c      = 'FCP',
-                Fund_Code__c         = 'PROD' + i
+                LegalForm__c         = 'FCP'//,
+                // Fund_Code__c         = 'PROD' + i
             ));
         }
         insert products;

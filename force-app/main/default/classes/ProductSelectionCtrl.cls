@@ -40,31 +40,22 @@ global with sharing class ProductSelectionCtrl {
     }
     
     public class Filter {
-        
         @AuraEnabled
         public String searchKey { get;set; }
-        
-        
         @AuraEnabled
         public String assetClass { get;set; }
-        
-        
         @AuraEnabled
         public String subAssetClass { get;set; }
-        
         @AuraEnabled
         public String strategy { get;set; }
-        
         @AuraEnabled
         public Boolean sri { get;set; }
-        
         @AuraEnabled
         public Boolean oeic { get;set; }
-        
     }
 
     //changed from getFunds
-    @AuraEnabled
+    /*@AuraEnabled
     public static PagedResult getProducts(String filters, Decimal pageSize, Decimal pageNumber) {
         Filter filter = (Filter) JSON.deserializeStrict(filters, ProductSelectionCtrl.Filter.class);
         System.Debug('Filters: ' + filters);
@@ -92,7 +83,7 @@ global with sharing class ProductSelectionCtrl {
         subAssetClassSubQuery = (subAssetClassID != '' ? '( Id = \'' +subAssetClassID+ '\' OR Sub_Asset_Class__c = \'' + subAssetClassID + '\') ' : '');
         strategySubQuery = (strategyID != '' ? '( Id = \'' +strategyID+ '\' OR Strategy__c = \'' + strategyID + '\') ' : '');
         
-        String SOQLStrTotal = 'SELECT id, Name, Legal_Status__c, Asset_Class__c, Asset_Class__r.Name, Strategy__c, Strategy__r.Name, RecordType.DeveloperName, RecordType.Name FROM Product__c WHERE (RecordType.Name=\'Strategy\' OR (RecordType.Name=\'Fund\' AND Legal_Status__c = \'OEIC\')) AND validity__c = true AND Dedicated_Fund__c = false '
+        String SOQLStrTotal = 'SELECT id, Name, LegalForm__c, Asset_Class__c, Asset_Class__r.Name, Strategy__c, Strategy__r.Name, RecordType.DeveloperName, RecordType.Name FROM Product__c WHERE RecordType.Name=\'Strategy\' AND validity__c = true ' //AND Dedicated_Fund__c = false '
             + (searchStringSubQuery == '' && assetClassSubQuery == '' && subAssetClassSubQuery == '' && strategySubQuery == '' && sri != true ? '' : 'AND ' )
             + (searchStringSubQuery == '' ? '' : searchStringSubQuery)
             + (searchStringSubQuery != '' && assetClassSubQuery !='' ? ' AND ' : '')
@@ -107,7 +98,7 @@ global with sharing class ProductSelectionCtrl {
             + (oeic == true ? ' AND RecordType.Name=\'Fund\'' : '');
         
         
-        String SOQLStr = 'SELECT id, Name, Legal_Status__c, Asset_Class__c, Asset_Class__r.Name, Strategy__c, Strategy__r.Name, RecordType.DeveloperName, RecordType.Name FROM Product__c WHERE (RecordType.Name=\'Strategy\' OR (RecordType.Name=\'Fund\' AND Legal_Status__c = \'OEIC\')) AND validity__c = true AND Dedicated_Fund__c = false '
+        String SOQLStr = 'SELECT id, Name, LegalForm__c, Asset_Class__c, Asset_Class__r.Name, Strategy__c, Strategy__r.Name, RecordType.DeveloperName, RecordType.Name FROM Product__c WHERE RecordType.Name=\'Strategy\' AND validity__c = true ' //AND Dedicated_Fund__c = false '
             + (searchStringSubQuery == '' && assetClassSubQuery == '' && subAssetClassSubQuery == '' && strategySubQuery == '' && sri != true ? '' : 'AND ' )
             + (searchStringSubQuery == '' ? '' : searchStringSubQuery)
             + (searchStringSubQuery != '' && assetClassSubQuery !='' ? ' AND ' : '')
@@ -169,10 +160,10 @@ global with sharing class ProductSelectionCtrl {
         r.total = totalProds.size();    
 
         return r;
-    }
+    }*/
     
     //changed from getFunds
-    @AuraEnabled
+    /*@AuraEnabled
     public static PagedResult getInvestmentStrategies(String filters, Decimal pageSize, Decimal pageNumber) {
         
         Filter filter = (Filter) JSON.deserializeStrict(filters, ProductSelectionCtrl.Filter.class);
@@ -202,14 +193,14 @@ global with sharing class ProductSelectionCtrl {
         map<String, Id> recordTypes = RecordTypeUtil.GetRecordTypeIdsByDeveloperName(Product__c.SObjectType);
         String strategyRecordTypeId = recordTypes.get('Strategy');
         
-        String SOQLStrTotal = 'SELECT id, Name, Asset_Class__c, Asset_Class__r.Name, Sub_Asset_Class__c, Sub_Asset_Class__r.Name, Strategy__c, Strategy__r.Name, RecordType.DeveloperName, RecordType.Name FROM Product__c '
+        String SOQLStrTotal = 'SELECT id, Name, Asset_Class__c, Asset_Class__r.Name, Strategy__c, Strategy__r.Name, RecordType.DeveloperName, RecordType.Name FROM Product__c '
             + 'WHERE RecordType.DeveloperName = \'Strategy\' '
             + (searchStringSubQuery == '' && strategySubQuery == '' ? '' : 'AND ' )
             + (searchStringSubQuery != '' ? searchStringSubQuery : '' )
             + (strategySubQuery != '' ? strategySubQuery : '');
             
             
-        String SOQLStr = 'SELECT id, Name, Asset_Class__c, Asset_Class__r.Name, Sub_Asset_Class__c, Sub_Asset_Class__r.Name, Strategy__c, Strategy__r.Name, RecordType.DeveloperName, RecordType.Name FROM Product__c '
+        String SOQLStr = 'SELECT id, Name, Asset_Class__c, Asset_Class__r.Name, Strategy__c, Strategy__r.Name, RecordType.DeveloperName, RecordType.Name FROM Product__c '
              + 'WHERE RecordType.DeveloperName = \'Strategy\' '
             + (searchStringSubQuery == '' && strategySubQuery == '' ? '' : 'AND ' )
             + (searchStringSubQuery != '' ? searchStringSubQuery : '' )
@@ -256,7 +247,7 @@ global with sharing class ProductSelectionCtrl {
         
         return r;
 
-    }
+    }*/
         
     @AuraEnabled
     public static List<Product__c> getStrategies() {
@@ -453,9 +444,9 @@ global with sharing class ProductSelectionCtrl {
     //Description: This method returns the list of all products without the filters. 
     @AuraEnabled
     public static List<Product__c> getProductListUnfiltered(){
-        return [SELECT id, Name, Legal_Status__c, Asset_Class__c, Asset_Class__r.Name, Strategy__c, Strategy__r.Name, RecordType.DeveloperName, RecordType.Name 
+        return [SELECT Id, Name, LegalForm__c, Asset_Class__c, Asset_Class__r.Name, Strategy__c, Strategy__r.Name, RecordType.DeveloperName, RecordType.Name 
                 FROM Product__c 
-                WHERE (RecordType.Name='Strategy' OR (RecordType.Name='Fund' AND Legal_Status__c = 'OEIC')) AND validity__c = true AND Dedicated_Fund__c = false];
+                WHERE RecordType.Name='Strategy' AND Validity__c = true]; //AND Dedicated_Fund__c = false];
     }    
     //END : JLC MODIFICATION : 14/06/2022
 }

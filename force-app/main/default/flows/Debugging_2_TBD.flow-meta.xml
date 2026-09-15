@@ -119,7 +119,7 @@
             <assignToReference>productName</assignToReference>
             <operator>Assign</operator>
             <value>
-                <elementReference>Loop_over_MNIs.Product__r.Product_Name__c</elementReference>
+                <elementReference>Loop_over_MNIs.Product__r.ProductName__c</elementReference>
             </value>
         </assignmentItems>
         <assignmentItems>

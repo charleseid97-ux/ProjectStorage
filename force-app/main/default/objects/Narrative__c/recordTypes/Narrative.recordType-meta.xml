@@ -855,13 +855,32 @@
         </values>
     </picklistValues>
     <picklistValues>
-        <picklist>DomiciliedIn__c</picklist>
+        <picklist>DomiciledIn__c</picklist>
         <values>
             <fullName>FR</fullName>
             <default>false</default>
         </values>
         <values>
             <fullName>LU</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>KeyPointNum__c</picklist>
+        <values>
+            <fullName>1</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>2</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>3</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>4</fullName>
             <default>false</default>
         </values>
     </picklistValues>
@@ -907,31 +926,23 @@
     <picklistValues>
         <picklist>Media__c</picklist>
         <values>
-            <fullName>EPT</fullName>
+            <fullName>FLF</fullName>
             <default>false</default>
         </values>
         <values>
-            <fullName>Factsheet</fullName>
+            <fullName>FLFBE</fullName>
             <default>false</default>
         </values>
         <values>
-            <fullName>Form</fullName>
+            <fullName>PS</fullName>
             <default>false</default>
         </values>
         <values>
-            <fullName>Kid</fullName>
+            <fullName>RPT</fullName>
             <default>false</default>
         </values>
         <values>
-            <fullName>PTEMT</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Prospectus</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Web</fullName>
+            <fullName>Web Site</fullName>
             <default>false</default>
         </values>
     </picklistValues>
@@ -947,25 +958,6 @@
         </values>
         <values>
             <fullName>Strategy</fullName>
-            <default>false</default>
-        </values>
-    </picklistValues>
-    <picklistValues>
-        <picklist>Nationality__c</picklist>
-        <values>
-            <fullName>Belgian</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>British</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>French</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Italian</fullName>
             <default>false</default>
         </values>
     </picklistValues>
@@ -1088,11 +1080,31 @@
             <default>false</default>
         </values>
         <values>
-            <fullName>Central_Admins</fullName>
+            <fullName>Carbon Emissions Figures</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Central Admin</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Central_Admin2</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Counterparty risk</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Credit risk</fullName>
             <default>false</default>
         </values>
         <values>
             <fullName>Custodian</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Customer and Employee Satisfaction Model</fullName>
             <default>false</default>
         </values>
         <values>
@@ -1116,7 +1128,19 @@
             <default>false</default>
         </values>
         <values>
-            <fullName>Delegated_Investment_Managers</fullName>
+            <fullName>Delegated_FX_Investment_Manager</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Delegated_Investment_Management_1</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Delegated_Investment_Management_2</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Delegated_Investment_Management_3</fullName>
             <default>false</default>
         </values>
         <values>
@@ -1157,6 +1181,10 @@
         </values>
         <values>
             <fullName>ESG Scoring</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>ESG Sovereign Score</fullName>
             <default>false</default>
         </values>
         <values>
@@ -1252,6 +1280,10 @@
             <default>false</default>
         </values>
         <values>
+            <fullName>Green%2C Social%2C Sustainable and Sustainability-Linked-Bonds</fullName>
+            <default>false</default>
+        </values>
+        <values>
             <fullName>HEALTH_WELL_BEING</fullName>
             <default>false</default>
         </values>
@@ -1296,6 +1328,14 @@
             <default>false</default>
         </values>
         <values>
+            <fullName>Investment Objective</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Investment Objective 2</fullName>
+            <default>false</default>
+        </values>
+        <values>
             <fullName>Investment exposure</fullName>
             <default>false</default>
         </values>
@@ -1305,6 +1345,10 @@
         </values>
         <values>
             <fullName>KID</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Key Point</fullName>
             <default>false</default>
         </values>
         <values>
@@ -1345,6 +1389,10 @@
         </values>
         <values>
             <fullName>Legal</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Liquidity risk</fullName>
             <default>false</default>
         </values>
         <values>
@@ -1416,6 +1464,10 @@
             <default>false</default>
         </values>
         <values>
+            <fullName>Other relevant information</fullName>
+            <default>false</default>
+        </values>
+        <values>
             <fullName>PAYS_DEVELOPPES</fullName>
             <default>false</default>
         </values>
@@ -1460,11 +1512,27 @@
             <default>false</default>
         </values>
         <values>
+            <fullName>Performance_fee_EPT%2FKID</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Performance_fee_UCITS_KIID</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Pooled investments in secondaries risk</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Portfolio ESG Summary</fullName>
+            <default>false</default>
+        </values>
+        <values>
             <fullName>Portfolio summary</fullName>
             <default>false</default>
         </values>
         <values>
-            <fullName>Pre_CentralAdmin</fullName>
+            <fullName>Pre-central admin</fullName>
             <default>false</default>
         </values>
         <values>
@@ -1480,7 +1548,7 @@
             <default>false</default>
         </values>
         <values>
-            <fullName>REASON_FOR_PHP</fullName>
+            <fullName>REASON_FOR_RHP</fullName>
             <default>false</default>
         </values>
         <values>
@@ -1505,6 +1573,18 @@
         </values>
         <values>
             <fullName>Rating</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Reason for RHP - Redemption shareclass</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Risk of capital loss</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Risks associated with China</fullName>
             <default>false</default>
         </values>
         <values>
@@ -1565,6 +1645,14 @@
         </values>
         <values>
             <fullName>S_P_TRUCOST_METHODOLOGY</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Settlement Period</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Share_Class_Investment_Objective</fullName>
             <default>false</default>
         </values>
         <values>
@@ -1636,6 +1724,10 @@
             <default>false</default>
         </values>
         <values>
+            <fullName>United Nations Sustainable Development Goals %28sdgs%29</fullName>
+            <default>false</default>
+        </values>
+        <values>
             <fullName>VALEUR_LIQUIDATIVE_VL_VNI</fullName>
             <default>false</default>
         </values>
@@ -1683,6 +1775,10 @@
     <picklistValues>
         <picklist>Type__c</picklist>
         <values>
+            <fullName>ESG</fullName>
+            <default>false</default>
+        </values>
+        <values>
             <fullName>Glossary</fullName>
             <default>false</default>
         </values>
@@ -1692,6 +1788,10 @@
         </values>
         <values>
             <fullName>Investment Strategy</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Marketing</fullName>
             <default>false</default>
         </values>
         <values>

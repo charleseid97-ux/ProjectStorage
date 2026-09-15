@@ -124,7 +124,7 @@ public class Test_ProjectShareclassTrigger {
             InvestmentStrategy__c = 'Sample Strategy',
             DomiciledIn__c = 'FR',
             ProjectStatus__c = 'Closed',
-            Product_Name__c = 'toto',
+            ProductName__c = 'toto',
             SFDRCategory__c = '0',
             LegalForm__c = legalForm
         );

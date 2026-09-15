@@ -83,7 +83,7 @@ private class VFC16_SequantisGenerateDraftTest {
 
         pp.EndDate__c = Date.today();
 
-        if (Schema.sObjectType.ProjectProduct__c.fields.getMap().containsKey('Product_Name__c')) {
+        if (Schema.sObjectType.ProjectProduct__c.fields.getMap().containsKey('ProductName__c')) {
             pp.Name = 'PRD - ' + (pp.Name == null ? 'Fund' : pp.Name) + ' - EUR';
         }
 
@@ -153,8 +153,8 @@ private class VFC16_SequantisGenerateDraftTest {
 
         pp.EndDate__c = Date.today();
 
-        if (Schema.sObjectType.ProjectProduct__c.fields.getMap().containsKey('Product_Name__c')) {
-            pp.Product_Name__c = 'PRD - Fund ABC - EUR';
+        if (Schema.sObjectType.ProjectProduct__c.fields.getMap().containsKey('ProductName__c')) {
+            pp.ProductName__c = 'PRD - Fund ABC - EUR';
         }
         update pp;
 

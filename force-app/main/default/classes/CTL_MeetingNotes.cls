@@ -37,7 +37,7 @@ public without sharing class CTL_MeetingNotes {
     }
     /*
     public static List<Product__c> getProducts(String statFilter){
-        return ([select Id,Name, Product_Name__c, RecordType.Name from Product__c where RecordType.Name = 'Strategy' and Validity__c = true order by Name asc]);
+        return ([select Id,Name, ProductName__c, RecordType.Name from Product__c where RecordType.Name = 'Strategy' and Validity__c = true order by Name asc]);
     }*/
     
     /**

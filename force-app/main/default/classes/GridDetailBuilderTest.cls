@@ -55,7 +55,7 @@ private with sharing class GridDetailBuilderTest {
         GridCriteria__c criteria4 = GridTestSetupHelper.createCriteria(grid.Id, 'AND', '1 AND 2', 'AND Logic');
         insert criteria4;
         insert new List<GridCriteriaDetail__c>{
-            GridTestSetupHelper.createCriteriaDetail(criteria4.Id, 1, 'Product__c', 'Legal_Status__c', '=', GridTestSetupHelper.LEGAL_STATUS_FCP, userDefined),
+            GridTestSetupHelper.createCriteriaDetail(criteria4.Id, 1, 'Product__c', 'LegalForm__c', '=', GridTestSetupHelper.LEGAL_STATUS_FCP, userDefined),
             GridTestSetupHelper.createCriteriaDetail(criteria4.Id, 2, 'Share_Class__c', 'Type__c', '=', GridTestSetupHelper.SHARE_TYPE_F, userDefined)
         };
         GridRule__c rule4 = GridTestSetupHelper.createGridRule(grid.Id, criteria4.Id, percentageOfFees, 'EffectiveManagementFees__c', 25, null, null, null);
@@ -77,7 +77,7 @@ private with sharing class GridDetailBuilderTest {
         GridCriteria__c criteria6 = GridTestSetupHelper.createCriteria(grid.Id, 'Custom Logic', '(1 AND 2) OR 3', 'Custom Logic');
         insert criteria6;
         insert new List<GridCriteriaDetail__c>{
-            GridTestSetupHelper.createCriteriaDetail(criteria6.Id, 1, 'Product__c', 'Legal_Status__c', '=', GridTestSetupHelper.LEGAL_STATUS_FCP, userDefined),
+            GridTestSetupHelper.createCriteriaDetail(criteria6.Id, 1, 'Product__c', 'LegalForm__c', '=', GridTestSetupHelper.LEGAL_STATUS_FCP, userDefined),
             GridTestSetupHelper.createCriteriaDetail(criteria6.Id, 2, 'Share_Class__c', 'Type__c', '=', GridTestSetupHelper.SHARE_TYPE_A, userDefined),
             GridTestSetupHelper.createCriteriaDetail(criteria6.Id, 3, 'Share_Class__c', 'Type__c', '=', GridTestSetupHelper.SHARE_TYPE_E, userDefined)
         };
@@ -88,7 +88,7 @@ private with sharing class GridDetailBuilderTest {
         // 7. NOT IN logic criteria (Legal Status NOT IN SICAV)
         GridCriteria__c criteria7 = GridTestSetupHelper.createCriteria(grid.Id, 'AND', '1', 'NOT IN Logic');
         insert criteria7;
-        insert GridTestSetupHelper.createCriteriaDetail(criteria7.Id, 1, 'Product__c', 'Legal_Status__c', 'NOT IN', GridTestSetupHelper.LEGAL_STATUS_SICAV, userDefined);
+        insert GridTestSetupHelper.createCriteriaDetail(criteria7.Id, 1, 'Product__c', 'LegalForm__c', 'NOT IN', GridTestSetupHelper.LEGAL_STATUS_SICAV, userDefined);
         GridRule__c rule7 = GridTestSetupHelper.createGridRule(grid.Id, criteria7.Id, percentageOfFees, 'EffectiveManagementFees__c', 22, null, null, null);
         insert rule7;
         gridRuleIds.add(rule7.Id);

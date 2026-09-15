@@ -22,7 +22,6 @@ public with sharing class Test_TaxEmailService {
 
         Product__c fund = new Product__c(
             Name = UK_FUND_NAME,
-            Product_Name__c = UK_FUND_NAME,
             ProductName__c = UK_FUND_NAME,
             FundStrategy__c = strategy.Id,
             Record_Type_Name__c = 'Fund',

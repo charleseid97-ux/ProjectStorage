@@ -11,7 +11,7 @@ public class Test_FieldModificationController {
 		Strategy__c s0 = new Strategy__c(Name='S0', AssetClass__c='Equity', SubAssetClass__c='Global', Code__c = 'S01');
         insert s0;
         
-        Product__c p0 = new Product__c(Name='P0', FundStrategy__c=s0.Id, Product_Name__c='Product Zero', Record_Type_Name__c = 'Fund', RecordTypeId=fundRecordTypeId, Validity__c=true, LegalForm__c='SICAV',VehicleType__c='Funds');
+        Product__c p0 = new Product__c(Name='P0', FundStrategy__c=s0.Id, ProductName__c='Product Zero', Record_Type_Name__c = 'Fund', RecordTypeId=fundRecordTypeId, Validity__c=true, LegalForm__c='SICAV',VehicleType__c='Funds');
         insert p0;
         
         Share_Class__c sc0 = new Share_Class__c(Name='ShareClass0 A USD', CurrencyIsoCode='USD', Country__c='AT;BE;FR;DE;GB;XI;IT;LU;ES;SE;CH;NL', Type__c='A', Fund_Code__c='P0', Fund__c=p0.Id, Validity__c=true);
@@ -50,41 +50,41 @@ public class Test_FieldModificationController {
     
     @IsTest
     static void test_updateFieldValue(){
-        Product__c p = new Product__c(Name='P0', Product_Name__c='Product Zero', Record_Type_Name__c = 'Fund', RecordTypeId=fundRecordTypeId, Validity__c=true, LegalForm__c='SICAV',VehicleType__c='Funds');
+        Product__c p = new Product__c(Name='P0', ProductName__c='Product Zero', Record_Type_Name__c = 'Fund', RecordTypeId=fundRecordTypeId, Validity__c=true, LegalForm__c='SICAV',VehicleType__c='Funds');
         insert p;
         Test.startTest();
-        FieldModificationController.updateFieldValue('Product__c', p.Id, 'Product_Name__c', 'New Name');
+        FieldModificationController.updateFieldValue('Product__c', p.Id, 'ProductName__c', 'New Name');
         Test.stopTest();
-        Product__c modifiedProduct = [SELECT Id,Product_Name__c FROM Product__c WHERE Id =: p.Id];
-        system.assertEquals('New Name' , modifiedProduct.Product_Name__c);
+        Product__c modifiedProduct = [SELECT Id,ProductName__c FROM Product__c WHERE Id =: p.Id];
+        system.assertEquals('New Name' , modifiedProduct.ProductName__c);
     }
     
     @IsTest
     static void test_updateFieldVal(){
-        Product__c p = new Product__c(Name='P0', Product_Name__c='Product Zero', Record_Type_Name__c = 'Fund', RecordTypeId=fundRecordTypeId, Validity__c=true, LegalForm__c='SICAV',VehicleType__c='Funds');
+        Product__c p = new Product__c(Name='P0', ProductName__c='Product Zero', Record_Type_Name__c = 'Fund', RecordTypeId=fundRecordTypeId, Validity__c=true, LegalForm__c='SICAV',VehicleType__c='Funds');
         insert p;
         Test.startTest();
-        FieldModificationController.updateFieldVal('Product__c', p.Id, 'Product_Name__c', 'New Name');
+        FieldModificationController.updateFieldVal('Product__c', p.Id, 'ProductName__c', 'New Name');
         Test.stopTest();
-        Product__c modifiedProduct = [SELECT Id,Product_Name__c FROM Product__c WHERE Id =: p.Id];
-        system.assertEquals('New Name' , modifiedProduct.Product_Name__c);
+        Product__c modifiedProduct = [SELECT Id,ProductName__c FROM Product__c WHERE Id =: p.Id];
+        system.assertEquals('New Name' , modifiedProduct.ProductName__c);
     }
     
     @IsTest
     static void test_updateMultipleFields(){
-        Product__c p = new Product__c(Name='P0', Product_Name__c='Product Zero', Record_Type_Name__c = 'Fund', RecordTypeId=fundRecordTypeId, Validity__c=true, LegalForm__c='SICAV',VehicleType__c='Funds');
+        Product__c p = new Product__c(Name='P0', ProductName__c='Product Zero', Record_Type_Name__c = 'Fund', RecordTypeId=fundRecordTypeId, Validity__c=true, LegalForm__c='SICAV',VehicleType__c='Funds');
         insert p;
         List<FieldModificationController.FieldUpdate> fields = new List<FieldModificationController.FieldUpdate>();
 		FieldModificationController.FieldUpdate fieldUpdate = new FieldModificationController.FieldUpdate();
         fieldUpdate.recordId = p.Id;
         fieldUpdate.objectApiName = 'Product__c';
-        fieldUpdate.fieldApiName = 'Product_Name__c';
+        fieldUpdate.fieldApiName = 'ProductName__c';
         fieldUpdate.newValue = 'New Name';
         fields.add(fieldUpdate);
         Test.startTest();
         FieldModificationController.updateMultipleFields(fields);
         Test.stopTest();
-        Product__c modifiedProduct = [SELECT Id,Product_Name__c FROM Product__c WHERE Id =: p.Id];
-        system.assertEquals('New Name' , modifiedProduct.Product_Name__c);
+        Product__c modifiedProduct = [SELECT Id,ProductName__c FROM Product__c WHERE Id =: p.Id];
+        system.assertEquals('New Name' , modifiedProduct.ProductName__c);
     }
 }

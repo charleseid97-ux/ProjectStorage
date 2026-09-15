@@ -20,7 +20,7 @@ private class Test_ProjectProductChildTriggerHandler {
               InvestmentStrategy__c = 'Sample Strategy',
               DomiciledIn__c = 'FR',
               ProjectStatus__c = 'Closed',
-              Product_Name__c = 'toto',
+              ProductName__c = 'toto',
               Product__c = product.Id,
             TECH_FieldsToModify__c = 'InternalShortName__c'
           );

@@ -815,7 +815,7 @@
                 <label>Performance Fee UCITS</label>
             </value>
             <value>
-                <fullName>REASON_FOR_PHP</fullName>
+                <fullName>REASON_FOR_RHP</fullName>
                 <default>false</default>
                 <label>Reason for RHP</label>
             </value>
@@ -827,12 +827,7 @@
             <value>
                 <fullName>Prime_Agent</fullName>
                 <default>false</default>
-                <label>Prime Agent</label>
-            </value>
-            <value>
-                <fullName>Pre_CentralAdmin</fullName>
-                <default>false</default>
-                <label>Pre Central Admin</label>
+                <label>Prime Transfer Agent</label>
             </value>
             <value>
                 <fullName>FundAdmin</fullName>
@@ -865,11 +860,6 @@
                 <label>Custodian</label>
             </value>
             <value>
-                <fullName>Central_Admins</fullName>
-                <default>false</default>
-                <label>Central Admin(s)</label>
-            </value>
-            <value>
                 <fullName>Share_Class_Investment_Objective</fullName>
                 <default>false</default>
                 <label>Share Class Investment Objective</label>
@@ -883,11 +873,6 @@
                 <fullName>Performance_fee_EPT/KID</fullName>
                 <default>false</default>
                 <label>Performance fee EPT/KID</label>
-            </value>
-            <value>
-                <fullName>Delegated_Investment_Managers</fullName>
-                <default>false</default>
-                <label>Delegated Investment Manager(s)</label>
             </value>
             <value>
                 <fullName>High_yield</fullName>
@@ -909,12 +894,151 @@
                 <default>false</default>
                 <label>Yield_to_maturity</label>
             </value>
+            <value>
+                <fullName>Delegated_Investment_Management_1</fullName>
+                <default>false</default>
+                <label>Delegated_Investment_Management 1</label>
+            </value>
+            <value>
+                <fullName>Delegated_Investment_Management_2</fullName>
+                <default>false</default>
+                <label>Delegated_Investment_Management 2</label>
+            </value>
+            <value>
+                <fullName>Delegated_Investment_Management_3</fullName>
+                <default>false</default>
+                <label>Delegated_Investment_Management 3</label>
+            </value>
+            <value>
+                <fullName>Delegated_FX_Investment_Manager</fullName>
+                <default>false</default>
+                <label>Delegated_FX_Investment_Manager</label>
+            </value>
+            <value>
+                <fullName>Central_Admin2</fullName>
+                <default>false</default>
+                <label>Central Admin 2</label>
+            </value>
+            <value>
+                <fullName>Central Admin</fullName>
+                <default>false</default>
+                <label>Central Admin 1</label>
+            </value>
+            <value>
+                <fullName>Pre-central admin</fullName>
+                <default>false</default>
+                <label>Pre-central admin</label>
+            </value>
+            <value>
+                <fullName>Settlement Period</fullName>
+                <default>false</default>
+                <label>Settlement Period</label>
+            </value>
+            <value>
+                <fullName>Other relevant information</fullName>
+                <default>false</default>
+                <label>Other relevant information</label>
+            </value>
+            <value>
+                <fullName>Reason for RHP - Redemption shareclass</fullName>
+                <default>false</default>
+                <label>Reason for RHP - Redemption shareclass</label>
+            </value>
+            <value>
+                <fullName>Default</fullName>
+                <default>false</default>
+                <label>Default</label>
+            </value>
+            <value>
+                <fullName>PreCentralAdmin</fullName>
+                <default>false</default>
+                <label>PreCentralAdmin</label>
+            </value>
+            <value>
+                <fullName>Counterparty risk</fullName>
+                <default>false</default>
+                <label>Counterparty risk</label>
+            </value>
+            <value>
+                <fullName>Credit risk</fullName>
+                <default>false</default>
+                <label>Credit risk</label>
+            </value>
+            <value>
+                <fullName>Liquidity risk</fullName>
+                <default>false</default>
+                <label>Liquidity risk</label>
+            </value>
+            <value>
+                <fullName>Pooled investments in secondaries risk</fullName>
+                <default>false</default>
+                <label>Pooled investments in secondaries risk</label>
+            </value>
+            <value>
+                <fullName>Risks associated with China</fullName>
+                <default>false</default>
+                <label>Risks associated with China</label>
+            </value>
+            <value>
+                <fullName>Risk of capital loss</fullName>
+                <default>false</default>
+                <label>Risk of capital loss</label>
+            </value>
+            <value>
+                <fullName>Investment Objective</fullName>
+                <default>false</default>
+                <label>Investment Objective</label>
+            </value>
+            <value>
+                <fullName>Investment Objective 2</fullName>
+                <default>false</default>
+                <label>Investment Objective 2</label>
+            </value>
+            <value>
+                <fullName>Key Point</fullName>
+                <default>false</default>
+                <label>Key Point</label>
+            </value>
+            <value>
+                <fullName>Portfolio ESG Summary</fullName>
+                <default>false</default>
+                <label>Portfolio ESG Summary</label>
+            </value>
+            <value>
+                <fullName>United Nations Sustainable Development Goals (sdgs)</fullName>
+                <default>false</default>
+                <label>United Nations Sustainable Development Goals (sdgs)</label>
+            </value>
+            <value>
+                <fullName>Carbon Emissions Figures</fullName>
+                <default>false</default>
+                <label>Carbon Emissions Figures</label>
+            </value>
+            <value>
+                <fullName>Customer and Employee Satisfaction Model</fullName>
+                <default>false</default>
+                <label>Customer and Employee Satisfaction Model</label>
+            </value>
+            <value>
+                <fullName>Green, Social, Sustainable and Sustainability-Linked-Bonds</fullName>
+                <default>false</default>
+                <label>Green, Social, Sustainable and Sustainability-Linked-Bonds</label>
+            </value>
+            <value>
+                <fullName>ESG Sovereign Score</fullName>
+                <default>false</default>
+                <label>ESG Sovereign Score</label>
+            </value>
         </valueSetDefinition>
         <valueSettings>
             <controllingFieldValue>Investment Objective</controllingFieldValue>
             <controllingFieldValue>Investment Strategy</controllingFieldValue>
             <controllingFieldValue>PRIIPs</controllingFieldValue>
             <valueName>Description</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Investment Objective</controllingFieldValue>
+            <valueName>PRIIPS</valueName>
         </valueSettings>
         <valueSettings>
             <controllingFieldValue>Biography</controllingFieldValue>
@@ -929,12 +1053,32 @@
             <valueName>Short</valueName>
         </valueSettings>
         <valueSettings>
-            <controllingFieldValue>Third Party</controllingFieldValue>
-            <valueName>Prime_Agent</valueName>
+            <controllingFieldValue>ESG</controllingFieldValue>
+            <valueName>Portfolio ESG Summary</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>ESG</controllingFieldValue>
+            <valueName>United Nations Sustainable Development Goals (sdgs)</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>ESG</controllingFieldValue>
+            <valueName>Carbon Emissions Figures</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>ESG</controllingFieldValue>
+            <valueName>Customer and Employee Satisfaction Model</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>ESG</controllingFieldValue>
+            <valueName>Green, Social, Sustainable and Sustainability-Linked-Bonds</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>ESG</controllingFieldValue>
+            <valueName>ESG Sovereign Score</valueName>
         </valueSettings>
         <valueSettings>
             <controllingFieldValue>Third Party</controllingFieldValue>
-            <valueName>Pre_CentralAdmin</valueName>
+            <valueName>Prime_Agent</valueName>
         </valueSettings>
         <valueSettings>
             <controllingFieldValue>Third Party</controllingFieldValue>
@@ -962,11 +1106,31 @@
         </valueSettings>
         <valueSettings>
             <controllingFieldValue>Third Party</controllingFieldValue>
-            <valueName>Central_Admins</valueName>
+            <valueName>Delegated_Investment_Management_1</valueName>
         </valueSettings>
         <valueSettings>
             <controllingFieldValue>Third Party</controllingFieldValue>
-            <valueName>Delegated_Investment_Managers</valueName>
+            <valueName>Delegated_Investment_Management_2</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Third Party</controllingFieldValue>
+            <valueName>Delegated_Investment_Management_3</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Third Party</controllingFieldValue>
+            <valueName>Central_Admin2</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Third Party</controllingFieldValue>
+            <valueName>Central Admin</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Third Party</controllingFieldValue>
+            <valueName>Pre-central admin</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Third Party</controllingFieldValue>
+            <valueName>PreCentralAdmin</valueName>
         </valueSettings>
         <valueSettings>
             <controllingFieldValue>Risk</controllingFieldValue>
@@ -990,7 +1154,7 @@
         </valueSettings>
         <valueSettings>
             <controllingFieldValue>PRIIPs</controllingFieldValue>
-            <valueName>REASON_FOR_PHP</valueName>
+            <valueName>REASON_FOR_RHP</valueName>
         </valueSettings>
         <valueSettings>
             <controllingFieldValue>PRIIPs</controllingFieldValue>
@@ -1007,6 +1171,50 @@
         <valueSettings>
             <controllingFieldValue>PRIIPs</controllingFieldValue>
             <valueName>Performance_fee_EPT/KID</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>PRIIPs</controllingFieldValue>
+            <valueName>Settlement Period</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>PRIIPs</controllingFieldValue>
+            <valueName>Other relevant information</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>PRIIPs</controllingFieldValue>
+            <valueName>Reason for RHP - Redemption shareclass</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>PRIIPs</controllingFieldValue>
+            <valueName>Counterparty risk</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>PRIIPs</controllingFieldValue>
+            <valueName>Credit risk</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>PRIIPs</controllingFieldValue>
+            <valueName>Liquidity risk</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>PRIIPs</controllingFieldValue>
+            <valueName>Pooled investments in secondaries risk</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>PRIIPs</controllingFieldValue>
+            <valueName>Risks associated with China</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Marketing</controllingFieldValue>
+            <valueName>Investment Objective</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Marketing</controllingFieldValue>
+            <valueName>Investment Objective 2</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Marketing</controllingFieldValue>
+            <valueName>Key Point</valueName>
         </valueSettings>
         <valueSettings>
             <controllingFieldValue>Glossary</controllingFieldValue>

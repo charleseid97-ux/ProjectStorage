@@ -122,7 +122,7 @@ public with sharing class VFC16_SequantisGenerateDraft {
                                 BenchmarkName__c, MaturityDate__c, CutOffTime__c, AssetClass__c, LEICode__c, ESGLabel__c,
                                 MinSustainableInvest__c, MinTaxAlignment__c, SFDRCategory__c, IsUsingPAI__c, EET20080__c, EET20190__c, 
                                 EET20200__c, EET20210__c, EET20400__c, EET20430__c, EET20460__c, EET20250__c, AMFESGCommunication__c, HasCarbonTarget__c, EET60440__c, FundSpecificExclusions__c,
-                                EndDate__c, Product__c,ParentProduct__r.Product_Name__c,InvestmentObjective__c,IntentedRetailInvestor__c,ReasonForRHP__c,RedeemCondition__c,LMT__c,
+                                EndDate__c, Product__c,ParentProduct__r.ProductName__c,InvestmentObjective__c,IntentedRetailInvestor__c,ReasonForRHP__c,RedeemCondition__c,LMT__c,
                                 internalShortName__c,TECH_RTName__c, BaseCurrency__c,RecordTypeId,DefaultLanguage__c
                             FROM ProjectProduct__c
                             WHERE Id = :projectShareClassRec.ProjectProduct__c];
@@ -254,8 +254,8 @@ public with sharing class VFC16_SequantisGenerateDraft {
         payload.put('projectId',ProjectProductRec.Id);
         Payload.put('maxRedemptionFeesManco', projectShareClassRec.MaxRedemptionFeesManCo__c );
         if (ProjectProductRec.ParentProduct__r != null &&
-            ProjectProductRec.ParentProduct__r.Product_Name__c != null) {
-            payload.put('parentProduct', ProjectProductRec.ParentProduct__r.Product_Name__c);
+            ProjectProductRec.ParentProduct__r.ProductName__c != null) {
+            payload.put('parentProduct', ProjectProductRec.ParentProduct__r.ProductName__c);
         }
 
 

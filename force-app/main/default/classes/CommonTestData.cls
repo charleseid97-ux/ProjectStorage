@@ -146,7 +146,7 @@ public without sharing class CommonTestData {
 		InternalAct.RecordTypeId = UtilitiesSobject.getRecordTypeIdsByDeveloperName('Account').get('Internal_Organisation');
 	    insert InternalAct;	    
 	   
-        Product = new Product__c(Name = 'testProduct', Product_Name__c='Test Product');
+        Product = new Product__c(Name = 'testProduct', ProductName__c='Test Product');
         insert Product;
         
         Id fred = UtilitiesSObject.getRecordTypeIdsByDeveloperName('Contact').get('Contact_DistributionContact');
