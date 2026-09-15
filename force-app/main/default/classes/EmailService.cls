@@ -5,7 +5,7 @@
  *              submitted-by references, record owners, and additional addressee lists.
  * @author Charles EID
  * @testClass EmailServiceTest
- * @coverage 74%   [20-05-26]
+ * @coverage 96%   [15-09-26]
 ────────────────────────────────────── */
 public without sharing class EmailService {
 
@@ -58,7 +58,7 @@ public without sharing class EmailService {
                     SObject record = Database.query('SELECT OwnerId FROM ' + objectApiName + ' WHERE Id = :targetRecordId LIMIT 1');
                     result.add((Id) record.get('OwnerId'));
                 } catch (Exception e) {
-                    OperationLogService.error(targetRecordId, 'EmailServiceResolveRecordOwner', 'Failed to resolve the owner of ' + objectApiName + ' while building alert recipients.', e);
+                    OperationLogService.logWithContext(OperationLogService.Level.ERROR, targetRecordId, 'EmailServiceResolveRecordOwner', 'Failed to resolve the owner of ' + objectApiName + ' while building alert recipients.', new Map<String, Object>{ 'objectApiName' => objectApiName, 'targetRecordId' => targetRecordId, 'exceptionMessage' => e.getMessage() }, e, 'EmailService', 'resolveRecipientIds');
                 }
             }
         }

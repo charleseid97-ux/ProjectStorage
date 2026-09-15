@@ -4,22 +4,8 @@
         <members>CityWireUpdateBatch</members>
         <members>CityWireUpdateBatchTest</members>
         <members>CityWireCalloutService</members>
-        <members>CityWireCalloutServiceTest</members>
-        <members>QueueMemberService</members>
-        <members>QueueMemberServiceTest</members>
         <members>EmailService</members>
-        <members>EmailServiceTest</members>
-        <members>OperationLogService</members>
-        <members>OperationLogServiceTest</members>
         <name>ApexClass</name>
-    </types>
-    <types>
-        <members>CityWireApiCred</members>
-        <name>ExternalCredential</name>
-    </types>
-    <types>
-        <members>CityWireApi</members>
-        <name>NamedCredential</name>
     </types>
     <types>
         <members>CityWireSettings__mdt</members>
@@ -34,20 +20,8 @@
         <name>PermissionSet</name>
     </types>
     <types>
-        <members>CarmignacAlerts</members>
-        <name>EmailFolder</name>
-    </types>
-    <types>
-        <members>CarmignacAlerts/CityWireSyncAlert</members>
-        <name>EmailTemplate</name>
-    </types>
-    <types>
         <members>CityWireSettings__mdt-City Wire Settings Layout</members>
         <name>Layout</name>
-    </types>
-    <types>
-        <members>EmailService_DefaultOrgWideAddress</members>
-        <name>CustomLabel</name>
     </types>
     <version>66.0</version>
 </Package>
