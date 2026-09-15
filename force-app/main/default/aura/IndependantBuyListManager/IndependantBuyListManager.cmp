@@ -55,7 +55,7 @@
                                              errorMessage="Invalid input"
                                              isNameSOSL="true"
                                              value="{!v.buyListDisplay.Product__c}"
-                                             filter="(RecordType.Name='Strategy' OR (RecordType.Name='Fund' AND Legal_Status__c = 'OEIC')) AND validity__c = true AND Dedicated_Fund__c = false"/>
+                                             filter="RecordType.Name='Strategy' AND Validity__c = true"/> <!-- AND Dedicated_Fund__c = false"/> -->
                                      </div>
                                      <div class="slds-col slds-size_1-of-2"  style="padding : 6px">
                                          <ui:inputSelect aura:id="localStatus" required="true" label="Local Status" value="{!v.buyListDisplay.Local_Status__c}"/>

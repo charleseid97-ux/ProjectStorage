@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>VR09_Narrative_LegalAccess</fullName>
+    <active>true</active>
+    <errorConditionFormula>AND(
+				NOT($User.BypassValidationRules__c),
+				$Profile.Name &lt;&gt; &apos;Carmignac - System Administrator&apos;,
+				$Permission.PRPLegal,
+				NOT(
+								AND(
+												RecordType.DeveloperName = &quot;Narrative&quot;,
+												OR(
+																AND(
+																				ISPICKVAL(Type__c, &quot;PRIIPs&quot;),
+																				OR(
+																								ISPICKVAL(SubType__c, &quot;Share_Class_Investment_Objective&quot;),
+																								ISPICKVAL(SubType__c, &quot;Performance_fee_UCITS_KIID&quot;),
+																								ISPICKVAL(SubType__c, &quot;Performance_fee_EPT/KID&quot;),
+																								ISPICKVAL(SubType__c, &quot;INTENDED_RETAIL_INVESTOR&quot;),
+																								ISPICKVAL(SubType__c, &quot;REASON_FOR_RHP&quot;),
+																								ISPICKVAL(SubType__c, &quot;Reason for RHP - Redemption shareclass&quot;),
+																								ISPICKVAL(SubType__c, &quot;Other relevant information&quot;)
+
+																				)
+																),
+																AND(
+																				ISPICKVAL(Type__c, &quot;Investment Objective&quot;),
+																				OR(
+																								ISPICKVAL(SubType__c, &quot;PRIIPS&quot;)
+																				)
+																)
+												)
+								)
+				)
+)</errorConditionFormula>
+    <errorMessage>Oops...you don&apos;t have the necessary privileges to edit this record. See your administrator for help.</errorMessage>
+</ValidationRule>

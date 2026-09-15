@@ -39,7 +39,7 @@ export default class CaseESGCreation extends NavigationMixin(
             let mapProducts = {};
             result.forEach((product) => {
                 products.push({
-                label: product.Name + " | " + product.Product_Name__c,
+                label: product.Name + " | " + product.ProductName__c,
                 value: product.Id,
                 code: product.Name
                 });

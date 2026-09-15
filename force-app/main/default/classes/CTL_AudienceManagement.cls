@@ -27,7 +27,7 @@ public with sharing class CTL_AudienceManagement {
     }
 
     /*public static List<Product__c> getProducts(){
-        return ([SELECT Id, Name, Product_Name__c, RecordType.Name FROM Product__c WHERE RecordType.Name = 'Strategy' and Validity__c = true ORDER BY Name asc]);
+        return ([SELECT Id, Name, ProductName__c, RecordType.Name FROM Product__c WHERE RecordType.Name = 'Strategy' and Validity__c = true ORDER BY Name asc]);
     }*/
 
     //Retrieves every active campaign

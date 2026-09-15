@@ -22,7 +22,7 @@ private class NDA_CtrlTest {
 
             Id FundRecordTypeId = Schema.SObjectType.Product__c.getRecordTypeInfosByDeveloperName().get('Fund').getRecordTypeId();
             List<Product__c> pList = new List<Product__c>{
-                    new Product__c(Name='PFund', Product_Name__c='Product Fund', Record_Type_Name__c = 'Fund', RecordTypeId=FundRecordTypeId)
+                    new Product__c(Name='PFund', ProductName__c='Product Fund', Record_Type_Name__c = 'Fund', RecordTypeId=FundRecordTypeId)
             };
 
             insert pList;
@@ -76,7 +76,7 @@ private class NDA_CtrlTest {
 
             Id FundRecordTypeId = Schema.SObjectType.Product__c.getRecordTypeInfosByDeveloperName().get('Fund').getRecordTypeId();
             List<Product__c> pList = new List<Product__c>{
-                    new Product__c(Name='PFund2', Product_Name__c='Product Fund2', Record_Type_Name__c = 'Fund', RecordTypeId=FundRecordTypeId)
+                    new Product__c(Name='PFund2', ProductName__c='Product Fund2', Record_Type_Name__c = 'Fund', RecordTypeId=FundRecordTypeId)
             };
 
             insert pList;

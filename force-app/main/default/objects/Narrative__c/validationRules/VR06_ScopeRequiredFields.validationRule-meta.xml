@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>VR06_ScopeRequiredFields</fullName>
+    <active>true</active>
+    <errorConditionFormula>AND(
+				NOT($User.BypassValidationRules__c),
+				RecordType.DeveloperName = &quot;Narrative&quot;,
+				OR(
+								AND(
+												ISPICKVAL(Narrative_Scope__c, &quot;Product&quot;),
+												ISBLANK(Product__c)
+								),
+								AND(
+												ISPICKVAL(Narrative_Scope__c, &quot;Shareclass&quot;),
+												ISBLANK(ShareClass__c)
+								)
+				)
+)</errorConditionFormula>
+    <errorMessage>Please complete required fields:
+For Product scope: Product must be filled
+For Shareclass scope: ShareClass must be filled</errorMessage>
+</ValidationRule>

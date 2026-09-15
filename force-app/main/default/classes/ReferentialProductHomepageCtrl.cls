@@ -71,7 +71,7 @@ public class ReferentialProductHomepageCtrl {
         if (String.isNotBlank(fundType))                            fundQuery += ' AND VehicleType__c = :fundType';
         if (String.isNotBlank(searchKey) && sharesList.isEmpty())   fundQuery += ' AND (Name LIKE \'%'+  searchKey + '%\' OR ProductName__c LIKE \'%'+  searchKey + '%\')';
         // Lorsque le filtre IS Products est actif, conserve uniquement les produits InvestSolution
-        if (isISProducts == true)                                  fundQuery += ' AND InvestSolutionScope__c = true';
+        if (isISProducts == true)                                   fundQuery += ' AND InvestSolutionScope__c = true';
         if (String.isNotBlank(sfdr))                                fundQuery += ' AND (SFDRcategory__c =: sfdr )';
 
         List<Product__c> filteredFunds = Database.query(fundQuery);

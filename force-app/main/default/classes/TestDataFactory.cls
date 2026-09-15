@@ -95,7 +95,7 @@ public class TestDataFactory {
     public static Product__c getProduct(Id recId, String code, String name, Boolean isActive){
         return ( new Product__c (RecordTypeId = recId,
                                  Name = code,
-                                 Product_Name__c = name,
+                                 ProductName__c = name,
                                  Validity__c = isActive));
         
     }
@@ -192,5 +192,33 @@ public class TestDataFactory {
         );
 
         return le;
+    }
+    
+    public static Case getCase() {
+        Id subPublicationRecordTypeId = Schema.SObjectType.Case.getRecordTypeInfosByDeveloperName().get('Sub_Publication_Request').getRecordTypeId();
+        
+        Case c = new Case(
+            Status = 'New',
+            Origin = 'Web',
+            Subject = 'Test Case Working Hours',
+            Website_Type__c = 'Corporate',
+            Website_SubType__c = 'Homepage update',
+            RecordTypeId = subPublicationRecordTypeId 
+        );
+        return c;
+    }
+    
+    public static Case getESGCase() {
+        Id ESGRecordTypeId = Schema.SObjectType.Case.getRecordTypeInfosByName().get('ESG').getRecordTypeId();
+        
+        Case c = new Case(
+            Status = 'New',
+            Origin = 'Web',
+            Subject = 'Test Case Working Hours',
+            Website_Type__c = 'Corporate',
+            Website_SubType__c = 'Homepage update',
+            RecordTypeId = ESGRecordTypeId
+        );
+        return c;
     }
 }

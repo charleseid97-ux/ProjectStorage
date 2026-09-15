@@ -27,7 +27,7 @@ public class ShareclassTriggerTest {
         Product__c p0 = new Product__c(
             Name = 'P0',
             FundStrategy__c = s0.Id,
-            Product_Name__c = PRODUCT_ZERO,
+            ProductName__c = PRODUCT_ZERO,
             Record_Type_Name__c = 'Fund',
             RecordTypeId = fundRecordTypeId,
             Validity__c = true,
@@ -78,7 +78,7 @@ public class ShareclassTriggerTest {
         Product__c p0 = new Product__c(
             Name = 'P0',
             FundStrategy__c = s0.Id,
-            Product_Name__c = PRODUCT_ZERO,
+            ProductName__c = PRODUCT_ZERO,
             Record_Type_Name__c = 'Fund',
             RecordTypeId = fundRecordTypeId,
             Validity__c = true,
@@ -90,7 +90,7 @@ public class ShareclassTriggerTest {
         Product__c p1 = new Product__c(
             Name = 'P0',
             FundStrategy__c = s0.Id,
-            Product_Name__c = PRODUCT_ZERO,
+            ProductName__c = PRODUCT_ZERO,
             Record_Type_Name__c = 'Fund',
             RecordTypeId = fundRecordTypeId,
             Validity__c = true,
@@ -204,7 +204,7 @@ public class ShareclassTriggerTest {
         Product__c fund = new Product__c(
             Name='FundClose',
             FundStrategy__c=s.Id,
-            Product_Name__c='FundClose',
+            ProductName__c='FundClose',
             Record_Type_Name__c='Fund',
             RecordTypeId=fundRecordTypeId,
             Validity__c=true,
@@ -256,7 +256,6 @@ public class ShareclassTriggerTest {
         Product__c fund = new Product__c(
             Name='FundEmail',
             FundStrategy__c=s.Id,
-            Product_Name__c='FundEmail',
             ProductName__c='FundEmail',
             Record_Type_Name__c='Fund',
             RecordTypeId=fundRecordTypeId,

@@ -13,9 +13,9 @@ public class Test_FieldHistoryLogger {
         Strategy__c s0 = new Strategy__c(Name='S0', AssetClass__c='Equity', SubAssetClass__c='Global', Code__c='S01');
         insert s0;
 
-        Product__c p0 = new Product__c(Name='P0', FundStrategy__c=s0.Id, Product_Name__c='Product Zero', Record_Type_Name__c='Fund', RecordTypeId=fundRecordTypeId, Validity__c=true, LegalForm__c='SICAV', VehicleType__c='Funds');
-        Product__c p1 = new Product__c(Name='P1', FundStrategy__c=s0.Id, Product_Name__c='Product One',  Record_Type_Name__c='Fund', RecordTypeId=fundRecordTypeId, Validity__c=true);
-        Product__c p2 = new Product__c(Name='P2', FundStrategy__c=s0.Id, Product_Name__c='Product Inactif', Record_Type_Name__c='Fund', RecordTypeId=fundRecordTypeId, Validity__c=false);
+        Product__c p0 = new Product__c(Name='P0', FundStrategy__c=s0.Id, ProductName__c='Product Zero', Record_Type_Name__c='Fund', RecordTypeId=fundRecordTypeId, Validity__c=true, LegalForm__c='SICAV', VehicleType__c='Funds');
+        Product__c p1 = new Product__c(Name='P1', FundStrategy__c=s0.Id, ProductName__c='Product One',  Record_Type_Name__c='Fund', RecordTypeId=fundRecordTypeId, Validity__c=true);
+        Product__c p2 = new Product__c(Name='P2', FundStrategy__c=s0.Id, ProductName__c='Product Inactif', Record_Type_Name__c='Fund', RecordTypeId=fundRecordTypeId, Validity__c=false);
         insert new List<Product__c>{ p0, p1, p2 };
 
         Share_Class__c sc0 = new Share_Class__c(Name='ShareClass0 A USD', CurrencyIsoCode='USD', Country__c='AT;BE;FR;DE;GB;XI;IT;LU;ES;SE;CH;NL', Type__c='A', Fund_Code__c='P0', Fund__c=p0.Id, Validity__c=true);

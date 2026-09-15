@@ -1,46 +1,29 @@
-import { LightningElement, api, track, wire } from 'lwc';
+import { LightningElement } from 'lwc';
+// import getProductHierarchy from '@salesforce/apex/productHierarchyController.getProductHierarchy';
+// import getAllProductHierarchy from '@salesforce/apex/ProductHierarchyAllController.getProductHierarchy';
+// import getPickListValues from '@salesforce/apex/PicklistController.getPickListValuesCustomContries';
 
-import getProductHierarchy from '@salesforce/apex/productHierarchyController.getProductHierarchy';
-
-import getAllProductHierarchy from '@salesforce/apex/ProductHierarchyAllController.getProductHierarchy';
-
-import getPickListValues from '@salesforce/apex/PicklistController.getPickListValuesCustomContries';
-
-
-export default class ProductHierarchy extends LightningElement 
-{
-    fieldName = 'Country__c';
-    
+export default class ProductHierarchy extends LightningElement {
+    /*fieldName = 'Country__c';
     objectName = 'Share_Class__c';
-
     @track countries;
-
     @track selectedCountry = 'All countries';
-
     @track items = [];
-    
     @api recordId;
 
-    // value of show SRI checkbox
-    showSRI = false;
-    // value of show regional focus checkbox
-    showRF = false;
-    // value of show asset class checkbox
-    showAC = false;
-    // whether the product is a regional focus or an asset class
-    ishighlevel = false;
+    showSRI = false; // value of show SRI checkbox
+    showRF = false; // value of show regional focus checkbox
+    showAC = false; // value of show asset class checkbox
+    ishighlevel = false; // whether the product is a regional focus or an asset class
 
     // whether to show the countries picklist or not
-    get isStrategiesVersion()
-    {
-        if(this.recordId == null){return true;}
-        else{return false;}
+    get isStrategiesVersion() {
+        if(this.recordId == null) return true;
+        return false;
     }
-    
 
     // refresh tasks list on components updates
-    async connectedCallback() 
-    {
+    async connectedCallback() {
         //const record = this.recordId;
 
         getPickListValues(
@@ -221,34 +204,5 @@ export default class ProductHierarchy extends LightningElement
                 }, 
             ]
         }
-    }
-
-    /*items = [
-        {
-            label: 'Product',
-            name: '1',
-            expanded: false,
-            items: [
-                {
-                    label: 'Fund 1',
-                    name: '2',
-                    expanded: false,
-                    items: [
-                        {
-                            label: 'Share 1 ',
-                            name: '3',
-                            expanded: false,
-                            items: [],
-                        },
-                        {
-                            label: 'Share 2',
-                            name: '4',
-                            expanded: false,
-                            items: [],
-                        },
-                    ],
-                },
-            ],
-        }
-    ];*/
+    }*/
 }

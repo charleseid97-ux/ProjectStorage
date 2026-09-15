@@ -55,7 +55,7 @@ public class DigitalInteractionDetailsTriggerTest {
         Id parentId = createParentRecord();
         Product__c p = new Product__c(RecordTypeId = fundRecordTypeId,
                                  Name = 'updated fund',
-                                 Product_Name__c = 'updated fund',
+                                 ProductName__c = 'updated fund',
                                  Validity__c = true);
         insert p;
         Share_Class__c shareCls = new Share_Class__c(Name='Test ShareCls',ISIN_Code__c='LU2585800795', Fund__c= p.Id, Validity__c=true);
@@ -122,7 +122,7 @@ public class DigitalInteractionDetailsTriggerTest {
     @isTest
     static void testProductCodeExtraction() {
         Id parentId = createParentRecord();
-        Product__c prod = new Product__c(Name = 'TEST', Product_Name__c = 'Test Product', Validity__c = true,RecordTypeId = fundRecordTypeId);
+        Product__c prod = new Product__c(Name = 'TEST', ProductName__c = 'Test Product', Validity__c = true,RecordTypeId = fundRecordTypeId);
         insert prod;
         
         Digital_Interaction_Details__c did = new Digital_Interaction_Details__c(
@@ -180,13 +180,13 @@ public class DigitalInteractionDetailsTriggerTest {
 
         Product__c p = new Product__c(RecordTypeId = fundRecordTypeId,
                                  Name = 'updated fund',
-                                 Product_Name__c = 'updated fund',
+                                 ProductName__c = 'updated fund',
                                  Validity__c = true);
         insert p;
         Share_Class__c shareCls = new Share_Class__c(Name='Test ShareCls',ISIN_Code__c='LU2585800795', Fund__c= p.Id, Validity__c=true);
         insert shareCls;
         
-        Product__c prodTest = new Product__c(Name = 'TEST', Product_Name__c = 'Test Product', Validity__c = true);
+        Product__c prodTest = new Product__c(Name = 'TEST', ProductName__c = 'Test Product', Validity__c = true);
         insert prodTest;
 
         // batch execution 

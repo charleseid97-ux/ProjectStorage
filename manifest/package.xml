@@ -1,27 +1,97 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Package xmlns="http://soap.sforce.com/2006/04/metadata">
     <types>
-        <members>CityWireUpdateBatch</members>
-        <members>CityWireUpdateBatchTest</members>
-        <members>CityWireCalloutService</members>
-        <members>EmailService</members>
+        <members>IndependantBuyListManager</members>
+        <members>GlobalBuyListManager</members>
+        <members>ProductTile</members>
+        <members>GAMFundSelectionOverview</members>
+        <name>AuraDefinitionBundle</name>
+    </types>
+    <types>
+        <members>CaseProductUpdateTest</members>
+        <members>CaseTranslationProcess</members>
+        <members>CommonTestData</members>
+        <members>ContactDigitalInteractionUtil</members>
+        <members>CTL_AudienceManagement</members>
+        <members>CTL_AudienceManagementTest</members>
+        <members>CTL_MeetingNotes</members>
+        <members>CTL_SearchSubscriptionProduct</members>
+        <members>CustomReportMatrixControllerTest</members>
+        <members>DigitalInteractionDetailsBatch</members>
+        <members>DigitalInteractionDetailsTriggerService</members>
+        <members>DigitalInteractionDetailsTriggerTest</members>
+        <members>DigitalInteractionTest</members>
+        <members>FundSelectionProcessTest</members>
+        <members>FundSelectionUtil</members>
+        <members>GridDetailBuilderTest</members>
+        <members>GridTestSetupHelper</members>
+        <members>LookUpFilterCriteriaController_TEST</members>
+        <members>NDA_CtrlTest</members>
+        <members>PMTTestFactoryData</members>
+        <members>ProductHierarchyAllController</members>
+        <members>productHierarchyController</members>
+        <members>ProductHierarchyControllerTest</members>
+        <members>ProductHierarchyHelper</members>
+        <members>ProductSelectionCtrl</members>
+        <members>ProductSelectionCtrlTest</members>
+        <members>ProductTriggerHandler</members>
+        <members>ProductTriggerTest</members>
+        <members>ReferentialProductHomepageCtrl</members>
+        <members>ReferentialProductHomepageCtrlTest</members>
+        <members>ShareClassHandler</members>
+        <members>ShareclassTriggerTest</members>
+        <members>SM029_WebCommunicationTest</members>
+        <members>SM029_WebComResponseParser_Test</members>
+        <members>StrategyOnFund</members>
+        <members>StrategyOnFundTest</members>
+        <members>Test_FieldHistoryLogger</members>
+        <members>Test_FieldModificationController</members>
+        <members>Test_ProjectProductChildTriggerHandler</members>
+        <members>Test_ProjectShareclassTrigger</members>
+        <members>Test_TaxEmailService</members>
+        <members>TestDataFactory</members>
+        <members>VFC16_SequantisGenerateDraft</members>
+        <members>VFC16_SequantisGenerateDraftTest</members>
+        <members>WTPProductDelete_Test</members>
+        <members>WTPSelectorControllerTest</members>
         <name>ApexClass</name>
     </types>
     <types>
-        <members>CityWireSettings__mdt</members>
-        <name>CustomObject</name>
-    </types>
-    <types>
-        <members>CityWireSettings.Default</members>
+        <members>Field_History_Config.Product_Tracked_Fields</members>
         <name>CustomMetadata</name>
     </types>
     <types>
-        <members>CityWireIntegrationPermissions</members>
-        <name>PermissionSet</name>
+        <members>Product_Status__c.Product__c</members>
+        <name>CustomField</name>
     </types>
     <types>
-        <members>CityWireSettings__mdt-City Wire Settings Layout</members>
-        <name>Layout</name>
+        <members>NDA_Templates/NDA_Modified</members>
+        <members>NDA_Templates/New_NDA_Request</members>
+        <name>EmailTemplate</name>
     </types>
-    <version>66.0</version>
+    <types>
+        <members>Debugging_2_TBD</members>
+        <members>FL_AfterSave_WTP_Reallocation_Email_Alerts</members>
+        <name>Flow</name>
+    </types>
+    <types>
+        <members>caseESGCreation</members>
+        <members>productHierarchy</members>
+        <members>referentialProductHomepage</members>
+        <members>translationCaseCreation</members>
+        <name>LightningComponentBundle</name>
+    </types>
+    <types>
+        <members>Narrative__c</members>
+        <name>CustomObject</name>
+    </types>
+    <types>
+        <members>Case.Strategy__c</members>
+        <members>Opportunity.Asset_Class__c</members>
+        <members>Opportunity.InvestmentSolutionProduct__c</members>
+        <members>Opportunity.Product_Strategy__c</members>
+        <members>Product_Status__c.Product__c</members>
+        <name>CustomField</name>
+    </types>
+    <version>61.0</version>
 </Package>

@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>PRIIPS_Narratives</fullName>
+    <booleanFilter>(1 OR (2 AND 3)) AND ((4 AND 5) OR (6 AND 7))</booleanFilter>
+    <columns>Type__c</columns>
+    <columns>SubType__c</columns>
+    <columns>Narrative_Scope__c</columns>
+    <columns>Product__c</columns>
+    <columns>ShareClass__c</columns>
+    <columns>DomiciledInPRIIPS__c</columns>
+    <columns>Language__c</columns>
+    <columns>Content__c</columns>
+    <columns>NAME</columns>
+    <filterScope>Everything</filterScope>
+    <filters>
+        <field>Type__c</field>
+        <operation>equals</operation>
+        <value>PRIIPs</value>
+    </filters>
+    <filters>
+        <field>Type__c</field>
+        <operation>equals</operation>
+        <value>Investment Objective</value>
+    </filters>
+    <filters>
+        <field>SubType__c</field>
+        <operation>equals</operation>
+        <value>PRIIPS</value>
+    </filters>
+    <filters>
+        <field>DomiciledInPRIIPS__c</field>
+        <operation>equals</operation>
+        <value>FR</value>
+    </filters>
+    <filters>
+        <field>Language__c</field>
+        <operation>equals</operation>
+        <value>French</value>
+    </filters>
+    <filters>
+        <field>DomiciledInPRIIPS__c</field>
+        <operation>notEqual</operation>
+        <value>FR</value>
+    </filters>
+    <filters>
+        <field>Language__c</field>
+        <operation>equals</operation>
+        <value>English</value>
+    </filters>
+    <label>PRIIPS Narratives</label>
+</ListView>

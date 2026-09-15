@@ -20,7 +20,7 @@ public without sharing  class ShareClassHandler {
         Map<Id, Product__c> fundMap = new Map<Id, Product__c>();
         if (!fundIds.isEmpty()) {
             fundMap = new Map<Id, Product__c>([
-                SELECT Id, LegalForm__c, Product_Name__c, ProductName__c
+                SELECT Id, LegalForm__c, ProductName__c
                 FROM Product__c
                 WHERE Id IN :fundIds
             ]);
@@ -65,8 +65,8 @@ public without sharing  class ShareClassHandler {
             
             /* ================= PRODUCT NAME ================= */
             if (includeProduct) {
-                if (!String.isBlank(fundRec.Product_Name__c)) {
-                    productName = fundRec.Product_Name__c.trim();
+                if (!String.isBlank(fundRec.ProductName__c)) {
+                    productName = fundRec.ProductName__c.trim();
                 } else if (!String.isBlank(fundRec.ProductName__c)) {
                     productName = fundRec.ProductName__c.trim();
                 }
@@ -230,7 +230,7 @@ public without sharing  class ShareClassHandler {
             
             update taxDataToUpdate;
         }
-
+/* Dev Khadija 
         private static final String TYPE_BELGIUM_SIMULATOR = 'Belgium Simulator';
         private static final String COUNTRY_BE = 'BE';
         private static final String STATUS_YES = 'Yes';
@@ -306,5 +306,5 @@ public without sharing  class ShareClassHandler {
             }
 
             return result;
-        }
+        }*/
     }

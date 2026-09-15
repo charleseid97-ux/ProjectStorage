@@ -24,8 +24,7 @@ global with sharing class FundSelectionUtil {
     @AuraEnabled 
     public static Product__c[] getStrategyListForReport() {
         Id strategyRecordTypeId = Schema.SObjectType.Product__c.getRecordTypeInfosByDeveloperName().get('Strategy').getRecordTypeId();
-        Id fundRecordTypeId = Schema.SObjectType.Product__c.getRecordTypeInfosByDeveloperName().get('Fund').getRecordTypeId();
-        return [SELECT Name, Product_Name__c FROM Product__c WHERE (RecordTypeId =: strategyRecordTypeId OR (RecordTypeId =: fundRecordTypeId AND Legal_Status__c = 'OEIC')) AND validity__c = true AND Dedicated_Fund__c = false];
+        return [SELECT Name, ProductName__c FROM Product__c WHERE RecordTypeId =: strategyRecordTypeId AND Validity__c = true]; //AND Dedicated_Fund__c = false];
     }
 
     @AuraEnabled

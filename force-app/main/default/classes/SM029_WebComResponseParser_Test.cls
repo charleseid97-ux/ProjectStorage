@@ -12,12 +12,11 @@ public class SM029_WebComResponseParser_Test {
         Product__c prd = new Product__c();
             prd.RecordTypeId = Product__c.sObjectType.getDescribe().getRecordTypeInfosByDeveloperName().get('Fund').getRecordTypeId();
             prd.Name = 'Prod123';
-            prd.Product_Name__c = 'Product Test';
+            prd.ProductName__c = 'Product Test';
             prd.Validity__c = true;
-            prd.DefaultLanguage__c = 'FR';
             insert prd;
         
-        Share_Class__c sc = new Share_Class__c(Name = 'SC', ISIN__c = isin,Fund__c = prd.Id);
+        Share_Class__c sc = new Share_Class__c(Name = 'SC', ISIN__c = isin, ISIN_Code__c = isin, Fund__c = prd.Id);
         insert sc;
         return sc;
     }

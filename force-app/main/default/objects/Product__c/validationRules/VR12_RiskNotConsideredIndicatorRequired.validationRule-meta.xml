@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>VR12_RiskNotConsideredIndicatorRequired</fullName>
+    <active>true</active>
+    <errorConditionFormula>AND(
+				NOT($User.BypassValidationRules__c),
+    NOT(ISPICKVAL(LegalForm__c, &quot;OEIC&quot;)),
+    ISBLANK(RiskNotConsideredinIndicator__c)
+)</errorConditionFormula>
+    <errorDisplayField>RiskNotConsideredinIndicator__c</errorDisplayField>
+    <errorMessage>Risk Not Considered in Indicator is required when Legal Form is not OEIC.</errorMessage>
+</ValidationRule>

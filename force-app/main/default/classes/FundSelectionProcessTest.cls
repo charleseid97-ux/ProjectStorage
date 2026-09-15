@@ -28,8 +28,8 @@ public with sharing class FundSelectionProcessTest {
       	insert FSUAccounts;
         
         strategyProducts = new List<Product__c>{
-            new Product__c(Name='Strategy Test 1', Product_Name__c='Strategy Test 1', Validity__c=true, RecordTypeId=prodRtMap.get('Strategy')),
-            new Product__c(Name='Strategy Test 2', Product_Name__c='Strategy Test 2', Validity__c=true, RecordTypeId=prodRtMap.get('Strategy'))
+            new Product__c(Name='Strategy Test 1', ProductName__c='Strategy Test 1', Validity__c=true, RecordTypeId=prodRtMap.get('Strategy')),
+            new Product__c(Name='Strategy Test 2', ProductName__c='Strategy Test 2', Validity__c=true, RecordTypeId=prodRtMap.get('Strategy'))
         };
         insert strategyProducts;
         

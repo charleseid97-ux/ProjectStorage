@@ -855,13 +855,40 @@
         </values>
     </picklistValues>
     <picklistValues>
-        <picklist>DomiciliedIn__c</picklist>
+        <picklist>DomiciledIn__c</picklist>
         <values>
             <fullName>FR</fullName>
             <default>false</default>
         </values>
         <values>
+            <fullName>GB</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>IE</fullName>
+            <default>false</default>
+        </values>
+        <values>
             <fullName>LU</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>KeyPointNum__c</picklist>
+        <values>
+            <fullName>1</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>2</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>3</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>4</fullName>
             <default>false</default>
         </values>
     </picklistValues>
@@ -907,31 +934,7 @@
     <picklistValues>
         <picklist>Media__c</picklist>
         <values>
-            <fullName>EPT</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Factsheet</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Form</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Kid</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>PTEMT</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Prospectus</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Web</fullName>
+            <fullName>Web Site</fullName>
             <default>false</default>
         </values>
     </picklistValues>
@@ -947,25 +950,6 @@
         </values>
         <values>
             <fullName>Strategy</fullName>
-            <default>false</default>
-        </values>
-    </picklistValues>
-    <picklistValues>
-        <picklist>Nationality__c</picklist>
-        <values>
-            <fullName>Belgian</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>British</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>French</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Italian</fullName>
             <default>false</default>
         </values>
     </picklistValues>
@@ -988,7 +972,11 @@
             <default>false</default>
         </values>
         <values>
-            <fullName>Central_Admins</fullName>
+            <fullName>Central Admin</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Central_Admin2</fullName>
             <default>false</default>
         </values>
         <values>
@@ -996,7 +984,15 @@
             <default>false</default>
         </values>
         <values>
-            <fullName>Delegated_Investment_Managers</fullName>
+            <fullName>Delegated_Investment_Management_1</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Delegated_Investment_Management_2</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Delegated_Investment_Management_3</fullName>
             <default>false</default>
         </values>
         <values>
@@ -1080,7 +1076,7 @@
             <default>false</default>
         </values>
         <values>
-            <fullName>Pre_CentralAdmin</fullName>
+            <fullName>Pre-central admin</fullName>
             <default>false</default>
         </values>
         <values>

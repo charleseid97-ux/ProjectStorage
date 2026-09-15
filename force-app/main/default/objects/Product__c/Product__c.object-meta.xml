@@ -128,13 +128,6 @@
     </actionOverrides>
     <actionOverrides>
         <actionName>View</actionName>
-        <content>Product_Record_Page</content>
-        <formFactor>Small</formFactor>
-        <skipRecordTypeSelect>false</skipRecordTypeSelect>
-        <type>Flexipage</type>
-    </actionOverrides>
-    <actionOverrides>
-        <actionName>View</actionName>
         <comment>Action override updated by Lightning App Builder during activation.</comment>
         <content>PMP_Product_Lightning_Page</content>
         <formFactor>Large</formFactor>
@@ -143,6 +136,11 @@
     </actionOverrides>
     <actionOverrides>
         <actionName>View</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>View</actionName>
+        <formFactor>Small</formFactor>
         <type>Default</type>
     </actionOverrides>
     <allowInChatterGroups>true</allowInChatterGroups>
@@ -168,8 +166,7 @@
     <pluralLabel>Products</pluralLabel>
     <recordTypeTrackHistory>false</recordTypeTrackHistory>
     <searchLayouts>
-        <searchResultsAdditionalFields>Record_Type_Name__c</searchResultsAdditionalFields>
-        <searchResultsAdditionalFields>Product_Name__c</searchResultsAdditionalFields>
+        <searchResultsAdditionalFields>ProductName__c</searchResultsAdditionalFields>
         <searchResultsAdditionalFields>Validity__c</searchResultsAdditionalFields>
     </searchLayouts>
     <sharingModel>ReadWrite</sharingModel>

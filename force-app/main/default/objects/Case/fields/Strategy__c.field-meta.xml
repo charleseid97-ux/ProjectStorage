@@ -2,7 +2,7 @@
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>Strategy__c</fullName>
     <externalId>false</externalId>
-    <formula>Fund__r.Strategy__r.Product_Name__c</formula>
+    <formula>Fund__r.Strategy__r.ProductName__c</formula>
     <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
     <label>Strategy</label>
     <required>false</required>

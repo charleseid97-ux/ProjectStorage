@@ -28,7 +28,7 @@ the following information:<br/>
 <apex:repeat var="cx" value="{!relatedTo.NDA_Products__r}">
     <ul>
         <li style="font-weight:bold;">Name : {!cx.Share_Class__r.Fund__r.Name}</li>
-        <li>Product Name : {!cx.Share_Class__r.Fund__r.Product_Name__c}</li>
+        <li>Product Name : {!cx.Share_Class__r.Fund__r.ProductName__c}</li>
         <li>Isin Code : {!cx.Isin_Code__c}</li>
         <li>Share Class : {!cx.Share_Class__r.Name}</li>
     </ul>
