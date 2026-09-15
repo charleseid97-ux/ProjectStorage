@@ -37,6 +37,23 @@ public without sharing class NotificationTitleGenerator {
             }
 
             String details = buildEventChangeDetails(newEvent, oldEvent);
+
+            // Toute resoumission Event Team après la création reste une notification d'update.
+            if (
+                isEventTeamSubmission(newEvent, oldEvent) &&
+                oldEvent.Status__c != 'Draft'
+            ) {
+                newEvent.NotificationTitle__c = UPDATE_REQUEST_TITLE;
+
+                // Conserve le détail déjà préparé, par exemple lors de l'ajout d'un speaker.
+                if (String.isBlank(newEvent.NotificationDetails__c)) {
+                    newEvent.NotificationDetails__c = truncateTitle(details);
+                }
+
+                continue;
+            }
+
+            // Les autres modifications utilisent leur détail spécifique.
             if (!String.isBlank(details)) {
                 newEvent.NotificationTitle__c = UPDATE_REQUEST_TITLE;
                 newEvent.NotificationDetails__c = truncateTitle(details);
