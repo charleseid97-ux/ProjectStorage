@@ -1,3 +1,9 @@
+/** 
+Log Infomation
+By : Mira Ext 
+Last modify date : 25/06/2026 
+**/
+
 public without sharing  class ShareClassHandler {
     
     public static void updateFormattedName(List<Share_Class__c> newShareclass, Map<Id, Share_Class__c> oldMap) {
@@ -224,7 +230,7 @@ public without sharing  class ShareClassHandler {
             
             update taxDataToUpdate;
         }
-
+/* Dev Khadija 
         private static final String TYPE_BELGIUM_SIMULATOR = 'Belgium Simulator';
         private static final String COUNTRY_BE = 'BE';
         private static final String STATUS_YES = 'Yes';
@@ -300,5 +306,5 @@ public without sharing  class ShareClassHandler {
             }
 
             return result;
-        }
+        }*/
     }

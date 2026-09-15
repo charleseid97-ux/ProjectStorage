@@ -22,10 +22,11 @@ private class Test_ProjectProductChildTriggerHandler {
               ProjectStatus__c = 'Closed',
               ProductName__c = 'toto',
               Product__c = product.Id,
+              LettreRequise__c = 'No',
             TECH_FieldsToModify__c = 'InternalShortName__c'
           );
       insert proj;
-  
+
       Milestone__c milestone = PMTTestFactoryData.createMilestone(proj.Id, 'SPC Final', proj.EndDate__c);
       milestone.Status__c = 'Completed';
       update milestone;
@@ -43,5 +44,4 @@ private class Test_ProjectProductChildTriggerHandler {
 
       Test.stopTest();
     }
-
 }
