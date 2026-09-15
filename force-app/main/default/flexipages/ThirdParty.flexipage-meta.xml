@@ -69,16 +69,6 @@
                 <identifier>RecordAddress_cField</identifier>
             </fieldInstance>
         </itemInstances>
-        <itemInstances>
-            <fieldInstance>
-                <fieldInstanceProperties>
-                    <name>uiBehavior</name>
-                    <value>none</value>
-                </fieldInstanceProperties>
-                <fieldItem>Record.DomiciledIn__c</fieldItem>
-                <identifier>RecordDomiciledIn_cField</identifier>
-            </fieldInstance>
-        </itemInstances>
         <name>Facet-75fb00b3-e9ea-4f95-8498-c9be5a9c3699</name>
         <type>Facet</type>
     </flexiPageRegions>
@@ -139,16 +129,6 @@
                 </fieldInstanceProperties>
                 <fieldItem>Record.Address__c</fieldItem>
                 <identifier>RecordAddress_cField2</identifier>
-            </fieldInstance>
-        </itemInstances>
-        <itemInstances>
-            <fieldInstance>
-                <fieldInstanceProperties>
-                    <name>uiBehavior</name>
-                    <value>readonly</value>
-                </fieldInstanceProperties>
-                <fieldItem>Record.DomiciledIn__c</fieldItem>
-                <identifier>RecordDomiciledIn_cField2</identifier>
             </fieldInstance>
         </itemInstances>
         <name>Facet-3454f701-14d7-419f-8a96-cae52ed41cf8</name>

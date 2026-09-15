@@ -72,6 +72,7 @@
     <types>
         <members>Debugging_2_TBD</members>
         <members>FL_AfterSave_WTP_Reallocation_Email_Alerts</members>
+        <members>PMT_Narratives_Duplicates_Third_Parties</members>
         <name>Flow</name>
     </types>
     <types>
@@ -92,6 +93,10 @@
         <members>Opportunity.Product_Strategy__c</members>
         <members>Product_Status__c.Product__c</members>
         <name>CustomField</name>
+    </types>
+    <types>
+        <members>ThirdParty</members>
+        <name>FlexiPage</name>
     </types>
     <version>61.0</version>
 </Package>
