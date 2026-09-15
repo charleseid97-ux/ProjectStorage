@@ -82,16 +82,63 @@
         <name>LightningComponentBundle</name>
     </types>
     <types>
-        <members>Narrative__c</members>
-        <name>CustomObject</name>
-    </types>
-    <types>
+        <members>Narrative__c.Address__c</members>
+        <members>Narrative__c.Content__c</members>
+        <members>Narrative__c.Country__c</members>
+        <members>Narrative__c.DisplayOrder__c</members>
+        <members>Narrative__c.DomiciledInPRIIPS__c</members>
+        <members>Narrative__c.DomiciledIn__c</members>
+        <members>Narrative__c.DomiciliedIn__c</members>
+        <members>Narrative__c.ExternalID__c</members>
+        <members>Narrative__c.FundManagerName__c</members>
+        <members>Narrative__c.Fund_Manager__c</members>
+        <members>Narrative__c.KeyPointNum__c</members>
+        <members>Narrative__c.LEICode__c</members>
+        <members>Narrative__c.Language__c</members>
+        <members>Narrative__c.Media__c</members>
+        <members>Narrative__c.NarrativeLink__c</members>
+        <members>Narrative__c.Narrative_Scope__c</members>
+        <members>Narrative__c.Narrative__c</members>
+        <members>Narrative__c.Nationality__c</members>
+        <members>Narrative__c.Note__c</members>
+        <members>Narrative__c.PictureURL__c</members>
+        <members>Narrative__c.Product__c</members>
+        <members>Narrative__c.Project_Contribution_at_Product_level__c</members>
+        <members>Narrative__c.Project__c</members>
+        <members>Narrative__c.ShareClass__c</members>
+        <members>Narrative__c.StartDate__c</members>
+        <members>Narrative__c.Strategy__c</members>
+        <members>Narrative__c.SubType__c</members>
+        <members>Narrative__c.TECH_RecordTypeName__c</members>
+        <members>Narrative__c.ThirdPartyName__c</members>
+        <members>Narrative__c.Type__c</members>
+        <members>Narrative__c.WebsiteId__c</members>
         <members>Case.Strategy__c</members>
         <members>Opportunity.Asset_Class__c</members>
         <members>Opportunity.InvestmentSolutionProduct__c</members>
         <members>Opportunity.Product_Strategy__c</members>
         <members>Product_Status__c.Product__c</members>
         <name>CustomField</name>
+    </types>
+    <types>
+        <members>Narrative__c.VR01_NarrativeLookups</members>
+        <members>Narrative__c.VR02_BiographyRT_FundManagerRequired</members>
+        <members>Narrative__c.VR03_BiographyRT_ProductFieldsEmpty</members>
+        <members>Narrative__c.VR04_NarrativeTP_RequiredFields</members>
+        <members>Narrative__c.VR05_NarrativeTP_NullFields</members>
+        <members>Narrative__c.VR06_ScopeRequiredFields</members>
+        <members>Narrative__c.VR07_ThirdPartiesyRT_RequiredFields</members>
+        <members>Narrative__c.VR08_Narrative_DCOAccess</members>
+        <members>Narrative__c.VR09_Narrative_LegalAccess</members>
+        <members>Narrative__c.VR09_Narrative_ProductStrategyAccess</members>
+        <members>Narrative__c.VR09_Narrative_RiskAccess</members>
+        <members>Narrative__c.VR10_Narrative_ComplianceAccess</members>
+        <members>Narrative__c.VR11_Narrative_OPSAccess</members>
+        <members>Narrative__c.VR12_Narrative_FundMarketingAccess</members>
+        <members>Narrative__c.VR13_Narrative_ISAccess</members>
+        <members>Narrative__c.VR14_Narrative_DCRAccess</members>
+        <members>Narrative__c.VR15_Narrative_ESGAccess</members>
+        <name>ValidationRule</name>
     </types>
     <version>61.0</version>
 </Package>
