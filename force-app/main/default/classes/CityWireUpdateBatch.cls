@@ -3,7 +3,7 @@
  *              Combines the Schedulable entry point and the Batchable work in a single class (per team convention for this integration).
  * @author Charles EID
  * @testClass CityWireUpdateBatchTest
- * @coverage 85%   [10-09-26]
+ * @coverage 96%   [15-09-26]
 ────────────────────────────────────── */
 public without sharing class CityWireUpdateBatch implements Database.Batchable<SObject>, Database.AllowsCallouts, Database.Stateful, Schedulable {
 
@@ -13,7 +13,10 @@ public without sharing class CityWireUpdateBatch implements Database.Batchable<S
     private static final String METHOD_FINISH = 'finish';
 
     private static final Integer DEFAULT_BATCH_SIZE = 20;
+    private static final Integer DEFAULT_MAX_RATING_AGE_MONTHS = 3;
+
     private static final String OPERATION_LOOKUP = 'CityWireFundLookup';
+    private static final String OPERATION_STALE_RATING = 'CityWireStaleRatingDate';
     private static final String OPERATION_CONFLICT = 'CityWireConflictDetected';
     private static final String OPERATION_NOCHANGE = 'CityWireNoChangeDetected';
     private static final String OPERATION_UNMATCHED = 'CityWireUnmatchedManager';
@@ -44,6 +47,17 @@ public without sharing class CityWireUpdateBatch implements Database.Batchable<S
         String url;
         Date ratingDate;
         Boolean hasConflict = false;
+        Boolean oldRatingDate = false;
+        String conflictDetail;
+    }
+
+    // Tracks one FundManager__c update in flight, so the "previous" values are still available for logging once Database.update() returns.
+    private class PendingUpdate {
+        FundManager__c record;
+        Decimal cityWireId;
+        Decimal previousRating;
+        String previousUrl;
+        Date previousRatingDate;
     }
 
     // ── Schedulable entry point ──────────────────────────────
@@ -81,6 +95,9 @@ public without sharing class CityWireUpdateBatch implements Database.Batchable<S
     }
 
     public void execute(Database.BatchableContext bc, List<Share_Class__c> scope) {
+        CityWireSettings__mdt settings = CityWireSettings__mdt.getInstance('Default');
+        Integer maxRatingAgeMonths = settings != null && settings.MaxRatingAgeMonths__c != null ? Integer.valueOf(settings.MaxRatingAgeMonths__c) : DEFAULT_MAX_RATING_AGE_MONTHS;
+
         for (Share_Class__c shareClass : scope) {
             processedCount++;
 
@@ -88,15 +105,15 @@ public without sharing class CityWireUpdateBatch implements Database.Batchable<S
                 CityWireCalloutService.CityWireFundResponseWrapper response = CityWireCalloutService.getFund(shareClass.ISIN__c);
 
                 if (response.Managers == null || response.Managers.isEmpty()) {
-                    OperationLogService.logWithContext(OperationLogService.Level.WARN, shareClass.Id, OPERATION_LOOKUP, 'Citywire returned no manager data for ISIN ' + shareClass.ISIN__c + '.', new Map<String, Object>{ 'isin' => shareClass.ISIN__c }, APEX_CLASS_NAME, METHOD_BATCHABLE_EXECUTE);
+                    OperationLogService.logWithContext(OperationLogService.Level.WARN, shareClass.Id, OPERATION_LOOKUP, 'Citywire returned no manager data for ISIN ' + shareClass.ISIN__c + '.', new Map<String, Object>{ 'isin' => shareClass.ISIN__c, 'shareClassId' => shareClass.Id, 'summaryDisclaimer' => response.SummaryDisclaimer, 'fundRatingDate' => response.RatingDate }, APEX_CLASS_NAME, METHOD_BATCHABLE_EXECUTE);
                 }
                 else {
-                    mergeManagers(response.Managers, response.RatingDate);
+                    mergeManagers(shareClass, response.Managers, response.RatingDate, maxRatingAgeMonths);
                 }
             }
             catch (CityWireCalloutService.CityWireCalloutException ex) {
                 failedCount++;
-                OperationLogService.logWithContext(OperationLogService.Level.ERROR, shareClass.Id, OPERATION_LOOKUP, 'Citywire callout failed for ISIN ' + shareClass.ISIN__c + '.', new Map<String, Object>{ 'isin' => shareClass.ISIN__c }, ex, APEX_CLASS_NAME, METHOD_BATCHABLE_EXECUTE);
+                OperationLogService.logWithContext(OperationLogService.Level.ERROR, shareClass.Id, OPERATION_LOOKUP, 'Citywire callout failed for ISIN ' + shareClass.ISIN__c + '.', new Map<String, Object>{ 'isin' => shareClass.ISIN__c, 'shareClassId' => shareClass.Id, 'exceptionMessage' => ex.getMessage() }, ex, APEX_CLASS_NAME, METHOD_BATCHABLE_EXECUTE);
             }
         }
 
@@ -109,15 +126,14 @@ public without sharing class CityWireUpdateBatch implements Database.Batchable<S
 
         Set<Decimal> allManagerIds = managerResults.keySet();
         Map<Decimal, FundManager__c> fundManagerByCityWireId = new Map<Decimal, FundManager__c>();
-        for (FundManager__c fm : [SELECT Id, CityWireId__c, CityWireRating__c, CityWireURL__c, CityWireDate__c
+        for (FundManager__c fm : [SELECT Id, Name, CityWireId__c, CityWireRating__c, CityWireURL__c, CityWireDate__c
                                   FROM FundManager__c
                                   WHERE CityWireId__c IN :allManagerIds]) {
             fundManagerByCityWireId.put(fm.CityWireId__c, fm);
         }
 
         Map<String, List<String>> cityWireIdsByOutcome = new Map<String, List<String>>();
-        List<FundManager__c> updateCandidates = new List<FundManager__c>();
-        List<Decimal> updateCandidateCityWireIds = new List<Decimal>();
+        List<PendingUpdate> updateCandidates = new List<PendingUpdate>();
 
         for (Decimal cityWireId : managerResults.keySet()) {
             ManagerAggregate agg = managerResults.get(cityWireId);
@@ -125,51 +141,60 @@ public without sharing class CityWireUpdateBatch implements Database.Batchable<S
 
             if (match == null) {
                 recordOutcome(cityWireIdsByOutcome, OUTCOME_UNMATCHED, cityWireId);
-                OperationLogService.logWithContext(OperationLogService.Level.WARN, (String) null, 'FundManager__c', OPERATION_UNMATCHED, 'No FundManager__c found for Citywire manager ID ' + cityWireId + '.', new Map<String, Object>{ 'cityWireId' => cityWireId }, null, APEX_CLASS_NAME, METHOD_FINISH);
+                OperationLogService.logWithContext(OperationLogService.Level.WARN, (String) null, 'FundManager__c', OPERATION_UNMATCHED, 'No FundManager__c found for Citywire manager ID ' + cityWireId + '.', new Map<String, Object>{ 'cityWireId' => cityWireId, 'rating' => agg.rating, 'url' => agg.url, 'ratingDate' => agg.ratingDate, 'hadOldRatingDateEntry' => agg.oldRatingDate }, null, APEX_CLASS_NAME, METHOD_FINISH);
                 continue;
             }
             else if (agg.hasConflict) {
                 recordOutcome(cityWireIdsByOutcome, OUTCOME_CONFLICTED, cityWireId);
-                String message = 'Conflicting Citywire ratings detected for manager ID ' + cityWireId + ' across ISINs; excluded from update.';
-                OperationLogService.logWithContext(OperationLogService.Level.WARN, match != null ? String.valueOf(match.Id) : null, 'FundManager__c', OPERATION_CONFLICT, message, new Map<String, Object>{ 'cityWireId' => cityWireId, 'matched' => match != null }, null, APEX_CLASS_NAME, METHOD_FINISH);
+                OperationLogService.logWithContext(OperationLogService.Level.WARN, match.Id, OPERATION_CONFLICT, 'Conflicting Citywire ratings detected for manager ID ' + cityWireId + '; excluded from update.', new Map<String, Object>{ 'cityWireId' => cityWireId, 'fundManagerId' => match.Id, 'fundManagerName' => match.Name, 'conflictDetail' => agg.conflictDetail, 'currentDbRating' => match.CityWireRating__c, 'currentDbUrl' => match.CityWireURL__c, 'currentDbRatingDate' => match.CityWireDate__c, 'hadOldRatingDateEntry' => agg.oldRatingDate }, APEX_CLASS_NAME, METHOD_FINISH);
                 continue;
             }
-            else if (!changed) {
-                Boolean changed = match.CityWireRating__c != agg.rating || match.CityWireURL__c != agg.url || match.CityWireDate__c != agg.ratingDate;
+            else if (!(match.CityWireRating__c != agg.rating || match.CityWireURL__c != agg.url || match.CityWireDate__c != agg.ratingDate)) {
                 recordOutcome(cityWireIdsByOutcome, OUTCOME_NO_CHANGE, cityWireId);
-                OperationLogService.logWithContext(OperationLogService.Level.INFO, match.Id, OPERATION_NOCHANGE, 'The matched fund manager doesn\'t need updating.', new Map<String, Object>{ 'cityWireId' => cityWireId }, APEX_CLASS_NAME, METHOD_FINISH);
+                OperationLogService.logWithContext(OperationLogService.Level.INFO, match.Id, OPERATION_NOCHANGE, 'The matched fund manager doesn\'t need updating.', new Map<String, Object>{ 'cityWireId' => cityWireId, 'fundManagerId' => match.Id, 'rating' => agg.rating, 'url' => agg.url, 'ratingDate' => agg.ratingDate }, APEX_CLASS_NAME, METHOD_FINISH);
                 continue;
             }
+
+            PendingUpdate pending = new PendingUpdate();
+            pending.cityWireId = cityWireId;
+            pending.previousRating = match.CityWireRating__c;
+            pending.previousUrl = match.CityWireURL__c;
+            pending.previousRatingDate = match.CityWireDate__c;
 
             match.CityWireRating__c = agg.rating;
             match.CityWireURL__c = agg.url;
             match.CityWireDate__c = agg.ratingDate;
-            updateCandidates.add(match);
-            updateCandidateCityWireIds.add(cityWireId);
+            pending.record = match;
+            updateCandidates.add(pending);
         }
 
         if (dryRun) {
-            for (Decimal cityWireId : updateCandidateCityWireIds) {
-                recordOutcome(cityWireIdsByOutcome, OUTCOME_WOULD_UPDATE, cityWireId);
+            for (PendingUpdate pending : updateCandidates) {
+                recordOutcome(cityWireIdsByOutcome, OUTCOME_WOULD_UPDATE, pending.cityWireId);
             }
         }
         else if (!updateCandidates.isEmpty()) {
-            List<Database.SaveResult> saveResults = Database.update(updateCandidates, false);
+            List<FundManager__c> recordsToUpdate = new List<FundManager__c>();
+            for (PendingUpdate pending : updateCandidates) {
+                recordsToUpdate.add(pending.record);
+            }
+
+            List<Database.SaveResult> saveResults = Database.update(recordsToUpdate, false);
             for (Integer i = 0; i < saveResults.size(); i++) {
-                Decimal cityWireId = updateCandidateCityWireIds[i];
-                FundManager__c record = updateCandidates[i];
+                PendingUpdate pending = updateCandidates[i];
+                FundManager__c record = pending.record;
 
                 if (saveResults[i].isSuccess()) {
-                    recordOutcome(cityWireIdsByOutcome, OUTCOME_UPDATED, cityWireId);
-                    OperationLogService.logWithContext(OperationLogService.Level.INFO, record.Id, OPERATION_UPDATED, 'FundManager__c updated with Citywire rating ' + record.CityWireRating__c + '.', new Map<String, Object>{ 'cityWireId' => cityWireId, 'rating' => record.CityWireRating__c, 'url' => record.CityWireURL__c }, APEX_CLASS_NAME, METHOD_FINISH);
+                    recordOutcome(cityWireIdsByOutcome, OUTCOME_UPDATED, pending.cityWireId);
+                    OperationLogService.logWithContext(OperationLogService.Level.INFO, record.Id, OPERATION_UPDATED, 'FundManager__c updated with Citywire rating ' + record.CityWireRating__c + '.', new Map<String, Object>{ 'cityWireId' => pending.cityWireId, 'fundManagerId' => record.Id, 'fundManagerName' => record.Name, 'previousRating' => pending.previousRating, 'newRating' => record.CityWireRating__c, 'previousUrl' => pending.previousUrl, 'newUrl' => record.CityWireURL__c, 'previousRatingDate' => pending.previousRatingDate, 'newRatingDate' => record.CityWireDate__c }, APEX_CLASS_NAME, METHOD_FINISH);
                 }
                 else {
-                    recordOutcome(cityWireIdsByOutcome, OUTCOME_UPDATE_FAILED, cityWireId);
+                    recordOutcome(cityWireIdsByOutcome, OUTCOME_UPDATE_FAILED, pending.cityWireId);
                     List<String> errorMessages = new List<String>();
                     for (Database.Error dmlError : saveResults[i].getErrors()) {
                         errorMessages.add(dmlError.getStatusCode() + ': ' + dmlError.getMessage());
                     }
-                    OperationLogService.logWithContext(OperationLogService.Level.ERROR, record.Id, OPERATION_UPDATE_FAILED, 'FundManager__c update failed for Citywire manager ID ' + cityWireId + ': ' + String.join(errorMessages, ' | '), new Map<String, Object>{ 'cityWireId' => cityWireId, 'errors' => errorMessages }, APEX_CLASS_NAME, METHOD_FINISH);
+                    OperationLogService.logWithContext(OperationLogService.Level.ERROR, record.Id, OPERATION_UPDATE_FAILED, 'FundManager__c update failed for Citywire manager ID ' + pending.cityWireId + ': ' + String.join(errorMessages, ' | '), new Map<String, Object>{ 'cityWireId' => pending.cityWireId, 'fundManagerId' => record.Id, 'attemptedRating' => record.CityWireRating__c, 'attemptedUrl' => record.CityWireURL__c, 'attemptedRatingDate' => record.CityWireDate__c, 'errors' => errorMessages }, APEX_CLASS_NAME, METHOD_FINISH);
                 }
             }
         }
@@ -180,11 +205,22 @@ public without sharing class CityWireUpdateBatch implements Database.Batchable<S
         sendAlert(settings, dryRun, countFor(cityWireIdsByOutcome, OUTCOME_UPDATED), countFor(cityWireIdsByOutcome, OUTCOME_UPDATE_FAILED));
     }
 
-    private void mergeManagers(List<CityWireCalloutService.CityWireManagerWrapper> managers, String fundRatingDateStr) {
+    // A Citywire manager ID is only ever added to managerResults with usable (non-stale) data. Ratings older than
+    // maxRatingAgeMonths are ignored entirely rather than merged, so a stale null/garbage entry can never look
+    // like it "conflicts" with good data recorded earlier in the run, and can never overwrite good data with a blank.
+    private void mergeManagers(Share_Class__c shareClass, List<CityWireCalloutService.CityWireManagerWrapper> managers, String fundRatingDateStr, Integer maxRatingAgeMonths) {
         Date ratingDate = parseRatingDate(fundRatingDateStr);
+        Boolean isStale = ratingDate == null || ratingDate < Date.today().addMonths(-maxRatingAgeMonths);
 
         for (CityWireCalloutService.CityWireManagerWrapper manager : managers) {
             if (manager.ID == null) continue;
+
+            if (isStale) {
+                ManagerAggregate existingForStale = managerResults.get(manager.ID);
+                if (existingForStale != null) existingForStale.oldRatingDate = true;
+                OperationLogService.logWithContext(OperationLogService.Level.WARN, (String) null, 'FundManager__c', OPERATION_STALE_RATING, 'Citywire rating date for manager ID ' + manager.ID + ' (ISIN ' + shareClass.ISIN__c + ') is missing or older than ' + maxRatingAgeMonths + ' months; ignored.', new Map<String, Object>{ 'cityWireId' => manager.ID, 'isin' => shareClass.ISIN__c, 'shareClassId' => shareClass.Id, 'ratingDateRaw' => fundRatingDateStr, 'parsedRatingDate' => ratingDate, 'maxAgeMonths' => maxRatingAgeMonths, 'hadExistingData' => existingForStale != null }, null, APEX_CLASS_NAME, METHOD_BATCHABLE_EXECUTE);
+                continue;
+            }
 
             Decimal ratingValue = manager.Rating != null ? manager.Rating.RatingValue : null;
             String imageSrc = manager.Rating != null ? manager.Rating.ImageSrc : null;
@@ -196,17 +232,39 @@ public without sharing class CityWireUpdateBatch implements Database.Batchable<S
                 agg.url = imageSrc;
                 agg.ratingDate = ratingDate;
                 managerResults.put(manager.ID, agg);
+                continue;
             }
-            else if (existing.rating != ratingValue || existing.url != imageSrc || existing.ratingDate != ratingDate) {
+
+            // A field only conflicts when both sides actually disagree on real data. A null on either side means
+            // "missing information", not a conflict — the non-null value wins. RatingDate is deliberately excluded
+            // from conflict detection: two non-stale ISINs legitimately reporting slightly different "as of" dates
+            // for the same manager isn't a data problem, it's just when each fund's rating happened to be refreshed.
+            List<String> conflicts = new List<String>();
+            if (existing.rating != null && ratingValue != null && existing.rating != ratingValue) {
+                conflicts.add('Rating: ' + existing.rating + ' vs ' + ratingValue);
+            }
+            if (existing.url != null && imageSrc != null && existing.url != imageSrc) {
+                conflicts.add('URL: ' + existing.url + ' vs ' + imageSrc);
+            }
+
+            if (!conflicts.isEmpty()) {
                 existing.hasConflict = true;
+                existing.conflictDetail = String.join(conflicts, '; ');
+            }
+            else {
+                if (existing.rating == null) existing.rating = ratingValue;
+                if (existing.url == null) existing.url = imageSrc;
+            }
+
+            // Always keep the freshest rating date seen, independent of whether rating/url conflicted this round.
+            if (ratingDate != null && (existing.ratingDate == null || ratingDate > existing.ratingDate)) {
+                existing.ratingDate = ratingDate;
             }
         }
     }
 
     private static Date parseRatingDate(String value) {
-        if (String.isBlank(value)) {
-            return null;
-        }
+        if (String.isBlank(value)) return null;
         try {
             return Date.valueOf(value.length() > 10 ? value.substring(0, 10) : value);
         }
