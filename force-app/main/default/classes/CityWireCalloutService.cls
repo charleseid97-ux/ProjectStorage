@@ -3,7 +3,7 @@
  *              authentication (X-Api-Key) is injected by the Named Credential itself and never touched here.
  * @author Charles EID
  * @testClass CityWireCalloutServiceTest
- * @coverage 92%   [10-09-26]
+ * @coverage 100%   [15-09-26]
 ────────────────────────────────────── */
 public without sharing class CityWireCalloutService {
 

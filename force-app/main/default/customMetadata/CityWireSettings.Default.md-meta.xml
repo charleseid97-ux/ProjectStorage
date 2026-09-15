@@ -35,6 +35,10 @@
         <value xsi:type="xsd:double">50.0</value>
     </values>
     <values>
+        <field>MaxRatingAgeMonths__c</field>
+        <value xsi:type="xsd:double">3.0</value>
+    </values>
+    <values>
         <field>NamedCredentialDeveloperName__c</field>
         <value xsi:type="xsd:string">CityWireApi</value>
     </values>

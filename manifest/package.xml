@@ -1,8 +1,27 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Package xmlns="http://soap.sforce.com/2006/04/metadata">
-    <types> 
-        <members>NotificationTitleGenerator</members>              
+    <types>
+        <members>CityWireUpdateBatch</members>
+        <members>CityWireUpdateBatchTest</members>
+        <members>CityWireCalloutService</members>
+        <members>EmailService</members>
         <name>ApexClass</name>
     </types>
-    <version>64.0</version>
+    <types>
+        <members>CityWireSettings__mdt</members>
+        <name>CustomObject</name>
+    </types>
+    <types>
+        <members>CityWireSettings.Default</members>
+        <name>CustomMetadata</name>
+    </types>
+    <types>
+        <members>CityWireIntegrationPermissions</members>
+        <name>PermissionSet</name>
+    </types>
+    <types>
+        <members>CityWireSettings__mdt-City Wire Settings Layout</members>
+        <name>Layout</name>
+    </types>
+    <version>66.0</version>
 </Package>
