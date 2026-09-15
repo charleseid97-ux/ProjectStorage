@@ -123,21 +123,19 @@ public without sharing class CityWireUpdateBatch implements Database.Batchable<S
             ManagerAggregate agg = managerResults.get(cityWireId);
             FundManager__c match = fundManagerByCityWireId.get(cityWireId);
 
-            if (agg.hasConflict) {
-                recordOutcome(cityWireIdsByOutcome, OUTCOME_CONFLICTED, cityWireId);
-                String message = 'Conflicting Citywire ratings detected for manager ID ' + cityWireId + ' across ISINs; excluded from update.';
-                OperationLogService.logWithContext(OperationLogService.Level.WARN, match != null ? String.valueOf(match.Id) : null, 'FundManager__c', OPERATION_CONFLICT, message, new Map<String, Object>{ 'cityWireId' => cityWireId, 'matched' => match != null }, null, APEX_CLASS_NAME, METHOD_FINISH);
-                continue;
-            }
-
             if (match == null) {
                 recordOutcome(cityWireIdsByOutcome, OUTCOME_UNMATCHED, cityWireId);
                 OperationLogService.logWithContext(OperationLogService.Level.WARN, (String) null, 'FundManager__c', OPERATION_UNMATCHED, 'No FundManager__c found for Citywire manager ID ' + cityWireId + '.', new Map<String, Object>{ 'cityWireId' => cityWireId }, null, APEX_CLASS_NAME, METHOD_FINISH);
                 continue;
             }
-
-            Boolean changed = match.CityWireRating__c != agg.rating || match.CityWireURL__c != agg.url || match.CityWireDate__c != agg.ratingDate;
-            if (!changed) {
+            else if (agg.hasConflict) {
+                recordOutcome(cityWireIdsByOutcome, OUTCOME_CONFLICTED, cityWireId);
+                String message = 'Conflicting Citywire ratings detected for manager ID ' + cityWireId + ' across ISINs; excluded from update.';
+                OperationLogService.logWithContext(OperationLogService.Level.WARN, match != null ? String.valueOf(match.Id) : null, 'FundManager__c', OPERATION_CONFLICT, message, new Map<String, Object>{ 'cityWireId' => cityWireId, 'matched' => match != null }, null, APEX_CLASS_NAME, METHOD_FINISH);
+                continue;
+            }
+            else if (!changed) {
+                Boolean changed = match.CityWireRating__c != agg.rating || match.CityWireURL__c != agg.url || match.CityWireDate__c != agg.ratingDate;
                 recordOutcome(cityWireIdsByOutcome, OUTCOME_NO_CHANGE, cityWireId);
                 OperationLogService.logWithContext(OperationLogService.Level.INFO, match.Id, OPERATION_NOCHANGE, 'The matched fund manager doesn\'t need updating.', new Map<String, Object>{ 'cityWireId' => cityWireId }, APEX_CLASS_NAME, METHOD_FINISH);
                 continue;
