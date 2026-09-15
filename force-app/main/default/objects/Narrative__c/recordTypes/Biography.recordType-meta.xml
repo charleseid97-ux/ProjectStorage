@@ -867,6 +867,25 @@
         </values>
     </picklistValues>
     <picklistValues>
+        <picklist>KeyPointNum__c</picklist>
+        <values>
+            <fullName>1</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>2</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>3</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>4</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
         <picklist>Language__c</picklist>
         <values>
             <fullName>Dutch</fullName>
@@ -908,31 +927,7 @@
     <picklistValues>
         <picklist>Media__c</picklist>
         <values>
-            <fullName>EPT</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Factsheet</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Form</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Kid</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>PTEMT</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Prospectus</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Web</fullName>
+            <fullName>Web Site</fullName>
             <default>false</default>
         </values>
     </picklistValues>
@@ -952,25 +947,6 @@
         </values>
     </picklistValues>
     <picklistValues>
-        <picklist>Nationality__c</picklist>
-        <values>
-            <fullName>Belgian</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>British</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>French</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Italian</fullName>
-            <default>false</default>
-        </values>
-    </picklistValues>
-    <picklistValues>
         <picklist>SubType__c</picklist>
         <values>
             <fullName>Default</fullName>
@@ -982,21 +958,6 @@
         <values>
             <fullName>Biography</fullName>
             <default>true</default>
-        </values>
-    </picklistValues>
-    <picklistValues>
-        <picklist>Usage__c</picklist>
-        <values>
-            <fullName>Data Vendor Dissemination</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Reporting</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Website</fullName>
-            <default>false</default>
         </values>
     </picklistValues>
 </RecordType>

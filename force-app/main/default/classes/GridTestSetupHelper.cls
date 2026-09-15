@@ -151,19 +151,19 @@ public with sharing class GridTestSetupHelper {
             ProductName__c = name,
             FundStrategy__c = strategyId,
             InternalShortName__c = internalShortName,
-            Legal_Status__c = legalStatus,
-            Fund_Code__c = internalShortName // Unique external ID
+            LegalForm__c = legalStatus//,
+            //Fund_Code__c = internalShortName // Unique external ID
         );
     }
 
     public static List<Product__c> getTestProducts() {
-        return [SELECT Id, Name, ProductName__c, FundStrategy__c, InternalShortName__c, Legal_Status__c
+        return [SELECT Id, Name, ProductName__c, FundStrategy__c, InternalShortName__c, LegalForm__c
                 FROM Product__c
                 ORDER BY Name];
     }
 
     public static Product__c getTestProductByShortName(String shortName) {
-        List<Product__c> products = [SELECT Id, Name, InternalShortName__c, Legal_Status__c
+        List<Product__c> products = [SELECT Id, Name, InternalShortName__c, LegalForm__c
                                   FROM Product__c
                                   WHERE InternalShortName__c = :shortName
                                   LIMIT 1];
@@ -187,7 +187,7 @@ public with sharing class GridTestSetupHelper {
 
     public static List<Share_Class__c> getTestShareClasses() {
         return [SELECT Id, Name, Name__c, Fund__c, ISIN__c, Type__c, EffectiveManagementFees__c, Currency__c,
-                       Fund__r.Legal_Status__c, Fund__r.InternalShortName__c, Fund__r.FundStrategy__c
+                       Fund__r.LegalForm__c, Fund__r.InternalShortName__c, Fund__r.FundStrategy__c
                 FROM Share_Class__c
                 ORDER BY Name];
     }
@@ -211,7 +211,7 @@ public with sharing class GridTestSetupHelper {
 
     public static Share_Class__c getShareClassByType(String type) {
         List<Share_Class__c> shareClasses = [SELECT Id, Name, Type__c, Fund__c, ISIN__c, EffectiveManagementFees__c,
-                                              Fund__r.Legal_Status__c, Fund__r.InternalShortName__c
+                                              Fund__r.LegalForm__c, Fund__r.InternalShortName__c
                                               FROM Share_Class__c
                                               WHERE Type__c = :type
                                               LIMIT 1];

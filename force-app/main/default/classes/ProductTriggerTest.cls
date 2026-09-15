@@ -5,16 +5,16 @@ public class ProductTriggerTest {
     static testMethod void doTest() {
         Id StrategyRecordTypeId = Schema.SObjectType.Product__c.getRecordTypeInfosByDeveloperName().get('Strategy').getRecordTypeId();
         
-		Product__c ac0 = new Product__c(Name='Equity', Product_Name__c='Equity', Record_Type_Name__c = 'Asset Class', Asset_Class_Code__c = 'EQTY');
-		Product__c ac1 = new Product__c(Name='Alternative', Product_Name__c='Alternative', Record_Type_Name__c = 'Asset Class',Asset_Class_Code__c = 'ALVE');
-		Product__c sac = new Product__c(Name='Global', Product_Name__c='Global', Record_Type_Name__c = 'Regional Focus', Sub_Asset_Class_Code__c = 'GLAL');
+		Product__c ac0 = new Product__c(Name='Equity', ProductName__c='Equity', Record_Type_Name__c = 'Asset Class', Asset_Class_Code__c = 'EQTY');
+		Product__c ac1 = new Product__c(Name='Alternative', ProductName__c='Alternative', Record_Type_Name__c = 'Asset Class',Asset_Class_Code__c = 'ALVE');
+		Product__c sac = new Product__c(Name='Global', ProductName__c='Global', Record_Type_Name__c = 'Regional Focus');
         
         insert ac0;
         insert ac1;
         insert sac;
 
-		Product__c p0 = new Product__c(Name='PStrategy', Product_Name__c='Product Strategy', Record_Type_Name__c = 'Strategy', Asset_Class_Code__c = 'EQTY', Sub_Asset_Class_Code__c = 'GLAL');
-        Product__c p1 = new Product__c(Name='PFund', Product_Name__c='Product Fund', Record_Type_Name__c = 'Fund', Strategy_Code__c = 'PStrategy');
+		Product__c p0 = new Product__c(Name='PStrategy', ProductName__c='Product Strategy', Record_Type_Name__c = 'Strategy', Asset_Class_Code__c = 'EQTY');
+        Product__c p1 = new Product__c(Name='PFund', ProductName__c='Product Fund', Record_Type_Name__c = 'Fund');//, Strategy_Code__c = 'PStrategy');
         
         insert p0;
         insert p1;
@@ -44,9 +44,9 @@ public class ProductTriggerTest {
         
         insert s0;
         
-        Product__c p0 = new Product__c(Name='P0', FundStrategy__c=s0.Id, Product_Name__c='Product Zero', Record_Type_Name__c = 'Fund', RecordTypeId=fundRecordTypeId, Validity__c=true, LegalForm__c='SICAV',VehicleType__c='Funds');
-        Product__c p1 = new Product__c(Name='P1', FundStrategy__c=s0.Id, Product_Name__c='Product One', Record_Type_Name__c = 'Fund', RecordTypeId=fundRecordTypeId, Validity__c=true);
-        Product__c p2 = new Product__c(Name='P2', FundStrategy__c=s0.Id, Product_Name__c='Product Inactif', Record_Type_Name__c = 'Fund', RecordTypeId=fundRecordTypeId, Validity__c=false);
+        Product__c p0 = new Product__c(Name='P0', FundStrategy__c=s0.Id, ProductName__c='Product Zero', Record_Type_Name__c = 'Fund', RecordTypeId=fundRecordTypeId, Validity__c=true, LegalForm__c='SICAV',VehicleType__c='Funds');
+        Product__c p1 = new Product__c(Name='P1', FundStrategy__c=s0.Id, ProductName__c='Product One', Record_Type_Name__c = 'Fund', RecordTypeId=fundRecordTypeId, Validity__c=true);
+        Product__c p2 = new Product__c(Name='P2', FundStrategy__c=s0.Id, ProductName__c='Product Inactif', Record_Type_Name__c = 'Fund', RecordTypeId=fundRecordTypeId, Validity__c=false);
         
         insert p0;
         insert p1;

@@ -31,7 +31,7 @@ public class SM029_WebCommunicationTest {
             Product__c prd = new Product__c();
             prd.RecordTypeId = Product__c.sObjectType.getDescribe().getRecordTypeInfosByDeveloperName().get('Fund').getRecordTypeId();
             prd.Name = 'Prod123';
-            prd.Product_Name__c = 'Product Test';
+            prd.ProductName__c = 'Product Test';
             prd.Validity__c = true;
             Database.insert(prd, true);          
             

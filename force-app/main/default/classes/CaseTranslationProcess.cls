@@ -301,14 +301,14 @@ public class CaseTranslationProcess {
 
     @AuraEnabled(cacheable=true)
     public static List<Product__c> getProducts(){
-        return ([select Id, Name, Product_Name__c from Product__c where  Validity__c  = true order by Product_Name__c asc]);    
+        return ([select Id, Name, ProductName__c from Product__c where  Validity__c  = true order by ProductName__c asc]);    
     }
 
     @AuraEnabled(cacheable=true)
     public static List<Share_Class__c> getShareClassesByFunds(List<String> FundIds) {
-        List<Share_Class__c> scList = [SELECT Id, Name, Fund__c, Fund__r.Product_Name__c,Fund__r.Name,   Validity__c, ISIN_Code__c,Country__c,Share_Class_Type__c
+        List<Share_Class__c> scList = [SELECT Id, Name, Fund__c, Fund__r.ProductName__c,Fund__r.Name,   Validity__c, ISIN_Code__c,Country__c,Share_Class_Type__c
                                         FROM Share_Class__c
-                                        WHERE Fund__c In :FundIds AND Validity__c = TRUE order by Fund__r.Product_Name__c  asc ,Name asc];
+                                        WHERE Fund__c In :FundIds AND Validity__c = TRUE order by Fund__r.ProductName__c  asc ,Name asc];
 
         return scList;
     }

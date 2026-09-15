@@ -25,19 +25,19 @@ public  class DigitalInteractionDetailsTriggerService {
         }
     
         Map<String, Share_Class__c> scMap = new Map<String, Share_Class__c>();
-        for (Share_Class__c sc : [SELECT Id, ISIN_Code__c, Fund__r.Product_Name__c FROM Share_Class__c WHERE ISIN_Code__c IN :isinCodes]) {
+        for (Share_Class__c sc : [SELECT Id, ISIN_Code__c, Fund__r.ProductName__c FROM Share_Class__c WHERE ISIN_Code__c IN :isinCodes]) {
             scMap.put(sc.ISIN_Code__c, sc);
         }
     
         Map<String, Product__c> productMap = new Map<String, Product__c>();
-        for (Product__c prod : [SELECT Id, Name,Product_Name__c FROM Product__c WHERE Name IN :productCodes AND RecordType.DeveloperName = 'Fund']) {
+        for (Product__c prod : [SELECT Id, Name,ProductName__c FROM Product__c WHERE Name IN :productCodes AND RecordType.DeveloperName = 'Fund']) {
             productMap.put(prod.Name, prod);
         }
     
         for (String isin : isinToRecordsMap.keySet()) {
             if (scMap.containsKey(isin)) {
                 for (Digital_Interaction_Details__c record : isinToRecordsMap.get(isin)) {
-                    record.FundName__c = scMap.get(isin).Fund__r.Product_Name__c;
+                    record.FundName__c = scMap.get(isin).Fund__r.ProductName__c;
                 }
             }
         }
@@ -45,7 +45,7 @@ public  class DigitalInteractionDetailsTriggerService {
         for (String code : codeToRecordsMap.keySet()) {
             if (productMap.containsKey(code)) {
                 for (Digital_Interaction_Details__c record : codeToRecordsMap.get(code)) {
-                    record.FundName__c = productMap.get(code).Product_Name__c;
+                    record.FundName__c = productMap.get(code).ProductName__c;
                 }
             }
         }

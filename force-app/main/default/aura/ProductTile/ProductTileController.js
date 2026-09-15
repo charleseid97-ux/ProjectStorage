@@ -8,7 +8,7 @@
         if (productType ==  'Asset_Class'){
             assetClassName = component.get("v.product.Name");
         } else if (productType ==  'Fund'){
-            assetClassName = component.get("v.product.Legal_Status__c");
+            assetClassName = component.get("v.product.LegalForm__c");
         } else if(component.get("v.product.Asset_Class__r.Name")) {
             assetClassName = component.get("v.product.Asset_Class__r.Name"); 
         } else {

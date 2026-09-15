@@ -34,7 +34,7 @@ public with sharing class CTL_AudienceManagementTest {
         Product__c fund = new Product__c();
         fund.RecordTypeId = Schema.SObjectType.Product__c.getRecordTypeInfosByDeveloperName().get('Fund').getRecordTypeId();
         fund.Name = 'Super Fund';
-        fund.Product_Name__c = 'Super Fund Test';
+        fund.ProductName__c = 'Super Fund Test';
         fund.FundStrategy__c = strat.Id;
         insert fund;
 

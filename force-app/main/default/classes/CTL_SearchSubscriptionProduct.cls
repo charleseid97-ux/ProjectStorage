@@ -10,9 +10,9 @@ public with sharing class CTL_SearchSubscriptionProduct {
 
     @AuraEnabled(cacheable=true)
     public static List<Share_Class__c> getShareClasses() {
-        return ([SELECT Id, Name, Fund__c, Fund__r.Product_Name__c,Fund__r.Name,   TechIsActive__c, ISIN_Code__c,Share_Class_Type__c
+        return ([SELECT Id, Name, Fund__c, Fund__r.ProductName__c,Fund__r.Name,   TechIsActive__c, ISIN_Code__c,Share_Class_Type__c
                             FROM Share_Class__c
-                            WHERE TechIsActive__c = TRUE order by Fund__r.Product_Name__c  asc ,Name asc]);
+                            WHERE TechIsActive__c = TRUE order by Fund__r.ProductName__c  asc ,Name asc]);
     }
     @AuraEnabled(cacheable=false)
     public static PickListFieldsValues getDistinctValues() {
@@ -39,23 +39,23 @@ public with sharing class CTL_SearchSubscriptionProduct {
 
     @AuraEnabled(cacheable=true)
     public static List<Product__c> getFundWithShareClasses() {
-        return ([SELECT Id,Name,Product_Name__c,(SELECT Id, Name,ISIN_Code__c FROM Share_Classes__r WHERE TechIsActive__c =true ORDER BY Name ASC) 
-                    FROM Product__c WHERE Validity__c=true AND RecordType.Name='Fund'  ORDER BY Product_Name__c ASC]);
+        return ([SELECT Id,Name,ProductName__c,(SELECT Id, Name,ISIN_Code__c FROM Share_Classes__r WHERE TechIsActive__c =true ORDER BY Name ASC) 
+                    FROM Product__c WHERE Validity__c=true AND RecordType.Name='Fund'  ORDER BY ProductName__c ASC]);
     }
 
     @AuraEnabled(cacheable=true)
     public static List<Share_Class__c> getShareClassesByCountry(String countryCode) {
         if (String.isNotBlank(countryCode)) {
-            return ([SELECT Id, Name,Fund__c,Fund__r.Product_Name__c,Fund__r.Name,ISIN_Code__c,
-                                                            Fund__r.Strategy__c,Fund__r.Strategy__r.Name,Fund__r.Strategy__r.Product_Name__c,Share_Class_Type__c
+            return ([SELECT Id, Name,Fund__c,Fund__r.ProductName__c,Fund__r.Name,ISIN_Code__c,
+                                                            Fund__r.Strategy__c,Fund__r.Strategy__r.Name,Fund__r.Strategy__r.ProductName__c,Share_Class_Type__c
                                                     FROM Share_Class__c
-                                                    WHERE TechIsActive__c = TRUE AND Fund__c!=null AND Fund__r.Strategy__c!=null  order by Fund__r.Strategy__r.Product_Name__c,Fund__r.Product_Name__c  asc ,Name asc]);
+                                                    WHERE TechIsActive__c = TRUE AND Fund__c!=null AND Fund__r.Strategy__c!=null  order by Fund__r.Strategy__r.ProductName__c,Fund__r.ProductName__c  asc ,Name asc]);
         }
         else {
-            return ([SELECT Id, Name, Fund__c, Fund__r.Product_Name__c,Fund__r.Name,ISIN_Code__c,
-                        Fund__r.Strategy__c,Fund__r.Strategy__r.Name,Fund__r.Strategy__r.Product_Name__c,Share_Class_Type__c
+            return ([SELECT Id, Name, Fund__c, Fund__r.ProductName__c,Fund__r.Name,ISIN_Code__c,
+                        Fund__r.Strategy__c,Fund__r.Strategy__r.Name,Fund__r.Strategy__r.ProductName__c,Share_Class_Type__c
                 FROM Share_Class__c
-                WHERE TechIsActive__c = TRUE AND Fund__c!=null AND Fund__r.Strategy__c!=null order by Fund__r.Strategy__r.Product_Name__c,Fund__r.Product_Name__c  asc ,Name asc]);
+                WHERE TechIsActive__c = TRUE AND Fund__c!=null AND Fund__r.Strategy__c!=null order by Fund__r.Strategy__r.ProductName__c,Fund__r.ProductName__c  asc ,Name asc]);
         }
     }
 

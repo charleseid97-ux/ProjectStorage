@@ -95,7 +95,7 @@ public class TestDataFactory {
     public static Product__c getProduct(Id recId, String code, String name, Boolean isActive){
         return ( new Product__c (RecordTypeId = recId,
                                  Name = code,
-                                 Product_Name__c = name,
+                                 ProductName__c = name,
                                  Validity__c = isActive));
         
     }
