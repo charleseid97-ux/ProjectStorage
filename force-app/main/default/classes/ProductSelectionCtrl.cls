@@ -12,31 +12,22 @@ May-2018         Alpha FMC       0.01            Initial build of lightning vers
 global with sharing class ProductSelectionCtrl {
     
     public class PagedResult {
-        
         @AuraEnabled
         public Integer pageSize { get;set; }
-        
         @AuraEnabled
         public Integer page { get;set; }
-        
         @AuraEnabled
         public Integer total { get;set; }
-        
         @AuraEnabled
         public List<Product__c> products { get;set; }
-        
         @AuraEnabled
         public Set<Product__c> macro_strategies { get;set; }
-        
         @AuraEnabled
         public Set<Product__c> strategies { get;set; }
-        
         @AuraEnabled
         public Set<Product__c> asset_classes { get;set; }
-        
         @AuraEnabled
         public Set<Product__c> sub_asset_classes { get;set; }
-        
     }
     
     public class Filter {

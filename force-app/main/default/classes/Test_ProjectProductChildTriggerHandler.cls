@@ -27,8 +27,6 @@ private class Test_ProjectProductChildTriggerHandler {
           );
       insert proj;
 
-
-
       Milestone__c milestone = PMTTestFactoryData.createMilestone(proj.Id, 'SPC Final', proj.EndDate__c);
       milestone.Status__c = 'Completed';
       update milestone;
@@ -46,5 +44,4 @@ private class Test_ProjectProductChildTriggerHandler {
 
       Test.stopTest();
     }
-
 }
