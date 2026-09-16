@@ -12,6 +12,7 @@ private class CityWireUpdateBatchTest {
     private static final String ISIN_NULL_TOLERANT_B = 'FR0000000009';
     private static final String ISIN_STALE_NO_CONFLICT_A = 'FR0000000010';
     private static final String ISIN_STALE_NO_CONFLICT_B = 'FR0000000011';
+    private static final String ISIN_MISSING_MANAGER_ID = 'FR0000000012';
 
     private static final Decimal CITYWIRE_ID_MATCHED = 12345;
     private static final Decimal CITYWIRE_ID_UNMATCHED = 55555;
@@ -71,6 +72,13 @@ private class CityWireUpdateBatchTest {
         ']}';
     }
 
+    // Simulates an API response entry with no manager ID at all — a genuinely malformed entry, not just missing data.
+    private static String managerBodyWithMissingId(String ratingDate) {
+        return '{"SummaryDisclaimer":"d","RatingDate":"' + ratingDate + '","Managers":[' +
+            '{"ID":null,"FirstName":"John","LastName":"Doe","Rating":{"RatingValue":5}}' +
+        ']}';
+    }
+
     private static RoutingMock defaultMock() {
         return new RoutingMock()
             .withBody(ISIN_MATCHED, managerBody(CITYWIRE_ID_MATCHED, 3, recentDate(10), 'https://citywire.com/12345.png'))
@@ -86,7 +94,8 @@ private class CityWireUpdateBatchTest {
             .withBody(ISIN_NULL_TOLERANT_B, managerBodyWithNullRating(CITYWIRE_ID_NULL_TOLERANT, recentDate(11)))
             // Same manager, one ISIN gives a real recent rating, the other gives a garbage/ancient rating date that must be ignored entirely.
             .withBody(ISIN_STALE_NO_CONFLICT_A, managerBody(CITYWIRE_ID_STALE_NO_CONFLICT, 2, recentDate(10), 'https://citywire.com/22222.png'))
-            .withBody(ISIN_STALE_NO_CONFLICT_B, managerBodyWithNullRating(CITYWIRE_ID_STALE_NO_CONFLICT, '0001-01-01'));
+            .withBody(ISIN_STALE_NO_CONFLICT_B, managerBodyWithNullRating(CITYWIRE_ID_STALE_NO_CONFLICT, '0001-01-01'))
+            .withBody(ISIN_MISSING_MANAGER_ID, managerBodyWithMissingId(recentDate(10)));
     }
 
     @TestSetup
@@ -109,6 +118,7 @@ private class CityWireUpdateBatchTest {
         shareClasses.add(buildMainActiveShareClass(product.Id, 'SC NullTolerantB', ISIN_NULL_TOLERANT_B));
         shareClasses.add(buildMainActiveShareClass(product.Id, 'SC StaleNoConflictA', ISIN_STALE_NO_CONFLICT_A));
         shareClasses.add(buildMainActiveShareClass(product.Id, 'SC StaleNoConflictB', ISIN_STALE_NO_CONFLICT_B));
+        shareClasses.add(buildMainActiveShareClass(product.Id, 'SC MissingManagerId', ISIN_MISSING_MANAGER_ID));
 
         Share_Class__c notMain = buildMainActiveShareClass(product.Id, 'SC NotMain', 'FR0000000099');
         notMain.IsMainShareClass__c = 'False';
@@ -178,10 +188,25 @@ private class CityWireUpdateBatchTest {
         FundManager__c conflictManager = [SELECT CityWireRating__c, CityWireURL__c, CityWireDate__c FROM FundManager__c WHERE CityWireId__c = :CITYWIRE_ID_CONFLICT];
         System.assertEquals(null, conflictManager.CityWireRating__c, 'A manager with two different non-null ratings must not be updated');
 
-        List<OperationLog__c> logs = [SELECT Message__c, Context__c FROM OperationLog__c WHERE Operation__c = 'CityWireConflictDetected'];
-        System.assertEquals(1, logs.size());
-        Map<String, Object> context = (Map<String, Object>) JSON.deserializeUntyped(logs[0].Context__c);
-        System.assert(String.valueOf(context.get('conflictDetail')).contains('Rating'), 'The conflict detail should explain what actually differed');
+        // One conflict log fires the moment mergeManagers() detects the disagreement, and a second summarizes the final outcome in finish().
+        List<OperationLog__c> logs = [SELECT Message__c, Context__c, MethodName__c FROM OperationLog__c WHERE Operation__c = 'CityWireConflictDetected'];
+        System.assertEquals(2, logs.size(), 'A conflict should be logged both at merge-time detection and at finish-time reporting');
+
+        Boolean hasMergeTimeLog = false;
+        Boolean hasFinishTimeLog = false;
+        for (OperationLog__c logRecord : logs) {
+            Map<String, Object> context = (Map<String, Object>) JSON.deserializeUntyped(logRecord.Context__c);
+            System.assert(String.valueOf(context.get('conflictDetail')).contains('Rating'), 'The conflict detail should explain what actually differed');
+            if (logRecord.MethodName__c == 'execute(BatchableContext)') {
+                hasMergeTimeLog = true;
+                System.assert(context.containsKey('managerApiResponse'), 'The merge-time conflict log should carry the raw Citywire API response');
+            }
+            if (logRecord.MethodName__c == 'finish') {
+                hasFinishTimeLog = true;
+            }
+        }
+        System.assert(hasMergeTimeLog, 'The conflict should be logged the moment it is detected during merge');
+        System.assert(hasFinishTimeLog, 'The final conflicted outcome should also be logged in finish()');
     }
 
     @isTest
@@ -198,6 +223,43 @@ private class CityWireUpdateBatchTest {
 
         List<OperationLog__c> conflictLogs = [SELECT Id FROM OperationLog__c WHERE Operation__c = 'CityWireConflictDetected' AND SourceRecordId__c = :manager.Id];
         System.assertEquals(0, conflictLogs.size(), 'A missing value must never be treated as a conflict');
+
+        // The first ISIN's entry for this manager should log as "recorded", the second (non-conflicting) entry as "merged".
+        // Message__c/Context__c are LongTextArea fields and can't be filtered in SOQL, so match on cityWireId inside the parsed context instead.
+        Map<String, Object> recordedContext = findContextForCityWireId('CityWireManagerRecorded', CITYWIRE_ID_NULL_TOLERANT);
+        System.assertNotEquals(null, recordedContext, 'The first data point for a manager should be logged as recorded');
+        System.assert(String.isNotBlank((String) recordedContext.get('managerApiResponse')), 'The recorded log should carry the raw Citywire API response');
+
+        Map<String, Object> mergedContext = findContextForCityWireId('CityWireManagerMerged', CITYWIRE_ID_NULL_TOLERANT);
+        System.assertNotEquals(null, mergedContext, 'A subsequent non-conflicting data point should be logged as merged');
+        System.assert(String.isNotBlank((String) mergedContext.get('managerApiResponse')), 'The merged log should carry the raw Citywire API response');
+    }
+
+    // Returns the Context__c (parsed) of the first OperationLog__c row for the given operation whose context cityWireId matches, or null.
+    private static Map<String, Object> findContextForCityWireId(String operation, Decimal cityWireId) {
+        for (OperationLog__c logRecord : [SELECT Context__c FROM OperationLog__c WHERE Operation__c = :operation]) {
+            Map<String, Object> context = (Map<String, Object>) JSON.deserializeUntyped(logRecord.Context__c);
+            if (context.get('cityWireId') != null && Decimal.valueOf(String.valueOf(context.get('cityWireId'))) == cityWireId) {
+                return context;
+            }
+        }
+        return null;
+    }
+
+    @isTest
+    static void testManagerMissingId_isLoggedAndSkipped() {
+        Test.setMock(HttpCalloutMock.class, defaultMock());
+        CityWireUpdateBatch.dryRunOverride = false;
+
+        Test.startTest();
+        Database.executeBatch(new CityWireUpdateBatch(), 20);
+        Test.stopTest();
+
+        List<OperationLog__c> logs = [SELECT Level__c, Context__c FROM OperationLog__c WHERE Operation__c = 'CityWireManagerMissingId'];
+        System.assertEquals(1, logs.size(), 'A manager entry with no ID must still be logged, not silently dropped');
+        System.assertEquals('WARN', logs[0].Level__c);
+        Map<String, Object> context = (Map<String, Object>) JSON.deserializeUntyped(logs[0].Context__c);
+        System.assert(String.isNotBlank((String) context.get('managerApiResponse')), 'The missing-ID log should carry the raw Citywire API response');
     }
 
     @isTest

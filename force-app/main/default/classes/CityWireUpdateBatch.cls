@@ -17,6 +17,9 @@ public without sharing class CityWireUpdateBatch implements Database.Batchable<S
 
     private static final String OPERATION_LOOKUP = 'CityWireFundLookup';
     private static final String OPERATION_STALE_RATING = 'CityWireStaleRatingDate';
+    private static final String OPERATION_MANAGER_MISSING_ID = 'CityWireManagerMissingId';
+    private static final String OPERATION_MANAGER_RECORDED = 'CityWireManagerRecorded';
+    private static final String OPERATION_MANAGER_MERGED = 'CityWireManagerMerged';
     private static final String OPERATION_CONFLICT = 'CityWireConflictDetected';
     private static final String OPERATION_NOCHANGE = 'CityWireNoChangeDetected';
     private static final String OPERATION_UNMATCHED = 'CityWireUnmatchedManager';
@@ -213,12 +216,15 @@ public without sharing class CityWireUpdateBatch implements Database.Batchable<S
         Boolean isStale = ratingDate == null || ratingDate < Date.today().addMonths(-maxRatingAgeMonths);
 
         for (CityWireCalloutService.CityWireManagerWrapper manager : managers) {
-            if (manager.ID == null) continue;
+            if (manager.ID == null) {
+                OperationLogService.logWithContext(OperationLogService.Level.WARN, (String) null, 'FundManager__c', OPERATION_MANAGER_MISSING_ID, 'Citywire returned a manager entry without an ID for ISIN ' + shareClass.ISIN__c + '; entry skipped.', new Map<String, Object>{ 'isin' => shareClass.ISIN__c, 'shareClassId' => shareClass.Id, 'managerApiResponse' => JSON.serialize(manager) }, null, APEX_CLASS_NAME, METHOD_BATCHABLE_EXECUTE);
+                continue;
+            }
 
             if (isStale) {
                 ManagerAggregate existingForStale = managerResults.get(manager.ID);
                 if (existingForStale != null) existingForStale.oldRatingDate = true;
-                OperationLogService.logWithContext(OperationLogService.Level.WARN, (String) null, 'FundManager__c', OPERATION_STALE_RATING, 'Citywire rating date for manager ID ' + manager.ID + ' (ISIN ' + shareClass.ISIN__c + ') is missing or older than ' + maxRatingAgeMonths + ' months; ignored.', new Map<String, Object>{ 'cityWireId' => manager.ID, 'isin' => shareClass.ISIN__c, 'shareClassId' => shareClass.Id, 'ratingDateRaw' => fundRatingDateStr, 'parsedRatingDate' => ratingDate, 'maxAgeMonths' => maxRatingAgeMonths, 'hadExistingData' => existingForStale != null }, null, APEX_CLASS_NAME, METHOD_BATCHABLE_EXECUTE);
+                OperationLogService.logWithContext(OperationLogService.Level.WARN, (String) null, 'FundManager__c', OPERATION_STALE_RATING, 'Citywire rating date for manager ID ' + manager.ID + ' (ISIN ' + shareClass.ISIN__c + ') is missing or older than ' + maxRatingAgeMonths + ' months; ignored.', new Map<String, Object>{ 'cityWireId' => manager.ID, 'isin' => shareClass.ISIN__c, 'shareClassId' => shareClass.Id, 'ratingDateRaw' => fundRatingDateStr, 'parsedRatingDate' => ratingDate, 'maxAgeMonths' => maxRatingAgeMonths, 'hadExistingData' => existingForStale != null, 'managerApiResponse' => JSON.serialize(manager) }, null, APEX_CLASS_NAME, METHOD_BATCHABLE_EXECUTE);
                 continue;
             }
 
@@ -232,8 +238,12 @@ public without sharing class CityWireUpdateBatch implements Database.Batchable<S
                 agg.url = imageSrc;
                 agg.ratingDate = ratingDate;
                 managerResults.put(manager.ID, agg);
+                OperationLogService.logWithContext(OperationLogService.Level.INFO, (String) null, 'FundManager__c', OPERATION_MANAGER_RECORDED, 'First Citywire data point recorded for manager ID ' + manager.ID + ' (ISIN ' + shareClass.ISIN__c + ').', new Map<String, Object>{ 'cityWireId' => manager.ID, 'isin' => shareClass.ISIN__c, 'shareClassId' => shareClass.Id, 'rating' => ratingValue, 'url' => imageSrc, 'ratingDate' => ratingDate, 'managerApiResponse' => JSON.serialize(manager) }, null, APEX_CLASS_NAME, METHOD_BATCHABLE_EXECUTE);
                 continue;
             }
+
+            Decimal ratingBefore = existing.rating;
+            String urlBefore = existing.url;
 
             // A field only conflicts when both sides actually disagree on real data. A null on either side means
             // "missing information", not a conflict — the non-null value wins. RatingDate is deliberately excluded
@@ -250,10 +260,12 @@ public without sharing class CityWireUpdateBatch implements Database.Batchable<S
             if (!conflicts.isEmpty()) {
                 existing.hasConflict = true;
                 existing.conflictDetail = String.join(conflicts, '; ');
+                OperationLogService.logWithContext(OperationLogService.Level.WARN, (String) null, 'FundManager__c', OPERATION_CONFLICT, 'Conflicting Citywire data for manager ID ' + manager.ID + ' from ISIN ' + shareClass.ISIN__c + ': ' + existing.conflictDetail + '.', new Map<String, Object>{ 'cityWireId' => manager.ID, 'isin' => shareClass.ISIN__c, 'shareClassId' => shareClass.Id, 'conflictDetail' => existing.conflictDetail, 'existingRating' => ratingBefore, 'existingUrl' => urlBefore, 'incomingRating' => ratingValue, 'incomingUrl' => imageSrc, 'managerApiResponse' => JSON.serialize(manager) }, null, APEX_CLASS_NAME, METHOD_BATCHABLE_EXECUTE);
             }
             else {
                 if (existing.rating == null) existing.rating = ratingValue;
                 if (existing.url == null) existing.url = imageSrc;
+                OperationLogService.logWithContext(OperationLogService.Level.INFO, (String) null, 'FundManager__c', OPERATION_MANAGER_MERGED, 'Additional Citywire data merged for manager ID ' + manager.ID + ' from ISIN ' + shareClass.ISIN__c + ' without conflict.', new Map<String, Object>{ 'cityWireId' => manager.ID, 'isin' => shareClass.ISIN__c, 'shareClassId' => shareClass.Id, 'ratingBefore' => ratingBefore, 'ratingAfter' => existing.rating, 'urlBefore' => urlBefore, 'urlAfter' => existing.url, 'managerApiResponse' => JSON.serialize(manager) }, null, APEX_CLASS_NAME, METHOD_BATCHABLE_EXECUTE);
             }
 
             // Always keep the freshest rating date seen, independent of whether rating/url conflicted this round.
