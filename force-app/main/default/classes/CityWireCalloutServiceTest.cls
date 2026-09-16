@@ -28,96 +28,66 @@ private class CityWireCalloutServiceTest {
     }
 
     @isTest
-    static void testSuccessSingleManager() {
-        String body = '{"ISIN":"FR0000000001","SummaryDisclaimer":"disclaimer","RatingDate":"2026-03-01","PublishDate":"2026-02-15","Managers":[' +
+    static void testCalloutScenarios() {
+        Test.startTest();
+
+        // Success — single manager, RatingDate at fund level, ImageSrc nested under Rating.
+        String singleBody = '{"ISIN":"FR0000000001","SummaryDisclaimer":"disclaimer","RatingDate":"2026-03-01","PublishDate":"2026-02-15","Managers":[' +
             '{"ID":12345,"FirstName":"John","LastName":"Doe",' +
             '"Rating":{"RatingValue":3,"Description":"desc","ImageSrc":"https://citywire.com/john.png","Disclaimer":"disc"}}' +
         ']}';
-        Test.setMock(HttpCalloutMock.class, new CityWireMock(200, body));
+        Test.setMock(HttpCalloutMock.class, new CityWireMock(200, singleBody));
+        CityWireCalloutService.CityWireFundResponseWrapper singleResult = CityWireCalloutService.getFund('FR0000000001');
+        System.assertEquals('2026-03-01', singleResult.RatingDate, 'RatingDate is at the fund level, not per-manager');
+        System.assertEquals(1, singleResult.Managers.size());
+        System.assertEquals(12345, singleResult.Managers[0].ID);
+        System.assertEquals(3, singleResult.Managers[0].Rating.RatingValue);
+        System.assertEquals('https://citywire.com/john.png', singleResult.Managers[0].Rating.ImageSrc, 'ImageSrc is nested under Rating, not on the manager directly');
 
-        Test.startTest();
-        CityWireCalloutService.CityWireFundResponseWrapper result = CityWireCalloutService.getFund('FR0000000001');
-        Test.stopTest();
-
-        System.assertEquals('2026-03-01', result.RatingDate, 'RatingDate is at the fund level, not per-manager');
-        System.assertEquals(1, result.Managers.size());
-        System.assertEquals(12345, result.Managers[0].ID);
-        System.assertEquals(3, result.Managers[0].Rating.RatingValue);
-        System.assertEquals('https://citywire.com/john.png', result.Managers[0].Rating.ImageSrc, 'ImageSrc is nested under Rating, not on the manager directly');
-    }
-
-    @isTest
-    static void testSuccessMultipleManagers() {
-        String body = '{"ISIN":"FR0000000002","SummaryDisclaimer":"disclaimer","RatingDate":"2026-01-01","PublishDate":"2026-01-01","Managers":[' +
+        // Success — multiple co-managers in one response.
+        String multiBody = '{"ISIN":"FR0000000002","SummaryDisclaimer":"disclaimer","RatingDate":"2026-01-01","PublishDate":"2026-01-01","Managers":[' +
             '{"ID":111,"FirstName":"A","LastName":"B","Rating":{"RatingValue":1,"ImageSrc":"https://citywire.com/a.png"}},' +
             '{"ID":222,"FirstName":"C","LastName":"D","Rating":{"RatingValue":2,"ImageSrc":"https://citywire.com/c.png"}}' +
         ']}';
-        Test.setMock(HttpCalloutMock.class, new CityWireMock(200, body));
+        Test.setMock(HttpCalloutMock.class, new CityWireMock(200, multiBody));
+        CityWireCalloutService.CityWireFundResponseWrapper multiResult = CityWireCalloutService.getFund('FR0000000002');
+        System.assertEquals(2, multiResult.Managers.size());
 
-        Test.startTest();
-        CityWireCalloutService.CityWireFundResponseWrapper result = CityWireCalloutService.getFund('FR0000000002');
-        Test.stopTest();
+        // Success — empty Managers array (fund exists in Citywire, no manager data yet).
+        Test.setMock(HttpCalloutMock.class, new CityWireMock(200, '{"SummaryDisclaimer":"disclaimer","Managers":[]}'));
+        CityWireCalloutService.CityWireFundResponseWrapper emptyResult = CityWireCalloutService.getFund('FR0000000003');
+        System.assertEquals(0, emptyResult.Managers.size());
 
-        System.assertEquals(2, result.Managers.size());
-    }
-
-    @isTest
-    static void testEmptyManagersArray() {
-        String body = '{"SummaryDisclaimer":"disclaimer","Managers":[]}';
-        Test.setMock(HttpCalloutMock.class, new CityWireMock(200, body));
-
-        Test.startTest();
-        CityWireCalloutService.CityWireFundResponseWrapper result = CityWireCalloutService.getFund('FR0000000003');
-        Test.stopTest();
-
-        System.assertEquals(0, result.Managers.size());
-    }
-
-    @isTest
-    static void testNon200Status() {
+        // Failure — non-200 status.
         Test.setMock(HttpCalloutMock.class, new CityWireMock(404, '{"error":"not found"}'));
-
-        Test.startTest();
-        Boolean threw = false;
+        Boolean threwOnNon200 = false;
         try {
             CityWireCalloutService.getFund('FR0000000004');
         } catch (CityWireCalloutService.CityWireCalloutException ex) {
-            threw = true;
+            threwOnNon200 = true;
         }
-        Test.stopTest();
+        System.assert(threwOnNon200, 'A non-200 response should throw a CityWireCalloutException');
 
-        System.assert(threw, 'A non-200 response should throw a CityWireCalloutException');
-    }
-
-    @isTest
-    static void testTimeout() {
+        // Failure — callout exception (timeout).
         Test.setMock(HttpCalloutMock.class, new CityWireMock(200, '').throwing());
-
-        Test.startTest();
-        Boolean threw = false;
+        Boolean threwOnTimeout = false;
         try {
             CityWireCalloutService.getFund('FR0000000005');
         } catch (CityWireCalloutService.CityWireCalloutException ex) {
-            threw = true;
+            threwOnTimeout = true;
         }
-        Test.stopTest();
+        System.assert(threwOnTimeout, 'A callout exception (timeout) should be wrapped in a CityWireCalloutException');
 
-        System.assert(threw, 'A callout exception (timeout) should be wrapped in a CityWireCalloutException');
-    }
-
-    @isTest
-    static void testMalformedJson() {
+        // Failure — malformed JSON.
         Test.setMock(HttpCalloutMock.class, new CityWireMock(200, 'not json'));
-
-        Test.startTest();
-        Boolean threw = false;
+        Boolean threwOnMalformed = false;
         try {
             CityWireCalloutService.getFund('FR0000000006');
         } catch (CityWireCalloutService.CityWireCalloutException ex) {
-            threw = true;
+            threwOnMalformed = true;
         }
-        Test.stopTest();
+        System.assert(threwOnMalformed, 'Malformed JSON should throw a CityWireCalloutException');
 
-        System.assert(threw, 'Malformed JSON should throw a CityWireCalloutException');
+        Test.stopTest();
     }
 }
