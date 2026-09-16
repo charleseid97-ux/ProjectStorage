@@ -185,15 +185,12 @@ public class ProjectShareclassChildHandler {
                         valuesSet.addAll(newRec.TaxTransparency__c.split(';'));
                     }
 
+                    // Preserve only the Tax Transparency values explicitly selected by the user
                     Boolean hasBeTis = valuesSet.contains(BE_TIS);
                     Boolean hasBeAssetTest = valuesSet.contains(BE_ASSET_TEST);
                     system.debug('hasBeTis: ' + hasBeTis + ', hasBeAssetTest: ' + hasBeAssetTest);
-                    if (hasBeTis && !hasBeAssetTest) {
-                        valuesSet.add(BE_ASSET_TEST);
-                    } else if (hasBeAssetTest && !hasBeTis) {
-                        valuesSet.add(BE_TIS);
-                    }
 
+                    // Save the current selection without automatically adding the other Belgium value
                     newRec.TaxTransparency__c = String.join(new List<String>(valuesSet), ';');
                 }
 
