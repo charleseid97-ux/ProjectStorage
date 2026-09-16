@@ -4,7 +4,13 @@
         <members>CityWireUpdateBatch</members>
         <members>CityWireUpdateBatchTest</members>
         <members>CityWireCalloutService</members>
+        <members>CityWireCalloutServiceTest</members>
+        <members>QueueMemberService</members>
+        <members>QueueMemberServiceTest</members>
         <members>EmailService</members>
+        <members>EmailServiceTest</members>
+        <members>OperationLogService</members>
+        <members>OperationLogServiceTest</members>
         <name>ApexClass</name>
     </types>
     <types>
@@ -23,5 +29,6 @@
         <members>CityWireSettings__mdt-City Wire Settings Layout</members>
         <name>Layout</name>
     </types>
+    <!-- FLAG -->
     <version>66.0</version>
 </Package>
