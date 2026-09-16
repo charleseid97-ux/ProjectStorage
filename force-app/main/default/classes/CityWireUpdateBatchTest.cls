@@ -13,6 +13,7 @@ private class CityWireUpdateBatchTest {
     private static final String ISIN_STALE_NO_CONFLICT_A = 'FR0000000010';
     private static final String ISIN_STALE_NO_CONFLICT_B = 'FR0000000011';
     private static final String ISIN_MISSING_MANAGER_ID = 'FR0000000012';
+    private static final String ISIN_NO_CHANGE = 'FR0000000013';
 
     private static final Decimal CITYWIRE_ID_MATCHED = 12345;
     private static final Decimal CITYWIRE_ID_UNMATCHED = 55555;
@@ -20,6 +21,7 @@ private class CityWireUpdateBatchTest {
     private static final Decimal CITYWIRE_ID_UPDATE_FAILURE = 77777;
     private static final Decimal CITYWIRE_ID_NULL_TOLERANT = 11111;
     private static final Decimal CITYWIRE_ID_STALE_NO_CONFLICT = 22222;
+    private static final Decimal CITYWIRE_ID_NO_CHANGE = 44444;
 
     // Test fixtures use dates relative to "today" rather than hardcoded ones, since the batch now ignores
     // any rating older than 3 months — a hardcoded date would silently become stale as time passes.
@@ -95,7 +97,9 @@ private class CityWireUpdateBatchTest {
             // Same manager, one ISIN gives a real recent rating, the other gives a garbage/ancient rating date that must be ignored entirely.
             .withBody(ISIN_STALE_NO_CONFLICT_A, managerBody(CITYWIRE_ID_STALE_NO_CONFLICT, 2, recentDate(10), 'https://citywire.com/22222.png'))
             .withBody(ISIN_STALE_NO_CONFLICT_B, managerBodyWithNullRating(CITYWIRE_ID_STALE_NO_CONFLICT, '0001-01-01'))
-            .withBody(ISIN_MISSING_MANAGER_ID, managerBodyWithMissingId(recentDate(10)));
+            .withBody(ISIN_MISSING_MANAGER_ID, managerBodyWithMissingId(recentDate(10)))
+            // Rating/URL/date already match the pre-set FundManager__c below — nothing should change.
+            .withBody(ISIN_NO_CHANGE, managerBody(CITYWIRE_ID_NO_CHANGE, 6, recentDate(10), 'https://citywire.com/44444.png'));
     }
 
     @TestSetup
@@ -119,6 +123,7 @@ private class CityWireUpdateBatchTest {
         shareClasses.add(buildMainActiveShareClass(product.Id, 'SC StaleNoConflictA', ISIN_STALE_NO_CONFLICT_A));
         shareClasses.add(buildMainActiveShareClass(product.Id, 'SC StaleNoConflictB', ISIN_STALE_NO_CONFLICT_B));
         shareClasses.add(buildMainActiveShareClass(product.Id, 'SC MissingManagerId', ISIN_MISSING_MANAGER_ID));
+        shareClasses.add(buildMainActiveShareClass(product.Id, 'SC NoChange', ISIN_NO_CHANGE));
 
         Share_Class__c notMain = buildMainActiveShareClass(product.Id, 'SC NotMain', 'FR0000000099');
         notMain.IsMainShareClass__c = 'False';
@@ -131,6 +136,8 @@ private class CityWireUpdateBatchTest {
         insert new FundManager__c(Name = 'Update Failure Manager', EmpId__c = 3, CityWireId__c = CITYWIRE_ID_UPDATE_FAILURE);
         insert new FundManager__c(Name = 'Null Tolerant Manager', EmpId__c = 4, CityWireId__c = CITYWIRE_ID_NULL_TOLERANT);
         insert new FundManager__c(Name = 'Stale No Conflict Manager', EmpId__c = 5, CityWireId__c = CITYWIRE_ID_STALE_NO_CONFLICT);
+        // Pre-set to exactly match what defaultMock() returns for ISIN_NO_CHANGE, so the batch sees nothing to update.
+        insert new FundManager__c(Name = 'No Change Manager', EmpId__c = 6, CityWireId__c = CITYWIRE_ID_NO_CHANGE, CityWireRating__c = 6, CityWireURL__c = 'https://citywire.com/44444.png', CityWireDate__c = Date.valueOf(recentDate(10)));
     }
 
     private static Share_Class__c buildMainActiveShareClass(Id fundId, String name, String isin) {
@@ -143,99 +150,8 @@ private class CityWireUpdateBatchTest {
         );
     }
 
-    @isTest
-    static void testHappyPath_matchesAndUpdatesFundManager() {
-        Test.setMock(HttpCalloutMock.class, defaultMock());
-        CityWireUpdateBatch.dryRunOverride = false;
-
-        Test.startTest();
-        Database.executeBatch(new CityWireUpdateBatch(), 20);
-        Test.stopTest();
-
-        FundManager__c updated = [SELECT CityWireRating__c, CityWireURL__c, CityWireDate__c FROM FundManager__c WHERE CityWireId__c = :CITYWIRE_ID_MATCHED];
-        System.assertEquals(3, updated.CityWireRating__c);
-        System.assertEquals('https://citywire.com/12345.png', updated.CityWireURL__c);
-        System.assertEquals(Date.valueOf(recentDate(10)), updated.CityWireDate__c);
-    }
-
-    @isTest
-    static void testUnmatchedCityWireId_logsWarningAndSkipsCreation() {
-        Test.setMock(HttpCalloutMock.class, defaultMock());
-        CityWireUpdateBatch.dryRunOverride = false;
-
-        Integer fundManagerCountBefore = [SELECT COUNT() FROM FundManager__c];
-
-        Test.startTest();
-        Database.executeBatch(new CityWireUpdateBatch(), 20);
-        Test.stopTest();
-
-        Integer fundManagerCountAfter = [SELECT COUNT() FROM FundManager__c];
-        System.assertEquals(fundManagerCountBefore, fundManagerCountAfter, 'An unmatched Citywire ID must never create a new FundManager__c record');
-
-        List<OperationLog__c> logs = [SELECT Message__c FROM OperationLog__c WHERE Operation__c = 'CityWireUnmatchedManager'];
-        System.assertEquals(1, logs.size());
-    }
-
-    @isTest
-    static void testConflictingRatings_logsWarningAndExcludesFromUpdate() {
-        Test.setMock(HttpCalloutMock.class, defaultMock());
-        CityWireUpdateBatch.dryRunOverride = false;
-
-        Test.startTest();
-        Database.executeBatch(new CityWireUpdateBatch(), 20);
-        Test.stopTest();
-
-        FundManager__c conflictManager = [SELECT CityWireRating__c, CityWireURL__c, CityWireDate__c FROM FundManager__c WHERE CityWireId__c = :CITYWIRE_ID_CONFLICT];
-        System.assertEquals(null, conflictManager.CityWireRating__c, 'A manager with two different non-null ratings must not be updated');
-
-        // One conflict log fires the moment mergeManagers() detects the disagreement, and a second summarizes the final outcome in finish().
-        List<OperationLog__c> logs = [SELECT Message__c, Context__c, MethodName__c FROM OperationLog__c WHERE Operation__c = 'CityWireConflictDetected'];
-        System.assertEquals(2, logs.size(), 'A conflict should be logged both at merge-time detection and at finish-time reporting');
-
-        Boolean hasMergeTimeLog = false;
-        Boolean hasFinishTimeLog = false;
-        for (OperationLog__c logRecord : logs) {
-            Map<String, Object> context = (Map<String, Object>) JSON.deserializeUntyped(logRecord.Context__c);
-            System.assert(String.valueOf(context.get('conflictDetail')).contains('Rating'), 'The conflict detail should explain what actually differed');
-            if (logRecord.MethodName__c == 'execute(BatchableContext)') {
-                hasMergeTimeLog = true;
-                System.assert(context.containsKey('managerApiResponse'), 'The merge-time conflict log should carry the raw Citywire API response');
-            }
-            if (logRecord.MethodName__c == 'finish') {
-                hasFinishTimeLog = true;
-            }
-        }
-        System.assert(hasMergeTimeLog, 'The conflict should be logged the moment it is detected during merge');
-        System.assert(hasFinishTimeLog, 'The final conflicted outcome should also be logged in finish()');
-    }
-
-    @isTest
-    static void testNullRating_isNotAConflict_takesTheNonNullValue() {
-        Test.setMock(HttpCalloutMock.class, defaultMock());
-        CityWireUpdateBatch.dryRunOverride = false;
-
-        Test.startTest();
-        Database.executeBatch(new CityWireUpdateBatch(), 20);
-        Test.stopTest();
-
-        FundManager__c manager = [SELECT CityWireRating__c FROM FundManager__c WHERE CityWireId__c = :CITYWIRE_ID_NULL_TOLERANT];
-        System.assertEquals(7, manager.CityWireRating__c, 'A null rating from one ISIN must not overwrite or conflict with a real rating from another');
-
-        List<OperationLog__c> conflictLogs = [SELECT Id FROM OperationLog__c WHERE Operation__c = 'CityWireConflictDetected' AND SourceRecordId__c = :manager.Id];
-        System.assertEquals(0, conflictLogs.size(), 'A missing value must never be treated as a conflict');
-
-        // The first ISIN's entry for this manager should log as "recorded", the second (non-conflicting) entry as "merged".
-        // Message__c/Context__c are LongTextArea fields and can't be filtered in SOQL, so match on cityWireId inside the parsed context instead.
-        Map<String, Object> recordedContext = findContextForCityWireId('CityWireManagerRecorded', CITYWIRE_ID_NULL_TOLERANT);
-        System.assertNotEquals(null, recordedContext, 'The first data point for a manager should be logged as recorded');
-        System.assert(String.isNotBlank((String) recordedContext.get('managerApiResponse')), 'The recorded log should carry the raw Citywire API response');
-
-        Map<String, Object> mergedContext = findContextForCityWireId('CityWireManagerMerged', CITYWIRE_ID_NULL_TOLERANT);
-        System.assertNotEquals(null, mergedContext, 'A subsequent non-conflicting data point should be logged as merged');
-        System.assert(String.isNotBlank((String) mergedContext.get('managerApiResponse')), 'The merged log should carry the raw Citywire API response');
-    }
-
     // Returns the Context__c (parsed) of the first OperationLog__c row for the given operation whose context cityWireId matches, or null.
+    // Message__c/Context__c are LongTextArea fields and can't be filtered in SOQL, so matching happens in Apex instead.
     private static Map<String, Object> findContextForCityWireId(String operation, Decimal cityWireId) {
         for (OperationLog__c logRecord : [SELECT Context__c FROM OperationLog__c WHERE Operation__c = :operation]) {
             Map<String, Object> context = (Map<String, Object>) JSON.deserializeUntyped(logRecord.Context__c);
@@ -246,8 +162,11 @@ private class CityWireUpdateBatchTest {
         return null;
     }
 
+    // One shared batch run exercises every outcome the fixture set is built for — happy path, unmatched, conflict,
+    // null-tolerant merge, missing ID, stale rating date, callout failure, empty response, update failure and no-change —
+    // since they all already coexist in the same @TestSetup data and would otherwise just re-run the identical batch.
     @isTest
-    static void testManagerMissingId_isLoggedAndSkipped() {
+    static void testBatchOutcomeScenarios() {
         Test.setMock(HttpCalloutMock.class, defaultMock());
         CityWireUpdateBatch.dryRunOverride = false;
 
@@ -255,61 +174,92 @@ private class CityWireUpdateBatchTest {
         Database.executeBatch(new CityWireUpdateBatch(), 20);
         Test.stopTest();
 
-        List<OperationLog__c> logs = [SELECT Level__c, Context__c FROM OperationLog__c WHERE Operation__c = 'CityWireManagerMissingId'];
-        System.assertEquals(1, logs.size(), 'A manager entry with no ID must still be logged, not silently dropped');
-        System.assertEquals('WARN', logs[0].Level__c);
-        Map<String, Object> context = (Map<String, Object>) JSON.deserializeUntyped(logs[0].Context__c);
-        System.assert(String.isNotBlank((String) context.get('managerApiResponse')), 'The missing-ID log should carry the raw Citywire API response');
-    }
+        // Happy path: a clean match gets its rating/URL/date updated.
+        FundManager__c updated = [SELECT CityWireRating__c, CityWireURL__c, CityWireDate__c FROM FundManager__c WHERE CityWireId__c = :CITYWIRE_ID_MATCHED];
+        System.assertEquals(3, updated.CityWireRating__c);
+        System.assertEquals('https://citywire.com/12345.png', updated.CityWireURL__c);
+        System.assertEquals(Date.valueOf(recentDate(10)), updated.CityWireDate__c);
 
-    @isTest
-    static void testOldRatingDate_isIgnoredAndLogged_preventsFalseConflict() {
-        Test.setMock(HttpCalloutMock.class, defaultMock());
-        CityWireUpdateBatch.dryRunOverride = false;
+        // Unmatched: a Citywire ID with no FundManager__c is logged and never creates a record.
+        Integer fundManagerCount = [SELECT COUNT() FROM FundManager__c];
+        System.assertEquals(6, fundManagerCount, 'No new FundManager__c should ever be created for an unmatched Citywire ID');
+        List<OperationLog__c> unmatchedLogs = [SELECT Id FROM OperationLog__c WHERE Operation__c = 'CityWireUnmatchedManager'];
+        System.assertEquals(1, unmatchedLogs.size());
 
-        Test.startTest();
-        Database.executeBatch(new CityWireUpdateBatch(), 20);
-        Test.stopTest();
+        // Conflict: two non-null, disagreeing ratings for the same manager are excluded from update and logged twice
+        // (once at merge-time detection, once at finish-time reporting).
+        FundManager__c conflictManager = [SELECT Id, CityWireRating__c FROM FundManager__c WHERE CityWireId__c = :CITYWIRE_ID_CONFLICT];
+        System.assertEquals(null, conflictManager.CityWireRating__c, 'A manager with two different non-null ratings must not be updated');
+        List<OperationLog__c> conflictLogs = [SELECT Context__c, MethodName__c FROM OperationLog__c WHERE Operation__c = 'CityWireConflictDetected'];
+        System.assertEquals(2, conflictLogs.size(), 'A conflict should be logged both at merge-time detection and at finish-time reporting');
+        Boolean hasMergeTimeConflictLog = false;
+        Boolean hasFinishTimeConflictLog = false;
+        for (OperationLog__c logRecord : conflictLogs) {
+            Map<String, Object> context = (Map<String, Object>) JSON.deserializeUntyped(logRecord.Context__c);
+            System.assert(String.valueOf(context.get('conflictDetail')).contains('Rating'), 'The conflict detail should explain what actually differed');
+            if (logRecord.MethodName__c == 'execute(BatchableContext)') {
+                hasMergeTimeConflictLog = true;
+                System.assert(context.containsKey('managerApiResponse'), 'The merge-time conflict log should carry the raw Citywire API response');
+            }
+            if (logRecord.MethodName__c == 'finish') hasFinishTimeConflictLog = true;
+        }
+        System.assert(hasMergeTimeConflictLog, 'The conflict should be logged the moment it is detected during merge');
+        System.assert(hasFinishTimeConflictLog, 'The final conflicted outcome should also be logged in finish()');
 
-        FundManager__c manager = [SELECT CityWireRating__c FROM FundManager__c WHERE CityWireId__c = :CITYWIRE_ID_STALE_NO_CONFLICT];
-        System.assertEquals(2, manager.CityWireRating__c, 'The stale entry must be ignored entirely, leaving only the good rating');
+        // Null-tolerant merge: a null rating from one ISIN never overwrites or conflicts with a real rating from another,
+        // and the two occurrences are logged as "recorded" then "merged".
+        FundManager__c nullTolerantManager = [SELECT Id, CityWireRating__c FROM FundManager__c WHERE CityWireId__c = :CITYWIRE_ID_NULL_TOLERANT];
+        System.assertEquals(7, nullTolerantManager.CityWireRating__c, 'A null rating must not overwrite or conflict with a real rating');
+        List<OperationLog__c> nullTolerantConflictLogs = [SELECT Id FROM OperationLog__c WHERE Operation__c = 'CityWireConflictDetected' AND SourceRecordId__c = :nullTolerantManager.Id];
+        System.assertEquals(0, nullTolerantConflictLogs.size(), 'A missing value must never be treated as a conflict');
+        Map<String, Object> recordedContext = findContextForCityWireId('CityWireManagerRecorded', CITYWIRE_ID_NULL_TOLERANT);
+        System.assertNotEquals(null, recordedContext, 'The first data point for a manager should be logged as recorded');
+        System.assert(String.isNotBlank((String) recordedContext.get('managerApiResponse')), 'The recorded log should carry the raw Citywire API response');
+        Map<String, Object> mergedContext = findContextForCityWireId('CityWireManagerMerged', CITYWIRE_ID_NULL_TOLERANT);
+        System.assertNotEquals(null, mergedContext, 'A subsequent non-conflicting data point should be logged as merged');
+        System.assert(String.isNotBlank((String) mergedContext.get('managerApiResponse')), 'The merged log should carry the raw Citywire API response');
 
-        List<OperationLog__c> conflictLogs = [SELECT Id FROM OperationLog__c WHERE Operation__c = 'CityWireConflictDetected' AND SourceRecordId__c = :manager.Id];
-        System.assertEquals(0, conflictLogs.size(), 'A stale/garbage rating date must never manufacture a false conflict');
+        // Missing manager ID: a genuinely malformed API entry is logged, not silently dropped.
+        List<OperationLog__c> missingIdLogs = [SELECT Level__c, Context__c FROM OperationLog__c WHERE Operation__c = 'CityWireManagerMissingId'];
+        System.assertEquals(1, missingIdLogs.size(), 'A manager entry with no ID must still be logged, not silently dropped');
+        System.assertEquals('WARN', missingIdLogs[0].Level__c);
+        Map<String, Object> missingIdContext = (Map<String, Object>) JSON.deserializeUntyped(missingIdLogs[0].Context__c);
+        System.assert(String.isNotBlank((String) missingIdContext.get('managerApiResponse')), 'The missing-ID log should carry the raw Citywire API response');
 
-        List<OperationLog__c> staleLogs = [SELECT Level__c, Context__c FROM OperationLog__c WHERE Operation__c = 'CityWireStaleRatingDate'];
+        // Stale rating date: a garbage/ancient date is ignored entirely rather than manufacturing a false conflict.
+        FundManager__c staleManager = [SELECT Id, CityWireRating__c FROM FundManager__c WHERE CityWireId__c = :CITYWIRE_ID_STALE_NO_CONFLICT];
+        System.assertEquals(2, staleManager.CityWireRating__c, 'The stale entry must be ignored entirely, leaving only the good rating');
+        List<OperationLog__c> staleConflictLogs = [SELECT Id FROM OperationLog__c WHERE Operation__c = 'CityWireConflictDetected' AND SourceRecordId__c = :staleManager.Id];
+        System.assertEquals(0, staleConflictLogs.size(), 'A stale/garbage rating date must never manufacture a false conflict');
+        List<OperationLog__c> staleLogs = [SELECT Level__c FROM OperationLog__c WHERE Operation__c = 'CityWireStaleRatingDate'];
         System.assertEquals(1, staleLogs.size(), 'The ignored stale entry should still be logged for visibility');
         System.assertEquals('WARN', staleLogs[0].Level__c);
-    }
 
-    @isTest
-    static void testCalloutFailure_partialSuccessContinuesOtherIsins() {
-        Test.setMock(HttpCalloutMock.class, defaultMock());
-        CityWireUpdateBatch.dryRunOverride = false;
+        // Callout failure: one failing ISIN doesn't block the others in the same run (partial success).
+        List<OperationLog__c> calloutErrorLogs = [SELECT Id FROM OperationLog__c WHERE Level__c = 'ERROR' AND Operation__c = 'CityWireFundLookup'];
+        System.assertEquals(1, calloutErrorLogs.size());
 
-        Test.startTest();
-        Database.executeBatch(new CityWireUpdateBatch(), 20);
-        Test.stopTest();
+        // Empty Managers array: logged as WARN, not ERROR.
+        List<OperationLog__c> emptyManagersLogs = [SELECT Level__c FROM OperationLog__c WHERE Operation__c = 'CityWireFundLookup' AND SourceObject__c = 'Share_Class__c' AND Level__c = 'WARN'];
+        System.assert(!emptyManagersLogs.isEmpty(), 'An empty Managers array must be logged as WARN, not ERROR');
 
-        // The matched ISIN still updates even though the failing ISIN errored in the same run
-        FundManager__c updated = [SELECT CityWireRating__c FROM FundManager__c WHERE CityWireId__c = :CITYWIRE_ID_MATCHED];
-        System.assertEquals(3, updated.CityWireRating__c);
+        // Update failure: a DML error (rating out of range) doesn't block other records, and shows up in the run summary.
+        FundManager__c updateFailedManager = [SELECT CityWireRating__c FROM FundManager__c WHERE CityWireId__c = :CITYWIRE_ID_UPDATE_FAILURE];
+        System.assertEquals(null, updateFailedManager.CityWireRating__c, 'A failed DML update must not leave a partial value on the record');
+        List<OperationLog__c> updateFailedLogs = [SELECT Id FROM OperationLog__c WHERE Operation__c = 'CityWireFundManagerUpdateFailed'];
+        System.assertEquals(1, updateFailedLogs.size());
 
-        List<OperationLog__c> errorLogs = [SELECT Id FROM OperationLog__c WHERE Level__c = 'ERROR' AND Operation__c = 'CityWireFundLookup'];
-        System.assertEquals(1, errorLogs.size());
-    }
+        // No change: a manager whose rating/URL/date already match is logged as no-change and never re-updated.
+        FundManager__c noChangeManager = [SELECT Id FROM FundManager__c WHERE CityWireId__c = :CITYWIRE_ID_NO_CHANGE];
+        List<OperationLog__c> noChangeLogs = [SELECT Id FROM OperationLog__c WHERE Operation__c = 'CityWireNoChangeDetected' AND SourceRecordId__c = :noChangeManager.Id];
+        System.assertEquals(1, noChangeLogs.size(), 'A manager whose rating/URL/date has not changed should be logged as no-change');
+        List<OperationLog__c> noChangeUpdateLogs = [SELECT Id FROM OperationLog__c WHERE Operation__c = 'CityWireFundManagerUpdated' AND SourceRecordId__c = :noChangeManager.Id];
+        System.assertEquals(0, noChangeUpdateLogs.size(), 'A manager whose rating/URL/date has not changed should not be re-updated');
 
-    @isTest
-    static void testEmptyManagersArray_logsWarnNotError() {
-        Test.setMock(HttpCalloutMock.class, defaultMock());
-        CityWireUpdateBatch.dryRunOverride = false;
-
-        Test.startTest();
-        Database.executeBatch(new CityWireUpdateBatch(), 20);
-        Test.stopTest();
-
-        List<OperationLog__c> logs = [SELECT Level__c FROM OperationLog__c WHERE Operation__c = 'CityWireFundLookup' AND SourceObject__c = 'Share_Class__c' AND Level__c = 'WARN'];
-        System.assert(!logs.isEmpty(), 'An empty Managers array must be logged as WARN, not ERROR');
+        // Run summary: the failed update is reflected in the aggregate context.
+        List<OperationLog__c> summaryLogs = [SELECT Context__c FROM OperationLog__c WHERE Operation__c = 'CityWireRatingsSummary' ORDER BY CreatedDate DESC LIMIT 1];
+        Map<String, Object> summaryContext = (Map<String, Object>) JSON.deserializeUntyped(summaryLogs[0].Context__c);
+        System.assertEquals(1, (Integer) summaryContext.get('updateFailed'), 'The summary context should account for the failed update');
     }
 
     @isTest
@@ -326,76 +276,21 @@ private class CityWireUpdateBatchTest {
     }
 
     @isTest
-    static void testUnchangedRating_isNotReUpdated() {
-        FundManager__c fm = [SELECT Id FROM FundManager__c WHERE CityWireId__c = :CITYWIRE_ID_MATCHED];
-        fm.CityWireRating__c = 3;
-        fm.CityWireURL__c = 'https://citywire.com/12345.png';
-        fm.CityWireDate__c = Date.valueOf(recentDate(10));
-        update fm;
-
+    static void testSchedulerGuard_enqueuesOnlyWhenNotAlreadyRunning() {
         Test.setMock(HttpCalloutMock.class, defaultMock());
         CityWireUpdateBatch.dryRunOverride = false;
 
         Test.startTest();
-        Database.executeBatch(new CityWireUpdateBatch(), 20);
-        Test.stopTest();
+        // First fire: nothing running yet, so it should enqueue a batch.
+        ((Schedulable) new CityWireUpdateBatch()).execute(null);
+        List<AsyncApexJob> jobsAfterFirstFire = [SELECT Id FROM AsyncApexJob WHERE ApexClass.Name = 'CityWireUpdateBatch' AND JobType = 'BatchApex'];
+        System.assertEquals(1, jobsAfterFirstFire.size(), 'The first scheduled fire should enqueue a batch when none is running');
 
-        List<OperationLog__c> noChangeLogs = [SELECT Id FROM OperationLog__c WHERE Operation__c = 'CityWireNoChangeDetected' AND SourceRecordId__c = :fm.Id];
-        System.assertEquals(1, noChangeLogs.size(), 'A manager whose rating/URL/date has not changed should be logged as no-change');
-
-        List<OperationLog__c> updateLogs = [SELECT Id FROM OperationLog__c WHERE Operation__c = 'CityWireFundManagerUpdated' AND SourceRecordId__c = :fm.Id];
-        System.assertEquals(0, updateLogs.size(), 'A manager whose rating/URL/date has not changed should not be re-updated');
-    }
-
-    @isTest
-    static void testUpdateFailure_logsErrorAndDoesNotBlockOtherRecords() {
-        Test.setMock(HttpCalloutMock.class, defaultMock());
-        CityWireUpdateBatch.dryRunOverride = false;
-
-        Test.startTest();
-        Database.executeBatch(new CityWireUpdateBatch(), 20);
-        Test.stopTest();
-
-        // The record that fails DML (rating out of range) stays untouched...
-        FundManager__c failedRecord = [SELECT CityWireRating__c FROM FundManager__c WHERE CityWireId__c = :CITYWIRE_ID_UPDATE_FAILURE];
-        System.assertEquals(null, failedRecord.CityWireRating__c, 'A failed DML update must not leave a partial value on the record');
-
-        // ...while the unrelated matched record still updates in the same run (partial success, per-record allOrNone=false).
-        FundManager__c updated = [SELECT CityWireRating__c FROM FundManager__c WHERE CityWireId__c = :CITYWIRE_ID_MATCHED];
-        System.assertEquals(3, updated.CityWireRating__c);
-
-        List<OperationLog__c> errorLogs = [SELECT Message__c FROM OperationLog__c WHERE Operation__c = 'CityWireFundManagerUpdateFailed'];
-        System.assertEquals(1, errorLogs.size());
-
-        List<OperationLog__c> summaryLogs = [SELECT Context__c FROM OperationLog__c WHERE Operation__c = 'CityWireRatingsSummary' ORDER BY CreatedDate DESC LIMIT 1];
-        Map<String, Object> context = (Map<String, Object>) JSON.deserializeUntyped(summaryLogs[0].Context__c);
-        System.assertEquals(1, (Integer) context.get('updateFailed'), 'The summary context should account for the failed update');
-    }
-
-    @isTest
-    static void testScheduler_enqueuesBatchWhenNotRunning() {
-        Test.setMock(HttpCalloutMock.class, defaultMock());
-        CityWireUpdateBatch.dryRunOverride = false;
-
-        Test.startTest();
+        // Second fire while the first is still queued: must be skipped, not enqueue a second batch.
         ((Schedulable) new CityWireUpdateBatch()).execute(null);
         Test.stopTest();
 
-        List<AsyncApexJob> jobs = [SELECT Id FROM AsyncApexJob WHERE ApexClass.Name = 'CityWireUpdateBatch' AND JobType = 'BatchApex'];
-        System.assertEquals(1, jobs.size());
-    }
-
-    @isTest
-    static void testScheduler_skipsWhenAlreadyRunning() {
-        Test.setMock(HttpCalloutMock.class, defaultMock());
-        CityWireUpdateBatch.dryRunOverride = false;
-
-        Test.startTest();
-        Database.executeBatch(new CityWireUpdateBatch(), 20);
-        ((Schedulable) new CityWireUpdateBatch()).execute(null);
-        Test.stopTest();
-
-        List<AsyncApexJob> jobs = [SELECT Id FROM AsyncApexJob WHERE ApexClass.Name = 'CityWireUpdateBatch' AND JobType = 'BatchApex'];
-        System.assertEquals(1, jobs.size(), 'The scheduler must not enqueue a second batch while one is already running');
+        List<AsyncApexJob> jobsAfterSecondFire = [SELECT Id FROM AsyncApexJob WHERE ApexClass.Name = 'CityWireUpdateBatch' AND JobType = 'BatchApex'];
+        System.assertEquals(1, jobsAfterSecondFire.size(), 'The scheduler must not enqueue a second batch while one is already running');
     }
 }
