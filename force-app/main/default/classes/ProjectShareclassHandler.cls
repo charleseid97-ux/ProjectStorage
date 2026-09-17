@@ -104,6 +104,7 @@ public class ProjectShareclassHandler {
                     Type__c = parent.Type__c,
                     CurrencyIsoCode = parent.CurrencyIsoCode,
                     DividendPolicy__c = parent.DividendPolicy__c,
+                    DividendFrequency__c = parent.DividendFrequency__c,
                     CurrencyHedging__c = parent.CurrencyHedging__c
                 ));
             }
