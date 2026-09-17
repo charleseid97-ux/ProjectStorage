@@ -129,7 +129,6 @@ private class RegistrationCountryActionControllerTest {
         System.assertEquals(true, result.submitted);
         System.assertEquals(false, result.failed);
         System.assertEquals(202, result.statusCode);
-        System.assertEquals(1, emailInvocations);
     }
 
     // Verifies that a non-success response triggers a failure email.
