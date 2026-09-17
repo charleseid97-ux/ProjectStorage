@@ -1,0 +1,143 @@
+<template>
+    <lightning-quick-action-panel header="Manage Registration Countries Requests">
+        <!-- Replaces the form with a spinner during loading or submission. -->
+        <template if:true={loading}>
+            <div class="slds-p-around_medium slds-text-align_center">
+                <lightning-spinner alternative-text="Loading"></lightning-spinner>
+            </div>
+        </template>
+
+        <!-- Displays the form only when no asynchronous operation is running. -->
+        <template if:false={loading}>
+            <div class="slds-p-around_small">
+                <!-- Keeps a blocking configuration error visible in the action. -->
+                <template if:true={hasLoadError}>
+                    <div class="slds-notify slds-notify_alert slds-alert_error" role="alert">
+                        <span>{loadError}</span>
+                    </div>
+                </template>
+
+                <!-- Contains the type selector and country input controls. -->
+                <template if:false={hasLoadError}>
+                    <div class="slds-m-bottom_medium">
+                        <div class="section-label">Registration Country Type</div>
+
+                        <!-- Selects the active type without clearing previous selections. -->
+                        <div class="mode-selector">
+                            <button
+                                type="button"
+                                class={retailCardClass}
+                                data-type="Retail"
+                                aria-pressed={isRetailSelected}
+                                onclick={handleTypeSelect}>
+                                <span class="mode-card-title">Retail</span>
+                            </button>
+
+                            <button
+                                type="button"
+                                class={institutionalCardClass}
+                                data-type="Institutional"
+                                aria-pressed={isInstitutionalSelected}
+                                onclick={handleTypeSelect}>
+                                <span class="mode-card-title">Institutional</span>
+                            </button>
+
+                            <button
+                                type="button"
+                                class={semiProCardClass}
+                                data-type="Semi-Pro"
+                                aria-pressed={isSemiProSelected}
+                                onclick={handleTypeSelect}>
+                                <span class="mode-card-title">Semi-Pro</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Shows the selection controls after one type is active. -->
+                    <template if:true={hasRegistrationType}>
+                        <div class="section-box">
+                            <lightning-dual-listbox
+                                name="countries"
+                                label="Select Retail/Institutional/Semi-Pro Registration Countries"
+                                source-label="Available"
+                                selected-label="Selected"
+                                options={countryOptions}
+                                value={selectedCountries}
+                                onchange={handleCountriesChange}>
+                            </lightning-dual-listbox>
+
+                            <lightning-textarea
+                                class="slds-m-top_small"
+                                name="comment"
+                                label="Comment (optional)"
+                                value={comment}
+                                onchange={handleCommentChange}>
+                            </lightning-textarea>
+                        </div>
+                    </template>
+                </template>
+            </div>
+
+            <!-- Keeps action buttons aligned with the standard action footer. -->
+            <div slot="footer">
+                <lightning-button
+                    variant="neutral"
+                    label="Cancel"
+                    onclick={handleCancel}>
+                </lightning-button>
+
+                <lightning-button
+                    variant="brand"
+                    label="Submit Registration Country Request"
+                    class="slds-m-left_small"
+                    onclick={handleSubmit}
+                    disabled={submitDisabled}>
+                </lightning-button>
+            </div>
+        </template>
+    </lightning-quick-action-panel>
+
+    <!-- Displays one recap line per type before the final submission. -->
+    <template if:true={showConfirmation}>
+        <section
+            role="dialog"
+            tabindex="-1"
+            aria-modal="true"
+            aria-labelledby="confirmation-heading"
+            class="slds-modal slds-fade-in-open">
+            <div class="slds-modal__container">
+                <header class="slds-modal__header">
+                    <h2 id="confirmation-heading" class="slds-text-heading_medium">
+                        Confirm Registration Country Request
+                    </h2>
+                </header>
+
+                <!-- Keeps every populated registration type on its own line. -->
+                <div class="slds-modal__content slds-p-around_medium">
+                    <template for:each={confirmationRows} for:item="row">
+                        <div key={row.type} class="confirmation-row">
+                            <strong>{row.type}:</strong> {row.countries}
+                        </div>
+                    </template>
+                </div>
+
+                <!-- Cancel preserves the form and Confirm performs one submission. -->
+                <footer class="slds-modal__footer">
+                    <lightning-button
+                        variant="neutral"
+                        label="Cancel"
+                        onclick={handleConfirmationCancel}>
+                    </lightning-button>
+
+                    <lightning-button
+                        variant="brand"
+                        label="Confirm"
+                        class="slds-m-left_small"
+                        onclick={handleConfirmationSubmit}>
+                    </lightning-button>
+                </footer>
+            </div>
+        </section>
+        <div class="slds-backdrop slds-backdrop_open"></div>
+    </template>
+</template>

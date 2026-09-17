@@ -433,6 +433,7 @@ public without sharing class customEventService {
         }
     }
     // Détecte chaque nouveau passage à FullyApproved.
+    @TestVisible
     private static List<Event__c> detectBecameFullyApproved(
         List<Event__c> newEvents,
         Map<Id, Event__c> oldMap

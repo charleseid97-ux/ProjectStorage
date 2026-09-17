@@ -1,0 +1,71 @@
+/* Aligns section headings with standard Lightning form labels. */
+.section-label {
+    color: var(--lwc-colorTextLabel, #444444);
+    font-size: 0.75rem;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+}
+
+/* Displays the three request types on one responsive row. */
+.mode-selector {
+    display: grid;
+    gap: 0.5rem;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+/* Uses button semantics while retaining the visual card presentation. */
+.mode-card {
+    appearance: none;
+    background: var(--lwc-colorBackgroundAlt, #ffffff);
+    border: 1px solid var(--lwc-colorBorder, #dddbda);
+    border-radius: 0.25rem;
+    color: var(--lwc-colorTextDefault, #181818);
+    cursor: pointer;
+    min-height: 4rem;
+    padding: 0.75rem;
+    text-align: left;
+    width: 100%;
+}
+
+/* Highlights the current type without changing card dimensions. */
+.mode-card.selected {
+    background: var(--slds-g-color-success-base-95, #e8f5e9);
+    border: 2px solid var(--lwc-brandAccessible, #0176d3);
+    padding: calc(0.75rem - 1px);
+}
+
+/* Keeps keyboard focus visible on every request type card. */
+.mode-card:focus-visible {
+    outline: 2px solid var(--lwc-brandAccessible, #0176d3);
+    outline-offset: 2px;
+}
+
+/* Gives the request type label sufficient visual emphasis. */
+.mode-card-title {
+    display: block;
+    font-size: 0.8125rem;
+    font-weight: 600;
+}
+
+/* Separates the country controls from the request type selector. */
+.section-box {
+    border-top: 1px solid var(--lwc-colorBorder, #dddbda);
+    padding-top: 0.75rem;
+}
+
+/* Displays every registration type on a separate confirmation line. */
+.confirmation-row {
+    margin-bottom: 0.75rem;
+}
+
+/* Removes the final unnecessary spacing in the confirmation recap. */
+.confirmation-row:last-child {
+    margin-bottom: 0;
+}
+
+/* Stacks cards on narrow quick action containers. */
+@media (max-width: 36rem) {
+    .mode-selector {
+        grid-template-columns: 1fr;
+    }
+}

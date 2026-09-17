@@ -419,4 +419,240 @@ static void testBuildCampaignFromEvent() {
     System.assertEquals('IT', campaign.Sales_Team__c);
     System.assertEquals(evt.Organizer__c, campaign.CRM_User__c);
 }
+    // Couvre le changement City/Country sur un Event déjà validé par un autre utilisateur.
+    @IsTest
+    static void testSetWaitingForOrganizerApprovalLocationChanged() {
+        Map<String, SObject> data = setupData();
+        User organizer = (User) data.get('OrganizerUser');
+
+        Event__c evt;
+
+        // Crée l'Event avec son Organizer sans mixed DML.
+        System.runAs(organizer) {
+            evt = BooklyDataFactory.createEvent(
+                ((Account) data.get('company1')).Id,
+                organizer.Id
+            );
+        }
+
+        // Simule un Event déjà validé dont la localisation est modifiée.
+        Event__c oldEvt = evt.clone(true, true, false, false);
+        oldEvt.Status__c = customEventConstants.STATUS_FULLY_APPROVED;
+        oldEvt.City__c = 'Paris';
+        oldEvt.Country__c = 'France';
+
+        evt.Status__c = customEventConstants.STATUS_FULLY_APPROVED;
+        evt.City__c = 'London';
+        evt.Country__c = 'United Kingdom';
+
+        Test.startTest();
+
+        // Le test tourne hors du contexte Organizer pour couvrir la nouvelle demande d'approval.
+        customEventService.setWaitingForOrganizerApproval(
+            new List<Event__c>{ evt },
+            new Map<Id, Event__c>{ evt.Id => oldEvt }
+        );
+
+        Test.stopTest();
+
+        System.assertEquals(
+            customEventConstants.STATUS_WAITING_FOR_SPEAKER_APPROVALS,
+            evt.Status__c
+        );
+    }
+
+    // Couvre le cas où aucune modification Organizer/location n'est détectée.
+    @IsTest
+    static void testSetWaitingForOrganizerApprovalNoModification() {
+        Map<String, SObject> data = setupData();
+        User organizer = (User) data.get('OrganizerUser');
+
+        System.runAs(organizer) {
+            Event__c evt = BooklyDataFactory.createEvent(
+                ((Account) data.get('company1')).Id,
+                organizer.Id
+            );
+
+            Event__c oldEvt = evt.clone(true, true, false, false);
+            oldEvt.Status__c = customEventConstants.STATUS_FULLY_APPROVED;
+            evt.Status__c = customEventConstants.STATUS_FULLY_APPROVED;
+
+            Test.startTest();
+
+            // Aucun champ sensible ne change, donc aucun nouveau cycle Organizer.
+            customEventService.setWaitingForOrganizerApproval(
+                new List<Event__c>{ evt },
+                new Map<Id, Event__c>{ evt.Id => oldEvt }
+            );
+
+            Test.stopTest();
+
+            System.assertEquals(
+                customEventConstants.STATUS_FULLY_APPROVED,
+                evt.Status__c
+            );
+        }
+    }
+
+    // Couvre la resoumission Event Team après ajout d'un speaker sur un Event déjà validé.
+    @IsTest
+    static void testStartEventTeamApprovalAfterUpdateGuards() {
+        Map<String, SObject> data = setupData();
+        User organizer = (User) data.get('OrganizerUser');
+
+        System.runAs(organizer) {
+            Event__c evt = BooklyDataFactory.createEvent(
+                ((Account) data.get('company1')).Id,
+                organizer.Id
+            );
+
+            // Reproduit la transition faite lors de l'ajout d'un nouveau speaker.
+            Event__c oldEvt = evt.clone(true, true, false, false);
+            oldEvt.Status__c = customEventConstants.STATUS_FULLY_APPROVED;
+            evt.Status__c = customEventConstants.STATUS_SUBMITTED_TO_EVENT_TEAM;
+
+            Test.startTest();
+
+            // Une resoumission doit passer dans la branche setSkipEntryCriteria(true).
+            customEventService.startEventTeamApprovalAfterUpdate(
+                new List<Event__c>{ evt },
+                new Map<Id, Event__c>{ evt.Id => oldEvt }
+            );
+
+            Test.stopTest();
+
+            // Vérifie qu'un nouveau cycle Event Team a réellement été lancé.
+            Integer pendingApprovals = [
+                SELECT COUNT()
+                FROM ProcessInstance
+                WHERE TargetObjectId = :evt.Id
+                AND Status = 'Pending'
+                AND ProcessDefinition.DeveloperName = 'EventApprovalProcess'
+            ];
+
+            System.assertEquals(1, pendingApprovals);
+        }
+    }
+
+    // Couvre submitOrganizerApproval lorsqu'aucune resoumission n'est nécessaire.
+    @IsTest
+    static void testSubmitOrganizerApprovalNoModification() {
+        Map<String, SObject> data = setupData();
+        User organizer = (User) data.get('OrganizerUser');
+
+        System.runAs(organizer) {
+            Event__c evt = BooklyDataFactory.createEvent(
+                ((Account) data.get('company1')).Id,
+                organizer.Id
+            );
+
+            Event__c oldEvt = evt.clone(true, true, false, false);
+            oldEvt.Status__c = customEventConstants.STATUS_FULLY_APPROVED;
+            evt.Status__c = customEventConstants.STATUS_FULLY_APPROVED;
+
+            Test.startTest();
+
+            // Aucun changement sensible ne doit créer une nouvelle approval Organizer.
+            customEventService.submitOrganizerApproval(
+                new List<Event__c>{ evt },
+                new Map<Id, Event__c>{ evt.Id => oldEvt }
+            );
+
+            Test.stopTest();
+
+            System.assertEquals(
+                customEventConstants.STATUS_FULLY_APPROVED,
+                evt.Status__c
+            );
+        }
+    }
+        // Couvre directement la détection du passage vers FullyApproved.
+    @IsTest
+    static void testDetectBecameFullyApproved() {
+        Event__c oldEvent = new Event__c(
+            Id = 'a41000000000001AAA',
+            Status__c = 'WaitingForSpeakerApprovals'
+        );
+
+        Event__c newEvent = new Event__c(
+            Id = oldEvent.Id,
+            Status__c = 'FullyApproved'
+        );
+
+        // Vérifie qu'une transition vers FullyApproved est bien détectée.
+        List<Event__c> result = customEventService.detectBecameFullyApproved(
+            new List<Event__c>{ newEvent },
+            new Map<Id, Event__c>{ oldEvent.Id => oldEvent }
+        );
+
+        System.assertEquals(1, result.size());
+        System.assertEquals(newEvent.Id, result[0].Id);
+    }
+
+        // Couvre la gestion d'un changement de date SSP fait directement par l'Organizer.
+    @IsTest
+    static void testSubmitOrganizerApprovalFromSSPChangesOrganizerBypass() {
+        Map<String, SObject> data = setupData();
+        User organizer = (User) data.get('OrganizerUser');
+
+        System.runAs(organizer) {
+            Event__c evt = BooklyDataFactory.createEvent(
+                ((Account) data.get('company1')).Id,
+                organizer.Id
+            );
+
+            // Crée un SSP réel lié à l'Event.
+            SessionSpeakerProduct__c ssp =
+                BooklyDataFactory.createSessionSpeakerProduct(
+                    evt.Id,
+                    ((Contact) data.get('SpeakerTop1')).Id,
+                    ((Strategy__c) data.get('Strategy1')).Id
+                );
+
+            ssp = [
+                SELECT Id, Session__c, SpeakerContact__c,
+                    Date__c, StartTime__c, EndTime__c
+                FROM SessionSpeakerProduct__c
+                WHERE Id = :ssp.Id
+            ];
+
+            // Simule uniquement un changement de date sur le SSP.
+            SessionSpeakerProduct__c oldSsp =
+                ssp.clone(true, true, false, false);
+
+            SessionSpeakerProduct__c newSsp =
+                ssp.clone(true, true, false, false);
+
+            newSsp.Date__c =
+                oldSsp.Date__c == null
+                    ? Date.today().addDays(1)
+                    : oldSsp.Date__c.addDays(1);
+
+            Test.startTest();
+
+            // L'Organizer modifie lui-même le SSP : aucun nouvel approval Organizer n'est soumis.
+            customEventService.submitOrganizerApprovalFromSSPChanges(
+                new Map<Id, SessionSpeakerProduct__c>{
+                    newSsp.Id => newSsp
+                },
+                new Map<Id, SessionSpeakerProduct__c>{
+                    oldSsp.Id => oldSsp
+                }
+            );
+
+            Test.stopTest();
+
+            // Vérifie que le bypass Organizer n'a pas créé de demande en attente.
+            Integer pendingOrganizerApprovals = [
+                SELECT COUNT()
+                FROM ProcessInstance
+                WHERE TargetObjectId = :evt.Id
+                AND Status = 'Pending'
+                AND ProcessDefinition.DeveloperName =
+                    'OrganizerApprovalProcess'
+            ];
+
+            System.assertEquals(0, pendingOrganizerApprovals);
+        }
+    }
 }
