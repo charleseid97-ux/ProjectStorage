@@ -71,7 +71,11 @@ public class ReferentialProductHomepageCtrl {
         if (String.isNotBlank(assetClass))                          fundQuery += ' AND FundStrategy__r.AssetClass__c = :assetClass';
         if (String.isNotBlank(legalForm))                           fundQuery += ' AND LegalForm__c = :legalForm';
         if (String.isNotBlank(fundType))                            fundQuery += ' AND VehicleType__c = :fundType';
-        if (String.isNotBlank(searchKey) && sharesList.isEmpty())   fundQuery += ' AND (Name LIKE \'%'+  searchKey + '%\' OR ProductName__c LIKE \'%'+  searchKey + '%\')';
+        // Filtre par nom du fonds ou acronyme quand la recherche n'est pas un ISIN
+        if (String.isNotBlank(searchKey) && !isIsin) {
+            String escapedSearchKey = String.escapeSingleQuotes(searchKey.trim());
+            fundQuery += ' AND (Name LIKE \'%' + escapedSearchKey + '%\' OR ProductName__c LIKE \'%' + escapedSearchKey + '%\')';
+        }
         if (String.isNotBlank(sfdr))                                fundQuery += ' AND (SFDRcategory__c =: sfdr )';
 
         List<Product__c> filteredFunds = Database.query(fundQuery);
