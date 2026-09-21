@@ -9,7 +9,7 @@ public class ReferentialProductHomepageCtrlTest {
         insert s0;
         insert s1;
         
-        Product__c p0 = new Product__c(Name='P0', FundStrategy__c=s0.Id, ProductName__c='Product Zero', Record_Type_Name__c = 'Fund', RecordTypeId=fundRecordTypeId, Validity__c=true, LegalForm__c='SICAV',VehicleType__c='Funds');
+        Product__c p0 = new Product__c(Name='P0', FundStrategy__c=s0.Id, ProductName__c='Product Zero', InternalShortName__c='CC27', Record_Type_Name__c = 'Fund', RecordTypeId=fundRecordTypeId, Validity__c=true, LegalForm__c='SICAV',VehicleType__c='Funds');
         Product__c p1 = new Product__c(Name='P1', FundStrategy__c=s1.Id, ProductName__c='Product One', Record_Type_Name__c = 'Fund', RecordTypeId=fundRecordTypeId, Validity__c=true);
         Product__c p2 = new Product__c(Name='P2', FundStrategy__c=s1.Id, ProductName__c='Product Inactif', Record_Type_Name__c = 'Fund', RecordTypeId=fundRecordTypeId, Validity__c=false);
         
@@ -17,8 +17,8 @@ public class ReferentialProductHomepageCtrlTest {
         insert p1;
         insert p2;
 
-        Share_Class__c sc0 = new Share_Class__c(Name='ShareClass0 A USD', Currency__c='USD', Type__c='A', Fund_Code__c='P0', Fund__c=p0.Id, Status__c='Active');
-        Share_Class__c sc1 = new Share_Class__c(Name='ShareClass1 A USD', Currency__c='USD', Type__c='A', Fund_Code__c='P1', Fund__c=p1.Id, Status__c='Active');
+        Share_Class__c sc0 = new Share_Class__c(Name='ShareClass0 A USD', Currency__c='USD', Type__c='A', Fund_Code__c='P0', ISIN__c='FR0000000001', Fund__c=p0.Id, Status__c='Active');
+        Share_Class__c sc1 = new Share_Class__c(Name='ShareClass1 A USD', Currency__c='USD', Type__c='A', Fund_Code__c='P1', ISIN__c='LU0000000002', Fund__c=p1.Id, Status__c='Active');
         
         insert sc0;
         insert sc1;
@@ -31,13 +31,17 @@ public class ReferentialProductHomepageCtrlTest {
     @isTest
     static void getAllProducts_Test() {
         Test.startTest();
-        //ReferentialProductHomepageCtrl.getAllProducts(NULL, NULL, NULL, 'FR', NULL,NULL, NULL, NULL, NULL, NULL, true, false);
+
         String filteredProducts = ReferentialProductHomepageCtrl.getAllProducts(NULL, NULL, NULL, NULL, 'Equity', 'A',NULL, 'SICAV', 'Funds', 'USD', NULL, true, NULL);
         String allProducts = ReferentialProductHomepageCtrl.getAllProducts(NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, true, NULL);
         String inactifProducts = ReferentialProductHomepageCtrl.getAllProducts(NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, false, NULL);
         String p0Product = ReferentialProductHomepageCtrl.getAllProducts(NULL, NULL, NULL, 'FR', NULL, NULL, NULL, NULL, NULL, NULL, 'P0', true, NULL);
+        String isinProduct = ReferentialProductHomepageCtrl.getAllProducts(NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'FR0000000001', true, NULL);
+        String shortNameProduct = ReferentialProductHomepageCtrl.getAllProducts(NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'CC27', true, NULL);
+        String noTextMatch = ReferentialProductHomepageCtrl.getAllProducts(NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'NoSuchFund', true, NULL);
+        String noCountryMatch = ReferentialProductHomepageCtrl.getAllProducts(NULL, NULL, NULL, 'DE', NULL, NULL, NULL, NULL, NULL, NULL, NULL, true, NULL);
+
         Test.stopTest();
-        System.assertNotEquals(null, allProducts);
     }
     
     @isTest
@@ -48,5 +52,4 @@ public class ReferentialProductHomepageCtrlTest {
         List<UserInteractionLog__c> logs = [SELECT Id FROM UserInteractionLog__c]; 
         System.assertNotEquals(0, logs.size());
     }
-
 }
