@@ -502,8 +502,14 @@ public without sharing class customEventSpeakerApprovalService {
             (best != null && best.Session__r != null ? best.Session__r.RecordType.Name : '') + ' - ' +
             (best != null ? best.Language__c : '');
 
+        // EventSpeakerApprovals__c.Name is limited to 80 characters.
+        String safeName =
+            nameValue.length() > 80
+                ? nameValue.substring(0, 80)
+                : nameValue;
+
         EventSpeakerApprovals__c rec = new EventSpeakerApprovals__c(
-            Name            = nameValue,
+            Name            = safeName,
             Key__c          = fullKey,
             Event__c        = eventId,
             Speaker__c      = speakerId,
