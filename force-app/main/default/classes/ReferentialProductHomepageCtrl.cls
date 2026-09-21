@@ -10,6 +10,7 @@
  * -> Optimized
  * -> Adapted new fields (after the removal of legacy fields)
  * -> ItemDTO moved here from productHierarchyController (obsolete, to be deleted).
+ * -> IS Products mode only: product label is ProductName__c (falls back to Name) and products are collapsed (Share Class level hidden until opened).
  * -> IS Products filter (isISProducts): scope on InvestSolutionScope__c (all Vehicle Types), funds not restricted to the Share Class funds, grouped by VehicleType__c (buildISProductHierarchy).
  ────────────────────────────────────── */
 public class ReferentialProductHomepageCtrl {
@@ -23,7 +24,7 @@ public class ReferentialProductHomepageCtrl {
                                                      ' FROM Share_Class__c WHERE ';
     private static final String SHARE_CLASS_ORDER = ' ORDER BY Primary_Portfolio_Share_Class__c desc';
 
-    private static final String FUND_SELECT = 'SELECT Id, Name, Record_Type_Name__c, RecordTypeId, LaunchDate__c, FundStrategy__c, AssetClass__c, Validity__c, VehicleType__c ' +
+    private static final String FUND_SELECT = 'SELECT Id, Name, ProductName__c, Record_Type_Name__c, RecordTypeId, LaunchDate__c, FundStrategy__c, AssetClass__c, Validity__c, VehicleType__c ' +
                                               ' FROM Product__c ' +
                                               ' WHERE Tech_NotDisplayedProductCatalog__c = false ';
     private static final String FUND_STANDARD_SCOPE = ' AND RecordTypeId = :fundRecordTypeId AND VehicleType__c = \'Funds\' '; // Le catalogue standard ne retourne que les Funds de type 'Funds'
@@ -210,7 +211,12 @@ public class ReferentialProductHomepageCtrl {
         // Construit un niveau de hiérarchie pour chaque Vehicle Type
         List<ItemDTO> vehicleTypeItems = new List<ItemDTO>();
         for (String vehicleType : vehicleTypes) {
-            List<ItemDTO> productItems = ProductHierarchyHelper.getFundsItemsWithSharesReferential(vehicleTypeToProducts.get(vehicleType), fundToSharesMap, true);
+            List<Product__c> vehicleProducts = vehicleTypeToProducts.get(vehicleType);
+            List<ItemDTO> productItems = ProductHierarchyHelper.getFundsItemsWithSharesReferential(vehicleProducts, fundToSharesMap, false);
+
+            for (Integer i = 0; i < productItems.size(); i++) {
+                if (String.isNotBlank(vehicleProducts[i].ProductName__c)) productItems[i].label = vehicleProducts[i].ProductName__c;
+            }
             vehicleTypeItems.add(new ItemDTO(vehicleType, null, null, null, null, null, false, true, true, true, productItems));
         }
 
