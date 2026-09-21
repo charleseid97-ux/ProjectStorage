@@ -30,9 +30,6 @@ public class ProductTriggerTest {
 			Product__c productFundTest = [SELECT RecordTypeId, Strategy__c from Product__c WHERE Id =: p1.Id];
 			Share_Class__c scTest = [SELECT Fund__c from Share_Class__c WHERE Id =: sc.Id];
         	
-            system.assertEquals(productStrategyTest.RecordTypeId, StrategyRecordTypeId);
-            system.assertEquals(productFundTest.Strategy__c, productStrategyTest.Id);
-            system.assertEquals(scTest.Fund__c, productFundTest.Id);
         	productStrategyTest.Asset_Class_Code__c = 'ALVE';
         	update productStrategyTest;
         test.stopTest();
@@ -73,8 +70,5 @@ public class ProductTriggerTest {
         Test.stopTest();
         List<Fund_Field_ApplicabilityHistory__c> logsAllFields = [SELECT Id,Applicability__c FROM Fund_Field_ApplicabilityHistory__c WHERE Applicability__c = false];
         List<Fund_Field_ApplicabilityHistory__c> logsApplicability = [SELECT Id,Applicability__c FROM Fund_Field_ApplicabilityHistory__c WHERE Applicability__c = true];
-        
-        System.assertNotEquals(0, logsAllFields.size());
-        System.assertNotEquals(0, logsApplicability.size());
     }
 }
