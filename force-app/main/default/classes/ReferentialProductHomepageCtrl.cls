@@ -25,14 +25,19 @@ public class ReferentialProductHomepageCtrl {
         // Détermine si la recherche correspond à un ISIN ou à un acronyme produit
         Boolean isIsin = false;
         if (String.isNotBlank(searchKey)) {
-            isIsin = Pattern.matches('^[A-Z]{2}[0-9]{1,10}$', searchKey.trim().toUpperCase());
+            String escapedKey = String.escapeSingleQuotes(searchKey.trim());
 
-            // Recherche sur l'ISIN ou sur l'Internal Short Name du Product parent
+            // 2 lettres + au moins 5 chiffres pour ne pas confondre un Internal Short Name (ex: CC27) avec un ISIN
+            isIsin = Pattern.matches('^[A-Z]{2}[0-9]{5,10}$', searchKey.trim().toUpperCase());
+
+            // Recherche sur l'ISIN ou sur l'Internal Short Name / Product Name / Name du Product parent
             if (isIsin) {
                 System.debug('here share classe '+searchKey);
-                shareQuery += ' AND ISIN__c LIKE \'%' + String.escapeSingleQuotes(searchKey.trim().toUpperCase()) + '%\'';
+                shareQuery += ' AND ISIN__c LIKE \'%' + escapedKey.toUpperCase() + '%\'';
             } else {
-                shareQuery += ' AND Fund__r.InternalShortName__c LIKE \'%' + String.escapeSingleQuotes(searchKey.trim()) + '%\'';
+                shareQuery += ' AND (Fund__r.InternalShortName__c LIKE \'%' + escapedKey.toUpperCase() + '%\'' +
+                              ' OR Fund__r.ProductName__c LIKE \'%' + escapedKey + '%\'' +
+                              ' OR Fund__r.Name LIKE \'%' + escapedKey.toUpperCase() + '%\')';
             }
         }
         shareQuery += ' ORDER BY Primary_Portfolio_Share_Class__c desc';
@@ -84,9 +89,9 @@ public class ReferentialProductHomepageCtrl {
 
             // Accepte soit un Fund Code trouvé côté Share Class, soit un nom de fonds correspondant
             if (!fundIdsFromShares.isEmpty()) {
-                fundQuery += ' AND (Id IN :fundIdsFromShares OR Name LIKE \'%' + escapedSearchKey + '%\' OR ProductName__c LIKE \'%' + escapedSearchKey + '%\')';
+                fundQuery += ' AND (Id IN :fundIdsFromShares OR Name LIKE \'%' + escapedSearchKey + '%\' OR ProductName__c LIKE \'%' + escapedSearchKey + '%\' OR InternalShortName__c LIKE \'%' + escapedSearchKey + '%\')';
             } else {
-                fundQuery += ' AND (Name LIKE \'%' + escapedSearchKey + '%\' OR ProductName__c LIKE \'%' + escapedSearchKey + '%\')';
+                fundQuery += ' AND (Name LIKE \'%' + escapedSearchKey + '%\' OR ProductName__c LIKE \'%' + escapedSearchKey + '%\' OR InternalShortName__c LIKE \'%' + escapedSearchKey + '%\')';
             }
         }
         if (String.isNotBlank(sfdr))                                fundQuery += ' AND (SFDRcategory__c =: sfdr )';
