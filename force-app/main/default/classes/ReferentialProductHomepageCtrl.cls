@@ -22,12 +22,17 @@ public class ReferentialProductHomepageCtrl {
         if (String.isNotBlank(SCType))              shareQuery += ' AND Type__c = :SCType';
         if (String.isNotBlank(dividendPolicy))      shareQuery += ' AND DividendPolicy__c = :dividendPolicy';
         
+        // Détermine si la recherche correspond à un ISIN ou à un acronyme produit
         Boolean isIsin = false;
         if (String.isNotBlank(searchKey)) {
             isIsin = Pattern.matches('^[A-Z]{2}[0-9]{1,10}$', searchKey.trim().toUpperCase());
+
+            // Recherche sur l'ISIN ou sur l'Internal Short Name du Product parent
             if (isIsin) {
                 System.debug('here share classe '+searchKey);
                 shareQuery += ' AND ISIN__c LIKE \'%' + String.escapeSingleQuotes(searchKey.trim().toUpperCase()) + '%\'';
+            } else {
+                shareQuery += ' AND Fund__r.InternalShortName__c LIKE \'%' + String.escapeSingleQuotes(searchKey.trim()) + '%\'';
             }
         }
         shareQuery += ' ORDER BY Primary_Portfolio_Share_Class__c desc';
@@ -67,14 +72,22 @@ public class ReferentialProductHomepageCtrl {
                     ' WHERE Tech_NotDisplayedProductCatalog__c = false '+
                     ' AND RecordTypeId = :fundRecordTypeId '+
                     ' AND VehicleType__c = \'Funds\' ';
-        if (fundIdsFromShares.size() > 0)                           fundQuery += ' AND Id IN :fundIdsFromShares';
+        // Limite aux fonds issus des Share Classes sauf pour une recherche texte
+        if (fundIdsFromShares.size() > 0 && (String.isBlank(searchKey) || isIsin)) fundQuery += ' AND Id IN :fundIdsFromShares';
         if (String.isNotBlank(assetClass))                          fundQuery += ' AND FundStrategy__r.AssetClass__c = :assetClass';
         if (String.isNotBlank(legalForm))                           fundQuery += ' AND LegalForm__c = :legalForm';
         if (String.isNotBlank(fundType))                            fundQuery += ' AND VehicleType__c = :fundType';
-        // Filtre par nom du fonds ou acronyme quand la recherche n'est pas un ISIN
+
+        // Recherche par nom du fonds, Product Name ou Fund Code de la Share Class
         if (String.isNotBlank(searchKey) && !isIsin) {
             String escapedSearchKey = String.escapeSingleQuotes(searchKey.trim());
-            fundQuery += ' AND (Name LIKE \'%' + escapedSearchKey + '%\' OR ProductName__c LIKE \'%' + escapedSearchKey + '%\')';
+
+            // Accepte soit un Fund Code trouvé côté Share Class, soit un nom de fonds correspondant
+            if (!fundIdsFromShares.isEmpty()) {
+                fundQuery += ' AND (Id IN :fundIdsFromShares OR Name LIKE \'%' + escapedSearchKey + '%\' OR ProductName__c LIKE \'%' + escapedSearchKey + '%\')';
+            } else {
+                fundQuery += ' AND (Name LIKE \'%' + escapedSearchKey + '%\' OR ProductName__c LIKE \'%' + escapedSearchKey + '%\')';
+            }
         }
         if (String.isNotBlank(sfdr))                                fundQuery += ' AND (SFDRcategory__c =: sfdr )';
 
@@ -85,9 +98,11 @@ public class ReferentialProductHomepageCtrl {
         // Step 3: Extract Strategy Ids
         Set<Id> strategyIds = new Set<Id>();
         Set<Id> fundsIds = new Set<Id>();
+
+        // Conserve la Strategy lorsqu'elle existe et tous les Funds trouvés
         for (Product__c fund : filteredFunds) {
             if (fund.FundStrategy__c != null) strategyIds.add(fund.FundStrategy__c);
-            if (fund.RecordTypeId == fundRecordTypeId && fund.FundStrategy__c != null) fundsIds.add(fund.Id);
+            if (fund.RecordTypeId == fundRecordTypeId) fundsIds.add(fund.Id);
         }
 
         List<Strategy__c> strategies = new List<Strategy__c>();
@@ -98,7 +113,9 @@ public class ReferentialProductHomepageCtrl {
                                                 ORDER BY Name ASC]);
         }
         String otherShareQuery = '';
-        if(sharesList.isEmpty() && !fundsIds.isEmpty()) {
+
+        // Recharge les Share Classes de tous les Funds trouvés par nom ou Fund Code
+        if((sharesList.isEmpty() || (String.isNotBlank(searchKey) && !isIsin)) && !fundsIds.isEmpty()) {
             System.debug('empty share '+searchKey);
             otherShareQuery= 'SELECT Id, Name, Fund__c, Fund__r.AssetClass__c, Fund__r.LaunchDate__c, Fund__r.SubAssetClass__c, Status__c, TechIsActive__c, ISIN__c, ' +
                                 'Last_AUM_Previous_Year__c, Last_AUM_Available__c, YTD_Net_Flows__c, CurrencyIsoCode, Country__c, Type__c, ' +
