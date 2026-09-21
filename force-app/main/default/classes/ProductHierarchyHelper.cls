@@ -73,13 +73,13 @@ public with sharing class ProductHierarchyHelper
     }
     //#endregion
 
-    public static List<productHierarchyController.ItemDTO> getAllStrategywithFundsItems(Map<Id, List<Product__c>> strategyTofundsMap, List<Strategy__c> strategies, Map<Id, List<Share_Class__c>> fundToSharesMap) {
-        List<productHierarchyController.ItemDTO> strategyItems = new List<productHierarchyController.ItemDTO>();
+    public static List<ReferentialProductHomepageCtrl.ItemDTO> getAllStrategywithFundsItems(Map<Id, List<Product__c>> strategyTofundsMap, List<Strategy__c> strategies, Map<Id, List<Share_Class__c>> fundToSharesMap) {
+        List<ReferentialProductHomepageCtrl.ItemDTO> strategyItems = new List<ReferentialProductHomepageCtrl.ItemDTO>();
         for(Strategy__c str: strategies) {
             if( str.Name != null) {
                 List<Product__c> fundsList =  strategyTofundsMap.get(str.Id);
                 if(fundsList.size() > 0) {
-                    productHierarchyController.ItemDTO strategy = new productHierarchyController.ItemDTO(str.Name, null, str.Name, null, null, null, false, true, true, false, getFundsItemsWithSharesReferential(fundsList, fundToSharesMap, false));
+                    ReferentialProductHomepageCtrl.ItemDTO strategy = new ReferentialProductHomepageCtrl.ItemDTO(str.Name, null, str.Name, null, null, null, false, true, true, false, getFundsItemsWithSharesReferential(fundsList, fundToSharesMap, false));
                     strategy.id = str.Id;
                     strategy.assetclass = str.AssetClass__c;
 
@@ -91,9 +91,9 @@ public with sharing class ProductHierarchyHelper
         return strategyItems;
     }
 
-    public static List<productHierarchyController.ItemDTO> getFundsItemsWithSharesReferential(List<Product__c> funds, Map<Id, List<Share_Class__c>> shares, Boolean expanded)
+    public static List<ReferentialProductHomepageCtrl.ItemDTO> getFundsItemsWithSharesReferential(List<Product__c> funds, Map<Id, List<Share_Class__c>> shares, Boolean expanded)
     {
-        List<productHierarchyController.ItemDTO> fundItems = new List<productHierarchyController.ItemDTO>();
+        List<ReferentialProductHomepageCtrl.ItemDTO> fundItems = new List<ReferentialProductHomepageCtrl.ItemDTO>();
 
         for(Product__c fund : funds)
         {
@@ -104,7 +104,7 @@ public with sharing class ProductHierarchyHelper
             if(fundSharesList != null)
             {
                 //TODO add AUMs
-                productHierarchyController.ItemDTO fundItem = new productHierarchyController.ItemDTO(fund.Name, null, fund.Name, URL.getSalesforceBaseUrl().toExternalForm()+'/'+fund.Id,
+                ReferentialProductHomepageCtrl.ItemDTO fundItem = new ReferentialProductHomepageCtrl.ItemDTO(fund.Name, null, fund.Name, URL.getSalesforceBaseUrl().toExternalForm()+'/'+fund.Id,
                 null, null, false, fund.Validity__c, true, expanded, getShareItemsReferential(fundSharesList));
 
                 //if(fund.Last_AUM_Previous_Year__c != null) fundItem.aum = formatSharesAUM('(M€ ) - AUM : ', fund.Last_AUM_Previous_Year__c);
@@ -114,7 +114,7 @@ public with sharing class ProductHierarchyHelper
                 fundItem.regionalfocus = String.valueOf(fund.LaunchDate__c);
                 fundItems.add(fundItem);
             }else{
-                productHierarchyController.ItemDTO fundItem = new productHierarchyController.ItemDTO(fund.Name, fund.Record_Type_Name__c, fund.Name, URL.getSalesforceBaseUrl().toExternalForm()+'/'+fund.Id,
+                ReferentialProductHomepageCtrl.ItemDTO fundItem = new ReferentialProductHomepageCtrl.ItemDTO(fund.Name, fund.Record_Type_Name__c, fund.Name, URL.getSalesforceBaseUrl().toExternalForm()+'/'+fund.Id,
                 null, null, false, fund.Validity__c, true, false, null);
 
                 //if(fund.Last_AUM_Previous_Year__c != null) fundItem.aum = formatSharesAUM('(M€ ) - AUM : ', fund.Last_AUM_Previous_Year__c);
@@ -129,14 +129,14 @@ public with sharing class ProductHierarchyHelper
         return fundItems;
     }
 
-    public static List<productHierarchyController.ItemDTO> getShareItemsReferential(List<Share_Class__c> fundSharesList)
+    public static List<ReferentialProductHomepageCtrl.ItemDTO> getShareItemsReferential(List<Share_Class__c> fundSharesList)
     {
-        List<productHierarchyController.ItemDTO> shareItems = new List<productHierarchyController.ItemDTO>();
+        List<ReferentialProductHomepageCtrl.ItemDTO> shareItems = new List<ReferentialProductHomepageCtrl.ItemDTO>();
         if(fundSharesList.size() > 0)
         {
             for(Share_Class__c share : fundSharesList)
             {
-                productHierarchyController.ItemDTO shareItem = new productHierarchyController.ItemDTO(share.Name, null, share.Name, URL.getSalesforceBaseUrl().toExternalForm()+'/'+share.Id, null, share.ISIN__c,
+                ReferentialProductHomepageCtrl.ItemDTO shareItem = new ReferentialProductHomepageCtrl.ItemDTO(share.Name, null, share.Name, URL.getSalesforceBaseUrl().toExternalForm()+'/'+share.Id, null, share.ISIN__c,
                 false, isActiveShareClass(share), false, false, null);
 
                 //if(share.Last_AUM_Previous_Year__c != null) shareItem.aum = formatSharesAUM('(M€ ) - AUM : ', share.Last_AUM_Previous_Year__c);
@@ -160,9 +160,9 @@ public with sharing class ProductHierarchyHelper
      * @param {List<Product__c>} funds List of funds related to the strategies 
      * @param {Map<Id, List<Share_Class__c>>} shares Map of fund => shares (shares related to funds);
      */
-    public static List<productHierarchyController.ItemDTO> getFundsItemsWithShares(List<Product__c> funds, Map<Id, List<Share_Class__c>> shares)
+    public static List<ReferentialProductHomepageCtrl.ItemDTO> getFundsItemsWithShares(List<Product__c> funds, Map<Id, List<Share_Class__c>> shares)
     {
-        List<productHierarchyController.ItemDTO> fundItems = new List<productHierarchyController.ItemDTO>();
+        List<ReferentialProductHomepageCtrl.ItemDTO> fundItems = new List<ReferentialProductHomepageCtrl.ItemDTO>();
 
         for(Product__c fund : funds)
         {
@@ -173,7 +173,7 @@ public with sharing class ProductHierarchyHelper
             if(fundSharesList != null)
             {
                 //TODO add AUMs
-                productHierarchyController.ItemDTO fundItem = new productHierarchyController.ItemDTO(fund.Name, fund.Record_Type_Name__c, fund.Name, URL.getSalesforceBaseUrl().toExternalForm()+'/'+fund.Id,
+                ReferentialProductHomepageCtrl.ItemDTO fundItem = new ReferentialProductHomepageCtrl.ItemDTO(fund.Name, fund.Record_Type_Name__c, fund.Name, URL.getSalesforceBaseUrl().toExternalForm()+'/'+fund.Id,
                 null, null, false, fund.Validity__c, true, false, getShareItems(fundSharesList));
 
                 if(fund.Last_AUM_Previous_Year__c != null) fundItem.aum = formatSharesAUM('(M€ ) - AUM : ', fund.Last_AUM_Previous_Year__c);
@@ -186,14 +186,14 @@ public with sharing class ProductHierarchyHelper
         return fundItems;
     }
 
-    public static List<productHierarchyController.ItemDTO> getShareItems(List<Share_Class__c> fundSharesList)
+    public static List<ReferentialProductHomepageCtrl.ItemDTO> getShareItems(List<Share_Class__c> fundSharesList)
     {
-        List<productHierarchyController.ItemDTO> shareItems = new List<productHierarchyController.ItemDTO>();
+        List<ReferentialProductHomepageCtrl.ItemDTO> shareItems = new List<ReferentialProductHomepageCtrl.ItemDTO>();
         if(fundSharesList.size() > 0)
         {
             for(Share_Class__c share : fundSharesList)
             {
-                productHierarchyController.ItemDTO shareItem = new productHierarchyController.ItemDTO(share.Name, null, share.Name, URL.getSalesforceBaseUrl().toExternalForm()+'/'+share.Id, null, share.ISIN_Code__c,
+                ReferentialProductHomepageCtrl.ItemDTO shareItem = new ReferentialProductHomepageCtrl.ItemDTO(share.Name, null, share.Name, URL.getSalesforceBaseUrl().toExternalForm()+'/'+share.Id, null, share.ISIN_Code__c,
                 false, share.Validity__c, false, false, null);
 
                 if(share.Last_AUM_Previous_Year__c != null) shareItem.aum = formatSharesAUM('(M€ ) - AUM : ', share.Last_AUM_Previous_Year__c);
@@ -223,10 +223,10 @@ public with sharing class ProductHierarchyHelper
 
     }
 
-    public static productHierarchyController.ItemDTO setItemSRI(List<productHierarchyController.ItemDTO> currentStrategies)
+    public static ReferentialProductHomepageCtrl.ItemDTO setItemSRI(List<ReferentialProductHomepageCtrl.ItemDTO> currentStrategies)
     {
         // set a higher level item with type SRI
-        productHierarchyController.ItemDTO SRI = new productHierarchyController.ItemDTO('SRI', null, null, null, null, null, false,
+        ReferentialProductHomepageCtrl.ItemDTO SRI = new ReferentialProductHomepageCtrl.ItemDTO('SRI', null, null, null, null, null, false,
         true, true, false, currentStrategies);
                 
         return SRI;
