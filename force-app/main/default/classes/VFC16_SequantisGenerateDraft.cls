@@ -116,6 +116,7 @@ public with sharing class VFC16_SequantisGenerateDraft {
                                 ProjectProduct__c, ShareclassInvestmentObjective__c, InvestorType__c,PerformanceFeeUCITSKIID__c,PerformanceFeeEPTKID__c, MaxPerfFees__c,
                                 PerformanceFeeMethod__c,MaxRedemptionFeesSubfund__c,MaxRedemptionFeesManCo__c,OngoingCostsExante__c,OngoingChargesKIID__c,ReasonforRHPRedemptionShareclass__c
                                 ,MaxConversionFee__c,IsPayingTrailerFees__c
+                                ,CountryRegNeededSemipro__c,CountryRegNeededInstitutional__c,CountryRegNeededRetail__c
                                 FROM projectShareClass__c
                                 WHERE id = :projectShareClassId];
         
@@ -276,6 +277,13 @@ public with sharing class VFC16_SequantisGenerateDraft {
 
         payload.put('userMail', UserInfo.getUserEmail());
         Id rtId = ProjectProductRec.RecordTypeId;
+
+        // Envoi des pays uniquement lors d'une Product Creation ou Shareclass Creation
+        if (rtId == fundCreationRecordTypeId || rtId == shareclassCreationRecordTypeId) {
+            payload.put('countryRegNeededSemPro', projectShareClassRec.CountryRegNeededSemipro__c);
+            payload.put('countryRegNeededInstit', projectShareClassRec.CountryRegNeededInstitutional__c);
+            payload.put('countryRegNeededRetail', projectShareClassRec.CountryRegNeededRetail__c);
+        }
 
         if (rtId == fundCreationRecordTypeId) {
             if (ProjectProductRec.RecommendedHoldingPeriod__c == null ){
