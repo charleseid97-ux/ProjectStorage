@@ -67,16 +67,16 @@ public with sharing class WTP_PhraseApiUtil {
         return sourceFileName;
     }
 
-    // Télécharge le fichier cible et renvoie un ContentVersion prêt à insérer
+    // Télécharge le fichier cible et renvoie un ContentVersion prêt à insérer  
     public static ContentVersion downloadTargetAsContentVersion(
         String token, String projectUid, String jobUid, Id caseId, String sourceFileName
     ) {
         try {
             HttpRequest req = new HttpRequest();
             req.setEndpoint(baseUrl() + '/web/api2/v1/projects/' +
-                            EncodingUtil.urlEncode(projectUid,'UTF-8') + '/jobs/' +
-                            EncodingUtil.urlEncode(jobUid,'UTF-8') + '/fileHandovers');
-            req.setMethod('GET');
+                            EncodingUtil.urlEncode(projectUid,'UTF-8') + '/fileHandovers?jobUid=' +
+                            EncodingUtil.urlEncode(jobUid,'UTF-8'));
+            req.setMethod('GET' );
             req.setHeader('Authorization', WS_WTPSendFileToWordclass.authHeader(token));
             req.setHeader('Accept', 'application/octet-stream');
             req.setHeader('User-Agent', 'Salesforce-Carmignac/1.0');
