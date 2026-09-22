@@ -64,7 +64,7 @@ public class ShareClassCustomGridBatch implements Database.Batchable<SObject> {
                                  FROM GridDetail__c
                                  WHERE GridCriteria__c IN :criteriaIds
                                  AND Grid__r.RecordTypeId = :customRtId
-                                 AND TECH_EffMgtFeesAuditHistory__c = null]) {
+                                 AND StandardGridDetail__r.TECH_EffMgtFeesAuditHistory__c = null]) {
             if (!existingScIdsByCriteria.containsKey(gd.GridCriteria__c)) {
                 existingScIdsByCriteria.put(gd.GridCriteria__c, new Set<Id>());
             }
