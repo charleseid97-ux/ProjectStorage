@@ -84,19 +84,31 @@ public with sharing class CTL_SearchSubscriptionProduct {
             alertVal.add(mdt.MasterLabel);
             alertDevName.add(mdt.DeveloperName);
         }
-        List<Id> shareClassCountryids = new List<Id>();
+        Set<Id> shareClassCountryids = new Set<Id>();
+        Set<String> overrideIsins = new Set<String>();
         /*for (ShareclassRegistration_Website__c shareClassReg : [SELECT Share_Class__c FROM ShareclassRegistration_Website__c WHERE Country__c =:countryCode AND isDisplay__c = true ]) {
             shareClassCountryids.add(shareClassReg.Share_Class__c);
         }*/
         if(countryCode =='XI'){
             countryCode = 'LU';
         }
+
+        // Récupère les Share Classes officiellement enregistrées pour le pays.
         for (Country__c c : [
             SELECT ShareClass__c 
             FROM Country__c 
             WHERE Country__c = :countryCode AND ShareClass__c != null
         ]) {
             shareClassCountryids.add(c.ShareClass__c);
+        }
+
+        // Récupère les ISIN autorisés temporairement pour le pays.
+        for (ProspaceShareClassOverride__mdt overrideRecord : [
+            SELECT ISIN__c
+            FROM ProspaceShareClassOverride__mdt
+            WHERE Country__c = :countryCode AND ISIN__c != null
+        ]) {
+            overrideIsins.add(overrideRecord.ISIN__c);
         }
 
         String query =
@@ -109,7 +121,7 @@ public with sharing class CTL_SearchSubscriptionProduct {
         '      OR (AlertType__c IN :alertDevName)' +
         '      OR (AlertType__c IN :alertVal)))' +
         ' FROM Share_Class__c' +
-        ' WHERE Id IN :shareClassCountryids' +
+        ' WHERE (Id IN :shareClassCountryids OR ISIN__c IN :overrideIsins)' +
         '   AND TechIsActive__c = TRUE' +
         '   AND Fund__c != null' +
         '   AND Fund__r.FundStrategy__c != null';
