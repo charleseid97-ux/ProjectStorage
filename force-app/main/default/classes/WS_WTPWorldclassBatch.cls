@@ -55,7 +55,7 @@ implements Database.Batchable<SObject>, Database.Stateful, Database.AllowsCallou
             }
 
             // b) Si terminé → download + attach + marquer COMPLETED
-            if (apiStatus.equalsIgnoreCase('COMPLETED') || apiStatus.equalsIgnoreCase('DELIVERED')) {
+            if (apiStatus.equalsIgnoreCase('DELIVERED')) {
                 ContentVersion cv = WTP_PhraseApiUtil.downloadTargetAsContentVersion(
                     token, j.ProjectUid__c, j.JobUid__c, j.WorkTogetherProcess__c, j.SourceFileName__c
                 );
