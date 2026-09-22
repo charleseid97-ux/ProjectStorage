@@ -64,7 +64,7 @@ public class ShareClassCustomGridBatch implements Database.Batchable<SObject> {
                                  FROM GridDetail__c
                                  WHERE GridCriteria__c IN :criteriaIds
                                  AND Grid__r.RecordTypeId = :customRtId
-                                 AND EndDate__c = null]) {
+                                 AND TECH_EffMgtFeesAuditHistory__c = null]) {
             if (!existingScIdsByCriteria.containsKey(gd.GridCriteria__c)) {
                 existingScIdsByCriteria.put(gd.GridCriteria__c, new Set<Id>());
             }
@@ -90,9 +90,11 @@ public class ShareClassCustomGridBatch implements Database.Batchable<SObject> {
 
             Set<Id> alreadyExists = existingScIdsByCriteria.get(gc.Id);
             List<Id> missingScIds = new List<Id>();
+            String gridManualUpdate;
             for (GridBuilderHelper.ProductWrapper pw : result.products) {
                 for (GridBuilderHelper.ShareClassWrapper scw : pw.shareClasses) {
-                    if (scw.isSelected && scw.recordResults.get('Fund__r.GridManualUpdate__c') == 'No' && (alreadyExists == null || !alreadyExists.contains(scw.shareClassId))) {
+                    gridManualUpdate = (String)scw.recordResults.get('Fund__r.GridManualUpdate__c');
+                    if (scw.isSelected && (gridManualUpdate == 'No' || gridManualUpdate == null) && (alreadyExists == null || !alreadyExists.contains(scw.shareClassId))) {
                         missingScIds.add(scw.shareClassId);
                         shareClassGridIdMap.put(String.valueOf(scw.shareClassId), String.valueOf(gc.StandardGrid__c));
                     }
