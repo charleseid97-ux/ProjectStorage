@@ -84,7 +84,7 @@ public with sharing class GridSimulationController {
                                  FROM GridDetail__c
                                  WHERE Grid__c IN :gridIds
                                  AND ShareClass__c IN :scIdSet
-                                 AND TECH_EffMgtFeesAuditHistory__c = null]) {
+                                 AND StandardGridDetail__r.TECH_EffMgtFeesAuditHistory__c = null]) {
             Decimal rate = (gd.GridRule__r?.FinalRebateRate__c != null) ? gd.GridRule__r.FinalRebateRate__c : gd.RebateRate__c;
             if (rate != null) result.put(gd.ShareClass__c, rate);
         }
