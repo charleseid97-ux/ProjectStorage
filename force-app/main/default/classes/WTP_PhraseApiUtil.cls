@@ -75,7 +75,7 @@ public with sharing class WTP_PhraseApiUtil {
             HttpRequest req = new HttpRequest();
             req.setEndpoint(baseUrl() + '/web/api2/v1/projects/' +
                             EncodingUtil.urlEncode(projectUid,'UTF-8') + '/jobs/' +
-                            EncodingUtil.urlEncode(jobUid,'UTF-8') + '/targetFile');
+                            EncodingUtil.urlEncode(jobUid,'UTF-8') + '/fileHandovers');
             req.setMethod('GET');
             req.setHeader('Authorization', WS_WTPSendFileToWordclass.authHeader(token));
             req.setHeader('Accept', 'application/octet-stream');
