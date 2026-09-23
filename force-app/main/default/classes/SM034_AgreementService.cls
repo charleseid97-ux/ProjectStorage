@@ -490,6 +490,10 @@ matchingLegalEntityByCompany.put(le.Company__c, le);
         }
 
         GridUtility.handleAgreementGridTransitions(newAgreements, oldAgreements); // ──── Grid__c + Agreement field swaps + AgreementGridTimeline__c lifecycle ────
+
+        if (PAD.canTrigger('validateGridEndDateOnTermination')) {
+            GridUtility.validateApprovedGridsHaveEndDateOnTermination(newAgreements, oldAgreements); // ──── Blocks termination when an Approved Grid__c has no EndDate__c ────
+        }
     }
     
     // public static boolean checkIfApprovalProcess(Id recordId, String statusString) {

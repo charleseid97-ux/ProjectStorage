@@ -1253,6 +1253,13 @@ Il calcolo viene adattato alla data di variazione delle spese effettivamente app
         <value>Grid submitted for approval successfully.</value>
     </labels>
     <labels>
+        <fullName>Grid_EndDateRequiredOnTermination</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Error when an Approved Grid has no EndDate while terminating the Agreement</shortDescription>
+        <value>All Approved Grids must have an End Date before the Agreement can be Terminated.</value>
+    </labels>
+    <labels>
         <fullName>Agreement_SubmittedForApproval</fullName>
         <language>en_US</language>
         <protected>false</protected>
