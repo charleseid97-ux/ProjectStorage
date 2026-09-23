@@ -6,7 +6,7 @@ private class WS_WTPWorldclassSchedulerTest {
     // Covers:
     // - /web/api2/v3/auth/login
     // - /web/api2/v1/projects/{p}/jobs/{j}          (status)
-    // - /web/api2/v1/projects/{p}/jobs/{j}/targetFile (download)
+    // - /web/api2/v1/projects/{p}/fileHandovers?jobUid={j} (download)
     // -----------------------------
     private class PhraseFlexibleMock implements HttpCalloutMock {
         Boolean loginOk          = true;        // 200 vs 401
@@ -34,8 +34,8 @@ private class WS_WTPWorldclassSchedulerTest {
                 return res;
             }
 
-            // JOB STATUS (exclude /fileHandovers)
-            if (ep.contains('/web/api2/v1/projects/') && ep.contains('/jobs/') && !ep.endsWith('/fileHandovers')) {
+            // JOB STATUS (exclude File Handover download)
+            if (ep.contains('/web/api2/v1/projects/') && ep.contains('/jobs/') && !ep.contains('/fileHandovers')) {
                 if (statusEndpointOk) {
                     res.setStatusCode(200);
                     res.setBody('{"uid":"JOBUID","status":"' + jobStatus + '"}');
@@ -47,7 +47,7 @@ private class WS_WTPWorldclassSchedulerTest {
             }
 
             // DOWNLOAD
-            if (ep.endsWith('/fileHandovers')) {
+            if (ep.contains('/fileHandovers?jobUid=')) {
                 if (downloadOk) {
                     res.setStatusCode(200);
                     res.setHeader('Content-Type','application/octet-stream');
