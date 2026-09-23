@@ -13,13 +13,14 @@
  *
  * @author Charles EID
  * @testClass ShareClassGridBatchTest
+ * @coverage 86%   [17-09-26]
  ────────────────────────────────────── */
 public class ShareClassCustomGridBatch implements Database.Batchable<SObject> {
 
     private static final String GRID_BUILDER_SETTING = 'CustomGridBuilderSetting';
 
     public Database.QueryLocator start(Database.BatchableContext bc) {
-        return Database.getQueryLocator([SELECT Id, AutomaticGridUpdate__c, Agreement__r.Countries_of_Distribution__c
+        return Database.getQueryLocator([SELECT Id, AutomaticGridUpdate__c, Agreement__r.Countries_of_Distribution__c, StartDate__c
                                          FROM Grid__c
                                          WHERE RecordType.DeveloperName = 'CustomGrid']);
     }
@@ -36,6 +37,9 @@ public class ShareClassCustomGridBatch implements Database.Batchable<SObject> {
 
     private void processAutomaticGrid(Grid__c grid) {
         String countriesOfDistribution = grid.Agreement__r?.Countries_of_Distribution__c;
+        GridBuilderHelper.GridContext gridContext = new GridBuilderHelper.GridContext();
+        gridContext.startDate = grid.StartDate__c;
+        String gridContextJson = JSON.serialize(gridContext);
 
         // ── 1. Query GridCriteria and their details ───────────────────────────────────────
         List<GridCriteria__c> criteriaList = [SELECT Id, Grid__c, StandardGrid__c, FilterLogic__c, FilterLogicExpression__c, SelectedShareTypes__c
@@ -86,7 +90,7 @@ public class ShareClassCustomGridBatch implements Database.Batchable<SObject> {
             // availableGridIds = [StandardGrid__c] → getGridDetailShareClassCondition filters to SCs
             // that already have an active StandardGridDetail in that grid, so isSelected=true means
             // the SC matches the criteria AND has a StandardGridDetail ready to link to.
-            GridBuilderHelper.ProductSelectionResult result = GridBuilderController.getProductsAndShareClasses(GRID_BUILDER_SETTING, countriesOfDistribution, JSON.serialize(gc), JSON.serialize(details), true, new List<String>{ String.valueOf(gc.StandardGrid__c) });
+            GridBuilderHelper.ProductSelectionResult result = GridBuilderController.getProductsAndShareClasses(GRID_BUILDER_SETTING, countriesOfDistribution, JSON.serialize(gc), JSON.serialize(details), true, new List<String>{ String.valueOf(gc.StandardGrid__c) }, gridContextJson);
 
             Set<Id> alreadyExists = existingScIdsByCriteria.get(gc.Id);
             List<Id> missingScIds = new List<Id>();

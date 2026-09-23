@@ -3,7 +3,7 @@
  *              Validates the getProducts method including AUM aggregation by share class, product filtering, and integration with
  *              GridBuilderHelper for data formatting.
  * @author Charles EID
- * @testCoverage GridValidationController (96%), GridBuilderHelper (93% partial)   [19-03-26]
+ * @testCoverage GridValidationController (90%), GridBuilderHelper (97% partial)   [17-09-26]
 ────────────────────────────────────── */
 @IsTest
 private class GridValidationControllerTest {
@@ -35,7 +35,7 @@ private class GridValidationControllerTest {
 
         Test.startTest();
 
-        GridBuilderHelper.ProductSelectionResult result = GridValidationController.getProducts(GRID_BUILDER_SETTING, TEST_COUNTRIES, selectedShareClassIds, agreementIds, shareClassGridIdMap, new List<String>());
+        GridBuilderHelper.ProductSelectionResult result = GridValidationController.getProducts(GRID_BUILDER_SETTING, TEST_COUNTRIES, selectedShareClassIds, agreementIds, shareClassGridIdMap, new List<String>(), null);
 
         Test.stopTest();
     }

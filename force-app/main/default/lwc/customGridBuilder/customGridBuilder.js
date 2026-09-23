@@ -317,13 +317,19 @@ export default class CustomGridBuilder extends NavigationMixin(LightningElement)
         }
     }
 
+    // Grid eligibility checks (Standard Grid Detail EndDate__c vs. this Custom Grid's StartDate__c) need to know the grid's own start date — see GridBuilderHelper.GridContext.
+    buildGridContextJson() {
+        return JSON.stringify({ startDate: this.gridRequestData?.startDate });
+    }
+
     async loadGridSettings() {
         try {
             this.isLoading = true;
             let gridSettings = await getGridSettings({
                 gridBuilderSettingName: this.gridBuilderSettingName,
                 countriesOfDistribution: this.countriesOfDistribution,
-                availableGridIds: Object.keys(this.gridShareClassMap)
+                availableGridIds: Object.keys(this.gridShareClassMap),
+                gridContextJson: this.buildGridContextJson()
             });
             if (gridSettings && gridSettings.filterObjects && gridSettings.filterObjects.length > 0) {
                 this.setGridSettings(gridSettings);
@@ -465,7 +471,8 @@ export default class CustomGridBuilder extends NavigationMixin(LightningElement)
             const productSelection = await getAllProductsForSelection({
                 gridBuilderSettingName: this.gridBuilderSettingName,
                 countriesOfDistribution: this.countriesOfDistribution,
-                availableGridIds: Object.keys(this.gridShareClassMap)
+                availableGridIds: Object.keys(this.gridShareClassMap),
+                gridContextJson: this.buildGridContextJson()
             });
             const hasFields = productSelection?.fieldsApiToInfoMap && Object.keys(productSelection.fieldsApiToInfoMap).length > 0;
             const hasProducts = productSelection?.products && productSelection.products.length > 0;
@@ -552,7 +559,8 @@ export default class CustomGridBuilder extends NavigationMixin(LightningElement)
                 gridCriteriaJson: JSON.stringify(this.getCriteriaSObject()),
                 gridCriteriaDetailsJson: JSON.stringify(this.getCriteriaDetailSObject()),
                 getAllProductsWithSelection: false,
-                availableGridIds: Object.keys(this.gridShareClassMap)
+                availableGridIds: Object.keys(this.gridShareClassMap),
+                gridContextJson: this.buildGridContextJson()
             });
             const hasFields = productSelection?.fieldsApiToInfoMap && Object.keys(productSelection.fieldsApiToInfoMap).length > 0;
             const hasProducts = productSelection?.products && productSelection.products.length > 0;
@@ -584,7 +592,8 @@ export default class CustomGridBuilder extends NavigationMixin(LightningElement)
                 gridCriteriaJson: JSON.stringify(this.getCriteriaSObject()),
                 gridCriteriaDetailsJson: JSON.stringify(this.getCriteriaDetailSObject()),
                 getAllProductsWithSelection: true,
-                availableGridIds: Object.keys(this.gridShareClassMap)
+                availableGridIds: Object.keys(this.gridShareClassMap),
+                gridContextJson: this.buildGridContextJson()
             });
 
             const hasFields = productSelection?.fieldsApiToInfoMap && Object.keys(productSelection.fieldsApiToInfoMap).length > 0;

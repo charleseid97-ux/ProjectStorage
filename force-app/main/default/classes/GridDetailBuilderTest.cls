@@ -3,7 +3,7 @@
  *              Validates rebate calculation logic for all 4 rule types (Percentage of Fees, Other Share Type, Other Share Type + Fees, Other Grid Rule), 
  *              complex filter logic (AND/OR/Custom Logic/NOT IN), multi-pass dependency resolution, and edge cases.
  * @author Charles EID
- * @testCoverage GridDetailBuilder (86%), GridCriteriaExpressionParser (91% partial)   [24-03-26]
+ * @testCoverage GridDetailBuilder (79%), GridCriteriaExpressionParser (91% partial)   [17-09-26]
 ────────────────────────────────────── */
 @IsTest
 private with sharing class GridDetailBuilderTest {
@@ -243,11 +243,47 @@ private with sharing class GridDetailBuilderTest {
         GridRule__c gridRule = GridTestSetupHelper.createGridRule(grid.Id, criteria.Id, percentageOfFees, 'EffectiveManagementFees__c', 27, null, null, null);
         insert gridRule;
 
+        // Share Class closure propagation, reusing gridNoScope (zero GridRule__c records) so this also
+        // covers the ordering fix: the closure step must run before build()'s early returns, or a grid
+        // like this one — with no rules — would never reach it.
+        Id productId = GridTestSetupHelper.getTestProducts()[0].Id;
+        Date closeDate = Date.today().addDays(-5);
+
+        // Open-ended detail (EndDate__c = null) → should be closed to CloseDate__c
+        Share_Class__c closedOpenSc = GridTestSetupHelper.createShareClass(productId, 'ClosedOpenSC', 'LU8888888801', GridTestSetupHelper.SHARE_TYPE_A, 1.5, GridTestSetupHelper.CURRENCY_EUR);
+        closedOpenSc.Status__c = 'Closed - liquidated';
+        closedOpenSc.CloseDate__c = closeDate;
+        insert closedOpenSc;
+        GridDetail__c openDetail = GridTestSetupHelper.createGridDetail(gridNoScope.Id, null, null, closedOpenSc.Id, 1.0, Date.today().addDays(-365), null, GridBuilderHelper.RT_STANDARD_GRID_DETAIL);
+        insert openDetail;
+
+        // Detail already ends AFTER the close date → should be corrected down to CloseDate__c
+        Share_Class__c closedLateSc = GridTestSetupHelper.createShareClass(productId, 'ClosedLateSC', 'LU8888888802', GridTestSetupHelper.SHARE_TYPE_A, 1.5, GridTestSetupHelper.CURRENCY_EUR);
+        closedLateSc.Status__c = 'Closed - liquidated';
+        closedLateSc.CloseDate__c = closeDate;
+        insert closedLateSc;
+        GridDetail__c lateDetail = GridTestSetupHelper.createGridDetail(gridNoScope.Id, null, null, closedLateSc.Id, 1.0, Date.today().addDays(-365), closeDate.addDays(10), GridBuilderHelper.RT_STANDARD_GRID_DETAIL);
+        insert lateDetail;
+
+        // Detail already ends BEFORE the close date → should be left untouched
+        Share_Class__c closedEarlySc = GridTestSetupHelper.createShareClass(productId, 'ClosedEarlySC', 'LU8888888803', GridTestSetupHelper.SHARE_TYPE_A, 1.5, GridTestSetupHelper.CURRENCY_EUR);
+        closedEarlySc.Status__c = 'Closed - liquidated';
+        closedEarlySc.CloseDate__c = closeDate;
+        insert closedEarlySc;
+        Date earlierEnd = closeDate.addDays(-20);
+        GridDetail__c earlyDetail = GridTestSetupHelper.createGridDetail(gridNoScope.Id, null, null, closedEarlySc.Id, 1.0, Date.today().addDays(-365), earlierEnd, GridBuilderHelper.RT_STANDARD_GRID_DETAIL);
+        insert earlyDetail;
+
         Test.startTest();
 
         GridDetailBuilder.BuildResult result1 = GridDetailBuilder.buildForGrids(new Set<Id>{grid.Id});
         GridDetailBuilder.BuildResult result2 = GridDetailBuilder.buildForGrids(new Set<Id>{gridNoScope.Id});
 
         Test.stopTest();
+
+        Map<Id, GridDetail__c> refreshedById = new Map<Id, GridDetail__c>([SELECT Id, EndDate__c FROM GridDetail__c WHERE Id IN :new Set<Id>{openDetail.Id, lateDetail.Id, earlyDetail.Id}]);
+        System.assertEquals(closeDate, refreshedById.get(openDetail.Id).EndDate__c, 'Open-ended Standard Grid Detail should be closed to CloseDate__c');
+        System.assertEquals(closeDate, refreshedById.get(lateDetail.Id).EndDate__c, 'Standard Grid Detail ending after CloseDate__c should be corrected down to CloseDate__c');
+        System.assertEquals(earlierEnd, refreshedById.get(earlyDetail.Id).EndDate__c, 'Standard Grid Detail already ending before CloseDate__c should be left untouched');
     }
 }
