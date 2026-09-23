@@ -1,9 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Package xmlns="http://soap.sforce.com/2006/04/metadata">
     <types>
+<<<<<<< HEAD
         <members>WS_WTPWorldclassBatch</members>
         <members>WTP_PhraseApiUtil</members>
         <members>WS_WTPWorldclassSchedulerTest</members>
+=======
+        <members>GenericExternalIdService</members>
+        <members>GenericExternalIdServiceTest</members>
+        <members>NarrativeTriggerHandler</members>
+>>>>>>> 0622c80d0 (Add GenericExternalIdService test class)
         <name>ApexClass</name>
     </types>
     <version>64.0</version>
