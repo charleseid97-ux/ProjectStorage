@@ -3,9 +3,9 @@
  *              Covers GridUtility (Branches A/B/C/D/E/F + Scenarios 1/2/3), GridTriggerHandler (via GridTrigger),
  *              AgreementGridTimelineUtility, and the recursion guard (isUpdatingGridsFromAgreementTrigger).
  * @author Charles EID
- * @testCoverage GridUtility (91%), AgreementGridTimelineUtility (100%), GridTriggerHandler (88% - capped by an
+ * @testCoverage GridUtility (98%), AgreementGridTimelineUtility (100%), GridTriggerHandler (88% - capped by an
  *               undeployed local change to GridTriggerHandler.cls adding syncAgreementInformation, not yet
- *               live in every org), GridTrigger (100%)   [08-09-26]
+ *               live in every org), GridTrigger (100%), GridDetailTriggerHandler (98%)   [17-09-26]
 ────────────────────────────────────── */
 @IsTest
 private class GridLifecycleTest {
@@ -439,15 +439,24 @@ private class GridLifecycleTest {
     }
 
     // ────────────────────────────────────── refreshGridDetailsForShareClasses ──────────────────────────────────────
+    // Also covers GridDetailTriggerHandler.cascadeStandardEndDateToCustomDetails: a direct DML update on the
+    // Standard Grid Detail (firing GridDetailTrigger's AfterUpdate for real, unlike syncGridEndDateToDetails
+    // above which is called directly as a static method) must cascade onto its Custom Grid Detail — reuses
+    // this test's own stdDetail/customDetail fixture instead of a separate test method.
     @IsTest
     static void testRefreshGridDetailsForShareClasses() {
         Share_Class__c shareClass = [SELECT Id FROM Share_Class__c LIMIT 1];
         Grid__c standardGrid = getGrid(STANDARD_GRID_NAME);
         Grid__c refreshCustomGrid = getGrid(REFRESH_CUSTOM_GRID_NAME);
-        GridDetail__c stdDetail    = [SELECT Id FROM GridDetail__c WHERE Grid__c = :standardGrid.Id LIMIT 1];
-        GridDetail__c customDetail = [SELECT Id FROM GridDetail__c WHERE Grid__c = :refreshCustomGrid.Id LIMIT 1];
+        GridDetail__c stdDetail    = [SELECT Id, EndDate__c FROM GridDetail__c WHERE Grid__c = :standardGrid.Id LIMIT 1];
+        GridDetail__c customDetail = [SELECT Id, EndDate__c FROM GridDetail__c WHERE Grid__c = :refreshCustomGrid.Id LIMIT 1];
+        System.assertEquals(null, customDetail.EndDate__c, 'Precondition: custom detail should start open-ended.');
 
         Test.startTest();
+
+        update new GridDetail__c(Id = stdDetail.Id, EndDate__c = Date.today());
+        GridDetail__c cascadedCustom = [SELECT EndDate__c FROM GridDetail__c WHERE Id = :customDetail.Id];
+        System.assertEquals(Date.today(), cascadedCustom.EndDate__c, 'Custom Grid Detail EndDate__c should cascade from the Standard Grid Detail update.');
 
         GridUtility.refreshGridDetailsForShareClasses(new Set<Id>{ shareClass.Id });
 

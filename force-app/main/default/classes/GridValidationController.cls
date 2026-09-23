@@ -4,12 +4,13 @@
  *              Formats AUM amounts for display and integrates with GridBuilderHelper for product filtering.
  * @author Charles EID
  * @testClass GridValidationControllerTest
- * @coverage 96%   [19-03-26]
+ * @coverage 90%   [17-09-26]
 ────────────────────────────────────── */
 public with sharing class GridValidationController {
 
     @AuraEnabled
-    public static GridBuilderHelper.ProductSelectionResult getProducts(String gridBuilderSettingName, String countriesOfDistribution, List<Id> selectedShareClassIds, List<Id> agreementIds, Map<String, String> shareClassGridIdMap, List<String> availableGridIds) {
+    public static GridBuilderHelper.ProductSelectionResult getProducts(String gridBuilderSettingName, String countriesOfDistribution, List<Id> selectedShareClassIds, List<Id> agreementIds, Map<String, String> shareClassGridIdMap, List<String> availableGridIds, String gridContextJson) {
+        GridBuilderHelper.GridContext gridContext = String.isNotBlank(gridContextJson) ? (GridBuilderHelper.GridContext) JSON.deserialize(gridContextJson, GridBuilderHelper.GridContext.class) : null;
         Map<Id, String> aumByShareClass = buildAumByShareClass(agreementIds);
 
         Set<Id> selectedShareClassIdsSet = new Set<Id>(selectedShareClassIds);
@@ -21,8 +22,8 @@ public with sharing class GridValidationController {
             productIds.add(sc.Fund__c);
         }
 
-        GridBuilderHelper.GridSettings gridSettings = GridBuilderHelper.getGridSettings(gridBuilderSettingName, null, false, new List<String>());
-        return GridBuilderHelper.buildProductSelectionResult(gridBuilderSettingName, countriesOfDistribution, gridSettings, null, selectedShareClassIdsSet, buildValidationWhereClause(gridSettings, countriesOfDistribution, productIds, availableGridIds), aumByShareClass, true, shareClassGridIdMap, true, availableGridIds);
+        GridBuilderHelper.GridSettings gridSettings = GridBuilderHelper.getGridSettings(gridBuilderSettingName, null, false, new List<String>(), null);
+        return GridBuilderHelper.buildProductSelectionResult(gridBuilderSettingName, countriesOfDistribution, gridSettings, null, selectedShareClassIdsSet, buildValidationWhereClause(gridSettings, countriesOfDistribution, productIds, availableGridIds, gridContext), aumByShareClass, true, shareClassGridIdMap, true, availableGridIds, gridContext);
     }
 
     private static Map<Id, String> buildAumByShareClass(List<Id> agreementIds) {
@@ -39,9 +40,9 @@ public with sharing class GridValidationController {
         return aumByShareClass;
     }
 
-    private static String buildValidationWhereClause(GridBuilderHelper.GridSettings gridSettings, String countriesOfDistribution, Set<Id> productIds, List<String> availableGridIds) {
+    private static String buildValidationWhereClause(GridBuilderHelper.GridSettings gridSettings, String countriesOfDistribution, Set<Id> productIds, List<String> availableGridIds, GridBuilderHelper.GridContext gridContext) {
         //Build default conditions
-        List<String> whereFragments = GridBuilderHelper.buildDefaultConditions(true, true, countriesOfDistribution, gridSettings.shareTypeWrp, false, gridSettings.allowedCountryRegStatus, availableGridIds);
+        List<String> whereFragments = GridBuilderHelper.buildDefaultConditions(true, true, countriesOfDistribution, gridSettings.shareTypeWrp, false, gridSettings.allowedCountryRegStatus, availableGridIds, gridContext);
 
         //Build productIds where
         whereFragments.add(' Fund__c IN '+ GridBuilderHelper.toSoqlInListLiteral(String.join(productIds, ','), ','));
@@ -141,7 +142,9 @@ public with sharing class GridValidationController {
     }
 
     public static void insertGridDetails(GridSaveRequest request, Map<String, GridCriteria__c> criteriaRefToRecordMap, Map<String, String> shareClassGridIdMap) {
-        Map<Id, GridBuilderHelper.StandardGridDetailInfo> stdGridDetailInfoByShareClass = (shareClassGridIdMap != null && !shareClassGridIdMap.isEmpty()) ? GridBuilderHelper.buildStandardGridDetailInfoByShareClass(shareClassGridIdMap) : new Map<Id, GridBuilderHelper.StandardGridDetailInfo>();
+        GridBuilderHelper.GridContext gridContext = new GridBuilderHelper.GridContext();
+        gridContext.startDate = request.grid?.StartDate__c;
+        Map<Id, GridBuilderHelper.StandardGridDetailInfo> stdGridDetailInfoByShareClass = (shareClassGridIdMap != null && !shareClassGridIdMap.isEmpty()) ? GridBuilderHelper.buildStandardGridDetailInfoByShareClass(shareClassGridIdMap, gridContext) : new Map<Id, GridBuilderHelper.StandardGridDetailInfo>();
         List<GridDetail__c> gridDetailsToInsert = new List<GridDetail__c>();
         Id customGridDetailRtId = Schema.SObjectType.GridDetail__c.getRecordTypeInfosByDeveloperName().get(GridBuilderHelper.RT_CUSTOM_GRID_DETAIL).getRecordTypeId();
         for (CriteriaWrapper cw : request.criteriaList) {

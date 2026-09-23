@@ -1,14 +1,27 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Package xmlns="http://soap.sforce.com/2006/04/metadata">
     <types>
-        <members>LookupController</members>
+        <members>GridBuilderController</members>
+        <members>GridBuilderControllerTest</members>
+        <members>GridBuilderHelper</members>
+        <members>GridComparisonController</members>
+        <members>GridDetailBuilder</members>
+        <members>GridDetailBuilderTest</members>
+        <members>GridDetailTriggerHandler</members>
+        <members>GridLifecycleTest</members>
+        <members>GridTestSetupHelper</members>
+        <members>GridValidationController</members>
+        <members>GridValidationControllerTest</members>
+        <members>ShareClassCustomGridBatch</members>
+        <members>ShareClassGridBatchTest</members>
+        <members>StandardGridProductAndRulesController</members>
+        <members>StdGridProductAndRulesControllerTest</members>
         <name>ApexClass</name>
     </types>
     <types>
-        <members>lwcMultiSelectLookup</members>
-        <members>strategicNews</members>
+        <members>customGridBuilder</members>
+        <members>gridValidationPage</members>
         <name>LightningComponentBundle</name>
     </types>
-
-    <version>64.0</version>
+    <version>66.0</version>
 </Package>

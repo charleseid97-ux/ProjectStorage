@@ -5,18 +5,19 @@
  *              Works in conjunction with GridBuilderHelper for data filtering and formatting.
  * @author Charles EID
  * @testClass GridBuilderControllerTest
- * @coverage 85%   [19-03-26]
+ * @coverage 85%   [17-09-26]
  ────────────────────────────────────── */
 public with sharing class GridBuilderController {
 
     @AuraEnabled(cacheable=true)
-    public static GridBuilderHelper.GridSettings getGridSettings(String gridBuilderSettingName, String countriesOfDistribution, List<String> availableGridIds) {
-        return GridBuilderHelper.getGridSettings(gridBuilderSettingName, countriesOfDistribution, true, availableGridIds);
+    public static GridBuilderHelper.GridSettings getGridSettings(String gridBuilderSettingName, String countriesOfDistribution, List<String> availableGridIds, String gridContextJson) {
+        GridBuilderHelper.GridContext gridContext = String.isNotBlank(gridContextJson) ? (GridBuilderHelper.GridContext) JSON.deserialize(gridContextJson, GridBuilderHelper.GridContext.class) : null;
+        return GridBuilderHelper.getGridSettings(gridBuilderSettingName, countriesOfDistribution, true, availableGridIds, gridContext);
     }
 
     @AuraEnabled(cacheable=true)
     public static AgreementSelectionPageSettings getAgreementSelectionPageSettings(String gridBuilderSettingName, String agreementId) {
-        GridBuilderHelper.GridSettings gridSettings = GridBuilderHelper.getGridSettings(gridBuilderSettingName, null, false, new List<String>());
+        GridBuilderHelper.GridSettings gridSettings = GridBuilderHelper.getGridSettings(gridBuilderSettingName, null, false, new List<String>(), null);
 
         String userPrimaryTeam = '';
         List<String> userSecondaryTeams = new List<String>();
@@ -249,13 +250,15 @@ public with sharing class GridBuilderController {
     }
 
     @AuraEnabled(cacheable=true)
-    public static GridBuilderHelper.ProductSelectionResult getAllProductsForSelection(String gridBuilderSettingName, String countriesOfDistribution, List<String> availableGridIds) {
-        return GridBuilderHelper.buildProductSelectionResult(gridBuilderSettingName, countriesOfDistribution, null, null, new Set<Id>(), null, new Map<Id, String>(), false, null, false, availableGridIds);
+    public static GridBuilderHelper.ProductSelectionResult getAllProductsForSelection(String gridBuilderSettingName, String countriesOfDistribution, List<String> availableGridIds, String gridContextJson) {
+        GridBuilderHelper.GridContext gridContext = String.isNotBlank(gridContextJson) ? (GridBuilderHelper.GridContext) JSON.deserialize(gridContextJson, GridBuilderHelper.GridContext.class) : null;
+        return GridBuilderHelper.buildProductSelectionResult(gridBuilderSettingName, countriesOfDistribution, null, null, new Set<Id>(), null, new Map<Id, String>(), false, null, false, availableGridIds, gridContext);
     }
 
     @AuraEnabled
-    public static GridBuilderHelper.ProductSelectionResult getProductsAndShareClasses(String gridBuilderSettingName, String countriesOfDistribution, String gridCriteriaJson, String gridCriteriaDetailsJson, Boolean getAllProductsWithSelection, List<String> availableGridIds) {
-        GridBuilderHelper.GridSettings gridSettings = GridBuilderHelper.getGridSettings(gridBuilderSettingName, null, false, new List<String>());
+    public static GridBuilderHelper.ProductSelectionResult getProductsAndShareClasses(String gridBuilderSettingName, String countriesOfDistribution, String gridCriteriaJson, String gridCriteriaDetailsJson, Boolean getAllProductsWithSelection, List<String> availableGridIds, String gridContextJson) {
+        GridBuilderHelper.GridContext gridContext = String.isNotBlank(gridContextJson) ? (GridBuilderHelper.GridContext) JSON.deserialize(gridContextJson, GridBuilderHelper.GridContext.class) : null;
+        GridBuilderHelper.GridSettings gridSettings = GridBuilderHelper.getGridSettings(gridBuilderSettingName, null, false, new List<String>(), null);
 
         GridCriteria__c criteria = (GridCriteria__c)JSON.deserialize(gridCriteriaJson, GridCriteria__c.class);
         List<String> selectedShareTypes = String.isNotBlank(criteria.SelectedShareTypes__c)? criteria.SelectedShareTypes__c.split(',') : new List<String>();
@@ -264,10 +267,10 @@ public with sharing class GridBuilderController {
 
         Map<String, GridBuilderHelper.FieldInfo> fieldsApiToInfoMap = GridBuilderHelper.buildFieldsApiToInfoMap(gridSettings.fieldsToDisplay + GridBuilderHelper.getAdditionalQueryColumns(), getAllProductsWithSelection);
         FilterFragments filterFragments = buildWhereFragments(criteriaDetails, gridSettings.filterValueSeparator);
-        String finalWhere = buildWhereClause(gridSettings, criteria, filterFragments, countriesOfDistribution, selectedShareTypes, availableGridIds);
+        String finalWhere = buildWhereClause(gridSettings, criteria, filterFragments, countriesOfDistribution, selectedShareTypes, availableGridIds, gridContext);
 
         if(getAllProductsWithSelection) {
-            String filteredQuery = 'SELECT Id, ' + String.join(GridBuilderHelper.getSelectableFieldSet(fieldsApiToInfoMap), ', ') + 
+            String filteredQuery = 'SELECT Id, ' + String.join(GridBuilderHelper.getSelectableFieldSet(fieldsApiToInfoMap), ', ') +
                                   ' FROM Share_Class__c ';
             filteredQuery += (String.isNotBlank(finalWhere)) ? ' WHERE ' + finalWhere : '';
 
@@ -275,11 +278,10 @@ public with sharing class GridBuilderController {
             for (Share_Class__c scFiltered : Database.query(filteredQuery)) {
                 filteredIds.add(scFiltered.Id);
             }
-            
-            return GridBuilderHelper.buildProductSelectionResult(gridBuilderSettingName, countriesOfDistribution, gridSettings, fieldsApiToInfoMap, filteredIds, null, new Map<Id, String>(), false, buildShareClassGridIdMap(filteredIds, gridId), true, availableGridIds);
+            return GridBuilderHelper.buildProductSelectionResult(gridBuilderSettingName, countriesOfDistribution, gridSettings, fieldsApiToInfoMap, filteredIds, null, new Map<Id, String>(), false, buildShareClassGridIdMap(filteredIds, gridId), true, availableGridIds, gridContext);
         }
         else {
-            return GridBuilderHelper.buildProductSelectionResult(gridBuilderSettingName, countriesOfDistribution, gridSettings, fieldsApiToInfoMap, new Set<Id>(), finalWhere, new Map<Id, String>(), false, null, false, availableGridIds);
+            return GridBuilderHelper.buildProductSelectionResult(gridBuilderSettingName, countriesOfDistribution, gridSettings, fieldsApiToInfoMap, new Set<Id>(), finalWhere, new Map<Id, String>(), false, null, false, availableGridIds, gridContext);
         }
     }
 
@@ -344,9 +346,9 @@ public with sharing class GridBuilderController {
                 '\'' + String.escapeSingleQuotes(rawValue) + '\''; // Single-value operators
     }
 
-    private static String buildWhereClause(GridBuilderHelper.GridSettings gridSettings, GridCriteria__c criteria, FilterFragments filterFragments, String countriesOfDistribution, List<String> selectedShareTypes, List<String> availableGridIds) {
+    private static String buildWhereClause(GridBuilderHelper.GridSettings gridSettings, GridCriteria__c criteria, FilterFragments filterFragments, String countriesOfDistribution, List<String> selectedShareTypes, List<String> availableGridIds, GridBuilderHelper.GridContext gridContext) {
         //Build default conditions
-        List<String> whereFragments = GridBuilderHelper.buildDefaultConditions(true, true, countriesOfDistribution, gridSettings.shareTypeWrp, false, gridSettings.allowedCountryRegStatus, availableGridIds);
+        List<String> whereFragments = GridBuilderHelper.buildDefaultConditions(true, true, countriesOfDistribution, gridSettings.shareTypeWrp, false, gridSettings.allowedCountryRegStatus, availableGridIds, gridContext);
 
         //Build selected share types condition
         String selectedShareTypesWhere = '';

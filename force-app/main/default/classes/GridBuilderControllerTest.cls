@@ -3,7 +3,7 @@
  *              Validates all methods including grid settings retrieval, available grids filtering, product/share class selection
  *              with criteria filtering (AND/OR/Custom Logic), and agreement selection page settings.
  * @author Charles EID
- * @testCoverage GridBuilderController (85%), GridBuilderHelper (93% partial)   [19-03-26]
+ * @testCoverage GridBuilderController (85%), GridBuilderHelper (97% partial)   [17-09-26]
 ────────────────────────────────────── */
 @IsTest
 private with sharing class GridBuilderControllerTest {
@@ -21,7 +21,7 @@ private with sharing class GridBuilderControllerTest {
     static void testGetGridSettings() {
         Test.startTest();
 
-        GridBuilderHelper.GridSettings result = GridBuilderController.getGridSettings(GRID_BUILDER_SETTING, TEST_COUNTRIES, new List<String>());
+        GridBuilderHelper.GridSettings result = GridBuilderController.getGridSettings(GRID_BUILDER_SETTING, TEST_COUNTRIES, new List<String>(), null);
 
         Test.stopTest();
     }
@@ -110,13 +110,37 @@ private with sharing class GridBuilderControllerTest {
         Test.stopTest();
     }
 
+    // Also covers the reinsertion-bug fix: a Standard Grid Detail with a past EndDate__c must be excluded
+    // from eligibility with no GridContext (conservative default), but remains eligible when the Custom
+    // Grid's StartDate__c predates the closure, and excluded again once the Custom Grid starts after it.
     @IsTest
     static void testGetAllProductsForSelection() {
+        Grid__c grid = GridTestSetupHelper.getTestGridByName(GridTestSetupHelper.GRID_NAME_S1);
+        Share_Class__c shareClass = GridTestSetupHelper.getShareClassByType(GridTestSetupHelper.SHARE_TYPE_A);
+        Date pastEndDate = Date.today().addDays(-30);
+        insert GridTestSetupHelper.createGridDetail(grid.Id, null, null, shareClass.Id, 1.5, Date.today().addDays(-365), pastEndDate, GridBuilderHelper.RT_STANDARD_GRID_DETAIL);
+
+        Map<String, String> shareClassGridIdMap = new Map<String, String>{ String.valueOf(shareClass.Id) => String.valueOf(grid.Id) };
+
+        GridBuilderHelper.GridContext contextBeforeClose = new GridBuilderHelper.GridContext();
+        contextBeforeClose.startDate = Date.today().addDays(-200);
+
+        GridBuilderHelper.GridContext contextAfterClose = new GridBuilderHelper.GridContext();
+        contextAfterClose.startDate = Date.today().addDays(-10);
+
         Test.startTest();
 
-        GridBuilderHelper.ProductSelectionResult result = GridBuilderController.getAllProductsForSelection(GRID_BUILDER_SETTING, TEST_COUNTRIES, new List<String>());
+        GridBuilderHelper.ProductSelectionResult result = GridBuilderController.getAllProductsForSelection(GRID_BUILDER_SETTING, TEST_COUNTRIES, new List<String>(), null);
+
+        Map<Id, GridBuilderHelper.StandardGridDetailInfo> withoutContext = GridBuilderHelper.buildStandardGridDetailInfoByShareClass(shareClassGridIdMap, null);
+        Map<Id, GridBuilderHelper.StandardGridDetailInfo> withEarlyStartContext = GridBuilderHelper.buildStandardGridDetailInfoByShareClass(shareClassGridIdMap, contextBeforeClose);
+        Map<Id, GridBuilderHelper.StandardGridDetailInfo> withLateStartContext = GridBuilderHelper.buildStandardGridDetailInfoByShareClass(shareClassGridIdMap, contextAfterClose);
 
         Test.stopTest();
+
+        System.assert(!withoutContext.containsKey(shareClass.Id), 'A closed Standard Grid Detail should not be eligible with no GridContext');
+        System.assert(withEarlyStartContext.containsKey(shareClass.Id), 'A closed Standard Grid Detail should still be eligible if the Custom Grid started before it closed');
+        System.assert(!withLateStartContext.containsKey(shareClass.Id), 'A closed Standard Grid Detail should not be eligible if the Custom Grid starts after it closed');
     }
 
     @IsTest
@@ -164,7 +188,7 @@ private with sharing class GridBuilderControllerTest {
 
         Test.startTest();
 
-        GridBuilderHelper.ProductSelectionResult result = GridBuilderController.getProductsAndShareClasses(GRID_BUILDER_SETTING, TEST_COUNTRIES, JSON.serialize(criteria), JSON.serialize(criteriaDetails), getAll, new List<String>());
+        GridBuilderHelper.ProductSelectionResult result = GridBuilderController.getProductsAndShareClasses(GRID_BUILDER_SETTING, TEST_COUNTRIES, JSON.serialize(criteria), JSON.serialize(criteriaDetails), getAll, new List<String>(), null);
 
         Test.stopTest();
     }

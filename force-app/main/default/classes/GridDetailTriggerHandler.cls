@@ -23,7 +23,11 @@ public with sharing class GridDetailTriggerHandler implements ITriggerHandler {
         }
     }
 
-    public void AfterUpdate(Map<Id, SObject> newItems, Map<Id, SObject> oldItems) { }
+    public void AfterUpdate(Map<Id, SObject> newItems, Map<Id, SObject> oldItems) {
+        List<GridDetail__c> details = (List<GridDetail__c>) newItems.values();
+        Map<Id, GridDetail__c> oldMap = (Map<Id, GridDetail__c>) oldItems;
+        cascadeStandardEndDateToCustomDetails(details, oldMap);
+    }
 
     public void AfterDelete(Map<Id, SObject> oldItems) { }
 
@@ -69,6 +73,41 @@ public with sharing class GridDetailTriggerHandler implements ITriggerHandler {
                 d.StartDate__c               = (gridStart != null && (srcStart == null || gridStart > srcStart)) ? gridStart : srcStart;
                 d.EndDate__c                 = (gridEnd != null && (srcEnd == null || gridEnd < srcEnd)) ? gridEnd : srcEnd;
             }
+        }
+    }
+
+    // ── When a Standard Grid Detail's EndDate__c changes → cascade onto its Custom Grid Details (StandardGridDetail__c lookup) ──
+    // Mirror direction of populateFromStandardDetail: that one fires when a Custom Grid Detail's own
+    // StandardGridDetail__c is set/changed; this one fires when the Standard source itself is updated later,
+    // which populateFromStandardDetail cannot see since it only runs on the Custom Grid Detail's own trigger context.
+    private static void cascadeStandardEndDateToCustomDetails(List<GridDetail__c> details, Map<Id, GridDetail__c> oldMap) {
+        Id standardRtId = Schema.SObjectType.GridDetail__c.getRecordTypeInfosByDeveloperName().get(GridBuilderHelper.RT_STANDARD_GRID_DETAIL).getRecordTypeId();
+        Map<Id, Date> changedStandardEndDates = new Map<Id, Date>();
+        for (GridDetail__c d : details) {
+            if (d.RecordTypeId != standardRtId) continue;
+            GridDetail__c old = oldMap.get(d.Id);
+            if (old == null || old.EndDate__c == d.EndDate__c) continue;
+            changedStandardEndDates.put(d.Id, d.EndDate__c);
+        }
+        if (changedStandardEndDates.isEmpty()) return;
+
+        List<GridDetail__c> customDetails = [SELECT Id, EndDate__c, StandardGridDetail__c, Grid__r.EndDate__c
+                                             FROM GridDetail__c
+                                             WHERE StandardGridDetail__c IN :changedStandardEndDates.keySet()];
+        if (customDetails.isEmpty()) return;
+
+        List<GridDetail__c> toUpdate = new List<GridDetail__c>();
+        Date newStandardEnd, customGridEnd, clampedEnd;
+        for (GridDetail__c cd : customDetails) {
+            newStandardEnd = changedStandardEndDates.get(cd.StandardGridDetail__c);
+            customGridEnd = cd.Grid__r?.EndDate__c;
+            clampedEnd = (customGridEnd != null && (newStandardEnd == null || customGridEnd < newStandardEnd)) ? customGridEnd : newStandardEnd;
+            if (cd.EndDate__c != clampedEnd) {
+                toUpdate.add(new GridDetail__c(Id = cd.Id, EndDate__c = clampedEnd));
+            }
+        }
+        if (!toUpdate.isEmpty()) {
+            update toUpdate;
         }
     }
 
