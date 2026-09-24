@@ -327,6 +327,13 @@ stages:
                   sf --version
 
                   set +x
+                  
+                  openssl pkey \
+                    -in "$(sfdxJwtKeyUat.secureFilePath)" \
+                    -pubout \
+                    -outform DER 2>/dev/null \
+                    | openssl sha256
+                    
                   sf org login jwt \
                     --client-id "$(SFDX_CLIENT_ID)" \
                     --jwt-key-file "$(sfdxJwtKeyUat.secureFilePath)" \
