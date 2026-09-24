@@ -4,6 +4,9 @@ public without sharing class customEventNotificationManager {
 
     private static String SUBJECT_PLACEHOLDER = '[!subject]';
     private static String MESSAGE_PLACEHOLDER = '[!message]';
+    private static String GENERIC_BANNER_PLACEHOLDER = '{{notificationBannerHTML}}';
+    private static String GENERIC_HEADER_PLACEHOLDER = '{{notificationHeader}}';
+    private static String GENERIC_MESSAGE_PLACEHOLDER = '{{notificationMessageHTML}}';
     private static String PRESENTATION_GLOBAL_GROUP = 'BooklyAlertProductAll';
     // Lance l'envoi standard des demandes de présentation.
     public static void requestPresentation(List<SessionSpeakerProduct__c> ssps) {
@@ -401,14 +404,26 @@ public without sharing class customEventNotificationManager {
             }
         }
 
-        String presentationMessage = String.isBlank(notificationMessage)
-            ? 'Please prepare the following presentations:'
-            : notificationMessage;
+        Boolean isUpdate = !String.isBlank(notificationMessage);
+        String presentationMessage = isUpdate
+            ? notificationMessage
+            : 'Please prepare the following presentations:';
 
-        // Utilise le message de modification lorsqu'il est fourni.
-        String html = '<div style="font-size:15px; line-height:22px;">'
-            + presentationMessage
-            + '<br/><ul>';
+        // Affiche le même bandeau de modification que les autres notifications Bookly.
+        String html = isUpdate
+            ? '<table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" '
+                + 'style="border:1px solid #f59e0b; background-color:#fffbeb; margin-bottom:14px;">'
+                + '<tr><td style="padding:16px;">'
+                + '<div style="font-size:16px; line-height:22px; font-weight:bold; color:#92400e; margin-bottom:6px;">'
+                + 'Update on existing request'
+                + '</div>'
+                + '<div style="font-size:13px; line-height:20px; color:#92400e;">'
+                + presentationMessage
+                + '</div></td></tr></table>'
+                + '<div style="font-size:15px; line-height:22px;"><ul>'
+            : '<div style="font-size:15px; line-height:22px;">'
+                + presentationMessage
+                + '<br/><ul>';
 
         for (SessionSpeakerProduct__c ssp : uniqueSspsById.values()) {
 
@@ -443,7 +458,12 @@ public without sharing class customEventNotificationManager {
             Messaging.SingleEmailMessage mail = new Messaging.SingleEmailMessage();
             mail.setToAddresses(recipients);
             mail.setSaveAsActivity(false);
-            mail.setSubject(rendered.getSubject());
+            // Prefix modification emails so they are clearly identified as updates.
+            mail.setSubject(
+                isUpdate
+                    ? '[Bookly] Update on existing request — ' + rendered.getSubject().replace('[Bookly] ', '')
+                    : rendered.getSubject()
+            );
             mail.setHtmlBody(
                 rendered.getHtmlBody().replace('{{presentationRequestHTML}}', html)
             );
@@ -663,7 +683,15 @@ public without sharing class customEventNotificationManager {
                 continue;
             }
 
-            String message = buildStatusMessage(evt);
+            Boolean isUpdatedSubmission =
+                evt.Status__c == 'SubmittedToEventTeam' &&
+                !String.isBlank(evt.NotificationTitle__c) &&
+                !String.isBlank(evt.NotificationDetails__c);
+
+            // Une resoumission affiche son sujet et son détail métier dans le template générique.
+            String message = isUpdatedSubmission
+                ? evt.NotificationDetails__c
+                : buildStatusMessage(evt);
             system.debug('======= Message'+message);
 
             if (String.isBlank(message)) {
@@ -684,7 +712,9 @@ public without sharing class customEventNotificationManager {
                 continue;
             }
 
-            String subjectValue = message;
+            String subjectValue = isUpdatedSubmission
+                ? evt.NotificationTitle__c
+                : message;
             String finalSubject;
             String finalBody;
 
@@ -701,9 +731,11 @@ public without sharing class customEventNotificationManager {
                 finalSubject =
                     rendered.getSubject().replace(SUBJECT_PLACEHOLDER , subjectValue);
 
-                finalBody = rendered.getHtmlBody()
-                    .replace(SUBJECT_PLACEHOLDER , subjectValue)
-                    .replace(MESSAGE_PLACEHOLDER , message);
+                finalBody = applyGenericNotificationPlaceholders(
+                    rendered.getHtmlBody(),
+                    subjectValue,
+                    message
+                );
 
             } catch (Exception e) {
 
@@ -835,56 +867,22 @@ public without sharing class customEventNotificationManager {
             toAddresses.add(evt.SalesOwner__r.Email);
         }
 
-        // Submitted => CRM distribution list or standard Owner email
+        // Submitted => CRM distribution list or requester
         if (evt.Status__c == 'SubmittedToEventTeam') {
 
-            Boolean ownerIsCrm =
+            Boolean requesterIsCrm =
                 evt.Owner != null &&
                 evt.Owner.UserRole != null &&
                 String.isNotBlank(evt.Owner.UserRole.Name) &&
                 evt.Owner.UserRole.Name.endsWith(' - CRM');
 
-            Set<String> crmDistributionKeys = new Set<String>();
+            // Remplace le requester CRM par la liste CRM de sa Sales Team.
+            if (requesterIsCrm &&
+                String.isNotBlank(evt.SalesTeam__c) &&
+                salesTeamEmails.containsKey(evt.SalesTeam__c)) {
 
-            // Déduit les listes CRM depuis le rôle du Owner.
-            if (ownerIsCrm) {
-
-                String roleCountry =
-                    evt.Owner.UserRole.Name.substringBefore(' - CRM');
-
-                if (roleCountry == 'UK') {
-                    crmDistributionKeys.add('United Kingdom');
-                } else if (roleCountry == 'Luxembourg & Netherlands') {
-
-                    // Ce rôle doit notifier les deux listes de distribution.
-                    crmDistributionKeys.add('Luxembourg');
-                    crmDistributionKeys.add('Netherlands');
-                } else {
-                    crmDistributionKeys.add(roleCountry);
-                }
-            }
-
-            Boolean crmDistributionFound = false;
-
-            // Ajoute toutes les listes CRM correspondant au rôle du Owner.
-            for (String crmDistributionKey : crmDistributionKeys) {
-
-                if (!salesTeamEmails.containsKey(crmDistributionKey)) {
-                    continue;
-                }
-
-                toAddresses.addAll(
-                    salesTeamEmails.get(crmDistributionKey)
-                );
-
-                crmDistributionFound = true;
-            }
-
-            // Utilise l'email du Owner uniquement si aucune liste CRM n'est trouvée.
-            if (!crmDistributionFound &&
-                evt.Owner != null &&
-                String.isNotBlank(evt.Owner.Email)) {
-
+                toAddresses.addAll(salesTeamEmails.get(evt.SalesTeam__c));
+            } else if (evt.Owner != null && String.isNotBlank(evt.Owner.Email)) {
                 toAddresses.add(evt.Owner.Email);
             }
 
@@ -1061,9 +1059,11 @@ public without sharing class customEventNotificationManager {
                 finalSubject =
                     rendered.getSubject().replace(SUBJECT_PLACEHOLDER , subjectValue);
 
-                finalBody = rendered.getHtmlBody()
-                    .replace(SUBJECT_PLACEHOLDER , subjectValue)
-                    .replace(MESSAGE_PLACEHOLDER , message);
+                finalBody = applyGenericNotificationPlaceholders(
+                    rendered.getHtmlBody(),
+                    subjectValue,
+                    message
+                );
 
             } catch (Exception e) {
 
@@ -1184,7 +1184,13 @@ public without sharing class customEventNotificationManager {
             Event__c oldEvt = oldMap.get(evtId);
             Event__c newEvt = newMap.get(evtId);
 
+            Boolean isEventTeamResubmission =
+                oldEvt.Status__c == 'FullyApproved' &&
+                newEvt.Status__c == 'SubmittedToEventTeam';
+
+            // Une resoumission après validation ne doit pas envoyer « Request created ».
             if (oldEvt.Status__c != newEvt.Status__c &&
+                !isEventTeamResubmission &&
                 (newEvt.Status__c == 'SubmittedToEventTeam' ||
                 newEvt.Status__c == 'FullyApproved')) {
 
@@ -1204,6 +1210,7 @@ public without sharing class customEventNotificationManager {
                 city__c, locationName__c, locationAddress__c, locationPostCode__c,
                 country__c, AudienceCompany__c, Company__r.Name,
                 meetingGoal__c, meetingBackground__c, description__c, speakersHTML__c,
+                NotificationTitle__c, NotificationDetails__c,
                 Organizer__r.Email, SalesOwner__r.Email, Owner.Email, Owner.UserRole.Name, RecordType.DeveloperName,parentEvent__c
                 FROM Event__c
             WHERE Id IN :eventIds
@@ -1672,6 +1679,127 @@ public without sharing class customEventNotificationManager {
     }
 
 
+    // Notifie les interlocuteurs concernés lorsqu'un speaker quitte définitivement un Event.
+    public static void notifySpeakerDeleted(List<SessionSpeakerProduct__c> deletedSsps) {
+        if (deletedSsps == null || deletedSsps.isEmpty()) return;
+
+        Map<Id, List<SessionSpeakerProduct__c>> deletedSspsByEventId =
+            new Map<Id, List<SessionSpeakerProduct__c>>();
+        Set<Id> eventIds = new Set<Id>();
+        Set<Id> speakerIds = new Set<Id>();
+
+        // Groupe les suppressions par Event et conserve les speakers à charger.
+        for (SessionSpeakerProduct__c deletedSsp : deletedSsps) {
+            if (deletedSsp == null || deletedSsp.Session__c == null || deletedSsp.SpeakerContact__c == null) continue;
+
+            if (!deletedSspsByEventId.containsKey(deletedSsp.Session__c)) {
+                deletedSspsByEventId.put(deletedSsp.Session__c, new List<SessionSpeakerProduct__c>());
+            }
+            deletedSspsByEventId.get(deletedSsp.Session__c).add(deletedSsp);
+
+            eventIds.add(deletedSsp.Session__c);
+            speakerIds.add(deletedSsp.SpeakerContact__c);
+        }
+
+        if (deletedSspsByEventId.isEmpty()) return;
+
+        Map<Id, Event__c> eventsById = new Map<Id, Event__c>([
+            SELECT Id, Organizer__r.Email
+            FROM Event__c
+            WHERE Id IN :eventIds
+        ]);
+        Map<Id, Contact> speakersById = new Map<Id, Contact>([
+            SELECT Id, Name, SpeakerAssistant__r.Email
+            FROM Contact
+            WHERE Id IN :speakerIds
+        ]);
+
+        for (Id eventId : deletedSspsByEventId.keySet()) {
+            Event__c eventRecord = eventsById.get(eventId);
+            Set<String> recipients = new Set<String>();
+            Set<Id> strategyIds = new Set<Id>();
+            List<String> speakerNames = new List<String>();
+            List<Id> deletedSspIds = new List<Id>();
+
+            // Ajoute l'Organizer, les Speaker Assistants et les produits concernés.
+            if (eventRecord != null && eventRecord.Organizer__r != null &&
+                String.isNotBlank(eventRecord.Organizer__r.Email)) {
+                recipients.add(eventRecord.Organizer__r.Email.trim());
+            }
+
+            for (SessionSpeakerProduct__c deletedSsp : deletedSspsByEventId.get(eventId)) {
+                Contact speaker = speakersById.get(deletedSsp.SpeakerContact__c);
+                if (speaker != null && String.isNotBlank(speaker.Name)) speakerNames.add(speaker.Name);
+                if (speaker != null && speaker.SpeakerAssistant__r != null &&
+                    String.isNotBlank(speaker.SpeakerAssistant__r.Email)) {
+                    recipients.add(speaker.SpeakerAssistant__r.Email.trim());
+                }
+
+                if (deletedSsp.Strategy__c != null) strategyIds.add(deletedSsp.Strategy__c);
+                if (deletedSsp.Id != null) deletedSspIds.add(deletedSsp.Id);
+            }
+
+            recipients.addAll(loadPresentationRecipientEmailsForStrategyIds(strategyIds));
+            speakerNames.sort();
+
+            String message;
+            if (speakerNames.isEmpty()) {
+                message = 'A speaker has been removed from the request.';
+            } else if (speakerNames.size() == 1) {
+                message = speakerNames[0] + ' has been removed from the request.';
+            } else {
+                message = String.join(speakerNames, ', ') + ' have been removed from the request.';
+            }
+
+            sendGenericBooklyNotification(
+                eventId,
+                recipients,
+                NotificationTitleGenerator.getUpdatedApprovalTitle(),
+                message,
+                'SpeakerDeletedNotification',
+                deletedSspIds
+            );
+        }
+    }
+
+    // Remplace les placeholders du template générique selon le type de notification.
+    private static String applyGenericNotificationPlaceholders(
+        String templateBody,
+        String subjectValue,
+        String message
+    ) {
+        Boolean isUpdate = subjectValue == NotificationTitleGenerator.getUpdatedApprovalTitle();
+        String bannerHtml = isUpdate ? buildUpdateBannerHtml(subjectValue, message) : '';
+        String headerValue = isUpdate ? 'Request notification' : subjectValue;
+        String messageHtml = isUpdate ? '' : buildGenericMessageHtml(message);
+
+        return templateBody
+            .replace(SUBJECT_PLACEHOLDER, subjectValue)
+            .replace(MESSAGE_PLACEHOLDER, message)
+            .replace(GENERIC_BANNER_PLACEHOLDER, bannerHtml)
+            .replace(GENERIC_HEADER_PLACEHOLDER, headerValue)
+            .replace(GENERIC_MESSAGE_PLACEHOLDER, messageHtml);
+    }
+
+    // Construit le bandeau orange affiché uniquement pour une mise à jour.
+    private static String buildUpdateBannerHtml(String subjectValue, String message) {
+        return '<table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" '
+            + 'style="border:1px solid #f59e0b; background-color:#fffbeb;">'
+            + '<tr><td style="padding:14px 16px;">'
+            + '<div style="font-size:16px; line-height:22px; font-weight:bold; color:#92400e;">'
+            + subjectValue + '</div>'
+            + '<div style="padding-top:4px; font-size:13px; line-height:20px; color:#78350f;">'
+            + message + '</div></td></tr></table>'
+            + '<table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0">'
+            + '<tr><td height="12" style="font-size:12px; line-height:12px;">&nbsp;</td></tr></table>';
+    }
+
+    // Construit le message affiché dans l'en-tête des notifications non modificatives.
+    private static String buildGenericMessageHtml(String message) {
+        return '<div style="padding-top:10px; font-size:14px; line-height:22px; color:#111827;">'
+            + message + '</div>';
+    }
+
     // Envoie une notification Bookly générique et journalise le résultat.
     public static void sendGenericBooklyNotification(
         Id eventId,
@@ -1728,10 +1856,11 @@ public without sharing class customEventNotificationManager {
                 rendered.getSubject()
                     .replace(SUBJECT_PLACEHOLDER, subjectValue);
 
-            String finalBody =
-                rendered.getHtmlBody()
-                    .replace(SUBJECT_PLACEHOLDER, subjectValue)
-                    .replace(MESSAGE_PLACEHOLDER, message);
+            String finalBody = applyGenericNotificationPlaceholders(
+                rendered.getHtmlBody(),
+                subjectValue,
+                message
+            );
 
             Messaging.SingleEmailMessage mail =
                 new Messaging.SingleEmailMessage();

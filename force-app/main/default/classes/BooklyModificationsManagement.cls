@@ -47,6 +47,7 @@ public without sharing class BooklyModificationsManagement {
         public String approvalType;
         public String processDeveloperName;
         public String reason;
+        public String notificationReason;
     }
 
     // Initializes ApprovalStateId__c for new Event__c records.
@@ -113,12 +114,155 @@ public without sharing class BooklyModificationsManagement {
         return new ApprovalStateValidationResult(false, STALE_APPROVAL_MESSAGE);
     }
 
-    // Synchronizes speaker approvals after a SessionSpeakerProduct__c insert.
+    // Synchronizes approvals after a SessionSpeakerProduct__c insert.
     public static void handleSessionSpeakerProductInsert(List<SessionSpeakerProduct__c> newSsps) {
-        refreshWaitingSpeakerApprovals(collectSessionIds(newSsps));
-        resubmitHopApprovalsForInsertedSsps(newSsps);
+        // Un nouveau speaker repasse d'abord obligatoirement par Event Team.
+        // Les approvals Speaker/HOP seront créées après validation Event Team.
+        resubmitEventTeamApprovalForNewSpeakers(newSsps);
+
         OperationLogService.flush();
     }
+
+    // Resubmits Event Team approval when a new speaker is added to an approved Event.
+    private static void resubmitEventTeamApprovalForNewSpeakers(
+        List<SessionSpeakerProduct__c> newSsps
+    ) {
+        if (newSsps == null || newSsps.isEmpty()) return;
+
+        Set<Id> insertedSspIds = new Set<Id>();
+        Set<Id> sessionIds = new Set<Id>();
+        Set<Id> speakerIds = new Set<Id>();
+
+        // Collect inserted SSP, Event and speaker identifiers.
+        for (SessionSpeakerProduct__c ssp : newSsps) {
+            if (
+                ssp == null ||
+                ssp.Id == null ||
+                ssp.Session__c == null ||
+                ssp.SpeakerContact__c == null
+            ) {
+                continue;
+            }
+
+            insertedSspIds.add(ssp.Id);
+            sessionIds.add(ssp.Session__c);
+            speakerIds.add(ssp.SpeakerContact__c);
+        }
+
+        if (sessionIds.isEmpty() || speakerIds.isEmpty()) return;
+
+        Set<String> existingSpeakerKeys = new Set<String>();
+
+        // Load SSPs that existed before the current insert.
+        for (SessionSpeakerProduct__c existingSsp : [
+            SELECT Session__c, SpeakerContact__c
+            FROM SessionSpeakerProduct__c
+            WHERE Session__c IN :sessionIds
+            AND SpeakerContact__c IN :speakerIds
+            AND Id NOT IN :insertedSspIds
+        ]) {
+            existingSpeakerKeys.add(
+                String.valueOf(existingSsp.Session__c) + '-' +
+                String.valueOf(existingSsp.SpeakerContact__c)
+            );
+        }
+
+        Set<Id> eventsWithNewSpeaker = new Set<Id>();
+
+        // Keep Events where the inserted speaker was not already present.
+        for (SessionSpeakerProduct__c ssp : newSsps) {
+            if (
+                ssp == null ||
+                ssp.Session__c == null ||
+                ssp.SpeakerContact__c == null
+            ) {
+                continue;
+            }
+
+            String speakerKey =
+                String.valueOf(ssp.Session__c) + '-' +
+                String.valueOf(ssp.SpeakerContact__c);
+
+            if (!existingSpeakerKeys.contains(speakerKey)) {
+                eventsWithNewSpeaker.add(ssp.Session__c);
+            }
+        }
+
+        if (eventsWithNewSpeaker.isEmpty()) return;
+
+        List<Approval.ProcessWorkitemRequest> organizerRemovalRequests =
+            new List<Approval.ProcessWorkitemRequest>();
+
+        // Ferme l'approval Organizer active avant de relancer l'Event Team.
+        for (ProcessInstanceWorkitem workitem : [
+            SELECT Id, ProcessInstance.TargetObjectId
+            FROM ProcessInstanceWorkitem
+            WHERE ProcessInstance.TargetObjectId IN :eventsWithNewSpeaker
+            AND ProcessInstance.ProcessDefinition.DeveloperName =
+                'OrganizerApprovalProcess'
+        ]) {
+            Approval.ProcessWorkitemRequest removalRequest =
+                new Approval.ProcessWorkitemRequest();
+
+            // L'approval Organizer devient obsolète après l'ajout du speaker.
+            removalRequest.setWorkitemId(workitem.Id);
+            removalRequest.setAction('Removed');
+            removalRequest.setComments(
+                'New speaker added. Event Team approval restarted.'
+            );
+
+            organizerRemovalRequests.add(removalRequest);
+        }
+
+        // Salesforce doit libérer l'Event avant sa nouvelle soumission.
+        if (!organizerRemovalRequests.isEmpty()) {
+            Approval.process(organizerRemovalRequests);
+        }
+
+        Set<Id> eventsWithPendingApproval = new Set<Id>();
+
+        // Vérifie qu'aucun autre process n'est encore actif après le retrait Organizer.
+        for (ProcessInstance processInstance : [
+            SELECT TargetObjectId
+            FROM ProcessInstance
+            WHERE TargetObjectId IN :eventsWithNewSpeaker
+            AND Status = 'Pending'
+        ]) {
+            eventsWithPendingApproval.add(processInstance.TargetObjectId);
+        }
+
+        List<Event__c> eventsToUpdate = new List<Event__c>();
+
+        // Restart Event Team approval only for fully approved Events.
+        for (Event__c eventRecord : [
+            SELECT Id, Status__c
+            FROM Event__c
+            WHERE Id IN :eventsWithNewSpeaker
+        ]) {
+            Boolean hasPendingApproval = eventsWithPendingApproval.contains(eventRecord.Id);
+            Boolean canRestartEventTeamApproval =
+                eventRecord.Status__c == customEventConstants.STATUS_FULLY_APPROVED ||
+                eventRecord.Status__c == customEventConstants.STATUS_WAITING_FOR_SPEAKER_APPROVALS ||
+                eventRecord.Status__c == customEventConstants.STATUS_PARTIALLY_APPROVED;
+
+            // Un nouveau speaker doit toujours repasser par Event Team
+            // si le cycle Event Team a déjà été validé.
+            if (!hasPendingApproval && canRestartEventTeamApproval) {
+                eventsToUpdate.add(new Event__c(
+                    Id = eventRecord.Id,
+                    Status__c = customEventConstants.STATUS_SUBMITTED_TO_EVENT_TEAM,
+                    // Le sujet et le cadre sont associés à cette resoumission Event Team.
+                    NotificationTitle__c = NotificationTitleGenerator.getUpdatedApprovalTitle(),
+                    NotificationDetails__c = NotificationTitleGenerator.buildSpeakerAddedDetails(null)
+                ));
+            }
+        }
+
+        if (!eventsToUpdate.isEmpty()) {
+            update eventsToUpdate;
+        }
+    }
+
 
     // Registers SSP modified sessions for the current transaction.
     public static void registerSspModificationSessions(
@@ -162,11 +306,23 @@ public without sharing class BooklyModificationsManagement {
         if (newMap == null || newMap.isEmpty()) return;
 
         Set<Id> impactedSessionIds = new Set<Id>();
+        List<SessionSpeakerProduct__c> sspsWithNewSpeaker = new List<SessionSpeakerProduct__c>();
+        List<SessionSpeakerProduct__c> oldSspsWithRemovedSpeaker = new List<SessionSpeakerProduct__c>();
         Map<String, List<SessionSpeakerProduct__c>> sspsByMessage = new Map<String, List<SessionSpeakerProduct__c>>();
 
         for (Id sspId : newMap.keySet()) {
             SessionSpeakerProduct__c newSsp = newMap.get(sspId);
             SessionSpeakerProduct__c oldSsp = oldMap == null ? null : oldMap.get(sspId);
+
+            // A speaker replacement follows the same approval restart as a new SSP speaker.
+            if (
+                newSsp != null &&
+                oldSsp != null &&
+                newSsp.SpeakerContact__c != oldSsp.SpeakerContact__c
+            ) {
+                sspsWithNewSpeaker.add(newSsp);
+                oldSspsWithRemovedSpeaker.add(oldSsp);
+            }
 
             // Strategy, speaker and timing changes can change the approval content.
             if (hasSpeakerApprovalImpact(newSsp, oldSsp)) {
@@ -176,173 +332,90 @@ public without sharing class BooklyModificationsManagement {
             }
         }
 
-        refreshWaitingSpeakerApprovals(impactedSessionIds);
+        resubmitEventTeamApprovalForNewSpeakers(sspsWithNewSpeaker);
+
+        // Relance d'abord précisément l'approval impactée par la modification du SSP.
+        // Un changement de Date__c remet ainsi l'approval Speaker à Submitted,
+        // même si elle était déjà Approved pendant WaitingForSpeakerApprovals.
         resubmitTargetedApprovalsForSspChanges(oldMap, newMap);
+
+        // Synchronise ensuite les autres approvals encore nécessaires sur l'Event.
+        refreshWaitingSpeakerApprovals(impactedSessionIds);
+
+        // Notifie l'ancien speaker uniquement s'il ne possède plus de SSP sur l'Event.
+        List<SessionSpeakerProduct__c> removedSpeakerSsps =
+            keepSpeakersNoLongerLinkedToEvent(oldSspsWithRemovedSpeaker);
+        if (!removedSpeakerSsps.isEmpty()) {
+            customEventNotificationManager.notifySpeakerDeleted(removedSpeakerSsps);
+        }
+
         sendSspModificationAlerts(sspsByMessage);
         OperationLogService.flush();
     }
 
-    // Synchronizes speaker approvals and sends an informative alert after a SessionSpeakerProduct__c delete.
+    // Synchronizes speaker approvals after a SessionSpeakerProduct__c delete.
     public static void handleSessionSpeakerProductDelete(List<SessionSpeakerProduct__c> oldSsps) {
         refreshWaitingSpeakerApprovals(collectSessionIds(oldSsps));
-        sendSpeakerDeletedAlerts(oldSsps);
-        OperationLogService.flush();
-    }
 
-    // Sends one informative email when a speaker is removed from an Event.
-    private static void sendSpeakerDeletedAlerts(List<SessionSpeakerProduct__c> oldSsps) {
-        if (oldSsps == null || oldSsps.isEmpty()) return;
+        // Un produit supprimé ne signifie pas forcément que le speaker quitte l'Event.
+        List<SessionSpeakerProduct__c> removedSpeakerSsps =
+            keepSpeakersNoLongerLinkedToEvent(oldSsps);
 
-        Map<Id, DeletedSpeakerAlertContext> contextByEventId = buildDeletedSpeakerAlertContext(oldSsps);
-        if (contextByEventId.isEmpty()) return;
-
-        for (Id eventId : contextByEventId.keySet()) {
-            DeletedSpeakerAlertContext context = contextByEventId.get(eventId);
-            Set<String> recipients = buildSpeakerDeletedRecipients(context);
-            String message = buildSpeakerDeletedMessage(context.speakerNames);
-
-            customEventNotificationManager.sendGenericBooklyNotification(
-                eventId,
-                recipients,
-                'Update on existing request',
-                message,
-                'BooklySpeakerDeletedNotificationSent',
-                context.sspIds
-            );
+        if (!removedSpeakerSsps.isEmpty()) {
+            customEventNotificationManager.notifySpeakerDeleted(removedSpeakerSsps);
         }
     }
 
-    // Container used to aggregate deleted SSP data per Event.
-    private class DeletedSpeakerAlertContext {
-        public Id eventId;
-        public Id organizerId;
-        public Set<Id> speakerIds = new Set<Id>();
-        public Set<Id> strategyIds = new Set<Id>();
-        public Set<String> speakerNames = new Set<String>();
-        public List<Id> sspIds = new List<Id>();
-    }
-
-    // Builds deleted speaker notification context from Trigger.old records.
-    private static Map<Id, DeletedSpeakerAlertContext> buildDeletedSpeakerAlertContext(
-        List<SessionSpeakerProduct__c> oldSsps
+    // Garde un SSP par speaker qui ne possède plus aucune ligne sur l'Event.
+    private static List<SessionSpeakerProduct__c> keepSpeakersNoLongerLinkedToEvent(
+        List<SessionSpeakerProduct__c> deletedSsps
     ) {
-        Map<Id, DeletedSpeakerAlertContext> contextByEventId = new Map<Id, DeletedSpeakerAlertContext>();
+        List<SessionSpeakerProduct__c> result = new List<SessionSpeakerProduct__c>();
+        if (deletedSsps == null || deletedSsps.isEmpty()) return result;
+
         Set<Id> eventIds = new Set<Id>();
         Set<Id> speakerIds = new Set<Id>();
 
-        for (SessionSpeakerProduct__c oldSsp : oldSsps) {
-            if (oldSsp == null || oldSsp.Session__c == null) continue;
+        // Collecte les couples Event/Speaker concernés par la suppression.
+        for (SessionSpeakerProduct__c deletedSsp : deletedSsps) {
+            if (deletedSsp == null || deletedSsp.Session__c == null || deletedSsp.SpeakerContact__c == null) continue;
 
-            eventIds.add(oldSsp.Session__c);
-            if (oldSsp.SpeakerContact__c != null) speakerIds.add(oldSsp.SpeakerContact__c);
+            eventIds.add(deletedSsp.Session__c);
+            speakerIds.add(deletedSsp.SpeakerContact__c);
         }
 
-        Map<Id, Event__c> eventsById = loadEventsForSpeakerDeletedAlert(eventIds);
-        Map<Id, Contact> speakersById = loadSpeakersForSpeakerDeletedAlert(speakerIds);
-
-        for (SessionSpeakerProduct__c oldSsp : oldSsps) {
-            if (oldSsp == null || oldSsp.Session__c == null) continue;
-
-            if (!contextByEventId.containsKey(oldSsp.Session__c)) {
-                DeletedSpeakerAlertContext context = new DeletedSpeakerAlertContext();
-                context.eventId = oldSsp.Session__c;
-
-                Event__c eventRecord = eventsById.get(oldSsp.Session__c);
-                context.organizerId = eventRecord == null ? null : eventRecord.Organizer__c;
-
-                contextByEventId.put(oldSsp.Session__c, context);
-            }
-
-            DeletedSpeakerAlertContext currentContext = contextByEventId.get(oldSsp.Session__c);
-            if (oldSsp.Id != null) currentContext.sspIds.add(oldSsp.Id);
-            if (oldSsp.Strategy__c != null) currentContext.strategyIds.add(oldSsp.Strategy__c);
-            if (oldSsp.SpeakerContact__c != null) currentContext.speakerIds.add(oldSsp.SpeakerContact__c);
-
-            Contact speaker = speakersById.get(oldSsp.SpeakerContact__c);
-            currentContext.speakerNames.add(
-                speaker == null || String.isBlank(speaker.Name)
-                    ? 'A speaker'
-                    : speaker.Name
-            );
-        }
-
-        return contextByEventId;
-    }
-
-    // Loads Events needed for organizer recipients.
-    private static Map<Id, Event__c> loadEventsForSpeakerDeletedAlert(Set<Id> eventIds) {
-        if (eventIds == null || eventIds.isEmpty()) return new Map<Id, Event__c>();
-
-        return new Map<Id, Event__c>([
-            SELECT Id, Organizer__c, Organizer__r.Email
-            FROM Event__c
-            WHERE Id IN :eventIds
-        ]);
-    }
-
-    // Loads speaker assistants needed for deleted speaker recipients.
-    private static Map<Id, Contact> loadSpeakersForSpeakerDeletedAlert(Set<Id> speakerIds) {
-        if (speakerIds == null || speakerIds.isEmpty()) return new Map<Id, Contact>();
-
-        return new Map<Id, Contact>([
-            SELECT Id, Name, SpeakerAssistant__c, SpeakerAssistant__r.Email
-            FROM Contact
-            WHERE Id IN :speakerIds
-        ]);
-    }
-
-    // Builds recipients: product team, organizer and removed speaker assistants.
-    private static Set<String> buildSpeakerDeletedRecipients(DeletedSpeakerAlertContext context) {
-        Set<String> recipients = new Set<String>();
-        if (context == null) return recipients;
-
-        recipients.addAll(
-            customEventNotificationManager.loadPresentationRecipientEmailsForStrategyIds(context.strategyIds)
-        );
-
-        if (context.organizerId != null) {
-            for (User organizer : [
-                SELECT Email
-                FROM User
-                WHERE Id = :context.organizerId
-                AND IsActive = true
-                AND Email != null
-                LIMIT 1
+        Set<String> remainingSpeakerKeys = new Set<String>();
+        if (!eventIds.isEmpty() && !speakerIds.isEmpty()) {
+            for (SessionSpeakerProduct__c remainingSsp : [
+                SELECT Session__c, SpeakerContact__c
+                FROM SessionSpeakerProduct__c
+                WHERE Session__c IN :eventIds
+                AND SpeakerContact__c IN :speakerIds
             ]) {
-                recipients.add(organizer.Email.trim());
+                remainingSpeakerKeys.add(buildEventSpeakerKey(
+                    remainingSsp.Session__c,
+                    remainingSsp.SpeakerContact__c
+                ));
             }
         }
 
-        if (!context.speakerIds.isEmpty()) {
-            for (Contact speaker : [
-                SELECT SpeakerAssistant__r.Email
-                FROM Contact
-                WHERE Id IN :context.speakerIds
-                AND SpeakerAssistant__c != null
-            ]) {
-                if (speaker.SpeakerAssistant__r != null && !String.isBlank(speaker.SpeakerAssistant__r.Email)) {
-                    recipients.add(speaker.SpeakerAssistant__r.Email.trim());
-                }
-            }
+        Set<String> processedSpeakerKeys = new Set<String>();
+        for (SessionSpeakerProduct__c deletedSsp : deletedSsps) {
+            if (deletedSsp == null || deletedSsp.Session__c == null || deletedSsp.SpeakerContact__c == null) continue;
+
+            String speakerKey = buildEventSpeakerKey(deletedSsp.Session__c, deletedSsp.SpeakerContact__c);
+            if (remainingSpeakerKeys.contains(speakerKey) || processedSpeakerKeys.contains(speakerKey)) continue;
+
+            processedSpeakerKeys.add(speakerKey);
+            result.add(deletedSsp);
         }
 
-        return recipients;
+        return result;
     }
 
-    // Builds the informative speaker deletion message.
-    private static String buildSpeakerDeletedMessage(Set<String> speakerNames) {
-        if (speakerNames == null || speakerNames.isEmpty()) {
-            return 'A speaker has been removed from the request.';
-        }
-
-        List<String> names = new List<String>(speakerNames);
-        names.sort();
-
-        if (names.size() == 1) {
-            return names[0] + ' has been removed from the request.';
-        }
-
-        return 'The following speakers have been removed from the request: ' + String.join(names, ', ') + '.';
+    // Construit une clé stable pour identifier un speaker sur un Event.
+    private static String buildEventSpeakerKey(Id eventId, Id speakerId) {
+        return String.valueOf(eventId) + '-' + String.valueOf(speakerId);
     }
 
     // Checks whether an Event__c change must invalidate approval email links.
@@ -612,14 +685,25 @@ public without sharing class BooklyModificationsManagement {
                 continue;
             }
 
-            // Timing/date changes require Speaker Assistant approval.
-            if (hasSpeakingTimeChange(newSsp, oldSsp) || hasSpeakingDateChange(newSsp, oldSsp)) {
+            // A changed speech date requires a Speaker Assistant approval.
+            if (hasSpeakingDateChange(newSsp, oldSsp)) {
                 addTargetedApprovalRequest(
                     requestsByKey,
                     newSsp,
                     APPROVAL_TYPE_SPEAKER,
                     SPEAKER_APPROVAL_PROCESS_DEVNAME,
-                    'Speaker approval resubmitted because the speech timing/date changed.'
+                    'Speaker approval resubmitted because the speech date changed.',
+                    'SPEAKER_DATE_CHANGED'
+                );
+            // A changed speech time requires the same approval with its own title.
+            } else if (hasSpeakingTimeChange(newSsp, oldSsp)) {
+                addTargetedApprovalRequest(
+                    requestsByKey,
+                    newSsp,
+                    APPROVAL_TYPE_SPEAKER,
+                    SPEAKER_APPROVAL_PROCESS_DEVNAME,
+                    'Speaker approval resubmitted because the speech timing changed.',
+                    'SPEAKER_TIME_CHANGED'
                 );
             }
 
@@ -630,7 +714,8 @@ public without sharing class BooklyModificationsManagement {
                     newSsp,
                     APPROVAL_TYPE_HOP,
                     HOP_APPROVAL_PROCESS_DEVNAME,
-                    'HOP approval resubmitted because the speech strategy changed.'
+                    'HOP approval resubmitted because the speech strategy changed.',
+                    'STRATEGY_CHANGED'
                 );
             }
         }
@@ -645,18 +730,52 @@ public without sharing class BooklyModificationsManagement {
         Map<String, TargetedApprovalRequest> requestsByKey = new Map<String, TargetedApprovalRequest>();
         if (newSsps == null || newSsps.isEmpty()) return requestsByKey;
 
+        Set<Id> insertedSspIds = new Set<Id>();
+        Set<Id> eventIds = new Set<Id>();
+        Set<Id> speakerIds = new Set<Id>();
+
+        // Prépare les clés nécessaires pour vérifier les speakers déjà liés à l'Event.
+        for (SessionSpeakerProduct__c newSsp : newSsps) {
+            if (newSsp == null || newSsp.Session__c == null || newSsp.SpeakerContact__c == null) continue;
+
+            insertedSspIds.add(newSsp.Id);
+            eventIds.add(newSsp.Session__c);
+            speakerIds.add(newSsp.SpeakerContact__c);
+        }
+
+        Set<String> existingSpeakerKeys = new Set<String>();
+        if (!eventIds.isEmpty() && !speakerIds.isEmpty()) {
+            for (SessionSpeakerProduct__c existingSsp : [
+                SELECT Session__c, SpeakerContact__c
+                FROM SessionSpeakerProduct__c
+                WHERE Session__c IN :eventIds
+                AND SpeakerContact__c IN :speakerIds
+                AND Id NOT IN :insertedSspIds
+            ]) {
+                existingSpeakerKeys.add(
+                    String.valueOf(existingSsp.Session__c) + '-' + String.valueOf(existingSsp.SpeakerContact__c)
+                );
+            }
+        }
+
         for (SessionSpeakerProduct__c newSsp : newSsps) {
             if (newSsp == null || newSsp.Session__c == null || newSsp.SpeakerContact__c == null) {
                 continue;
             }
 
-            // A new SSP means a new product/strategy was added for this speaker.
+            String speakerKey = String.valueOf(newSsp.Session__c) + '-' + String.valueOf(newSsp.SpeakerContact__c);
+            Boolean speakerAlreadyOnEvent = existingSpeakerKeys.contains(speakerKey);
+
+            // Un produit ajouté à un speaker existant est une modification de stratégie.
             addTargetedApprovalRequest(
                 requestsByKey,
                 newSsp,
                 APPROVAL_TYPE_HOP,
                 HOP_APPROVAL_PROCESS_DEVNAME,
-                'HOP approval resubmitted because a new speech product was added.'
+                speakerAlreadyOnEvent
+                    ? 'HOP approval resubmitted because the speech strategy changed.'
+                    : 'HOP approval resubmitted because a new speaker was added.',
+                speakerAlreadyOnEvent ? 'STRATEGY_CHANGED' : 'SPEAKER_ADDED'
             );
         }
 
@@ -669,7 +788,8 @@ public without sharing class BooklyModificationsManagement {
         SessionSpeakerProduct__c ssp,
         String approvalType,
         String processDeveloperName,
-        String reason
+        String reason,
+        String notificationReason
     ) {
         if (requestsByKey == null || ssp == null || String.isBlank(approvalType)) return;
 
@@ -681,6 +801,7 @@ public without sharing class BooklyModificationsManagement {
         request.approvalType = approvalType;
         request.processDeveloperName = processDeveloperName;
         request.reason = reason;
+        request.notificationReason = notificationReason;
 
         requestsByKey.put(key, request);
     }
@@ -811,6 +932,12 @@ public without sharing class BooklyModificationsManagement {
         approvalRecord.ApproverUser__c = request.approvalType == APPROVAL_TYPE_SPEAKER
             ? ssp.SpeakerContact__r.SpeakerAssistant__c
             : null;
+        // Le sujet et le cadre sont stockés sur la cible Speaker ou HOP.
+        approvalRecord.NotificationTitle__c = NotificationTitleGenerator.getUpdatedApprovalTitle();
+        approvalRecord.NotificationDetails__c = NotificationTitleGenerator.buildTargetedApprovalDetails(
+            request.notificationReason,
+            ssp.SpeakerContact__r == null ? 'the speaker' : ssp.SpeakerContact__r.Name
+        );
 
         return approvalRecord;
     }
@@ -1022,15 +1149,16 @@ public without sharing class BooklyModificationsManagement {
             || newSsp.EndTime__c != oldSsp.EndTime__c;
     }
 
-    // Detects optional speaking date fields without creating a hard metadata dependency.
+    // Détecte uniquement un changement de date du créneau speaker.
     private static Boolean hasSpeakingDateChange(
         SessionSpeakerProduct__c newSsp,
         SessionSpeakerProduct__c oldSsp
     ) {
-        return hasDynamicFieldChanged(newSsp, oldSsp, 'StartDate__c')
-            || hasDynamicFieldChanged(newSsp, oldSsp, 'EndDate__c')
-            || hasDynamicFieldChanged(newSsp, oldSsp, 'startDate__c')
-            || hasDynamicFieldChanged(newSsp, oldSsp, 'endDate__c');
+        if (newSsp == null || oldSsp == null) {
+            return false;
+        }
+
+        return newSsp.Date__c != oldSsp.Date__c;
     }
 
     // Compares optional fields only when they exist on SessionSpeakerProduct__c.

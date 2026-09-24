@@ -31,6 +31,13 @@ public without sharing class customEventHandler implements ITriggerHandler {
         customEventService.setDigitalLocation(newEventsToProcess.values(), oldEventsToProcess);
         customEventService.updateName(oldEventsToProcess, newEventsToProcess);
         customEventService.copyCompanyBillingAddressToEvent(newEventsToProcess.values(), oldEventsToProcess);
+
+        // Keep the Event waiting when a new Organizer approval is required
+        customEventService.setWaitingForOrganizerApproval(
+            newEventsToProcess.values(),
+            oldEventsToProcess
+        );
+
         customEventSpeakerApprovalService.prepareSpeakerHTMLforNotifications(newEventsToProcess, oldEventsToProcess);    
         customEventSpeakerApprovalService.markEventFullyApprovedIfNoSSP(newEventsToProcess, oldEventsToProcess);
         EventSpeakerApprovalsService.triggerRollupFromEventBeforeUpdate(newEventsToProcess, oldEventsToProcess);
@@ -38,6 +45,13 @@ public without sharing class customEventHandler implements ITriggerHandler {
         // That later update lets us rebuild the final event Name and then move the record
         // from Draft to SubmittedToEventTeam. The actual Approval.process call is done in after update.
         customEventService.setReadyForApprovalProcess(newEventsToProcess.values(), oldEventsToProcess);
+
+        // Prépare le titre avant la soumission des approbations Event dans AfterUpdate.
+        NotificationTitleGenerator.setEventNotificationTitles(
+            newEventsToProcess.values(),
+            oldEventsToProcess
+        );
+
         BooklyModificationsManagement.refreshApprovalStateIdsOnEventChange(
             newEventsToProcess.values(),
             oldEventsToProcess
@@ -72,6 +86,13 @@ public without sharing class customEventHandler implements ITriggerHandler {
         if (newEventsToProcess.isEmpty()) return;
 
         customEventSpeakerApprovalService.createOrUpdateSpeakerApprovals(newEventsToProcess, oldEventsToProcess);
+
+        // A City/Country change invalidates every previous Speaker Assistant decision.
+        customEventSpeakerApprovalService.restartSpeakerApprovalsForLocationChange(
+            newEventsToProcess.values(),
+            oldEventsToProcess
+        );
+
         sessionSpeakerProductService.requestRequiredPresentationsForWaitingEvents(newEventsToProcess, oldEventsToProcess);
         // Send approval notification email if status changes to SubmittedToEventTeam
         //customEventNotificationService.manageNotifications(newEventsToProcess, oldEventsToProcess);

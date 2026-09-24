@@ -70,7 +70,7 @@ public without sharing class sessionSpeakerProductHandler implements ITriggerHan
         );
 
         if (newSspsToProcess.isEmpty()) return;
- 
+
         BooklyModificationsManagement.registerSspModificationSessions(
             oldSspsToProcess,
             newSspsToProcess
@@ -86,6 +86,18 @@ public without sharing class sessionSpeakerProductHandler implements ITriggerHan
             BooklyModificationsManagement.handleSessionSpeakerProductUpdate(
                 oldSspsToProcess,
                 newSspsToProcess
+            );
+
+            // Redemande l'approbation de l'organisateur après un changement de créneau SSP
+            customEventService.submitOrganizerApprovalFromSSPChanges(
+                newSspsToProcess,
+                oldSspsToProcess
+            );
+
+            // Met à jour Outlook si le créneau d'un speaker a changé.
+            BooklyMeetingInvitationService.enqueueInvitationUpdatesOnSspChange(
+                newSspsToProcess,
+                oldSspsToProcess
             );
         } finally {
             BooklyModificationsManagement.isSspModificationNotificationRunning = false;

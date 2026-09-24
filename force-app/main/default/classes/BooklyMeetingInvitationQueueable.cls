@@ -19,14 +19,29 @@ public without sharing class BooklyMeetingInvitationQueueable
 
     private final Set<Id> eventIds;
     private final Boolean isUpdate;
+    private final Map<Id, String> messagesByEventId;
     
+    // Crée un traitement d'envoi initial sans message spécifique.
     public BooklyMeetingInvitationQueueable(Set<Id> eventIds) {
-        this(eventIds, false);
+        this(eventIds, false, null);
     }
 
+    // Crée un traitement de mise à jour sans message spécifique.
     public BooklyMeetingInvitationQueueable(Set<Id> eventIds, Boolean isUpdate) {
+        this(eventIds, isUpdate, null);
+    }
+
+    // Crée un traitement avec un message spécifique par Event.
+    public BooklyMeetingInvitationQueueable(
+        Set<Id> eventIds,
+        Boolean isUpdate,
+        Map<Id, String> messagesByEventId
+    ) {
         this.eventIds = eventIds == null ? new Set<Id>() : new Set<Id>(eventIds);
         this.isUpdate = isUpdate == true;
+        this.messagesByEventId = messagesByEventId == null
+            ? new Map<Id, String>()
+            : new Map<Id, String>(messagesByEventId);
     }
 
     public void execute(QueueableContext context) {
@@ -87,6 +102,11 @@ public without sharing class BooklyMeetingInvitationQueueable
                     templateId,
                     speakerInitialsByEventId.get(eventId)
                 );
+
+            // Ajoute le détail des créneaux speakers modifiés.
+            if (messagesByEventId.containsKey(eventId)) {
+                request.message = messagesByEventId.get(eventId);
+            }
 
             System.debug(
                 LoggingLevel.INFO,
@@ -542,8 +562,8 @@ public without sharing class BooklyMeetingInvitationQueueable
 
         if (hasTopSpeakerByEventId.get(eventRecord.Id) == true) {
             addNotificationConfigParticipants(eventRecord, META_COMMUNICATION, participantsByEventId, emailsByEventId);
-            addNotificationConfigParticipants(eventRecord, META_LOCAL_MARKETING_EVENT_TEAM, participantsByEventId, emailsByEventId);
         }
+        addNotificationConfigParticipants(eventRecord, META_LOCAL_MARKETING_EVENT_TEAM, participantsByEventId, emailsByEventId);
 
         // addCRMParticipants(eventRecord, participantsByEventId, emailsByEventId);
     }

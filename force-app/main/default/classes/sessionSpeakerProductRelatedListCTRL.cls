@@ -48,7 +48,7 @@ public without sharing class sessionSpeakerProductRelatedListCTRL {
 
             FROM sessionSpeakerProduct__c
             WHERE Session__c = :eventId
-            ORDER BY sessionNumber__c ASC
+            ORDER BY Date__c ASC, startTime__c ASC
             LIMIT 5000
         ];
 
