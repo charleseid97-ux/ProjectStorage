@@ -242,80 +242,222 @@ public without sharing class customEventService {
             }
         }
     }
-    // AFTER INSERT: submit approval + send notification
+    // AFTER UPDATE: submits the Event to Event Team approval when its status changes.
     public static void startEventTeamApprovalAfterUpdate(List<Event__c> events,Map<Id, Event__c> oldMap) {
         
 
-        if (events == null || events.isEmpty()) return;
+        if (events == null || events.isEmpty() || oldMap == null) return;
 
+        Set<Id> eventIdsToSubmit = new Set<Id>();
 
+        // Keep only Events that have just entered SubmittedToEventTeam.
         for (Event__c evt : events) {
-            if (evt != null && evt.Id != null && evt.Status__c == 'SubmittedToEventTeam' && oldMap.get(evt.Id).Status__c != 'SubmittedToEventTeam' ) {
-                Approval.ProcessSubmitRequest req = new Approval.ProcessSubmitRequest();
-                req.setObjectId(evt.Id);
-                req.setProcessDefinitionNameOrId('EventApprovalProcess');
-                Approval.process(req);
+            if (
+                evt != null &&
+                evt.Id != null &&
+                evt.Status__c == 'SubmittedToEventTeam' &&
+                oldMap.get(evt.Id).Status__c != 'SubmittedToEventTeam'
+            ) {
+                eventIdsToSubmit.add(evt.Id);
             }
+        }
+
+        if (eventIdsToSubmit.isEmpty()) return;
+
+        Set<Id> eventsAlreadyInEventTeamApproval = new Set<Id>();
+        List<Approval.ProcessWorkitemRequest> organizerRemovalRequests =
+            new List<Approval.ProcessWorkitemRequest>();
+
+        // Detect an Event Team process already running and remove obsolete Organizer approvals.
+        for (ProcessInstanceWorkitem workitem : [
+            SELECT Id,
+                   ProcessInstance.TargetObjectId,
+                   ProcessInstance.ProcessDefinition.DeveloperName
+            FROM ProcessInstanceWorkitem
+            WHERE ProcessInstance.TargetObjectId IN :eventIdsToSubmit
+        ]) {
+            String processName =
+                workitem.ProcessInstance.ProcessDefinition.DeveloperName;
+
+            // Never submit the same Event Team approval twice.
+            if (processName == 'EventApprovalProcess') {
+                eventsAlreadyInEventTeamApproval.add(
+                    workitem.ProcessInstance.TargetObjectId
+                );
+                continue;
+            }
+
+            // Organizer approval cannot remain active when returning to Event Team.
+            if (processName == 'OrganizerApprovalProcess') {
+                Approval.ProcessWorkitemRequest removalRequest =
+                    new Approval.ProcessWorkitemRequest();
+
+                removalRequest.setWorkitemId(workitem.Id);
+                removalRequest.setAction('Removed');
+                removalRequest.setComments(
+                    'Event returned to Event Team approval.'
+                );
+
+                organizerRemovalRequests.add(removalRequest);
+            }
+        }
+
+        // Free the Event before starting the Event Team approval.
+        if (!organizerRemovalRequests.isEmpty()) {
+            Approval.process(organizerRemovalRequests);
+        }
+
+        for (Id eventId : eventIdsToSubmit) {
+            if (eventsAlreadyInEventTeamApproval.contains(eventId)) continue;
+
+            // Submit exactly one Event Team approval.
+            Approval.ProcessSubmitRequest req = new Approval.ProcessSubmitRequest();
+            req.setObjectId(eventId);
+            req.setProcessDefinitionNameOrId('EventApprovalProcess');
+            Approval.process(req);
         }
     }
     // ---------------------------
     // Campaign creation from Event__c
     // ---------------------------
 
-    // Create Campaigns when Event.Status__c transitions to 'FullyApproved'
-    public static void createCampaign(List<Event__c> newEvents, Map<Id, Event__c> oldMap) {
-        system.debug('====createCampaign====='+ newEvents );
+    // Crée ou synchronise la Campaign liée à l'Event.
+    public static void createCampaign(
+        List<Event__c> newEvents,
+        Map<Id, Event__c> oldMap
+    ) {
+        if (newEvents == null || newEvents.isEmpty()) {
+            return;
+        }
 
-        if (newEvents == null || newEvents.isEmpty()) return;
-
-        List<Event__c> eligibleEvents = detectBecameFullyApproved(newEvents, oldMap);
-        if (eligibleEvents.isEmpty()) return;
-
-        List<Campaign> campaignsToInsert = new List<Campaign>();
-        Map<Id, Campaign> eventIdToCampaign = new Map<Id, Campaign>();
-        List<Event__c> eventsWithCreatedCampaign = new List<Event__c>();
         Id eventRecordTypeId = Schema.SObjectType.Event__c
-        .getRecordTypeInfosByDeveloperName()
-        .get('event')
-        .getRecordTypeId();
-        for (Event__c e : eligibleEvents) {
-            system.debug('=eventRecordTypeId========'+ eventRecordTypeId );
-            system.debug('=e.RecordTypeId========'+ e.RecordTypeId );
-            if (e.RecordTypeId != eventRecordTypeId) {
-                system.debug('=====pas Event====' );
+            .getRecordTypeInfosByDeveloperName()
+            .get('event')
+            .getRecordTypeId();
 
+        List<Campaign> campaignsToUpsert = new List<Campaign>();
+        Map<Id, Campaign> newCampaignByEventId = new Map<Id, Campaign>();
+        List<Event__c> eventsWithCreatedCampaign = new List<Event__c>();
+
+        // Traite uniquement les Events pouvant être liés à une Campaign.
+        for (Event__c newEvent : newEvents) {
+            if (
+                newEvent == null ||
+                newEvent.Id == null ||
+                newEvent.RecordTypeId != eventRecordTypeId
+            ) {
                 continue;
             }
-            system.debug('===event======' );
 
-            Campaign c = buildCampaignFromEvent(e);
-            campaignsToInsert.add(c);
-            eventIdToCampaign.put(e.Id, c);
-            eventsWithCreatedCampaign.add(e);
-        }
-        System.debug('[customEventService.createCampaign] Inserting ' + campaignsToInsert );
-        if (campaignsToInsert.isEmpty()) return;
-        insert campaignsToInsert;
+            Event__c oldEvent =
+                oldMap == null ? null : oldMap.get(newEvent.Id);
 
-        // Link created campaigns back on events
-        linkCampaignsToEvents(eventIdToCampaign, eligibleEvents);
-
-         // Notify organizer + sales team after campaign creation
-        customEventNotificationManager.notifyCampaignCreated(eventsWithCreatedCampaign);
-    }
-
-    // Detect transition to FullyApproved and avoid duplicates
-    private static List<Event__c> detectBecameFullyApproved(List<Event__c> newEvents, Map<Id, Event__c> oldMap) {
-        List<Event__c> out = new List<Event__c>();
-        for (Event__c e : newEvents) {
-            if (e == null) continue;
-            Event__c oldE = (oldMap != null) ? oldMap.get(e.Id) : null;
             Boolean becameFullyApproved =
-                e.Status__c == 'FullyApproved' &&
-                (oldE == null || oldE.Status__c != 'FullyApproved');
-            if (becameFullyApproved && e.Campaign__c == null) out.add(e);
+                newEvent.Status__c == 'FullyApproved' &&
+                (
+                    oldEvent == null ||
+                    oldEvent.Status__c != 'FullyApproved'
+                );
+
+            Boolean mappedFieldChanged =
+                oldEvent != null &&
+                hasCampaignMappedFieldChanged(newEvent, oldEvent);
+
+            Boolean leftFullyApproved =
+                oldEvent != null &&
+                oldEvent.Status__c == 'FullyApproved' &&
+                newEvent.Status__c != 'FullyApproved';
+
+            // Détecte le passage explicite de l'Event au statut Cancelled.
+            Boolean becameCancelled =
+                newEvent.Status__c == 'Cancelled' &&
+                (
+                    oldEvent == null ||
+                    oldEvent.Status__c != 'Cancelled'
+                );
+
+            // Crée la Campaign uniquement lors de la première validation.
+            if (newEvent.Campaign__c == null) {
+                if (!becameFullyApproved) {
+                    continue;
+                }
+
+                Campaign campaignRecord = buildCampaignFromEvent(newEvent);
+                campaignsToUpsert.add(campaignRecord);
+                newCampaignByEventId.put(newEvent.Id, campaignRecord);
+                eventsWithCreatedCampaign.add(newEvent);
+                continue;
+            }
+
+            // Synchronise la Campaign lors d'une modification utile de l'Event.
+            if (
+                !mappedFieldChanged &&
+                !becameFullyApproved &&
+                !leftFullyApproved &&
+                !becameCancelled
+            ) {
+                continue;
+            }
+
+            // Reconstruit toutes les valeurs mappées de la Campaign existante.
+            Campaign campaignRecord = buildCampaignFromEvent(newEvent);
+            campaignRecord.Id = newEvent.Campaign__c;
+            // Aligne le statut Campaign sur le cycle de vie de l'Event.
+            campaignRecord.Status =
+                newEvent.Status__c == 'Cancelled'
+                    ? 'Cancelled'
+                    : newEvent.Status__c == 'FullyApproved'
+                        ? 'Event Validated'
+                        : 'BooklyRevalidationRequired';
+
+            campaignsToUpsert.add(campaignRecord);
         }
-        return out;
+
+        if (campaignsToUpsert.isEmpty()) {
+            return;
+        }
+
+        // L'Id provoque un update ; son absence provoque un insert.
+        upsert campaignsToUpsert;
+
+        // Lie uniquement les nouvelles Campaigns à leur Event.
+        if (!newCampaignByEventId.isEmpty()) {
+            linkCampaignsToEvents(
+                newCampaignByEventId,
+                eventsWithCreatedCampaign
+            );
+
+            customEventNotificationManager.notifyCampaignCreated(
+                eventsWithCreatedCampaign
+            );
+        }
+    }
+    // Détecte chaque nouveau passage à FullyApproved.
+    @TestVisible
+    private static List<Event__c> detectBecameFullyApproved(
+        List<Event__c> newEvents,
+        Map<Id, Event__c> oldMap
+    ) {
+        List<Event__c> eligibleEvents = new List<Event__c>();
+
+        for (Event__c eventRecord : newEvents) {
+            if (eventRecord == null) {
+                continue;
+            }
+
+            Event__c oldEvent =
+                oldMap != null ? oldMap.get(eventRecord.Id) : null;
+
+            Boolean becameFullyApproved =
+                eventRecord.Status__c == 'FullyApproved' &&
+                (oldEvent == null || oldEvent.Status__c != 'FullyApproved');
+
+            if (becameFullyApproved) {
+                eligibleEvents.add(eventRecord);
+            }
+        }
+
+        return eligibleEvents;
     }
 
     // Build a Campaign record from an Event__c
@@ -576,9 +718,88 @@ public without sharing class customEventService {
         }
     }
 
-    // Submit organizer approval when required and status transitions correctly
+    // Set the Event status according to the required Organizer approval
+    public static void setWaitingForOrganizerApproval(
+    List<Event__c> newEvents,
+    Map<Id, Event__c> oldMap
+) {
+    if (newEvents == null || newEvents.isEmpty() || oldMap == null) return;
+
+    Id currentUserId = UserInfo.getUserId();
+    Set<Id> eventsModifiedByOrganizer = new Set<Id>();
+
+    for (Event__c ev : newEvents) {
+        if (ev == null || ev.Id == null) continue;
+
+        Event__c oldEv = oldMap.get(ev.Id);
+        if (oldEv == null) continue;
+
+        // Detect a location change requiring new Organizer and Speaker approvals.
+        Boolean locationChanged =
+            ev.City__c != oldEv.City__c ||
+            ev.Country__c != oldEv.Country__c;
+
+        // Detect modifications requiring a refreshed Organizer decision.
+        Boolean relevantModification =
+            ev.Organizer__c != oldEv.Organizer__c ||
+            ev.StartDate__c != oldEv.StartDate__c ||
+            ev.EndDate__c != oldEv.EndDate__c ||
+            ev.StartTime__c != oldEv.StartTime__c ||
+            ev.EndTime__c != oldEv.EndTime__c ||
+            locationChanged;
+
+        if (!relevantModification) continue;
+
+        // Tant que l'Event Team n'a pas encore terminé son approval,
+        // une modification ne doit jamais faire passer l'Event à FullyApproved.
+        if (
+            oldEv.Status__c == customEventConstants.STATUS_SUBMITTED_TO_EVENT_TEAM
+        ) {
+            ev.Status__c =
+                customEventConstants.STATUS_SUBMITTED_TO_EVENT_TEAM;
+
+            continue;
+        }
+
+        // Request Organizer approval only when the modification was made by another user.
+        if (ev.Organizer__c != currentUserId) {
+            ev.OrganizerDecision__c = null;
+            ev.Status__c =
+                customEventConstants.STATUS_WAITING_FOR_SPEAKER_APPROVALS;
+            continue;
+        }
+
+        // The current Organizer made the change:
+        // only speaker approvals remain.
+        eventsModifiedByOrganizer.add(ev.Id);
+    }
+
+    if (eventsModifiedByOrganizer.isEmpty()) return;
+
+    Map<Id, String> statusesByEvent =
+        customEventSpeakerApprovalService.calculateEventStatusFromApprovals(
+            eventsModifiedByOrganizer
+        );
+
+    for (Event__c ev : newEvents) {
+        if (!eventsModifiedByOrganizer.contains(ev.Id)) continue;
+
+        String calculatedStatus = statusesByEvent.get(ev.Id);
+
+        ev.Status__c =
+            calculatedStatus == null
+                ? customEventConstants.STATUS_FULLY_APPROVED
+                : calculatedStatus;
+    }
+}
+
+    // Submit or restart organizer approval when required
     public static void submitOrganizerApproval(List<Event__c> newEvents, Map<Id, Event__c> oldMap) {
         if (newEvents == null || newEvents.isEmpty() || oldMap == null) return;
+
+        Set<Id> eventsToSubmit = new Set<Id>();
+        Set<Id> eventsToRestart = new Set<Id>();
+        Id currentUserId = UserInfo.getUserId();
 
         for (Event__c ev : newEvents) {
             if (ev == null || ev.Id == null) continue;
@@ -586,18 +807,255 @@ public without sharing class customEventService {
             Event__c oldEv = oldMap.get(ev.Id);
             if (oldEv == null) continue;
 
-            // Check transition: SubmittedToEventTeam -> WaitingForSpeakerApprovals
-            Boolean correctStatusTransition =
+            // Initial request remains controlled by the formula
+            Boolean initialOrganizerApproval =
                 oldEv.Status__c == 'SubmittedToEventTeam' &&
-                ev.Status__c == 'WaitingForSpeakerApprovals';
+                ev.Status__c == 'WaitingForSpeakerApprovals' &&
+                ev.OrganizerApprovalRequired__c == true;
 
-            // Submit only if organizer approval is required
-            if (correctStatusTransition && ev.OrganizerApprovalRequired__c == true) {
-                Approval.ProcessSubmitRequest req = new Approval.ProcessSubmitRequest();
-                req.setObjectId(ev.Id);
-                req.setProcessDefinitionNameOrId('OrganizerApprovalProcess');
-                Approval.process(req);
+            // Detect modifications requiring a refreshed approval
+            Boolean organizerChanged =
+                ev.Organizer__c != oldEv.Organizer__c;
+
+            Boolean schedulingChanged =
+                ev.StartDate__c != oldEv.StartDate__c ||
+                ev.EndDate__c != oldEv.EndDate__c ||
+                ev.StartTime__c != oldEv.StartTime__c ||
+                ev.EndTime__c != oldEv.EndTime__c;
+            // Location changes require a new approval only after the initial Event Team cycle.
+            Boolean locationChanged =
+                ev.City__c != oldEv.City__c ||
+                ev.Country__c != oldEv.Country__c;
+
+            // Restrict modification restarts to Events already in the approval lifecycle.
+            Boolean canRestartApproval =
+                oldEv.Status__c == customEventConstants.STATUS_FULLY_APPROVED ||
+                oldEv.Status__c == customEventConstants.STATUS_WAITING_FOR_SPEAKER_APPROVALS ||
+                oldEv.Status__c == customEventConstants.STATUS_PARTIALLY_APPROVED;
+
+            Boolean relevantModification =
+                canRestartApproval &&
+                (organizerChanged || schedulingChanged || locationChanged);
+
+            // Remove any existing approval based on obsolete values
+            if (relevantModification) {
+                eventsToRestart.add(ev.Id);
             }
+            // Bypass Organizer approval when the current Organizer made the modification.
+            if (
+                initialOrganizerApproval ||
+                (
+                    relevantModification &&
+                    ev.Organizer__c != currentUserId
+                )
+            ) {
+                eventsToSubmit.add(ev.Id);
+            }
+        }
+
+        if (eventsToRestart.isEmpty() && eventsToSubmit.isEmpty()) return;
+
+        List<Approval.ProcessWorkitemRequest> removalRequests =
+            new List<Approval.ProcessWorkitemRequest>();
+
+        // Find pending organizer approvals that must be restarted
+        if (!eventsToRestart.isEmpty()) {
+            for (ProcessInstanceWorkitem workitem : [
+                SELECT Id, ProcessInstance.TargetObjectId
+                FROM ProcessInstanceWorkitem
+                WHERE ProcessInstance.TargetObjectId IN :eventsToRestart
+                AND ProcessInstance.ProcessDefinition.DeveloperName =
+                    'OrganizerApprovalProcess'
+            ]) {
+                Approval.ProcessWorkitemRequest removalRequest =
+                    new Approval.ProcessWorkitemRequest();
+
+                removalRequest.setWorkitemId(workitem.Id);
+                removalRequest.setAction('Removed');
+                removalRequest.setComments(
+                    'Event modified. Organizer approval restarted.'
+                );
+
+                removalRequests.add(removalRequest);
+            }
+        }
+
+        // Remove requests containing obsolete organizer or schedule values
+        if (!removalRequests.isEmpty()) {
+            Approval.process(removalRequests);
+        }
+
+        Set<Id> eventsStillPending = new Set<Id>();
+
+        // Prevent duplicate submissions when an approval is still pending
+        if (!eventsToSubmit.isEmpty()) {
+            for (ProcessInstance processInstance : [
+                SELECT TargetObjectId
+                FROM ProcessInstance
+                WHERE TargetObjectId IN :eventsToSubmit
+                AND Status = 'Pending'
+                AND ProcessDefinition.DeveloperName =
+                    'OrganizerApprovalProcess'
+            ]) {
+                eventsStillPending.add(processInstance.TargetObjectId);
+            }
+        }
+
+        List<Approval.ProcessRequest> submissionRequests =
+            new List<Approval.ProcessRequest>();
+
+        // Keep Event records available to retrieve the authorized submitter.
+        Map<Id, Event__c> eventsById =
+            new Map<Id, Event__c>(newEvents);
+
+        for (Id eventId : eventsToSubmit) {
+            if (eventsStillPending.contains(eventId)) continue;
+
+            // Submit the Organizer approval using the Event owner.
+            Approval.ProcessSubmitRequest submissionRequest =
+                new Approval.ProcessSubmitRequest();
+
+            submissionRequest.setObjectId(eventId);
+            submissionRequest.setSubmitterId(
+                eventsById.get(eventId).OwnerId
+            );
+            submissionRequest.setProcessDefinitionNameOrId(
+                'OrganizerApprovalProcess'
+            );
+            submissionRequest.setSkipEntryCriteria(true);
+
+            submissionRequests.add(submissionRequest);
+        }
+
+        // Submit only approvals requiring another Organizer
+        if (!submissionRequests.isEmpty()) {
+            Approval.process(submissionRequests);
+        }
+    }
+
+    // Submit organizer approval when an SSP date or time is modified
+    public static void submitOrganizerApprovalFromSSPChanges(
+        Map<Id, SessionSpeakerProduct__c> newSsps,
+        Map<Id, SessionSpeakerProduct__c> oldSsps
+    ) {
+        if (newSsps == null || newSsps.isEmpty() || oldSsps == null) return;
+
+        Set<Id> changedEventIds = new Set<Id>();
+
+        for (SessionSpeakerProduct__c newSsp : newSsps.values()) {
+            if (newSsp == null || newSsp.Id == null) continue;
+
+            SessionSpeakerProduct__c oldSsp = oldSsps.get(newSsp.Id);
+            if (oldSsp == null || newSsp.Session__c == null) continue;
+
+            // Detect only SSP scheduling modifications
+            Boolean schedulingChanged =
+                newSsp.Date__c != oldSsp.Date__c ||
+                newSsp.StartTime__c != oldSsp.StartTime__c ||
+                newSsp.EndTime__c != oldSsp.EndTime__c;
+
+            if (schedulingChanged) {
+                changedEventIds.add(newSsp.Session__c);
+            }
+        }
+
+        if (changedEventIds.isEmpty()) return;
+
+        // Construit les détails avant de relancer les approbations Organizer concernées.
+        Map<Id, String> detailsByEventId =
+            NotificationTitleGenerator.buildSspScheduleDetails(newSsps, oldSsps);
+
+        Map<Id, Event__c> eventsById = new Map<Id, Event__c>([
+            SELECT Id, Organizer__c, OwnerId
+            FROM Event__c
+            WHERE Id IN :changedEventIds
+        ]);
+
+        List<Approval.ProcessWorkitemRequest> removalRequests =
+            new List<Approval.ProcessWorkitemRequest>();
+
+        // Remove approvals based on the previous SSP schedule
+        for (ProcessInstanceWorkitem workitem : [
+            SELECT Id, ProcessInstance.TargetObjectId
+            FROM ProcessInstanceWorkitem
+            WHERE ProcessInstance.TargetObjectId IN :changedEventIds
+            AND ProcessInstance.ProcessDefinition.DeveloperName =
+                'OrganizerApprovalProcess'
+        ]) {
+            Approval.ProcessWorkitemRequest removalRequest =
+                new Approval.ProcessWorkitemRequest();
+
+            removalRequest.setWorkitemId(workitem.Id);
+            removalRequest.setAction('Removed');
+            removalRequest.setComments(
+                'SSP schedule modified. Organizer approval refreshed.'
+            );
+
+            removalRequests.add(removalRequest);
+        }
+
+        if (!removalRequests.isEmpty()) {
+            Approval.process(removalRequests);
+        }
+
+        Set<Id> eventsWithPendingApproval = new Set<Id>();
+        for (ProcessInstance processInstance : [
+            SELECT TargetObjectId
+            FROM ProcessInstance
+            WHERE TargetObjectId IN :changedEventIds
+            AND Status = 'Pending'
+        ]) {
+            eventsWithPendingApproval.add(processInstance.TargetObjectId);
+        }
+
+        List<Approval.ProcessRequest> submissionRequests =
+            new List<Approval.ProcessRequest>();
+        List<Event__c> eventTitlesToUpdate = new List<Event__c>();
+
+        for (Id eventId : changedEventIds) {
+            Event__c eventRecord = eventsById.get(eventId);
+            if (eventRecord == null) continue;
+
+            // Un processus Event déjà actif interdit toute nouvelle soumission Organizer.
+            if (eventsWithPendingApproval.contains(eventId)) continue;
+
+            // The Organizer does not approve their own SSP modification
+            if (eventRecord.Organizer__c == UserInfo.getUserId()) {
+                continue;
+            }
+
+            // Enregistre le sujet et le détail avant l'appel à Approval.process().
+            eventTitlesToUpdate.add(new Event__c(
+                Id = eventId,
+                NotificationTitle__c = NotificationTitleGenerator.getUpdatedApprovalTitle(),
+                NotificationDetails__c = detailsByEventId.get(eventId),
+                OrganizerDecision__c = null
+            ));
+
+            Approval.ProcessSubmitRequest submissionRequest =
+                new Approval.ProcessSubmitRequest();
+
+            // Submit with the Event owner instead of the SSP modification user.
+            submissionRequest.setObjectId(eventId);
+            submissionRequest.setSubmitterId(eventRecord.OwnerId);
+            submissionRequest.setProcessDefinitionNameOrId(
+                'OrganizerApprovalProcess'
+            );
+
+            // The restart must not depend on the process entry criteria.
+            submissionRequest.setSkipEntryCriteria(true);
+
+            submissionRequests.add(submissionRequest);
+        }
+
+        // Le template Organizer lit la valeur persistée sur l'Event.
+        if (!eventTitlesToUpdate.isEmpty()) {
+            update eventTitlesToUpdate;
+        }
+
+        // Submit one request per Event modified by another user
+        if (!submissionRequests.isEmpty()) {
+            Approval.process(submissionRequests);
         }
     }
 
@@ -632,9 +1090,45 @@ public without sharing class customEventService {
             AND PresentationStatus__c = 'required'
         ];
 
-        // Send notification for all required SSPs linked to updated Events
-        if (!ssps.isEmpty()) {
+        // Skip the generic email when the SSP modification already sent an update notification.
+        if (
+            !ssps.isEmpty() &&
+            !BooklyModificationsManagement.shouldSkipGenericPresentationRequest(ssps)
+        ) {
             customEventNotificationManager.requestPresentation(ssps);
         }
+    }
+
+        // Détecte les modifications des champs Event mappés vers Campaign.
+    private static Boolean hasCampaignMappedFieldChanged(
+        Event__c newEvent,
+        Event__c oldEvent
+    ) {
+        if (newEvent == null || oldEvent == null) {
+            return false;
+        }
+
+        return newEvent.Name != oldEvent.Name
+            || newEvent.StartDate__c != oldEvent.StartDate__c
+            || newEvent.EndDate__c != oldEvent.EndDate__c
+            || newEvent.StartTime__c != oldEvent.StartTime__c
+            || newEvent.EndTime__c != oldEvent.EndTime__c
+            || newEvent.Category__c != oldEvent.Category__c
+            || newEvent.LocationAddress__c != oldEvent.LocationAddress__c
+            || newEvent.City__c != oldEvent.City__c
+            || newEvent.Country__c != oldEvent.Country__c
+            || newEvent.LocationPostCode__c != oldEvent.LocationPostCode__c
+            || newEvent.LocationName__c != oldEvent.LocationName__c
+            || newEvent.Company__c != oldEvent.Company__c
+            || newEvent.SalesTeam__c != oldEvent.SalesTeam__c
+            || newEvent.TargetedAttendees__c != oldEvent.TargetedAttendees__c
+            || newEvent.TimeZone__c != oldEvent.TimeZone__c
+            || newEvent.Language__c != oldEvent.Language__c
+            || newEvent.Organizer__c != oldEvent.Organizer__c
+            || newEvent.SalesOwner__c != oldEvent.SalesOwner__c
+            || newEvent.MeetingGoal__c != oldEvent.MeetingGoal__c
+            || newEvent.MeetingBackground__c != oldEvent.MeetingBackground__c
+            || newEvent.Description__c != oldEvent.Description__c
+            || newEvent.AudienceCompany__c != oldEvent.AudienceCompany__c;
     }
 }
