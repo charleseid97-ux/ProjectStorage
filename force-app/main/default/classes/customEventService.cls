@@ -904,14 +904,21 @@ public without sharing class customEventService {
         List<Approval.ProcessRequest> submissionRequests =
             new List<Approval.ProcessRequest>();
 
+        // Keep Event records available to retrieve the authorized submitter.
+        Map<Id, Event__c> eventsById =
+            new Map<Id, Event__c>(newEvents);
+
         for (Id eventId : eventsToSubmit) {
             if (eventsStillPending.contains(eventId)) continue;
 
-            // Submit the request to the current Organizer__c
+            // Submit the Organizer approval using the Event owner.
             Approval.ProcessSubmitRequest submissionRequest =
                 new Approval.ProcessSubmitRequest();
 
             submissionRequest.setObjectId(eventId);
+            submissionRequest.setSubmitterId(
+                eventsById.get(eventId).OwnerId
+            );
             submissionRequest.setProcessDefinitionNameOrId(
                 'OrganizerApprovalProcess'
             );
