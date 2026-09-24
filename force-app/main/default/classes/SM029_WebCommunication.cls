@@ -196,7 +196,12 @@ public class SM029_WebCommunication {
 
         Messaging.sendEmail(new Messaging.SingleEmailMessage[]{ mail });
     }
-
+    /**
+     * Désactivé : Salesforce ne synchronise plus les abonnements avec CarmignacWebsite.
+     */
+    public static void connectAndSendWebComm(String webCommJson, List<Web_Communication__c> aWebComToSentList, String aWebsiteEndpoint, String aWebsiteMethod) {
+        return;
+    }
     /**
     * Perform HTTP request and add JSON body; Update WebCommunication fields with website response
     *
@@ -205,7 +210,7 @@ public class SM029_WebCommunication {
     * @param aWebsiteEndpoint
     * @param aWebsiteMethod
     */
-    public static void connectAndSendWebComm(String webCommJson, List<Web_Communication__c> aWebComToSentList, String aWebsiteEndpoint, String aWebsiteMethod) {
+   /* public static void connectAndSendWebComm(String webCommJson, List<Web_Communication__c> aWebComToSentList, String aWebsiteEndpoint, String aWebsiteMethod) {
 
         HttpRequest req = new HttpRequest();
         HttpResponse res = new HttpResponse();
@@ -304,7 +309,7 @@ public class SM029_WebCommunication {
         }
 
 
-    }
+    }*/
 
     /**
     *
@@ -345,7 +350,10 @@ public class SM029_WebCommunication {
 
     }
 
-    // Vérifie que la Share Class est autorisée pour le pays du Contact ou du Lead.
+    /**
+     * Vérifie que la Share Class est disponible pour le pays du Contact/Lead,
+     * soit via l'enregistrement standard, soit via un override Custom Metadata.
+     */
     public static void handleCountryError(List<Web_Communication__c> aWebComList, Map<Web_Communication__c, Id> aContactIdByWebComIdMap, Map<Web_Communication__c, Id> aLeadIdByWebComIdMap, Map<Web_Communication__c, Id> aShareClassIdByWebComIdMap){
 
         List<Share_Class__c> shareClassList = [SELECT Id, Country__c, ISIN__c
@@ -357,52 +365,57 @@ public class SM029_WebCommunication {
         WHERE Id IN :aContactIdByWebComIdMap.values()
         LIMIT 5000];
 
-        // Récupère aussi les pays des Leads concernés.
         List<Lead>  leadList = [SELECT Id, WebsiteCountry__c
         FROM Lead
         WHERE Id IN :aLeadIdByWebComIdMap.values()
         LIMIT 5000];
 
-        Set<String> websiteCountries = new Set<String>();
-        Map<Id, String> shareClassIdByShareClassCountryMap = new Map<Id, String>();
-        Map<Id, String> shareClassIdByIsinMap = new Map<Id, String>();
+        Map<Id, Share_Class__c> shareClassByIdMap = new Map<Id, Share_Class__c>();
         Map<Id, String> contactIdByContactWebCountryMap = new Map<Id, String>();
         Map<Id, String> LeadIdByLeadWebCountryMap = new Map<Id, String>();
+        Set<String> websiteCountries = new Set<String>();
+        Set<String> shareClassIsins = new Set<String>();
 
-        // Prépare les données Share Class et la liste des pays à contrôler.
+        // Prépare les Share Classes et les ISIN à contrôler.
         for(Share_Class__c sc : shareClassList){
-            shareClassIdByShareClassCountryMap.put(sc.Id, sc.Country__c);
-            shareClassIdByIsinMap.put(sc.Id, sc.ISIN__c);
+            shareClassByIdMap.put(sc.Id, sc);
+            if(String.isNotBlank(sc.ISIN__c)){
+                shareClassIsins.add(sc.ISIN__c);
+            }
         }
 
+        // Récupère les pays Website des Contacts.
         for(Contact c : contactList){
             contactIdByContactWebCountryMap.put(c.Id, c.WebsiteCountry__c);
-            websiteCountries.add(c.WebsiteCountry__c);
+            if(String.isNotBlank(c.WebsiteCountry__c)){
+                websiteCountries.add(c.WebsiteCountry__c);
+            }
         }
 
+        // Récupère les pays Website des Leads.
         for(Lead l : leadList){
             LeadIdByLeadWebCountryMap.put(l.Id, l.WebsiteCountry__c);
-            websiteCountries.add(l.WebsiteCountry__c);
+            if(String.isNotBlank(l.WebsiteCountry__c)){
+                websiteCountries.add(l.WebsiteCountry__c);
+            }
         }
 
         Set<String> overrideKeys = new Set<String>();
 
-        // Charge les couples Country + ISIN temporairement autorisés.
+        // Charge les overrides applicables aux ISIN et pays concernés.
         for(ProspaceShareClassOverride__mdt overrideRecord : [
             SELECT Country__c, ISIN__c
             FROM ProspaceShareClassOverride__mdt
             WHERE Country__c IN :websiteCountries
-            AND ISIN__c != null
+            AND ISIN__c IN :shareClassIsins
         ]){
             overrideKeys.add(overrideRecord.Country__c + '|' + overrideRecord.ISIN__c);
         }
 
-        // Valide chaque Web Communication avec registration standard ou override.
+        // Valide chaque abonnement avec la registration standard ou l'override.
         for(Web_Communication__c webCom : aWebComList){
 
-            Id shareClassId = aShareClassIdByWebComIdMap.get(webCom);
-            String shareClassCountries = shareClassIdByShareClassCountryMap.get(shareClassId);
-            String shareClassIsin = shareClassIdByIsinMap.get(shareClassId);
+            Share_Class__c shareClassRecord = shareClassByIdMap.get(aShareClassIdByWebComIdMap.get(webCom));
             String websiteCountry;
 
             if(webCom.Contact__c != null){
@@ -411,11 +424,14 @@ public class SM029_WebCommunication {
                 websiteCountry = LeadIdByLeadWebCountryMap.get(aLeadIdByWebComIdMap.get(webCom));
             }
 
-            // Autorise si la registration existe ou si le couple Country + ISIN est en override.
-            Boolean hasStandardRegistration = shareClassCountries != null && shareClassCountries.contains(websiteCountry);
-            Boolean hasOverride = overrideKeys.contains(websiteCountry + '|' + shareClassIsin);
+            String overrideKey = websiteCountry + '|' + shareClassRecord.ISIN__c;
+            // Un Country__c vide conserve le comportement historique de carte blanche.
+            Boolean hasNoCountryRestriction = shareClassRecord.Country__c == null;
+            Boolean hasCountryRegistration = !hasNoCountryRestriction && shareClassRecord.Country__c.contains(websiteCountry);
+            Boolean hasCountryOverride = overrideKeys.contains(overrideKey);
 
-            if(!hasStandardRegistration && !hasOverride){
+            // Bloque uniquement si aucune des trois règles d'autorisation n'est satisfaite.
+            if(!hasNoCountryRestriction && !hasCountryRegistration && !hasCountryOverride){
                 webCom.addError(Label.Error_Country_Webcommunication);
             }
         }
@@ -429,14 +445,9 @@ public class SM029_WebCommunication {
         *
         * @return
         */
-    /**
-     * Retrieve all shares per country, including temporary metadata overrides.
-     */
     public static List<Share_Class__c> getAllSharesPerCountry(String country) {
-        Set<Id> shareClassCountryids = new Set<Id>();
-        Set<String> overrideIsins = new Set<String>();
+        List<Id> shareClassCountryids = new List<Id>();
         
-        // Récupère les Share Classes officiellement enregistrées dans le pays.
         for (Country__c c : [
             SELECT ShareClass__c 
             FROM Country__c 
@@ -444,21 +455,7 @@ public class SM029_WebCommunication {
         ]) {
             shareClassCountryids.add(c.ShareClass__c);
         }
-
-        // Récupère les ISIN temporairement autorisés pour le pays.
-        for (ProspaceShareClassOverride__mdt overrideRecord : [
-            SELECT ISIN__c
-            FROM ProspaceShareClassOverride__mdt
-            WHERE Country__c = :country AND ISIN__c != null
-        ]) {
-            overrideIsins.add(overrideRecord.ISIN__c);
-        }
-
-        // Une Share Class est disponible si enregistrée ou présente dans l'override.
-        return [SELECT Id, Fund__c, Fund__r.Id, ISIN__c
-                FROM Share_Class__c
-                WHERE TechIsActive__c = true
-                AND (Id IN :shareClassCountryids OR ISIN__c IN :overrideIsins)];
+        return [SELECT Id, Fund__c, Fund__r.Id, ISIN__c FROM Share_Class__c WHERE TechIsActive__c = true AND Id In :shareClassCountryids];
     }
 
     /**
