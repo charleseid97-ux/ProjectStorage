@@ -350,9 +350,13 @@ public class SM029_WebCommunication {
 
     }
 
+    /**
+     * Vérifie que la Share Class est disponible pour le pays du Contact/Lead,
+     * soit via l'enregistrement standard, soit via un override Custom Metadata.
+     */
     public static void handleCountryError(List<Web_Communication__c> aWebComList, Map<Web_Communication__c, Id> aContactIdByWebComIdMap, Map<Web_Communication__c, Id> aLeadIdByWebComIdMap, Map<Web_Communication__c, Id> aShareClassIdByWebComIdMap){
 
-        List<Share_Class__c> shareClassList = [SELECT Id, Country__c
+        List<Share_Class__c> shareClassList = [SELECT Id, Country__c, ISIN__c
         FROM Share_Class__c
         WHERE Id IN :aShareClassIdByWebComIdMap.values()];
 
@@ -366,33 +370,68 @@ public class SM029_WebCommunication {
         WHERE Id IN :aLeadIdByWebComIdMap.values()
         LIMIT 5000];
 
-        Map<Id, String> shareClassIdByShareClassCountryMap = new Map<Id, String>();
+        Map<Id, Share_Class__c> shareClassByIdMap = new Map<Id, Share_Class__c>();
         Map<Id, String> contactIdByContactWebCountryMap = new Map<Id, String>();
         Map<Id, String> LeadIdByLeadWebCountryMap = new Map<Id, String>();
+        Set<String> websiteCountries = new Set<String>();
+        Set<String> shareClassIsins = new Set<String>();
 
+        // Prépare les Share Classes et les ISIN à contrôler.
         for(Share_Class__c sc : shareClassList){
-            shareClassIdByShareClassCountryMap.put(sc.Id, sc.Country__c);
+            shareClassByIdMap.put(sc.Id, sc);
+            if(String.isNotBlank(sc.ISIN__c)){
+                shareClassIsins.add(sc.ISIN__c);
+            }
         }
 
+        // Récupère les pays Website des Contacts.
         for(Contact c : contactList){
             contactIdByContactWebCountryMap.put(c.Id, c.WebsiteCountry__c);
+            if(String.isNotBlank(c.WebsiteCountry__c)){
+                websiteCountries.add(c.WebsiteCountry__c);
+            }
         }
 
+        // Récupère les pays Website des Leads.
         for(Lead l : leadList){
             LeadIdByLeadWebCountryMap.put(l.Id, l.WebsiteCountry__c);
+            if(String.isNotBlank(l.WebsiteCountry__c)){
+                websiteCountries.add(l.WebsiteCountry__c);
+            }
         }
 
+        Set<String> overrideKeys = new Set<String>();
+
+        // Charge les overrides applicables aux ISIN et pays concernés.
+        for(ProspaceShareClassOverride__mdt overrideRecord : [
+            SELECT Country__c, ISIN__c
+            FROM ProspaceShareClassOverride__mdt
+            WHERE Country__c IN :websiteCountries
+            AND ISIN__c IN :shareClassIsins
+        ]){
+            overrideKeys.add(overrideRecord.Country__c + '|' + overrideRecord.ISIN__c);
+        }
+
+        // Valide chaque abonnement avec la registration standard ou l'override.
         for(Web_Communication__c webCom : aWebComList){
 
-            String shareClassCountries = shareClassIdByShareClassCountryMap.get(aShareClassIdByWebComIdMap.get(webCom));
+            Share_Class__c shareClassRecord = shareClassByIdMap.get(aShareClassIdByWebComIdMap.get(webCom));
             String websiteCountry;
+
             if(webCom.Contact__c != null){
                 websiteCountry = contactIdByContactWebCountryMap.get(aContactIdByWebComIdMap.get(webCom));
             }else{
                 websiteCountry = LeadIdByLeadWebCountryMap.get(aLeadIdByWebComIdMap.get(webCom));
             }
 
-            if(shareClassCountries != null && !shareClassCountries.contains(websiteCountry)){
+            String overrideKey = websiteCountry + '|' + shareClassRecord.ISIN__c;
+            // Un Country__c vide conserve le comportement historique de carte blanche.
+            Boolean hasNoCountryRestriction = shareClassRecord.Country__c == null;
+            Boolean hasCountryRegistration = !hasNoCountryRestriction && shareClassRecord.Country__c.contains(websiteCountry);
+            Boolean hasCountryOverride = overrideKeys.contains(overrideKey);
+
+            // Bloque uniquement si aucune des trois règles d'autorisation n'est satisfaite.
+            if(!hasNoCountryRestriction && !hasCountryRegistration && !hasCountryOverride){
                 webCom.addError(Label.Error_Country_Webcommunication);
             }
         }
