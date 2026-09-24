@@ -15,6 +15,9 @@ public with sharing class GridUtility {
     public static final String AGR_STATUS_APPROVAL_COMPLETE  = 'Approval Complete';
     public static final String AGR_STATUS_APPROVAL_REJECTED  = 'Approval Rejected';
 
+    // Agreement Status__c values
+    public static final String AGR_STATUS_TERMINATED         = 'Terminated';
+
     // Agreement Amendment_Approval_Status__c values
     public static final String AGR_AMDMT_NEED_SUBMISSION     = 'Need Submission';
     public static final String AGR_AMDMT_APPROVAL_REQUIRED   = 'Approval Required';
@@ -131,6 +134,32 @@ public with sharing class GridUtility {
         updateGrids(gridApprovalUpdates, oldGridEndDates);
         AgreementGridTimelineUtility.updateTimelines(submittedAgrToGridIds, approvedAgrToGridIds, rejectedAgrToGridIds, recalledAgrToGridIds, historicalAgrToGridIds, immediateOldGridIds);
         mirrorApprovalProcess(firstGridApprovalMap, firstGridTargetStatus, progressStepLabels);
+    }
+
+    /** ──────────────────────────────────────
+     * @description Called from SM034_AgreementService on BeforeUpdate.
+     *              When an Agreement transitions to Status__c = 'Terminated', every Approved Grid__c
+     *              linked to it (Grid__c.Agreement__c) must already have an EndDate__c. Bulkified across
+     *              all agreements terminating in this update; blocks the update via addError otherwise.
+     ────────────────────────────────────── */
+    public static void validateApprovedGridsHaveEndDateOnTermination(List<Convention__c> newAgreements, Map<Id, Convention__c> oldAgreements) {
+        Map<Id, Convention__c> terminatingAgreements = new Map<Id, Convention__c>();
+        for (Convention__c agr : newAgreements) {
+            Convention__c oldAgr = oldAgreements.get(agr.Id);
+            if (agr.Status__c == AGR_STATUS_TERMINATED && oldAgr.Status__c != AGR_STATUS_TERMINATED) {
+                terminatingAgreements.put(agr.Id, agr);
+            }
+        }
+        if (terminatingAgreements.isEmpty()) return;
+
+        for (Grid__c grid : [SELECT Id, Agreement__c, EndDate__c
+                             FROM Grid__c
+                             WHERE Agreement__c IN :terminatingAgreements.keySet()
+                             AND ApprovalStatus__c = :GRID_STATUS_APPROVED]) {
+            if (grid.EndDate__c == null) {
+                terminatingAgreements.get(grid.Agreement__c).addError(System.Label.Grid_EndDateRequiredOnTermination);
+            }
+        }
     }
 
     // Mirrors the Agreement Request's standard approval process (progress/final) onto CustomApproval__c —
