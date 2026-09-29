@@ -673,6 +673,13 @@ Technical_Agreement.Technical->Code Technique</value>
         <value>Included Products</value>
     </labels>
     <labels>
+        <fullName>Grid_KindSwitchDiscardsChildrenWarning</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Warning before a Kind switch discards existing Grid Details/Criteria</shortDescription>
+        <value>Switching Kind will permanently delete this grid&#8217;s existing Grid Details and Criteria. Continue?</value>
+    </labels>
+    <labels>
         <fullName>Grid_Label</fullName>
         <language>en_US</language>
         <protected>false</protected>

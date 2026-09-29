@@ -3,9 +3,8 @@
  *              Covers GridUtility (Branches A/B/C/D/E/F + Scenarios 1/2/3), GridTriggerHandler (via GridTrigger),
  *              AgreementGridTimelineUtility, and the recursion guard (isUpdatingGridsFromAgreementTrigger).
  * @author Charles EID
- * @testCoverage GridUtility (98%), AgreementGridTimelineUtility (100%), GridTriggerHandler (88% - capped by an
- *               undeployed local change to GridTriggerHandler.cls adding syncAgreementInformation, not yet
- *               live in every org), GridTrigger (100%), GridDetailTriggerHandler (98%)   [17-09-26]
+ * @testCoverage GridUtility (92%), AgreementGridTimelineUtility (100%), GridTriggerHandler (91%),
+ *               GridTrigger (100%), GridDetailTriggerHandler (98%)   [29-09-26]
 ────────────────────────────────────── */
 @IsTest
 private class GridLifecycleTest {

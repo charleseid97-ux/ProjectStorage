@@ -23,6 +23,10 @@ INSTITUTIONAL_ONLY
 SEMIPRO</value>
     </values>
     <values>
+        <field>AvailableTypesPerRecordType__c</field>
+        <value xsi:type="xsd:string">{&quot;CustomGrid&quot;: [&quot;SINGLE RULE&quot;, &quot;MULTI RULE&quot;], &quot;OtherFeesGrid&quot;: [&quot;Courtage Assurance et Capi&quot;, &quot;Performance Fees&quot;]}</value>
+    </values>
+    <values>
         <field>DefaultShareTypeInclusion__c</field>
         <value xsi:type="xsd:string">A, AW, B, E, F, FW, I, IW</value>
     </values>

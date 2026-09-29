@@ -5,7 +5,7 @@
  *              Works in conjunction with GridBuilderHelper for data filtering and formatting.
  * @author Charles EID
  * @testClass GridBuilderControllerTest
- * @coverage 85%   [17-09-26]
+ * @coverage 84%   [29-09-26]
  ────────────────────────────────────── */
 public with sharing class GridBuilderController {
 
@@ -60,7 +60,7 @@ public with sharing class GridBuilderController {
             }
         }
 
-        AgreementSelectionPageSettings settings = new AgreementSelectionPageSettings((gridSettings != null), gridSettings?.agreementSelectionMode, userPrimaryTeam, availableTeams, agreementOptions, existingGrid, hasDraftGrid);
+        AgreementSelectionPageSettings settings = new AgreementSelectionPageSettings(gridSettings, userPrimaryTeam, availableTeams, agreementOptions, existingGrid, hasDraftGrid);
         settings.hasPendingGrid = hasPendingGrid;
         return settings;
     }
@@ -438,9 +438,11 @@ public with sharing class GridBuilderController {
         @AuraEnabled public Boolean hasDraftGrid { get; set; }
         @AuraEnabled public Boolean hasPendingGrid { get; set; }
         @AuraEnabled public String agreementId { get; set; }
-        public AgreementSelectionPageSettings(Boolean gridBuilderFound, String agreementSelectionMode, String primaryTeam, Set<String> setAvailableTeams, List<AgreementWrapper> agreementOptions, Grid__c existingGrid, Boolean hasDraftGrid) {
-            this.gridBuilderFound                = gridBuilderFound;
-            this.agreementSelectionMode          = agreementSelectionMode;
+        @AuraEnabled public Map<String, List<String>> availableTypesPerRecordType { get; set; }
+        public AgreementSelectionPageSettings(GridBuilderHelper.GridSettings gridSettings, String primaryTeam, Set<String> setAvailableTeams, List<AgreementWrapper> agreementOptions, Grid__c existingGrid, Boolean hasDraftGrid) {
+            this.gridBuilderFound                = gridSettings != null;
+            this.agreementSelectionMode          = gridSettings?.agreementSelectionMode;
+            this.availableTypesPerRecordType     = gridSettings?.availableTypesPerRecordType;
             this.agreementOptions                = agreementOptions;
             this.primaryTeam                     = primaryTeam;
             this.availableTeams                  = buildAvailableTeams(primaryTeam, setAvailableTeams);

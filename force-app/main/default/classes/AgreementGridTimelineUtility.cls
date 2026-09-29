@@ -4,7 +4,7 @@
  *              by GridUtility, which calls updateTimelines() with pre-classified data.
  * @author Charles EID
  * @testClass GridLifecycleTest
- * @coverage 100%   [19-03-26]
+ * @coverage 100%   [29-09-26]
 ────────────────────────────────────── */
 public without sharing class AgreementGridTimelineUtility {
 
@@ -53,14 +53,14 @@ public without sharing class AgreementGridTimelineUtility {
         if (!timelinesToUpdate.isEmpty()) update timelinesToUpdate;
     }
 
-    /** ── On Grid__c AfterInsert: create a Draft AGT for every new Custom Grid linked to an Agreement. ── */
+    /** ── On Grid__c AfterInsert: create a Draft AGT for every new Custom Grid or Other Fees Grid linked to an Agreement. ── */
     public static void handleGridInsert(List<Grid__c> newGrids) {
-        Id customGridRtId = Schema.SObjectType.Grid__c.getRecordTypeInfosByDeveloperName().get(GridBuilderHelper.RT_CUSTOM_GRID).getRecordTypeId();
+        Set<Id> eligibleGridRtIds = GridBuilderHelper.getEligibleGridRtIds();
         Set<Id> agreementIds = new Set<Id>();
         List<Grid__c> eligible = new List<Grid__c>();
 
         for (Grid__c g : newGrids) {
-            if (g.RecordTypeId != customGridRtId || g.Agreement__c == null) continue;
+            if (!eligibleGridRtIds.contains(g.RecordTypeId) || g.Agreement__c == null) continue;
             eligible.add(g);
             agreementIds.add(g.Agreement__c);
         }
@@ -79,12 +79,12 @@ public without sharing class AgreementGridTimelineUtility {
 
     /** ── On Grid__c AfterUpdate: sync StartDate/EndDate onto all AGTs for the grid. ── */
     public static void handleGridUpdate(List<Grid__c> newGrids, Map<Id, Grid__c> oldGrids) {
-        Id customGridRtId = Schema.SObjectType.Grid__c.getRecordTypeInfosByDeveloperName().get(GridBuilderHelper.RT_CUSTOM_GRID).getRecordTypeId();
+        Set<Id> eligibleGridRtIds = GridBuilderHelper.getEligibleGridRtIds();
         Set<Id> gridIds = new Set<Id>();
         List<Grid__c> eligible = new List<Grid__c>();
 
         for (Grid__c g : newGrids) {
-            if (g.RecordTypeId != customGridRtId || g.Agreement__c == null) continue;
+            if (!eligibleGridRtIds.contains(g.RecordTypeId) || g.Agreement__c == null) continue;
             Grid__c old = oldGrids.get(g.Id);
             if (g.StartDate__c == old.StartDate__c && g.EndDate__c == old.EndDate__c) continue;
             eligible.add(g);
