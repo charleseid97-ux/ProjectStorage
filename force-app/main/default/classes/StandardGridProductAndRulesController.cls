@@ -5,7 +5,7 @@
  *              for the right-column "Share Class Overview" panel.
  * @author Charles EID
  * Test Class: StdGridProductAndRulesControllerTest
- * Coverage: 100%   [27-02-26]
+ * Coverage: 99%   [17-09-26]
 ────────────────────────────────────── */
 public with sharing class StandardGridProductAndRulesController {
 
@@ -20,15 +20,17 @@ public with sharing class StandardGridProductAndRulesController {
         Set<String> defaultTypes = new Set<String>(GridBuilderHelper.stringToList(setting.DefaultShareTypeInclusion__c, ','));
 
         String countriesOfDistribution = null;
-        List<Grid__c> grids = [SELECT Agreement__r.Countries_of_Distribution__c FROM Grid__c WHERE Id = :gridId LIMIT 1];
+        GridBuilderHelper.GridContext gridContext = new GridBuilderHelper.GridContext();
+        List<Grid__c> grids = [SELECT Agreement__r.Countries_of_Distribution__c, StartDate__c FROM Grid__c WHERE Id = :gridId LIMIT 1];
         if (!grids.isEmpty()) {
             countriesOfDistribution = grids[0].Agreement__r?.Countries_of_Distribution__c;
+            gridContext.startDate = grids[0].StartDate__c;
         }
 
         GridBuilderController.AvailableGridsResult gridsResult = GridBuilderController.getAvailableGrids(countriesOfDistribution, '');
         List<String> availableGridIds = new List<String>(gridsResult.gridShareClassIds.keySet());
 
-        Map<String, Set<String>> availableFundsByShareType = buildAvailableFundsByShareType(countriesOfDistribution, setting.DefinitiveShareTypeExclusion__c, setting.AllowedCountryRegistrationStatus__c, availableGridIds);
+        Map<String, Set<String>> availableFundsByShareType = buildAvailableFundsByShareType(countriesOfDistribution, setting.DefinitiveShareTypeExclusion__c, setting.AllowedCountryRegistrationStatus__c, availableGridIds, gridContext);
 
         Map<String, Set<String>> restrictedMap   = new Map<String, Set<String>>();
         Map<String, Set<String>> unrestrictedMap = new Map<String, Set<String>>();
@@ -68,7 +70,7 @@ public with sharing class StandardGridProductAndRulesController {
 
         List<String> excludedFundShortNames = new List<String>();
         try {
-            GridBuilderHelper.ProductSelectionResult allProducts = GridBuilderHelper.buildProductSelectionResult('CustomGridBuilderSetting', countriesOfDistribution, null, null, new Set<Id>(), null, new Map<Id, String>(), false, null, false, availableGridIds);
+            GridBuilderHelper.ProductSelectionResult allProducts = GridBuilderHelper.buildProductSelectionResult('CustomGridBuilderSetting', countriesOfDistribution, null, null, new Set<Id>(), null, new Map<Id, String>(), false, null, false, availableGridIds, gridContext);
             for (GridBuilderHelper.ProductWrapper product : allProducts.products) {
                 String label     = product.productLabel;
                 Integer openIdx  = label != null ? label.lastIndexOf('(') : -1;
@@ -92,11 +94,11 @@ public with sharing class StandardGridProductAndRulesController {
         return result;
     }
 
-    private static Map<String, Set<String>> buildAvailableFundsByShareType(String countriesOfDistribution, String definitiveShareTypeExclusion, String allowedCountryRegistrationStatus, List<String> availableGridIds) {
+    private static Map<String, Set<String>> buildAvailableFundsByShareType(String countriesOfDistribution, String definitiveShareTypeExclusion, String allowedCountryRegistrationStatus, List<String> availableGridIds, GridBuilderHelper.GridContext gridContext) {
         Map<String, Set<String>> result = new Map<String, Set<String>>();
         GridBuilderHelper.ShareTypeWrapper shareTypeWrp = new GridBuilderHelper.ShareTypeWrapper(null, definitiveShareTypeExclusion, new List<Map<String, String>>(), new List<String>());
         String allowedCountryRegStatus = String.isNotBlank(allowedCountryRegistrationStatus) ? allowedCountryRegistrationStatus : GridBuilderHelper.defaultAllowedCountryRegistrationStatus;
-        List<String> conditions = GridBuilderHelper.buildDefaultConditions(true, true, countriesOfDistribution, shareTypeWrp, false, allowedCountryRegStatus, availableGridIds);
+        List<String> conditions = GridBuilderHelper.buildDefaultConditions(true, true, countriesOfDistribution, shareTypeWrp, false, allowedCountryRegStatus, availableGridIds, gridContext);
         String whereClause = String.join(conditions, ' AND ');
         for (Share_Class__c sc : Database.query('SELECT Type__c, Fund__r.Name FROM Share_Class__c WHERE ' + whereClause)) {
             String type = sc.Type__c;

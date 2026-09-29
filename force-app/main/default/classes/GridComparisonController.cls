@@ -4,7 +4,7 @@
  *              comparison data by delegating to GridDetailTableController.getGridDetails().
  * @author Charles EID
  * @testClass GridComparisonControllerTest
- * @coverage 100%   [20-03-26]
+ * @coverage 100%   [17-09-26]
 ────────────────────────────────────── */
 public with sharing class GridComparisonController {
 
@@ -100,21 +100,24 @@ public with sharing class GridComparisonController {
 
         Id currentAgreementId = null;
         String countriesOfDistribution = null;
+        GridBuilderHelper.GridContext gridContext = null;
 
         if (currentGridId != null) {
-            List<Grid__c> cur = [SELECT Agreement__c, Agreement__r.Countries_of_Distribution__c
+            List<Grid__c> cur = [SELECT Agreement__c, Agreement__r.Countries_of_Distribution__c, StartDate__c
                                   FROM Grid__c WHERE Id = :currentGridId LIMIT 1];
             if (!cur.isEmpty() && cur[0].Agreement__c != null) {
                 currentAgreementId = cur[0].Agreement__c;
                 countriesOfDistribution = cur[0].Agreement__r.Countries_of_Distribution__c;
+                gridContext = new GridBuilderHelper.GridContext();
+                gridContext.startDate = cur[0].StartDate__c;
             }
         }
 
         Set<Id> validShareClassIds = new Set<Id>();
         if (String.isNotBlank(countriesOfDistribution)) {
-            GridBuilderHelper.GridSettings gridSettings = GridBuilderHelper.getGridSettings('CustomGridBuilderSetting', countriesOfDistribution, false, new List<String>());
+            GridBuilderHelper.GridSettings gridSettings = GridBuilderHelper.getGridSettings('CustomGridBuilderSetting', countriesOfDistribution, false, new List<String>(), null);
             if (gridSettings != null) {
-                List<String> conditions = GridBuilderHelper.buildDefaultConditions(true, true, countriesOfDistribution, gridSettings.shareTypeWrp, false, gridSettings.allowedCountryRegStatus, new List<String>());
+                List<String> conditions = GridBuilderHelper.buildDefaultConditions(true, true, countriesOfDistribution, gridSettings.shareTypeWrp, false, gridSettings.allowedCountryRegStatus, new List<String>(), gridContext);
                 String whereClause = String.join(conditions, ' AND ');
                 for (Share_Class__c sc : Database.query('SELECT Id FROM Share_Class__c WHERE ' + whereClause)) {
                     validShareClassIds.add(sc.Id);

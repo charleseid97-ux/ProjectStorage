@@ -1,14 +1,71 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Package xmlns="http://soap.sforce.com/2006/04/metadata">
     <types>
-        <members>LookupController</members>
+        <members>AgreementGridTimelineUtility</members>
+        <members>GridAmendmentAgreementStatusAction</members>
+        <members>GridAmendmentAgreementStatusActionTest</members>
+        <members>GridBuilderController</members>
+        <members>GridBuilderControllerTest</members>
+        <members>GridBuilderHelper</members>
+        <members>GridComparisonController</members>
+        <members>GridDetailBuilder</members>
+        <members>GridDetailBuilderTest</members>
+        <members>GridDetailTriggerHandler</members>
+        <members>GridLifecycleTest</members>
+        <members>GridTestSetupHelper</members>
+        <members>GridTriggerHandler</members>
+        <members>GridUtility</members>
+        <members>GridValidationController</members>
+        <members>GridValidationControllerTest</members>
+        <members>ShareClassCustomGridBatch</members>
+        <members>ShareClassGridBatchTest</members>
+        <members>SM034_AgreementService</members>
+        <members>StandardGridProductAndRulesController</members>
+        <members>StdGridProductAndRulesControllerTest</members>
         <name>ApexClass</name>
     </types>
     <types>
-        <members>lwcMultiSelectLookup</members>
-        <members>strategicNews</members>
+        <members>customGridBuilder</members>
+        <members>gridAgreementsSelection</members>
+        <members>gridValidationPage</members>
+        <members>gridBuilderUtils</members>
         <name>LightningComponentBundle</name>
     </types>
-
-    <version>64.0</version>
+    <types>
+        <members>Grid_EndDateRequiredOnTermination</members>
+        <members>Grid_KindSwitchDiscardsChildrenWarning</members>
+        <name>CustomLabel</name>
+    </types>
+    <types>
+        <members>Grid__c.Type__c</members>
+        <members>GridBuilderSetting__mdt.AvailableTypesPerRecordType__c</members>
+        <name>CustomField</name>
+    </types>
+    <types>
+        <members>GridBuilderSetting.CustomGridBuilderSetting</members>
+        <name>CustomMetadata</name>
+    </types>
+    <types>
+        <members>Grid__c.OtherFeesGrid</members>
+        <name>RecordType</name>
+    </types>
+    <types>
+        <members>OtherFeesGridRecordPage</members>
+        <name>FlexiPage</name>
+    </types>
+    <types>
+        <members>Grid_BaseAccess</members>
+        <members>GridBuilderPermissions</members>
+        <members>GridDataReadPermission</members>
+        <name>PermissionSet</name>
+    </types>
+    <types>
+        <members>GridApprovals/GridAmendmentPendingApprovalV2</members>
+        <name>EmailTemplate</name>
+    </types>
+    <types>
+        <members>Grid__c.VRGrid_TypeMatchesRecordType</members>
+        <name>ValidationRule</name>
+    </types>
+    <version>66.0</version>
 </Package>

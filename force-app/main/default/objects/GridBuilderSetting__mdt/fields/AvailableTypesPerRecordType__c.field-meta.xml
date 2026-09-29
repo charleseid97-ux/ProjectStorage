@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>AvailableTypesPerRecordType__c</fullName>
+    <description>JSON map of Grid__c RecordType DeveloperName to the list of Type__c picklist values available for that record type, used to scope the Type combobox in the Grid Builder without hard-coding picklist values client-side</description>
+    <fieldManageability>DeveloperControlled</fieldManageability>
+    <inlineHelpText>JSON object mapping Grid__c RecordType DeveloperName to an array of allowed Type__c values.
+Example:
+{"CustomGrid": ["SINGLE RULE", "MULTI RULE"], "OtherFeesGrid": ["Courtage Assurance et Capi", "Performance Fees"]}</inlineHelpText>
+    <label>Available Types Per Record Type</label>
+    <length>4096</length>
+    <type>LongTextArea</type>
+    <visibleLines>5</visibleLines>
+</CustomField>

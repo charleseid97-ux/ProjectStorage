@@ -4,7 +4,7 @@
  *              and delegates AgreementGridTimeline__c updates to AgreementGridTimelineUtility.
  * @author Charles EID
  * @testClass GridLifecycleTest
- * @coverage 100%   [19-03-26]
+ * @coverage 92%   [29-09-26]
 ────────────────────────────────────── */
 public with sharing class GridUtility {
 
@@ -14,6 +14,9 @@ public with sharing class GridUtility {
     public static final String AGR_STATUS_PRE_APPROVAL       = 'Pre-Approval';
     public static final String AGR_STATUS_APPROVAL_COMPLETE  = 'Approval Complete';
     public static final String AGR_STATUS_APPROVAL_REJECTED  = 'Approval Rejected';
+
+    // Agreement Status__c values
+    public static final String AGR_STATUS_TERMINATED         = 'Terminated';
 
     // Agreement Amendment_Approval_Status__c values
     public static final String AGR_AMDMT_NEED_SUBMISSION     = 'Need Submission';
@@ -131,6 +134,32 @@ public with sharing class GridUtility {
         updateGrids(gridApprovalUpdates, oldGridEndDates);
         AgreementGridTimelineUtility.updateTimelines(submittedAgrToGridIds, approvedAgrToGridIds, rejectedAgrToGridIds, recalledAgrToGridIds, historicalAgrToGridIds, immediateOldGridIds);
         mirrorApprovalProcess(firstGridApprovalMap, firstGridTargetStatus, progressStepLabels);
+    }
+
+    /** ──────────────────────────────────────
+     * @description Called from SM034_AgreementService on BeforeUpdate.
+     *              When an Agreement transitions to Status__c = 'Terminated', every Approved Grid__c
+     *              linked to it (Grid__c.Agreement__c) must already have an EndDate__c. Bulkified across
+     *              all agreements terminating in this update; blocks the update via addError otherwise.
+     ────────────────────────────────────── */
+    public static void validateApprovedGridsHaveEndDateOnTermination(List<Convention__c> newAgreements, Map<Id, Convention__c> oldAgreements) {
+        Map<Id, Convention__c> terminatingAgreements = new Map<Id, Convention__c>();
+        for (Convention__c agr : newAgreements) {
+            Convention__c oldAgr = oldAgreements.get(agr.Id);
+            if (agr.Status__c == AGR_STATUS_TERMINATED && oldAgr.Status__c != AGR_STATUS_TERMINATED) {
+                terminatingAgreements.put(agr.Id, agr);
+            }
+        }
+        if (terminatingAgreements.isEmpty()) return;
+
+        for (Grid__c grid : [SELECT Id, Agreement__c, EndDate__c
+                             FROM Grid__c
+                             WHERE Agreement__c IN :terminatingAgreements.keySet()
+                             AND ApprovalStatus__c = :GRID_STATUS_APPROVED]) {
+            if (grid.EndDate__c == null) {
+                terminatingAgreements.get(grid.Agreement__c).addError(System.Label.Grid_EndDateRequiredOnTermination);
+            }
+        }
     }
 
     // Mirrors the Agreement Request's standard approval process (progress/final) onto CustomApproval__c —
@@ -297,13 +326,13 @@ public with sharing class GridUtility {
         }
         if (changedAgreementIds.isEmpty()) return;
 
-        Id customGridRtId = Schema.SObjectType.Grid__c.getRecordTypeInfosByDeveloperName().get(GridBuilderHelper.RT_CUSTOM_GRID).getRecordTypeId();
+        Set<Id> eligibleGridRtIds = GridBuilderHelper.getEligibleGridRtIds();
 
         List<Grid__c> toUpdate = new List<Grid__c>();
         for (Grid__c grid : [SELECT Id, Agreement__c
                              FROM Grid__c
                              WHERE Agreement__c IN :changedAgreementIds
-                             AND RecordTypeId = :customGridRtId]) {
+                             AND RecordTypeId IN :eligibleGridRtIds]) {
             Convention__c agr = newAgreements.get(grid.Agreement__c);
             toUpdate.add(new Grid__c(Id = grid.Id, TECH_BusinessRegion__c = agr.TECH_Business_Region__c, TECH_AllConcernedBusinessRegions__c = agr.TECH_All_concerned_Business_Regions__c, TECH_CarmignacLegalEntity__c = agr.Carmignac_Legal_Entity__c));
         }

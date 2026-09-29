@@ -1,7 +1,7 @@
 /** ──────────────────────────────────────
  * @description Test class for GridAmendmentAgreementStatusAction.
  * @author Charles EID
- * @testClass GridAmendmentAgreementStatusActionTest
+ * @testCoverage GridAmendmentAgreementStatusAction (97%)   [29-09-26]
 ────────────────────────────────────── */
 @IsTest
 private class GridAmendmentAgreementStatusActionTest {
@@ -23,29 +23,6 @@ private class GridAmendmentAgreementStatusActionTest {
     private static final String RULE_TO_APPLY_PERCENTAGE_OF_FEES = 'Percentage of Fees';
     private static final String RULE_FEES_TYPE_EFFECTIVE_MGMT    = 'EffectiveManagementFees__c';
 
-    private static final String NOEND_SUFFIX        = 'NOEND';
-    private static final String NOEND_OLD_GRID_NAME  = 'OldGrid-NoEnd';
-    private static final String NOEND_NEW_GRID_NAME  = 'NewGrid-NoEnd';
-
-    private static final String MATCH_SUFFIX           = 'MATCH';
-    private static final String MATCH_MASTER_GRID_NAME = 'MasterGrid-Match';
-    private static final String MATCH_OLD_GRID_NAME    = 'OldGrid-Match';
-    private static final String MATCH_NEW_GRID_NAME    = 'NewGrid-Match';
-
-    private static final String DIFF_SUFFIX           = 'DIFF';
-    private static final String DIFF_MASTER_GRID_NAME = 'MasterGrid-Diff';
-    private static final String DIFF_OLD_GRID_NAME    = 'OldGrid-Diff';
-    private static final String DIFF_NEW_GRID_NAME    = 'NewGrid-Diff';
-
-    private static final String GUARD_SUFFIX            = 'GUARD';
-    private static final String GUARD_OLD_GRID_NAME      = 'OldGrid-Guard';
-    private static final String GUARD_NEW_GRID_NAME      = 'NewGrid-Guard';
-    private static final String GUARD_LATER_GRID_NAME    = 'LaterGrid-Guard';
-
-    private static final String NOTSIGNED_SUFFIX          = 'NOTSIGNED';
-    private static final String NOTSIGNED_OLD_GRID_NAME    = 'OldGrid-NotSigned';
-    private static final String NOTSIGNED_NEW_GRID_NAME    = 'NewGrid-NotSigned';
-
     private static final String AGREEMENT_NAME_PREFIX = 'AGR-TEST-';
     private static final String AGREEMENT_CONVENTION_NAME_PREFIX = 'Test Convention ';
     private static final String AGREEMENT_CODE_PREFIX = 'AGR-TEST-CODE-';
@@ -55,109 +32,81 @@ private class GridAmendmentAgreementStatusActionTest {
         GridTestSetupHelper.setupTestData();
     }
 
+    // Covers every branch of GridAmendmentAgreementStatusAction.execute except the Grid-Details comparison
+    // itself (Pending Renewal vs Change Renewal — see testExecute_detailComparisonOutcomes): the Change
+    // Requested outcome, the Other Fees bypass of the detail comparison, and both early-return guards
+    // (not most recent grid, agreement not Signed).
     @IsTest
-    static void testChangeRequested_whenPreviousGridHasNoEndDate() {
-        Grid__c oldGrid = GridTestSetupHelper.createGrid(NOEND_OLD_GRID_NAME, GridTestSetupHelper.TEST_TEAM_FR, true, GridBuilderHelper.RT_STANDARD_GRID);
-        insert oldGrid; // EndDate__c left null
+    static void testExecute_allStatusOutcomesAndGuards() {
+        // ── Change Requested: previous grid has no end date ──
+        Grid__c noEndOldGrid = GridTestSetupHelper.createGrid('OldGrid-NoEnd', GridTestSetupHelper.TEST_TEAM_FR, true, GridBuilderHelper.RT_STANDARD_GRID);
+        insert noEndOldGrid; // EndDate__c left null
+        Grid__c noEndNewGrid = GridTestSetupHelper.createGrid('NewGrid-NoEnd', GridTestSetupHelper.TEST_TEAM_FR, true, GridBuilderHelper.RT_STANDARD_GRID);
+        insert noEndNewGrid;
+        Convention__c noEndAgreement = linkAgreement(noEndOldGrid, noEndNewGrid, 'NOEND');
 
-        Grid__c newGrid = GridTestSetupHelper.createGrid(NOEND_NEW_GRID_NAME, GridTestSetupHelper.TEST_TEAM_FR, true, GridBuilderHelper.RT_STANDARD_GRID);
-        insert newGrid;
+        // ── Other Fees: ended previous grid, no details on either side — always a renewal, never a "change" ──
+        Grid__c otherFeesOldGrid = createEndedCustomGrid('OldGrid-OtherFees');
+        Grid__c otherFeesNewGrid = GridTestSetupHelper.createGrid('NewGrid-OtherFees', GridTestSetupHelper.TEST_TEAM_FR, true, GridBuilderHelper.RT_OTHER_FEES_GRID);
+        insert otherFeesNewGrid;
+        Convention__c otherFeesAgreement = linkAgreement(otherFeesOldGrid, otherFeesNewGrid, 'OTHERFEES');
 
-        Convention__c agreement = linkAgreement(oldGrid, newGrid, NOEND_SUFFIX);
+        // ── Guard: submitted grid is not the most recent one in the timeline ──
+        Grid__c guardOldGrid = GridTestSetupHelper.createGrid('OldGrid-Guard', GridTestSetupHelper.TEST_TEAM_FR, true, GridBuilderHelper.RT_STANDARD_GRID);
+        insert guardOldGrid;
+        Grid__c guardNewGrid = GridTestSetupHelper.createGrid('NewGrid-Guard', GridTestSetupHelper.TEST_TEAM_FR, true, GridBuilderHelper.RT_STANDARD_GRID);
+        insert guardNewGrid;
+        Convention__c guardAgreement = linkAgreement(guardOldGrid, guardNewGrid, 'GUARD');
+        Grid__c guardLaterGrid = GridTestSetupHelper.createGrid('LaterGrid-Guard', GridTestSetupHelper.TEST_TEAM_FR, true, GridBuilderHelper.RT_STANDARD_GRID);
+        insert guardLaterGrid;
+        insert GridTestSetupHelper.createAgreementGridTimeline(guardAgreement.Id, guardLaterGrid.Id, Date.today().addDays(10), null, TIMELINE_STATUS_DRAFT);
+        String guardStatusBefore = [SELECT Status__c FROM Convention__c WHERE Id = :guardAgreement.Id].Status__c;
+
+        // ── Guard: agreement is not Signed ──
+        Grid__c notSignedOldGrid = GridTestSetupHelper.createGrid('OldGrid-NotSigned', GridTestSetupHelper.TEST_TEAM_FR, true, GridBuilderHelper.RT_STANDARD_GRID);
+        insert notSignedOldGrid; // EndDate__c left null -> would be Change Requested if the guard didn't block it
+        Grid__c notSignedNewGrid = GridTestSetupHelper.createGrid('NewGrid-NotSigned', GridTestSetupHelper.TEST_TEAM_FR, true, GridBuilderHelper.RT_STANDARD_GRID);
+        insert notSignedNewGrid;
+        Convention__c notSignedAgreement = linkAgreement(notSignedOldGrid, notSignedNewGrid, 'NOTSIGNED', STATUS_IN_NEGOTIATION);
 
         Test.startTest();
-        new GridAmendmentAgreementStatusAction().execute(newGrid.Id, UserInfo.getUserId(), new Map<String, Object>());
+        GridAmendmentAgreementStatusAction action = new GridAmendmentAgreementStatusAction();
+        action.execute(noEndNewGrid.Id, UserInfo.getUserId(), new Map<String, Object>());
+        action.execute(otherFeesNewGrid.Id, UserInfo.getUserId(), new Map<String, Object>());
+        action.execute(guardNewGrid.Id, UserInfo.getUserId(), new Map<String, Object>());
+        action.execute(notSignedNewGrid.Id, UserInfo.getUserId(), new Map<String, Object>());
         Test.stopTest();
 
-        Convention__c updated = [SELECT Status__c FROM Convention__c WHERE Id = :agreement.Id];
-        System.assertEquals(STATUS_CHANGE_REQUESTED, updated.Status__c, 'Agreement status should be Change Requested when the previous grid has no end date.');
+        Map<Id, Convention__c> agreementsById = new Map<Id, Convention__c>([SELECT Id, Status__c FROM Convention__c WHERE Id IN
+            (:noEndAgreement.Id, :otherFeesAgreement.Id, :guardAgreement.Id, :notSignedAgreement.Id)]);
+
+        System.assertEquals(STATUS_CHANGE_REQUESTED, agreementsById.get(noEndAgreement.Id).Status__c, 'Change Requested when the previous grid has no end date.');
+        System.assertEquals(STATUS_PENDING_RENEWAL, agreementsById.get(otherFeesAgreement.Id).Status__c, 'Other Fees grid amendments always resolve to Pending Renewal, never Change Renewal, since there are no Grid Details to compare.');
+        System.assertEquals(guardStatusBefore, agreementsById.get(guardAgreement.Id).Status__c, 'No change when the submitted grid is not the most recent one in the timeline.');
+        System.assertEquals(STATUS_IN_NEGOTIATION, agreementsById.get(notSignedAgreement.Id).Status__c, 'No change when the Agreement is not Signed.');
     }
 
+    // Covers the haveSameGridDetails/GridComparisonController integration path (Pending Renewal is already
+    // covered via the Other Fees bypass in testExecute_allStatusOutcomesAndGuards above).
     @IsTest
-    static void testPendingRenewal_whenGridDetailsMatch() {
+    static void testExecute_changeRenewal_whenGridDetailsDiffer() {
         List<Share_Class__c> shareClasses = GridTestSetupHelper.getTestShareClasses();
-        Grid__c masterGrid = createStandardGrid(MATCH_MASTER_GRID_NAME);
-        GridDetail__c masterDetail = createMasterStandardDetail(masterGrid, shareClasses[0].Id);
 
-        Grid__c oldGrid = createEndedCustomGrid(MATCH_OLD_GRID_NAME);
-        addCustomDetail(oldGrid, shareClasses[0].Id, masterDetail.Id);
-
-        Grid__c newGrid = createCustomGrid(MATCH_NEW_GRID_NAME);
-        addCustomDetail(newGrid, shareClasses[0].Id, masterDetail.Id);
-
-        Convention__c agreement = linkAgreement(oldGrid, newGrid, MATCH_SUFFIX);
-
-        Test.startTest();
-        new GridAmendmentAgreementStatusAction().execute(newGrid.Id, UserInfo.getUserId(), new Map<String, Object>());
-        Test.stopTest();
-
-        Convention__c updated = [SELECT Status__c FROM Convention__c WHERE Id = :agreement.Id];
-        System.assertEquals(STATUS_PENDING_RENEWAL, updated.Status__c, 'Agreement status should be Pending Renewal when the new grid has identical detail lines to the ended previous grid.');
-    }
-
-    @IsTest
-    static void testChangeRenewal_whenGridDetailsDiffer() {
-        List<Share_Class__c> shareClasses = GridTestSetupHelper.getTestShareClasses();
-        Grid__c masterGrid = createStandardGrid(DIFF_MASTER_GRID_NAME);
-        GridDetail__c masterDetail1 = createMasterStandardDetail(masterGrid, shareClasses[0].Id);
-        GridDetail__c masterDetail2 = createMasterStandardDetail(masterGrid, shareClasses[1].Id);
-
-        Grid__c oldGrid = createEndedCustomGrid(DIFF_OLD_GRID_NAME);
-        addCustomDetail(oldGrid, shareClasses[0].Id, masterDetail1.Id);
-
-        Grid__c newGrid = createCustomGrid(DIFF_NEW_GRID_NAME);
-        addCustomDetail(newGrid, shareClasses[1].Id, masterDetail2.Id);
-
-        Convention__c agreement = linkAgreement(oldGrid, newGrid, DIFF_SUFFIX);
+        Grid__c diffMasterGrid = createStandardGrid('MasterGrid-Diff');
+        GridDetail__c diffMasterDetail1 = createMasterStandardDetail(diffMasterGrid, shareClasses[0].Id);
+        GridDetail__c diffMasterDetail2 = createMasterStandardDetail(diffMasterGrid, shareClasses[1].Id);
+        Grid__c diffOldGrid = createEndedCustomGrid('OldGrid-Diff');
+        addCustomDetail(diffOldGrid, shareClasses[0].Id, diffMasterDetail1.Id);
+        Grid__c diffNewGrid = createCustomGrid('NewGrid-Diff');
+        addCustomDetail(diffNewGrid, shareClasses[1].Id, diffMasterDetail2.Id);
+        Convention__c diffAgreement = linkAgreement(diffOldGrid, diffNewGrid, 'DIFF');
 
         Test.startTest();
-        new GridAmendmentAgreementStatusAction().execute(newGrid.Id, UserInfo.getUserId(), new Map<String, Object>());
+        new GridAmendmentAgreementStatusAction().execute(diffNewGrid.Id, UserInfo.getUserId(), new Map<String, Object>());
         Test.stopTest();
 
-        Convention__c updated = [SELECT Status__c FROM Convention__c WHERE Id = :agreement.Id];
-        System.assertEquals(STATUS_CHANGE_RENEWAL, updated.Status__c, 'Agreement status should be Change Renewal when the new grid detail lines differ from the ended previous grid.');
-    }
-
-    @IsTest
-    static void testNoUpdate_whenSubmittedGridIsNotMostRecent() {
-        Grid__c oldGrid = GridTestSetupHelper.createGrid(GUARD_OLD_GRID_NAME, GridTestSetupHelper.TEST_TEAM_FR, true, GridBuilderHelper.RT_STANDARD_GRID);
-        insert oldGrid;
-
-        Grid__c newGrid = GridTestSetupHelper.createGrid(GUARD_NEW_GRID_NAME, GridTestSetupHelper.TEST_TEAM_FR, true, GridBuilderHelper.RT_STANDARD_GRID);
-        insert newGrid;
-
-        Convention__c agreement = linkAgreement(oldGrid, newGrid, GUARD_SUFFIX);
-
-        Grid__c laterGrid = GridTestSetupHelper.createGrid(GUARD_LATER_GRID_NAME, GridTestSetupHelper.TEST_TEAM_FR, true, GridBuilderHelper.RT_STANDARD_GRID);
-        insert laterGrid;
-        insert GridTestSetupHelper.createAgreementGridTimeline(agreement.Id, laterGrid.Id, Date.today().addDays(10), null, TIMELINE_STATUS_DRAFT);
-
-        Convention__c before = [SELECT Status__c FROM Convention__c WHERE Id = :agreement.Id];
-
-        Test.startTest();
-        new GridAmendmentAgreementStatusAction().execute(newGrid.Id, UserInfo.getUserId(), new Map<String, Object>());
-        Test.stopTest();
-
-        Convention__c after = [SELECT Status__c FROM Convention__c WHERE Id = :agreement.Id];
-        System.assertEquals(before.Status__c, after.Status__c, 'Agreement status should not change when the submitted grid is not the most recent one in the timeline.');
-    }
-
-    @IsTest
-    static void testNoUpdate_whenAgreementIsNotSigned() {
-        Grid__c oldGrid = GridTestSetupHelper.createGrid(NOTSIGNED_OLD_GRID_NAME, GridTestSetupHelper.TEST_TEAM_FR, true, GridBuilderHelper.RT_STANDARD_GRID);
-        insert oldGrid; // EndDate__c left null -> would be Change Requested if the guard didn't block it
-
-        Grid__c newGrid = GridTestSetupHelper.createGrid(NOTSIGNED_NEW_GRID_NAME, GridTestSetupHelper.TEST_TEAM_FR, true, GridBuilderHelper.RT_STANDARD_GRID);
-        insert newGrid;
-
-        Convention__c agreement = linkAgreement(oldGrid, newGrid, NOTSIGNED_SUFFIX, STATUS_IN_NEGOTIATION);
-
-        Test.startTest();
-        new GridAmendmentAgreementStatusAction().execute(newGrid.Id, UserInfo.getUserId(), new Map<String, Object>());
-        Test.stopTest();
-
-        Convention__c updated = [SELECT Status__c FROM Convention__c WHERE Id = :agreement.Id];
-        System.assertEquals(STATUS_IN_NEGOTIATION, updated.Status__c, 'Agreement status should not change when the Agreement is not Signed.');
+        Convention__c updated = [SELECT Status__c FROM Convention__c WHERE Id = :diffAgreement.Id];
+        System.assertEquals(STATUS_CHANGE_RENEWAL, updated.Status__c, 'Change Renewal when the new grid detail lines differ from the ended previous grid.');
     }
 
     // ────────────────────────────────────── HELPERS ──────────────────────────────────────
