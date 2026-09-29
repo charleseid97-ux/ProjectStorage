@@ -87,6 +87,14 @@ public class WS_UpdateCampaignMembers extends RestCallout {
             System.debug('***call API' + e.getMessage());
             System.debug('*** ' + e.getCause());
             System.debug('**** ' + e.getTypeName());
-        } 
+        }
+    }
+
+    public override String getSourceRecordId() {
+        return recordToTreat != null ? recordToTreat.Id : null;
+    }
+
+    public override String getSourceObjectApiName() {
+        return 'CampaignMember';
     }
 }
