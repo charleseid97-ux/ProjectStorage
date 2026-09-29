@@ -95,6 +95,10 @@
         <visible>true</visible>
     </recordTypeVisibilities>
     <recordTypeVisibilities>
+        <recordType>Grid__c.OtherFeesGrid</recordType>
+        <visible>true</visible>
+    </recordTypeVisibilities>
+    <recordTypeVisibilities>
         <recordType>Grid__c.StandardGrid</recordType>
         <visible>true</visible>
     </recordTypeVisibilities>

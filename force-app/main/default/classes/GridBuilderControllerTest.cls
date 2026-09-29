@@ -3,7 +3,7 @@
  *              Validates all methods including grid settings retrieval, available grids filtering, product/share class selection
  *              with criteria filtering (AND/OR/Custom Logic), and agreement selection page settings.
  * @author Charles EID
- * @testCoverage GridBuilderController (85%), GridBuilderHelper (97% partial)   [17-09-26]
+ * @testCoverage GridBuilderController (84%), GridBuilderHelper (94% partial)   [29-09-26]
 ────────────────────────────────────── */
 @IsTest
 private with sharing class GridBuilderControllerTest {

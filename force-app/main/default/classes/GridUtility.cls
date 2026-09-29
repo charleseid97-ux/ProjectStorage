@@ -4,7 +4,7 @@
  *              and delegates AgreementGridTimeline__c updates to AgreementGridTimelineUtility.
  * @author Charles EID
  * @testClass GridLifecycleTest
- * @coverage 100%   [19-03-26]
+ * @coverage 92%   [29-09-26]
 ────────────────────────────────────── */
 public with sharing class GridUtility {
 
@@ -326,13 +326,13 @@ public with sharing class GridUtility {
         }
         if (changedAgreementIds.isEmpty()) return;
 
-        Id customGridRtId = Schema.SObjectType.Grid__c.getRecordTypeInfosByDeveloperName().get(GridBuilderHelper.RT_CUSTOM_GRID).getRecordTypeId();
+        Set<Id> eligibleGridRtIds = GridBuilderHelper.getEligibleGridRtIds();
 
         List<Grid__c> toUpdate = new List<Grid__c>();
         for (Grid__c grid : [SELECT Id, Agreement__c
                              FROM Grid__c
                              WHERE Agreement__c IN :changedAgreementIds
-                             AND RecordTypeId = :customGridRtId]) {
+                             AND RecordTypeId IN :eligibleGridRtIds]) {
             Convention__c agr = newAgreements.get(grid.Agreement__c);
             toUpdate.add(new Grid__c(Id = grid.Id, TECH_BusinessRegion__c = agr.TECH_Business_Region__c, TECH_AllConcernedBusinessRegions__c = agr.TECH_All_concerned_Business_Regions__c, TECH_CarmignacLegalEntity__c = agr.Carmignac_Legal_Entity__c));
         }

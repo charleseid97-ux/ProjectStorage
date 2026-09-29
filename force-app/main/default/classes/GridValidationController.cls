@@ -4,7 +4,7 @@
  *              Formats AUM amounts for display and integrates with GridBuilderHelper for product filtering.
  * @author Charles EID
  * @testClass GridValidationControllerTest
- * @coverage 90%   [17-09-26]
+ * @coverage 90%   [29-09-26]
 ────────────────────────────────────── */
 public with sharing class GridValidationController {
 
@@ -87,7 +87,8 @@ public with sharing class GridValidationController {
         if (draftGridId == null && agreementIds != null && !agreementIds.isEmpty()) {
             grid.Agreement__c = agreementIds[0];
         }
-        grid.RecordTypeId = Schema.SObjectType.Grid__c.getRecordTypeInfosByDeveloperName().get(GridBuilderHelper.RT_CUSTOM_GRID).getRecordTypeId();
+        String gridRtDevName = grid.Kind__c == GridBuilderHelper.KIND_OTHER_FEES ? GridBuilderHelper.RT_OTHER_FEES_GRID : GridBuilderHelper.RT_CUSTOM_GRID;
+        grid.RecordTypeId = Schema.SObjectType.Grid__c.getRecordTypeInfosByDeveloperName().get(gridRtDevName).getRecordTypeId();
         upsert grid;
         result.gridId = grid.Id;
         result.gridName = grid.Name;
