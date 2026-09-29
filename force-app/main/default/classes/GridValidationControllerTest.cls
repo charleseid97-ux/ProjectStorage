@@ -3,7 +3,7 @@
  *              Validates the getProducts method including AUM aggregation by share class, product filtering, and integration with
  *              GridBuilderHelper for data formatting.
  * @author Charles EID
- * @testCoverage GridValidationController (90%), GridBuilderHelper (97% partial)   [17-09-26]
+ * @testCoverage GridValidationController (90%), GridBuilderHelper (94% partial)   [29-09-26]
 ────────────────────────────────────── */
 @IsTest
 private class GridValidationControllerTest {
@@ -60,15 +60,41 @@ private class GridValidationControllerTest {
         };
         Map<String, Object> request = buildSaveRequest('Custom - Test Save - Manual - 2025-01-01', Date.today(), standardGrid.Id, criteriaDetails, new List<Id>{ sc1.Id, sc2.Id }, new List<Id>{ agreements[0].Id });
 
+        // Other Fees grid: Kind__c = 'OTHER FEES' -> saved as OtherFeesGrid, with no GridDetail__c/GridCriteria__c,
+        // but still gets a Draft AgreementGridTimeline__c like a CustomGrid (see AgreementGridTimelineUtility).
+        Map<String, Object> otherFeesRequest = new Map<String, Object>{
+            'grid' => new Map<String, Object>{
+                'Name'                       => 'Other Fees - Test - 2025-01-01',
+                'Kind__c'                    => 'OTHER FEES',
+                'Type__c'                    => 'Performance Fees',
+                'ActiveGrid__c'              => true,
+                'AutomaticGridUpdate__c'     => false,
+                'StartDate__c'               => Date.today(),
+                'ThresholdAmount__c'         => 1000,
+                'ThresholdMode__c'           => 'Tiers',
+                'ThresholdAmountCurrency__c' => 'EUR'
+            },
+            'criteriaList' => new List<Map<String, Object>>(),
+            'agreementIds' => new List<Id>{ agreements[1].Id }
+        };
+
         Test.startTest();
 
         GridValidationController.GridSaveResult result = GridValidationController.saveGrid(JSON.serialize(request), shareClassGridIdMap, null);
+        GridValidationController.GridSaveResult otherFeesResult = GridValidationController.saveGrid(JSON.serialize(otherFeesRequest), new Map<String, String>(), null);
 
         Test.stopTest();
 
         System.assert(result.success, 'Save should succeed: ' + result.errors);
         Grid__c savedGrid = [SELECT Agreement__c FROM Grid__c WHERE Id = :result.gridId];
         System.assertEquals(agreements[0].Id, savedGrid.Agreement__c, 'Agreement__c should be set on the new grid');
+
+        System.assert(otherFeesResult.success, 'Other Fees save should succeed: ' + otherFeesResult.errors);
+        Grid__c savedOtherFeesGrid = [SELECT RecordType.DeveloperName FROM Grid__c WHERE Id = :otherFeesResult.gridId];
+        System.assertEquals(GridBuilderHelper.RT_OTHER_FEES_GRID, savedOtherFeesGrid.RecordType.DeveloperName, 'Grid should be created as OtherFeesGrid');
+        System.assertEquals(0, [SELECT COUNT() FROM GridDetail__c WHERE Grid__c = :otherFeesResult.gridId], 'Other Fees grid should have no GridDetail__c');
+        System.assertEquals(0, [SELECT COUNT() FROM GridCriteria__c WHERE Grid__c = :otherFeesResult.gridId], 'Other Fees grid should have no GridCriteria__c');
+        System.assertEquals(1, [SELECT COUNT() FROM AgreementGridTimeline__c WHERE Grid__c = :otherFeesResult.gridId], 'Other Fees grid should get a Draft AgreementGridTimeline__c like a CustomGrid');
     }
 
     @IsTest

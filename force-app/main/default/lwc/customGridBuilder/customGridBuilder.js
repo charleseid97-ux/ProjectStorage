@@ -30,6 +30,12 @@ export default class CustomGridBuilder extends NavigationMixin(LightningElement)
     @track isAgreementsFormValid = false;
     @track savedLoadPreviousGrid = false;
 
+    // Other Fees grids: single-page flow, no Grid Details/Criteria — see gridAgreementsSelection's "kindchange" event
+    @track isOtherFeesGrid = false;
+    existingDraftHasChildren = false; // true when the loaded draft already has persisted GridCriteria__c/GridDetail__c
+    pendingKindChange = null;
+    pendingOtherFeesAction = null; // 'save' | 'submit' — set just before triggering the child's validation/next flow
+
     // First Page: Agreement Selection
     @track agreementSelectionMode = 'Single';
     @track agreementOptions = [];
@@ -44,6 +50,7 @@ export default class CustomGridBuilder extends NavigationMixin(LightningElement)
     @track existingGridInfo = { hasExistingGrid: false, kind: null, type: null, endDate: null };
     @track hasDraftGrid = false;
     @track hasPendingGrid = false;
+    @track availableTypesPerRecordType = {}; // Grid__c RecordType -> allowed Type__c values, from GridBuilderSetting__mdt (see AgreementSelectionPageSettings)
 
     // Submit for approval modal
     @track showApprovalModal = false;
@@ -138,6 +145,29 @@ export default class CustomGridBuilder extends NavigationMixin(LightningElement)
 
     handleLoadPreviousChange(event) {
         this.savedLoadPreviousGrid = event.detail.value;
+    }
+
+    handleKindChange(event) {
+        const newIsOtherFees = !!event.detail?.isOtherFees;
+        if (newIsOtherFees === this.isOtherFeesGrid) return;
+
+        if (this.existingDraftHasChildren) {
+            // Switching Kind on a draft that already has persisted Grid Details/Criteria will delete them on the next Save
+            this.pendingKindChange = { isOtherFeesGrid: newIsOtherFees };
+            this.openConfirmation('kindSwitchDiscardsChildren', this.labels.UI_Warning, this.labels.Grid_KindSwitchDiscardsChildrenWarning);
+            return;
+        }
+        this.applyKindChange(newIsOtherFees);
+    }
+
+    applyKindChange(newIsOtherFees) {
+        this.isOtherFeesGrid = newIsOtherFees;
+        if (newIsOtherFees) {
+            this.selectedShareClasses  = [];
+            this.criteriaList          = [];
+            this.gridShareClassMap     = {};
+            this.existingDraftHasChildren = false; // any persisted children will be wiped on the next Save
+        }
     }
 
     handlePathStepClick(event) {
@@ -236,8 +266,13 @@ export default class CustomGridBuilder extends NavigationMixin(LightningElement)
         this.approvedGridLoaded   = false;
         this.sourceGridId         = null;
         this.existingGridInfo      = { hasExistingGrid: false, kind: null, type: null, endDate: null };
+        this.availableTypesPerRecordType = {};
         this.showSelectedPanel     = false;
         this.countriesOfDistribution = null;
+        this.isOtherFeesGrid          = false;
+        this.existingDraftHasChildren = false;
+        this.pendingKindChange        = null;
+        this.pendingOtherFeesAction   = null;
     }
 
     async connectedCallback() {
@@ -282,6 +317,7 @@ export default class CustomGridBuilder extends NavigationMixin(LightningElement)
                 }
                 this.agreementSelectionMode = agreementSettings.agreementSelectionMode;
                 this.agreementOptions = agreementSettings.agreementOptions || [];
+                this.availableTypesPerRecordType = agreementSettings.availableTypesPerRecordType || {};
                 this.availableTeams = (agreementSettings.availableTeams || []).map(t => ({ label: t, value: t }));
                 this.primaryTeam = agreementSettings.primaryTeam;
                 this.selectedTeam = this.primaryTeam || (this.availableTeams.length ? this.availableTeams[0].value : null);
@@ -297,6 +333,9 @@ export default class CustomGridBuilder extends NavigationMixin(LightningElement)
                     endDate:                agreementSettings.existingGridEndDate           || null,
                     singleRuleGridSelection: agreementSettings.existingGridSingleRuleSelection || null
                 };
+                // Mirrors gridAgreementsSelection's own auto-select-Kind-from-existingGridInfo behavior,
+                // so this flag matches what the child will display even before any user interaction.
+                this.isOtherFeesGrid = this.existingGridInfo.kind === 'OTHER FEES';
                 this.hasDraftGrid = agreementSettings.hasDraftGrid || false;
                 this.hasPendingGrid = agreementSettings.hasPendingGrid || false;
 
@@ -347,6 +386,8 @@ export default class CustomGridBuilder extends NavigationMixin(LightningElement)
         const singleRule = draftData.grid.Tech_SingleRuleGridSelection__c;
         this.draftGridId      = draftData.grid.Id;
         this.pendingDraftData = draftData;
+        this.isOtherFeesGrid          = draftData.grid.Kind__c === 'OTHER FEES';
+        this.existingDraftHasChildren = !!(draftData.criteriaList && draftData.criteriaList.length > 0);
         this.gridRequestData  = {
             kind:                    draftData.grid.Kind__c,
             gridType:                draftData.grid.Type__c,
@@ -1003,11 +1044,21 @@ export default class CustomGridBuilder extends NavigationMixin(LightningElement)
         this.showConfirmationModal = false;
         if (action === 'resetAll') {
             this.resetAll(true);
+        } else if (action === 'kindSwitchDiscardsChildren' && this.pendingKindChange) {
+            this.applyKindChange(this.pendingKindChange.isOtherFeesGrid);
+            this.pendingKindChange = null;
         }
     }
 
     handleConfirmationCancel() {
+        const action = this.confirmationContext.action;
         this.showConfirmationModal = false;
+        if (action === 'kindSwitchDiscardsChildren' && this.pendingKindChange) {
+            // Revert the child's Kind combobox: gridRequestData.kind still holds the pre-change value,
+            // and reassigning a new object reference re-triggers the child's gridData setter.
+            this.gridRequestData = { ...this.gridRequestData };
+            this.pendingKindChange = null;
+        }
     }
 
     handleResetAllClick() {
@@ -1046,6 +1097,19 @@ export default class CustomGridBuilder extends NavigationMixin(LightningElement)
             businessBackground:      event.detail?.businessBackground || '',
             singleRuleGrid:          event.detail?.singleRuleGrid
         };
+
+        if (this.isOtherFeesGrid) {
+            // Single-page flow: no Grid Builder/Validation/Simulation steps — go straight to Save/Submit.
+            // selectedShareClasses/criteriaList/gridShareClassMap were already cleared in applyKindChange.
+            const action = this.pendingOtherFeesAction;
+            this.pendingOtherFeesAction = null;
+            if (action === 'submit') {
+                await this.handleSubmitForApproval();
+            } else {
+                await this.handleSaveGrid();
+            }
+            return;
+        }
 
         const agreementsChanged    = alreadySelectedAgreements !== JSON.stringify(this.selectedAgreements) || alreadySelectedTeam !== this.selectedTeam;
         const newSingleRuleGrid    = event.detail?.singleRuleGrid?.label || null;
@@ -1124,6 +1188,30 @@ export default class CustomGridBuilder extends NavigationMixin(LightningElement)
         const step = parseInt(this.currentStep, 10);
         if (step >= 4) return true;
         return !this.isStepEnabled(step + 1);
+    }
+
+    get showWizardNav() {
+        return !this.hasPendingGrid && !this.isOtherFeesGrid;
+    }
+
+    get showOtherFeesActions() {
+        return !this.hasPendingGrid && this.isOtherFeesGrid;
+    }
+
+    get isOtherFeesActionDisabled() {
+        return !this.isAgreementsFormValid || this.isLoading;
+    }
+
+    handleOtherFeesSave() {
+        this.pendingOtherFeesAction = 'save';
+        const comp = this.template.querySelector('c-grid-agreements-selection');
+        if (comp) comp.triggerNext();
+    }
+
+    handleOtherFeesSubmit() {
+        this.pendingOtherFeesAction = 'submit';
+        const comp = this.template.querySelector('c-grid-agreements-selection');
+        if (comp) comp.triggerNext();
     }
 
     handleGlobalBack() {

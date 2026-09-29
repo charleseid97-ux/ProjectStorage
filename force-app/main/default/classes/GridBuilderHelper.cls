@@ -4,14 +4,17 @@
  *              and share classes based on criteria, handling relationship paths, and formatting data for display. 
  *              Supports complex filter logic evaluation and dynamic field value extraction.
  * @author Charles EID
- * @testClass GridBuilderControllerTest, GridValidationControllerTest
- * @coverage 97% (Combined coverage from both test classes)   [17-09-26]
+ * @testClass GridBuilderControllerTest, GridValidationControllerTest, GridLifecycleTest
+ * @coverage 94% (Combined coverage across all three test classes)   [29-09-26]
  ────────────────────────────────────── */
 public with sharing class GridBuilderHelper {
     public static final String RT_STANDARD_GRID = 'StandardGrid';
     public static final String RT_CUSTOM_GRID = 'CustomGrid';
+    public static final String RT_OTHER_FEES_GRID = 'OtherFeesGrid';
     public static final String RT_STANDARD_GRID_DETAIL = 'StandardGridDetail';
     public static final String RT_CUSTOM_GRID_DETAIL = 'CustomGridDetail';
+
+    public static final String KIND_OTHER_FEES = 'OTHER FEES'; // matches Grid__c.Kind__c's actual picklist value (all caps)
 
     public static final String defaultAgreementSelectionMode = 'Single';
     public static final String defaultFilterValueSeparator = ';';
@@ -45,7 +48,7 @@ public with sharing class GridBuilderHelper {
                                                                 ORDER BY SortOrder__c ASC LIMIT 10), FilterLimit__c, FilterDefaultLogic__c, FilterValueSeparator__c,
                                                                     AllShareTypeOptions__c, DefaultShareTypeInclusion__c, DefinitiveShareTypeExclusion__c,
                                                                     FieldsToDisplay__c, DefaultSortFields__c, AgreementSelectionMode__c, AgreementQueryConditions__c,
-                                                                    AllowedCountryRegistrationStatus__c
+                                                                    AllowedCountryRegistrationStatus__c, AvailableTypesPerRecordType__c
                                                      FROM GridBuilderSetting__mdt
                                                      WHERE DeveloperName = :gridBuilderSettingName LIMIT 1];
         if (gridSetting == null || gridSetting.isEmpty()) {
@@ -65,8 +68,8 @@ public with sharing class GridBuilderHelper {
         String shareTypeExclusion       =   (String.isNotBlank(gridSetting.DefinitiveShareTypeExclusion__c)) ? gridSetting.DefinitiveShareTypeExclusion__c : '';
         String fieldsToDisplay          =   (String.isNotBlank(gridSetting.FieldsToDisplay__c)) ? gridSetting.FieldsToDisplay__c : defaultFieldsToDisplay;
         String sortingFields            =   (String.isNotBlank(gridSetting.DefaultSortFields__c)) ? gridSetting.DefaultSortFields__c : defaultSortingFields;
-        String allowedCountryRegStatus  = (String.isNotBlank(gridSetting.AllowedCountryRegistrationStatus__c)) ? gridSetting.AllowedCountryRegistrationStatus__c : defaultAllowedCountryRegistrationStatus;
-        return new GridSettings(agreementSelectionMode, agreementQueryConditions, filterLimit, onLoadFilterLogic, filterValueSeparator, allShareTypes, shareTypeInclusion, shareTypeExclusion, fieldsToDisplay, sortingFields, allowedCountryRegStatus);
+        String allowedCountryRegStatus  =   (String.isNotBlank(gridSetting.AllowedCountryRegistrationStatus__c)) ? gridSetting.AllowedCountryRegistrationStatus__c : defaultAllowedCountryRegistrationStatus;
+        return new GridSettings(agreementSelectionMode, agreementQueryConditions, filterLimit, onLoadFilterLogic, filterValueSeparator, allShareTypes, shareTypeInclusion, shareTypeExclusion, fieldsToDisplay, sortingFields, allowedCountryRegStatus, gridSetting.AvailableTypesPerRecordType__c);
     }
 
     private static List<FilterObjectWrapper> buildFilterObjectWrappers(List<GridCriteriaSetting__mdt> criteriaSettings, String countriesOfDistribution, ShareTypeWrapper shareTypeWrp, String allowedCountryRegStatus, List<String> availableGridIds, GridContext gridContext) {
@@ -507,6 +510,15 @@ public with sharing class GridBuilderHelper {
         return new FilterObjectWrapper(objectApiName, Schema.getGlobalDescribe().get(objectApiName).getDescribe().getLabel(), new List<FilterFieldWrapper>{ fw });
     }
 
+    // RecordTypeIds of every Grid__c record type that behaves like a "real" grid for agreement/timeline sync purposes (CustomGrid and OtherFeesGrid) — i.e. every record type except StandardGrid.
+    public static Set<Id> getEligibleGridRtIds() {
+        Map<String, Schema.RecordTypeInfo> gridRtInfos = Schema.SObjectType.Grid__c.getRecordTypeInfosByDeveloperName();
+        return new Set<Id>{
+            gridRtInfos.get(RT_CUSTOM_GRID).getRecordTypeId(),
+            gridRtInfos.get(RT_OTHER_FEES_GRID).getRecordTypeId()
+        };
+    }
+
     // ────────────────────────────────────── WRAPPERS ──────────────────────────────────────
     // Grid context (currently just StartDate__c) needed by eligibility checks that must know which
     // Custom Grid a Standard Grid Detail is being evaluated for — see buildStandardGridDetailInfoByShareClass
@@ -529,17 +541,19 @@ public with sharing class GridBuilderHelper {
         @AuraEnabled public String sortingFields { get; set; }
         @AuraEnabled public ShareTypeWrapper shareTypeWrp { get; set; }
         @AuraEnabled public String allowedCountryRegStatus { get; set; }
-        public GridSettings(String agrSelectionMode, String agrQueryConditions, Integer filterLimit, String filterLogic, String filterValueSeparator, String allShareTypes, String dfltShareTypeInclusion, String defShareTypeExclusion, String fieldsToDisplay, String sortingFields, String allowedCountryRegStatus) {
-            this.agreementSelectionMode     =   agrSelectionMode;
-            this.agreementQueryConditions   =   agrQueryConditions;
-            this.filterLimit                =   filterLimit;
-            this.filterLogics               =   getFilterLogics();
-            this.onLoadFilterLogic          =   filterLogic;
-            this.filterValueSeparator       =   filterValueSeparator;
-            this.shareTypeWrp               =   buildShareTypeWrapper(allShareTypes, dfltShareTypeInclusion, defShareTypeExclusion);
-            this.fieldsToDisplay            =   fieldsToDisplay;
-            this.sortingFields              =   sortingFields;
-            this.allowedCountryRegStatus = allowedCountryRegStatus;
+        @AuraEnabled public Map<String, List<String>> availableTypesPerRecordType { get; set; }
+        public GridSettings(String agrSelectionMode, String agrQueryConditions, Integer filterLimit, String filterLogic, String filterValueSeparator, String allShareTypes, String dfltShareTypeInclusion, String defShareTypeExclusion, String fieldsToDisplay, String sortingFields, String allowedCountryRegStatus, String availableTypesPerRecordTypeJson) {
+            this.agreementSelectionMode      =   agrSelectionMode;
+            this.agreementQueryConditions    =   agrQueryConditions;
+            this.filterLimit                 =   filterLimit;
+            this.filterLogics                =   getFilterLogics();
+            this.onLoadFilterLogic           =   filterLogic;
+            this.filterValueSeparator        =   filterValueSeparator;
+            this.shareTypeWrp                =   buildShareTypeWrapper(allShareTypes, dfltShareTypeInclusion, defShareTypeExclusion);
+            this.fieldsToDisplay             =   fieldsToDisplay;
+            this.sortingFields               =   sortingFields;
+            this.allowedCountryRegStatus     =   allowedCountryRegStatus;
+            this.availableTypesPerRecordType =   String.isNotBlank(availableTypesPerRecordTypeJson) ? (Map<String, List<String>>) JSON.deserialize(availableTypesPerRecordTypeJson, Map<String, List<String>>.class) : new Map<String, List<String>>();
         }
     }
 

@@ -239,7 +239,8 @@
       </table>
     </apex:outputPanel>
 
-    <!-- ───── STANDARD GRID RULES ───── -->
+    <!-- ───── STANDARD GRID RULES (hidden for Other Fees Grids — no Grid Details) ───── -->
+    <apex:outputPanel layout="block" rendered="{!relatedTo.RecordType.DeveloperName <> 'OtherFeesGrid'}">
     <table width="100%" border="0" cellpadding="0" cellspacing="0" bgcolor="#ffffff">
       <tr>
         <td class="section-cell">
@@ -272,6 +273,7 @@
       </tr>
       <tr><td class="spacer">&nbsp;</td></tr>
     </table>
+    </apex:outputPanel>
 
     <!-- ───── FOOTER ───── -->
     <table width="100%" border="0" cellpadding="0" cellspacing="0" bgcolor="#f7f9fc" class="footer">
