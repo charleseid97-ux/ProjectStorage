@@ -80,13 +80,14 @@
                         <lightning-layout-item size="4,5" flexibility="auto" padding="around-small">
                             
                                 <div class="slds-p-horizontal_medium">
-                                    <c-lwc-multi-select-lookup 
+                                    <c-lwc-multi-select-lookup
                                                                 label-name="Product"
                                                                 object-api-name="Product__c"
                                                                 field-api-names="Id,Name"
                                                                 filter-field-api-name="Name"
                                                                 icon-name="custom:custom5"
-                                                                onretrieve={selectItemEventHandler} 
+                                                                additional-where-clause="RecordType.DeveloperName = 'Fund' OR RecordType.DeveloperName = null"
+                                                                onretrieve={selectItemEventHandler}
                                                                 onremove={deleteItemEventHandler}>
                                     </c-lwc-multi-select-lookup>
                                 </div> 
