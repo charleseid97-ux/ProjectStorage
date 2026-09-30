@@ -39,150 +39,83 @@ public class WS_SendCampaignMemberTest {
         insert con;
     }
 
+    // Covers the insert path of sendCallWSLyyti (oldItems == null). Status doesn't branch that
+    // path at all (only LastModifiedById does), so a dedicated single-record insert test for
+    // 'Invited' or 'Confirmed' is redundant with the bulk insert below - dropped, no coverage lost.
     @isTest
-    static void sendCMStatusInvited_Test() {
+    static void sendCMStatusInvitedBulk_Test() {
         Campaign camp = [SELECT Id FROM Campaign LIMIT 1];
-        Contact con = [SELECT Id FROM Contact LIMIT 1];
+        Account acc = [SELECT Id FROM Account LIMIT 1];
         Category_Event__c category = [SELECT Id FROM Category_Event__c LIMIT 1];
-        CampaignMember cm = TestDataFactory.getCampaignMember(con.Id,camp.Id);
-        cm.Status = 'Invited';
-        cm.Category_Event_lookup__c = category.Id;
-        
+        List<Contact> contacts = new List<Contact>();
+        List<CampaignMember> cms = new List<CampaignMember>();
+        for(Integer i = 0;i<150;i++){
+            Contact con = TestDataFactory.getContact();
+        	con.AccountId = acc.Id;
+            contacts.add(con);
+        }
+        insert contacts;
+
+        for(Contact con : contacts){
+            CampaignMember cm = TestDataFactory.getCampaignMember(con.Id,camp.Id);
+        	cm.Status = 'Invited';
+        	cm.Category_Event_lookup__c = category.Id;
+            cms.add(cm);
+        }
+
         Test.startTest();
 
         Test.setMock(HttpCalloutMock.class, new MockHttpCampaign(200, mockResult_1));
-        insert cm;
+        insert cms;
 
         Test.stopTest();
     }
 
+    // Covers the update path of sendCallWSLyyti/getCMToUpdate for every status branch in one bulk
+    // update (callWS batches every qualifying Id into a single @future call, so there's no
+    // per-record governor constraint like Database.executeBatch has - unlike the batch tests
+    // below, these don't need separate test methods per status). The "Cancelled" scenario sets
+    // Status and Cancelled__c together in this same update: Cancelled__c is checked with priority
+    // over the status branches in getCMToUpdate, and sendCallWSLyyti's dispatch gate only requires
+    // status != 'Invited' at the time of this update, so no separate pre-step is needed.
     @isTest
-    static void sendCMStatusDeclined_Test() {
-		Campaign camp = [SELECT Id FROM Campaign LIMIT 1];
-        Contact con = [SELECT Id FROM Contact LIMIT 1];
+    static void sendCMStatusTransitions_Test() {
+        Campaign camp = [SELECT Id FROM Campaign LIMIT 1];
+        Account acc = [SELECT Id FROM Account LIMIT 1];
         Category_Event__c category = [SELECT Id FROM Category_Event__c LIMIT 1];
-        
-        CampaignMember cm = TestDataFactory.getCampaignMember(con.Id,camp.Id);
-        cm.Status = 'Invited';
-        cm.Category_Event_lookup__c = category.Id;
-        cm.LyytiId__c='1711900-834136176';
-        insert cm;
-        
-        cm.Status = 'Declined';
-        
+
+        List<String> targetStatuses = new List<String>{ 'Declined', 'Attended', 'No Show', 'Attended', 'Confirmed' };
+        Integer cancelledIndex = 3;
+
+        List<Contact> contacts = new List<Contact>();
+        for (Integer i = 0; i < targetStatuses.size(); i++) {
+            Contact con = TestDataFactory.getContact();
+            con.AccountId = acc.Id;
+            con.LastName = 'Last' + i;
+            con.Email = 'first.last' + i + '@invalid.com';
+            contacts.add(con);
+        }
+        insert contacts;
+
+        List<CampaignMember> cms = new List<CampaignMember>();
+        for (Integer i = 0; i < targetStatuses.size(); i++) {
+            CampaignMember cm = TestDataFactory.getCampaignMember(contacts[i].Id, camp.Id);
+            cm.Status = 'Invited';
+            cm.Category_Event_lookup__c = category.Id;
+            cm.LyytiId__c = '1711900-834136176';
+            cms.add(cm);
+        }
+        insert cms;
+
+        for (Integer i = 0; i < cms.size(); i++) {
+            cms[i].Status = targetStatuses[i];
+        }
+        cms[cancelledIndex].Cancelled__c = true;
+
         Test.startTest();
 
         Test.setMock(HttpCalloutMock.class, new MockHttpCampaign(200, mockResult_1));
-        update cm;
-
-        Test.stopTest();
-    }
-
-    @isTest
-    static void sendCMStatusAttended_Test() {
-		Campaign camp = [SELECT Id FROM Campaign LIMIT 1];
-        Contact con = [SELECT Id FROM Contact LIMIT 1];
-        Category_Event__c category = [SELECT Id FROM Category_Event__c LIMIT 1];
-        
-        CampaignMember cm = TestDataFactory.getCampaignMember(con.Id,camp.Id);
-        cm.Status = 'Invited';
-        cm.Category_Event_lookup__c = category.Id;
-        cm.LyytiId__c='1711900-834136176';
-        insert cm;
-        
-        cm.Status = 'Attended';
-        
-        Test.startTest();
-
-        Test.setMock(HttpCalloutMock.class, new MockHttpCampaign(200, mockResult_1));
-        update cm;
-
-        Test.stopTest();
-    }
-
-    @isTest
-    static void sendCMStatusNoShow_Test() {
-		Campaign camp = [SELECT Id FROM Campaign LIMIT 1];
-        Contact con = [SELECT Id FROM Contact LIMIT 1];
-        Category_Event__c category = [SELECT Id FROM Category_Event__c LIMIT 1];
-        
-        CampaignMember cm = TestDataFactory.getCampaignMember(con.Id,camp.Id);
-        cm.Status = 'Invited';
-        cm.Category_Event_lookup__c = category.Id;
-        cm.LyytiId__c='1711900-834136176';
-        insert cm;
-        
-        cm.Status = 'No Show';
-        
-        Test.startTest();
-
-        Test.setMock(HttpCalloutMock.class, new MockHttpCampaign(200, mockResult_1));
-        update cm;
-
-        Test.stopTest();
-    }
-    
-    @isTest
-    static void sendCMStatusCancelled_Test() {
-		Campaign camp = [SELECT Id FROM Campaign LIMIT 1];
-        Contact con = [SELECT Id FROM Contact LIMIT 1];
-        Category_Event__c category = [SELECT Id FROM Category_Event__c LIMIT 1];
-        
-        CampaignMember cm = TestDataFactory.getCampaignMember(con.Id,camp.Id);
-        cm.Status = 'Invited';
-        cm.Category_Event_lookup__c = category.Id;
-        cm.LyytiId__c='1711900-834136176';
-        insert cm;
-        
-        cm.Status = 'Attended';
-        update cm;
-        
-        cm.Cancelled__c = true;
-        
-        Test.startTest();
-
-        Test.setMock(HttpCalloutMock.class, new MockHttpCampaign(200, mockResult_1));
-        update cm;
-
-        Test.stopTest();
-    }
-    
-    @isTest
-    static void sendCMUpdateStatusConfirmed_Test() {
-		Campaign camp = [SELECT Id FROM Campaign LIMIT 1];
-        Contact con = [SELECT Id FROM Contact LIMIT 1];
-        Category_Event__c category = [SELECT Id FROM Category_Event__c LIMIT 1];
-        
-        CampaignMember cm = TestDataFactory.getCampaignMember(con.Id,camp.Id);
-        cm.Status = 'Invited';
-        cm.Category_Event_lookup__c = category.Id;
-        cm.LyytiId__c='1711900-834136176';
-        insert cm;
-        
-        cm.Status = 'Confirmed';
-        
-        Test.startTest();
-
-        Test.setMock(HttpCalloutMock.class, new MockHttpCampaign(200, mockResult_1));
-        update cm;
-
-        Test.stopTest();
-    }
-
-    @isTest
-    static void sendCMCreateStatusConfirmed_Test() {
-		Campaign camp = [SELECT Id FROM Campaign LIMIT 1];
-        Contact con = [SELECT Id FROM Contact LIMIT 1];
-        Category_Event__c category = [SELECT Id FROM Category_Event__c LIMIT 1];
-        
-        CampaignMember cm = TestDataFactory.getCampaignMember(con.Id,camp.Id);
-        cm.Status = 'Confirmed';
-        cm.Category_Event_lookup__c = category.Id;
-        
-        Test.startTest();
-
-        Test.setMock(HttpCalloutMock.class, new MockHttpCampaign(200, mockResult_1));
-        insert cm;
+        update cms;
 
         Test.stopTest();
     }
@@ -205,115 +138,59 @@ public class WS_SendCampaignMemberTest {
         Test.stopTest();
     }
     
+    // A test method can only invoke Database.executeBatch once, and the iterable returned by
+    // start() must fit within a single chunk. BATCH_SendCampaignMemberLyyti's Schedulable wrapper
+    // hardcodes a batch size of 1, so we call Database.executeBatch directly with a size large
+    // enough (200) to fit all 5 statuses in one chunk, covering every branch of execute() in a
+    // single batch run instead of 5 separate test methods each running their own batch.
     @isTest
-    static void sendCMStatusInvitedBulk_Test() {
-        Campaign camp = [SELECT Id FROM Campaign LIMIT 1];
+    static void testBatchExecution_AllStatuses() {
         Account acc = [SELECT Id FROM Account LIMIT 1];
+        Campaign camp = [SELECT Id FROM Campaign LIMIT 1];
         Category_Event__c category = [SELECT Id FROM Category_Event__c LIMIT 1];
+
+        List<String> statuses = new List<String>{ 'Invited', 'Declined', 'Attended', 'No Show', 'Confirmed' };
+
         List<Contact> contacts = new List<Contact>();
-        List<CampaignMember> cms = new List<CampaignMember>();
-        for(Integer i = 0;i<150;i++){
+        for (Integer i = 0; i < statuses.size(); i++) {
             Contact con = TestDataFactory.getContact();
-        	con.AccountId = acc.Id;
+            con.AccountId = acc.Id;
+            con.LastName = 'Last' + i;
+            con.Email = 'first.last' + i + '@invalid.com';
             contacts.add(con);
         }
         insert contacts;
-        
-        for(Contact con : contacts){
-            CampaignMember cm = TestDataFactory.getCampaignMember(con.Id,camp.Id);
-        	cm.Status = 'Invited';
-        	cm.Category_Event_lookup__c = category.Id;
+
+        List<CampaignMember> cms = new List<CampaignMember>();
+        for (Integer i = 0; i < statuses.size(); i++) {
+            CampaignMember cm = TestDataFactory.getCampaignMember(contacts[i].Id, camp.Id);
+            cm.Status = statuses[i];
+            cm.Category_Event_lookup__c = category.Id;
             cms.add(cm);
         }
-        
-        Test.startTest();
-
-        Test.setMock(HttpCalloutMock.class, new MockHttpCampaign(200, mockResult_1));
         insert cms;
 
-        Test.stopTest();
-    }
-    
-         
-    @isTest
-    static void testBatchExecution_Invited() {
-        createCampaignMemberWithStatus('Invited');
-        
         Test.startTest();
-        
-        callBatch();
+
         Test.setMock(HttpCalloutMock.class, new MockHttpCampaign(200, mockResult_1));
-        
+        Database.executeBatch(new BATCH_SendCampaignMemberLyyti(), 200);
+
         Test.stopTest();
     }
-    
+
+    // Covers BATCH_SendCampaignMemberLyyti.execute(SchedulableContext), the Schedulable wrapper
+    // that testBatchExecution_AllStatuses bypasses (it calls Database.executeBatch directly to
+    // avoid the wrapper's hardcoded batch size of 1). No CampaignMember matches the batch's
+    // start() query in this test's own transaction, so the batch scope is empty and there's no
+    // risk of the "iterable must fit the batch size" constraint.
     @isTest
-    static void testBatchExecution_Declined() {
-        createCampaignMemberWithStatus('Declined');
-        
+    static void testBatchScheduling_Test() {
         Test.startTest();
-        
-        callBatch();
-        Test.setMock(HttpCalloutMock.class, new MockHttpCampaign(200, mockResult_1));
-        
+
+        String jobId = System.schedule('Test Send Campaign Member Calculation', '0 0 0 * * ?', new BATCH_SendCampaignMemberLyyti());
+
         Test.stopTest();
-    }
-    
-    @isTest
-    static void testBatchExecution_Attended() {
-        createCampaignMemberWithStatus('Attended');
-        
-        Test.startTest();
-        
-        callBatch();
-        Test.setMock(HttpCalloutMock.class, new MockHttpCampaign(200, mockResult_1));
-        
-        Test.stopTest();
-    }
-    
-    @isTest
-    static void testBatchExecution_NoShow() {
-        createCampaignMemberWithStatus('No Show');
-        
-        Test.startTest();
-        
-        callBatch();
-        Test.setMock(HttpCalloutMock.class, new MockHttpCampaign(200, mockResult_1));
-        
-        Test.stopTest();
-    }
-    
-    @isTest
-    static void testBatchExecution_Confirmed() {
-        createCampaignMemberWithStatus('Confirmed');
-        
-        Test.startTest();
-        
-        callBatch();
-        Test.setMock(HttpCalloutMock.class, new MockHttpCampaign(200, mockResult_1));
-        
-        Test.stopTest();
-    }
-    
-    static void createCampaignMemberWithStatus(String status) {
-        Account acc = [SELECT Id FROM Account LIMIT 1];
-        Campaign camp = [SELECT Id FROM Campaign LIMIT 1];
-        Category_Event__c category = [SELECT Id FROM Category_Event__c LIMIT 1];
-        
-        Contact con = TestDataFactory.getContact();
-        con.AccountId = acc.Id;
-        insert con;
-        
-        CampaignMember cm1 = TestDataFactory.getCampaignMember(con.Id, camp.Id);
-        cm1.Status = status;
-        cm1.Category_Event_lookup__c = category.Id;
-        insert cm1;
-    }
-    
-    static void callBatch() {
-        String jobName = 'Test Send Campaign Member Calculation';
-        String cronExp = '0 0 0 * * ?';
-        BATCH_SendCampaignMemberLyyti scheduler = new BATCH_SendCampaignMemberLyyti();
-        String jobId = System.schedule(jobName, cronExp, scheduler);
+
+        System.assertNotEquals(null, jobId, 'Expected the Lyyti campaign member batch to be scheduled.');
     }
 }

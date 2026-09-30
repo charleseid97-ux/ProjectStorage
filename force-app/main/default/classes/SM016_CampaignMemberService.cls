@@ -358,8 +358,9 @@ public with sharing class SM016_CampaignMemberService {
         if(cmToUpdate.size()>0){
             update cmToUpdate;
         }
+        OperationLogService.flush();
     }
-    
+
     public static List<CampaignMember> getCMToUpdate(List<CampaignMember> cmToProcess, Integer participant_type, String campaignLyytiId){
         List<CampaignMember> cmToUpdate = new List<CampaignMember>();
         for (CampaignMember cm : cmToProcess) {

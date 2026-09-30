@@ -71,6 +71,7 @@ public class BATCH_SendCampaignMemberLyyti implements Database.Batchable<sObject
         if(cmToUpdate.size()>0){
             update cmToUpdate;
         }
+        OperationLogService.flush();
     }
 
     public void finish(Database.BatchableContext BC) { }
