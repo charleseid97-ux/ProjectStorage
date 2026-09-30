@@ -8,7 +8,7 @@
 public class BATCH_SendCampaignMemberLyyti implements Database.Batchable<sObject>, Database.AllowsCallouts, Schedulable {
 
     public void execute(SchedulableContext SC) {
-        Database.executebatch(new BATCH_SendCampaignMemberLyyti(), 1);
+        Database.executebatch(new BATCH_SendCampaignMemberLyyti(), 50);
     }
 
     public Database.QueryLocator start(Database.BatchableContext BC) {
@@ -71,6 +71,7 @@ public class BATCH_SendCampaignMemberLyyti implements Database.Batchable<sObject
         if(cmToUpdate.size()>0){
             update cmToUpdate;
         }
+        OperationLogService.flush();
     }
 
     public void finish(Database.BatchableContext BC) { }

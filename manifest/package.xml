@@ -4,6 +4,10 @@
         <members>BATCH_SendCampaignMemberLyyti</members>
         <members>BATCH_SendCampaignMemberLyytiScheduler</members>
         <members>BATCH_UpdateCampaignMemberLyytiSource</members>
+        <members>CampaignService</members>
+        <members>RestCallout</members>
+        <members>SM016_CampaignMemberService</members>
+        <members>WS_SendCampaignMemberTest</members>
         <name>ApexClass</name>
     </types>
     <version>64.0</version>
