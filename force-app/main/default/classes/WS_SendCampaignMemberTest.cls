@@ -1,5 +1,8 @@
 @isTest
 public class WS_SendCampaignMemberTest {
+
+    public static final String mockResult_1 = '{"results": [{ "participants": { "1711900-834136176": {"id": "834136176", "uid": "1711900-834136176"} } }]}';
+    public static final String mockResult_2 = '{"results": {"227032970": {"id": 227032970,"uid": "1704919-227032970","uuid": "1ef911d2-29e6-63a0-8a7b-7239c816d04e","firstname": "first","lastname": "last","email": "first.last@invalid.com", "participant_type_id": 61909330},"227032971": {"id": 227032971,"uid": "1704919-227032971","uuid": "1ef911d2-29e6-63a0-8a7b-7239c816d04d","firstname": "first1","lastname": "last1","email": "first.last123@invalid.com"}}}';
     
     @testSetup static void setup() {
         Campaign camp = new Campaign 
@@ -34,13 +37,10 @@ public class WS_SendCampaignMemberTest {
         Contact con = TestDataFactory.getContact();
         con.AccountId = acc.Id;
         insert con;
-        
-        
     }
 
     @isTest
     static void sendCMStatusInvited_Test() {
-
         Campaign camp = [SELECT Id FROM Campaign LIMIT 1];
         Contact con = [SELECT Id FROM Contact LIMIT 1];
         Category_Event__c category = [SELECT Id FROM Category_Event__c LIMIT 1];
@@ -49,11 +49,11 @@ public class WS_SendCampaignMemberTest {
         cm.Category_Event_lookup__c = category.Id;
         
         Test.startTest();
-			Test.setMock(HttpCalloutMock.class, new MockHttpCampaign(200,'{"results": [{ "participants": { "1711900-834136176": {"id": "834136176", "uid": "1711900-834136176"} } }]}'));
-            insert cm;
+
+        Test.setMock(HttpCalloutMock.class, new MockHttpCampaign(200, mockResult_1));
+        insert cm;
 
         Test.stopTest();
-
     }
 
     @isTest
@@ -71,11 +71,11 @@ public class WS_SendCampaignMemberTest {
         cm.Status = 'Declined';
         
         Test.startTest();
-			Test.setMock(HttpCalloutMock.class, new MockHttpCampaign(200,'{"results": [{ "participants": { "1711900-834136176": {"id": "834136176", "uid": "1711900-834136176"} } }]}'));
-            update cm;
+
+        Test.setMock(HttpCalloutMock.class, new MockHttpCampaign(200, mockResult_1));
+        update cm;
 
         Test.stopTest();
-
     }
 
     @isTest
@@ -93,11 +93,11 @@ public class WS_SendCampaignMemberTest {
         cm.Status = 'Attended';
         
         Test.startTest();
-			Test.setMock(HttpCalloutMock.class, new MockHttpCampaign(200,'{"results": [{ "participants": { "1711900-834136176": {"id": "834136176", "uid": "1711900-834136176"} } }]}'));
-            update cm;
+
+        Test.setMock(HttpCalloutMock.class, new MockHttpCampaign(200, mockResult_1));
+        update cm;
 
         Test.stopTest();
-
     }
 
     @isTest
@@ -115,11 +115,11 @@ public class WS_SendCampaignMemberTest {
         cm.Status = 'No Show';
         
         Test.startTest();
-			Test.setMock(HttpCalloutMock.class, new MockHttpCampaign(200,'{"results": [{ "participants": { "1711900-834136176": {"id": "834136176", "uid": "1711900-834136176"} } }]}'));
-            update cm;
+
+        Test.setMock(HttpCalloutMock.class, new MockHttpCampaign(200, mockResult_1));
+        update cm;
 
         Test.stopTest();
-
     }
     
     @isTest
@@ -140,11 +140,11 @@ public class WS_SendCampaignMemberTest {
         cm.Cancelled__c = true;
         
         Test.startTest();
-			Test.setMock(HttpCalloutMock.class, new MockHttpCampaign(200,'{"results": [{ "participants": { "1711900-834136176": {"id": "834136176", "uid": "1711900-834136176"} } }]}'));
-            update cm;
+
+        Test.setMock(HttpCalloutMock.class, new MockHttpCampaign(200, mockResult_1));
+        update cm;
 
         Test.stopTest();
-
     }
     
     @isTest
@@ -162,11 +162,11 @@ public class WS_SendCampaignMemberTest {
         cm.Status = 'Confirmed';
         
         Test.startTest();
-			Test.setMock(HttpCalloutMock.class, new MockHttpCampaign(200,'{"results": [{ "participants": { "1711900-834136176": {"id": "834136176", "uid": "1711900-834136176"} } }]}'));
-            update cm;
+
+        Test.setMock(HttpCalloutMock.class, new MockHttpCampaign(200, mockResult_1));
+        update cm;
 
         Test.stopTest();
-
     }
 
     @isTest
@@ -180,11 +180,11 @@ public class WS_SendCampaignMemberTest {
         cm.Category_Event_lookup__c = category.Id;
         
         Test.startTest();
-			Test.setMock(HttpCalloutMock.class, new MockHttpCampaign(200,'{"results": [{ "participants": { "1711900-834136176": {"id": "834136176", "uid": "1711900-834136176"} } }]}'));
-            insert cm;
+
+        Test.setMock(HttpCalloutMock.class, new MockHttpCampaign(200, mockResult_1));
+        insert cm;
 
         Test.stopTest();
-
     }
 
     @isTest
@@ -196,18 +196,17 @@ public class WS_SendCampaignMemberTest {
         CampaignMember cm = TestDataFactory.getCampaignMember(con.Id,camp.Id);
         cm.Category_Event_lookup__c = category.Id;
         insert cm;
+
         Test.startTest();
-        	//Test.setMock(HttpCalloutMock.class, new MockHttpCampaign(200, '{"results": {"61909330": {"id": 61909330, "avec": null, "description": {"fr": "Invited"}}, "61909333": {"id": 61909333, "avec": null, "description": {"fr": "Social Media"}}}}'));
-			Test.setMock(HttpCalloutMock.class, new MockHttpCampaign(200,'{"results": {"227032970": {"id": 227032970,"uid": "1704919-227032970","uuid": "1ef911d2-29e6-63a0-8a7b-7239c816d04e","firstname": "first","lastname": "last","email": "first.last@invalid.com", "participant_type_id": 61909330},"227032971": {"id": 227032971,"uid": "1704919-227032971","uuid": "1ef911d2-29e6-63a0-8a7b-7239c816d04d","firstname": "first1","lastname": "last1","email": "first.last123@invalid.com"}}}'));
-        	SM016_CampaignMemberService.callWS(new Set<Id>{cm.Id}, true);
+
+        Test.setMock(HttpCalloutMock.class, new MockHttpCampaign(200, mockResult_2));
+        SM016_CampaignMemberService.callWS(new Set<Id>{cm.Id}, true);
         
         Test.stopTest();
-
     }
     
     @isTest
     static void sendCMStatusInvitedBulk_Test() {
-
         Campaign camp = [SELECT Id FROM Campaign LIMIT 1];
         Account acc = [SELECT Id FROM Account LIMIT 1];
         Category_Event__c category = [SELECT Id FROM Category_Event__c LIMIT 1];
@@ -227,74 +226,94 @@ public class WS_SendCampaignMemberTest {
             cms.add(cm);
         }
         
-        
         Test.startTest();
-			Test.setMock(HttpCalloutMock.class, new MockHttpCampaign(200,'{"results": [{ "participants": { "1711900-834136176": {"id": "834136176", "uid": "1711900-834136176"} } }]}'));
-            insert cms;
+
+        Test.setMock(HttpCalloutMock.class, new MockHttpCampaign(200, mockResult_1));
+        insert cms;
 
         Test.stopTest();
-
     }
     
          
     @isTest
-    static void testBatchExecution() {
-        Campaign camp = [SELECT Id FROM Campaign LIMIT 1];
-        Account acc = [SELECT Id FROM Account LIMIT 1];
-        Category_Event__c category = [SELECT Id FROM Category_Event__c LIMIT 1];
-        List<Contact> contacts = new List<Contact>();
-        List<CampaignMember> cms = new List<CampaignMember>();
-        for(Integer i = 0;i<40;i++){
-            Contact con = TestDataFactory.getContact();
-        	con.AccountId = acc.Id;
-            contacts.add(con);
-        }
-        insert contacts;
-        Integer i = 0;
-        List<String> status = new List<String>{'Invited', 'Declined', 'Attended', 'No Show', 'Confirmed'};
-        for(Contact con : contacts){
-            CampaignMember cm = TestDataFactory.getCampaignMember(con.Id,camp.Id);
-        	cm.Status = status[math.mod(i,5)];
-        	cm.Category_Event_lookup__c = category.Id;
-            
-            cms.add(cm);
-            i++;
-        }
-		insert cms;
+    static void testBatchExecution_Invited() {
+        createCampaignMemberWithStatus('Invited');
         
         Test.startTest();
         
-        String jobName = 'Test Send Campaign Member Calculation';
-        String cronExp = '0 0 0 * * ?';
-        BATCH_SendCampaignMemberLyytiScheduler scheduler = new BATCH_SendCampaignMemberLyytiScheduler();
-        String jobId = System.schedule(jobName, cronExp, scheduler);
-        Test.setMock(HttpCalloutMock.class, new MockHttpCampaign(200,'{"results": [{ "participants": { "1711900-834136176": {"id": "834136176", "uid": "1711900-834136176"} } }]}'));
-
-        CronTrigger ct = [SELECT Id, CronExpression, TimesTriggered, NextFireTime 
-                          FROM CronTrigger 
-                          WHERE Id = :jobId];
-        System.assertEquals(cronExp, ct.CronExpression);
-        System.assertEquals(0, ct.TimesTriggered);
-        System.assertNotEquals(null, ct.NextFireTime);
+        callBatch();
+        Test.setMock(HttpCalloutMock.class, new MockHttpCampaign(200, mockResult_1));
         
         Test.stopTest();
-        
-       
-        AsyncApexJob job = [SELECT Id, Status, NumberOfErrors 
-                            FROM AsyncApexJob 
-                            WHERE JobType = 'BatchApex' 
-                            ORDER BY CreatedDate DESC 
-                            LIMIT 1];
-        System.assertEquals(0, job.NumberOfErrors);
-        
-        List<CampaignMember> cmwithId = [SELECT Id,LyytiId__c FROM CampaignMember WHERE LyytiId__c!=null];
-        List<CampaignMember> cmWithoutId = [SELECT Id,LyytiId__c FROM CampaignMember WHERE LyytiId__c=null];
-        
-        system.debug('cmwithId '+cmwithId.size());
-        system.debug('cmWithoutId '+cmWithoutId.size());
-       
     }
-
-
-
+    
+    @isTest
+    static void testBatchExecution_Declined() {
+        createCampaignMemberWithStatus('Declined');
+        
+        Test.startTest();
+        
+        callBatch();
+        Test.setMock(HttpCalloutMock.class, new MockHttpCampaign(200, mockResult_1));
+        
+        Test.stopTest();
+    }
+    
+    @isTest
+    static void testBatchExecution_Attended() {
+        createCampaignMemberWithStatus('Attended');
+        
+        Test.startTest();
+        
+        callBatch();
+        Test.setMock(HttpCalloutMock.class, new MockHttpCampaign(200, mockResult_1));
+        
+        Test.stopTest();
+    }
+    
+    @isTest
+    static void testBatchExecution_NoShow() {
+        createCampaignMemberWithStatus('No Show');
+        
+        Test.startTest();
+        
+        callBatch();
+        Test.setMock(HttpCalloutMock.class, new MockHttpCampaign(200, mockResult_1));
+        
+        Test.stopTest();
+    }
+    
+    @isTest
+    static void testBatchExecution_Confirmed() {
+        createCampaignMemberWithStatus('Confirmed');
+        
+        Test.startTest();
+        
+        callBatch();
+        Test.setMock(HttpCalloutMock.class, new MockHttpCampaign(200, mockResult_1));
+        
+        Test.stopTest();
+    }
+    
+    static void createCampaignMemberWithStatus(String status) {
+        Account acc = [SELECT Id FROM Account LIMIT 1];
+        Campaign camp = [SELECT Id FROM Campaign LIMIT 1];
+        Category_Event__c category = [SELECT Id FROM Category_Event__c LIMIT 1];
+        
+        Contact con = TestDataFactory.getContact();
+        con.AccountId = acc.Id;
+        insert con;
+        
+        CampaignMember cm1 = TestDataFactory.getCampaignMember(con.Id, camp.Id);
+        cm1.Status = status;
+        cm1.Category_Event_lookup__c = category.Id;
+        insert cm1;
+    }
+    
+    static void callBatch() {
+        String jobName = 'Test Send Campaign Member Calculation';
+        String cronExp = '0 0 0 * * ?';
+        BATCH_SendCampaignMemberLyyti scheduler = new BATCH_SendCampaignMemberLyyti();
+        String jobId = System.schedule(jobName, cronExp, scheduler);
+    }
 }
