@@ -49,8 +49,14 @@ public abstract class RestCallout {
 
         Boolean isError = ex != null || (res != null && res.getStatusCode() >= 400);
 
+        // Buffer only - do not flush here. RestCallout is shared by call sites that make several
+        // callouts per transaction (e.g. BATCH_SendCampaignMemberLyyti's loop): flushing after every
+        // single callout does a DML insert, and Salesforce forbids a callout after DML in the same
+        // transaction, so a per-call flush here silently breaks every callout after the first one.
+        // OperationLogService.log() still auto-flushes once the buffer hits its own size cap, and
+        // callers are expected to flush once at their natural transaction boundary (matching the
+        // pattern used elsewhere in this codebase, e.g. CityWireUpdateBatch).
         OperationLogService.logWithContext(isError ? OperationLogService.Level.ERROR : OperationLogService.Level.INFO, getSourceRecordId(), getSourceObjectApiName(), className + ' - ' + req.getMethod(), buildLogMessage(className, req, res, ex), context, ex, className, 'callEndPoint');
-        OperationLogService.flush();
     }
 
     private String buildLogMessage(String className, HttpRequest req, HttpResponse res, Exception ex) {
