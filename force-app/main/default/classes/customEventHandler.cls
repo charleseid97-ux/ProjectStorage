@@ -99,6 +99,7 @@ public without sharing class customEventHandler implements ITriggerHandler {
         
         // Create Campaign when Event is fully approved
         customEventService.createCampaign(new List<Event__c>(newEventsToProcess.values()), oldEventsToProcess);
+        customEventService.cancelRequiredPresentations(newEventsToProcess, oldEventsToProcess);
         customEventService.startEventTeamApprovalAfterUpdate(newEventsToProcess.values(), oldEventsToProcess);
         customEventService.submitOrganizerApproval(newEventsToProcess.values(), oldEventsToProcess);
         // Send generic event status notification \ it send also the creation email because events are created as draft and updated post creation

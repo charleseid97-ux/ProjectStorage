@@ -166,7 +166,11 @@ public without sharing class NotificationTitleGenerator {
             return 'The date of the request has changed';
         }
 
-        if (newEvent.StartTime__c != oldEvent.StartTime__c || newEvent.EndTime__c != oldEvent.EndTime__c) {
+        if (
+            newEvent.StartTime__c != oldEvent.StartTime__c ||
+            newEvent.EndTime__c != oldEvent.EndTime__c ||
+            newEvent.TimeZone__c != oldEvent.TimeZone__c
+        ) {
             return 'The timing of the request has changed';
         }
 
@@ -183,7 +187,8 @@ public without sharing class NotificationTitleGenerator {
             || newEvent.StartDate__c != oldEvent.StartDate__c
             || newEvent.EndDate__c != oldEvent.EndDate__c
             || newEvent.StartTime__c != oldEvent.StartTime__c
-            || newEvent.EndTime__c != oldEvent.EndTime__c;
+            || newEvent.EndTime__c != oldEvent.EndTime__c
+            || newEvent.TimeZone__c != oldEvent.TimeZone__c;
     }
 
     // Identifie la transition qui déclenche l'approbation Event Team.

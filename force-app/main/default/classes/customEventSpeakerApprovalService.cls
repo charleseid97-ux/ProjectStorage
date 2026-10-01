@@ -1222,15 +1222,28 @@ public without sharing class customEventSpeakerApprovalService {
     }
 
     /**
-     * Tri simple pour stabiliser l'affichage par nom de speaker.
+     * Sorts speakers chronologically by date and start time.
      */
     private class SpeakerHtmlRowSorter implements System.Comparator<SpeakerHtmlRow> {
         public Integer compare(SpeakerHtmlRow left, SpeakerHtmlRow right) {
-            String ln = (left == null || left.speakerName == null) ? '' : left.speakerName.toLowerCase();
-            String rn = (right == null || right.speakerName == null) ? '' : right.speakerName.toLowerCase();
+            if (left.sessionDate != right.sessionDate) {
+                if (left.sessionDate == null) return 1;
+                if (right.sessionDate == null) return -1;
+                return left.sessionDate < right.sessionDate ? -1 : 1;
+            }
 
-            if (ln == rn) return 0;
-            return ln < rn ? -1 : 1;
+            // For the same date, sort speakers by their intervention start time.
+            if (left.startTime != right.startTime) {
+                if (left.startTime == null) return 1;
+                if (right.startTime == null) return -1;
+                return left.startTime < right.startTime ? -1 : 1;
+            }
+
+            String leftName = left.speakerName == null ? '' : left.speakerName.toLowerCase();
+            String rightName = right.speakerName == null ? '' : right.speakerName.toLowerCase();
+
+            if (leftName == rightName) return 0;
+            return leftName < rightName ? -1 : 1;
         }
     }
 

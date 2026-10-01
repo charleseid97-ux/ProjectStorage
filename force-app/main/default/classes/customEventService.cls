@@ -746,6 +746,7 @@ public without sharing class customEventService {
             ev.EndDate__c != oldEv.EndDate__c ||
             ev.StartTime__c != oldEv.StartTime__c ||
             ev.EndTime__c != oldEv.EndTime__c ||
+            ev.TimeZone__c != oldEv.TimeZone__c ||
             locationChanged;
 
         if (!relevantModification) continue;
@@ -821,7 +822,8 @@ public without sharing class customEventService {
                 ev.StartDate__c != oldEv.StartDate__c ||
                 ev.EndDate__c != oldEv.EndDate__c ||
                 ev.StartTime__c != oldEv.StartTime__c ||
-                ev.EndTime__c != oldEv.EndTime__c;
+                ev.EndTime__c != oldEv.EndTime__c ||
+                ev.TimeZone__c != oldEv.TimeZone__c;
             // Location changes require a new approval only after the initial Event Team cycle.
             Boolean locationChanged =
                 ev.City__c != oldEv.City__c ||
@@ -1130,5 +1132,48 @@ public without sharing class customEventService {
             || newEvent.MeetingBackground__c != oldEvent.MeetingBackground__c
             || newEvent.Description__c != oldEvent.Description__c
             || newEvent.AudienceCompany__c != oldEvent.AudienceCompany__c;
+    }
+
+
+    /**
+     * Sets required presentations to not required when an Event is cancelled.
+     */
+    public static void cancelRequiredPresentations(
+        Map<Id, Event__c> newMap,
+        Map<Id, Event__c> oldMap
+    ) {
+        Set<Id> cancelledEventIds = new Set<Id>();
+
+        // Keep only Events that have just been cancelled.
+        for (Event__c newEvent : newMap.values()) {
+            Event__c oldEvent = oldMap.get(newEvent.Id);
+
+            if (
+                newEvent.Status__c == 'Cancelled' &&
+                oldEvent.Status__c != 'Cancelled'
+            ) {
+                cancelledEventIds.add(newEvent.Id);
+            }
+        }
+
+        if (cancelledEventIds.isEmpty()) {
+            return;
+        }
+
+        List<SessionSpeakerProduct__c> ssps = [
+            SELECT Id, PresentationStatus__c
+            FROM SessionSpeakerProduct__c
+            WHERE Session__c IN :cancelledEventIds
+            AND PresentationStatus__c = 'required'
+        ];
+
+        // Preserve SSP history while removing presentations from the Product workflow.
+        for (SessionSpeakerProduct__c ssp : ssps) {
+            ssp.PresentationStatus__c = 'not required';
+        }
+
+        if (!ssps.isEmpty()) {
+            update ssps;
+        }
     }
 }

@@ -22,6 +22,19 @@ public without sharing class EventApprovalInboxController {
         @AuraEnabled public String processDeveloperName;
     }
 
+    public class StuckEventRow {
+        @AuraEnabled public Id eventId;
+        @AuraEnabled public String eventName;
+        @AuraEnabled public String type;
+        @AuraEnabled public String format;
+        @AuraEnabled public Date eventDate;
+        @AuraEnabled public String salesTeam;
+        @AuraEnabled public String organizer;
+        @AuraEnabled public String speakers;
+        @AuraEnabled public String status;
+    }
+
+    // Charge les approbations et les Events bloques accessibles au Bookly Admin.
     @AuraEnabled(cacheable=false)
     public static Map<String, Object> loadApprovals() {
 
@@ -43,6 +56,9 @@ public without sharing class EventApprovalInboxController {
         Boolean hasHopApproverPermission =
             FeatureManagement.checkPermission('ApproveForHOP');
 
+        Boolean hasBooklyAdminPermission =
+            FeatureManagement.checkPermission('Bookly_Admin');
+
         List<ProcessInstanceWorkitem> workItems = [
             SELECT Id,
                 ActorId,
@@ -57,7 +73,7 @@ public without sharing class EventApprovalInboxController {
         Set<Id> actorUserIds = new Set<Id>();
         Set<Id> actorGroupIds = new Set<Id>();
 
-        // Analyse des workitems
+        // Analyse des workitems.
         for (ProcessInstanceWorkitem wi : workItems) {
 
             if (wi.ActorId != null) {
@@ -155,7 +171,7 @@ public without sharing class EventApprovalInboxController {
             ]);
         }
 
-        // Construction des lignes
+        // Construction des lignes.
         for (ProcessInstanceWorkitem wi : workItems) {
 
             Id targetId = wi.ProcessInstance.TargetObjectId;
@@ -210,14 +226,24 @@ public without sharing class EventApprovalInboxController {
         result.put('hasSpeakerApproverPermission', hasSpeakerApproverPermission);
         result.put('hasOrganizerApproverPermission', hasOrganizerApproverPermission);
         result.put('hasHopApproverPermission', hasHopApproverPermission);
+        result.put('hasBooklyAdminPermission', hasBooklyAdminPermission);
         result.put('eventRows', eventRows);
         result.put('speakerRows', speakerRows);
         result.put('organizerRows', organizerRows);
         result.put('hopRows', hopRows);
 
+        // Ne charge les Events bloques que pour les Bookly Admin.
+        result.put(
+            'stuckEventRows',
+            hasBooklyAdminPermission
+                ? getStuckEventRows()
+                : new List<StuckEventRow>()
+        );
+
         return result;
     }
 
+    // Approuve les workitems selectionnes.
     @AuraEnabled
     public static void bulkApprove(List<Id> workItemIds) {
 
@@ -304,8 +330,7 @@ public without sharing class EventApprovalInboxController {
         }
     }
 
-
-    // Construit une ligne d'approbation à partir d'un workitem
+    // Construit une ligne d'approbation a partir d'un workitem.
     private static ApprovalRow buildApprovalRow(
         ProcessInstanceWorkitem wi,
         Id me,
@@ -359,7 +384,11 @@ public without sharing class EventApprovalInboxController {
                 isSpeakerApproval &&
                 processDeveloperName == HOP_PROCESS_DEVELOPER_NAME;
 
-            if (!(canApproveOtherSpeaker || canApproveOtherOrganizer || canApproveOtherHop)) {
+            if (
+                !canApproveOtherSpeaker &&
+                !canApproveOtherOrganizer &&
+                !canApproveOtherHop
+            ) {
                 return null;
             }
 
@@ -375,7 +404,7 @@ public without sharing class EventApprovalInboxController {
         return row;
     }
 
-    // Remplit une ligne depuis un Event
+    // Remplit une ligne depuis un Event.
     @TestVisible
     private static void populateEventRow(
         ApprovalRow row,
@@ -393,7 +422,7 @@ public without sharing class EventApprovalInboxController {
         row.salesTeam = evt.SalesTeam__c;
     }
 
-    // Remplit une ligne depuis un EventSpeakerApproval
+    // Remplit une ligne depuis un EventSpeakerApproval.
     private static void populateSpeakerRow(
         ApprovalRow row,
         EventSpeakerApprovals__c esa
@@ -413,6 +442,316 @@ public without sharing class EventApprovalInboxController {
         row.salesTeam = esa.Event__r.SalesTeam__c;
     }
 
+    // Retourne les Events en attente sans Approval Process Salesforce Pending.
+    private static List<StuckEventRow> getStuckEventRows() {
 
+        List<Event__c> waitingEvents = [
+            SELECT Id,
+                Name,
+                category__c,
+                Format__c,
+                startDate__c,
+                Speakers__c,
+                Organizer__r.Name,
+                SalesTeam__c,
+                Status__c
+            FROM Event__c
+            WHERE Status__c =
+                :customEventConstants.STATUS_WAITING_FOR_SPEAKER_APPROVALS
+            ORDER BY startDate__c ASC NULLS LAST
+        ];
 
+        if (waitingEvents.isEmpty()) {
+            return new List<StuckEventRow>();
+        }
+
+        Set<Id> eventIds =
+            new Map<Id, Event__c>(waitingEvents).keySet();
+
+        Map<Id, Id> eventIdByApprovalId =
+            getEventIdByApprovalId(eventIds);
+
+        Set<Id> targetIds = new Set<Id>();
+        targetIds.addAll(eventIds);
+        targetIds.addAll(eventIdByApprovalId.keySet());
+
+        Set<Id> blockedEventIds =
+            getEventsWithPendingApprovals(
+                targetIds,
+                eventIds,
+                eventIdByApprovalId
+            );
+
+        return buildStuckEventRows(
+            waitingEvents,
+            blockedEventIds
+        );
+    }
+
+    // Construit la correspondance entre une approval Speaker/HOP et son Event.
+    private static Map<Id, Id> getEventIdByApprovalId(
+        Set<Id> eventIds
+    ) {
+        Map<Id, Id> eventIdByApprovalId = new Map<Id, Id>();
+
+        for (EventSpeakerApprovals__c approval : [
+            SELECT Id, Event__c
+            FROM EventSpeakerApprovals__c
+            WHERE Event__c IN :eventIds
+        ]) {
+            eventIdByApprovalId.put(
+                approval.Id,
+                approval.Event__c
+            );
+        }
+
+        return eventIdByApprovalId;
+    }
+
+    // Identifie les Events ayant encore une approval Salesforce Pending.
+    private static Set<Id> getEventsWithPendingApprovals(
+        Set<Id> targetIds,
+        Set<Id> eventIds,
+        Map<Id, Id> eventIdByApprovalId
+    ) {
+        Set<Id> blockedEventIds = new Set<Id>();
+
+        if (targetIds.isEmpty()) {
+            return blockedEventIds;
+        }
+
+        for (ProcessInstance process : [
+            SELECT TargetObjectId
+            FROM ProcessInstance
+            WHERE TargetObjectId IN :targetIds
+            AND Status = 'Pending'
+        ]) {
+            Id targetId = process.TargetObjectId;
+
+            if (eventIds.contains(targetId)) {
+                blockedEventIds.add(targetId);
+                continue;
+            }
+
+            Id eventId = eventIdByApprovalId.get(targetId);
+
+            if (eventId != null) {
+                blockedEventIds.add(eventId);
+            }
+        }
+
+        return blockedEventIds;
+    }
+
+    // Construit les lignes affichees dans l'onglet Stuck Events.
+    private static List<StuckEventRow> buildStuckEventRows(
+        List<Event__c> waitingEvents,
+        Set<Id> blockedEventIds
+    ) {
+        List<StuckEventRow> rows =
+            new List<StuckEventRow>();
+
+        for (Event__c eventRecord : waitingEvents) {
+
+            if (blockedEventIds.contains(eventRecord.Id)) {
+                continue;
+            }
+
+            StuckEventRow row = new StuckEventRow();
+
+            row.eventId = eventRecord.Id;
+            row.eventName = eventRecord.Name;
+            row.type = eventRecord.category__c;
+            row.format = eventRecord.Format__c;
+            row.eventDate = eventRecord.startDate__c;
+            row.salesTeam = eventRecord.SalesTeam__c;
+            row.organizer = eventRecord.Organizer__r != null
+                ? eventRecord.Organizer__r.Name
+                : null;
+            row.speakers = eventRecord.Speakers__c;
+            row.status = eventRecord.Status__c;
+
+            rows.add(row);
+        }
+
+        return rows;
+    }
+
+    // Repare les approvals legacy et resoumet les Approval Processes manquants.
+    @AuraEnabled
+    public static String unblockStuckEvent(Id eventId) {
+
+        if (!FeatureManagement.checkPermission('Bookly_Admin')) {
+            throw new AuraHandledException(
+                'Bookly Admin permission is required.'
+            );
+        }
+
+        if (eventId == null) {
+            throw new AuraHandledException(
+                'Event Id is required.'
+            );
+        }
+
+        Event__c eventRecord = [
+            SELECT Id, Status__c
+            FROM Event__c
+            WHERE Id = :eventId
+            LIMIT 1
+        ];
+
+        if (
+            eventRecord.Status__c !=
+            customEventConstants.STATUS_WAITING_FOR_SPEAKER_APPROVALS
+        ) {
+            throw new AuraHandledException(
+                'The Event is no longer waiting for speaker approvals.'
+            );
+        }
+
+        // Synchronise d'abord les approvals attendues avec les SSP actuels.
+        customEventSpeakerApprovalService.refreshApprovalsFromSessions(
+            new Set<Id>{ eventId }
+        );
+
+        List<EventSpeakerApprovals__c> legacyApprovals = [
+            SELECT Id
+            FROM EventSpeakerApprovals__c
+            WHERE Event__c = :eventId
+            AND approvalType__c = null
+        ];
+
+        // Supprime uniquement les anciennes ESA sans type devenues incompatibles.
+        if (!legacyApprovals.isEmpty()) {
+            delete legacyApprovals;
+
+            // Le service recree alors les ESA Speaker/HOP/Auto conformes depuis les SSP.
+            customEventSpeakerApprovalService.refreshApprovalsFromSessions(
+                new Set<Id>{ eventId }
+            );
+        }
+
+        List<EventSpeakerApprovals__c> approvals = [
+            SELECT Id,
+                approvalType__c,
+                Status__c
+            FROM EventSpeakerApprovals__c
+            WHERE Event__c = :eventId
+            AND Status__c = :customEventConstants.APPROVAL_STATUS_SUBMITTED
+        ];
+
+        if (approvals.isEmpty()) {
+            return finalizeStuckEventIfPossible(eventId);
+        }
+
+        return restartMissingApprovalProcesses(approvals);
+    }
+    
+        // Resoumet les approvals Speaker/HOP sans Approval Process Salesforce actif.
+    private static String restartMissingApprovalProcesses(
+        List<EventSpeakerApprovals__c> approvals
+    ) {
+        Set<Id> approvalIds =
+            new Map<Id, EventSpeakerApprovals__c>(approvals).keySet();
+
+        Set<Id> approvalsWithPendingProcess = new Set<Id>();
+
+        for (ProcessInstance processInstance : [
+            SELECT TargetObjectId
+            FROM ProcessInstance
+            WHERE TargetObjectId IN :approvalIds
+            AND Status = 'Pending'
+        ]) {
+            approvalsWithPendingProcess.add(
+                processInstance.TargetObjectId
+            );
+        }
+
+        List<Approval.ProcessRequest> submissionRequests =
+            new List<Approval.ProcessRequest>();
+
+        // Une ESA manuelle doit avoir le process correspondant a son type.
+        for (EventSpeakerApprovals__c approvalRecord : approvals) {
+
+            if (approvalsWithPendingProcess.contains(approvalRecord.Id)) {
+                continue;
+            }
+
+            String processDeveloperName =
+                getApprovalProcessDeveloperName(
+                    approvalRecord.approvalType__c
+                );
+
+            if (processDeveloperName == null) {
+                continue;
+            }
+
+            Approval.ProcessSubmitRequest submissionRequest =
+                new Approval.ProcessSubmitRequest();
+
+            submissionRequest.setObjectId(approvalRecord.Id);
+            submissionRequest.setProcessDefinitionNameOrId(
+                processDeveloperName
+            );
+            submissionRequest.setSkipEntryCriteria(true);
+
+            submissionRequests.add(submissionRequest);
+        }
+
+        if (submissionRequests.isEmpty()) {
+            return 'No missing approval process found.';
+        }
+
+        Approval.process(submissionRequests);
+
+        return submissionRequests.size() +
+            ' approval process(es) restarted.';
+    }
+
+    // Retourne le process Salesforce correspondant au type d'approval Bookly.
+    private static String getApprovalProcessDeveloperName(
+        String approvalType
+    ) {
+        if (approvalType == 'Speaker') {
+            return SPEAKER_PROCESS_DEVELOPER_NAME;
+        }
+
+        if (approvalType == 'HOP') {
+            return HOP_PROCESS_DEVELOPER_NAME;
+        }
+
+        return null;
+    }
+
+        // Finalise l'Event uniquement lorsqu'aucune approval manuelle ne reste a relancer.
+    private static String finalizeStuckEventIfPossible(Id eventId) {
+
+        Map<Id, String> calculatedStatuses =
+            customEventSpeakerApprovalService.calculateEventStatusFromApprovals(
+                new Set<Id>{ eventId }
+            );
+
+        String calculatedStatus =
+            calculatedStatuses.get(eventId);
+
+        if (calculatedStatus == null) {
+            calculatedStatus =
+                customEventConstants.STATUS_FULLY_APPROVED;
+        }
+
+        if (
+            calculatedStatus ==
+            customEventConstants.STATUS_WAITING_FOR_SPEAKER_APPROVALS
+        ) {
+            return 'No missing approval process found.';
+        }
+
+        update new Event__c(
+            Id = eventId,
+            Status__c = calculatedStatus
+        );
+
+        return 'Event status updated to ' +
+            calculatedStatus + '.';
+    }
 }

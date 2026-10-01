@@ -1,8 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Package xmlns="http://soap.sforce.com/2006/04/metadata">
     <types>
-        <members>VFC16_SequantisGenerateDraft</members>
+        <members>customEventHandler</members>
+        <members>customEventService</members>
+        <members>customEventSpeakerApprovalService</members>
+        <members>EventApprovalInboxController</members>
+        <members>NotificationTitleGenerator</members>
         <name>ApexClass</name>
     </types>
-    <version>64.0</version>
+    <types>
+        <members>eventApprovalInbox</members>
+        <name>LightningComponentBundle</name>
+    </types>
+    <version>66.0</version>
 </Package>

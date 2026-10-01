@@ -56,6 +56,16 @@
                     </lightning-input>
                 </template>
 
+                <template if:true={showStuckEventFilter}>
+                    <lightning-input
+                        type="checkbox"
+                        label="Stuck Events"
+                        name="showStuckEvents"
+                        checked={showStuckEvents}
+                        onchange={handleFilterChange}>
+                    </lightning-input>
+                </template>
+
                 <lightning-button
                     label="Approve selected"
                     variant="brand"
@@ -134,8 +144,26 @@
 
                 </lightning-tab>
 
-            </lightning-tabset>
+                <template if:true={showStuckEventTable}>
+                    <lightning-tab
+                        label={stuckEventTabLabel}
+                        value="stuckEvents">
 
+                        <lightning-datatable
+                            onsort={handleSort}
+                            sorted-by={sortedBy}
+                            sorted-direction={sortedDirection}
+                            key-field="eventId"
+                            data={stuckEventRows}
+                            columns={stuckEventColumns}
+                            hide-checkbox-column
+                            onrowaction={handleStuckEventAction}>
+                        </lightning-datatable>
+
+                    </lightning-tab>
+                </template>
+
+            </lightning-tabset>
         </div>
 
     </lightning-card>
