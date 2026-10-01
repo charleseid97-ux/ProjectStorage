@@ -98,7 +98,7 @@ public with sharing class VFC16_SequantisGenerateDraft {
             }
             if (errorMessage == '') {
                 infoMessage = 'All ShareClasses processed.';
-            }        
+            }         
     }
     public  String callSequantisService(String token, String projectShareClassId,Boolean returnPDF) {
         payloadDebug = '';
@@ -116,6 +116,7 @@ public with sharing class VFC16_SequantisGenerateDraft {
                                 ProjectProduct__c, ShareclassInvestmentObjective__c, InvestorType__c,PerformanceFeeUCITSKIID__c,PerformanceFeeEPTKID__c, MaxPerfFees__c,
                                 PerformanceFeeMethod__c,MaxRedemptionFeesSubfund__c,MaxRedemptionFeesManCo__c,OngoingCostsExante__c,OngoingChargesKIID__c,ReasonforRHPRedemptionShareclass__c
                                 ,MaxConversionFee__c,IsPayingTrailerFees__c
+                                ,CountryRegNeededSemipro__c,CountryRegNeededInstitutional__c,CountryRegNeededRetail__c
                                 FROM projectShareClass__c
                                 WHERE id = :projectShareClassId];
         
@@ -125,7 +126,7 @@ public with sharing class VFC16_SequantisGenerateDraft {
                                 EET20200__c, EET20210__c, EET20400__c, EET20430__c, EET20460__c, EET20250__c, AMFESGCommunication__c, HasCarbonTarget__c, EET60440__c, FundSpecificExclusions__c,
                                 EndDate__c, Product__c,ParentProduct__r.ProductName__c,InvestmentObjective__c,IntentedRetailInvestor__c,ReasonForRHP__c,RedeemCondition__c,LMT__c,
                                 internalShortName__c,TECH_RTName__c, BaseCurrency__c,RecordTypeId,DefaultLanguage__c,SettlementPeriod__c,OtherRelevantInformation__c,
-                                RiskNotConsideredinIndicator__c 
+                                RiskNotConsideredinIndicator__c ,RegulatoryNumber__c
                             FROM ProjectProduct__c
                             WHERE Id = :projectShareClassRec.ProjectProduct__c];
         system.debug('====callSequantisService=======endDate = ' + ProjectProductRec.EndDate__c); 
@@ -277,6 +278,13 @@ public with sharing class VFC16_SequantisGenerateDraft {
         payload.put('userMail', UserInfo.getUserEmail());
         Id rtId = ProjectProductRec.RecordTypeId;
 
+        // Envoi des pays uniquement lors d'une Product Creation ou Shareclass Creation
+        if (rtId == fundCreationRecordTypeId || rtId == shareclassCreationRecordTypeId) {
+            payload.put('countryRegNeededSemPro', projectShareClassRec.CountryRegNeededSemipro__c);
+            payload.put('countryRegNeededInstit', projectShareClassRec.CountryRegNeededInstitutional__c);
+            payload.put('countryRegNeededRetail', projectShareClassRec.CountryRegNeededRetail__c);
+        }
+
         if (rtId == fundCreationRecordTypeId) {
             if (ProjectProductRec.RecommendedHoldingPeriod__c == null ){
                 errorMsg += '<br/> Recommended Holding Period is required. ';
@@ -284,6 +292,8 @@ public with sharing class VFC16_SequantisGenerateDraft {
             if (ProjectProductRec.RecommendedHoldingPeriodUnit__c == null ){
                 errorMsg += '<br/> Recommended Holding Period Unit is required. ';
             } 
+            
+            payload.put('regulatoryNumber', ProjectProductRec.RegulatoryNumber__c);
             payload.put('rhp', ProjectProductRec.RecommendedHoldingPeriod__c);
             payload.put('rhpUnit', escapeHTML(ProjectProductRec.RecommendedHoldingPeriodUnit__c));
             payload.put('reasonForRedemptionShareClass',escapeHTML(projectShareClassRec.ReasonforRHPRedemptionShareclass__c ));
