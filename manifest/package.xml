@@ -1,13 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Package xmlns="http://soap.sforce.com/2006/04/metadata">
     <types>
-        <members>BATCH_SendCampaignMemberLyyti</members>
-        <members>BATCH_SendCampaignMemberLyytiScheduler</members>
-        <members>BATCH_UpdateCampaignMemberLyytiSource</members>
-        <members>CampaignService</members>
-        <members>RestCallout</members>
-        <members>SM016_CampaignMemberService</members>
-        <members>WS_SendCampaignMemberTest</members>
+        <members>ReferentialProductHomepageCtrl</members>
         <name>ApexClass</name>
     </types>
     <version>64.0</version>

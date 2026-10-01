@@ -15,7 +15,7 @@ public class ReferentialProductHomepageCtrl {
     static final Id fundRecordTypeId = Schema.SObjectType.Product__c.getRecordTypeInfosByDeveloperName().get('Fund').getRecordTypeId();
 
     private static final List<String> ACTIVE_SHARE_CLASS_STATUSES = new List<String>{'Active', 'Active - Lab'}; // Statuts considérés comme actifs pour remplacer TechIsActive__c.
-    private static final String ISIN_PATTERN = '^[A-Z]{2}[0-9]{3,10}$'; // 2 lettres + au moins 3 chiffres pour ne pas confondre un Internal Short Name (ex: CC27) avec un ISIN
+    private static final String ISIN_PATTERN = '^[A-Z]{2}[A-Z0-9]{3,10}$'; // 2 lettres + au moins 3 lettres ou chiffres pour ne pas confondre un Internal Short Name (ex: CC27) avec un ISIN
 
     // Uniquement les champs lus par ProductHierarchyHelper (getShareItemsReferential / getFundsItemsWithSharesReferential)
     private static final String SHARE_CLASS_SELECT = 'SELECT Id, Name, Fund__c, Status__c, ISIN__c, Primary_Portfolio_Share_Class__c, Fund__r.AssetClass__c, Fund__r.LaunchDate__c' +
