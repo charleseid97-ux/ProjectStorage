@@ -571,25 +571,6 @@
         </values>
     </picklistValues>
     <picklistValues>
-        <picklist>Investment_Style__c</picklist>
-        <values>
-            <fullName>BOUP</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>QUVE</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>TOUP</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>TOWN</fullName>
-            <default>false</default>
-        </values>
-    </picklistValues>
-    <picklistValues>
         <picklist>IsFeeder__c</picklist>
         <values>
             <fullName>False</fullName>
@@ -678,15 +659,15 @@
     <picklistValues>
         <picklist>LiquidityManagementToolLMT__c</picklist>
         <values>
-            <fullName>Exceptional Redemption Fees %28attention frais différent du champ Redemption Fees existant%29</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Extension Notice Period %28attention différent de la Notice Period existante dans Product Catalog%29</fullName>
+            <fullName>Extension Notice Period</fullName>
             <default>false</default>
         </values>
         <values>
             <fullName>Gates</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Redemption Fees</fullName>
             <default>false</default>
         </values>
         <values>

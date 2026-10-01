@@ -3,10 +3,6 @@
     <label><!-- Registration Status --></label>
     <name>RegistrationStatus__c</name>
     <picklistValues>
-        <masterLabel>AUTNOTREG</masterLabel>
-        <translation><!-- AUTNOTREG --></translation>
-    </picklistValues>
-    <picklistValues>
         <masterLabel>De-Registered</masterLabel>
         <translation><!-- De-Registered --></translation>
     </picklistValues>
@@ -15,12 +11,32 @@
         <translation><!-- Institutional --></translation>
     </picklistValues>
     <picklistValues>
+        <masterLabel>Registered Not Distributed</masterLabel>
+        <translation><!-- Registered Not Distributed --></translation>
+    </picklistValues>
+    <picklistValues>
         <masterLabel>Retails</masterLabel>
         <translation><!-- Retails --></translation>
     </picklistValues>
     <picklistValues>
+        <masterLabel>Semi-pro</masterLabel>
+        <translation><!-- Semi-pro --></translation>
+    </picklistValues>
+    <picklistValues>
         <masterLabel>To be Registered</masterLabel>
         <translation><!-- To be Registered --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>To be Registered Institutional</masterLabel>
+        <translation><!-- To be Registered Institutional --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>To be Registered Retail</masterLabel>
+        <translation><!-- To be Registered Retail --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>To be Registered Semi-pro</masterLabel>
+        <translation><!-- To be Registered Semi-pro --></translation>
     </picklistValues>
     <picklistValues>
         <masterLabel>Under Registration</masterLabel>

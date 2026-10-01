@@ -901,6 +901,21 @@
             <field>TECHProdcutDomicieldIn__c</field>
             <table>Share_Class__c</table>
         </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>MergedIntoold__c</field>
+            <table>Share_Class__c</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>MergedInto__c</field>
+            <table>Share_Class__c</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>ProductShortName__c</field>
+            <table>Share_Class__c</table>
+        </columns>
         <masterLabel>Share Classes</masterLabel>
     </sections>
 </ReportType>

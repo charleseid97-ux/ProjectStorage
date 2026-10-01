@@ -124,6 +124,7 @@
         <nameSegment>Threat__c.Account_Plan_T_Update</nameSegment>
     </actionCalls>
     <apiVersion>50.0</apiVersion>
+    <areMetricsLoggedToDataCloud>false</areMetricsLoggedToDataCloud>
     <assignments>
         <name>myAssignment_myRule_1_A1</name>
         <label>myAssignment_myRule_1_A1</label>

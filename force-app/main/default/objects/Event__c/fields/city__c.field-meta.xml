@@ -463,6 +463,11 @@
                 <label>Garches</label>
             </value>
             <value>
+                <fullName>Geel</fullName>
+                <default>false</default>
+                <label>Geel</label>
+            </value>
+            <value>
                 <fullName>Geneva</fullName>
                 <default>false</default>
                 <label>Geneva</label>
@@ -944,6 +949,11 @@
                 <label>Nice</label>
             </value>
             <value>
+                <fullName>Nieuwegein</fullName>
+                <default>false</default>
+                <label>Nieuwegein</label>
+            </value>
+            <value>
                 <fullName>Nîmes</fullName>
                 <default>false</default>
                 <label>Nîmes</label>
@@ -1074,6 +1084,11 @@
                 <label>Rimini</label>
             </value>
             <value>
+                <fullName>Rixensart</fullName>
+                <default>false</default>
+                <label>Rixensart</label>
+            </value>
+            <value>
                 <fullName>Roeselare</fullName>
                 <default>false</default>
                 <label>Roeselare</label>
@@ -1087,6 +1102,11 @@
                 <fullName>Rouen</fullName>
                 <default>false</default>
                 <label>Rouen</label>
+            </value>
+            <value>
+                <fullName>Ruiselede</fullName>
+                <default>false</default>
+                <label>Ruiselede</label>
             </value>
             <value>
                 <fullName>Ruschlikon</fullName>
@@ -1339,6 +1359,11 @@
                 <label>Waterloo</label>
             </value>
             <value>
+                <fullName>Westerlo</fullName>
+                <default>false</default>
+                <label>Westerlo</label>
+            </value>
+            <value>
                 <fullName>West Sussex</fullName>
                 <default>false</default>
                 <label>West Sussex</label>
@@ -1478,6 +1503,10 @@
         <valueSettings>
             <controllingFieldValue>Netherlands</controllingFieldValue>
             <valueName>Amsterdam</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Netherlands</controllingFieldValue>
+            <valueName>Nieuwegein</valueName>
         </valueSettings>
         <valueSettings>
             <controllingFieldValue>Norway</controllingFieldValue>
@@ -2225,6 +2254,10 @@
         </valueSettings>
         <valueSettings>
             <controllingFieldValue>Belgium</controllingFieldValue>
+            <valueName>Geel</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Belgium</controllingFieldValue>
             <valueName>Ghent</valueName>
         </valueSettings>
         <valueSettings>
@@ -2277,7 +2310,15 @@
         </valueSettings>
         <valueSettings>
             <controllingFieldValue>Belgium</controllingFieldValue>
+            <valueName>Rixensart</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Belgium</controllingFieldValue>
             <valueName>Roeselare</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Belgium</controllingFieldValue>
+            <valueName>Ruiselede</valueName>
         </valueSettings>
         <valueSettings>
             <controllingFieldValue>Belgium</controllingFieldValue>
@@ -2294,6 +2335,10 @@
         <valueSettings>
             <controllingFieldValue>Belgium</controllingFieldValue>
             <valueName>Waterloo</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Belgium</controllingFieldValue>
+            <valueName>Westerlo</valueName>
         </valueSettings>
         <valueSettings>
             <controllingFieldValue>Belgium</controllingFieldValue>

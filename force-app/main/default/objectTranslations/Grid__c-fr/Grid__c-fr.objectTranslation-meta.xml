@@ -65,6 +65,11 @@
         <name>CustomGrid</name>
     </recordTypes>
     <recordTypes>
+        <description><!-- Other Fees Grid created via Grid Validation — no Grid Details, no Grid Comparison, no Grid Simulation --></description>
+        <label><!-- Other Fees Grid --></label>
+        <name>OtherFeesGrid</name>
+    </recordTypes>
+    <recordTypes>
         <description><!-- Standard Grid created via Excel Import --></description>
         <label><!-- Standard Grid --></label>
         <name>StandardGrid</name>
@@ -85,6 +90,10 @@
     <validationRules>
         <errorMessage><!-- Threshold Mode and Threshold Currency are required when a Threshold Amount is specified. --></errorMessage>
         <name>VRGrid_ThresholdAmtReqModeAndCurr</name>
+    </validationRules>
+    <validationRules>
+        <errorMessage><!-- Type must match the grid&apos;s Record Type: Other Fees Grids require Courtage Assurance et Capi or Performance Fees; every other grid requires SINGLE RULE or MULTI RULE. --></errorMessage>
+        <name>VRGrid_TypeMatchesRecordType</name>
     </validationRules>
     <webLinks>
         <label><!-- EditGridDetails --></label>

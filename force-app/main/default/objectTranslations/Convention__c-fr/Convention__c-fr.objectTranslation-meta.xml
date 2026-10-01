@@ -355,6 +355,10 @@
         <name>AgrVR_CreditNoteTimingFormatDorBD</name>
     </validationRules>
     <validationRules>
+        <errorMessage><!-- This sub-distributor agreement must have an age asset indication. --></errorMessage>
+        <name>Agreement_AgeAsset_MandatoryRule</name>
+    </validationRules>
+    <validationRules>
         <errorMessage><!-- You cannot request a Cancellation of an already Terminated Agreement --></errorMessage>
         <name>Agreement_Cancellation_Date_required</name>
     </validationRules>

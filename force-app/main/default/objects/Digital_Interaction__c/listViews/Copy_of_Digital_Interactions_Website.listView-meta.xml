@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Copy_of_Digital_Interactions_Website</fullName>
+    <columns>CREATED_DATE</columns>
+    <columns>Interaction_Date__c</columns>
+    <columns>NAME</columns>
+    <columns>Contact_lu__c</columns>
+    <columns>Action__c</columns>
+    <columns>Pages_Viewed__c</columns>
+    <columns>TimeSpentDisplay__c</columns>
+    <columns>Campaign__c</columns>
+    <filterScope>Everything</filterScope>
+    <filters>
+        <field>Engagement_Type__c</field>
+        <operation>equals</operation>
+        <value>Newsletter,Newsletters</value>
+    </filters>
+    <label>Digital Interactions Newsletter</label>
+</ListView>

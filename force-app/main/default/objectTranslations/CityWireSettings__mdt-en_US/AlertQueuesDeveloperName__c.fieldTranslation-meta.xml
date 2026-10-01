@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <help><!-- Enter one Queue Developer Name per line to notify multiple queues. Each must match the DeveloperName of an existing Queue. No alert email is sent if this is left blank. --></help>
+    <label><!-- Alert Queues Developer Names --></label>
+    <name>AlertQueuesDeveloperName__c</name>
+</CustomFieldTranslation>

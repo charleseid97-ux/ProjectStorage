@@ -75,6 +75,7 @@
         </inputParameters>
         <nameSegment>emailSimple</nameSegment>
         <offset>0</offset>
+        <versionString>2.0.1</versionString>
     </actionCalls>
     <actionCalls>
         <description>Generate Notification Through Prompt</description>
@@ -160,6 +161,7 @@
         </inputParameters>
         <nameSegment>emailSimple</nameSegment>
         <offset>0</offset>
+        <versionString>2.0.1</versionString>
     </actionCalls>
     <actionCalls>
         <name>Send_Teams_Message_via_Queueable</name>
@@ -191,6 +193,7 @@
         <offset>0</offset>
     </actionCalls>
     <apiVersion>64.0</apiVersion>
+    <areMetricsLoggedToDataCloud>false</areMetricsLoggedToDataCloud>
     <description>Platform event triggered flow used to invoke Apex in order to generate Meeting Notes</description>
     <environments>Default</environments>
     <formulas>

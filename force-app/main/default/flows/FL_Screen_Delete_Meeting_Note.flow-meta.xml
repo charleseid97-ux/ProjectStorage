@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Flow xmlns="http://soap.sforce.com/2006/04/metadata">
     <apiVersion>60.0</apiVersion>
+    <areMetricsLoggedToDataCloud>false</areMetricsLoggedToDataCloud>
     <assignments>
         <name>set_Event_Rec_Id</name>
         <label>set Event Rec Id</label>
@@ -377,6 +378,14 @@ IF({!objectType} = &apos;Meeting_Note__c&apos;,IF({!get_Event_from_Meeting_note.
             <name>messageSuccess</name>
             <fieldText>&lt;p&gt;&lt;strong&gt;Your Meeting Note and all related records  were  successfully deleted&lt;/strong&gt; &lt;img src=&quot;https://statics.teams.cdn.office.net/evergreen-assets/personal-expressions/v2/assets/emoticons/1f389_partypopper/default/20_f.png?v=v12&quot; alt=&quot;Pochette surprise&quot;&gt;&lt;img src=&quot;https://statics.teams.cdn.office.net/evergreen-assets/personal-expressions/v2/assets/emoticons/party/default/20_f.png?v=v18&quot; alt=&quot;Fête&quot;&gt;&lt;img src=&quot;https://statics.teams.cdn.office.net/evergreen-assets/personal-expressions/v2/assets/emoticons/handsinair/default/20_f.png?v=v23&quot; alt=&quot;Mains en fête&quot;&gt; !&lt;/p&gt;</fieldText>
             <fieldType>DisplayText</fieldType>
+            <styleProperties>
+                <verticalAlignment>
+                    <stringValue>top</stringValue>
+                </verticalAlignment>
+                <width>
+                    <stringValue>12</stringValue>
+                </width>
+            </styleProperties>
         </fields>
         <nextOrFinishButtonLabel>OK</nextOrFinishButtonLabel>
         <showFooter>true</showFooter>
@@ -394,6 +403,14 @@ IF({!objectType} = &apos;Meeting_Note__c&apos;,IF({!get_Event_from_Meeting_note.
             <name>CantDelete</name>
             <fieldText>&lt;p&gt;&lt;strong style=&quot;color: rgb(253, 0, 0);&quot;&gt;You can&apos;t delete this record. You are not the owner.  &lt;/strong&gt;&lt;strong style=&quot;color: rgb(234, 18, 18);&quot;&gt;{!EventOwner}﻿&lt;/strong&gt;&lt;/p&gt;</fieldText>
             <fieldType>DisplayText</fieldType>
+            <styleProperties>
+                <verticalAlignment>
+                    <stringValue>top</stringValue>
+                </verticalAlignment>
+                <width>
+                    <stringValue>12</stringValue>
+                </width>
+            </styleProperties>
         </fields>
         <nextOrFinishButtonLabel>OK</nextOrFinishButtonLabel>
         <showFooter>true</showFooter>

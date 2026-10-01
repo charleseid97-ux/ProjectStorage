@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<TransactionSecurityPolicy xmlns="http://soap.sforce.com/2006/04/metadata">
+    <action>
+        <block>false</block>
+        <endSession>false</endSession>
+        <freezeUser>false</freezeUser>
+        <notifications>
+            <inApp>false</inApp>
+            <sendEmail>true</sendEmail>
+            <user>coullon.thomas-crm@carmignac.com</user>
+        </notifications>
+        <twoFactorAuthentication>false</twoFactorAuthentication>
+    </action>
+    <active>true</active>
+    <customEmailContent>&lt;p&gt;&lt;strong&gt;Salesforce Security Alert – High API Anomaly Detected&lt;/strong&gt;&lt;/p&gt;&lt;p&gt;&lt;br&gt;&lt;/p&gt;&lt;p&gt;Salesforce Threat Detection has identified unusual API activity that significantly differs from the user&apos;s normal behavior.&lt;/p&gt;&lt;p&gt;&lt;br&gt;&lt;/p&gt;&lt;p&gt;&lt;strong&gt;Policy:&lt;/strong&gt; {{policy.MasterLabel}}&lt;/p&gt;&lt;p&gt;&lt;strong&gt;Organization ID:&lt;/strong&gt; {{policy.OrganizationId}}&lt;/p&gt;&lt;p&gt;&lt;strong&gt;User:&lt;/strong&gt; {{event.Username}}&lt;/p&gt;&lt;p&gt;&lt;strong&gt;Event Date:&lt;/strong&gt; {{event.EventDate}}&lt;/p&gt;&lt;p&gt;&lt;strong&gt;Anomaly Score:&lt;/strong&gt; {{event.Score}}&lt;/p&gt;&lt;p&gt;&lt;strong&gt;Operation:&lt;/strong&gt; {{event.Operation}}&lt;/p&gt;&lt;p&gt;&lt;strong&gt;Queried Entities:&lt;/strong&gt; {{event.QueriedEntities}}&lt;/p&gt;&lt;p&gt;&lt;strong&gt;Rows Processed:&lt;/strong&gt; {{event.RowsProcessed}}&lt;/p&gt;&lt;p&gt;&lt;strong&gt;Source IP:&lt;/strong&gt; {{event.SourceIp}}&lt;/p&gt;&lt;p&gt;&lt;strong&gt;User Agent:&lt;/strong&gt; {{event.UserAgent}}&lt;/p&gt;&lt;p&gt;&lt;br&gt;&lt;/p&gt;&lt;p&gt;This alert may indicate unusual query volume, data access patterns, or API usage.&lt;/p&gt;&lt;p&gt;&lt;br&gt;&lt;/p&gt;&lt;p&gt;&lt;strong&gt;No API request has been automatically blocked by this policy.&lt;/strong&gt;&lt;/p&gt;&lt;p&gt;&lt;br&gt;&lt;/p&gt;&lt;p&gt;Please review the corresponding API Anomaly Event in Salesforce Event Monitoring to confirm whether the activity is expected and legitimate.&lt;/p&gt;&lt;p&gt;&lt;br&gt;&lt;/p&gt;&lt;p&gt;Salesforce Security Monitoring&lt;/p&gt;</customEmailContent>
+    <description>Detects high-risk anomalies in Salesforce API activity identified by Threat Detection. The policy alerts the Security team when API usage significantly differs from the user&apos;s usual behavior, including unusual query volumes, data access patterns or API activity. Monitoring only – no blocking action.</description>
+    <developerName>TSPAPIHighAnomalyAlert</developerName>
+    <eventName>ApiAnomalyEventStore</eventName>
+    <flow>PolicyCondition_tZOvbgPzeCSTqmlrHlFi</flow>
+    <masterLabel>TSP API High Anomaly Alert</masterLabel>
+    <type>CustomConditionBuilderPolicy</type>
+</TransactionSecurityPolicy>

@@ -1,22 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <QuickAction xmlns="http://soap.sforce.com/2006/04/metadata">
     <fieldOverrides>
-        <field>Address1__c</field>
-        <formula>Contact.MailingStreet</formula>
-    </fieldOverrides>
-    <fieldOverrides>
-        <field>BlockEmail__c</field>
-        <formula>true</formula>
-    </fieldOverrides>
-    <fieldOverrides>
-        <field>City__c</field>
-        <formula>Contact.MailingCity</formula>
-    </fieldOverrides>
-    <fieldOverrides>
-        <field>Country__c</field>
-        <formula>TEXT(Contact.MailingCountryCode)</formula>
-    </fieldOverrides>
-    <fieldOverrides>
         <field>FirstNameWebsite__c</field>
         <formula>Contact.FirstName</formula>
     </fieldOverrides>
@@ -25,16 +9,8 @@
         <formula>Contact.LastName</formula>
     </fieldOverrides>
     <fieldOverrides>
-        <field>PhoneNumber__c</field>
-        <formula>IF(ISBLANK(Contact.Phone),  Contact.MobilePhone , Contact.Phone)</formula>
-    </fieldOverrides>
-    <fieldOverrides>
-        <field>PostalCode__c</field>
-        <formula>Contact.MailingPostalCode</formula>
-    </fieldOverrides>
-    <fieldOverrides>
-        <field>Synchrostatus__c</field>
-        <literalValue>To be synced</literalValue>
+        <field>Prospace_Status__c</field>
+        <literalValue>Validated</literalValue>
     </fieldOverrides>
     <fieldOverrides>
         <field>WebsiteCompany__c</field>
@@ -45,10 +21,6 @@
         <formula>TEXT(Contact.MailingCountryCode)</formula>
     </fieldOverrides>
     <fieldOverrides>
-        <field>WebsiteJobTitle__c</field>
-        <formula>Contact.Business_Card_Title__c</formula>
-    </fieldOverrides>
-    <fieldOverrides>
         <field>WebsiteLanguage__c</field>
         <formula>TEXT(Contact.Language__c)</formula>
     </fieldOverrides>
@@ -56,20 +28,11 @@
         <field>WebsiteLogin__c</field>
         <formula>Contact.Email</formula>
     </fieldOverrides>
-    <fieldOverrides>
-        <field>WebsiteSalutation__c</field>
-        <formula>TEXT(Contact.Salutation)</formula>
-    </fieldOverrides>
-    <label>Create Prospace/Update Website Info</label>
+    <label>Create Prospace</label>
     <optionsCreateFeedItem>false</optionsCreateFeedItem>
     <quickActionLayout>
         <layoutSectionStyle>TwoColumnsLeftToRight</layoutSectionStyle>
         <quickActionLayoutColumns>
-            <quickActionLayoutItems>
-                <emptySpace>false</emptySpace>
-                <field>WebsiteSalutation__c</field>
-                <uiBehavior>Edit</uiBehavior>
-            </quickActionLayoutItems>
             <quickActionLayoutItems>
                 <emptySpace>false</emptySpace>
                 <field>FirstNameWebsite__c</field>
@@ -82,22 +45,12 @@
             </quickActionLayoutItems>
             <quickActionLayoutItems>
                 <emptySpace>false</emptySpace>
-                <field>WebsiteJobTitle__c</field>
-                <uiBehavior>Edit</uiBehavior>
-            </quickActionLayoutItems>
-            <quickActionLayoutItems>
-                <emptySpace>false</emptySpace>
                 <field>WebsiteCompany__c</field>
                 <uiBehavior>Edit</uiBehavior>
             </quickActionLayoutItems>
             <quickActionLayoutItems>
                 <emptySpace>false</emptySpace>
                 <field>WebsiteLogin__c</field>
-                <uiBehavior>Edit</uiBehavior>
-            </quickActionLayoutItems>
-            <quickActionLayoutItems>
-                <emptySpace>false</emptySpace>
-                <field>WebsiteCountry__c</field>
                 <uiBehavior>Edit</uiBehavior>
             </quickActionLayoutItems>
         </quickActionLayoutColumns>
@@ -109,32 +62,7 @@
             </quickActionLayoutItems>
             <quickActionLayoutItems>
                 <emptySpace>false</emptySpace>
-                <field>PhoneNumber__c</field>
-                <uiBehavior>Edit</uiBehavior>
-            </quickActionLayoutItems>
-            <quickActionLayoutItems>
-                <emptySpace>false</emptySpace>
-                <field>Address1__c</field>
-                <uiBehavior>Edit</uiBehavior>
-            </quickActionLayoutItems>
-            <quickActionLayoutItems>
-                <emptySpace>false</emptySpace>
-                <field>City__c</field>
-                <uiBehavior>Edit</uiBehavior>
-            </quickActionLayoutItems>
-            <quickActionLayoutItems>
-                <emptySpace>false</emptySpace>
-                <field>PostalCode__c</field>
-                <uiBehavior>Edit</uiBehavior>
-            </quickActionLayoutItems>
-            <quickActionLayoutItems>
-                <emptySpace>false</emptySpace>
-                <field>Country__c</field>
-                <uiBehavior>Edit</uiBehavior>
-            </quickActionLayoutItems>
-            <quickActionLayoutItems>
-                <emptySpace>false</emptySpace>
-                <field>BlockEmail__c</field>
+                <field>WebsiteCountry__c</field>
                 <uiBehavior>Edit</uiBehavior>
             </quickActionLayoutItems>
         </quickActionLayoutColumns>

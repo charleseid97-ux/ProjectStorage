@@ -39,6 +39,16 @@
                 <default>false</default>
                 <label>Case</label>
             </value>
+            <value>
+                <fullName>Agreement_Role__c</fullName>
+                <default>false</default>
+                <label>Agreement_Role__c</label>
+            </value>
+            <value>
+                <fullName>Flow__c</fullName>
+                <default>false</default>
+                <label>Flow__c</label>
+            </value>
         </valueSetDefinition>
     </valueSet>
 </CustomField>

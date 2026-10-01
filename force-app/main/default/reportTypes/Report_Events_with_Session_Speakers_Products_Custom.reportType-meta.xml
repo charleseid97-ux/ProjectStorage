@@ -439,6 +439,11 @@ Designed for executive reporting and dashboard filtering at Event level.</descri
             <field>Speakers__c</field>
             <table>Event__c</table>
         </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>NotificationTitle__c</field>
+            <table>Event__c</table>
+        </columns>
         <masterLabel>Bookly Requests</masterLabel>
     </sections>
 </ReportType>

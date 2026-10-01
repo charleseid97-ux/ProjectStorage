@@ -35,6 +35,11 @@
                 <default>false</default>
                 <label>Daily</label>
             </value>
+            <value>
+                <fullName>No rebalancing frequency</fullName>
+                <default>false</default>
+                <label>No rebalancing frequency</label>
+            </value>
         </valueSetDefinition>
     </valueSet>
 </CustomField>

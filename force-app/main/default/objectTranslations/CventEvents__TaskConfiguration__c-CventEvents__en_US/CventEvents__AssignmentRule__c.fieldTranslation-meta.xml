@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <help><!-- Indicates the assignment rule for the Task owner. --></help>
+    <label><!-- Assignment Rule --></label>
+    <name>CventEvents__AssignmentRule__c</name>
+    <picklistValues>
+        <masterLabel>Assign to Lead/Contact&apos;s owner</masterLabel>
+        <translation><!-- Assign to Lead/Contact&apos;s owner --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Assign to specific User</masterLabel>
+        <translation><!-- Assign to specific User --></translation>
+    </picklistValues>
+</CustomFieldTranslation>

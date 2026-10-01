@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <label><!-- Filter With --></label>
+    <name>dupcheck__filterWith__c</name>
+    <picklistValues>
+        <masterLabel>all</masterLabel>
+        <translation><!-- all --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>filter</masterLabel>
+        <translation><!-- filter --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>predefined</masterLabel>
+        <translation><!-- predefined --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>source</masterLabel>
+        <translation><!-- source --></translation>
+    </picklistValues>
+</CustomFieldTranslation>

@@ -2,6 +2,7 @@
 <RecordType xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>OtherFeesGrid</fullName>
     <active>true</active>
+    <compactLayoutAssignment>OtherFeesGridCompactLayout</compactLayoutAssignment>
     <description>Other Fees Grid created via Grid Validation — no Grid Details, no Grid Comparison, no Grid Simulation</description>
     <label>Other Fees Grid</label>
     <picklistValues>
@@ -28,6 +29,62 @@
         <values>
             <fullName>OTHER FEES</fullName>
             <default>true</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>MinimumAmountCurrency__c</picklist>
+        <values>
+            <fullName>CHF</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>EUR</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>GBP</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>USD</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>MinimumAmountFrequency__c</picklist>
+        <values>
+            <fullName>Half-Yearly</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Quarterly</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Yearly</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>RateCalculationBasis__c</picklist>
+        <values>
+            <fullName>Agreement</fullName>
+            <default>true</default>
+        </values>
+        <values>
+            <fullName>Product</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>TECH_CarmignacLegalEntity__c</picklist>
+        <values>
+            <fullName>CGF</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>CGL</fullName>
+            <default>false</default>
         </values>
     </picklistValues>
     <picklistValues>

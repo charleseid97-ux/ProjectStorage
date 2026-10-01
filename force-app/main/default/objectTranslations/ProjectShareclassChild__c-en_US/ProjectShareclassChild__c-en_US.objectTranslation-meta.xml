@@ -290,4 +290,16 @@ To account for text expansion during translations, the source text must not exce
         <errorMessage><!-- Only “Income” and “Accumulating” are applicable for OEIC Share Classes. --></errorMessage>
         <name>VR43_DividendPolicyOEIC</name>
     </validationRules>
+    <validationRules>
+        <errorMessage><!-- A country can only be selected in one registration category (Retail, Semipro or Institutional). Please remove duplicate country selections. --></errorMessage>
+        <name>VR44_CountryRegNeededControlRetailInstit</name>
+    </validationRules>
+    <validationRules>
+        <errorMessage><!-- A country can only be selected in one registration category (Retail, Semipro or Institutional). Please remove duplicate country selections. --></errorMessage>
+        <name>VR45_CountryRegNeededControlRetailSP</name>
+    </validationRules>
+    <validationRules>
+        <errorMessage><!-- A country can only be selected in one registration category (Retail, Semipro or Institutional). Please remove duplicate country selections. --></errorMessage>
+        <name>VR46_CountryRegNeededControlSPInstit</name>
+    </validationRules>
 </CustomObjectTranslation>

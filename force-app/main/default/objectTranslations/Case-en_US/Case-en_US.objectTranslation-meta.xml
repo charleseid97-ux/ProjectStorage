@@ -456,6 +456,14 @@ Fund is non mandatory when you choose &quot;DD Corporate&quot; -->
         <name>Case_VR028_NewToWIPStatusRestriction</name>
     </validationRules>
     <validationRules>
+        <errorMessage><!-- A request can only be put “On Hold” when its status is Work in Progress, Preview or Validated . --></errorMessage>
+        <name>Case_VR028_OnHold_Only_Allowed_Statuses</name>
+    </validationRules>
+    <validationRules>
+        <errorMessage><!-- The Hold checkbox cannot be selected after the work item has returned to Work in Progress. --></errorMessage>
+        <name>Case_VR029_OnHold_BackWIP</name>
+    </validationRules>
+    <validationRules>
         <errorMessage>
             <!-- Warning: The due dates you entered are incompatible with the required processing times. 
 

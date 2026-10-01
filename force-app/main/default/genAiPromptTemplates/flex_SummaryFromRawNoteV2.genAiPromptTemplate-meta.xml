@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <GenAiPromptTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <activeVersionIdentifier>WVN3tZk4o404O8n8M7lvj2vqM7T4xnyoLEatZnrtmCY=_8</activeVersionIdentifier>
     <developerName>flex_SummaryFromRawNoteV2</developerName>
     <masterLabel>flex_SummaryFromRawNoteV2</masterLabel>
     <templateVersions>
@@ -129,7 +130,9 @@ PRODUCTS:
             <required>false</required>
         </inputs>
         <primaryModel>sfdc_ai__DefaultGPT5</primaryModel>
+        <responseFormat>HTML</responseFormat>
         <status>Draft</status>
+        <versionIdentifier>MuMszwROXu5fa3TkYcO34vVThSWU8n81WfCHZ/Rxv0g=_1</versionIdentifier>
     </templateVersions>
     <templateVersions>
         <content>Analyse MEETING NOTE following the INSTRUCTIONS and the ANALYSIS RULES taking into account COMPANY CONTEXT about our company, and CLIENT CONTEXT about our clients.
@@ -1851,7 +1854,9 @@ COMPETITORS:
             <required>true</required>
         </inputs>
         <primaryModel>sfdc_ai__DefaultGPT52</primaryModel>
+        <responseFormat>HTML</responseFormat>
         <status>Published</status>
+        <versionIdentifier>MuMszwROXu5fa3TkYcO34vVThSWU8n81WfCHZ/Rxv0g=_2</versionIdentifier>
     </templateVersions>
     <templateVersions>
         <content>Analyse MEETING NOTE following the INSTRUCTIONS and the ANALYSIS RULES taking into account COMPANY CONTEXT about our company, and CLIENT CONTEXT about our clients.
@@ -3615,7 +3620,9 @@ COMPETITORS:
             <required>true</required>
         </inputs>
         <primaryModel>sfdc_ai__DefaultGPT52</primaryModel>
+        <responseFormat>HTML</responseFormat>
         <status>Published</status>
+        <versionIdentifier>MuMszwROXu5fa3TkYcO34vVThSWU8n81WfCHZ/Rxv0g=_3</versionIdentifier>
     </templateVersions>
     <templateVersions>
         <content>Analyse MEETING NOTE following the INSTRUCTIONS and the ANALYSIS RULES taking into account COMPANY CONTEXT about our company, and CLIENT CONTEXT about our clients.
@@ -5379,7 +5386,9 @@ COMPETITORS:
             <required>false</required>
         </inputs>
         <primaryModel>sfdc_ai__DefaultGPT52</primaryModel>
+        <responseFormat>HTML</responseFormat>
         <status>Published</status>
+        <versionIdentifier>MuMszwROXu5fa3TkYcO34vVThSWU8n81WfCHZ/Rxv0g=_4</versionIdentifier>
     </templateVersions>
     <templateVersions>
         <content>Analyse MEETING NOTE following the INSTRUCTIONS and the ANALYSIS RULES taking into account COMPANY CONTEXT about our company, and CLIENT CONTEXT about our clients.
@@ -7143,7 +7152,9 @@ COMPETITORS:
             <required>false</required>
         </inputs>
         <primaryModel>sfdc_ai__DefaultGPT52</primaryModel>
+        <responseFormat>HTML</responseFormat>
         <status>Published</status>
+        <versionIdentifier>MuMszwROXu5fa3TkYcO34vVThSWU8n81WfCHZ/Rxv0g=_5</versionIdentifier>
     </templateVersions>
     <templateVersions>
         <content>Analyse MEETING NOTE following the INSTRUCTIONS and the ANALYSIS RULES taking into account COMPANY CONTEXT about our company, and CLIENT CONTEXT about our clients.
@@ -8907,7 +8918,9 @@ COMPETITORS:
             <required>false</required>
         </inputs>
         <primaryModel>sfdc_ai__DefaultGPT54</primaryModel>
+        <responseFormat>HTML</responseFormat>
         <status>Published</status>
+        <versionIdentifier>WVN3tZk4o404O8n8M7lvj2vqM7T4xnyoLEatZnrtmCY=_6</versionIdentifier>
     </templateVersions>
     <templateVersions>
         <content>Analyse MEETING NOTE following the INSTRUCTIONS and the ANALYSIS RULES taking into account COMPANY CONTEXT about our company, and CLIENT CONTEXT about our clients.
@@ -10676,7 +10689,9 @@ COMPETITORS:
             <required>false</required>
         </inputs>
         <primaryModel>sfdc_ai__DefaultGPT54</primaryModel>
+        <responseFormat>HTML</responseFormat>
         <status>Published</status>
+        <versionIdentifier>WVN3tZk4o404O8n8M7lvj2vqM7T4xnyoLEatZnrtmCY=_7</versionIdentifier>
     </templateVersions>
     <templateVersions>
         <content>Analyse MEETING NOTE following the INSTRUCTIONS and the ANALYSIS RULES taking into account COMPANY CONTEXT about our company, and CLIENT CONTEXT about our clients.
@@ -12513,7 +12528,9 @@ Positive feedback on CI and KB.
             <required>false</required>
         </inputs>
         <primaryModel>sfdc_ai__DefaultGPT54</primaryModel>
+        <responseFormat>HTML</responseFormat>
         <status>Published</status>
+        <versionIdentifier>WVN3tZk4o404O8n8M7lvj2vqM7T4xnyoLEatZnrtmCY=_8</versionIdentifier>
     </templateVersions>
     <templateVersions>
         <content>Analyse MEETING NOTE following the INSTRUCTIONS and the ANALYSIS RULES taking into account COMPANY CONTEXT about our company, and CLIENT CONTEXT about our clients.
@@ -14350,7 +14367,9 @@ Positive feedback on CI and KB.
             <required>false</required>
         </inputs>
         <primaryModel>sfdc_ai__DefaultGPT54</primaryModel>
+        <responseFormat>HTML</responseFormat>
         <status>Published</status>
+        <versionIdentifier>WVN3tZk4o404O8n8M7lvj2vqM7T4xnyoLEatZnrtmCY=_9</versionIdentifier>
     </templateVersions>
     <type>einstein_gpt__flex</type>
     <visibility>Global</visibility>

@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Flow xmlns="http://soap.sforce.com/2006/04/metadata">
     <apiVersion>57.0</apiVersion>
+    <areMetricsLoggedToDataCloud>false</areMetricsLoggedToDataCloud>
     <environments>Default</environments>
     <interviewLabel>My Open Opportunities ScreenFlow {!$Flow.CurrentDateTime}</interviewLabel>
     <label>Ongoing Work</label>
@@ -41,6 +42,14 @@
                     <name>NewLeads</name>
                     <fieldText>&lt;p style=&quot;text-align: center;&quot;&gt;&lt;a href=&quot;https://carmignac-crm.lightning.force.com/lightning/o/Lead/list?filterName=00B58000002DbsNEAS&quot; rel=&quot;noopener noreferrer&quot; target=&quot;_blank&quot; style=&quot;background-color: rgb(255, 255, 255); color: rgb(57, 92, 24); font-size: 16px;&quot;&gt;&lt;strong&gt;&lt;img src=&quot;https://carmignac-crm.file.force.com/sfc/servlet.shepherd/version/download/0681i00000WWN20?asPdf=false&amp;amp;operationContext=CHATTER&quot; alt=&quot;NewLeads.png&quot; title=&quot;&quot;&gt;&lt;/strong&gt;&lt;/a&gt;&lt;/p&gt;&lt;p style=&quot;text-align: center;&quot;&gt;&lt;strong style=&quot;background-color: rgb(255, 255, 255); color: rgb(57, 92, 24); font-size: 16px;&quot;&gt;My unread Leads&lt;/strong&gt;&lt;/p&gt;</fieldText>
                     <fieldType>DisplayText</fieldType>
+                    <styleProperties>
+                        <verticalAlignment>
+                            <stringValue>top</stringValue>
+                        </verticalAlignment>
+                        <width>
+                            <stringValue>12</stringValue>
+                        </width>
+                    </styleProperties>
                 </fields>
                 <inputParameters>
                     <name>width</name>
@@ -57,6 +66,14 @@
                     <name>MyOpenOppotunities</name>
                     <fieldText>&lt;p style=&quot;text-align: center;&quot;&gt;&lt;a href=&quot;https://carmignac-crm.lightning.force.com/lightning/o/Opportunity/list?filterName=00B1i000001G5W5EAK&quot; rel=&quot;noopener noreferrer&quot; target=&quot;_blank&quot;&gt;&lt;img src=&quot;https://carmignac-crm.file.force.com/sfc/servlet.shepherd/version/download/0681i00000WWN3D?asPdf=false&amp;amp;operationContext=CHATTER&quot; alt=&quot;New kanban icon.png&quot;&gt;&lt;/a&gt;&lt;/p&gt;&lt;p style=&quot;text-align: center;&quot;&gt;&lt;a href=&quot;https://carmignac-crm.lightning.force.com/lightning/o/Opportunity/list?filterName=00B1i000001G5W5EAK&quot; rel=&quot;noopener noreferrer&quot; target=&quot;_blank&quot; style=&quot;color: rgb(57, 92, 24); font-size: 16px;&quot;&gt;&lt;strong&gt;My Open Opportuniti&lt;/strong&gt;&lt;/a&gt;&lt;strong style=&quot;color: rgb(57, 92, 24); font-size: 16px;&quot;&gt;es&lt;/strong&gt;&lt;/p&gt;</fieldText>
                     <fieldType>DisplayText</fieldType>
+                    <styleProperties>
+                        <verticalAlignment>
+                            <stringValue>top</stringValue>
+                        </verticalAlignment>
+                        <width>
+                            <stringValue>12</stringValue>
+                        </width>
+                    </styleProperties>
                 </fields>
                 <inputParameters>
                     <name>width</name>
@@ -73,6 +90,14 @@
                     <name>MyOpenTasks</name>
                     <fieldText>&lt;p style=&quot;text-align: center;&quot;&gt;&lt;a href=&quot;https://carmignac-crm.lightning.force.com/lightning/o/Task/list?filterName=00B58000005Bp3ZEAS&quot; rel=&quot;noopener noreferrer&quot; target=&quot;_blank&quot;&gt;&lt;img src=&quot;https://carmignac-crm.file.force.com/sfc/servlet.shepherd/version/download/0681i00000WWN26?asPdf=false&amp;amp;operationContext=CHATTER&quot; alt=&quot;NewTasks.png&quot;&gt;&lt;/a&gt;&lt;/p&gt;&lt;p style=&quot;text-align: center;&quot;&gt;&lt;a href=&quot;https://carmignac-crm.lightning.force.com/lightning/o/Task/list?filterName=00B58000005Bp3ZEAS&quot; rel=&quot;noopener noreferrer&quot; target=&quot;_blank&quot; style=&quot;font-size: 16px; color: rgb(57, 92, 24);&quot;&gt;&lt;strong&gt;My Tasks for the day&lt;/strong&gt;&lt;/a&gt;&lt;/p&gt;</fieldText>
                     <fieldType>DisplayText</fieldType>
+                    <styleProperties>
+                        <verticalAlignment>
+                            <stringValue>top</stringValue>
+                        </verticalAlignment>
+                        <width>
+                            <stringValue>12</stringValue>
+                        </width>
+                    </styleProperties>
                 </fields>
                 <inputParameters>
                     <name>width</name>
@@ -84,6 +109,14 @@
             </fields>
             <isRequired>false</isRequired>
             <regionContainerType>SectionWithoutHeader</regionContainerType>
+            <styleProperties>
+                <verticalAlignment>
+                    <stringValue>top</stringValue>
+                </verticalAlignment>
+                <width>
+                    <stringValue>12</stringValue>
+                </width>
+            </styleProperties>
         </fields>
         <showFooter>false</showFooter>
         <showHeader>true</showHeader>

@@ -61,6 +61,7 @@
         <offset>0</offset>
     </actionCalls>
     <apiVersion>63.0</apiVersion>
+    <areMetricsLoggedToDataCloud>false</areMetricsLoggedToDataCloud>
     <description>Sends an email to the Tableau WTP Requester to inform them that the WTP is closed</description>
     <environments>Default</environments>
     <formulas>

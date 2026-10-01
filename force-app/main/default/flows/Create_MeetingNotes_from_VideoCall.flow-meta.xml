@@ -18,6 +18,7 @@
         <offset>0</offset>
     </actionCalls>
     <apiVersion>63.0</apiVersion>
+    <areMetricsLoggedToDataCloud>false</areMetricsLoggedToDataCloud>
     <environments>Default</environments>
     <interviewLabel>Create MeetingNotes from VideoCall {!$Flow.CurrentDateTime}</interviewLabel>
     <label>Create MeetingNotes from VideoCall</label>

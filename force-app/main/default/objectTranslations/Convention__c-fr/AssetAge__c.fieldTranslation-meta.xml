@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <label><!-- Asset Age --></label>
+    <name>AssetAge__c</name>
+    <picklistValues>
+        <masterLabel>Legacy Asset</masterLabel>
+        <translation><!-- Legacy Asset --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>New Asset</masterLabel>
+        <translation><!-- New Asset --></translation>
+    </picklistValues>
+</CustomFieldTranslation>

@@ -954,6 +954,81 @@
                 <default>false</default>
                 <label>PreCentralAdmin</label>
             </value>
+            <value>
+                <fullName>Investment Objective</fullName>
+                <default>false</default>
+                <label>Investment Objective</label>
+            </value>
+            <value>
+                <fullName>Investment Objective 2</fullName>
+                <default>false</default>
+                <label>Investment Objective 2</label>
+            </value>
+            <value>
+                <fullName>Key Point</fullName>
+                <default>false</default>
+                <label>Key Point</label>
+            </value>
+            <value>
+                <fullName>Portfolio ESG Summary</fullName>
+                <default>false</default>
+                <label>Portfolio ESG Summary</label>
+            </value>
+            <value>
+                <fullName>United Nations Sustainable Development Goals (sdgs)</fullName>
+                <default>false</default>
+                <label>United Nations Sustainable Development Goals (sdgs)</label>
+            </value>
+            <value>
+                <fullName>Carbon Emissions Figures</fullName>
+                <default>false</default>
+                <label>Carbon Emissions Figures</label>
+            </value>
+            <value>
+                <fullName>Customer and Employee Satisfaction Model</fullName>
+                <default>false</default>
+                <label>Customer and Employee Satisfaction Model</label>
+            </value>
+            <value>
+                <fullName>Green, Social, Sustainable and Sustainability-Linked-Bonds</fullName>
+                <default>false</default>
+                <label>Green, Social, Sustainable and Sustainability-Linked-Bonds</label>
+            </value>
+            <value>
+                <fullName>ESG Sovereign Score</fullName>
+                <default>false</default>
+                <label>ESG Sovereign Score</label>
+            </value>
+            <value>
+                <fullName>Counterparty risk</fullName>
+                <default>false</default>
+                <label>Counterparty risk</label>
+            </value>
+            <value>
+                <fullName>Credit risk</fullName>
+                <default>false</default>
+                <label>Credit risk</label>
+            </value>
+            <value>
+                <fullName>Liquidity risk</fullName>
+                <default>false</default>
+                <label>Liquidity risk</label>
+            </value>
+            <value>
+                <fullName>Pooled investments in secondaries risk</fullName>
+                <default>false</default>
+                <label>Pooled investments in secondaries risk</label>
+            </value>
+            <value>
+                <fullName>Risks associated with China</fullName>
+                <default>false</default>
+                <label>Risks associated with China</label>
+            </value>
+            <value>
+                <fullName>Risk of capital loss</fullName>
+                <default>false</default>
+                <label>Risk of capital loss</label>
+            </value>
         </valueSetDefinition>
         <valueSettings>
             <controllingFieldValue>Investment Objective</controllingFieldValue>
@@ -1000,6 +1075,10 @@
         <valueSettings>
             <controllingFieldValue>ESG</controllingFieldValue>
             <valueName>ESG Sovereign Score</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Third Party</controllingFieldValue>
+            <valueName>Prime_Agent</valueName>
         </valueSettings>
         <valueSettings>
             <controllingFieldValue>Third Party</controllingFieldValue>
@@ -1104,6 +1183,42 @@
         <valueSettings>
             <controllingFieldValue>PRIIPs</controllingFieldValue>
             <valueName>Reason for RHP - Redemption shareclass</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>PRIIPs</controllingFieldValue>
+            <valueName>Counterparty risk</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>PRIIPs</controllingFieldValue>
+            <valueName>Credit risk</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>PRIIPs</controllingFieldValue>
+            <valueName>Liquidity risk</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>PRIIPs</controllingFieldValue>
+            <valueName>Pooled investments in secondaries risk</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>PRIIPs</controllingFieldValue>
+            <valueName>Risks associated with China</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>PRIIPs</controllingFieldValue>
+            <valueName>Risk of capital loss</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Marketing</controllingFieldValue>
+            <valueName>Investment Objective</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Marketing</controllingFieldValue>
+            <valueName>Investment Objective 2</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Marketing</controllingFieldValue>
+            <valueName>Key Point</valueName>
         </valueSettings>
         <valueSettings>
             <controllingFieldValue>Glossary</controllingFieldValue>

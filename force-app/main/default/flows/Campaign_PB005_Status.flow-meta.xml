@@ -1,22 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Flow xmlns="http://soap.sforce.com/2006/04/metadata">
     <apiVersion>49.0</apiVersion>
-    <assignments>
-        <name>myVariable_waitStartTimeAssignment</name>
-        <label>myVariable_waitStartTimeAssignment</label>
-        <locationX>0</locationX>
-        <locationY>0</locationY>
-        <assignmentItems>
-            <assignToReference>myVariable_waitStartTimeVariable</assignToReference>
-            <operator>Assign</operator>
-            <value>
-                <elementReference>$Flow.CurrentDateTime</elementReference>
-            </value>
-        </assignmentItems>
-        <connector>
-            <targetReference>myDecision</targetReference>
-        </connector>
-    </assignments>
+    <areMetricsLoggedToDataCloud>false</areMetricsLoggedToDataCloud>
     <decisions>
         <processMetadataValues>
             <name>index</name>
@@ -53,7 +38,7 @@
                 <stringValue>PRIORVALUE([Campaign].Status)</stringValue>
             </value>
         </processMetadataValues>
-        <name>formula_2_myRule_1_A1_7573119863</name>
+        <name>formula_2_myRule_1_A1_3127717375</name>
         <dataType>String</dataType>
         <expression>PRIORVALUE({!myVariable_current.Status})</expression>
     </formulas>
@@ -61,14 +46,40 @@
         <processMetadataValues>
             <name>originalFormula</name>
             <value>
-                <stringValue>OR(AND(ISCHANGED([Campaign].Status),ISPICKVAL([Campaign].Status, &quot;Event Validated&quot;), !$User.BypassProcessBuilders__c),AND(ISCHANGED([Campaign].Status),ISPICKVAL([Campaign].Status, &quot;Outlook Invitation&quot;), !$User.BypassProcessBuilders__c))</stringValue>
+                <stringValue>AND(
+    ISCHANGED([Campaign].Status),
+    OR(
+        ISPICKVAL([Campaign].Status, &quot;Event Validated&quot;),
+        ISPICKVAL([Campaign].Status, &quot;Outlook Invitation&quot;)
+    ),
+    NOT(
+        ISPICKVAL(
+            PRIORVALUE([Campaign].Status),
+            &quot;BooklyRevalidationRequired&quot;
+        )
+    ),
+    !$User.BypassProcessBuilders__c
+)</stringValue>
             </value>
         </processMetadataValues>
         <name>formula_myRule_1</name>
         <dataType>Boolean</dataType>
-        <expression>OR(AND(ISCHANGED({!myVariable_current.Status}),ISPICKVAL({!myVariable_current.Status}, &quot;Event Validated&quot;), !{!$User.BypassProcessBuilders__c}),AND(ISCHANGED({!myVariable_current.Status}),ISPICKVAL({!myVariable_current.Status}, &quot;Outlook Invitation&quot;), !{!$User.BypassProcessBuilders__c}))</expression>
+        <expression>AND(
+    ISCHANGED({!myVariable_current.Status}),
+    OR(
+        ISPICKVAL({!myVariable_current.Status}, &quot;Event Validated&quot;),
+        ISPICKVAL({!myVariable_current.Status}, &quot;Outlook Invitation&quot;)
+    ),
+    NOT(
+        ISPICKVAL(
+            PRIORVALUE({!myVariable_current.Status}),
+            &quot;BooklyRevalidationRequired&quot;
+        )
+    ),
+    !{!$User.BypassProcessBuilders__c}
+)</expression>
     </formulas>
-    <interviewLabel>Campaign_PB005_Status-3_InterviewLabel</interviewLabel>
+    <interviewLabel>Campaign_PB005_Status-5_InterviewLabel</interviewLabel>
     <label>Campaign_PB005_Status</label>
     <processMetadataValues>
         <name>ObjectType</name>
@@ -165,12 +176,12 @@
             </processMetadataValues>
             <field>Status</field>
             <value>
-                <elementReference>formula_2_myRule_1_A1_7573119863</elementReference>
+                <elementReference>formula_2_myRule_1_A1_3127717375</elementReference>
             </value>
         </inputAssignments>
         <object>Campaign</object>
     </recordUpdates>
-    <startElementReference>myVariable_waitStartTimeAssignment</startElementReference>
+    <startElementReference>myDecision</startElementReference>
     <status>Active</status>
     <variables>
         <name>myVariable_current</name>
@@ -187,15 +198,5 @@
         <isInput>true</isInput>
         <isOutput>false</isOutput>
         <objectType>Campaign</objectType>
-    </variables>
-    <variables>
-        <name>myVariable_waitStartTimeVariable</name>
-        <dataType>DateTime</dataType>
-        <isCollection>false</isCollection>
-        <isInput>false</isInput>
-        <isOutput>false</isOutput>
-        <value>
-            <elementReference>$Flow.CurrentDateTime</elementReference>
-        </value>
     </variables>
 </Flow>

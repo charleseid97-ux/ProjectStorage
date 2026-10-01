@@ -205,7 +205,7 @@
         <name>VR05_SustainabilityIndicatorsMandatory</name>
     </validationRules>
     <validationRules>
-        <errorMessage><!-- If FATCAClassification = &quot;Reporting Model 1 FFI&quot;, please provide a value for GIIN Sponsor Code. --></errorMessage>
+        <errorMessage><!-- If FATCA Classification is &quot;Reporting Model 1 FFI&quot; or &quot;Sponsored FFI&quot;, please provide a value for GIIN Sponsor Code. --></errorMessage>
         <name>VR07_GIINSponsorCodeMandatory</name>
     </validationRules>
     <validationRules>
@@ -301,5 +301,9 @@ To account for text expansion during translations, the source text must not exce
 To account for text expansion during translations, the source text must not exceed 3200 characters. -->
         </errorMessage>
         <name>VR33_IntentedRetailInvestor</name>
+    </validationRules>
+    <validationRules>
+        <errorMessage><!-- Please select at least two Liquidity Management Tools (LMTs). --></errorMessage>
+        <name>VR34_LiquidityManagementToolLMT</name>
     </validationRules>
 </CustomObjectTranslation>

@@ -355,6 +355,16 @@
             <field>logs__c</field>
             <table>Event__c</table>
         </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>NotificationTitle__c</field>
+            <table>Event__c</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>speakerContact__c.JobTitle__c</field>
+            <table>Event__c.SpeakersProducts__r</table>
+        </columns>
         <masterLabel>Bookly Requests</masterLabel>
     </sections>
     <sections>
@@ -471,11 +481,6 @@
         <columns>
             <checkedByDefault>false</checkedByDefault>
             <field>SpeachDuration__c</field>
-            <table>Event__c.SpeakersProducts__r</table>
-        </columns>
-        <columns>
-            <checkedByDefault>false</checkedByDefault>
-            <field>speakerContact__c.JobTitle__c</field>
             <table>Event__c.SpeakersProducts__r</table>
         </columns>
         <masterLabel>Presentations</masterLabel>

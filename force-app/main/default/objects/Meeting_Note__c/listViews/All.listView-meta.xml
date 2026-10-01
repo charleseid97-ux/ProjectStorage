@@ -7,5 +7,10 @@
     <columns>Company__c</columns>
     <columns>OWNER.LAST_NAME</columns>
     <filterScope>Everything</filterScope>
+    <filters>
+        <field>Date__c</field>
+        <operation>greaterThan</operation>
+        <value>7/1/2026</value>
+    </filters>
     <label>All</label>
 </ListView>

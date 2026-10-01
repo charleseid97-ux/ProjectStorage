@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <GenAiPromptTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <activeVersionIdentifier>WVN3tZk4o404O8n8M7lvj2vqM7T4xnyoLEatZnrtmCY=_2</activeVersionIdentifier>
     <description>Sends a basic query to Claude. (ver Sonnet 4.5)</description>
     <developerName>Claude_Sonnet_4_5_Query</developerName>
     <masterLabel>Claude Sonnet 4.5 Query</masterLabel>
@@ -43,6 +44,7 @@ WEB SEARCH:
             </parameters>
             <referenceName>EinsteinSearch:sfdc_ai__WebRetrievalAction</referenceName>
         </templateDataProviders>
+        <versionIdentifier>WVN3tZk4o404O8n8M7lvj2vqM7T4xnyoLEatZnrtmCY=_2</versionIdentifier>
     </templateVersions>
     <type>einstein_gpt__flex</type>
     <visibility>Global</visibility>

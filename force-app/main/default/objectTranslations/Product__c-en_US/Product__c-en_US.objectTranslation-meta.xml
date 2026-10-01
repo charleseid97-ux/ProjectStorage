@@ -156,8 +156,20 @@
         <name>VR09_GIINSponsorCode</name>
     </validationRules>
     <validationRules>
+        <errorMessage><!-- Liquidity Management Tool (LMT) is required when Legal Form is not OEIC. --></errorMessage>
+        <name>VR10_LMTRequired</name>
+    </validationRules>
+    <validationRules>
         <errorMessage><!-- Planned SFDR Art 9 minimum % must be between 0% and 100% --></errorMessage>
         <name>VR11_EET20080</name>
+    </validationRules>
+    <validationRules>
+        <errorMessage><!-- Risk Not Considered in Indicator is required when Legal Form is not OEIC. --></errorMessage>
+        <name>VR12_RiskNotConsideredIndicatorRequired</name>
+    </validationRules>
+    <validationRules>
+        <errorMessage><!-- Close Date and Active status are inconsistent. An active Product cannot have a Close Date, and an inactive Product must have a Close Date. --></errorMessage>
+        <name>VR13_CloseDate</name>
     </validationRules>
     <webLinks>
         <label><!-- ExportProduct --></label>

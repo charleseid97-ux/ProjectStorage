@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <help><!-- Ratings whose Citywire rating date is missing or older than this many months are ignored entirely (logged as CityWireStaleRatingDate) rather than merged, so they can never overwrite good data or manufacture a false conflict. --></help>
+    <label><!-- Max Rating Age (Months) --></label>
+    <name>MaxRatingAgeMonths__c</name>
+</CustomFieldTranslation>

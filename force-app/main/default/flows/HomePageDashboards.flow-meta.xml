@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Flow xmlns="http://soap.sforce.com/2006/04/metadata">
     <apiVersion>55.0</apiVersion>
+    <areMetricsLoggedToDataCloud>false</areMetricsLoggedToDataCloud>
     <environments>Default</environments>
     <interviewLabel>HomePageDashboards {!$Flow.CurrentDateTime}</interviewLabel>
     <isAdditionalPermissionRequiredToRun>true</isAdditionalPermissionRequiredToRun>
@@ -53,6 +54,14 @@
                     <name>dashboards</name>
                     <fieldText>&lt;p style=&quot;text-align: center;&quot;&gt;&lt;a href=&quot;https://efl-prd.carmignac.com/#/views/Tableofcontents/DashboardCatalog-ProfessionalClients&quot; rel=&quot;noopener noreferrer&quot; target=&quot;_blank&quot;&gt;&lt;strong&gt;&lt;img src=&quot;https://carmignac-crm--c.eu19.content.force.com/sfc/servlet.shepherd/version/download/0681i00000SeHCT?asPdf=false&amp;amp;operationContext=CHATTER&quot; alt=&quot;dashb.PNG&quot;&gt;&lt;/strong&gt;&lt;/a&gt;&lt;/p&gt;&lt;p style=&quot;text-align: center;&quot;&gt;&lt;a href=&quot;https://efl-prd.carmignac.com/#/views/Tableofcontents/DashboardCatalog-ProfessionalClients&quot; rel=&quot;noopener noreferrer&quot; target=&quot;_blank&quot;&gt;&lt;strong&gt;DASHBOARD CATALOG&lt;/strong&gt;&lt;/a&gt;&lt;/p&gt;</fieldText>
                     <fieldType>DisplayText</fieldType>
+                    <styleProperties>
+                        <verticalAlignment>
+                            <stringValue>top</stringValue>
+                        </verticalAlignment>
+                        <width>
+                            <stringValue>12</stringValue>
+                        </width>
+                    </styleProperties>
                 </fields>
                 <inputParameters>
                     <name>width</name>
@@ -75,6 +84,14 @@
             </fields>
             <isRequired>false</isRequired>
             <regionContainerType>SectionWithoutHeader</regionContainerType>
+            <styleProperties>
+                <verticalAlignment>
+                    <stringValue>top</stringValue>
+                </verticalAlignment>
+                <width>
+                    <stringValue>12</stringValue>
+                </width>
+            </styleProperties>
         </fields>
         <fields>
             <name>HomeDashboards_Section2</name>
@@ -86,6 +103,14 @@
                     <name>OpportunityTrends</name>
                     <fieldText>&lt;p style=&quot;text-align: center;&quot;&gt;&lt;a href=&quot;https://efl-prd.carmignac.com/#/views/Salesforce-HomePage/OPPORTUNITYDASHBOARD?:iid=3&quot; rel=&quot;noopener noreferrer&quot; target=&quot;_blank&quot;&gt;&lt;strong&gt;&lt;img src=&quot;https://carmignac-crm--c.eu19.content.force.com/sfc/servlet.shepherd/version/download/0681i00000SeGxH?asPdf=false&amp;amp;operationContext=CHATTER&quot; alt=&quot;DetailedView.PNG&quot;&gt;&lt;/strong&gt;&lt;/a&gt;&lt;/p&gt;&lt;p style=&quot;text-align: center;&quot;&gt;&lt;a href=&quot;https://efl-prd.carmignac.com/#/views/Salesforce-HomePage/OPPORTUNITYDASHBOARD?:iid=3&quot; rel=&quot;noopener noreferrer&quot; target=&quot;_blank&quot;&gt;&lt;strong&gt;&lt;span class=&quot;ql-cursor&quot;&gt;﻿&lt;/span&gt;OPPORTUNITY DETAILED VIEW&lt;/strong&gt;&lt;/a&gt;&lt;/p&gt;</fieldText>
                     <fieldType>DisplayText</fieldType>
+                    <styleProperties>
+                        <verticalAlignment>
+                            <stringValue>top</stringValue>
+                        </verticalAlignment>
+                        <width>
+                            <stringValue>12</stringValue>
+                        </width>
+                    </styleProperties>
                 </fields>
                 <inputParameters>
                     <name>width</name>
@@ -102,6 +127,14 @@
                     <name>Events</name>
                     <fieldText>&lt;p style=&quot;text-align: center;&quot;&gt;&lt;a href=&quot;https://efl-prd.carmignac.com/#/views/Salesforce-Activites_15717257033500/Salesforce-Activities?:iid=1&quot; rel=&quot;noopener noreferrer&quot; target=&quot;_blank&quot;&gt;&lt;strong&gt;&lt;img src=&quot;https://carmignac-crm--c.eu19.content.force.com/sfc/servlet.shepherd/version/download/0681i00000SeGxh?asPdf=false&amp;amp;operationContext=CHATTER&quot; alt=&quot;activity.PNG&quot;&gt;&lt;/strong&gt;&lt;/a&gt;&lt;/p&gt;&lt;p style=&quot;text-align: center;&quot;&gt;&lt;a href=&quot;https://efl-prd.carmignac.com/#/views/Salesforce-Activities/Activities-HighLevelOverview&quot; rel=&quot;noopener noreferrer&quot; target=&quot;_blank&quot;&gt;&lt;strong&gt;&lt;span class=&quot;ql-cursor&quot;&gt;﻿&lt;/span&gt;ACTIVITY DASHBOARD&lt;/strong&gt;&lt;/a&gt;&lt;/p&gt;</fieldText>
                     <fieldType>DisplayText</fieldType>
+                    <styleProperties>
+                        <verticalAlignment>
+                            <stringValue>top</stringValue>
+                        </verticalAlignment>
+                        <width>
+                            <stringValue>12</stringValue>
+                        </width>
+                    </styleProperties>
                 </fields>
                 <inputParameters>
                     <name>width</name>
@@ -118,6 +151,14 @@
                     <name>DataSolution</name>
                     <fieldText>&lt;p style=&quot;text-align: center;&quot;&gt;&lt;a href=&quot;https://efl-prd.carmignac.com/#/views/DataDeliveryProductionDashboard/WTPbase&quot; rel=&quot;noopener noreferrer&quot; target=&quot;_blank&quot;&gt;&lt;strong&gt;&lt;img src=&quot;https://carmignac-crm--c.eu19.content.force.com/sfc/servlet.shepherd/version/download/0681i00000SeGy1?asPdf=false&amp;amp;operationContext=CHATTER&quot; alt=&quot;dashboard 2.PNG&quot;&gt;&lt;/strong&gt;&lt;/a&gt;&lt;/p&gt;&lt;p style=&quot;text-align: center;&quot;&gt;&lt;a href=&quot;https://efl-prd.carmignac.com/#/views/DataDeliveryProductionDashboard/WTPbase&quot; rel=&quot;noopener noreferrer&quot; target=&quot;_blank&quot;&gt;&lt;strong&gt;&lt;span class=&quot;ql-cursor&quot;&gt;﻿&lt;/span&gt;DATA SOLUTION DASHBOARD&lt;/strong&gt;&lt;/a&gt;&lt;/p&gt;</fieldText>
                     <fieldType>DisplayText</fieldType>
+                    <styleProperties>
+                        <verticalAlignment>
+                            <stringValue>top</stringValue>
+                        </verticalAlignment>
+                        <width>
+                            <stringValue>12</stringValue>
+                        </width>
+                    </styleProperties>
                 </fields>
                 <inputParameters>
                     <name>width</name>
@@ -129,6 +170,14 @@
             </fields>
             <isRequired>false</isRequired>
             <regionContainerType>SectionWithoutHeader</regionContainerType>
+            <styleProperties>
+                <verticalAlignment>
+                    <stringValue>top</stringValue>
+                </verticalAlignment>
+                <width>
+                    <stringValue>12</stringValue>
+                </width>
+            </styleProperties>
         </fields>
         <fields>
             <name>HomeDashboards_Section3</name>
@@ -140,6 +189,14 @@
                     <name>OpportunityOverview</name>
                     <fieldText>&lt;p style=&quot;text-align: center;&quot;&gt;&lt;a href=&quot;https://efl-prd.carmignac.com/#/views/Salesforce-Opportunitiesslides/KeyDistributorsofOpenOpportunitiesbyRegion?:iid=1&quot; rel=&quot;noopener noreferrer&quot; target=&quot;_blank&quot;&gt;&lt;strong&gt;&lt;img src=&quot;https://carmignac-crm--c.eu19.content.force.com/sfc/servlet.shepherd/version/download/0681i00000SeGyg?asPdf=false&amp;amp;operationContext=CHATTER&quot; alt=&quot;High Level.PNG&quot;&gt;&lt;/strong&gt;&lt;/a&gt;&lt;/p&gt;&lt;p style=&quot;text-align: center;&quot;&gt;&lt;a href=&quot;https://efl-prd.carmignac.com/#/views/Salesforce-Opportunitiesslides/KeyDistributorsofOpenOpportunitiesbyRegion?:iid=1&quot; rel=&quot;noopener noreferrer&quot; target=&quot;_blank&quot;&gt;&lt;strong&gt;&lt;span class=&quot;ql-cursor&quot;&gt;﻿&lt;/span&gt;OPPORTUNITY HIGH LEVEL OVERVIEW&lt;/strong&gt;&lt;/a&gt;&lt;/p&gt;</fieldText>
                     <fieldType>DisplayText</fieldType>
+                    <styleProperties>
+                        <verticalAlignment>
+                            <stringValue>top</stringValue>
+                        </verticalAlignment>
+                        <width>
+                            <stringValue>12</stringValue>
+                        </width>
+                    </styleProperties>
                 </fields>
                 <inputParameters>
                     <name>width</name>
@@ -156,6 +213,14 @@
                     <name>Event</name>
                     <fieldText>&lt;p style=&quot;text-align: center;&quot;&gt;&lt;a href=&quot;https://efl-prd.carmignac.com/#/views/Salesforce-EventNotes/EventNotes&quot; rel=&quot;noopener noreferrer&quot; target=&quot;_blank&quot;&gt;&lt;strong&gt;&lt;img src=&quot;https://carmignac-crm--c.eu19.content.force.com/sfc/servlet.shepherd/version/download/0681i00000SeGyl?asPdf=false&amp;amp;operationContext=CHATTER&quot; alt=&quot;Note.PNG&quot;&gt;&lt;/strong&gt;&lt;/a&gt;&lt;/p&gt;&lt;p style=&quot;text-align: center;&quot;&gt;&lt;a href=&quot;https://efl-prd.carmignac.com/#/views/Salesforce-EventNotes/EventNotes&quot; rel=&quot;noopener noreferrer&quot; target=&quot;_blank&quot;&gt;&lt;strong&gt;&lt;span class=&quot;ql-cursor&quot;&gt;﻿&lt;/span&gt;EVENT NOTE DASHBOARD&lt;/strong&gt;&lt;/a&gt;&lt;/p&gt;</fieldText>
                     <fieldType>DisplayText</fieldType>
+                    <styleProperties>
+                        <verticalAlignment>
+                            <stringValue>top</stringValue>
+                        </verticalAlignment>
+                        <width>
+                            <stringValue>12</stringValue>
+                        </width>
+                    </styleProperties>
                 </fields>
                 <inputParameters>
                     <name>width</name>
@@ -172,6 +237,14 @@
                     <name>buylist</name>
                     <fieldText>&lt;p style=&quot;text-align: center;&quot;&gt;&lt;a href=&quot;https://efl-prd.carmignac.com/#/views/Salesforce-BuyList/BuyListCurrentStatus&quot; rel=&quot;noopener noreferrer&quot; target=&quot;_blank&quot;&gt;&lt;strong&gt;&lt;img src=&quot;https://carmignac-crm--c.eu19.content.force.com/sfc/servlet.shepherd/version/download/0681i00000SeGz1?asPdf=false&amp;amp;operationContext=CHATTER&quot; alt=&quot;BuyList.PNG&quot;&gt;&lt;/strong&gt;&lt;/a&gt;&lt;/p&gt;&lt;p style=&quot;text-align: center;&quot;&gt;&lt;a href=&quot;https://efl-prd.carmignac.com/#/views/Salesforce-BuyList/BuyListCurrentStatus&quot; rel=&quot;noopener noreferrer&quot; target=&quot;_blank&quot;&gt;&lt;strong&gt;&lt;span class=&quot;ql-cursor&quot;&gt;﻿&lt;/span&gt;BUY LIST DASHBOARD&lt;/strong&gt;&lt;/a&gt;&lt;/p&gt;</fieldText>
                     <fieldType>DisplayText</fieldType>
+                    <styleProperties>
+                        <verticalAlignment>
+                            <stringValue>top</stringValue>
+                        </verticalAlignment>
+                        <width>
+                            <stringValue>12</stringValue>
+                        </width>
+                    </styleProperties>
                 </fields>
                 <inputParameters>
                     <name>width</name>
@@ -183,6 +256,14 @@
             </fields>
             <isRequired>false</isRequired>
             <regionContainerType>SectionWithoutHeader</regionContainerType>
+            <styleProperties>
+                <verticalAlignment>
+                    <stringValue>top</stringValue>
+                </verticalAlignment>
+                <width>
+                    <stringValue>12</stringValue>
+                </width>
+            </styleProperties>
         </fields>
         <fields>
             <name>HomeDashboards_Section4</name>
@@ -194,6 +275,14 @@
                     <name>trends</name>
                     <fieldText>&lt;p style=&quot;text-align: center;&quot;&gt;&lt;a href=&quot;https://efl-prd.carmignac.com/#/views/Salesforce-OpportunityTrendOverview2021Q4/GlobalOverview&quot; rel=&quot;noopener noreferrer&quot; target=&quot;_blank&quot;&gt;&lt;strong&gt;&lt;img src=&quot;https://carmignac-crm--c.eu19.content.force.com/sfc/servlet.shepherd/version/download/0681i00000SeGzQ?asPdf=false&amp;amp;operationContext=CHATTER&quot; alt=&quot;trends.PNG&quot;&gt;&lt;/strong&gt;&lt;/a&gt;&lt;/p&gt;&lt;p style=&quot;text-align: center;&quot;&gt;&lt;a href=&quot;https://efl-prd.carmignac.com/#/views/Salesforce-OpportunityTrendOverview2021Q4/GlobalOverview&quot; rel=&quot;noopener noreferrer&quot; target=&quot;_blank&quot;&gt;&lt;strong&gt;﻿OPPORTUNITY TRENDS&lt;/strong&gt;&lt;/a&gt;&lt;/p&gt;</fieldText>
                     <fieldType>DisplayText</fieldType>
+                    <styleProperties>
+                        <verticalAlignment>
+                            <stringValue>top</stringValue>
+                        </verticalAlignment>
+                        <width>
+                            <stringValue>12</stringValue>
+                        </width>
+                    </styleProperties>
                 </fields>
                 <inputParameters>
                     <name>width</name>
@@ -210,6 +299,14 @@
                     <name>Goals</name>
                     <fieldText>&lt;p style=&quot;text-align: center;&quot;&gt;&lt;a href=&quot;https://efl-prd.carmignac.com/#/views/Salesforce-StrategicNews/StrategicNewsI_&quot; rel=&quot;noopener noreferrer&quot; target=&quot;_blank&quot;&gt;&lt;strong&gt;&lt;img src=&quot;https://carmignac-crm--c.eu19.content.force.com/sfc/servlet.shepherd/version/download/0681i00000SeUcH?asPdf=false&amp;amp;operationContext=CHATTER&quot; alt=&quot;Strategic.PNG&quot;&gt;&lt;/strong&gt;&lt;/a&gt;&lt;/p&gt;&lt;p style=&quot;text-align: center;&quot;&gt;&lt;a href=&quot;https://efl-prd.carmignac.com/#/views/Salesforce-StrategicNews/StrategicNewsI_&quot; rel=&quot;noopener noreferrer&quot; target=&quot;_blank&quot;&gt;&lt;strong&gt;﻿STRATEGIC NEWS DASHBOARD&lt;/strong&gt;&lt;/a&gt;&lt;/p&gt;</fieldText>
                     <fieldType>DisplayText</fieldType>
+                    <styleProperties>
+                        <verticalAlignment>
+                            <stringValue>top</stringValue>
+                        </verticalAlignment>
+                        <width>
+                            <stringValue>12</stringValue>
+                        </width>
+                    </styleProperties>
                 </fields>
                 <inputParameters>
                     <name>width</name>
@@ -232,6 +329,14 @@
             </fields>
             <isRequired>false</isRequired>
             <regionContainerType>SectionWithoutHeader</regionContainerType>
+            <styleProperties>
+                <verticalAlignment>
+                    <stringValue>top</stringValue>
+                </verticalAlignment>
+                <width>
+                    <stringValue>12</stringValue>
+                </width>
+            </styleProperties>
         </fields>
         <fields>
             <name>HomeDashboards_Section5</name>
@@ -243,6 +348,14 @@
                     <name>winloss</name>
                     <fieldText>&lt;p style=&quot;text-align: center;&quot;&gt;&lt;a href=&quot;https://efl-prd.carmignac.com/#/views/Salesforce-WinLossReasons/WinLossReasons?:iid=1&quot; rel=&quot;noopener noreferrer&quot; target=&quot;_blank&quot;&gt;&lt;strong&gt;&lt;img src=&quot;https://carmignac-crm--c.eu19.content.force.com/sfc/servlet.shepherd/version/download/0681i00000SeH0I?asPdf=false&amp;amp;operationContext=CHATTER&quot; alt=&quot;WinLoss.PNG&quot;&gt;&lt;/strong&gt;&lt;/a&gt;&lt;/p&gt;&lt;p style=&quot;text-align: center;&quot;&gt;&lt;a href=&quot;https://efl-prd.carmignac.com/#/views/Salesforce-WinLossReasons/WinLossReasons?:iid=1&quot; rel=&quot;noopener noreferrer&quot; target=&quot;_blank&quot;&gt;&lt;strong&gt;&lt;span class=&quot;ql-cursor&quot;&gt;﻿&lt;/span&gt;OPPORTUNITY WIN LOSS REASONS&lt;/strong&gt;&lt;/a&gt;&lt;/p&gt;</fieldText>
                     <fieldType>DisplayText</fieldType>
+                    <styleProperties>
+                        <verticalAlignment>
+                            <stringValue>top</stringValue>
+                        </verticalAlignment>
+                        <width>
+                            <stringValue>12</stringValue>
+                        </width>
+                    </styleProperties>
                 </fields>
                 <inputParameters>
                     <name>width</name>
@@ -276,6 +389,14 @@
             </fields>
             <isRequired>false</isRequired>
             <regionContainerType>SectionWithoutHeader</regionContainerType>
+            <styleProperties>
+                <verticalAlignment>
+                    <stringValue>top</stringValue>
+                </verticalAlignment>
+                <width>
+                    <stringValue>12</stringValue>
+                </width>
+            </styleProperties>
         </fields>
         <showFooter>false</showFooter>
         <showHeader>false</showHeader>

@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Flow xmlns="http://soap.sforce.com/2006/04/metadata">
     <apiVersion>56.0</apiVersion>
+    <areMetricsLoggedToDataCloud>false</areMetricsLoggedToDataCloud>
     <description>Change Compagnies to Companies</description>
     <environments>Default</environments>
     <interviewLabel>Training Videos Screen {!$Flow.CurrentDateTime}</interviewLabel>
@@ -42,6 +43,14 @@
                     <name>Agreements</name>
                     <fieldText>&lt;p&gt;&lt;a href=&quot;https://carmignac-crm.lightning.force.com/lightning/o/Salesforce_update__c/list?filterName=00B1i000003CUyCEAW&quot; rel=&quot;noopener noreferrer&quot; target=&quot;_blank&quot; style=&quot;font-size: 14px;&quot;&gt;&lt;strong&gt;&lt;img src=&quot;https://carmignac-crm--c.eu19.content.force.com/sfc/servlet.shepherd/version/download/0681i00000SaFrv?asPdf=false&amp;amp;operationContext=CHATTER&quot; alt=&quot;Agreements.png&quot;&gt;Agreements&lt;/strong&gt;&lt;/a&gt;&lt;/p&gt;</fieldText>
                     <fieldType>DisplayText</fieldType>
+                    <styleProperties>
+                        <verticalAlignment>
+                            <stringValue>top</stringValue>
+                        </verticalAlignment>
+                        <width>
+                            <stringValue>12</stringValue>
+                        </width>
+                    </styleProperties>
                 </fields>
                 <inputParameters>
                     <name>width</name>
@@ -58,6 +67,14 @@
                     <name>Leads</name>
                     <fieldText>&lt;p&gt;&lt;a href=&quot;https://carmignac-crm.lightning.force.com/lightning/o/Salesforce_update__c/list?filterName=00B1i000003CUyHEAW&quot; rel=&quot;noopener noreferrer&quot; target=&quot;_blank&quot;&gt;&lt;img src=&quot;https://carmignac-crm--c.eu19.content.force.com/sfc/servlet.shepherd/version/download/0681i00000SaFrg?asPdf=false&amp;amp;operationContext=CHATTER&quot; alt=&quot;leads.png&quot;&gt; &lt;/a&gt;&lt;a href=&quot;https://carmignac-crm.lightning.force.com/lightning/o/Salesforce_update__c/list?filterName=00B1i000003CUyHEAW&quot; rel=&quot;noopener noreferrer&quot; target=&quot;_blank&quot; style=&quot;font-size: 14px;&quot;&gt;&lt;strong&gt;Leads&lt;/strong&gt;&lt;/a&gt;&lt;/p&gt;</fieldText>
                     <fieldType>DisplayText</fieldType>
+                    <styleProperties>
+                        <verticalAlignment>
+                            <stringValue>top</stringValue>
+                        </verticalAlignment>
+                        <width>
+                            <stringValue>12</stringValue>
+                        </width>
+                    </styleProperties>
                 </fields>
                 <inputParameters>
                     <name>width</name>
@@ -74,6 +91,14 @@
                     <name>reporting</name>
                     <fieldText>&lt;p&gt;&lt;a href=&quot;https://carmignac-crm.lightning.force.com/lightning/o/Salesforce_update__c/list?filterName=00B1i000003CUyJEAW&quot; rel=&quot;noopener noreferrer&quot; target=&quot;_blank&quot; style=&quot;font-size: 14px;&quot;&gt;&lt;strong&gt;&lt;img src=&quot;https://carmignac-crm--c.eu19.content.force.com/sfc/servlet.shepherd/version/download/0681i00000SaFrq?asPdf=false&amp;amp;operationContext=CHATTER&quot; alt=&quot;reports &amp;amp; Dashboards.png&quot;&gt; Reports &amp;amp; Dashboards&lt;/strong&gt;&lt;/a&gt;&lt;/p&gt;</fieldText>
                     <fieldType>DisplayText</fieldType>
+                    <styleProperties>
+                        <verticalAlignment>
+                            <stringValue>top</stringValue>
+                        </verticalAlignment>
+                        <width>
+                            <stringValue>12</stringValue>
+                        </width>
+                    </styleProperties>
                 </fields>
                 <inputParameters>
                     <name>width</name>
@@ -85,6 +110,14 @@
             </fields>
             <isRequired>false</isRequired>
             <regionContainerType>SectionWithoutHeader</regionContainerType>
+            <styleProperties>
+                <verticalAlignment>
+                    <stringValue>top</stringValue>
+                </verticalAlignment>
+                <width>
+                    <stringValue>12</stringValue>
+                </width>
+            </styleProperties>
         </fields>
         <fields>
             <name>Training_Videos_Section2</name>
@@ -96,6 +129,14 @@
                     <name>Contacts</name>
                     <fieldText>&lt;p&gt;&lt;a href=&quot;https://carmignac-crm.lightning.force.com/lightning/o/Salesforce_update__c/list?filterName=00B1i000003CUyFEAW&quot; rel=&quot;noopener noreferrer&quot; target=&quot;_blank&quot; style=&quot;font-size: 14px;&quot;&gt;&lt;strong&gt;&lt;img src=&quot;https://carmignac-crm--c.eu19.content.force.com/sfc/servlet.shepherd/version/download/0681i00000SaFsk?asPdf=false&amp;amp;operationContext=CHATTER&quot; alt=&quot;contacts.png&quot;&gt; Contacts&lt;/strong&gt;&lt;/a&gt;&lt;/p&gt;</fieldText>
                     <fieldType>DisplayText</fieldType>
+                    <styleProperties>
+                        <verticalAlignment>
+                            <stringValue>top</stringValue>
+                        </verticalAlignment>
+                        <width>
+                            <stringValue>12</stringValue>
+                        </width>
+                    </styleProperties>
                 </fields>
                 <inputParameters>
                     <name>width</name>
@@ -112,6 +153,14 @@
                     <name>WTP</name>
                     <fieldText>&lt;p&gt;&lt;a href=&quot;https://carmignac-crm.lightning.force.com/lightning/o/Salesforce_update__c/list?filterName=00B1i000003CUyKEAW&quot; rel=&quot;noopener noreferrer&quot; target=&quot;_blank&quot; style=&quot;font-size: 14px;&quot;&gt;&lt;strong&gt;&lt;img src=&quot;https://carmignac-crm--c.eu19.content.force.com/sfc/servlet.shepherd/version/download/0681i00000SaFsp?asPdf=false&amp;amp;operationContext=CHATTER&quot; alt=&quot;WTP.png&quot;&gt; WTP&lt;/strong&gt;&lt;/a&gt;&lt;/p&gt;</fieldText>
                     <fieldType>DisplayText</fieldType>
+                    <styleProperties>
+                        <verticalAlignment>
+                            <stringValue>top</stringValue>
+                        </verticalAlignment>
+                        <width>
+                            <stringValue>12</stringValue>
+                        </width>
+                    </styleProperties>
                 </fields>
                 <inputParameters>
                     <name>width</name>
@@ -128,6 +177,14 @@
                     <name>EventMeetingNotes</name>
                     <fieldText>&lt;p&gt;&lt;strong style=&quot;font-size: 14px;&quot;&gt;&lt;img src=&quot;https://carmignac-crm--c.eu19.content.force.com/sfc/servlet.shepherd/version/download/0681i00000SaFsA?asPdf=false&amp;amp;operationContext=CHATTER&quot; alt=&quot;event.png&quot;&gt; &lt;/strong&gt;&lt;a href=&quot;https://carmignac-crm.lightning.force.com/lightning/o/Salesforce_update__c/list?filterName=00B1i000003CUyGEAW&quot; rel=&quot;noopener noreferrer&quot; target=&quot;_blank&quot; style=&quot;font-size: 14px;&quot;&gt;&lt;strong&gt;Event / Meeting Notes&lt;/strong&gt;&lt;/a&gt;&lt;/p&gt;</fieldText>
                     <fieldType>DisplayText</fieldType>
+                    <styleProperties>
+                        <verticalAlignment>
+                            <stringValue>top</stringValue>
+                        </verticalAlignment>
+                        <width>
+                            <stringValue>12</stringValue>
+                        </width>
+                    </styleProperties>
                 </fields>
                 <inputParameters>
                     <name>width</name>
@@ -139,6 +196,14 @@
             </fields>
             <isRequired>false</isRequired>
             <regionContainerType>SectionWithoutHeader</regionContainerType>
+            <styleProperties>
+                <verticalAlignment>
+                    <stringValue>top</stringValue>
+                </verticalAlignment>
+                <width>
+                    <stringValue>12</stringValue>
+                </width>
+            </styleProperties>
         </fields>
         <fields>
             <name>Training_Videos_Section3</name>
@@ -150,6 +215,14 @@
                     <name>Compagnies</name>
                     <fieldText>&lt;p&gt;&lt;a href=&quot;https://carmignac-crm.lightning.force.com/lightning/o/Salesforce_update__c/list?filterName=00B1i000003CUyEEAW&quot; rel=&quot;noopener noreferrer&quot; target=&quot;_blank&quot; style=&quot;font-size: 14px;&quot;&gt;&lt;strong&gt;&lt;img src=&quot;https://carmignac-crm--c.eu19.content.force.com/sfc/servlet.shepherd/version/download/0681i00000SaFsF?asPdf=false&amp;amp;operationContext=CHATTER&quot; alt=&quot;companies.png&quot;&gt; Companies&lt;/strong&gt;&lt;/a&gt;&lt;/p&gt;</fieldText>
                     <fieldType>DisplayText</fieldType>
+                    <styleProperties>
+                        <verticalAlignment>
+                            <stringValue>top</stringValue>
+                        </verticalAlignment>
+                        <width>
+                            <stringValue>12</stringValue>
+                        </width>
+                    </styleProperties>
                 </fields>
                 <inputParameters>
                     <name>width</name>
@@ -166,6 +239,14 @@
                     <name>Campaigns</name>
                     <fieldText>&lt;p&gt;&lt;strong style=&quot;font-size: 14px;&quot;&gt;&lt;img src=&quot;https://carmignac-crm--c.eu19.content.force.com/sfc/servlet.shepherd/version/download/0681i00000SaFsK?asPdf=false&amp;amp;operationContext=CHATTER&quot; alt=&quot;campaigns.png&quot;&gt; &lt;/strong&gt;&lt;a href=&quot;https://carmignac-crm.lightning.force.com/lightning/o/Salesforce_update__c/list?filterName=00B1i000003CUyDEAW&quot; rel=&quot;noopener noreferrer&quot; target=&quot;_blank&quot; style=&quot;font-size: 14px;&quot;&gt;&lt;strong&gt;Campaigns&lt;/strong&gt;&lt;/a&gt;&lt;/p&gt;</fieldText>
                     <fieldType>DisplayText</fieldType>
+                    <styleProperties>
+                        <verticalAlignment>
+                            <stringValue>top</stringValue>
+                        </verticalAlignment>
+                        <width>
+                            <stringValue>12</stringValue>
+                        </width>
+                    </styleProperties>
                 </fields>
                 <inputParameters>
                     <name>width</name>
@@ -182,6 +263,14 @@
                     <name>HowTo</name>
                     <fieldText>&lt;p&gt;&lt;a href=&quot;https://carmignac-crm.lightning.force.com/lightning/o/Salesforce_update__c/list?filterName=00B1i000003CUyIEAW&quot; rel=&quot;noopener noreferrer&quot; target=&quot;_blank&quot; style=&quot;font-size: 14px;&quot;&gt;&lt;strong&gt;&lt;img src=&quot;https://carmignac-crm--c.eu19.content.force.com/sfc/servlet.shepherd/version/download/0681i00000UXzh7?asPdf=false&amp;amp;operationContext=CHATTER&quot; alt=&quot;other.png&quot;&gt; Other features&lt;/strong&gt;&lt;/a&gt;&lt;/p&gt;</fieldText>
                     <fieldType>DisplayText</fieldType>
+                    <styleProperties>
+                        <verticalAlignment>
+                            <stringValue>top</stringValue>
+                        </verticalAlignment>
+                        <width>
+                            <stringValue>12</stringValue>
+                        </width>
+                    </styleProperties>
                 </fields>
                 <inputParameters>
                     <name>width</name>
@@ -193,6 +282,14 @@
             </fields>
             <isRequired>false</isRequired>
             <regionContainerType>SectionWithoutHeader</regionContainerType>
+            <styleProperties>
+                <verticalAlignment>
+                    <stringValue>top</stringValue>
+                </verticalAlignment>
+                <width>
+                    <stringValue>12</stringValue>
+                </width>
+            </styleProperties>
         </fields>
         <showFooter>false</showFooter>
         <showHeader>false</showHeader>

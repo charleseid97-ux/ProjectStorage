@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <GenAiPromptTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <activeVersionIdentifier>WVN3tZk4o404O8n8M7lvj2vqM7T4xnyoLEatZnrtmCY=_25</activeVersionIdentifier>
     <description>Use this prompt template to generate a json formated client interests data</description>
     <developerName>flex_GenerateClientInterestsFromRawNote</developerName>
     <masterLabel>flex_GenerateClientInterestsFromRawNote</masterLabel>
@@ -72,11 +73,13 @@ Levers that could increase interest (specific features, thematic appeal, peer us
             <required>true</required>
         </inputs>
         <primaryModel>sfdc_ai__DefaultGPT5</primaryModel>
+        <responseFormat>JSON</responseFormat>
         <status>Published</status>
         <templateDataProviders>
             <definition>flow://PT_RetrieveProducts</definition>
             <referenceName>Flow:PT_RetrieveProducts</referenceName>
         </templateDataProviders>
+        <versionIdentifier>S+W5ua7c5EHD5EpeRljbEENzEry32G3OFylu3fZry3o=_3</versionIdentifier>
     </templateVersions>
     <templateVersions>
         <content>&lt;Strategy&gt; {!$Flow:PT_RetrieveProducts.Prompt} &lt;/Strategy&gt; ------------------------------------- From the transcript below:
@@ -166,12 +169,14 @@ Example Output:
             <required>true</required>
         </inputs>
         <primaryModel>sfdc_ai__DefaultGPT5</primaryModel>
+        <responseFormat>JSON</responseFormat>
         <status>Published</status>
         <templateDataProviders>
             <definition>flow://PT_RetrieveProducts</definition>
             <label>PT_RetrieveProducts</label>
             <referenceName>Flow:PT_RetrieveProducts</referenceName>
         </templateDataProviders>
+        <versionIdentifier>c4ElwQopkBL55yk9AEFEKHyr6yvBO2s5DVtJ9BtmeOQ=_2</versionIdentifier>
     </templateVersions>
     <templateVersions>
         <content>&lt;Strategy&gt;
@@ -335,12 +340,14 @@ Return exactly:
             <required>true</required>
         </inputs>
         <primaryModel>sfdc_ai__DefaultGPT5</primaryModel>
+        <responseFormat>JSON</responseFormat>
         <status>Draft</status>
         <templateDataProviders>
             <definition>flow://PT_RetrieveProducts</definition>
             <label>PT_RetrieveProducts</label>
             <referenceName>Flow:PT_RetrieveProducts</referenceName>
         </templateDataProviders>
+        <versionIdentifier>S+W5ua7c5EHD5EpeRljbEENzEry32G3OFylu3fZry3o=_9</versionIdentifier>
     </templateVersions>
     <templateVersions>
         <content>&lt;Strategy&gt; {!$Flow:PT_RetrieveProducts.Prompt} &lt;/Strategy&gt; ------------------------------------- From the transcript below:
@@ -430,12 +437,14 @@ Example Output:
             <required>true</required>
         </inputs>
         <primaryModel>sfdc_ai__DefaultGPT5</primaryModel>
+        <responseFormat>JSON</responseFormat>
         <status>Draft</status>
         <templateDataProviders>
             <definition>flow://PT_RetrieveProducts</definition>
             <label>PT_RetrieveProducts</label>
             <referenceName>Flow:PT_RetrieveProducts</referenceName>
         </templateDataProviders>
+        <versionIdentifier>S+W5ua7c5EHD5EpeRljbEENzEry32G3OFylu3fZry3o=_10</versionIdentifier>
     </templateVersions>
     <templateVersions>
         <content>&lt;Strategy&gt; {!$Flow:PT_RetrieveProducts.Prompt} &lt;/Strategy&gt; ------------------------------------- From the transcript below:
@@ -525,12 +534,14 @@ Example Output:
             <required>true</required>
         </inputs>
         <primaryModel>sfdc_ai__DefaultGPT5</primaryModel>
+        <responseFormat>JSON</responseFormat>
         <status>Draft</status>
         <templateDataProviders>
             <definition>flow://PT_RetrieveProducts</definition>
             <label>PT_RetrieveProducts</label>
             <referenceName>Flow:PT_RetrieveProducts</referenceName>
         </templateDataProviders>
+        <versionIdentifier>MuMszwROXu5fa3TkYcO34vVThSWU8n81WfCHZ/Rxv0g=_5</versionIdentifier>
     </templateVersions>
     <templateVersions>
         <content>&lt;Strategy&gt; {!$Flow:PT_RetrieveProducts.Prompt} &lt;/Strategy&gt; ------------------------------------- From the transcript below:
@@ -631,12 +642,14 @@ Example Output:
             <required>true</required>
         </inputs>
         <primaryModel>sfdc_ai__DefaultGPT5</primaryModel>
+        <responseFormat>JSON</responseFormat>
         <status>Published</status>
         <templateDataProviders>
             <definition>flow://PT_RetrieveProducts</definition>
             <label>PT_RetrieveProducts</label>
             <referenceName>Flow:PT_RetrieveProducts</referenceName>
         </templateDataProviders>
+        <versionIdentifier>MuMszwROXu5fa3TkYcO34vVThSWU8n81WfCHZ/Rxv0g=_6</versionIdentifier>
     </templateVersions>
     <templateVersions>
         <content>&lt;Strategy&gt;
@@ -812,12 +825,14 @@ If no product can be confidently matched to the Strategy list, return:
             <required>true</required>
         </inputs>
         <primaryModel>sfdc_ai__DefaultBedrockAnthropicClaude45Sonnet</primaryModel>
+        <responseFormat>JSON</responseFormat>
         <status>Published</status>
         <templateDataProviders>
             <definition>flow://PT_RetrieveProducts</definition>
             <label>PT_RetrieveProducts</label>
             <referenceName>Flow:PT_RetrieveProducts</referenceName>
         </templateDataProviders>
+        <versionIdentifier>MuMszwROXu5fa3TkYcO34vVThSWU8n81WfCHZ/Rxv0g=_7</versionIdentifier>
     </templateVersions>
     <templateVersions>
         <content>&lt;Strategy&gt; {!$Flow:PT_RetrieveProducts.Prompt} &lt;/Strategy&gt; ------------------------------------- From the transcript below:
@@ -918,12 +933,14 @@ Example Output:
             <required>true</required>
         </inputs>
         <primaryModel>sfdc_ai__DefaultGPT5</primaryModel>
+        <responseFormat>JSON</responseFormat>
         <status>Draft</status>
         <templateDataProviders>
             <definition>flow://PT_RetrieveProducts</definition>
             <label>PT_RetrieveProducts</label>
             <referenceName>Flow:PT_RetrieveProducts</referenceName>
         </templateDataProviders>
+        <versionIdentifier>MuMszwROXu5fa3TkYcO34vVThSWU8n81WfCHZ/Rxv0g=_8</versionIdentifier>
     </templateVersions>
     <templateVersions>
         <content>&lt;Strategy&gt; {!$Flow:PT_RetrieveProducts.Prompt} &lt;/Strategy&gt; ------------------------------------- From the transcript below:
@@ -1024,6 +1041,7 @@ Example Output:
             <required>true</required>
         </inputs>
         <primaryModel>sfdc_ai__DefaultBedrockAnthropicClaude45Sonnet</primaryModel>
+        <responseFormat>JSON</responseFormat>
         <status>Published</status>
         <templateDataProviders>
             <definition>flow://PT_RetrieveProducts</definition>
@@ -1031,6 +1049,7 @@ Example Output:
             <label>PT_RetrieveProducts</label>
             <referenceName>Flow:PT_RetrieveProducts</referenceName>
         </templateDataProviders>
+        <versionIdentifier>MuMszwROXu5fa3TkYcO34vVThSWU8n81WfCHZ/Rxv0g=_9</versionIdentifier>
     </templateVersions>
     <templateVersions>
         <content>&quot;&quot;&quot;
@@ -1165,6 +1184,7 @@ EXAMPLE OUTPUT:
             <required>true</required>
         </inputs>
         <primaryModel>sfdc_ai__DefaultBedrockAnthropicClaude45Sonnet</primaryModel>
+        <responseFormat>JSON</responseFormat>
         <status>Published</status>
         <templateDataProviders>
             <definition>flow://PT_RetrieveProducts</definition>
@@ -1172,6 +1192,7 @@ EXAMPLE OUTPUT:
             <label>PT_RetrieveProducts</label>
             <referenceName>Flow:PT_RetrieveProducts</referenceName>
         </templateDataProviders>
+        <versionIdentifier>MuMszwROXu5fa3TkYcO34vVThSWU8n81WfCHZ/Rxv0g=_10</versionIdentifier>
     </templateVersions>
     <templateVersions>
         <content>&quot;&quot;&quot;
@@ -1306,6 +1327,7 @@ EXAMPLE OUTPUT:
             <required>true</required>
         </inputs>
         <primaryModel>sfdc_ai__DefaultBedrockAnthropicClaude45Sonnet</primaryModel>
+        <responseFormat>JSON</responseFormat>
         <status>Draft</status>
         <templateDataProviders>
             <definition>flow://PT_RetrieveProducts</definition>
@@ -1313,6 +1335,7 @@ EXAMPLE OUTPUT:
             <label>PT_RetrieveProducts</label>
             <referenceName>Flow:PT_RetrieveProducts</referenceName>
         </templateDataProviders>
+        <versionIdentifier>MuMszwROXu5fa3TkYcO34vVThSWU8n81WfCHZ/Rxv0g=_11</versionIdentifier>
     </templateVersions>
     <templateVersions>
         <content>&quot;&quot;&quot;
@@ -1447,6 +1470,7 @@ EXAMPLE OUTPUT:
             <required>true</required>
         </inputs>
         <primaryModel>sfdc_ai__DefaultBedrockAnthropicClaude46Sonnet</primaryModel>
+        <responseFormat>JSON</responseFormat>
         <status>Published</status>
         <templateDataProviders>
             <definition>flow://PT_RetrieveProducts</definition>
@@ -1454,6 +1478,7 @@ EXAMPLE OUTPUT:
             <label>PT_RetrieveProducts</label>
             <referenceName>Flow:PT_RetrieveProducts</referenceName>
         </templateDataProviders>
+        <versionIdentifier>MuMszwROXu5fa3TkYcO34vVThSWU8n81WfCHZ/Rxv0g=_12</versionIdentifier>
     </templateVersions>
     <templateVersions>
         <content>&quot;&quot;&quot;
@@ -1595,6 +1620,7 @@ EXAMPLE OUTPUT:
             <required>true</required>
         </inputs>
         <primaryModel>sfdc_ai__DefaultBedrockAnthropicClaude46Sonnet</primaryModel>
+        <responseFormat>JSON</responseFormat>
         <status>Draft</status>
         <templateDataProviders>
             <definition>flow://PT_RetrieveProducts</definition>
@@ -1602,6 +1628,7 @@ EXAMPLE OUTPUT:
             <label>PT_RetrieveProducts</label>
             <referenceName>Flow:PT_RetrieveProducts</referenceName>
         </templateDataProviders>
+        <versionIdentifier>MuMszwROXu5fa3TkYcO34vVThSWU8n81WfCHZ/Rxv0g=_13</versionIdentifier>
     </templateVersions>
     <templateVersions>
         <content>&quot;&quot;&quot;
@@ -1736,6 +1763,7 @@ EXAMPLE OUTPUT:
             <required>true</required>
         </inputs>
         <primaryModel>sfdc_ai__DefaultBedrockAnthropicClaude45Sonnet</primaryModel>
+        <responseFormat>JSON</responseFormat>
         <status>Published</status>
         <templateDataProviders>
             <definition>flow://PT_RetrieveProducts</definition>
@@ -1743,6 +1771,7 @@ EXAMPLE OUTPUT:
             <label>PT_RetrieveProducts</label>
             <referenceName>Flow:PT_RetrieveProducts</referenceName>
         </templateDataProviders>
+        <versionIdentifier>MuMszwROXu5fa3TkYcO34vVThSWU8n81WfCHZ/Rxv0g=_14</versionIdentifier>
     </templateVersions>
     <templateVersions>
         <content>&quot;&quot;&quot;
@@ -1898,6 +1927,7 @@ EXAMPLE OUTPUT:
             <required>true</required>
         </inputs>
         <primaryModel>sfdc_ai__DefaultBedrockAnthropicClaude46Sonnet</primaryModel>
+        <responseFormat>JSON</responseFormat>
         <status>Published</status>
         <templateDataProviders>
             <definition>flow://PT_RetrieveProducts</definition>
@@ -1905,6 +1935,7 @@ EXAMPLE OUTPUT:
             <label>PT_RetrieveProducts</label>
             <referenceName>Flow:PT_RetrieveProducts</referenceName>
         </templateDataProviders>
+        <versionIdentifier>MuMszwROXu5fa3TkYcO34vVThSWU8n81WfCHZ/Rxv0g=_15</versionIdentifier>
     </templateVersions>
     <templateVersions>
         <content>&quot;&quot;&quot;
@@ -2060,6 +2091,7 @@ EXAMPLE OUTPUT:
             <required>true</required>
         </inputs>
         <primaryModel>sfdc_ai__DefaultBedrockAnthropicClaude46Sonnet</primaryModel>
+        <responseFormat>JSON</responseFormat>
         <status>Published</status>
         <templateDataProviders>
             <definition>flow://PT_RetrieveProducts</definition>
@@ -2067,6 +2099,7 @@ EXAMPLE OUTPUT:
             <label>PT_RetrieveProducts</label>
             <referenceName>Flow:PT_RetrieveProducts</referenceName>
         </templateDataProviders>
+        <versionIdentifier>MuMszwROXu5fa3TkYcO34vVThSWU8n81WfCHZ/Rxv0g=_16</versionIdentifier>
     </templateVersions>
     <templateVersions>
         <content>&quot;&quot;&quot;
@@ -2222,6 +2255,7 @@ EXAMPLE OUTPUT:
             <required>true</required>
         </inputs>
         <primaryModel>sfdc_ai__DefaultBedrockAnthropicClaude45Opus</primaryModel>
+        <responseFormat>JSON</responseFormat>
         <status>Published</status>
         <templateDataProviders>
             <definition>flow://PT_RetrieveProducts</definition>
@@ -2229,6 +2263,7 @@ EXAMPLE OUTPUT:
             <label>PT_RetrieveProducts</label>
             <referenceName>Flow:PT_RetrieveProducts</referenceName>
         </templateDataProviders>
+        <versionIdentifier>WVN3tZk4o404O8n8M7lvj2vqM7T4xnyoLEatZnrtmCY=_22</versionIdentifier>
     </templateVersions>
     <templateVersions>
         <content>&quot;&quot;&quot;
@@ -2385,6 +2420,7 @@ b- If MEETING NOTE contains &quot;Emerging Markets&quot; AND (&quot;Debt&quot; O
             <required>true</required>
         </inputs>
         <primaryModel>sfdc_ai__DefaultBedrockAnthropicClaude45Opus</primaryModel>
+        <responseFormat>JSON</responseFormat>
         <status>Draft</status>
         <templateDataProviders>
             <definition>flow://PT_RetrieveProducts</definition>
@@ -2392,6 +2428,812 @@ b- If MEETING NOTE contains &quot;Emerging Markets&quot; AND (&quot;Debt&quot; O
             <label>PT_RetrieveProducts</label>
             <referenceName>Flow:PT_RetrieveProducts</referenceName>
         </templateDataProviders>
+        <versionIdentifier>WVN3tZk4o404O8n8M7lvj2vqM7T4xnyoLEatZnrtmCY=_23</versionIdentifier>
+    </templateVersions>
+    <templateVersions>
+        <content>&quot;&quot;&quot;
+🟦## INSTRUCTIONS ##
+Detect all product references in MEETING NOTE
+Match each referenced product in MEETING NOTE to the corresponding product found in PRODUCT AND STRATEGY REFERENCE
+PRODUCT AND STRATEGY REFERENCE is a list of Products and their:
+1- Product Short Code
+2- Product Name
+3- Product Strategy Id
+4- Product Strategy Name
+The goal is to output the JSON STRUCTURE below following a matching priority to get the Strategy Id. Check the MATCHING PRIORITY RULES.
+For each matched product, assess the client’s investment appetite (1–5) based on RATING RULES and justify it with Why
+If no products in the transcript can be matched to the PRODUCT AND STRATEGY REFERENCE, then (and only then) return []
+The output must be a JSON array of objects, where each object represents a product and its associated rating based on JSON STRUCTURE and PRODUCT MAPPING
+Output ONLY a valid JSON array as described in JSON STRUCTURE
+You may only use the products contained in PRODUCT AND STRATEGY REFERENCE
+Remember to only use products contained in PRODUCT AND STRATEGY REFERENCE
+Ignore HTML used in MEETING NOTE
+Follow the EXAMPLE OUTPUT
+Never answer with an error object
+Never ask for the transcript
+Use the transcript provided below, even if it is HTML-encoded
+&quot;&quot;&quot;
+&quot;&quot;&quot;
+🟦## PRODUCT AND STRATEGY REFERENCE ##
+{!$Flow:PT_RetrieveProducts.Prompt}
+&quot;&quot;&quot;
+&quot;&quot;&quot;
+🟦## MEETING NOTE ##
+{!$Input:Meeting_Note__c.Raw_Note__c}
+&quot;&quot;&quot;
+&quot;&quot;&quot;
+🟦## PRODUCT AND STRATEGY EXPLANATION ##
+The Product object has a lookup to the Strategy object
+One strategy may have multiple products
+Each Strategy has ONE Product Strategy Id (Unique ID), and therefore ONE Strategy Name
+Multiple products may therefore return the same Product Strategy Id while keeping their own Product Short Code or Product Name
+&quot;&quot;&quot;
+&quot;&quot;&quot;
+🟦## TARGET MATURITY CREDIT FAMILY ##
+&quot;Target Maturity Credit&quot; is a Product Strategy / Product Family
+&quot;TMC&quot; and &quot;Target Maturity Credit&quot; must be understood as references to the same Strategy when this Strategy exists in PRODUCT AND STRATEGY REFERENCE
+The following Product Short Codes belong to the Target Maturity Credit Strategy:
+CC27
+CC29
+CC31
+CC33
+CC27, CC29, CC31 and CC33 are individual Products belonging to the Target Maturity Credit Strategy
+These products may therefore share the same Product Strategy Id
+Product-family membership is matching context only
+Never assume that a generic reference to &quot;Target Maturity Credit&quot; or &quot;TMC&quot; means that the client discussed, liked, disliked, considered, rejected or intended to invest in all individual products CC27, CC29, CC31 and CC33
+Only create product-specific information for CC27, CC29, CC31 or CC33 when that specific Product Short Code is explicitly referenced in MEETING NOTE
+A generic mention of &quot;Target Maturity Credit&quot; or &quot;TMC&quot; must remain a Strategy-level reference unless one or more individual Product Short Codes are explicitly mentioned
+If a Product Short Code such as CC33 is mentioned in MEETING NOTE but does not exist in PRODUCT AND STRATEGY REFERENCE, do not return it in the output
+&quot;&quot;&quot;
+&quot;&quot;&quot;
+🟦## MATCHING RULES ##
+Matching Priorities:
+1- First priority: If MEETING NOTE references a Product Short Code, use it to match the Strategy Id
+2- Second priority: If MEETING NOTE references a Product Name, use it to match the Strategy Id
+3- Third Priority: If MEETING NOTE references a Product Strategy Name, use it to match the Strategy Id
+Every explicitly mentioned Product Short Code, Product Name or Product Strategy Name that can be matched to PRODUCT AND STRATEGY REFERENCE must be evaluated and returned, regardless of whether the client sentiment is positive, neutral or negative
+Do not omit a matched product simply because:
+the client is not interested
+the client expresses concerns
+there is no immediate investment intention
+the sentiment is neutral
+the sentiment is negative
+Each Product Name or Product Short Code that appears in MEETING NOTE and that corresponds with a Strategy Name from PRODUCT AND STRATEGY REFERENCE while some indication of interest, opinion or stance is provided, must be linked to the corresponding Strategy Id
+If one strategy is clearly the best candidate by similarity of name or code, choose that strategy and include it in the output
+When multiple strategies are candidates, choose the one with the highest keyword overlap with the transcript
+Only if you genuinely cannot reasonably map a product mention to any Product or Strategy in PRODUCT AND STRATEGY REFERENCE should you skip that product
+Consider the following conditions:
+-- Case-insensitive
+-- Accent-insensitive
+-- Minor typos or missing characters, as long as the intention is clearly one specific strategy
+-- For Product Short Codes, match the whole code
+-- References that include additional or multiple descriptive words must still be matched to the core Product Strategy Name
+&quot;&quot;&quot;
+&quot;&quot;&quot;
+🟦## MATCHING PRIORITY RULES ##
+Apply the following matching rules in order (1) to (4):
+(1) Product Short Code:
+If a Product Short Code appears in MEETING NOTE, Exact match by Product Short Code
+For Target Maturity Credit:
+If MEETING NOTE explicitly mentions CC27, match CC27 to the Product in PRODUCT AND STRATEGY REFERENCE and return the Strategy Id associated with CC27
+If MEETING NOTE explicitly mentions CC29, match CC29 to the Product in PRODUCT AND STRATEGY REFERENCE and return the Strategy Id associated with CC29
+If MEETING NOTE explicitly mentions CC31, match CC31 to the Product in PRODUCT AND STRATEGY REFERENCE and return the Strategy Id associated with CC31
+If MEETING NOTE explicitly mentions CC33, match CC33 only if CC33 exists in PRODUCT AND STRATEGY REFERENCE
+Preserve the explicitly mentioned Product Short Code as ProductName
+Do not replace CC27, CC29, CC31 or CC33 by &quot;Target Maturity Credit&quot; when an individual code is explicitly present
+(2) Product Name:
+If a Product Name appears in MEETING NOTE, Fuzzy match by Product Name
+(3) Product Strategy Name:
+If a Product Strategy Name appears in MEETING NOTE, Fuzzy match by Product Strategy Name
+For Target Maturity Credit:
+If MEETING NOTE mentions only &quot;Target Maturity Credit&quot; or &quot;TMC&quot;, match it to the Target Maturity Credit Strategy found in PRODUCT AND STRATEGY REFERENCE
+Return the Strategy Id associated with Target Maturity Credit
+Set ProductName to the official Strategy Name from PRODUCT AND STRATEGY REFERENCE
+Do NOT automatically create separate records for CC27, CC29, CC31 or CC33
+If MEETING NOTE mentions &quot;Target Maturity Credit&quot; together with one specific Product Short Code, use the Product Short Code as the most specific ProductName
+Example:
+&quot;Client likes Target Maturity Credit, especially CC31.&quot;
+Result:
+Match CC31 to Target Maturity Credit
+ProductName = &quot;CC31&quot;
+Do not create an additional generic Target Maturity Credit record unless MEETING NOTE contains separate and distinct client information about the whole strategy
+If MEETING NOTE explicitly mentions several Target Maturity Credit products, create one object per explicitly mentioned Product Short Code that exists in PRODUCT AND STRATEGY REFERENCE
+Example:
+&quot;Client is considering CC29 and CC33.&quot;
+If both exist in PRODUCT AND STRATEGY REFERENCE:
+One object for CC29
+One object for CC33
+If CC33 does not exist in PRODUCT AND STRATEGY REFERENCE:
+One object for CC29 only
+If a common opinion applies to several explicitly mentioned Target Maturity Credit products, apply that opinion only to the explicitly mentioned and successfully matched products
+Fuzzy match specific guidelines:
+a- If MEETING NOTE contains the word &quot;Debt&quot; or &quot;EMD&quot; or &quot;bond&quot; / &quot;bonds&quot;, prefer a Product Name or Product Strategy Name containing &quot;Debt&quot; or &quot;Bond&quot; over any other Emerging/Emergents strategy
+b- If MEETING NOTE contains &quot;Emerging Markets&quot; AND (&quot;Debt&quot; OR &quot;EMD&quot;), the correct match is Product Name or Product Strategy Name: Emerging Markets Debt (Strategy Code: CEMD)
+(4) Never match to unrelated strategies when a closer match exists in PRODUCT AND STRATEGY REFERENCE
+&quot;&quot;&quot;
+&quot;&quot;&quot;
+🟦## PRODUCT MAPPING ##
+StrategyId must always be the exact Product Strategy Id of the matched Product in PRODUCT AND STRATEGY REFERENCE
+Never invent a new StrategyId
+Never hardcode the Target Maturity Credit Strategy Id
+The Target Maturity Credit Strategy Id must always come dynamically from PRODUCT AND STRATEGY REFERENCE
+ProductName should reflect what is used in MEETING NOTE, resolved to the value in PRODUCT AND STRATEGY REFERENCE
+Apply the following specificity priority for ProductName:
+1- Explicit Product Short Code
+2- Explicit Product Name
+3- Explicit Product Strategy Name
+If MEETING NOTE mentions the Product Code, set ProductName to the Product Code in PRODUCT AND STRATEGY REFERENCE
+If MEETING NOTE mentions the Product Name, set ProductName to the Product Name in PRODUCT AND STRATEGY REFERENCE
+If MEETING NOTE mentions the Product Strategy Name, set ProductName to the Product Strategy Name in PRODUCT AND STRATEGY REFERENCE
+Never invent a new StrategyId or ProductName that does not already exist in PRODUCT AND STRATEGY REFERENCE
+If the same Product is mentioned multiple times, aggregate the information into one object with:
+-- One StrategyId
+-- One ProductName
+-- One Rating
+-- One Why explaining the final stance
+&quot;&quot;&quot;
+&quot;&quot;&quot;
+🟦## IMPORTANT ANTI-INFERENCE RULE ##
+Product-family membership provides matching context only.
+It must NEVER be used as evidence that the client discussed, liked, disliked, considered, rejected or intended to invest in every Product belonging to the family.
+For Target Maturity Credit:
+Target Maturity Credit
+→ CC27
+→ CC29
+→ CC31
+→ CC33
+means:
+CC27, CC29, CC31 and CC33 belong to the same Strategy when they exist in PRODUCT AND STRATEGY REFERENCE
+It does NOT mean:
+A mention of Target Maturity Credit is automatically a mention of CC27, CC29, CC31 and CC33
+Interest in one maturity implies interest in the other maturities
+Sentiment about one maturity should automatically be copied to the others
+Only information explicitly contained in MEETING NOTE may be used to determine ProductName, Rating and Why.
+&quot;&quot;&quot;
+&quot;&quot;&quot;
+🟦## RATING RULES ##
+For each identified and matched product, assess the client’s actual investment appetite using a rating from 1 to 5:
+1 = Clearly not interested / explicitly rejects the product
+2 = Low appetite / clear reluctance, negative stance, blocking concern, or explicit indication that the product is unlikely to be considered
+3 = Neutral / product is acknowledged or discussed but there is no clear positive or negative stance and no clear investment intention
+4 = Interested / positive remarks, potential openness to invest, product could fit an allocation, or client wants to continue reviewing the opportunity
+5 = Strong appetite / explicit strong preference, concrete intention, clear allocation possibility, or defined conditions for investment
+Important distinction between Rating 2 and Rating 3:
+Use Rating = 3 when the product is merely acknowledged, discussed or presented and the client expresses no clear positive or negative stance
+Use Rating = 3 when there is no particular interest but also no explicit reluctance, objection, rejection or blocking concern
+Do NOT use Rating = 2 simply because there is no current investment intention
+Use Rating = 2 only when MEETING NOTE contains a clear low-appetite signal such as:
+explicit reluctance
+explicit lack of interest
+a negative view on the product
+a concrete obstacle that makes investment unlikely
+product is considered unsuitable
+client does not want to proceed at this stage
+maturity, risk, fees, volatility, liquidity or another characteristic is explicitly viewed negatively
+Examples:
+&quot;Client acknowledged CC27 but did not express any particular interest or intention to invest.&quot;
+→ Rating = 3
+&quot;Client is not particularly interested in CC27 and does not see a fit for the portfolio.&quot;
+→ Rating = 2
+&quot;Client considers CC33 too long for the current allocation framework and has no intention to invest.&quot;
+→ Rating = 2
+&quot;Client likes CC31 and believes it could fit the portfolio after internal validation.&quot;
+→ Rating = 4
+&quot;Client strongly prefers CC31 and is preparing an allocation subject to final validation.&quot;
+→ Rating = 5
+In your reasoning for Why, consider:
+-- Expressed willingness or reluctance to invest
+-- Any capacity to invest
+-- Timing if mentioned
+-- Obstacles or concerns
+-- Levers that could increase interest
+-- Explicit product comparisons
+&quot;&quot;&quot;
+&quot;&quot;&quot;
+🟦## JSON STRUCTURE ##
+&apos;StrategyId&apos; (string): The exact Product Strategy Id from PRODUCT AND STRATEGY REFERENCE
+&apos;ProductName&apos; (string): The official Product Short Code, Product Name or Strategy Name corresponding to what appears in MEETING NOTE
+&apos;Rating&apos; (integer): A value from 1 to 5 indicating the client&apos;s investment appetite
+&apos;Why&apos; (string): Explain why this product was included and which information from MEETING NOTE supports the Rating
+&quot;&quot;&quot;
+&quot;&quot;&quot;
+🟦## EXAMPLE OUTPUT ##
+Example A:
+MEETING NOTE:
+&quot;Client is interested in CC31 and may consider an allocation.&quot;
+OUTPUT:
+[
+{
+&quot;StrategyId&quot;: &quot;TMC_STRATEGY_ID_FROM_REFERENCE&quot;,
+&quot;ProductName&quot;: &quot;CC31&quot;,
+&quot;Rating&quot;: 4,
+&quot;Why&quot;: &quot;Client expressed interest in CC31 and indicated a potential allocation.&quot;
+}
+]
+Example B:
+MEETING NOTE:
+&quot;Client acknowledged CC27 but did not express any particular interest or intention to invest.&quot;
+OUTPUT:
+[
+{
+&quot;StrategyId&quot;: &quot;TMC_STRATEGY_ID_FROM_REFERENCE&quot;,
+&quot;ProductName&quot;: &quot;CC27&quot;,
+&quot;Rating&quot;: 3,
+&quot;Why&quot;: &quot;Client acknowledged CC27 but expressed neither a clear positive nor negative stance and no investment intention.&quot;
+}
+]
+Example C:
+MEETING NOTE:
+&quot;Client is positive on Target Maturity Credit but considers CC33 too long for the current allocation framework.&quot;
+If CC33 exists in PRODUCT AND STRATEGY REFERENCE:
+OUTPUT:
+[
+{
+&quot;StrategyId&quot;: &quot;TMC_STRATEGY_ID_FROM_REFERENCE&quot;,
+&quot;ProductName&quot;: &quot;CC33&quot;,
+&quot;Rating&quot;: 2,
+&quot;Why&quot;: &quot;Client considers CC33 too long for the current allocation framework, indicating low appetite for this maturity.&quot;
+}
+]
+If CC33 does NOT exist in PRODUCT AND STRATEGY REFERENCE:
+Do not return CC33.
+Example D:
+MEETING NOTE:
+&quot;Client likes CC29 and strongly prefers CC31.&quot;
+OUTPUT:
+[
+{
+&quot;StrategyId&quot;: &quot;TMC_STRATEGY_ID_FROM_REFERENCE&quot;,
+&quot;ProductName&quot;: &quot;CC29&quot;,
+&quot;Rating&quot;: 4,
+&quot;Why&quot;: &quot;Client expressed a positive view on CC29.&quot;
+},
+{
+&quot;StrategyId&quot;: &quot;TMC_STRATEGY_ID_FROM_REFERENCE&quot;,
+&quot;ProductName&quot;: &quot;CC31&quot;,
+&quot;Rating&quot;: 5,
+&quot;Why&quot;: &quot;Client explicitly expressed a stronger preference for CC31.&quot;
+}
+]
+&quot;&quot;&quot;
+</content>
+        <generationTemplateConfigs>
+            <generationConfigDeveloperName>einstein_gpt__enUsLanguageStyle</generationConfigDeveloperName>
+        </generationTemplateConfigs>
+        <inputs>
+            <apiName>Meeting_Note__c</apiName>
+            <definition>SOBJECT://Meeting_Note__c</definition>
+            <masterLabel>Meeting_Note__c</masterLabel>
+            <referenceName>Input:Meeting_Note__c</referenceName>
+            <required>true</required>
+        </inputs>
+        <primaryModel>sfdc_ai__DefaultBedrockAnthropicClaude45Opus</primaryModel>
+        <responseFormat>JSON</responseFormat>
+        <status>Draft</status>
+        <templateDataProviders>
+            <definition>flow://PT_RetrieveProducts</definition>
+            <description>Use this Prompt Template flow to retrieve product info</description>
+            <label>PT_RetrieveProducts</label>
+            <referenceName>Flow:PT_RetrieveProducts</referenceName>
+        </templateDataProviders>
+        <versionIdentifier>WVN3tZk4o404O8n8M7lvj2vqM7T4xnyoLEatZnrtmCY=_24</versionIdentifier>
+    </templateVersions>
+    <templateVersions>
+        <content>&quot;&quot;&quot;
+🟦## INSTRUCTIONS ##
+
+Analyse MEETING NOTE and return client investment appetite for every Carmignac product that can be matched to PRODUCT AND STRATEGY REFERENCE.
+
+Rules:
+- Use ONLY products contained in PRODUCT AND STRATEGY REFERENCE.
+- Return one JSON object per matched product.
+- If no product can be matched, return [].
+- Output ONLY a valid JSON array.
+- Do not output any explanation outside JSON.
+- Ignore HTML contained in MEETING NOTE.
+- Never invent a StrategyId, ProductName, Product Short Code or product relationship.
+- Every explicitly mentioned product that can be matched must be evaluated, regardless of whether sentiment is positive, neutral or negative.
+- Product aliases, abbreviations, informal Sales wording, maturity years and obvious transcription errors may be used to identify a product, but the final match must always resolve to one official Product or Strategy in PRODUCT AND STRATEGY REFERENCE.
+
+&quot;&quot;&quot;
+
+&quot;&quot;&quot;
+🟦## PRODUCT AND STRATEGY REFERENCE ##
+{!$Flow:PT_RetrieveProducts.Prompt}
+
+&quot;&quot;&quot;
+
+&quot;&quot;&quot;
+🟦## MEETING NOTE ##
+{!$Input:Meeting_Note__c.Raw_Note__c}
+
+&quot;&quot;&quot;
+
+&quot;&quot;&quot;
+🟦## MATCHING RULES ##
+
+PRODUCT AND STRATEGY REFERENCE contains:
+- Product Short Code
+- Product Name
+- Product Strategy Id
+- Product Strategy Name
+
+One Strategy may contain several Products.
+Several Products may therefore share the same StrategyId.
+
+Apply matching in this order:
+
+1. Product Short Code
+  - Exact whole-code match has highest priority.
+  - Case-insensitive.
+  - Accept obvious spacing or punctuation variations.
+  - If MEETING NOTE contains a clear typo or shortened variant that unambiguously maps to one official Product Short Code, use the official Product Short Code from PRODUCT AND STRATEGY REFERENCE.
+
+  Example:
+  &quot;C31&quot; + official code &quot;CC31&quot;
+  → match to CC31
+  → ProductName = &quot;CC31&quot;
+
+2. Product Name
+  - Fuzzy match.
+  - Accept minor typos, accents, spacing differences, added words and word-order variations.
+
+3. Product Strategy Name
+  - Fuzzy match using the same tolerance.
+
+Additional matching rules:
+- If MEETING NOTE contains &quot;Debt&quot;, &quot;EMD&quot;, &quot;bond&quot; or &quot;bonds&quot;, prefer a matching Product Name or Strategy Name containing Debt or Bond.
+- If MEETING NOTE contains &quot;Emerging Markets&quot; AND (&quot;Debt&quot; OR &quot;EMD&quot;), prefer Emerging Markets Debt / CEMD.
+- Never match to an unrelated Strategy when a closer candidate exists.
+- Skip a product only when it cannot reasonably be matched to PRODUCT AND STRATEGY REFERENCE.
+
+&quot;&quot;&quot;
+
+&quot;&quot;&quot;
+🟦## TARGET MATURITY CREDIT ##
+
+&quot;Target Maturity Credit&quot; and &quot;TMC&quot; refer to the same Strategy / Product Family.
+
+Products belonging to this family:
+- CC27
+- CC29
+- CC31
+- CC33
+
+Rules:
+- CC27, CC29, CC31 and CC33 may share the same StrategyId.
+- If an individual Product Short Code is explicitly mentioned, preserve the official Product Short Code as ProductName.
+- If a maturity is identified by code, year or an unambiguous code variant, ProductName MUST be the official CCxx Product Short Code.
+- If only &quot;Target Maturity Credit&quot; or &quot;TMC&quot; is mentioned, return one Strategy-level object using the official Target Maturity Credit Strategy Name.
+- Do NOT expand a generic TMC mention into CC27, CC29, CC31 and CC33.
+- Interest or sentiment about one maturity must NEVER be copied to another maturity.
+- If several maturities are explicitly mentioned, return one object per matched maturity.
+- If a mentioned maturity does not exist in PRODUCT AND STRATEGY REFERENCE, do not return it.
+- If both TMC and a specific maturity are mentioned, use the specific maturity as ProductName unless MEETING NOTE contains a separate and distinct opinion about the overall TMC Strategy.
+
+Examples:
+
+&quot;Client likes Target Maturity Credit, especially CC31.&quot;
+→ one object for CC31
+→ ProductName = &quot;CC31&quot;
+
+&quot;Client likes CC29 and CC33.&quot;
+→ one object for each, only if both exist in PRODUCT AND STRATEGY REFERENCE
+
+&quot;Client likes Target Maturity Credit.&quot;
+→ one Strategy-level Target Maturity Credit object
+
+&quot;&quot;&quot;
+
+&quot;&quot;&quot;
+🟦## TARGET MATURITY CREDIT — ALIASES AND SEMANTIC UNDERSTANDING ##
+
+The Strategy &quot;Target Maturity Credit&quot; may be referred to by Sales using abbreviations, informal wording, partial names, incorrect naming, speech-to-text variants or maturity-based references.
+
+### A. STRONG TMC ALIASES
+
+The following expressions should normally be understood as references to Target Maturity Credit when context is consistent:
+
+- Target Maturity Credit
+- TMC
+- TM Credit
+- Target Maturity
+- Target Maturity strategy
+- Target Maturity range
+- Target Maturity Credit range
+- Target Maturity fund
+- Target Maturity funds
+- Maturity Credit
+- Maturity Credit range
+- Credit Maturity
+- Credit Maturity range
+- Carmignac Target Maturity
+- Carmignac Target Maturity Credit
+- Carmignac Maturity Credit
+- Carmignac maturity range
+
+Common approximate or incorrect Sales wording may include:
+
+- TMF
+- Target Maturity Fund
+- Target Maturity Funds
+- Target Maturity Fixed Income
+- Maturity Fund
+- Maturity Funds
+- Maturity strategy
+- Maturity range
+- Fixed Maturity
+- Fixed Maturity Fund
+- Fixed Maturity Credit
+- Fixed Maturity strategy
+- Fixed Maturity range
+
+These approximate expressions must only be mapped to Target Maturity Credit when surrounding context is consistent with the TMC family.
+
+### B. TYPO AND SPEECH-TO-TEXT TOLERANCE
+
+Accept obvious spelling, transcription and speech-to-text variations such as:
+
+- Target Maturty Credit
+- Target Maturity Crédit
+- Target Maturities Credit
+- Target Maturity Credits
+- Target Maturity Cred
+- Target Maturity Cr
+- Target Mat Credit
+- Targ Maturity Credit
+- Target Maturity Crdt
+- Maturity Crdt
+- TM credit
+- T.M.C.
+- T M C
+- TMF
+- T.M.F.
+- T M F
+
+Do not require exact spelling when the intended Strategy is unambiguous.
+
+Always normalize a successfully matched Strategy to the official value contained in PRODUCT AND STRATEGY REFERENCE.
+
+### C. MATURITY / YEAR REFERENCES
+
+Within a Target Maturity Credit discussion, maturity years may identify the individual Product.
+
+When PRODUCT AND STRATEGY REFERENCE confirms the corresponding Product:
+
+2027 references may map to CC27:
+- 2027 maturity
+- maturity 2027
+- 27 maturity
+- 2027 fund
+- Credit 2027
+- Carmignac Credit 2027
+- CC 27
+- C27, only if unambiguous
+
+2029 references may map to CC29:
+- 2029 maturity
+- maturity 2029
+- 29 maturity
+- 2029 fund
+- Credit 2029
+- Carmignac Credit 2029
+- CC 29
+- C29, only if unambiguous
+
+2031 references may map to CC31:
+- 2031 maturity
+- maturity 2031
+- 31 maturity
+- 2031 fund
+- Credit 2031
+- Carmignac Credit 2031
+- CC 31
+- C31, only if unambiguous
+
+2033 references may map to CC33:
+- 2033 maturity
+- maturity 2033
+- 33 maturity
+- 2033 fund
+- Credit 2033
+- Carmignac Credit 2033
+- CC 33
+- C33, only if unambiguous
+
+A maturity-based match must only be returned if the corresponding Product exists in PRODUCT AND STRATEGY REFERENCE.
+
+### D. CONTEXTUAL REFERENCES
+
+Sales may refer to an individual TMC Product without using its official code.
+
+Examples:
+- the 2027
+- the 2029
+- the 2031
+- the 2033
+- the shorter maturity
+- the longer maturity
+- the short one
+- the long one
+- the intermediate maturity
+- the next maturity
+- the Carmignac 2031
+- the Credit 31
+- the 31
+- the 29
+
+Such wording may be mapped to a Product ONLY when surrounding context identifies one unique Product.
+
+Example:
+
+&quot;We discussed CC29 and CC31. Client prefers the longer maturity.&quot;
+→ &quot;the longer maturity&quot; may be interpreted as CC31.
+
+But:
+
+&quot;Client prefers the longer maturity.&quot;
+→ Do NOT infer CC31 if the surrounding context does not identify which maturities are being compared.
+
+### E. GENERIC TERMS MUST NOT BE OVER-MATCHED
+
+The following expressions are NOT sufficient by themselves to identify Target Maturity Credit:
+
+- maturity
+- maturity fund
+- fixed income
+- credit
+- credit fund
+- bond fund
+- bond strategy
+- fixed maturity
+- short duration
+- long duration
+
+Map these expressions to Target Maturity Credit only when additional context makes the relationship clear, for example:
+- another TMC Product code is mentioned
+- a TMC maturity year is mentioned
+- Target Maturity wording appears elsewhere in MEETING NOTE
+- PRODUCT AND STRATEGY REFERENCE clearly supports the match
+- surrounding discussion explicitly refers to the TMC family
+
+Never force a TMC match from a generic credit or fixed-income discussion.
+
+### F. OFFICIAL OUTPUT NORMALIZATION
+
+Sales wording is used for understanding and matching only.
+
+The output must always use the official Product Short Code, Product Name or Strategy Name from PRODUCT AND STRATEGY REFERENCE according to PRODUCT OUTPUT RULES.
+
+Examples:
+
+&quot;C31&quot;
+→ ProductName = &quot;CC31&quot;
+
+&quot;Credit 2031&quot;
+→ ProductName = &quot;CC31&quot;
+
+&quot;the 2031 maturity&quot;
+→ ProductName = &quot;CC31&quot;
+
+&quot;TMF&quot;
+→ ProductName = official Target Maturity Credit Strategy Name, if context unambiguously refers to that Strategy
+
+&quot;Target Maturty Credit&quot;
+→ ProductName = official Target Maturity Credit Strategy Name
+
+Never output an incorrect alias as ProductName when an official matched value exists.
+
+&quot;&quot;&quot;
+
+&quot;&quot;&quot;
+🟦## PRODUCT OUTPUT RULES ##
+
+For every matched product:
+
+- StrategyId = exact Product Strategy Id from PRODUCT AND STRATEGY REFERENCE.
+
+- ProductName must reflect the TYPE of product reference identified in MEETING NOTE.
+
+Apply this strict priority:
+
+1. Product Short Code
+2. Product Name
+3. Product Strategy Name
+
+RULE 1 — PRODUCT SHORT CODE
+
+If MEETING NOTE explicitly contains a Product Short Code:
+- ProductName MUST be the official Product Short Code from PRODUCT AND STRATEGY REFERENCE.
+- Never replace it with the Product Name.
+- Never replace it with the Product Strategy Name.
+
+Examples:
+
+MEETING NOTE:
+&quot;CC27&quot;
+
+Correct:
+&quot;ProductName&quot;: &quot;CC27&quot;
+
+Incorrect:
+&quot;ProductName&quot;: &quot;FP Carmignac Credit 2027&quot;
+
+
+MEETING NOTE:
+&quot;CC29&quot;
+
+Correct:
+&quot;ProductName&quot;: &quot;CC29&quot;
+
+
+MEETING NOTE:
+&quot;CC31&quot;
+
+Correct:
+&quot;ProductName&quot;: &quot;CC31&quot;
+
+
+RULE 2 — TYPO, YEAR OR VARIANT OF PRODUCT SHORT CODE
+
+If MEETING NOTE contains a typo, shortened form, maturity year or clear semantic variant that can be unambiguously matched:
+- Return the official Product Short Code from PRODUCT AND STRATEGY REFERENCE.
+
+Examples:
+
+&quot;C31&quot;
+→ &quot;ProductName&quot;: &quot;CC31&quot;
+
+&quot;2031 maturity&quot;
+→ &quot;ProductName&quot;: &quot;CC31&quot;
+
+&quot;Credit 2031&quot;
+→ &quot;ProductName&quot;: &quot;CC31&quot;
+
+
+RULE 3 — PRODUCT NAME
+
+Only when NO Product Short Code or maturity-specific Product can be identified:
+- If MEETING NOTE mentions a Product Name, use the official Product Name from PRODUCT AND STRATEGY REFERENCE.
+
+
+RULE 4 — PRODUCT STRATEGY NAME
+
+Only when neither a Product Short Code nor Product Name is identifiable:
+- If MEETING NOTE mentions a Product Strategy Name, use the official Product Strategy Name from PRODUCT AND STRATEGY REFERENCE.
+
+
+If the same product appears several times:
+- Return one object only.
+- Aggregate all relevant information into Rating and Why.
+
+Never use a typo, alias or informal Sales expression as ProductName when an official matched value exists in PRODUCT AND STRATEGY REFERENCE.
+
+&quot;&quot;&quot;
+
+&quot;&quot;&quot;
+🟦## RATING RULES ##
+
+Assess actual investment appetite for each product independently.
+
+1 = Rejected
+- Clear rejection or explicit refusal to consider the product.
+
+2 = Low appetite
+- Explicit reluctance or lack of interest.
+- Product considered unsuitable.
+- Clear blocking concern.
+- Client says they would not prioritize or proceed with the product.
+- A product characteristic such as maturity, risk, fees, volatility or liquidity is explicitly viewed negatively and reduces investment appetite.
+
+3 = Neutral
+- Product is acknowledged, discussed or presented.
+- No clear positive or negative stance.
+- No clear investment intention.
+- Absence of current allocation alone does NOT automatically mean Rating 2.
+
+4 = Interested
+- Positive remarks.
+- Product could fit an allocation.
+- Client is open to further review.
+- There is a realistic potential path to investment, but no strong commitment yet.
+
+5 = Strong appetite
+- Explicit strong preference.
+- Concrete potential allocation.
+- Clear investment intention or defined conditions likely to lead to investment.
+- Final internal approval may still be pending if the investment path is otherwise concrete.
+
+Important:
+- Rate each product independently.
+- Never propagate sentiment from Target Maturity Credit or one maturity to another.
+- Aliases and semantic matching determine identity only, not sentiment.
+- Positive product feedback does not automatically mean high investment appetite.
+- Lack of immediate capacity does not automatically mean Rating 2.
+- Use all explicit positive and negative signals related to that specific product.
+
+Examples:
+
+&quot;Client acknowledged CC27 but expressed no particular interest.&quot;
+→ Rating = 3
+
+&quot;Client likes CC27 but does not need such a short maturity in the portfolio.&quot;
+→ Rating = 2
+
+&quot;Client likes CC31 and believes it could fit after internal review.&quot;
+→ Rating = 4
+
+&quot;CC31 is the preferred solution and could receive an allocation subject to final approval.&quot;
+→ Rating = 5
+
+&quot;&quot;&quot;
+
+&quot;&quot;&quot;
+🟦## NO SENTIMENT PROPAGATION ##
+
+Product-family membership, aliases and semantic matching are used only to determine product identity.
+
+They must NEVER be used to propagate sentiment or investment appetite between products.
+
+Example:
+
+&quot;Client likes TMF overall but finds the 2029 maturity unattractive and prefers the 2031.&quot;
+
+Correct interpretation:
+- CC29 receives its own Rating based on the negative / low-appetite comments.
+- CC31 receives its own Rating based on the positive preference.
+- Do not copy the positive overall TMC sentiment to CC29.
+- Do not infer any sentiment for CC27 or CC33 unless they are explicitly discussed.
+
+&quot;&quot;&quot;
+
+&quot;&quot;&quot;
+🟦## JSON OUTPUT ##
+
+Return a JSON array using exactly this structure:
+
+[
+ {
+  &quot;StrategyId&quot;: &quot;exact Strategy Id from PRODUCT AND STRATEGY REFERENCE&quot;,
+  &quot;ProductName&quot;: &quot;official matched Product Short Code, Product Name or Strategy Name&quot;,
+  &quot;Rating&quot;: 1,
+  &quot;Why&quot;: &quot;Concise explanation based only on explicit information from MEETING NOTE.&quot;
+ }
+]
+
+Requirements:
+- Rating must be an integer from 1 to 5.
+- Why must explain the key evidence supporting the Rating.
+- Do not include unmatched products.
+- Do not include duplicate objects for the same product.
+- Do not include markdown.
+- Do not include any text before or after the JSON array.
+- Never invent a StrategyId.
+- Never invent a ProductName.
+- Always use the official value from PRODUCT AND STRATEGY REFERENCE according to PRODUCT OUTPUT RULES.
+
+&quot;&quot;&quot;
+</content>
+        <generationTemplateConfigs>
+            <generationConfigDeveloperName>einstein_gpt__enUsLanguageStyle</generationConfigDeveloperName>
+        </generationTemplateConfigs>
+        <inputs>
+            <apiName>Meeting_Note__c</apiName>
+            <definition>SOBJECT://Meeting_Note__c</definition>
+            <masterLabel>Meeting_Note__c</masterLabel>
+            <referenceName>Input:Meeting_Note__c</referenceName>
+            <required>true</required>
+        </inputs>
+        <primaryModel>sfdc_ai__DefaultBedrockAnthropicClaude45Opus</primaryModel>
+        <responseFormat>JSON</responseFormat>
+        <status>Published</status>
+        <templateDataProviders>
+            <definition>flow://PT_RetrieveProducts</definition>
+            <description>Use this Prompt Template flow to retrieve product info</description>
+            <label>PT_RetrieveProducts</label>
+            <referenceName>Flow:PT_RetrieveProducts</referenceName>
+        </templateDataProviders>
+        <versionIdentifier>WVN3tZk4o404O8n8M7lvj2vqM7T4xnyoLEatZnrtmCY=_25</versionIdentifier>
     </templateVersions>
     <type>einstein_gpt__flex</type>
     <visibility>Global</visibility>

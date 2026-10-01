@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <help><!-- Indicates whether the event represents an error, warning, or is informational. --></help>
+    <label><!-- Severity --></label>
+    <name>CventEvents__Severity__c</name>
+    <picklistValues>
+        <masterLabel>Aborted</masterLabel>
+        <translation><!-- Aborted --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Error</masterLabel>
+        <translation><!-- Error --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Information</masterLabel>
+        <translation><!-- Information --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Partial Error</masterLabel>
+        <translation><!-- Partial Error --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Rolled Back</masterLabel>
+        <translation><!-- Rolled Back --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Success</masterLabel>
+        <translation><!-- Success --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Warning</masterLabel>
+        <translation><!-- Warning --></translation>
+    </picklistValues>
+</CustomFieldTranslation>

@@ -46,6 +46,7 @@
         </outputParameters>
     </actionCalls>
     <apiVersion>63.0</apiVersion>
+    <areMetricsLoggedToDataCloud>false</areMetricsLoggedToDataCloud>
     <description>This autolaunched flow is used to pass the video call record in order to generate a Summary and Client Interests</description>
     <environments>Default</environments>
     <interviewLabel>AL_VideoCall_GeneratePromptsResponses {!$Flow.CurrentDateTime}</interviewLabel>

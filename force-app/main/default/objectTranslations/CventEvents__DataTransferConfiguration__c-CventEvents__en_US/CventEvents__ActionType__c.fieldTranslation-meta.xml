@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <label><!-- Action Type --></label>
+    <name>CventEvents__ActionType__c</name>
+    <picklistValues>
+        <masterLabel>Create New</masterLabel>
+        <translation><!-- Create New --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Update Existing</masterLabel>
+        <translation><!-- Update Existing --></translation>
+    </picklistValues>
+</CustomFieldTranslation>

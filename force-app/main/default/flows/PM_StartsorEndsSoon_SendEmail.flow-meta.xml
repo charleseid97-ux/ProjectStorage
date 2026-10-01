@@ -50,6 +50,7 @@
         </inputParameters>
         <nameSegment>emailSimple</nameSegment>
         <offset>0</offset>
+        <versionString>2.0.1</versionString>
     </actionCalls>
     <actionCalls>
         <name>Send_Email_Starts_Soon</name>
@@ -95,8 +96,10 @@
         </inputParameters>
         <nameSegment>emailSimple</nameSegment>
         <offset>0</offset>
+        <versionString>2.0.1</versionString>
     </actionCalls>
     <apiVersion>66.0</apiVersion>
+    <areMetricsLoggedToDataCloud>false</areMetricsLoggedToDataCloud>
     <assignments>
         <name>Emails</name>
         <label>Emails</label>
@@ -161,7 +164,7 @@
                 <leftValueReference>$Record.EndDate__c</leftValueReference>
                 <operator>EqualTo</operator>
                 <rightValue>
-                    <elementReference>TodayMinus5Days</elementReference>
+                    <elementReference>TodayPlus5Days</elementReference>
                 </rightValue>
             </conditions>
             <connector>
@@ -186,14 +189,14 @@
                 <leftValueReference>$Record.StartDate__c</leftValueReference>
                 <operator>EqualTo</operator>
                 <rightValue>
-                    <elementReference>TodayMinus5Days</elementReference>
+                    <elementReference>TodayPlus5Days</elementReference>
                 </rightValue>
             </conditions>
             <conditions>
                 <leftValueReference>$Record.EndDate__c</leftValueReference>
                 <operator>EqualTo</operator>
                 <rightValue>
-                    <elementReference>TodayMinus5Days</elementReference>
+                    <elementReference>TodayPlus5Days</elementReference>
                 </rightValue>
             </conditions>
             <connector>
@@ -215,7 +218,7 @@
                 <leftValueReference>$Record.StartDate__c</leftValueReference>
                 <operator>EqualTo</operator>
                 <rightValue>
-                    <elementReference>TodayMinus5Days</elementReference>
+                    <elementReference>TodayPlus5Days</elementReference>
                 </rightValue>
             </conditions>
             <connector>
@@ -226,9 +229,9 @@
     </decisions>
     <environments>Default</environments>
     <formulas>
-        <name>TodayMinus5Days</name>
+        <name>TodayPlus5Days</name>
         <dataType>Date</dataType>
-        <expression>TODAY() - 5</expression>
+        <expression>TODAY() + 5</expression>
     </formulas>
     <interviewLabel>PM_CreatedOrUpdated_SendEmail {!$Flow.CurrentDateTime}</interviewLabel>
     <label>PM_StartsorEndsSoon_SendEmail</label>

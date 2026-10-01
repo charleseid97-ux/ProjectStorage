@@ -45,6 +45,7 @@ https://carmignac-crm.lightning.force.com/one/one.app#/sObject/{!myVariable_curr
         <nameSegment>chatterPost</nameSegment>
     </actionCalls>
     <apiVersion>49.0</apiVersion>
+    <areMetricsLoggedToDataCloud>false</areMetricsLoggedToDataCloud>
     <assignments>
         <name>myVariable_waitStartTimeAssignment</name>
         <label>myVariable_waitStartTimeAssignment</label>

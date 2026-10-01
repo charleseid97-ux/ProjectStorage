@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <GenAiPromptTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <activeVersionIdentifier>WVN3tZk4o404O8n8M7lvj2vqM7T4xnyoLEatZnrtmCY=_1</activeVersionIdentifier>
     <description>Sends a basic query to Chat GPT. (ver Chat GPT 4o)</description>
     <developerName>Chat_GPT_4o_Query</developerName>
     <masterLabel>Chat GPT 4o Query</masterLabel>
@@ -43,6 +44,7 @@ WEB SEARCH:
             </parameters>
             <referenceName>EinsteinSearch:sfdc_ai__WebRetrievalAction</referenceName>
         </templateDataProviders>
+        <versionIdentifier>WVN3tZk4o404O8n8M7lvj2vqM7T4xnyoLEatZnrtmCY=_1</versionIdentifier>
     </templateVersions>
     <type>einstein_gpt__flex</type>
     <visibility>Global</visibility>

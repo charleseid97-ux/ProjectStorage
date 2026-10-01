@@ -45,6 +45,7 @@
         <nameSegment>Case.You_have_been_assigned_to_this_WTP</nameSegment>
     </actionCalls>
     <apiVersion>56.0</apiVersion>
+    <areMetricsLoggedToDataCloud>false</areMetricsLoggedToDataCloud>
     <decisions>
         <name>isChangedDecision4_myRule_3_OwnerId</name>
         <label>isChangedDecision4_myRule_3_OwnerId</label>

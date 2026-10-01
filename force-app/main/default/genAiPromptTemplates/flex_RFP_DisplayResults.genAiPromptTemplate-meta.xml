@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <GenAiPromptTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <activeVersionIdentifier>S+W5ua7c5EHD5EpeRljbEENzEry32G3OFylu3fZry3o=_18</activeVersionIdentifier>
     <developerName>flex_RFP_DisplayResults</developerName>
     <masterLabel>flex_RFP_DisplayResults</masterLabel>
     <templateVersions>
@@ -85,6 +86,7 @@
             </parameters>
             <referenceName>RecordSnapshot:Document1</referenceName>
         </templateDataProviders>
+        <versionIdentifier>S+W5ua7c5EHD5EpeRljbEENzEry32G3OFylu3fZry3o=_1</versionIdentifier>
     </templateVersions>
     <templateVersions>
         <content>Répond à la query du user en te basant uniquement sur les documents ci-dessous : 
@@ -169,6 +171,7 @@
             </parameters>
             <referenceName>RecordSnapshot:Document1</referenceName>
         </templateDataProviders>
+        <versionIdentifier>S+W5ua7c5EHD5EpeRljbEENzEry32G3OFylu3fZry3o=_2</versionIdentifier>
     </templateVersions>
     <templateVersions>
         <content>You are a document analysis assistant.  
@@ -307,6 +310,7 @@ Now analyze the documents and produce the output in the exact format specified a
             </parameters>
             <referenceName>RecordSnapshot:Document1</referenceName>
         </templateDataProviders>
+        <versionIdentifier>S+W5ua7c5EHD5EpeRljbEENzEry32G3OFylu3fZry3o=_3</versionIdentifier>
     </templateVersions>
     <templateVersions>
         <content>You are a document analysis assistant.  
@@ -451,6 +455,7 @@ Analyze the documents and produce the output following all rules above.
             </parameters>
             <referenceName>RecordSnapshot:Document1</referenceName>
         </templateDataProviders>
+        <versionIdentifier>S+W5ua7c5EHD5EpeRljbEENzEry32G3OFylu3fZry3o=_4</versionIdentifier>
     </templateVersions>
     <templateVersions>
         <content>You are a document analysis assistant.  
@@ -558,6 +563,7 @@ Analyze the documents and produce the output following all rules above.
             <required>false</required>
         </inputs>
         <primaryModel>sfdc_ai__DefaultVertexAIGeminiPro25</primaryModel>
+        <responseFormat>HTML</responseFormat>
         <status>Published</status>
         <templateDataProviders>
             <definition>invocable://getDataForGrounding</definition>
@@ -595,6 +601,7 @@ Analyze the documents and produce the output following all rules above.
             </parameters>
             <referenceName>RecordSnapshot:Document3</referenceName>
         </templateDataProviders>
+        <versionIdentifier>S+W5ua7c5EHD5EpeRljbEENzEry32G3OFylu3fZry3o=_5</versionIdentifier>
     </templateVersions>
     <templateVersions>
         <content>You are an AI document analysis assistant integrated into Salesforce Prompt Builder Flex Template.
@@ -698,6 +705,7 @@ Now generate the response following these rules rigidly.
             <required>false</required>
         </inputs>
         <primaryModel>sfdc_ai__DefaultVertexAIGeminiPro25</primaryModel>
+        <responseFormat>HTML</responseFormat>
         <status>Published</status>
         <templateDataProviders>
             <definition>invocable://getDataForGrounding</definition>
@@ -735,6 +743,7 @@ Now generate the response following these rules rigidly.
             </parameters>
             <referenceName>RecordSnapshot:Document1</referenceName>
         </templateDataProviders>
+        <versionIdentifier>S+W5ua7c5EHD5EpeRljbEENzEry32G3OFylu3fZry3o=_6</versionIdentifier>
     </templateVersions>
     <templateVersions>
         <content>You are an AI document analysis assistant integrated into Salesforce Prompt Builder Flex Template.
@@ -835,6 +844,7 @@ Now generate the response following these rules rigidly.
             <required>false</required>
         </inputs>
         <primaryModel>sfdc_ai__DefaultVertexAIGeminiPro25</primaryModel>
+        <responseFormat>HTML</responseFormat>
         <status>Published</status>
         <templateDataProviders>
             <definition>invocable://getDataForGrounding</definition>
@@ -872,6 +882,7 @@ Now generate the response following these rules rigidly.
             </parameters>
             <referenceName>RecordSnapshot:Document1</referenceName>
         </templateDataProviders>
+        <versionIdentifier>S+W5ua7c5EHD5EpeRljbEENzEry32G3OFylu3fZry3o=_7</versionIdentifier>
     </templateVersions>
     <templateVersions>
         <content>You are an AI document analysis assistant integrated into Salesforce Prompt Builder Flex Template.
@@ -1009,6 +1020,7 @@ Now generate the response following ALL rules above.
             <required>false</required>
         </inputs>
         <primaryModel>sfdc_ai__DefaultVertexAIGeminiPro25</primaryModel>
+        <responseFormat>HTML</responseFormat>
         <status>Published</status>
         <templateDataProviders>
             <definition>invocable://getDataForGrounding</definition>
@@ -1046,6 +1058,7 @@ Now generate the response following ALL rules above.
             </parameters>
             <referenceName>RecordSnapshot:Document3</referenceName>
         </templateDataProviders>
+        <versionIdentifier>S+W5ua7c5EHD5EpeRljbEENzEry32G3OFylu3fZry3o=_8</versionIdentifier>
     </templateVersions>
     <templateVersions>
         <content>You are an AI document analysis assistant integrated into a Salesforce Prompt Builder Flex Template.
@@ -1179,6 +1192,7 @@ Now analyze the documents and generate the response strictly following all rules
             <required>false</required>
         </inputs>
         <primaryModel>sfdc_ai__DefaultVertexAIGeminiPro25</primaryModel>
+        <responseFormat>HTML</responseFormat>
         <status>Published</status>
         <templateDataProviders>
             <definition>invocable://getDataForGrounding</definition>
@@ -1216,6 +1230,7 @@ Now analyze the documents and generate the response strictly following all rules
             </parameters>
             <referenceName>RecordSnapshot:Document1</referenceName>
         </templateDataProviders>
+        <versionIdentifier>S+W5ua7c5EHD5EpeRljbEENzEry32G3OFylu3fZry3o=_9</versionIdentifier>
     </templateVersions>
     <templateVersions>
         <content>You are an AI document analysis assistant integrated into a Salesforce Prompt Builder Flex Template.
@@ -1359,6 +1374,7 @@ Now analyze the documents and generate the output following ALL rules above.
             <required>false</required>
         </inputs>
         <primaryModel>sfdc_ai__DefaultVertexAIGeminiPro25</primaryModel>
+        <responseFormat>HTML</responseFormat>
         <status>Published</status>
         <templateDataProviders>
             <definition>invocable://getDataForGrounding</definition>
@@ -1396,6 +1412,7 @@ Now analyze the documents and generate the output following ALL rules above.
             </parameters>
             <referenceName>RecordSnapshot:Document1</referenceName>
         </templateDataProviders>
+        <versionIdentifier>S+W5ua7c5EHD5EpeRljbEENzEry32G3OFylu3fZry3o=_10</versionIdentifier>
     </templateVersions>
     <templateVersions>
         <content>You are an AI document analysis assistant integrated into a Salesforce Prompt Builder Flex Template.
@@ -1533,6 +1550,7 @@ Generate the response following ALL rules above.
             <required>false</required>
         </inputs>
         <primaryModel>sfdc_ai__DefaultVertexAIGeminiPro25</primaryModel>
+        <responseFormat>HTML</responseFormat>
         <status>Published</status>
         <templateDataProviders>
             <definition>invocable://getDataForGrounding</definition>
@@ -1570,6 +1588,7 @@ Generate the response following ALL rules above.
             </parameters>
             <referenceName>RecordSnapshot:Document1</referenceName>
         </templateDataProviders>
+        <versionIdentifier>S+W5ua7c5EHD5EpeRljbEENzEry32G3OFylu3fZry3o=_11</versionIdentifier>
     </templateVersions>
     <templateVersions>
         <content>You are an AI document analysis assistant integrated into a Salesforce Prompt Builder Flex Template.
@@ -1697,6 +1716,7 @@ Now analyze the documents and generate the output strictly following these rules
             <required>false</required>
         </inputs>
         <primaryModel>sfdc_ai__DefaultVertexAIGeminiPro25</primaryModel>
+        <responseFormat>HTML</responseFormat>
         <status>Published</status>
         <templateDataProviders>
             <definition>invocable://getDataForGrounding</definition>
@@ -1734,6 +1754,7 @@ Now analyze the documents and generate the output strictly following these rules
             </parameters>
             <referenceName>RecordSnapshot:Document1</referenceName>
         </templateDataProviders>
+        <versionIdentifier>S+W5ua7c5EHD5EpeRljbEENzEry32G3OFylu3fZry3o=_12</versionIdentifier>
     </templateVersions>
     <templateVersions>
         <content>You are an AI document analysis assistant integrated into a Salesforce Prompt Builder Flex Template.
@@ -1875,6 +1896,7 @@ Now analyze the documents and generate the response strictly following these rul
             <required>false</required>
         </inputs>
         <primaryModel>sfdc_ai__DefaultVertexAIGeminiPro25</primaryModel>
+        <responseFormat>HTML</responseFormat>
         <status>Published</status>
         <templateDataProviders>
             <definition>invocable://getDataForGrounding</definition>
@@ -1912,6 +1934,7 @@ Now analyze the documents and generate the response strictly following these rul
             </parameters>
             <referenceName>RecordSnapshot:Document1</referenceName>
         </templateDataProviders>
+        <versionIdentifier>S+W5ua7c5EHD5EpeRljbEENzEry32G3OFylu3fZry3o=_13</versionIdentifier>
     </templateVersions>
     <templateVersions>
         <content>You are an AI document analysis assistant integrated into a Salesforce Prompt Builder Flex Template.
@@ -2100,6 +2123,7 @@ Now analyze the documents and generate the output strictly following these rules
             <required>false</required>
         </inputs>
         <primaryModel>sfdc_ai__DefaultVertexAIGeminiPro25</primaryModel>
+        <responseFormat>HTML</responseFormat>
         <status>Published</status>
         <templateDataProviders>
             <definition>invocable://getDataForGrounding</definition>
@@ -2137,6 +2161,7 @@ Now analyze the documents and generate the output strictly following these rules
             </parameters>
             <referenceName>RecordSnapshot:Document1</referenceName>
         </templateDataProviders>
+        <versionIdentifier>S+W5ua7c5EHD5EpeRljbEENzEry32G3OFylu3fZry3o=_14</versionIdentifier>
     </templateVersions>
     <templateVersions>
         <content>You are an AI document analysis assistant integrated into a Salesforce Prompt Builder Flex Template.
@@ -2324,6 +2349,7 @@ Now analyze the documents and generate the output strictly following these rules
             <referenceName>Input:Document3</referenceName>
             <required>false</required>
         </inputs>
+        <responseFormat>HTML</responseFormat>
         <status>Published</status>
         <templateDataProviders>
             <definition>invocable://getDataForGrounding</definition>
@@ -2361,6 +2387,7 @@ Now analyze the documents and generate the output strictly following these rules
             </parameters>
             <referenceName>RecordSnapshot:Document1</referenceName>
         </templateDataProviders>
+        <versionIdentifier>S+W5ua7c5EHD5EpeRljbEENzEry32G3OFylu3fZry3o=_15</versionIdentifier>
     </templateVersions>
     <templateVersions>
         <content>You are an AI document analysis assistant integrated into a Salesforce Prompt Builder Flex Template.
@@ -2549,6 +2576,7 @@ Now analyze the documents and generate the output strictly following these rules
             <required>false</required>
         </inputs>
         <primaryModel>sfdc_ai__DefaultVertexAIGeminiPro25</primaryModel>
+        <responseFormat>HTML</responseFormat>
         <status>Published</status>
         <templateDataProviders>
             <definition>invocable://getDataForGrounding</definition>
@@ -2586,6 +2614,7 @@ Now analyze the documents and generate the output strictly following these rules
             </parameters>
             <referenceName>RecordSnapshot:Document1</referenceName>
         </templateDataProviders>
+        <versionIdentifier>S+W5ua7c5EHD5EpeRljbEENzEry32G3OFylu3fZry3o=_16</versionIdentifier>
     </templateVersions>
     <templateVersions>
         <content>You are an AI document analysis assistant integrated into a Salesforce Prompt Builder Flex Template.
@@ -2777,6 +2806,7 @@ Now analyze the documents and generate the output strictly following these rules
             <required>false</required>
         </inputs>
         <primaryModel>sfdc_ai__DefaultVertexAIGeminiPro25</primaryModel>
+        <responseFormat>HTML</responseFormat>
         <status>Published</status>
         <templateDataProviders>
             <definition>invocable://getDataForGrounding</definition>
@@ -2814,6 +2844,7 @@ Now analyze the documents and generate the output strictly following these rules
             </parameters>
             <referenceName>RecordSnapshot:Document1</referenceName>
         </templateDataProviders>
+        <versionIdentifier>S+W5ua7c5EHD5EpeRljbEENzEry32G3OFylu3fZry3o=_17</versionIdentifier>
     </templateVersions>
     <templateVersions>
         <content>You are an AI document analysis assistant integrated into a Salesforce Prompt Builder Flex Template.
@@ -3008,6 +3039,7 @@ Now analyze the documents and generate the output strictly following these rules
             <required>false</required>
         </inputs>
         <primaryModel>sfdc_ai__DefaultVertexAIGeminiPro25</primaryModel>
+        <responseFormat>HTML</responseFormat>
         <status>Published</status>
         <templateDataProviders>
             <definition>invocable://getDataForGrounding</definition>
@@ -3045,6 +3077,7 @@ Now analyze the documents and generate the output strictly following these rules
             </parameters>
             <referenceName>RecordSnapshot:Document3</referenceName>
         </templateDataProviders>
+        <versionIdentifier>S+W5ua7c5EHD5EpeRljbEENzEry32G3OFylu3fZry3o=_18</versionIdentifier>
     </templateVersions>
     <type>einstein_gpt__flex</type>
     <visibility>Global</visibility>

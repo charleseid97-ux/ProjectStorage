@@ -4,7 +4,7 @@
     <label>Liquidity Management Tool (LMT)</label>
     <required>false</required>
     <trackTrending>false</trackTrending>
-    <type>Picklist</type>
+    <type>MultiselectPicklist</type>
     <valueSet>
         <restricted>true</restricted>
         <valueSetDefinition>
@@ -20,14 +20,14 @@
                 <label>Swing Pricing</label>
             </value>
             <value>
-                <fullName>Extension Notice Period (attention différent de la Notice Period existante dans Product Catalog)</fullName>
+                <fullName>Extension Notice Period</fullName>
                 <default>false</default>
-                <label>Extension Notice Period (attention différent de la Notice Period existante dans Product Catalog)</label>
+                <label>Extension Notice Period</label>
             </value>
             <value>
-                <fullName>Exceptional Redemption Fees (attention frais différent du champ Redemption Fees existant)</fullName>
+                <fullName>Redemption Fees</fullName>
                 <default>false</default>
-                <label>Exceptional Redemption Fees (attention frais différent du champ Redemption Fees existant)</label>
+                <label>Redemption Fees</label>
             </value>
             <value>
                 <fullName>Redemptions in Kind</fullName>
@@ -36,4 +36,5 @@
             </value>
         </valueSetDefinition>
     </valueSet>
+    <visibleLines>5</visibleLines>
 </CustomField>

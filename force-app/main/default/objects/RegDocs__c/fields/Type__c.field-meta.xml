@@ -76,6 +76,11 @@
                 <default>false</default>
                 <label>SFDR Periodic Disclosure</label>
             </value>
+            <value>
+                <fullName>SFDR Disclosure Fund (Article 10)</fullName>
+                <default>false</default>
+                <label>SFDR Disclosure Fund (Article 10)</label>
+            </value>
         </valueSetDefinition>
     </valueSet>
 </CustomField>

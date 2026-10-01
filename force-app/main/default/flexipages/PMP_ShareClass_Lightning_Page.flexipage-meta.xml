@@ -104,6 +104,9 @@
                             <value>Share_Class__c.FFA_History</value>
                         </valueListItems>
                         <valueListItems>
+                            <value>Share_Class__c.ManageRegistrationCountriesRequests</value>
+                        </valueListItems>
+                        <valueListItems>
                             <value>Share_Class__c.Request_Tax_Transparency</value>
                             <visibilityRule>
                                 <booleanFilter>1 OR 2</booleanFilter>
@@ -351,6 +354,23 @@
                 <identifier>RecordLaunchDate_cField</identifier>
             </fieldInstance>
         </itemInstances>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>none</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.MergedInto__c</fieldItem>
+                <identifier>RecordMergedInto_cField2</identifier>
+                <visibilityRule>
+                    <criteria>
+                        <leftValue>{!Record.Status__c}</leftValue>
+                        <operator>EQUAL</operator>
+                        <rightValue>Closed - merged</rightValue>
+                    </criteria>
+                </visibilityRule>
+            </fieldInstance>
+        </itemInstances>
         <name>Facet-23d9z2wp9bz</name>
         <type>Facet</type>
     </flexiPageRegions>
@@ -523,10 +543,16 @@
                 <fieldItem>Record.TargetDistributionRate__c</fieldItem>
                 <identifier>RecordTargetDistributionRate_cField</identifier>
                 <visibilityRule>
+                    <booleanFilter>1 OR 2</booleanFilter>
                     <criteria>
                         <leftValue>{!Record.DividendPolicy__c}</leftValue>
                         <operator>EQUAL</operator>
                         <rightValue>Distributing</rightValue>
+                    </criteria>
+                    <criteria>
+                        <leftValue>{!Record.DividendPolicy__c}</leftValue>
+                        <operator>EQUAL</operator>
+                        <rightValue>Income</rightValue>
                     </criteria>
                 </visibilityRule>
             </fieldInstance>
@@ -569,7 +595,7 @@
             <fieldInstance>
                 <fieldInstanceProperties>
                     <name>uiBehavior</name>
-                    <value>required</value>
+                    <value>none</value>
                 </fieldInstanceProperties>
                 <fieldItem>Record.TaxDeferredSwitchEligibleES__c</fieldItem>
                 <identifier>RecordTaxDeferredSwitchEligibleES_cField</identifier>
@@ -2211,7 +2237,7 @@
                     <name>adminFilters</name>
                     <valueList>
                         <valueListItems>
-                            <value>RegistrationStatus__c|CONTAINS|[&quot;INSTITUTIONAL_ONLY&quot;,&quot;REG&quot;]</value>
+                            <value>RegistrationStatus__c|CONTAINS|[&quot;INSTITUTIONAL_ONLY&quot;,&quot;REG&quot;,&quot;AUTNOTREG&quot;]</value>
                         </valueListItems>
                     </valueList>
                 </componentInstanceProperties>
@@ -2242,6 +2268,9 @@
                         </valueListItems>
                         <valueListItems>
                             <value>RegistrationDate__c</value>
+                        </valueListItems>
+                        <valueListItems>
+                            <value>DoNotDisplayOnWebsiteFactsheet__c</value>
                         </valueListItems>
                     </valueList>
                 </componentInstanceProperties>
@@ -2670,6 +2699,87 @@
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>adminFilters</name>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>maxRecordsToDisplay</name>
+                    <value>10</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>parentFieldApiName</name>
+                    <value>Share_Class__c.Id</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>relatedListApiName</name>
+                    <value>DividendHistory__r</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>relatedListDisplayType</name>
+                    <value>ADVGRID</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>relatedListFieldAliases</name>
+                    <valueList>
+                        <valueListItems>
+                            <value>RecordDate__c</value>
+                        </valueListItems>
+                        <valueListItems>
+                            <value>ExDividendDate__c</value>
+                        </valueListItems>
+                        <valueListItems>
+                            <value>PaymentDate__c</value>
+                        </valueListItems>
+                        <valueListItems>
+                            <value>DividendAmountScCcy__c</value>
+                        </valueListItems>
+                        <valueListItems>
+                            <value>DividendAmountEur__c</value>
+                        </valueListItems>
+                    </valueList>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>relatedListLabel</name>
+                    <value>Dividend History</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>showActionBar</name>
+                    <value>true</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>sortFieldAlias</name>
+                    <value>PaymentDate__c</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>sortFieldOrder</name>
+                    <value>Descending</value>
+                </componentInstanceProperties>
+                <componentName>lst:dynamicRelatedList</componentName>
+                <identifier>lst_dynamicRelatedList6</identifier>
+                <visibilityRule>
+                    <booleanFilter>1 OR 2</booleanFilter>
+                    <criteria>
+                        <leftValue>{!$Permission.CustomPermission.PRPDCR}</leftValue>
+                        <operator>EQUAL</operator>
+                        <rightValue>true</rightValue>
+                    </criteria>
+                    <criteria>
+                        <leftValue>{!$User.Profile.Name}</leftValue>
+                        <operator>CONTAINS</operator>
+                        <rightValue>Admin</rightValue>
+                    </criteria>
+                </visibilityRule>
+            </componentInstance>
+        </itemInstances>
+        <name>Facet-1f7ce2fe-19ab-47ec-aa73-39a7707c027c</name>
+        <type>Facet</type>
+    </flexiPageRegions>
+    <flexiPageRegions>
+        <itemInstances>
+            <componentInstance>
+                <componentInstanceProperties>
+                    <name>actionNames</name>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>adminFilters</name>
                     <valueList>
                         <valueListItems>
                             <value>Field_Name__c|CONTAINS|fee</value>
@@ -2971,24 +3081,20 @@
                 </componentInstanceProperties>
                 <componentName>flexipage:tab</componentName>
                 <identifier>flexipage_tab7</identifier>
-                <visibilityRule>
-                    <booleanFilter>1 OR 2 OR 3</booleanFilter>
-                    <criteria>
-                        <leftValue>{!$User.Profile.Name}</leftValue>
-                        <operator>CONTAINS</operator>
-                        <rightValue>Administrator</rightValue>
-                    </criteria>
-                    <criteria>
-                        <leftValue>{!$Permission.CustomPermission.PRPDCR}</leftValue>
-                        <operator>EQUAL</operator>
-                        <rightValue>true</rightValue>
-                    </criteria>
-                    <criteria>
-                        <leftValue>{!$Permission.CustomPermission.PRPLegal}</leftValue>
-                        <operator>EQUAL</operator>
-                        <rightValue>true</rightValue>
-                    </criteria>
-                </visibilityRule>
+            </componentInstance>
+        </itemInstances>
+        <itemInstances>
+            <componentInstance>
+                <componentInstanceProperties>
+                    <name>body</name>
+                    <value>Facet-1f7ce2fe-19ab-47ec-aa73-39a7707c027c</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>title</name>
+                    <value>Dividend History</value>
+                </componentInstanceProperties>
+                <componentName>flexipage:tab</componentName>
+                <identifier>flexipage_tab8</identifier>
             </componentInstance>
         </itemInstances>
         <itemInstances>
@@ -3025,6 +3131,10 @@
     <flexiPageRegions>
         <itemInstances>
             <componentInstance>
+                <componentInstanceProperties>
+                    <name>label</name>
+                    <value>coullon.thomas-crm@carmignac.com.dev47q</value>
+                </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>tabs</name>
                     <value>Facet-6b88fdf7-dcec-47b7-87ec-83fcb4371247</value>

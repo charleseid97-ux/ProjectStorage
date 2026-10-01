@@ -8,6 +8,7 @@
     <columns>Comment__c</columns>
     <columns>Source__c</columns>
     <columns>CREATEDBY_USER</columns>
+    <columns>Product__c</columns>
     <filterScope>Everything</filterScope>
     <filters>
         <field>Type__c</field>

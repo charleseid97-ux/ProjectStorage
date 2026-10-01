@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <GenAiPromptTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <activeVersionIdentifier>S+W5ua7c5EHD5EpeRljbEENzEry32G3OFylu3fZry3o=_3</activeVersionIdentifier>
     <description>Use this template to optimize the user&apos;s search query</description>
     <developerName>flex_OptimizeSearchQuery</developerName>
     <masterLabel>flex_OptimizeSearchQuery</masterLabel>
@@ -38,6 +39,7 @@ Output:
         </inputs>
         <primaryModel>sfdc_ai__DefaultGPT5</primaryModel>
         <status>Published</status>
+        <versionIdentifier>S+W5ua7c5EHD5EpeRljbEENzEry32G3OFylu3fZry3o=_1</versionIdentifier>
     </templateVersions>
     <templateVersions>
         <content>You are a Hybrid Search Query Optimizer for Salesforce Data Cloud.
@@ -107,6 +109,7 @@ User Query : {!$Input:Query}
         </inputs>
         <primaryModel>sfdc_ai__DefaultGPT5</primaryModel>
         <status>Published</status>
+        <versionIdentifier>S+W5ua7c5EHD5EpeRljbEENzEry32G3OFylu3fZry3o=_2</versionIdentifier>
     </templateVersions>
     <templateVersions>
         <content>You are a Hybrid Search Query Optimizer for Salesforce Data Cloud.
@@ -175,6 +178,7 @@ User Query : {!$Input:Query}
             <required>true</required>
         </inputs>
         <status>Published</status>
+        <versionIdentifier>S+W5ua7c5EHD5EpeRljbEENzEry32G3OFylu3fZry3o=_3</versionIdentifier>
     </templateVersions>
     <type>einstein_gpt__flex</type>
     <visibility>Global</visibility>

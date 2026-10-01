@@ -5,6 +5,7 @@
     <columns>JobTitle__c</columns>
     <columns>Nationality__c</columns>
     <columns>DateJoined__c</columns>
+    <columns>CREATED_DATE</columns>
     <filterScope>Everything</filterScope>
     <label>All</label>
 </ListView>

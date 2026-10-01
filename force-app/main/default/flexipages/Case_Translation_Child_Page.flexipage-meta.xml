@@ -34,6 +34,10 @@
                     <value>true</value>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
+                    <name>hideSlackAction</name>
+                    <value>false</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
                     <name>numVisibleActions</name>
                     <value>4</value>
                 </componentInstanceProperties>
@@ -103,6 +107,43 @@
                 </componentInstanceProperties>
                 <componentName>flexipage:fieldSection</componentName>
                 <identifier>flexipage_fieldSection2</identifier>
+            </componentInstance>
+        </itemInstances>
+        <itemInstances>
+            <componentInstance>
+                <componentInstanceProperties>
+                    <name>answerMode</name>
+                    <value>view</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>filePrefix</name>
+                    <value>File_</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>hideDelete</name>
+                    <value>false</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>hideUpdate</name>
+                    <value>false</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>hideUpload</name>
+                    <value>false</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>title</name>
+                    <value>Attachments</value>
+                </componentInstanceProperties>
+                <componentName>relatedAttachmentGeneral</componentName>
+                <identifier>c_relatedAttachmentGeneral</identifier>
+                <visibilityRule>
+                    <criteria>
+                        <leftValue>{!$User.Username}</leftValue>
+                        <operator>EQUAL</operator>
+                        <rightValue>coullon.thomas-crm@carmignac.com</rightValue>
+                    </criteria>
+                </visibilityRule>
             </componentInstance>
         </itemInstances>
         <itemInstances>
@@ -510,6 +551,10 @@
         </itemInstances>
         <itemInstances>
             <componentInstance>
+                <componentInstanceProperties>
+                    <name>label</name>
+                    <value>Tabs</value>
+                </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>tabs</name>
                     <value>Facet-6786186f-a060-45ce-8ccc-465d8430f5cf</value>

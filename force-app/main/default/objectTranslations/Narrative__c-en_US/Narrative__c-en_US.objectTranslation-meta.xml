@@ -66,7 +66,7 @@ For Shareclass scope: ShareClass must be filled -->
         <name>VR06_ScopeRequiredFields</name>
     </validationRules>
     <validationRules>
-        <errorMessage><!-- For Third Parties, both the LEI Code and Domiciled In fields are required. --></errorMessage>
+        <errorMessage><!-- For Third Parties, the LEI Code field is required. --></errorMessage>
         <name>VR07_ThirdPartiesyRT_RequiredFields</name>
     </validationRules>
     <validationRules>
@@ -83,10 +83,30 @@ For Shareclass scope: ShareClass must be filled -->
     </validationRules>
     <validationRules>
         <errorMessage><!-- Oops...you don&apos;t have the necessary privileges to edit this record. See your administrator for help. --></errorMessage>
+        <name>VR09_Narrative_RiskAccess</name>
+    </validationRules>
+    <validationRules>
+        <errorMessage><!-- Oops...you don&apos;t have the necessary privileges to edit this record. See your administrator for help. --></errorMessage>
         <name>VR10_Narrative_ComplianceAccess</name>
     </validationRules>
     <validationRules>
         <errorMessage><!-- Oops...you don&apos;t have the necessary privileges to edit this record. See your administrator for help. --></errorMessage>
         <name>VR11_Narrative_OPSAccess</name>
+    </validationRules>
+    <validationRules>
+        <errorMessage><!-- Oops...you don&apos;t have the necessary privileges to edit this record. See your administrator for help. --></errorMessage>
+        <name>VR12_Narrative_FundMarketingAccess</name>
+    </validationRules>
+    <validationRules>
+        <errorMessage><!-- Oops...you don&apos;t have the necessary privileges to edit this record. See your administrator for help. --></errorMessage>
+        <name>VR13_Narrative_ISAccess</name>
+    </validationRules>
+    <validationRules>
+        <errorMessage><!-- Oops...you don&apos;t have the necessary privileges to edit this record. See your administrator for help. --></errorMessage>
+        <name>VR14_Narrative_DCRAccess</name>
+    </validationRules>
+    <validationRules>
+        <errorMessage><!-- Oops...you don&apos;t have the necessary privileges to edit this record. See your administrator for help ESG --></errorMessage>
+        <name>VR15_Narrative_ESGAccess</name>
     </validationRules>
 </CustomObjectTranslation>

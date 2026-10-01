@@ -1,6 +1,66 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <SharingRules xmlns="http://soap.sforce.com/2006/04/metadata">
     <sharingCriteriaRules>
+        <fullName>FullAccessDCO</fullName>
+        <accessLevel>Edit</accessLevel>
+        <label>Full Access (DCO)</label>
+        <sharedTo>
+            <group>DCO_Rebate</group>
+        </sharedTo>
+        <booleanFilter>1 OR 2</booleanFilter>
+        <criteriaItems>
+            <field>RecordTypeId</field>
+            <operation>equals</operation>
+            <value>Investor without Agreement Request Full,Intermediary Agreement,Investor without Agreement,Intermediary Agreement Request,Investor without Agreement Request,Intermediary Agreement Request Full</value>
+        </criteriaItems>
+        <criteriaItems>
+            <field>RecordTypeId</field>
+            <operation>equals</operation>
+            <value>Sub-distributor via Platforms Request,Sub-distributor via Platforms,Technical Code Request,Sub-distributor via Platforms Request Full,IS Agreement</value>
+        </criteriaItems>
+        <includeRecordsOwnedByAll>true</includeRecordsOwnedByAll>
+    </sharingCriteriaRules>
+    <sharingCriteriaRules>
+        <fullName>FullAccessDO</fullName>
+        <accessLevel>Edit</accessLevel>
+        <label>Full Access (DO)</label>
+        <sharedTo>
+            <group>DCO_KYD</group>
+        </sharedTo>
+        <booleanFilter>1 OR 2</booleanFilter>
+        <criteriaItems>
+            <field>RecordTypeId</field>
+            <operation>equals</operation>
+            <value>Investor without Agreement Request Full,Intermediary Agreement,Investor without Agreement,Intermediary Agreement Request,Investor without Agreement Request,Intermediary Agreement Request Full</value>
+        </criteriaItems>
+        <criteriaItems>
+            <field>RecordTypeId</field>
+            <operation>equals</operation>
+            <value>Sub-distributor via Platforms Request,Sub-distributor via Platforms,Technical Code Request,Sub-distributor via Platforms Request Full,IS Agreement</value>
+        </criteriaItems>
+        <includeRecordsOwnedByAll>true</includeRecordsOwnedByAll>
+    </sharingCriteriaRules>
+    <sharingCriteriaRules>
+        <fullName>FullAccessLegal</fullName>
+        <accessLevel>Edit</accessLevel>
+        <label>Full Access (Legal)</label>
+        <sharedTo>
+            <group>Legal</group>
+        </sharedTo>
+        <booleanFilter>1 OR 2</booleanFilter>
+        <criteriaItems>
+            <field>RecordTypeId</field>
+            <operation>equals</operation>
+            <value>Investor without Agreement Request Full,Intermediary Agreement,Investor without Agreement,Intermediary Agreement Request,Investor without Agreement Request,Intermediary Agreement Request Full</value>
+        </criteriaItems>
+        <criteriaItems>
+            <field>RecordTypeId</field>
+            <operation>equals</operation>
+            <value>Sub-distributor via Platforms Request,Sub-distributor via Platforms,Technical Code Request,Sub-distributor via Platforms Request Full,IS Agreement</value>
+        </criteriaItems>
+        <includeRecordsOwnedByAll>true</includeRecordsOwnedByAll>
+    </sharingCriteriaRules>
+    <sharingCriteriaRules>
         <fullName>Investment_Solutions</fullName>
         <accessLevel>Edit</accessLevel>
         <description>only on record type investment solutions</description>

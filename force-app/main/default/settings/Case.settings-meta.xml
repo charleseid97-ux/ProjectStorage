@@ -24,7 +24,9 @@
         <enableOnDemandEmailToCase>true</enableOnDemandEmailToCase>
         <enableThreadTokenInBody>true</enableThreadTokenInBody>
         <enableThreadTokenInSubject>false</enableThreadTokenInSubject>
+        <movingEmailEnabled>false</movingEmailEnabled>
         <notifyOwnerOnNewCaseEmail>false</notifyOwnerOnNewCaseEmail>
+        <notifySenderE2CError>false</notifySenderE2CError>
         <overEmailLimitAction>Bounce</overEmailLimitAction>
         <preQuoteSignature>true</preQuoteSignature>
         <replyWithNewContentOnly>true</replyWithNewContentOnly>
@@ -36,6 +38,7 @@
             <casePriority>Medium</casePriority>
             <emailServicesAddress>ra1721144387514@2ik4bh25gn26sg5nv7okflb7ulo65zj5zkccyqpp2ul6ql8ysa.58-zabiea4.fra70.case.salesforce.com</emailServicesAddress>
             <isVerified>false</isVerified>
+            <newEntityRecordType>Case.TranslationRequest</newEntityRecordType>
             <routingName>Translation Request</routingName>
         </routingAddresses>
         <unauthorizedSenderAction>Discard</unauthorizedSenderAction>
@@ -62,6 +65,7 @@
     <notifyDefaultCaseOwner>false</notifyDefaultCaseOwner>
     <notifyOwnerOnCaseComment>false</notifyOwnerOnCaseComment>
     <notifyOwnerOnCaseOwnerChange>false</notifyOwnerOnCaseOwnerChange>
+    <rtaCaseComment>false</rtaCaseComment>
     <showEmailAttachmentsInCaseAttachmentsRL>true</showEmailAttachmentsInCaseAttachmentsRL>
     <showFewerCloseActions>false</showFewerCloseActions>
     <systemUserEmail>distributionanddigital.technology@carmignac.com</systemUserEmail>

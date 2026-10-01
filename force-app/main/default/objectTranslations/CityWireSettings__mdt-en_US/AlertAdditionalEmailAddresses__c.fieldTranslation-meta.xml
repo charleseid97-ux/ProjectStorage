@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <help><!-- Enter one email address per line to notify recipients with no Salesforce User (e.g. a shared mailbox). These are added on top of the members of Alert Queues Developer Names, not instead of them. --></help>
+    <label><!-- Alert Additional Email Addresses --></label>
+    <name>AlertAdditionalEmailAddresses__c</name>
+</CustomFieldTranslation>

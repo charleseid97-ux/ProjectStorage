@@ -9,7 +9,7 @@
     <valueSet>
         <restricted>true</restricted>
         <valueSetDefinition>
-            <sorted>false</sorted>
+            <sorted>true</sorted>
             <value>
                 <fullName>AT</fullName>
                 <default>false</default>
@@ -51,6 +51,11 @@
                 <label>Luxembourg</label>
             </value>
             <value>
+                <fullName>PT</fullName>
+                <default>false</default>
+                <label>Portugal</label>
+            </value>
+            <value>
                 <fullName>ES</fullName>
                 <default>false</default>
                 <label>Spain</label>
@@ -76,9 +81,9 @@
                 <label>The Netherlands</label>
             </value>
             <value>
-                <fullName>PT</fullName>
+                <fullName>UAE</fullName>
                 <default>false</default>
-                <label>Portugal</label>
+                <label>United Arab Emirates</label>
             </value>
         </valueSetDefinition>
     </valueSet>

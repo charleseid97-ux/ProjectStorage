@@ -168,11 +168,6 @@
             <field>Meeting_Note__c.Note__c</field>
             <table>Account.Meeting_Links_Account__r</table>
         </columns>
-        <columns>
-            <checkedByDefault>false</checkedByDefault>
-            <field>Product__c.Strategy_Code__c</field>
-            <table>Account.Meeting_Links_Account__r</table>
-        </columns>
         <masterLabel>Meeting Notes</masterLabel>
     </sections>
     <sections>

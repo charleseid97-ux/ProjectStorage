@@ -28,6 +28,7 @@
         </outputParameters>
     </actionCalls>
     <apiVersion>63.0</apiVersion>
+    <areMetricsLoggedToDataCloud>false</areMetricsLoggedToDataCloud>
     <environments>Default</environments>
     <interviewLabel>Product Overview - Global {!$Flow.CurrentDateTime}</interviewLabel>
     <label>Product Overview - Global</label>

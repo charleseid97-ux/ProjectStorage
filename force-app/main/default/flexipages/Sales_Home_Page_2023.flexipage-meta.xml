@@ -203,6 +203,10 @@
         <itemInstances>
             <componentInstance>
                 <componentInstanceProperties>
+                    <name>label</name>
+                    <value>Tabs</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
                     <name>tabs</name>
                     <value>Facet-227b21f9-9b3c-4773-8240-49ca09544b28</value>
                 </componentInstanceProperties>
@@ -675,6 +679,10 @@
         <itemInstances>
             <componentInstance>
                 <componentInstanceProperties>
+                    <name>label</name>
+                    <value>Tabs</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
                     <name>tabs</name>
                     <value>Facet-fb9774e4-6b74-4cc7-9913-563867ad547a</value>
                 </componentInstanceProperties>
@@ -830,24 +838,32 @@
         </itemInstances>
         <itemInstances>
             <componentInstance>
-                <componentName>runtime_approval_process:pendingApprovalCard</componentName>
-                <identifier>runtime_approval_process_pendingApprovalCard</identifier>
+                <componentInstanceProperties>
+                    <name>approvalSystem</name>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>cardTitle</name>
+                    <value>Items to Approve</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>objectApiName</name>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>queues</name>
+                </componentInstanceProperties>
+                <componentName>customApprovalInbox</componentName>
+                <identifier>c_customApprovalInbox2</identifier>
                 <visibilityRule>
-                    <booleanFilter>1 OR 2 OR 3 OR 4 OR 5</booleanFilter>
+                    <booleanFilter>1 OR 2 OR 3 OR 4</booleanFilter>
                     <criteria>
                         <leftValue>{!$User.UserRole.Name}</leftValue>
                         <operator>CONTAINS</operator>
-                        <rightValue>Head of Country</rightValue>
-                    </criteria>
-                    <criteria>
-                        <leftValue>{!$User.UserRole.Name}</leftValue>
-                        <operator>CONTAINS</operator>
-                        <rightValue>Head of Countries</rightValue>
+                        <rightValue>Head of Countr</rightValue>
                     </criteria>
                     <criteria>
                         <leftValue>{!$User.Profile.Name}</leftValue>
                         <operator>CONTAINS</operator>
-                        <rightValue>Administrator</rightValue>
+                        <rightValue>Admin</rightValue>
                     </criteria>
                     <criteria>
                         <leftValue>{!$User.UserRole.Name}</leftValue>

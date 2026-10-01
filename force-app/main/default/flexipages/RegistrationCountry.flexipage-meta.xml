@@ -51,6 +51,16 @@
                 <identifier>RecordRegistrationDate__cField</identifier>
             </fieldInstance>
         </itemInstances>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>none</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.DoNotDisplayOnWebsiteFactsheet__c</fieldItem>
+                <identifier>RecordDoNotDisplayOnWebsiteFactsheet_cField</identifier>
+            </fieldInstance>
+        </itemInstances>
         <name>Facet-a5851384-bbee-4288-a75a-bd4a1d2bd75e</name>
         <type>Facet</type>
     </flexiPageRegions>
@@ -278,6 +288,10 @@
         </itemInstances>
         <itemInstances>
             <componentInstance>
+                <componentInstanceProperties>
+                    <name>label</name>
+                    <value>Tabs</value>
+                </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>tabs</name>
                     <value>Facet-27014780-bb47-4517-a237-fb762ee00a78</value>

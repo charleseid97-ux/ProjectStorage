@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <help><!-- When unchecked, no alert email is ever sent, regardless of the failure threshold, the Alert On Zero Updates setting, or whether an Alert Queue/Alert Email Template is configured. --></help>
+    <label><!-- Enable Alerts --></label>
+    <name>EnableAlerts__c</name>
+</CustomFieldTranslation>

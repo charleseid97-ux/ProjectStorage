@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Flow xmlns="http://soap.sforce.com/2006/04/metadata">
     <apiVersion>58.0</apiVersion>
+    <areMetricsLoggedToDataCloud>false</areMetricsLoggedToDataCloud>
     <decisions>
         <name>Sales_or_CRM_HomePages_Icones</name>
         <label>Sales or CRM HomePages Icones</label>
@@ -67,6 +68,14 @@
                     <name>Agreements</name>
                     <fieldText>&lt;p style=&quot;text-align: center;&quot;&gt;&lt;a href=&quot;https://carmignac-crm.lightning.force.com/lightning/r/Report/00O1i000001UA4AEAW/view?queryScope=userFolders&quot; rel=&quot;noopener noreferrer&quot; target=&quot;_blank&quot; style=&quot;background-color: rgb(255, 255, 255);&quot;&gt;&lt;strong&gt;&lt;img src=&quot;https://carmignac-crm--uatmycrm.sandbox.file.force.com/sfc/servlet.shepherd/version/download/0681w000002rDAB?asPdf=false&amp;amp;operationContext=CHATTER&quot; alt=&quot;image.png&quot;&gt;&lt;/strong&gt;&lt;/a&gt;&lt;a href=&quot;https://efl-prd.carmignac.com/#/views/Salesforce-Activities/Activities-HighLevelOverview&quot; rel=&quot;noopener noreferrer&quot; target=&quot;_blank&quot; style=&quot;background-color: rgb(255, 255, 255);&quot;&gt;&lt;strong&gt;﻿&lt;/strong&gt;&lt;/a&gt;&lt;/p&gt;&lt;p style=&quot;text-align: center;&quot;&gt;&lt;a href=&quot;https://carmignac-crm.lightning.force.com/lightning/r/Report/00O1i000001UA4AEAW/view?queryScope=userFolders&quot; rel=&quot;noopener noreferrer&quot; target=&quot;_blank&quot; style=&quot;color: rgb(0, 0, 0);&quot;&gt;&lt;strong&gt;AGREEMENTS TO UPDATE&lt;/strong&gt;&lt;/a&gt;&lt;/p&gt;</fieldText>
                     <fieldType>DisplayText</fieldType>
+                    <styleProperties>
+                        <verticalAlignment>
+                            <stringValue>top</stringValue>
+                        </verticalAlignment>
+                        <width>
+                            <stringValue>12</stringValue>
+                        </width>
+                    </styleProperties>
                 </fields>
                 <inputParameters>
                     <name>width</name>
@@ -83,6 +92,14 @@
                     <name>Prospace</name>
                     <fieldText>&lt;p style=&quot;text-align: center;&quot;&gt;&lt;a href=&quot;https://carmignac-crm.lightning.force.com/lightning/r/Report/00O58000002mihjEAA/view&quot; rel=&quot;noopener noreferrer&quot; target=&quot;_blank&quot;&gt;&lt;img src=&quot;https://carmignac-crm--uatmycrm.sandbox.file.force.com/sfc/servlet.shepherd/version/download/0681w000002rDA1?asPdf=false&amp;amp;operationContext=CHATTER&quot; alt=&quot;image.png&quot; title=&quot;&quot;&gt;&lt;/a&gt;&lt;/p&gt;&lt;p style=&quot;text-align: center;&quot;&gt;&lt;a href=&quot;https://carmignac-crm.lightning.force.com/lightning/r/Report/00O58000002mihjEAA/view&quot; rel=&quot;noopener noreferrer&quot; target=&quot;_blank&quot; style=&quot;color: rgb(0, 0, 0);&quot;&gt;&lt;strong&gt;PENDING PROSPACE VALIDATION&lt;/strong&gt;&lt;/a&gt;&lt;/p&gt;&lt;p style=&quot;text-align: center;&quot;&gt;&lt;br&gt;&lt;/p&gt;</fieldText>
                     <fieldType>DisplayText</fieldType>
+                    <styleProperties>
+                        <verticalAlignment>
+                            <stringValue>top</stringValue>
+                        </verticalAlignment>
+                        <width>
+                            <stringValue>12</stringValue>
+                        </width>
+                    </styleProperties>
                 </fields>
                 <inputParameters>
                     <name>width</name>
@@ -94,6 +111,14 @@
             </fields>
             <isRequired>false</isRequired>
             <regionContainerType>SectionWithoutHeader</regionContainerType>
+            <styleProperties>
+                <verticalAlignment>
+                    <stringValue>top</stringValue>
+                </verticalAlignment>
+                <width>
+                    <stringValue>12</stringValue>
+                </width>
+            </styleProperties>
         </fields>
         <showFooter>false</showFooter>
         <showHeader>false</showHeader>
@@ -116,6 +141,14 @@
                     <name>Events</name>
                     <fieldText>&lt;p style=&quot;text-align: center;&quot;&gt;&lt;a href=&quot;https://efl-prd.carmignac.com/#/views/Salesforce-Activities/Activities-HighLevelOverview&quot; rel=&quot;noopener noreferrer&quot; target=&quot;_blank&quot; style=&quot;background-color: rgb(255, 255, 255);&quot;&gt;&lt;strong&gt;&lt;img src=&quot;https://carmignac-crm--uatmycrm.sandbox.file.force.com/sfc/servlet.shepherd/version/download/0681w000002rCt5?asPdf=false&amp;amp;operationContext=CHATTER&quot; alt=&quot;image.png&quot;&gt;﻿&lt;/strong&gt;&lt;/a&gt;&lt;/p&gt;&lt;p style=&quot;text-align: center;&quot;&gt;&lt;a href=&quot;https://efl-prd.carmignac.com/#/views/Salesforce-Activities/Activities-HighLevelOverview&quot; rel=&quot;noopener noreferrer&quot; target=&quot;_blank&quot; style=&quot;background-color: rgb(255, 255, 255); color: rgb(0, 0, 0);&quot;&gt;&lt;strong&gt;ACTIVITY DASHBOARD&lt;/strong&gt;&lt;/a&gt;&lt;/p&gt;</fieldText>
                     <fieldType>DisplayText</fieldType>
+                    <styleProperties>
+                        <verticalAlignment>
+                            <stringValue>top</stringValue>
+                        </verticalAlignment>
+                        <width>
+                            <stringValue>12</stringValue>
+                        </width>
+                    </styleProperties>
                 </fields>
                 <inputParameters>
                     <name>width</name>
@@ -132,6 +165,14 @@
                     <name>Dashboards</name>
                     <fieldText>&lt;p style=&quot;text-align: center;&quot;&gt;&lt;a href=&quot;https://efl-prd.carmignac.com/#/views/Tableofcontents/DashboardCatalog-ProfessionalClients&quot; rel=&quot;noopener noreferrer&quot; target=&quot;_blank&quot;&gt;&lt;img src=&quot;https://carmignac-crm--uatmycrm.sandbox.file.force.com/sfc/servlet.shepherd/version/download/0681w000002rCs2?asPdf=false&amp;amp;operationContext=CHATTER&quot; alt=&quot;image.png&quot; title=&quot;&quot;&gt;&lt;/a&gt;&lt;/p&gt;&lt;p style=&quot;text-align: center;&quot;&gt;&lt;a href=&quot;https://efl-prd.carmignac.com/#/views/Tableofcontents/DashboardCatalog-ProfessionalClients&quot; rel=&quot;noopener noreferrer&quot; target=&quot;_blank&quot; style=&quot;color: rgb(0, 0, 0); background-color: rgb(255, 255, 255);&quot;&gt;&lt;strong&gt;DASHBOARD CATALOG&lt;/strong&gt;&lt;/a&gt;&lt;/p&gt;&lt;p style=&quot;text-align: center;&quot;&gt;&lt;br&gt;&lt;/p&gt;</fieldText>
                     <fieldType>DisplayText</fieldType>
+                    <styleProperties>
+                        <verticalAlignment>
+                            <stringValue>top</stringValue>
+                        </verticalAlignment>
+                        <width>
+                            <stringValue>12</stringValue>
+                        </width>
+                    </styleProperties>
                 </fields>
                 <inputParameters>
                     <name>width</name>
@@ -148,6 +189,14 @@
                     <name>DataSolution</name>
                     <fieldText>&lt;p style=&quot;text-align: center;&quot;&gt;&lt;a href=&quot;https://efl-prd.carmignac.com/#/views/DataDeliveryProductionDashboard/WTPbase&quot; rel=&quot;noopener noreferrer&quot; target=&quot;_blank&quot;&gt;&lt;img src=&quot;https://carmignac-crm--uatmycrm.sandbox.file.force.com/sfc/servlet.shepherd/version/download/0681w000002rCs7?asPdf=false&amp;amp;operationContext=CHATTER&quot; alt=&quot;image.png&quot; title=&quot;&quot;&gt;&lt;/a&gt;&lt;/p&gt;&lt;p style=&quot;text-align: center;&quot;&gt;&lt;a href=&quot;https://efl-prd.carmignac.com/#/views/DataDeliveryProductionDashboard/WTPbase&quot; rel=&quot;noopener noreferrer&quot; target=&quot;_blank&quot; style=&quot;color: rgb(0, 0, 0); background-color: rgb(255, 255, 255);&quot;&gt;&lt;strong&gt;DATA SOLUTION DASHBOARD&lt;/strong&gt;&lt;/a&gt;&lt;/p&gt;</fieldText>
                     <fieldType>DisplayText</fieldType>
+                    <styleProperties>
+                        <verticalAlignment>
+                            <stringValue>top</stringValue>
+                        </verticalAlignment>
+                        <width>
+                            <stringValue>12</stringValue>
+                        </width>
+                    </styleProperties>
                 </fields>
                 <inputParameters>
                     <name>width</name>
@@ -159,6 +208,14 @@
             </fields>
             <isRequired>false</isRequired>
             <regionContainerType>SectionWithoutHeader</regionContainerType>
+            <styleProperties>
+                <verticalAlignment>
+                    <stringValue>top</stringValue>
+                </verticalAlignment>
+                <width>
+                    <stringValue>12</stringValue>
+                </width>
+            </styleProperties>
         </fields>
         <showFooter>false</showFooter>
         <showHeader>false</showHeader>

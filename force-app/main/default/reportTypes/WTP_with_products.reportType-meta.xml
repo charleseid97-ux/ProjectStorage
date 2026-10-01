@@ -298,11 +298,6 @@
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
-            <field>Fund__c.Strategy_Code__c</field>
-            <table>Case</table>
-        </columns>
-        <columns>
-            <checkedByDefault>false</checkedByDefault>
             <field>Fund__c.Strategy__c</field>
             <table>Case</table>
         </columns>
@@ -404,6 +399,31 @@
         <columns>
             <checkedByDefault>false</checkedByDefault>
             <field>RequesterName__c</field>
+            <table>Case</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>ExpectedDeliveryDateCurrentMonth__c</field>
+            <table>Case</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>TECH_OnHoldStatus__c</field>
+            <table>Case</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>OnHoldWIPDuration__c</field>
+            <table>Case</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>OnHoldValidatedDuration__c</field>
+            <table>Case</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>OnHoldPreviewDuration__c</field>
             <table>Case</table>
         </columns>
         <masterLabel>Work Together Processes</masterLabel>

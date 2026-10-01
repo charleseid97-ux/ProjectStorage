@@ -175,6 +175,7 @@
         </outputParameters>
     </actionCalls>
     <apiVersion>65.0</apiVersion>
+    <areMetricsLoggedToDataCloud>false</areMetricsLoggedToDataCloud>
     <assignments>
         <name>Add_1_to_Iteration_Number</name>
         <label>Add 1 to Iteration Number</label>

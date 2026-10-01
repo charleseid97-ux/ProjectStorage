@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<TransactionSecurityPolicy xmlns="http://soap.sforce.com/2006/04/metadata">
+    <action>
+        <block>false</block>
+        <endSession>false</endSession>
+        <freezeUser>false</freezeUser>
+        <notifications>
+            <inApp>false</inApp>
+            <sendEmail>true</sendEmail>
+            <user>coullon.thomas-crm@carmignac.com</user>
+        </notifications>
+        <twoFactorAuthentication>false</twoFactorAuthentication>
+    </action>
+    <active>true</active>
+    <customEmailContent>&lt;p&gt;&lt;strong&gt;Salesforce Security Alert – Potential Session Hijacking Detected&lt;/strong&gt;&lt;/p&gt;&lt;p&gt;&lt;br&gt;&lt;/p&gt;&lt;p&gt;Salesforce Threat Detection has identified a high-risk change in the characteristics of an active user session that may indicate potential session hijacking.&lt;/p&gt;&lt;p&gt;&lt;br&gt;&lt;/p&gt;&lt;p&gt;&lt;strong&gt;Policy:&lt;/strong&gt; {{policy.MasterLabel}}&lt;/p&gt;&lt;p&gt;&lt;strong&gt;Organization ID:&lt;/strong&gt; {{policy.OrganizationId}}&lt;/p&gt;&lt;p&gt;&lt;strong&gt;User:&lt;/strong&gt; {{event.Username}}&lt;/p&gt;&lt;p&gt;&lt;strong&gt;Event Date:&lt;/strong&gt; {{event.EventDate}}&lt;/p&gt;&lt;p&gt;&lt;strong&gt;Risk Score:&lt;/strong&gt; {{event.Score}}&lt;/p&gt;&lt;p&gt;&lt;br&gt;&lt;/p&gt;&lt;p&gt;&lt;strong&gt;Previous IP:&lt;/strong&gt; {{event.PreviousIp}}&lt;/p&gt;&lt;p&gt;&lt;strong&gt;Current IP:&lt;/strong&gt; {{event.CurrentIp}}&lt;/p&gt;&lt;p&gt;&lt;br&gt;&lt;/p&gt;&lt;p&gt;&lt;strong&gt;Previous Platform:&lt;/strong&gt; {{event.PreviousPlatform}}&lt;/p&gt;&lt;p&gt;&lt;strong&gt;Current Platform:&lt;/strong&gt; {{event.CurrentPlatform}}&lt;/p&gt;&lt;p&gt;&lt;br&gt;&lt;/p&gt;&lt;p&gt;&lt;strong&gt;Previous User Agent:&lt;/strong&gt; {{event.PreviousUserAgent}}&lt;/p&gt;&lt;p&gt;&lt;strong&gt;Current User Agent:&lt;/strong&gt; {{event.CurrentUserAgent}}&lt;/p&gt;&lt;p&gt;&lt;br&gt;&lt;/p&gt;&lt;p&gt;This alert indicates that significant differences were detected within the same Salesforce session.&lt;/p&gt;&lt;p&gt;&lt;br&gt;&lt;/p&gt;&lt;p&gt;&lt;strong&gt;No action has been automatically blocked.&lt;/strong&gt;&lt;/p&gt;&lt;p&gt;&lt;br&gt;&lt;/p&gt;&lt;p&gt;Please review the activity and confirm whether the session is legitimate.&lt;/p&gt;&lt;p&gt;Salesforce Security Monitoring&lt;/p&gt;</customEmailContent>
+    <description>Monitors high-risk session hijacking events detected by Salesforce Threat Detection.
+The policy sends a security alert when significant changes in browser fingerprint characteristics indicate that the same Salesforce session may be used from multiple environments.</description>
+    <developerName>TSPSessionHijackingHighRi</developerName>
+    <eventName>SessionHijackingEventStore</eventName>
+    <flow>PolicyCondition_EHgxgKYipZsndzWBsKLC</flow>
+    <masterLabel>TSP Session Hijacking High Risk Alert</masterLabel>
+    <type>CustomConditionBuilderPolicy</type>
+</TransactionSecurityPolicy>

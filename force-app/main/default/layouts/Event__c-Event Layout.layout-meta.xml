@@ -1,16 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Layout xmlns="http://soap.sforce.com/2006/04/metadata">
-    <excludeButtons>OpenSlackRecordChannel</excludeButtons>
+    <excludeButtons>SmartFillEnrich</excludeButtons>
     <layoutSections>
         <customLabel>true</customLabel>
         <detailHeading>true</detailHeading>
         <editHeading>true</editHeading>
         <label>Event - Header</label>
         <layoutColumns>
-            <layoutItems>
-                <behavior>Required</behavior>
-                <field>timezone__c</field>
-            </layoutItems>
             <layoutItems>
                 <behavior>Required</behavior>
                 <field>Name</field>
@@ -42,6 +38,10 @@
             <layoutItems>
                 <behavior>Edit</behavior>
                 <field>salesOwner__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Required</behavior>
+                <field>timezone__c</field>
             </layoutItems>
         </layoutColumns>
         <layoutColumns>
@@ -204,18 +204,8 @@
         <layoutColumns/>
         <style>CustomLinks</style>
     </layoutSections>
-    <miniLayout>
-        <fields>timezone__c</fields>
-    </miniLayout>
     <relatedLists>
-        <excludeButtons>MassChangeOwner</excludeButtons>
-        <excludeButtons>New</excludeButtons>
-        <fields>speakerContact__c</fields>
-        <fields>strategy__c</fields>
-        <fields>presentationStatus__c</fields>
-        <relatedList>sessionSpeakerProduct__c.session__c</relatedList>
-        <sortField>speakerContact__c</sortField>
-        <sortOrder>Asc</sortOrder>
+        <relatedList>RelatedEntityHistoryList</relatedList>
     </relatedLists>
     <relatedLists>
         <fields>NAME</fields>
@@ -235,7 +225,7 @@
     <showRunAssignmentRulesCheckbox>false</showRunAssignmentRulesCheckbox>
     <showSubmitAndAttachButton>false</showSubmitAndAttachButton>
     <summaryLayout>
-        <masterLabel>00hG5000006B33y</masterLabel>
+        <masterLabel>00haT000004ye8N</masterLabel>
         <sizeX>4</sizeX>
         <sizeY>0</sizeY>
         <summaryLayoutStyle>Default</summaryLayoutStyle>

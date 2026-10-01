@@ -4,7 +4,7 @@
     <description>HTTP callout timeout, in milliseconds, for each Citywire Fund API request.</description>
     <externalId>false</externalId>
     <fieldManageability>DeveloperControlled</fieldManageability>
-    <inlineHelpText>Timeout in milliseconds for each callout to Citywire. Capped at 120000ms (Salesforce's per-callout limit) regardless of the value entered here.</inlineHelpText>
+    <inlineHelpText>Timeout in milliseconds for each callout to Citywire. Capped at 120000ms (Salesforce&apos;s per-callout limit) regardless of the value entered here.</inlineHelpText>
     <label>Timeout (ms)</label>
     <precision>6</precision>
     <required>false</required>

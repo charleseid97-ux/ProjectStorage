@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomMetadata xmlns="http://soap.sforce.com/2006/04/metadata" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <label>Agreement Role TSP - Franck BLACHET</label>
+    <protected>false</protected>
+    <values>
+        <field>Emails_To_Notify__c</field>
+        <value xsi:nil="true"/>
+    </values>
+    <values>
+        <field>Excluded_Profiles__c</field>
+        <value xsi:nil="true"/>
+    </values>
+    <values>
+        <field>Excluded_Queues__c</field>
+        <value xsi:type="xsd:string">00GaT000004uJKDUA2</value>
+    </values>
+    <values>
+        <field>Object__c</field>
+        <value xsi:type="xsd:string">Agreement_Role__c</value>
+    </values>
+    <values>
+        <field>Records_Limit__c</field>
+        <value xsi:type="xsd:double">50000.0</value>
+    </values>
+</CustomMetadata>

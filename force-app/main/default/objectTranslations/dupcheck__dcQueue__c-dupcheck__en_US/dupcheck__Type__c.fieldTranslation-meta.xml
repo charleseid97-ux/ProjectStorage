@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <label><!-- Type --></label>
+    <name>dupcheck__Type__c</name>
+    <picklistValues>
+        <masterLabel>index-create</masterLabel>
+        <translation><!-- index-create --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>index-delete</masterLabel>
+        <translation><!-- index-delete --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>recalc-hierarchy</masterLabel>
+        <translation><!-- recalc-hierarchy --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>record-delete</masterLabel>
+        <translation><!-- record-delete --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>set-hierarchy</masterLabel>
+        <translation><!-- set-hierarchy --></translation>
+    </picklistValues>
+</CustomFieldTranslation>

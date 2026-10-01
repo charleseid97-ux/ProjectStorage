@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <GenAiPromptTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <activeVersionIdentifier>S+W5ua7c5EHD5EpeRljbEENzEry32G3OFylu3fZry3o=_3</activeVersionIdentifier>
     <developerName>flex_RFP_FindDocuments</developerName>
     <masterLabel>flex_RFP_FindDocuments</masterLabel>
     <templateVersions>
@@ -113,6 +114,7 @@ NO_DOCUMENT_FOUND
             </parameters>
             <referenceName>EinsteinSearch:RFP_SI4_1024_Retriever_1Cx_ABIe9b36be9</referenceName>
         </templateDataProviders>
+        <versionIdentifier>S+W5ua7c5EHD5EpeRljbEENzEry32G3OFylu3fZry3o=_1</versionIdentifier>
     </templateVersions>
     <templateVersions>
         <content>You are a Document Selection Assistant.
@@ -227,6 +229,7 @@ If no relevant document:
             <referenceName>Input:UserQuery</referenceName>
             <required>false</required>
         </inputs>
+        <responseFormat>JSON</responseFormat>
         <status>Published</status>
         <templateDataProviders>
             <definition>invocable://getEinsteinRetrieverResults/RFP_SI4_1024_Retriever_1Cx_ABIe9b36be9</definition>
@@ -258,6 +261,7 @@ If no relevant document:
             </parameters>
             <referenceName>EinsteinSearch:RFP_SI4_1024_Retriever_1Cx_ABIe9b36be9</referenceName>
         </templateDataProviders>
+        <versionIdentifier>S+W5ua7c5EHD5EpeRljbEENzEry32G3OFylu3fZry3o=_2</versionIdentifier>
     </templateVersions>
     <templateVersions>
         <content>You are a Document Selection Assistant.
@@ -390,6 +394,7 @@ If no relevant document:
             <referenceName>Input:UserQuery</referenceName>
             <required>false</required>
         </inputs>
+        <responseFormat>JSON</responseFormat>
         <status>Published</status>
         <templateDataProviders>
             <definition>invocable://getEinsteinRetrieverResults/RFP_SI4_1024_Retriever_1Cx_ABIe9b36be9</definition>
@@ -420,6 +425,7 @@ If no relevant document:
             </parameters>
             <referenceName>EinsteinSearch:RFP_SI4_1024_Retriever_1Cx_ABIe9b36be9</referenceName>
         </templateDataProviders>
+        <versionIdentifier>S+W5ua7c5EHD5EpeRljbEENzEry32G3OFylu3fZry3o=_3</versionIdentifier>
     </templateVersions>
     <type>einstein_gpt__flex</type>
     <visibility>Global</visibility>

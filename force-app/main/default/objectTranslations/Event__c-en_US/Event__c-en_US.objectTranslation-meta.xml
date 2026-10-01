@@ -9,6 +9,13 @@
         <value>Bookly Requests</value>
     </caseValues>
     <layouts>
+        <layout>Bookly Request Layout</layout>
+        <sections>
+            <label><!-- Custom Links --></label>
+            <section>Custom Links</section>
+        </sections>
+    </layouts>
+    <layouts>
         <layout>Event Layout</layout>
         <sections>
             <label><!-- Capacity &amp; Audience --></label>
@@ -139,7 +146,7 @@
     </sharingReasons>
     <startsWith>Consonant</startsWith>
     <webLinks>
-        <label><!-- CreateEvent --></label>
-        <name>CreateEvent</name>
+        <label><!-- CreateEventV2 --></label>
+        <name>CreateEventV2</name>
     </webLinks>
 </CustomObjectTranslation>

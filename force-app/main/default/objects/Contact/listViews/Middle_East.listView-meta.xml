@@ -9,6 +9,7 @@
     <columns>CONTACT.PHONE1</columns>
     <columns>JobFunction__c</columns>
     <columns>CREATEDBY_USER.ALIAS</columns>
+    <columns>WebsiteCountry__c</columns>
     <filterScope>Everything</filterScope>
     <filters>
         <field>OwnerTeam__c</field>
@@ -18,7 +19,7 @@
     <filters>
         <field>ACCOUNT.NAME</field>
         <operation>notEqual</operation>
-        <value>Holding Company for Inactive Contacts</value>
+        <value>Holding Company for Inactive Contacts,COMPANY FOR ARCHIVED CONTACTS</value>
     </filters>
     <label>Middle East</label>
 </ListView>

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <GenAiPromptTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <activeVersionIdentifier>WVN3tZk4o404O8n8M7lvj2vqM7T4xnyoLEatZnrtmCY=_25</activeVersionIdentifier>
     <developerName>Correction_Test</developerName>
     <masterLabel>Typo Assistant Prompt</masterLabel>
     <templateVersions>
@@ -28,6 +29,7 @@ Output Corrected Text:
         </inputs>
         <primaryModel>sfdc_ai__DefaultOpenAIGPT35Turbo</primaryModel>
         <status>Published</status>
+        <versionIdentifier>9+PD0v5/aJmvKUSsaXvgNBPGw/jfKTW77RgqTSMJGuA=_1</versionIdentifier>
     </templateVersions>
     <templateVersions>
         <content>You are tasked with identifying and correcting orthographic errors in a given text.
@@ -55,6 +57,7 @@ Output Corrected Text:
         </inputs>
         <primaryModel>sfdc_ai__DefaultGPT4Omni</primaryModel>
         <status>Published</status>
+        <versionIdentifier>9+PD0v5/aJmvKUSsaXvgNBPGw/jfKTW77RgqTSMJGuA=_2</versionIdentifier>
     </templateVersions>
     <templateVersions>
         <content>You are tasked with identifying and correcting orthographic errors in a given text.
@@ -144,6 +147,7 @@ This enhanced prompt ensures that your corrected text includes visible correctio
         </inputs>
         <primaryModel>sfdc_ai__DefaultGPT4Omni</primaryModel>
         <status>Published</status>
+        <versionIdentifier>9+PD0v5/aJmvKUSsaXvgNBPGw/jfKTW77RgqTSMJGuA=_3</versionIdentifier>
     </templateVersions>
     <templateVersions>
         <content>You are tasked with identifying and correcting orthographic errors in a given text.
@@ -225,6 +229,7 @@ This enhanced prompt ensures that your corrected text includes visible correctio
         </inputs>
         <primaryModel>sfdc_ai__DefaultGPT4Omni</primaryModel>
         <status>Published</status>
+        <versionIdentifier>9+PD0v5/aJmvKUSsaXvgNBPGw/jfKTW77RgqTSMJGuA=_4</versionIdentifier>
     </templateVersions>
     <templateVersions>
         <content>You are tasked with identifying and correcting orthographic errors in a given text.
@@ -307,6 +312,7 @@ This enhanced prompt ensures that your corrected text includes visible correctio
         </inputs>
         <primaryModel>sfdc_ai__DefaultGPT4Omni</primaryModel>
         <status>Published</status>
+        <versionIdentifier>9+PD0v5/aJmvKUSsaXvgNBPGw/jfKTW77RgqTSMJGuA=_5</versionIdentifier>
     </templateVersions>
     <templateVersions>
         <content>You are tasked with identifying and correcting orthographic errors in a given text.
@@ -387,6 +393,7 @@ JSON Output:
         </inputs>
         <primaryModel>sfdc_ai__DefaultGPT4Omni</primaryModel>
         <status>Published</status>
+        <versionIdentifier>9+PD0v5/aJmvKUSsaXvgNBPGw/jfKTW77RgqTSMJGuA=_6</versionIdentifier>
     </templateVersions>
     <templateVersions>
         <content>You are tasked with identifying and correcting orthographic errors in a given text.
@@ -467,6 +474,7 @@ JSON Output:
         </inputs>
         <primaryModel>sfdc_ai__DefaultGPT4Omni</primaryModel>
         <status>Published</status>
+        <versionIdentifier>9+PD0v5/aJmvKUSsaXvgNBPGw/jfKTW77RgqTSMJGuA=_7</versionIdentifier>
     </templateVersions>
     <templateVersions>
         <content>You are tasked with identifying and correcting orthographic errors in a given text.
@@ -547,6 +555,7 @@ JSON Output:
         </inputs>
         <primaryModel>sfdc_ai__DefaultGPT4Omni</primaryModel>
         <status>Published</status>
+        <versionIdentifier>9+PD0v5/aJmvKUSsaXvgNBPGw/jfKTW77RgqTSMJGuA=_8</versionIdentifier>
     </templateVersions>
     <templateVersions>
         <content>You are tasked with identifying and correcting orthographic errors in a given text. Return the output as a clean and valid JSON object.
@@ -597,6 +606,7 @@ Output JSON:
         </inputs>
         <primaryModel>sfdc_ai__DefaultGPT4Omni</primaryModel>
         <status>Published</status>
+        <versionIdentifier>9+PD0v5/aJmvKUSsaXvgNBPGw/jfKTW77RgqTSMJGuA=_9</versionIdentifier>
     </templateVersions>
     <templateVersions>
         <content>You are tasked with identifying and correcting orthographic errors in a given text.
@@ -682,6 +692,7 @@ JSON Output:
         </inputs>
         <primaryModel>sfdc_ai__DefaultGPT4Omni</primaryModel>
         <status>Published</status>
+        <versionIdentifier>9+PD0v5/aJmvKUSsaXvgNBPGw/jfKTW77RgqTSMJGuA=_10</versionIdentifier>
     </templateVersions>
     <templateVersions>
         <content>You are tasked with identifying and correcting orthographic errors in a given text.
@@ -759,6 +770,7 @@ JSON Output:
         </inputs>
         <primaryModel>sfdc_ai__DefaultGPT4Omni</primaryModel>
         <status>Published</status>
+        <versionIdentifier>9+PD0v5/aJmvKUSsaXvgNBPGw/jfKTW77RgqTSMJGuA=_11</versionIdentifier>
     </templateVersions>
     <templateVersions>
         <content>Instructions:
@@ -837,6 +849,7 @@ JSON Output:
         </inputs>
         <primaryModel>sfdc_ai__DefaultGPT4Omni</primaryModel>
         <status>Published</status>
+        <versionIdentifier>9+PD0v5/aJmvKUSsaXvgNBPGw/jfKTW77RgqTSMJGuA=_12</versionIdentifier>
     </templateVersions>
     <templateVersions>
         <content>Instructions:
@@ -915,6 +928,7 @@ JSON Output:
         </inputs>
         <primaryModel>sfdc_ai__DefaultGPT4Omni</primaryModel>
         <status>Published</status>
+        <versionIdentifier>9+PD0v5/aJmvKUSsaXvgNBPGw/jfKTW77RgqTSMJGuA=_13</versionIdentifier>
     </templateVersions>
     <templateVersions>
         <content>You are tasked with identifying and correcting **orthographic errors** in a given text.
@@ -992,6 +1006,7 @@ JSON Output:
         </inputs>
         <primaryModel>sfdc_ai__DefaultGPT4Omni</primaryModel>
         <status>Published</status>
+        <versionIdentifier>9+PD0v5/aJmvKUSsaXvgNBPGw/jfKTW77RgqTSMJGuA=_14</versionIdentifier>
     </templateVersions>
     <templateVersions>
         <content>You are tasked with identifying and correcting only **spelling and orthographic errors** in a given text.
@@ -1047,6 +1062,7 @@ JSON Output:
         </inputs>
         <primaryModel>sfdc_ai__DefaultGPT4Omni</primaryModel>
         <status>Published</status>
+        <versionIdentifier>9+PD0v5/aJmvKUSsaXvgNBPGw/jfKTW77RgqTSMJGuA=_15</versionIdentifier>
     </templateVersions>
     <templateVersions>
         <content>You are tasked with identifying and correcting only **spelling and orthographic errors** in a given text.
@@ -1131,6 +1147,7 @@ JSON Output:
         </inputs>
         <primaryModel>sfdc_ai__DefaultGPT4Omni</primaryModel>
         <status>Published</status>
+        <versionIdentifier>9+PD0v5/aJmvKUSsaXvgNBPGw/jfKTW77RgqTSMJGuA=_16</versionIdentifier>
     </templateVersions>
     <templateVersions>
         <content>You are tasked with identifying and correcting only **spelling and orthographic errors** in a given text.
@@ -1215,6 +1232,7 @@ JSON Output:
         </inputs>
         <primaryModel>sfdc_ai__DefaultGPT4Omni</primaryModel>
         <status>Published</status>
+        <versionIdentifier>9+PD0v5/aJmvKUSsaXvgNBPGw/jfKTW77RgqTSMJGuA=_17</versionIdentifier>
     </templateVersions>
     <templateVersions>
         <content>You are tasked with identifying and correcting only spelling and orthographic errors in a given text.
@@ -1305,6 +1323,7 @@ a Output Format (Strict JSON Specification):
         </inputs>
         <primaryModel>sfdc_ai__DefaultGPT4Omni</primaryModel>
         <status>Published</status>
+        <versionIdentifier>9+PD0v5/aJmvKUSsaXvgNBPGw/jfKTW77RgqTSMJGuA=_18</versionIdentifier>
     </templateVersions>
     <templateVersions>
         <content>You are tasked with identifying and correcting all spelling, orthographic, and grammatical errors in a given text, regardless of its language. This includes errors in subject-verb agreement, gender agreement, number agreement (e.g., plural/singular), and verb conjugation. You must correct incorrect adjective or noun forms that do not match the grammatical context (such as plural adjectives after plural nouns).
@@ -1354,6 +1373,7 @@ Output Format:
         </inputs>
         <primaryModel>sfdc_ai__DefaultGPT4Omni</primaryModel>
         <status>Published</status>
+        <versionIdentifier>WVN3tZk4o404O8n8M7lvj2vqM7T4xnyoLEatZnrtmCY=_19</versionIdentifier>
     </templateVersions>
     <templateVersions>
         <content>You are tasked with identifying and correcting all spelling, orthographic, and grammatical errors in a given text, regardless of its language. This includes errors in subject-verb agreement, gender agreement, number agreement (e.g., plural/singular), and verb conjugation. You must correct incorrect adjective or noun forms that do not match the grammatical context (such as plural adjectives after plural nouns).
@@ -1403,6 +1423,7 @@ Output Format:
         </inputs>
         <primaryModel>sfdc_ai__DefaultGPT4Omni</primaryModel>
         <status>Published</status>
+        <versionIdentifier>WVN3tZk4o404O8n8M7lvj2vqM7T4xnyoLEatZnrtmCY=_21</versionIdentifier>
     </templateVersions>
     <templateVersions>
         <content>You are tasked with identifying and correcting all spelling, orthographic, grammatical, and typographic punctuation and number formatting errors in a given text, regardless of its language.
@@ -1507,6 +1528,7 @@ Output Format (Strict JSON Specification):
         </inputs>
         <primaryModel>sfdc_ai__DefaultGPT4Omni</primaryModel>
         <status>Published</status>
+        <versionIdentifier>WVN3tZk4o404O8n8M7lvj2vqM7T4xnyoLEatZnrtmCY=_22</versionIdentifier>
     </templateVersions>
     <templateVersions>
         <content>You are tasked with identifying and correcting all spelling, orthographic, grammatical, and typographic punctuation and number formatting errors in a given text. You must automatically detect the language of the input and apply the corresponding correction rules without altering the meaning or tone of the text.
@@ -1616,6 +1638,7 @@ Output Format (Strict JSON Specification):
         </inputs>
         <primaryModel>sfdc_ai__DefaultGPT4Omni</primaryModel>
         <status>Published</status>
+        <versionIdentifier>WVN3tZk4o404O8n8M7lvj2vqM7T4xnyoLEatZnrtmCY=_23</versionIdentifier>
     </templateVersions>
     <templateVersions>
         <content>You are tasked with identifying and correcting all spelling, orthographic, grammatical, and typographic punctuation and number formatting errors in a given text. You must automatically detect the language of the input and apply the corresponding correction rules without altering the meaning or tone of the text.
@@ -1665,6 +1688,7 @@ Output Format (Strict JSON Specification):
         </inputs>
         <primaryModel>sfdc_ai__DefaultGPT4Omni</primaryModel>
         <status>Published</status>
+        <versionIdentifier>WVN3tZk4o404O8n8M7lvj2vqM7T4xnyoLEatZnrtmCY=_24</versionIdentifier>
     </templateVersions>
     <templateVersions>
         <content>You are tasked with identifying and correcting all spelling, orthographic, grammatical, and typographic punctuation and number formatting errors in a given text. You must automatically detect the language of the input and apply the corresponding correction rules without altering the meaning or tone of the text.
@@ -1757,6 +1781,7 @@ Output Format (Strict JSON Specification):
         </inputs>
         <primaryModel>sfdc_ai__DefaultGPT4Omni</primaryModel>
         <status>Published</status>
+        <versionIdentifier>WVN3tZk4o404O8n8M7lvj2vqM7T4xnyoLEatZnrtmCY=_25</versionIdentifier>
     </templateVersions>
     <type>einstein_gpt__flex</type>
     <visibility>Global</visibility>

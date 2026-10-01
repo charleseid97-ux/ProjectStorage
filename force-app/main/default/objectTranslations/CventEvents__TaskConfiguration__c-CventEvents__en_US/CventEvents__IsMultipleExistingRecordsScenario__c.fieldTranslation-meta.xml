@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <help><!-- Indicates whether the Task will be created in case of multiple SF prospects has been matched with Cvent contact. --></help>
+    <label><!-- Multiple Match Scenario --></label>
+    <name>CventEvents__IsMultipleExistingRecordsScenario__c</name>
+</CustomFieldTranslation>

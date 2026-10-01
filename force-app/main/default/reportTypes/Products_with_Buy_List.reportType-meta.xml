@@ -42,11 +42,6 @@
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
-            <field>Close_Date__c</field>
-            <table>Product__c</table>
-        </columns>
-        <columns>
-            <checkedByDefault>false</checkedByDefault>
             <field>CreatedBy</field>
             <table>Product__c</table>
         </columns>
@@ -72,32 +67,7 @@
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
-            <field>Fiscal_Year_End__c</field>
-            <table>Product__c</table>
-        </columns>
-        <columns>
-            <checkedByDefault>false</checkedByDefault>
             <field>Fund__c</field>
-            <table>Product__c</table>
-        </columns>
-        <columns>
-            <checkedByDefault>false</checkedByDefault>
-            <field>Fund_Code__c</field>
-            <table>Product__c</table>
-        </columns>
-        <columns>
-            <checkedByDefault>false</checkedByDefault>
-            <field>Start_Date__c</field>
-            <table>Product__c</table>
-        </columns>
-        <columns>
-            <checkedByDefault>false</checkedByDefault>
-            <field>AIFM_Category__c</field>
-            <table>Product__c</table>
-        </columns>
-        <columns>
-            <checkedByDefault>false</checkedByDefault>
-            <field>Investment_Style__c</field>
             <table>Product__c</table>
         </columns>
         <columns>
@@ -117,11 +87,6 @@
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
-            <field>Date_Last_AUM_Available__c</field>
-            <table>Product__c</table>
-        </columns>
-        <columns>
-            <checkedByDefault>false</checkedByDefault>
             <field>LastModifiedBy</field>
             <table>Product__c</table>
         </columns>
@@ -132,32 +97,7 @@
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
-            <field>Legal_Status__c</field>
-            <table>Product__c</table>
-        </columns>
-        <columns>
-            <checkedByDefault>false</checkedByDefault>
-            <field>Morning_Star_Category__c</field>
-            <table>Product__c</table>
-        </columns>
-        <columns>
-            <checkedByDefault>false</checkedByDefault>
-            <field>Portfolio_Cut_Off__c</field>
-            <table>Product__c</table>
-        </columns>
-        <columns>
-            <checkedByDefault>false</checkedByDefault>
             <field>Owner</field>
-            <table>Product__c</table>
-        </columns>
-        <columns>
-            <checkedByDefault>false</checkedByDefault>
-            <field>SAM_Code__c</field>
-            <table>Product__c</table>
-        </columns>
-        <columns>
-            <checkedByDefault>false</checkedByDefault>
-            <field>SAM_PtfId__c</field>
             <table>Product__c</table>
         </columns>
         <columns>
@@ -168,11 +108,6 @@
         <columns>
             <checkedByDefault>false</checkedByDefault>
             <field>Id</field>
-            <table>Product__c</table>
-        </columns>
-        <columns>
-            <checkedByDefault>false</checkedByDefault>
-            <field>Product_Name__c</field>
             <table>Product__c</table>
         </columns>
         <columns>
@@ -192,47 +127,12 @@
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
-            <field>Reference_Indicator__c</field>
-            <table>Product__c</table>
-        </columns>
-        <columns>
-            <checkedByDefault>false</checkedByDefault>
-            <field>Sub_Asset_Class__c</field>
-            <table>Product__c</table>
-        </columns>
-        <columns>
-            <checkedByDefault>false</checkedByDefault>
-            <field>SRI__c</field>
-            <table>Product__c</table>
-        </columns>
-        <columns>
-            <checkedByDefault>false</checkedByDefault>
-            <field>SRRI__c</field>
-            <table>Product__c</table>
-        </columns>
-        <columns>
-            <checkedByDefault>false</checkedByDefault>
             <field>Strategy__c</field>
             <table>Product__c</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
-            <field>Strategy_Code__c</field>
-            <table>Product__c</table>
-        </columns>
-        <columns>
-            <checkedByDefault>false</checkedByDefault>
-            <field>Sub_Asset_Class_Code__c</field>
-            <table>Product__c</table>
-        </columns>
-        <columns>
-            <checkedByDefault>false</checkedByDefault>
             <field>YTD_Net_Flows__c</field>
-            <table>Product__c</table>
-        </columns>
-        <columns>
-            <checkedByDefault>false</checkedByDefault>
-            <field>Date_YTD_Net_Flows__c</field>
             <table>Product__c</table>
         </columns>
         <columns>
@@ -293,6 +193,26 @@
         <columns>
             <checkedByDefault>false</checkedByDefault>
             <field>NoticePeriodSubscription__c</field>
+            <table>Product__c</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>RiskNotConsideredinIndicator__c</field>
+            <table>Product__c</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>Date_Last_AUM_Available__c</field>
+            <table>Product__c</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>Date_YTD_Net_Flows__c</field>
+            <table>Product__c</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>NumberofShareholdersforTraspaso__c</field>
             <table>Product__c</table>
         </columns>
         <masterLabel>Products</masterLabel>

@@ -32,6 +32,7 @@
         <nameSegment>emailSimple</nameSegment>
     </actionCalls>
     <apiVersion>55.0</apiVersion>
+    <areMetricsLoggedToDataCloud>false</areMetricsLoggedToDataCloud>
     <constants>
         <name>EmailSubject</name>
         <dataType>String</dataType>

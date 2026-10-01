@@ -375,6 +375,16 @@
                 <identifier>RecordOriginField</identifier>
             </fieldInstance>
         </itemInstances>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>none</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.Agreement__c</fieldItem>
+                <identifier>RecordAgreement_cField</identifier>
+            </fieldInstance>
+        </itemInstances>
         <name>Facet-a177fd8a-6296-4103-b908-cf15339cc7cd</name>
         <type>Facet</type>
     </flexiPageRegions>
@@ -688,16 +698,6 @@
         <type>Facet</type>
     </flexiPageRegions>
     <flexiPageRegions>
-        <itemInstances>
-            <fieldInstance>
-                <fieldInstanceProperties>
-                    <name>uiBehavior</name>
-                    <value>none</value>
-                </fieldInstanceProperties>
-                <fieldItem>Record.Agreement__c</fieldItem>
-                <identifier>RecordAgreement_cField</identifier>
-            </fieldInstance>
-        </itemInstances>
         <itemInstances>
             <fieldInstance>
                 <fieldInstanceProperties>
@@ -1021,6 +1021,10 @@
         <itemInstances>
             <componentInstance>
                 <componentInstanceProperties>
+                    <name>label</name>
+                    <value>Tabs</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
                     <name>tabs</name>
                     <value>Facet-a3c0ed8b-0413-445c-bd9f-88f0e851ce8f</value>
                 </componentInstanceProperties>
@@ -1224,6 +1228,10 @@
     <flexiPageRegions>
         <itemInstances>
             <componentInstance>
+                <componentInstanceProperties>
+                    <name>label</name>
+                    <value>Tabs</value>
+                </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>tabs</name>
                     <value>Facet-56701fd0-00f6-40b0-9466-a77cf1df55ae</value>

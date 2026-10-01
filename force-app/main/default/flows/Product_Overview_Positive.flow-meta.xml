@@ -34,6 +34,7 @@
         </outputParameters>
     </actionCalls>
     <apiVersion>63.0</apiVersion>
+    <areMetricsLoggedToDataCloud>false</areMetricsLoggedToDataCloud>
     <environments>Default</environments>
     <interviewLabel>Product Overview - Positive {!$Flow.CurrentDateTime}</interviewLabel>
     <label>Product Overview - Positive</label>

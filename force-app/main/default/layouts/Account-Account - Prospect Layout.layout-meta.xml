@@ -385,17 +385,17 @@
     </quickActionList>
     <relatedLists>
         <fields>CONTACT.FULL_NAME</fields>
-        <fields>ContactStatus__c</fields>
-        <fields>JobTitle__c</fields>
-        <fields>JobFunction__c</fields>
-        <fields>CorporateTitle__c</fields>
-        <fields>Business_Card_Title__c</fields>
-        <fields>InfluenceLevel__c</fields>
+        <fields>Contact.ContactStatus__c</fields>
+        <fields>Contact.JobTitle__c</fields>
+        <fields>Contact.JobFunction__c</fields>
+        <fields>Contact.CorporateTitle__c</fields>
+        <fields>Contact.Business_Card_Title__c</fields>
+        <fields>Contact.InfluenceLevel__c</fields>
         <fields>CONTACT.PHONE1</fields>
         <fields>CONTACT.ADDRESS2_CITY</fields>
         <fields>ACCCONRELATION.END_DATE</fields>
         <relatedList>RelatedAccountContactRelationList</relatedList>
-        <sortField>CorporateTitle__c</sortField>
+        <sortField>Contact.CorporateTitle__c</sortField>
         <sortOrder>Asc</sortOrder>
     </relatedLists>
     <relatedLists>

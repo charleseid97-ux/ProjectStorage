@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Flow xmlns="http://soap.sforce.com/2006/04/metadata">
     <apiVersion>61.0</apiVersion>
+    <areMetricsLoggedToDataCloud>false</areMetricsLoggedToDataCloud>
     <description>when the opportunity is linked to a Private Asset product, the flow checks TECH_FlagPEOpp so the opportunity can be shared with PE Team</description>
     <environments>Default</environments>
     <interviewLabel>FL_AfterSave_TECH_FlagPEOpp {!$Flow.CurrentDateTime}</interviewLabel>

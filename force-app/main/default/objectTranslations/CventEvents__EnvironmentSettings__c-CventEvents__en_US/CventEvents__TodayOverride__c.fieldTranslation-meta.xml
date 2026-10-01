@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <help><!-- Overrides the &quot;today&quot; date used by all Aquiva apex code. This includes the date portion of the &quot;now&quot; time. --></help>
+    <label><!-- Today Override --></label>
+    <name>CventEvents__TodayOverride__c</name>
+</CustomFieldTranslation>

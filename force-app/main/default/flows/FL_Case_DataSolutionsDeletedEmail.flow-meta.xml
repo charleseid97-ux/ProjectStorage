@@ -60,6 +60,7 @@
         <offset>0</offset>
     </actionCalls>
     <apiVersion>62.0</apiVersion>
+    <areMetricsLoggedToDataCloud>false</areMetricsLoggedToDataCloud>
     <environments>Default</environments>
     <interviewLabel>FL_Case_DataSolutionsDeletedEmail {!$Flow.CurrentDateTime}</interviewLabel>
     <label>FL_Case_DataSolutionsDeletedEmail</label>

@@ -93,6 +93,10 @@
         <name>AddingAllAlerts</name>
     </customLabels>
     <customLabels>
+        <label><!-- Agreement RecordType DeveloperName.CodeType to Role Mapping --></label>
+        <name>Agreement_RoleMapping</name>
+    </customLabels>
+    <customLabels>
         <label><!-- Success message after agreement submitted for approval --></label>
         <name>Agreement_SubmittedForApproval</name>
     </customLabels>
@@ -177,6 +181,14 @@
         <name>CPGN_Selected_contact</name>
     </customLabels>
     <customLabels>
+        <label><!-- CampaignMember OptOut Blocked Message --></label>
+        <name>CampaignMember_OptOut_BlockedMessage</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- CampaignMember OptOut Post Meeting Types --></label>
+        <name>CampaignMember_OptOut_PostMeetingTypes</name>
+    </customLabels>
+    <customLabels>
         <label><!-- Carmignac Assets Record Type ID --></label>
         <name>CarmignacAssetsRecordTypeID</name>
     </customLabels>
@@ -211,6 +223,10 @@
     <customLabels>
         <label><!-- Due Diligence Error Message --></label>
         <name>Due_Diligence_Error_Message</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- EmailService Default Org-Wide Address --></label>
+        <name>EmailService_DefaultOrgWideAddress</name>
     </customLabels>
     <customLabels>
         <label><!-- ErrorNotSync --></label>
@@ -345,6 +361,10 @@
         <name>Grid_EmailApprovalNotEligible</name>
     </customLabels>
     <customLabels>
+        <label><!-- Error when an Approved Grid has no EndDate while terminating the Agreement --></label>
+        <name>Grid_EndDateRequiredOnTermination</name>
+    </customLabels>
+    <customLabels>
         <label><!-- Error context for grid loading failure --></label>
         <name>Grid_ErrorLoadingGrids</name>
     </customLabels>
@@ -445,6 +465,10 @@
         <name>Grid_IncludedProducts</name>
     </customLabels>
     <customLabels>
+        <label><!-- Warning before a Kind switch discards existing Grid Details/Criteria --></label>
+        <name>Grid_KindSwitchDiscardsChildrenWarning</name>
+    </customLabels>
+    <customLabels>
         <label><!-- Generic label for Grid --></label>
         <name>Grid_Label</name>
     </customLabels>
@@ -519,6 +543,10 @@
     <customLabels>
         <label><!-- Message when no share classes are available to add to the Grid --></label>
         <name>Grid_NoShareClassesToAdd</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Section title for products without a single standard grid --></label>
+        <name>Grid_NoStandardGrid</name>
     </customLabels>
     <customLabels>
         <label><!-- Warning shown when a grid request is already pending approval --></label>
@@ -711,6 +739,18 @@
     <customLabels>
         <label><!-- Warning message for partial import --></label>
         <name>Grid_SomeRowsFailed</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Small caption above the sort toggle options --></label>
+        <name>Grid_SortBy</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Sort toggle option for product sorting --></label>
+        <name>Grid_SortProduct</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Sort toggle option for standard grid sorting --></label>
+        <name>Grid_SortStandardGrid</name>
     </customLabels>
     <customLabels>
         <label><!-- Prefix for sorted column label --></label>
@@ -1173,10 +1213,6 @@
         <name>AI_Toolbox</name>
     </customTabs>
     <customTabs>
-        <label><!-- AUM &amp; NET FLOWS --></label>
-        <name>AUM_NET_FLOWS</name>
-    </customTabs>
-    <customTabs>
         <label><!-- Agreements/Grids - Top Management --></label>
         <name>Agreements_Grids_Top_Management</name>
     </customTabs>
@@ -1227,6 +1263,10 @@
     <customTabs>
         <label><!-- Mobile Home Page --></label>
         <name>Mobile_Home_Page1</name>
+    </customTabs>
+    <customTabs>
+        <label><!-- New Work Together Process --></label>
+        <name>New_Work_Together_Process</name>
     </customTabs>
     <customTabs>
         <label><!-- Opportunity Dashboard --></label>
@@ -1402,14 +1442,6 @@
     <flowDefinitions>
         <flows/>
         <fullName>CampaignMemberToDeleteLead</fullName>
-    </flowDefinitions>
-    <flowDefinitions>
-        <flows>
-            <customErrorMessages>
-                <developerName>Block_Newsletter_Member</developerName>
-            </customErrorMessages>
-        </flows>
-        <fullName>CampaignMember_OptOutValidation</fullName>
     </flowDefinitions>
     <flowDefinitions>
         <flows/>
@@ -2068,8 +2100,11 @@
             </screens>
             <screens>
                 <fields>
-                    <name>DescriptionField</name>
+                    <name>Errormessage2</name>
                 </fields>
+                <name>Error_Screen2</name>
+            </screens>
+            <screens>
                 <fields>
                     <name>Details</name>
                 </fields>
@@ -2086,16 +2121,6 @@
                         <value/>
                     </inputParameters>
                     <name>Details_Column2</name>
-                </fields>
-                <fields>
-                    <name>General_Information</name>
-                </fields>
-                <fields>
-                    <inputParameters>
-                        <name>width</name>
-                        <value/>
-                    </inputParameters>
-                    <name>General_Information_Column1</name>
                 </fields>
                 <fields>
                     <name>Guidelines</name>
@@ -2237,6 +2262,9 @@
             <screens>
                 <fields>
                     <name>Benchmark_Label</name>
+                </fields>
+                <fields>
+                    <name>Benchmark_Long_NameText</name>
                 </fields>
                 <fields>
                     <name>NameCheck</name>
@@ -4051,40 +4079,40 @@
                     <name>Start1</name>
                 </fields>
                 <fields>
-                    <name>el_27</name>
+                    <name>el_0</name>
                 </fields>
                 <fields>
-                    <name>el_28</name>
+                    <name>el_1</name>
                 </fields>
                 <fields>
-                    <name>el_29</name>
+                    <name>el_10</name>
                 </fields>
                 <fields>
-                    <name>el_30</name>
+                    <name>el_11</name>
                 </fields>
                 <fields>
-                    <name>el_31</name>
+                    <name>el_2</name>
                 </fields>
                 <fields>
-                    <name>el_32</name>
+                    <name>el_3</name>
                 </fields>
                 <fields>
-                    <name>el_33</name>
+                    <name>el_4</name>
                 </fields>
                 <fields>
-                    <name>el_34</name>
+                    <name>el_5</name>
                 </fields>
                 <fields>
-                    <name>el_35</name>
+                    <name>el_6</name>
                 </fields>
                 <fields>
-                    <name>el_36</name>
+                    <name>el_7</name>
                 </fields>
                 <fields>
-                    <name>el_37</name>
+                    <name>el_8</name>
                 </fields>
                 <fields>
-                    <name>el_38</name>
+                    <name>el_9</name>
                 </fields>
                 <fields>
                     <name>errmsg2</name>
@@ -4179,40 +4207,40 @@
                     <name>NewMDRequest</name>
                 </fields>
                 <fields>
-                    <name>el_39</name>
+                    <name>el_22</name>
                 </fields>
                 <fields>
-                    <name>el_40</name>
+                    <name>el_23</name>
                 </fields>
                 <fields>
-                    <name>el_41</name>
+                    <name>el_24</name>
                 </fields>
                 <fields>
-                    <name>el_42</name>
+                    <name>el_25</name>
                 </fields>
                 <fields>
-                    <name>el_43</name>
+                    <name>el_26</name>
                 </fields>
                 <fields>
-                    <name>el_44</name>
+                    <name>el_27</name>
                 </fields>
                 <fields>
-                    <name>el_45</name>
+                    <name>el_28</name>
                 </fields>
                 <fields>
-                    <name>el_46</name>
+                    <name>el_29</name>
                 </fields>
                 <fields>
-                    <name>el_47</name>
+                    <name>el_30</name>
                 </fields>
                 <fields>
-                    <name>el_48</name>
+                    <name>el_31</name>
                 </fields>
                 <fields>
-                    <name>el_49</name>
+                    <name>el_32</name>
                 </fields>
                 <fields>
-                    <name>el_50</name>
+                    <name>el_33</name>
                 </fields>
                 <fields>
                     <name>errmsg3</name>
@@ -4329,34 +4357,34 @@
                     <name>attendeesContacts</name>
                 </fields>
                 <fields>
-                    <name>el_0</name>
+                    <name>el_12</name>
                 </fields>
                 <fields>
-                    <name>el_1</name>
+                    <name>el_13</name>
                 </fields>
                 <fields>
-                    <name>el_2</name>
+                    <name>el_14</name>
                 </fields>
                 <fields>
-                    <name>el_3</name>
+                    <name>el_15</name>
                 </fields>
                 <fields>
-                    <name>el_4</name>
+                    <name>el_16</name>
                 </fields>
                 <fields>
-                    <name>el_5</name>
+                    <name>el_17</name>
                 </fields>
                 <fields>
-                    <name>el_6</name>
+                    <name>el_18</name>
                 </fields>
                 <fields>
-                    <name>el_7</name>
+                    <name>el_19</name>
                 </fields>
                 <fields>
-                    <name>el_8</name>
+                    <name>el_20</name>
                 </fields>
                 <fields>
-                    <name>el_9</name>
+                    <name>el_21</name>
                 </fields>
                 <fields>
                     <name>errMsg4</name>
@@ -4382,6 +4410,10 @@
                 <fields>
                     <inputParameters>
                         <name>debug</name>
+                        <value/>
+                    </inputParameters>
+                    <inputParameters>
+                        <name>defaultSpeakerDate</name>
                         <value/>
                     </inputParameters>
                     <inputParameters>
@@ -4494,55 +4526,55 @@
                     <name>Start33</name>
                 </fields>
                 <fields>
-                    <name>el_10</name>
+                    <name>el_34</name>
                 </fields>
                 <fields>
-                    <name>el_11</name>
+                    <name>el_35</name>
                 </fields>
                 <fields>
-                    <name>el_12</name>
+                    <name>el_36</name>
                 </fields>
                 <fields>
-                    <name>el_13</name>
+                    <name>el_37</name>
                 </fields>
                 <fields>
-                    <name>el_14</name>
+                    <name>el_38</name>
                 </fields>
                 <fields>
-                    <name>el_15</name>
+                    <name>el_39</name>
                 </fields>
                 <fields>
-                    <name>el_16</name>
+                    <name>el_40</name>
                 </fields>
                 <fields>
-                    <name>el_17</name>
+                    <name>el_41</name>
                 </fields>
                 <fields>
-                    <name>el_18</name>
+                    <name>el_42</name>
                 </fields>
                 <fields>
-                    <name>el_19</name>
+                    <name>el_43</name>
                 </fields>
                 <fields>
-                    <name>el_20</name>
+                    <name>el_44</name>
                 </fields>
                 <fields>
-                    <name>el_21</name>
+                    <name>el_45</name>
                 </fields>
                 <fields>
-                    <name>el_22</name>
+                    <name>el_46</name>
                 </fields>
                 <fields>
-                    <name>el_23</name>
+                    <name>el_47</name>
                 </fields>
                 <fields>
-                    <name>el_24</name>
+                    <name>el_48</name>
                 </fields>
                 <fields>
-                    <name>el_25</name>
+                    <name>el_49</name>
                 </fields>
                 <fields>
-                    <name>el_26</name>
+                    <name>el_50</name>
                 </fields>
                 <fields>
                     <name>errMsg</name>
@@ -4575,6 +4607,10 @@
                 <fields>
                     <inputParameters>
                         <name>debug</name>
+                        <value/>
+                    </inputParameters>
+                    <inputParameters>
+                        <name>defaultSpeakerDate</name>
                         <value/>
                     </inputParameters>
                     <inputParameters>
@@ -4649,6 +4685,9 @@
                 <name>Custodian</name>
             </choices>
             <choices>
+                <name>Delegated_FX_Investment_Manager</name>
+            </choices>
+            <choices>
                 <name>Delegated_Investment_Management_1</name>
             </choices>
             <choices>
@@ -4656,9 +4695,6 @@
             </choices>
             <choices>
                 <name>Delegated_Investment_Management_3</name>
-            </choices>
-            <choices>
-                <name>Entitled_Man_Comp</name>
             </choices>
             <choices>
                 <name>Fund_Admin</name>
@@ -4670,13 +4706,7 @@
                 <name>Fund_Auditor</name>
             </choices>
             <choices>
-                <name>Investment_Man_Comp_1</name>
-            </choices>
-            <choices>
-                <name>Investment_Man_Comp_2</name>
-            </choices>
-            <choices>
-                <name>Investment_Man_Comp_3</name>
+                <name>ManagementCompany</name>
             </choices>
             <choices>
                 <name>PreCentralAdmin</name>
@@ -4827,6 +4857,10 @@
         <fullName>PMT_AutoName_Registration_Country</fullName>
     </flowDefinitions>
     <flowDefinitions>
+        <flows/>
+        <fullName>PMT_Benchmark_Long_Name_Update</fullName>
+    </flowDefinitions>
+    <flowDefinitions>
         <flows>
             <textTemplates>
                 <name>EmailBodyCreation</name>
@@ -4882,6 +4916,10 @@
         <fullName>PMT_Narratives_After_Trigger</fullName>
     </flowDefinitions>
     <flowDefinitions>
+        <flows/>
+        <fullName>PMT_Narratives_Before_Trigger</fullName>
+    </flowDefinitions>
+    <flowDefinitions>
         <flows>
             <customErrorMessages>
                 <developerName>Error_Message</developerName>
@@ -4922,13 +4960,13 @@
     <flowDefinitions>
         <flows>
             <customErrorMessages>
+                <developerName>Invest_Perf_Error_Message</developerName>
+            </customErrorMessages>
+            <customErrorMessages>
                 <developerName>Legal_Error_Message</developerName>
             </customErrorMessages>
             <customErrorMessages>
                 <developerName>Risk_Error_Message</developerName>
-            </customErrorMessages>
-            <customErrorMessages>
-                <developerName>Invest_Perf_Error_Message</developerName>
             </customErrorMessages>
         </flows>
         <fullName>PMT_PRIIPSValidation_Completed</fullName>
@@ -4985,6 +5023,26 @@
     <flowDefinitions>
         <flows/>
         <fullName>PT_RetrieveProducts</fullName>
+    </flowDefinitions>
+    <flowDefinitions>
+        <flows/>
+        <fullName>PolicyCondition_EHgxgKYipZsndzWBsKLC</fullName>
+    </flowDefinitions>
+    <flowDefinitions>
+        <flows/>
+        <fullName>PolicyCondition_KgtxOMQqfVpjsbjagmAT</fullName>
+    </flowDefinitions>
+    <flowDefinitions>
+        <flows/>
+        <fullName>PolicyCondition_MNuUyQEysoXxZVsnzrRF</fullName>
+    </flowDefinitions>
+    <flowDefinitions>
+        <flows/>
+        <fullName>PolicyCondition_VxuRFBKMpPIkXXJHRpvv</fullName>
+    </flowDefinitions>
+    <flowDefinitions>
+        <flows/>
+        <fullName>PolicyCondition_tZOvbgPzeCSTqmlrHlFi</fullName>
     </flowDefinitions>
     <flowDefinitions>
         <flows/>
@@ -5179,6 +5237,10 @@
     <flowDefinitions>
         <flows/>
         <fullName>ShareClass_PB001_ClosureDate</fullName>
+    </flowDefinitions>
+    <flowDefinitions>
+        <flows/>
+        <fullName>Share_Class_Status_Update</fullName>
     </flowDefinitions>
     <flowDefinitions>
         <flows/>
@@ -7768,10 +7830,6 @@
             <columns>
                 <label><!-- Quantity --></label>
                 <name>Quantity</name>
-            </columns>
-            <columns>
-                <label><!-- Regional Focus --></label>
-                <name>Regional Focus</name>
             </columns>
             <columns>
                 <label><!-- Share Class --></label>
@@ -14791,6 +14849,19 @@
         </sections>
     </reportTypes>
     <reportTypes>
+        <description><!-- PMT – Project Products &amp; Share Classes --></description>
+        <label><!-- PMT – Project Products &amp; Share Classes --></label>
+        <name>PMT_Project_Products_Share_Classes</name>
+        <sections>
+            <label><!-- Product Management Tool --></label>
+            <name>Product Management Tool</name>
+        </sections>
+        <sections>
+            <label><!-- ProjectShareclasses --></label>
+            <name>ProjectShareclasses</name>
+        </sections>
+    </reportTypes>
+    <reportTypes>
         <description><!-- PRP Product --></description>
         <label><!-- PRP Product --></label>
         <name>PRP_Product</name>
@@ -14858,6 +14929,23 @@
         <sections>
             <label><!-- Product Cycle --></label>
             <name>Product Cycle</name>
+        </sections>
+    </reportTypes>
+    <reportTypes>
+        <description><!-- Product Management Tool with ProjectShareclasses with Project Contribution at Shareclass level --></description>
+        <label><!-- Product Management Tool with ProjectShareclasses with Project Contribution at Shareclass level --></label>
+        <name>Product_Management_Tool_with_ProjectShareclasses_with_Project_Contribution_at</name>
+        <sections>
+            <label><!-- Product Management Tool --></label>
+            <name>Product Management Tool</name>
+        </sections>
+        <sections>
+            <label><!-- Project Contribution at Shareclass level --></label>
+            <name>Project Contribution at Shareclass level</name>
+        </sections>
+        <sections>
+            <label><!-- ProjectShareclasses --></label>
+            <name>ProjectShareclasses</name>
         </sections>
     </reportTypes>
     <reportTypes>
@@ -16254,6 +16342,19 @@
                 <label><!-- Yoda Publication --></label>
                 <name>Yoda Publication</name>
             </columns>
+            <label><!-- Work Together Processes --></label>
+            <name>Work Together Processes</name>
+        </sections>
+    </reportTypes>
+    <reportTypes>
+        <description><!-- WTP and Report Delivery History --></description>
+        <label><!-- WTP and Report Delivery History --></label>
+        <name>WTP_and_Report_Delivery_History</name>
+        <sections>
+            <label><!-- Report Delivery Histories --></label>
+            <name>Report Delivery Histories</name>
+        </sections>
+        <sections>
             <label><!-- Work Together Processes --></label>
             <name>Work Together Processes</name>
         </sections>

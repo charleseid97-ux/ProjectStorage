@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <help><!-- Indicates whether the Opportunity will be created in case of a single SF prospect has been matched with Cvent contact. --></help>
+    <label><!-- Single Match Scenario --></label>
+    <name>CventEvents__IsExistingRecordScenario__c</name>
+</CustomFieldTranslation>

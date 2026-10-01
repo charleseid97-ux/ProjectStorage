@@ -4,12 +4,10 @@
     <active>true</active>
     <description>When an agreement is set to terminated, the terminated date and grid end date must be entered</description>
     <errorConditionFormula>AND(
-NOT($User.BypassValidationRules__c),
-ISCHANGED(Status__c),
-ISPICKVAL(Status__c, &apos;Terminated&apos;),
-ISBLANK(Cancellation_Date__c),
-ISBLANK(ExpirationDate__c)
-
+    NOT($User.BypassValidationRules__c),
+    ISCHANGED(Status__c),
+    ISPICKVAL(Status__c, &apos;Terminated&apos;),
+    ISBLANK(Cancellation_Date__c)
 )</errorConditionFormula>
     <errorMessage>Termination Date and Grid End Date required when status is Terminated</errorMessage>
 </ValidationRule>

@@ -137,6 +137,7 @@
         <offset>0</offset>
     </actionCalls>
     <apiVersion>63.0</apiVersion>
+    <areMetricsLoggedToDataCloud>false</areMetricsLoggedToDataCloud>
     <decisions>
         <name>Check_if_Benchmark_Name_has_changed_since_last_Email</name>
         <label>Check if Benchmark Name has changed since last Email</label>

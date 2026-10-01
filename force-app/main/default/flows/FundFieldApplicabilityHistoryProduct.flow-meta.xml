@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Flow xmlns="http://soap.sforce.com/2006/04/metadata">
     <apiVersion>65.0</apiVersion>
+    <areMetricsLoggedToDataCloud>false</areMetricsLoggedToDataCloud>
     <choices>
         <description>Belgium TS Label Date</description>
         <name>BelgiumTSLabelDate</name>
@@ -55,6 +56,12 @@
             <stringValue>SFDRcategory__c</stringValue>
         </value>
     </choices>
+    <customProperties>
+        <name>ScreenProgressIndicator</name>
+        <value>
+            <stringValue>{&quot;location&quot;:&quot;top&quot;,&quot;type&quot;:&quot;simple&quot;}</stringValue>
+        </value>
+    </customProperties>
     <environments>Default</environments>
     <interviewLabel>Fund_Field_ApplicabilityHistoryFlow {!$Flow.CurrentDateTime}</interviewLabel>
     <label>Fund Field History Product</label>
@@ -129,6 +136,14 @@
             <fieldType>DropdownBox</fieldType>
             <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
             <isRequired>false</isRequired>
+            <styleProperties>
+                <verticalAlignment>
+                    <stringValue>top</stringValue>
+                </verticalAlignment>
+                <width>
+                    <stringValue>12</stringValue>
+                </width>
+            </styleProperties>
         </fields>
         <showFooter>true</showFooter>
         <showHeader>false</showHeader>
@@ -175,7 +190,10 @@
             </inputParameters>
             <inputParameters>
                 <name>keyField</name>
-                <value/>
+                <value>
+                    <complexValue>{&quot;dataType&quot;:&quot;SObject&quot;,&quot;objectType&quot;:&quot;Fund_Field_ApplicabilityHistory__c&quot;,&quot;fieldReferences&quot;:[&quot;Id&quot;],&quot;elementReference&quot;:&quot;Get_Histoy&quot;}</complexValue>
+                    <complexValueType>ComplexObjectFieldDetails</complexValueType>
+                </value>
             </inputParameters>
             <inputParameters>
                 <name>isShowSearchBar</name>
@@ -191,7 +209,10 @@
             </inputParameters>
             <inputParameters>
                 <name>columnReferences</name>
-                <value/>
+                <value>
+                    <complexValue>{&quot;dataType&quot;:&quot;SObject&quot;,&quot;objectType&quot;:&quot;Fund_Field_ApplicabilityHistory__c&quot;,&quot;fieldReferences&quot;:[&quot;Field_Name__c&quot;,&quot;Old_Value__c&quot;,&quot;New_Value__c&quot;,&quot;Start_Date__c&quot;,&quot;End_Date__c&quot;,&quot;User_name__c&quot;,&quot;Source__c&quot;],&quot;elementReference&quot;:&quot;Get_Histoy&quot;}</complexValue>
+                    <complexValueType>ComplexObjectFieldDetails</complexValueType>
+                </value>
             </inputParameters>
             <inputParameters>
                 <name>maxRowSelection</name>
@@ -202,6 +223,14 @@
             <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
             <isRequired>true</isRequired>
             <storeOutputAutomatically>true</storeOutputAutomatically>
+            <styleProperties>
+                <verticalAlignment>
+                    <stringValue>top</stringValue>
+                </verticalAlignment>
+                <width>
+                    <stringValue>12</stringValue>
+                </width>
+            </styleProperties>
         </fields>
         <showFooter>true</showFooter>
         <showHeader>false</showHeader>

@@ -2209,6 +2209,10 @@
             <fullName>Reporting Model 1 FFI</fullName>
             <default>false</default>
         </values>
+        <values>
+            <fullName>Sponsored FFI</fullName>
+            <default>false</default>
+        </values>
     </picklistValues>
     <picklistValues>
         <picklist>FXRiskHedging__c</picklist>
@@ -2595,15 +2599,15 @@
     <picklistValues>
         <picklist>LiquidityManagementToolLMT__c</picklist>
         <values>
-            <fullName>Exceptional Redemption Fees %28attention frais différent du champ Redemption Fees existant%29</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Extension Notice Period %28attention différent de la Notice Period existante dans Product Catalog%29</fullName>
+            <fullName>Extension Notice Period</fullName>
             <default>false</default>
         </values>
         <values>
             <fullName>Gates</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Redemption Fees</fullName>
             <default>false</default>
         </values>
         <values>
@@ -3037,6 +3041,33 @@
         </values>
         <values>
             <fullName>Volatility risk</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>RiskNotConsideredinIndicator__c</picklist>
+        <values>
+            <fullName>Counterparty risk</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Credit risk</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Liquidity risk</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Pooled investments in secondaries risk</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Risk of capital loss</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Risks associated with China</fullName>
             <default>false</default>
         </values>
     </picklistValues>

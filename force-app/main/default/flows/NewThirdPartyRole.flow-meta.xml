@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Flow xmlns="http://soap.sforce.com/2006/04/metadata">
     <apiVersion>63.0</apiVersion>
+    <areMetricsLoggedToDataCloud>false</areMetricsLoggedToDataCloud>
     <assignments>
         <name>AssignmentValues</name>
         <label>Assignment Values</label>
@@ -68,18 +69,18 @@
     </assignments>
     <choices>
         <name>Central_Admin1</name>
-        <choiceText>Central Admin 1</choiceText>
+        <choiceText>Central Admin</choiceText>
         <dataType>String</dataType>
         <value>
-            <stringValue>Central Admin 1</stringValue>
+            <stringValue>Central Admin</stringValue>
         </value>
     </choices>
     <choices>
         <name>Central_Admin2</name>
-        <choiceText>Central Admin 2</choiceText>
+        <choiceText>Central_Admin2</choiceText>
         <dataType>String</dataType>
         <value>
-            <stringValue>Central Admin 2</stringValue>
+            <stringValue>Central_Admin2</stringValue>
         </value>
     </choices>
     <choices>
@@ -91,89 +92,73 @@
         </value>
     </choices>
     <choices>
-        <name>Delegated_Investment_Management_1</name>
-        <choiceText>Delegated Investment Management 1</choiceText>
+        <name>Delegated_FX_Investment_Manager</name>
+        <choiceText>Delegated_FX_Investment_Manager</choiceText>
         <dataType>String</dataType>
         <value>
-            <stringValue>Delegated Investment Management 1</stringValue>
+            <stringValue>Delegated_FX_Investment_Manager</stringValue>
+        </value>
+    </choices>
+    <choices>
+        <name>Delegated_Investment_Management_1</name>
+        <choiceText>Delegated_Investment_Management_1</choiceText>
+        <dataType>String</dataType>
+        <value>
+            <stringValue>Delegated_Investment_Management_1</stringValue>
         </value>
     </choices>
     <choices>
         <description>Delegated_Investment_Management_2</description>
         <name>Delegated_Investment_Management_2</name>
-        <choiceText>Delegated_Investment_Management 2</choiceText>
+        <choiceText>Delegated_Investment_Management_2</choiceText>
         <dataType>String</dataType>
         <value>
-            <stringValue>Delegated Investment Management 2</stringValue>
+            <stringValue>Delegated_Investment_Management_2</stringValue>
         </value>
     </choices>
     <choices>
         <name>Delegated_Investment_Management_3</name>
-        <choiceText>Delegated_Investment_Management 3</choiceText>
+        <choiceText>Delegated_Investment_Management_3</choiceText>
         <dataType>String</dataType>
         <value>
             <stringValue>Delegated_Investment_Management_3</stringValue>
         </value>
     </choices>
     <choices>
-        <name>Entitled_Man_Comp</name>
-        <choiceText>Entitled Man Comp</choiceText>
-        <dataType>String</dataType>
-        <value>
-            <stringValue>Entitled Man Comp</stringValue>
-        </value>
-    </choices>
-    <choices>
         <name>Fund_Admin</name>
-        <choiceText>Fund Admin</choiceText>
+        <choiceText>FundAdmin</choiceText>
         <dataType>String</dataType>
         <value>
-            <stringValue>Fund Admin</stringValue>
+            <stringValue>FundAdmin</stringValue>
         </value>
     </choices>
     <choices>
         <name>Fund_Advisor</name>
-        <choiceText>Fund Advisor</choiceText>
+        <choiceText>FundAdvisor</choiceText>
         <dataType>String</dataType>
         <value>
-            <stringValue>Fund Advisor</stringValue>
+            <stringValue>FundAdvisor</stringValue>
         </value>
     </choices>
     <choices>
         <name>Fund_Auditor</name>
-        <choiceText>Fund Auditor</choiceText>
+        <choiceText>FundAuditor</choiceText>
         <dataType>String</dataType>
         <value>
-            <stringValue>Fund Auditor</stringValue>
+            <stringValue>FundAuditor</stringValue>
         </value>
     </choices>
     <choices>
-        <name>Investment_Man_Comp_1</name>
-        <choiceText>Investment Man Comp 1</choiceText>
+        <name>ManagementCompany</name>
+        <choiceText>ManagementCompany</choiceText>
         <dataType>String</dataType>
         <value>
-            <stringValue>Investment Man Comp 1</stringValue>
-        </value>
-    </choices>
-    <choices>
-        <name>Investment_Man_Comp_2</name>
-        <choiceText>Investment Man Comp 2</choiceText>
-        <dataType>String</dataType>
-        <value>
-            <stringValue>Investment Man Comp 2</stringValue>
-        </value>
-    </choices>
-    <choices>
-        <name>Investment_Man_Comp_3</name>
-        <choiceText>Investment Man Comp 3</choiceText>
-        <dataType>String</dataType>
-        <value>
-            <stringValue>Investment Man Comp 3</stringValue>
+            <stringValue>ManagementCompany</stringValue>
         </value>
     </choices>
     <choices>
         <name>PreCentralAdmin</name>
-        <choiceText>&lt;span style=&quot;font-size: inherit;&quot;&gt;Pre-central admin&lt;/span&gt;</choiceText>
+        <choiceText>Pre-central admin</choiceText>
         <dataType>String</dataType>
         <value>
             <stringValue>Pre-central admin</stringValue>
@@ -181,18 +166,18 @@
     </choices>
     <choices>
         <name>Prime_Transfer_Agent</name>
-        <choiceText>&lt;span style=&quot;font-size: 14.6667px; font-family: &amp;quot;Aptos Narrow&amp;quot;, sans-serif; color: rgb(0, 0, 0);&quot;&gt;Prime Transfer Agent&lt;/span&gt;</choiceText>
+        <choiceText>Prime_Agent</choiceText>
         <dataType>String</dataType>
         <value>
-            <stringValue>Prime Transfer Agent</stringValue>
+            <stringValue>Prime_Agent</stringValue>
         </value>
     </choices>
     <choices>
         <name>Transfer_Agent</name>
-        <choiceText>Transfer Agent</choiceText>
+        <choiceText>TransferAgent</choiceText>
         <dataType>String</dataType>
         <value>
-            <stringValue>Transfer Agent</stringValue>
+            <stringValue>TransferAgent</stringValue>
         </value>
     </choices>
     <description>This Screen Flow is used within the Product Management Tool (PMT) to assign a Third Party and its corresponding role to a PMT project.
@@ -286,27 +271,33 @@ The association is initially made at the project level only. Once the project re
                 <fieldType>Region</fieldType>
                 <fields>
                     <name>Role</name>
-                    <choiceReferences>Transfer_Agent</choiceReferences>
-                    <choiceReferences>Fund_Admin</choiceReferences>
-                    <choiceReferences>Custodian</choiceReferences>
-                    <choiceReferences>Fund_Auditor</choiceReferences>
-                    <choiceReferences>Fund_Advisor</choiceReferences>
-                    <choiceReferences>Entitled_Man_Comp</choiceReferences>
-                    <choiceReferences>Investment_Man_Comp_1</choiceReferences>
-                    <choiceReferences>Investment_Man_Comp_2</choiceReferences>
-                    <choiceReferences>Investment_Man_Comp_3</choiceReferences>
-                    <choiceReferences>Prime_Transfer_Agent</choiceReferences>
                     <choiceReferences>Central_Admin1</choiceReferences>
                     <choiceReferences>Central_Admin2</choiceReferences>
+                    <choiceReferences>Custodian</choiceReferences>
+                    <choiceReferences>Delegated_FX_Investment_Manager</choiceReferences>
                     <choiceReferences>Delegated_Investment_Management_1</choiceReferences>
                     <choiceReferences>Delegated_Investment_Management_2</choiceReferences>
                     <choiceReferences>Delegated_Investment_Management_3</choiceReferences>
+                    <choiceReferences>Fund_Admin</choiceReferences>
+                    <choiceReferences>Fund_Advisor</choiceReferences>
+                    <choiceReferences>Fund_Auditor</choiceReferences>
+                    <choiceReferences>ManagementCompany</choiceReferences>
                     <choiceReferences>PreCentralAdmin</choiceReferences>
+                    <choiceReferences>Prime_Transfer_Agent</choiceReferences>
+                    <choiceReferences>Transfer_Agent</choiceReferences>
                     <dataType>String</dataType>
                     <fieldText>Role</fieldText>
                     <fieldType>DropdownBox</fieldType>
                     <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
                     <isRequired>true</isRequired>
+                    <styleProperties>
+                        <verticalAlignment>
+                            <stringValue>top</stringValue>
+                        </verticalAlignment>
+                        <width>
+                            <stringValue>12</stringValue>
+                        </width>
+                    </styleProperties>
                 </fields>
                 <inputParameters>
                     <name>width</name>
@@ -350,6 +341,14 @@ The association is initially made at the project level only. Once the project re
                     <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
                     <isRequired>true</isRequired>
                     <storeOutputAutomatically>true</storeOutputAutomatically>
+                    <styleProperties>
+                        <verticalAlignment>
+                            <stringValue>top</stringValue>
+                        </verticalAlignment>
+                        <width>
+                            <stringValue>12</stringValue>
+                        </width>
+                    </styleProperties>
                 </fields>
                 <inputParameters>
                     <name>width</name>
@@ -361,6 +360,14 @@ The association is initially made at the project level only. Once the project re
             </fields>
             <isRequired>false</isRequired>
             <regionContainerType>SectionWithoutHeader</regionContainerType>
+            <styleProperties>
+                <verticalAlignment>
+                    <stringValue>top</stringValue>
+                </verticalAlignment>
+                <width>
+                    <stringValue>12</stringValue>
+                </width>
+            </styleProperties>
         </fields>
         <nextOrFinishButtonLabel>Save</nextOrFinishButtonLabel>
         <showFooter>true</showFooter>

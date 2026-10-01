@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Flow xmlns="http://soap.sforce.com/2006/04/metadata" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <apiVersion>51.0</apiVersion>
+    <areMetricsLoggedToDataCloud>false</areMetricsLoggedToDataCloud>
     <assignments>
         <name>Assign_KYD_Document</name>
         <label>Assign KYD Document</label>
@@ -491,7 +492,7 @@
             <field>CollectiveFunds_personality__c</field>
             <operator>EqualTo</operator>
             <value>
-                <elementReference>CollectiveFundswithlegalpersonality</elementReference>
+                <elementReference>Collective_Funds_with_legal_personality</elementReference>
             </value>
         </filters>
         <filters>
@@ -606,6 +607,14 @@
             <fieldType>DropdownBox</fieldType>
             <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
             <isRequired>true</isRequired>
+            <styleProperties>
+                <verticalAlignment>
+                    <stringValue>top</stringValue>
+                </verticalAlignment>
+                <width>
+                    <stringValue>12</stringValue>
+                </width>
+            </styleProperties>
         </fields>
         <fields>
             <name>KYD_Responsible_Details</name>
@@ -613,6 +622,14 @@
             <fieldType>LargeTextArea</fieldType>
             <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
             <isRequired>false</isRequired>
+            <styleProperties>
+                <verticalAlignment>
+                    <stringValue>top</stringValue>
+                </verticalAlignment>
+                <width>
+                    <stringValue>12</stringValue>
+                </width>
+            </styleProperties>
         </fields>
         <fields>
             <name>EntityType</name>
@@ -622,6 +639,14 @@
             <fieldType>DropdownBox</fieldType>
             <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
             <isRequired>true</isRequired>
+            <styleProperties>
+                <verticalAlignment>
+                    <stringValue>top</stringValue>
+                </verticalAlignment>
+                <width>
+                    <stringValue>12</stringValue>
+                </width>
+            </styleProperties>
             <visibilityRule>
                 <conditionLogic>and</conditionLogic>
                 <conditions>
@@ -641,6 +666,14 @@
             <fieldType>DropdownBox</fieldType>
             <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
             <isRequired>true</isRequired>
+            <styleProperties>
+                <verticalAlignment>
+                    <stringValue>top</stringValue>
+                </verticalAlignment>
+                <width>
+                    <stringValue>12</stringValue>
+                </width>
+            </styleProperties>
             <visibilityRule>
                 <conditionLogic>1 AND 2</conditionLogic>
                 <conditions>
@@ -669,6 +702,14 @@
             <fieldType>DropdownBox</fieldType>
             <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
             <isRequired>true</isRequired>
+            <styleProperties>
+                <verticalAlignment>
+                    <stringValue>top</stringValue>
+                </verticalAlignment>
+                <width>
+                    <stringValue>12</stringValue>
+                </width>
+            </styleProperties>
             <visibilityRule>
                 <conditionLogic>and</conditionLogic>
                 <conditions>
@@ -695,6 +736,14 @@
             <name>ErrorMessage</name>
             <fieldText>&lt;p&gt;&lt;span style=&quot;color: rgb(178, 34, 34); font-size: 16px;&quot;&gt;There is no Legal Entity associated with this Agreement&lt;/span&gt;&lt;/p&gt;</fieldText>
             <fieldType>DisplayText</fieldType>
+            <styleProperties>
+                <verticalAlignment>
+                    <stringValue>top</stringValue>
+                </verticalAlignment>
+                <width>
+                    <stringValue>12</stringValue>
+                </width>
+            </styleProperties>
         </fields>
         <showFooter>true</showFooter>
         <showHeader>false</showHeader>
@@ -711,6 +760,14 @@
             <name>ErrorCreateKYDOverisght</name>
             <fieldText>&lt;p&gt;&lt;span style=&quot;color: rgb(244, 4, 4);&quot;&gt;&amp;nbsp;{!$Flow.FaultMessage}&amp;nbsp;&lt;/span&gt;&lt;/p&gt;</fieldText>
             <fieldType>DisplayText</fieldType>
+            <styleProperties>
+                <verticalAlignment>
+                    <stringValue>top</stringValue>
+                </verticalAlignment>
+                <width>
+                    <stringValue>12</stringValue>
+                </width>
+            </styleProperties>
         </fields>
         <showFooter>true</showFooter>
         <showHeader>true</showHeader>
@@ -727,6 +784,14 @@
             <name>FlowCreateKYDDocError</name>
             <fieldText>&lt;p&gt;&lt;span style=&quot;color: rgb(250, 0, 0);&quot;&gt;&amp;nbsp;{!$Flow.FaultMessage}&amp;nbsp;&lt;/span&gt;&lt;/p&gt;</fieldText>
             <fieldType>DisplayText</fieldType>
+            <styleProperties>
+                <verticalAlignment>
+                    <stringValue>top</stringValue>
+                </verticalAlignment>
+                <width>
+                    <stringValue>12</stringValue>
+                </width>
+            </styleProperties>
         </fields>
         <showFooter>true</showFooter>
         <showHeader>true</showHeader>
@@ -743,6 +808,14 @@
             <name>ErrorAgreement</name>
             <fieldText>&lt;p&gt;&lt;span style=&quot;background-color: rgb(255, 255, 255); color: rgb(247, 0, 0);&quot;&gt;&amp;nbsp;{!$Flow.FaultMessage}&amp;nbsp;&lt;/span&gt;&lt;span style=&quot;background-color: rgb(255, 255, 255); color: rgb(0, 0, 0);&quot;&gt;&lt;span class=&quot;ql-cursor&quot;&gt;﻿&lt;/span&gt;&lt;/span&gt;&lt;/p&gt;</fieldText>
             <fieldType>DisplayText</fieldType>
+            <styleProperties>
+                <verticalAlignment>
+                    <stringValue>top</stringValue>
+                </verticalAlignment>
+                <width>
+                    <stringValue>12</stringValue>
+                </width>
+            </styleProperties>
         </fields>
         <showFooter>true</showFooter>
         <showHeader>true</showHeader>
@@ -759,6 +832,14 @@
             <name>MessageInfo</name>
             <fieldText>&lt;p&gt;&lt;span style=&quot;font-family: sans-serif; color: rgb(0, 0, 0); font-size: 16px;&quot;&gt;New KYD Due Diligence has been created successfully:&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;br&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;font-family: sans-serif; font-size: 16px; color: rgb(0, 0, 0);&quot;&gt;﻿Click on the following link to access it:&lt;/span&gt;&lt;span style=&quot;font-family: sans-serif; font-size: 16px; color: rgb(80, 75, 215);&quot;&gt; &lt;/span&gt;&lt;a href=&quot;/{!KYD_Create}&quot; rel=&quot;noopener noreferrer&quot; target=&quot;_blank&quot; style=&quot;font-family: sans-serif; font-size: 16px; color: rgb(0, 0, 0);&quot;&gt;&lt;b&gt;&lt;u&gt;{!getKYDCheckList.Name}&lt;/u&gt;&lt;/b&gt;&lt;/a&gt;&lt;/p&gt;</fieldText>
             <fieldType>DisplayText</fieldType>
+            <styleProperties>
+                <verticalAlignment>
+                    <stringValue>top</stringValue>
+                </verticalAlignment>
+                <width>
+                    <stringValue>12</stringValue>
+                </width>
+            </styleProperties>
         </fields>
         <showFooter>true</showFooter>
         <showHeader>false</showHeader>
@@ -775,6 +856,14 @@
             <name>Warning</name>
             <fieldText>&lt;p&gt;&lt;span style=&quot;font-family: Roboto, sans-serif; font-size: 14px; background-color: rgb(248, 249, 250); color: rgb(32, 33, 36);&quot;&gt;﻿&lt;/span&gt;&lt;span style=&quot;font-size: 14px; background-color: rgb(248, 249, 250); color: rgb(178, 34, 34);&quot;&gt;W&lt;/span&gt;&lt;span style=&quot;font-size: 16px; background-color: rgb(248, 249, 250); color: rgb(178, 34, 34);&quot;&gt;arning: this agreement already has a KYD Due Diligence associated please check it before creating a new one&lt;/span&gt;&lt;/p&gt;</fieldText>
             <fieldType>DisplayText</fieldType>
+            <styleProperties>
+                <verticalAlignment>
+                    <stringValue>top</stringValue>
+                </verticalAlignment>
+                <width>
+                    <stringValue>12</stringValue>
+                </width>
+            </styleProperties>
         </fields>
         <showFooter>true</showFooter>
         <showHeader>true</showHeader>

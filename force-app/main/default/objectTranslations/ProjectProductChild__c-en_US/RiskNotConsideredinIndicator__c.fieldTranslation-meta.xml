@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <label><!-- Risk Not Considered in Indicator --></label>
+    <name>RiskNotConsideredinIndicator__c</name>
+    <picklistValues>
+        <masterLabel>Counterparty risk</masterLabel>
+        <translation><!-- Counterparty risk --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Credit risk</masterLabel>
+        <translation><!-- Credit risk --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Liquidity risk</masterLabel>
+        <translation><!-- Liquidity risk --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Pooled investments in secondaries risk</masterLabel>
+        <translation><!-- Pooled investments in secondaries risk --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Risk of capital loss</masterLabel>
+        <translation><!-- Risk of capital loss --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Risks associated with China</masterLabel>
+        <translation><!-- Risks associated with China --></translation>
+    </picklistValues>
+</CustomFieldTranslation>

@@ -1,5 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <PermissionSet xmlns="http://soap.sforce.com/2006/04/metadata">
+    <agentAccesses>
+        <agentName>Chat_GPT</agentName>
+        <enabled>true</enabled>
+    </agentAccesses>
+    <agentAccesses>
+        <agentName>Claude</agentName>
+        <enabled>true</enabled>
+    </agentAccesses>
+    <agentAccesses>
+        <agentName>Gemini</agentName>
+        <enabled>true</enabled>
+    </agentAccesses>
     <hasActivationRequired>false</hasActivationRequired>
     <label>External Agent Access</label>
 </PermissionSet>

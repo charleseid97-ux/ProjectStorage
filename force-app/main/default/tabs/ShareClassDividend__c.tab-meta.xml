@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomTab xmlns="http://soap.sforce.com/2006/04/metadata">
+    <customObject>true</customObject>
+    <description>Stores the dividend distribution history for each Share Class, including record date, ex-dividend date, payment date, dividend amount, currency and distribution frequency. Data is sourced from VOM and loaded by Data Integration.</description>
+    <motif>Custom3: Sun</motif>
+</CustomTab>

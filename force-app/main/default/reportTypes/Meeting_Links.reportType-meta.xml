@@ -158,11 +158,6 @@
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
-            <field>Product__c.Product_Name__c</field>
-            <table>Meeting_Link__c</table>
-        </columns>
-        <columns>
-            <checkedByDefault>false</checkedByDefault>
             <field>Account__c.BusinessDevelopmentRegion__c</field>
             <table>Meeting_Link__c</table>
         </columns>

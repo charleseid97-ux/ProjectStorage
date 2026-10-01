@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <help><!-- Must match the DeveloperName of an existing Email Template. No alert email is sent if this is left blank. --></help>
+    <label><!-- Alert Email Template Developer Name --></label>
+    <name>AlertEmailTemplateDeveloperName__c</name>
+</CustomFieldTranslation>

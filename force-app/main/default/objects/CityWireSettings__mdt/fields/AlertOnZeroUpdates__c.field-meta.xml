@@ -3,7 +3,6 @@
     <fullName>AlertOnZeroUpdates__c</fullName>
     <defaultValue>true</defaultValue>
     <description>When true, sends an alert email if a Citywire run updates zero FundManager__c records.</description>
-    <externalId>false</externalId>
     <fieldManageability>DeveloperControlled</fieldManageability>
     <inlineHelpText>Enable to be notified when a run completes without updating any FundManager__c record, which usually indicates a broken credential or endpoint even though individual callouts succeeded.</inlineHelpText>
     <label>Alert On Zero Updates</label>

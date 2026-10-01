@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObjectTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <caseValues>
+        <plural>false</plural>
+        <value>Cvent Survey Program</value>
+    </caseValues>
+    <caseValues>
+        <plural>true</plural>
+        <value>Cvent Survey Programs</value>
+    </caseValues>
+    <startsWith>Consonant</startsWith>
+    <webLinks>
+        <label><!-- ChangeStatus --></label>
+        <name>CventEvents__ChangeStatus</name>
+    </webLinks>
+    <webLinks>
+        <label><!-- SyncRespondentData --></label>
+        <name>CventEvents__SyncRespondentData</name>
+    </webLinks>
+    <webLinks>
+        <label><!-- ViewDataTransfer --></label>
+        <name>CventEvents__ViewDataTransfer</name>
+    </webLinks>
+</CustomObjectTranslation>

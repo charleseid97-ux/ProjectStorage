@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <label><!-- Status --></label>
+    <name>CventEvents__Status__c</name>
+    <picklistValues>
+        <masterLabel>Accepted</masterLabel>
+        <translation><!-- Accepted --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Cancelled</masterLabel>
+        <translation><!-- Cancelled --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Declined</masterLabel>
+        <translation><!-- Declined --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Denied Approval</masterLabel>
+        <translation><!-- Denied Approval --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Invitation Bounced</masterLabel>
+        <translation><!-- Invitation Bounced --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Invitation Not Sent</masterLabel>
+        <translation><!-- Invitation Not Sent --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Invitation Opened</masterLabel>
+        <translation><!-- Invitation Opened --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Invitation Pending</masterLabel>
+        <translation><!-- Invitation Pending --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Invitation Sent</masterLabel>
+        <translation><!-- Invitation Sent --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>No Response</masterLabel>
+        <translation><!-- No Response --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Nomination Approved</masterLabel>
+        <translation><!-- Nomination Approved --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Nomination Cancelled</masterLabel>
+        <translation><!-- Nomination Cancelled --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Nomination Denied</masterLabel>
+        <translation><!-- Nomination Denied --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Nomination Pending</masterLabel>
+        <translation><!-- Nomination Pending --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Pending Approval</masterLabel>
+        <translation><!-- Pending Approval --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Registration Pending</masterLabel>
+        <translation><!-- Registration Pending --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Substituted</masterLabel>
+        <translation><!-- Substituted --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Visited</masterLabel>
+        <translation><!-- Visited --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Waitlisted</masterLabel>
+        <translation><!-- Waitlisted --></translation>
+    </picklistValues>
+</CustomFieldTranslation>

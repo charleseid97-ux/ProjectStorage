@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <label><!-- Type --></label>
+    <name>dupcheck__type__c</name>
+    <picklistValues>
+        <masterLabel>convert</masterLabel>
+        <translation><!-- convert --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>delta</masterLabel>
+        <translation><!-- delta --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>deltasingle</masterLabel>
+        <translation><!-- deltasingle --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>direct</masterLabel>
+        <translation><!-- direct --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>index</masterLabel>
+        <translation><!-- index --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>localindex</masterLabel>
+        <translation><!-- localindex --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>merge</masterLabel>
+        <translation><!-- merge --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>search</masterLabel>
+        <translation><!-- search --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>search-ext</masterLabel>
+        <translation><!-- search-ext --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>setformerge</masterLabel>
+        <translation><!-- setformerge --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>unique</masterLabel>
+        <translation><!-- unique --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>web2lead</masterLabel>
+        <translation><!-- web2lead --></translation>
+    </picklistValues>
+</CustomFieldTranslation>

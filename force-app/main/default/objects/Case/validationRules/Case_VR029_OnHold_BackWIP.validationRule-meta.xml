@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Case_VR029_OnHold_BackWIP</fullName>
+    <active>true</active>
+    <errorConditionFormula>AND(
+NOT($User.BypassValidationRules__c),
+RecordType.DeveloperName = &quot;Sub_Publication_Request&quot;,
+AND(
+On_Hold__c = TRUE,
+ISPICKVAL(Status, &quot;Work in Progress&quot;),
+OR(
+ISPICKVAL(PRIORVALUE(Status), &quot;Preview&quot;),
+ISPICKVAL(PRIORVALUE(Status), &quot;Validated&quot;)
+)
+)
+)</errorConditionFormula>
+    <errorDisplayField>On_Hold__c</errorDisplayField>
+    <errorMessage>The Hold checkbox cannot be selected after the work item has returned to Work in Progress.</errorMessage>
+</ValidationRule>

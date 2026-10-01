@@ -52,6 +52,7 @@
         <storeOutputAutomatically>true</storeOutputAutomatically>
     </actionCalls>
     <apiVersion>62.0</apiVersion>
+    <areMetricsLoggedToDataCloud>false</areMetricsLoggedToDataCloud>
     <decisions>
         <description>Checks if the transcript exists</description>
         <name>Transcript_Exists</name>
@@ -137,6 +138,14 @@
             <name>ErrorText</name>
             <fieldText>&lt;p style=&quot;text-align: center;&quot;&gt;An error occured : &lt;/p&gt;&lt;p style=&quot;text-align: center;&quot;&gt;{!$Flow.FaultMessage}&lt;/p&gt;&lt;p&gt;&lt;br&gt;&lt;/p&gt;</fieldText>
             <fieldType>DisplayText</fieldType>
+            <styleProperties>
+                <verticalAlignment>
+                    <stringValue>top</stringValue>
+                </verticalAlignment>
+                <width>
+                    <stringValue>12</stringValue>
+                </width>
+            </styleProperties>
         </fields>
         <showFooter>true</showFooter>
         <showHeader>false</showHeader>
@@ -153,6 +162,14 @@
             <name>ScreenRedirect</name>
             <fieldText>&lt;p style=&quot;text-align: center;&quot;&gt;&lt;a href=&quot;/{!get_Event.Id}&quot; rel=&quot;noopener noreferrer&quot; target=&quot;_blank&quot;&gt;Meeting Note&lt;/a&gt; Created successfully&lt;/p&gt;</fieldText>
             <fieldType>DisplayText</fieldType>
+            <styleProperties>
+                <verticalAlignment>
+                    <stringValue>top</stringValue>
+                </verticalAlignment>
+                <width>
+                    <stringValue>12</stringValue>
+                </width>
+            </styleProperties>
         </fields>
         <showFooter>true</showFooter>
         <showHeader>false</showHeader>

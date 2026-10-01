@@ -114,6 +114,118 @@
         <includeRecordsOwnedByAll>true</includeRecordsOwnedByAll>
     </sharingCriteriaRules>
     <sharingCriteriaRules>
+        <fullName>NarrativeDCR</fullName>
+        <accessLevel>Edit</accessLevel>
+        <label>Narrative DCR</label>
+        <sharedTo>
+            <group>DCR</group>
+        </sharedTo>
+        <criteriaItems>
+            <field>RecordTypeId</field>
+            <operation>equals</operation>
+            <value>Narrative</value>
+        </criteriaItems>
+        <criteriaItems>
+            <field>Type__c</field>
+            <operation>equals</operation>
+            <value>Marketing</value>
+        </criteriaItems>
+        <criteriaItems>
+            <field>SubType__c</field>
+            <operation>equals</operation>
+            <value>Investment Objective</value>
+        </criteriaItems>
+        <criteriaItems>
+            <field>Media__c</field>
+            <operation>equals</operation>
+            <value>FLFBE</value>
+        </criteriaItems>
+        <includeRecordsOwnedByAll>true</includeRecordsOwnedByAll>
+    </sharingCriteriaRules>
+    <sharingCriteriaRules>
+        <fullName>NarrativeESG</fullName>
+        <accessLevel>Edit</accessLevel>
+        <label>Narrative ESG</label>
+        <sharedTo>
+            <group>ESG</group>
+        </sharedTo>
+        <criteriaItems>
+            <field>RecordTypeId</field>
+            <operation>equals</operation>
+            <value>Narrative</value>
+        </criteriaItems>
+        <criteriaItems>
+            <field>Type__c</field>
+            <operation>equals</operation>
+            <value>ESG</value>
+        </criteriaItems>
+        <includeRecordsOwnedByAll>true</includeRecordsOwnedByAll>
+    </sharingCriteriaRules>
+    <sharingCriteriaRules>
+        <fullName>NarrativeFundMarketing</fullName>
+        <accessLevel>Edit</accessLevel>
+        <label>Narrative Fund Marketing</label>
+        <sharedTo>
+            <group>Fund_Marketing</group>
+        </sharedTo>
+        <criteriaItems>
+            <field>RecordTypeId</field>
+            <operation>equals</operation>
+            <value>Narrative</value>
+        </criteriaItems>
+        <criteriaItems>
+            <field>Type__c</field>
+            <operation>equals</operation>
+            <value>Marketing</value>
+        </criteriaItems>
+        <criteriaItems>
+            <field>Media__c</field>
+            <operation>notEqual</operation>
+            <value>RPT</value>
+        </criteriaItems>
+        <criteriaItems>
+            <field>Media__c</field>
+            <operation>notEqual</operation>
+            <value>FLFBE</value>
+        </criteriaItems>
+        <includeRecordsOwnedByAll>true</includeRecordsOwnedByAll>
+    </sharingCriteriaRules>
+    <sharingCriteriaRules>
+        <fullName>NarrativeIS</fullName>
+        <accessLevel>Edit</accessLevel>
+        <label>Narrative IS</label>
+        <sharedTo>
+            <group>Investment_Solutions</group>
+        </sharedTo>
+        <booleanFilter>1 AND ((2 AND 3) OR (4 AND 5))</booleanFilter>
+        <criteriaItems>
+            <field>RecordTypeId</field>
+            <operation>equals</operation>
+            <value>Narrative</value>
+        </criteriaItems>
+        <criteriaItems>
+            <field>Type__c</field>
+            <operation>equals</operation>
+            <value>Marketing</value>
+        </criteriaItems>
+        <criteriaItems>
+            <field>Media__c</field>
+            <operation>equals</operation>
+            <value>RPT</value>
+        </criteriaItems>
+        <criteriaItems>
+            <field>Type__c</field>
+            <operation>equals</operation>
+            <value>Third Party</value>
+        </criteriaItems>
+        <criteriaItems>
+            <field>SubType__c</field>
+            <operation>equals</operation>
+            <value>Management Company</value>
+        </criteriaItems>
+        <includeRecordsOwnedByAll>true</includeRecordsOwnedByAll>
+    </sharingCriteriaRules>
+    <sharingCriteriaRules>
         <fullName>OPS</fullName>
         <accessLevel>Edit</accessLevel>
         <label>OPS</label>
@@ -158,6 +270,30 @@
             <field>SubType__c</field>
             <operation>equals</operation>
             <value>Management Company,Delegated_Investment_Management 2,Delegated_Investment_Management 3,Fund Advisor,Delegated_FX_Investment_Manager,Delegated_Investment_Management 1</value>
+        </criteriaItems>
+        <includeRecordsOwnedByAll>true</includeRecordsOwnedByAll>
+    </sharingCriteriaRules>
+    <sharingCriteriaRules>
+        <fullName>Risk</fullName>
+        <accessLevel>Edit</accessLevel>
+        <label>Risk</label>
+        <sharedTo>
+            <group>Risk</group>
+        </sharedTo>
+        <criteriaItems>
+            <field>RecordTypeId</field>
+            <operation>equals</operation>
+            <value>Narrative</value>
+        </criteriaItems>
+        <criteriaItems>
+            <field>Type__c</field>
+            <operation>equals</operation>
+            <value>PRIIPs</value>
+        </criteriaItems>
+        <criteriaItems>
+            <field>SubType__c</field>
+            <operation>equals</operation>
+            <value>Credit risk,Risks associated with China,Liquidity risk,Pooled investments in secondaries risk,Counterparty risk</value>
         </criteriaItems>
         <includeRecordsOwnedByAll>true</includeRecordsOwnedByAll>
     </sharingCriteriaRules>

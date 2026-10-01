@@ -33,6 +33,7 @@ This Campaign {!myVariable_current.Name} has been approved.</stringValue>
         <nameSegment>chatterPost</nameSegment>
     </actionCalls>
     <apiVersion>49.0</apiVersion>
+    <areMetricsLoggedToDataCloud>false</areMetricsLoggedToDataCloud>
     <decisions>
         <processMetadataValues>
             <name>index</name>

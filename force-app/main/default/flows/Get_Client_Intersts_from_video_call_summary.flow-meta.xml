@@ -28,6 +28,7 @@
         </outputParameters>
     </actionCalls>
     <apiVersion>62.0</apiVersion>
+    <areMetricsLoggedToDataCloud>false</areMetricsLoggedToDataCloud>
     <environments>Default</environments>
     <interviewLabel>Get Client Intersts from video call summary {!$Flow.CurrentDateTime}</interviewLabel>
     <label>Get Client Intersts from video call summary</label>

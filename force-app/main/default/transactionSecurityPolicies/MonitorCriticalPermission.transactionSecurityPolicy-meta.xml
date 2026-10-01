@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<TransactionSecurityPolicy xmlns="http://soap.sforce.com/2006/04/metadata">
+    <action>
+        <block>false</block>
+        <endSession>false</endSession>
+        <freezeUser>false</freezeUser>
+        <notifications>
+            <inApp>false</inApp>
+            <sendEmail>true</sendEmail>
+            <user>ted.bamezon-crm@carmignac.com</user>
+        </notifications>
+        <twoFactorAuthentication>false</twoFactorAuthentication>
+    </action>
+    <active>true</active>
+    <customEmailContent>&lt;p&gt;&lt;strong&gt;Salesforce Security Alert – Critical Permission Change&lt;/strong&gt;&lt;/p&gt;&lt;p&gt;&lt;br&gt;&lt;/p&gt;&lt;p&gt;A critical Salesforce permission change has been detected.&lt;/p&gt;&lt;p&gt;&lt;strong&gt; Operation: &lt;/strong&gt;{{event.Operation}}&lt;/p&gt;&lt;p&gt; &lt;strong&gt;Performed by:&lt;/strong&gt; {{event.Username}}&lt;/p&gt;&lt;p&gt; &lt;strong&gt;Permissions:&lt;/strong&gt; {{event.PermissionList}}&lt;/p&gt;&lt;p&gt; &lt;strong&gt;Permission Type:&lt;/strong&gt; {{event.PermissionType}}&lt;/p&gt;&lt;p&gt; &lt;strong&gt;Impacted User(s):&lt;/strong&gt; {{event.ImpactedUserIds}}&lt;/p&gt;&lt;p&gt; &lt;strong&gt;Event Source:&lt;/strong&gt; {{event.EventSource}}&lt;/p&gt;&lt;p&gt; &lt;strong&gt;Event Date:&lt;/strong&gt; {{event.EventDate}}&lt;/p&gt;&lt;p&gt;&lt;br&gt;&lt;/p&gt;&lt;p&gt;Please review this change and confirm that it is expected and authorized.&lt;/p&gt;&lt;p&gt;&lt;br&gt;&lt;/p&gt;&lt;p&gt;&lt;strong&gt;Transaction Security Policy:&lt;/strong&gt; Monitor Critical Permission Changes&lt;/p&gt;</customEmailContent>
+    <description>Monitor changes to critical Salesforce permissions, including permission set assignments, removals, and sensitive privilege changes. This policy is intended to detect potential privilege escalation and notify the Salesforce/Security team for review.</description>
+    <developerName>MonitorCriticalPermission</developerName>
+    <eventName>PermissionSetEventStore</eventName>
+    <flow>PolicyCondition_KgtxOMQqfVpjsbjagmAT</flow>
+    <masterLabel>TSP Monitor Critical Permission Changes</masterLabel>
+    <type>CustomConditionBuilderPolicy</type>
+</TransactionSecurityPolicy>

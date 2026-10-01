@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <GenAiPromptTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <activeVersionIdentifier>WVN3tZk4o404O8n8M7lvj2vqM7T4xnyoLEatZnrtmCY=_3</activeVersionIdentifier>
     <description>Scheduled daily flow that retrieves active Accounts, triggers Agentforce web search, stores News__c records, generate AI summaries via Prompt and sends newsletter to Account Owners.</description>
     <developerName>Summarize_Account_News</developerName>
     <masterLabel>Summarize Account News</masterLabel>
@@ -124,6 +125,7 @@ Formatting requirements:
         </inputs>
         <primaryModel>sfdc_ai__DefaultGPT54</primaryModel>
         <status>Draft</status>
+        <versionIdentifier>WVN3tZk4o404O8n8M7lvj2vqM7T4xnyoLEatZnrtmCY=_1</versionIdentifier>
     </templateVersions>
     <templateVersions>
         <content>You are a strategic business intelligence assistant supporting sales and account management teams.
@@ -246,6 +248,7 @@ Formatting requirements:
         </inputs>
         <primaryModel>sfdc_ai__DefaultGPT54</primaryModel>
         <status>Draft</status>
+        <versionIdentifier>WVN3tZk4o404O8n8M7lvj2vqM7T4xnyoLEatZnrtmCY=_2</versionIdentifier>
     </templateVersions>
     <templateVersions>
         <content>You are a strategic business intelligence assistant supporting sales and account management teams.
@@ -368,6 +371,7 @@ Formatting requirements:
         </inputs>
         <primaryModel>sfdc_ai__DefaultGPT54</primaryModel>
         <status>Published</status>
+        <versionIdentifier>WVN3tZk4o404O8n8M7lvj2vqM7T4xnyoLEatZnrtmCY=_3</versionIdentifier>
     </templateVersions>
     <type>einstein_gpt__flex</type>
     <visibility>Global</visibility>

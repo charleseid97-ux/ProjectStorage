@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomMetadata xmlns="http://soap.sforce.com/2006/04/metadata" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <label>PRIIPS FCP Capital Loss</label>
+    <protected>false</protected>
+    <values>
+        <field>Content__c</field>
+        <value xsi:type="xsd:string">Risk of capital loss: the fund is managed on a discretionary basis and does not guarantee or protect the capital invested. The unit can be sold at a lower price than paid at the time of the purchase.</value>
+    </values>
+    <values>
+        <field>Language__c</field>
+        <value xsi:type="xsd:string">EN</value>
+    </values>
+    <values>
+        <field>LegalForm__c</field>
+        <value xsi:type="xsd:string">FCP</value>
+    </values>
+    <values>
+        <field>Subtype__c</field>
+        <value xsi:type="xsd:string">Risk of capital loss</value>
+    </values>
+    <values>
+        <field>Type__c</field>
+        <value xsi:type="xsd:string">PRIIPS</value>
+    </values>
+</CustomMetadata>

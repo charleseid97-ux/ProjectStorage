@@ -66,8 +66,10 @@
         </inputParameters>
         <nameSegment>emailSimple</nameSegment>
         <offset>0</offset>
+        <versionString>2.0.1</versionString>
     </actionCalls>
     <apiVersion>65.0</apiVersion>
+    <areMetricsLoggedToDataCloud>false</areMetricsLoggedToDataCloud>
     <description>US 17873</description>
     <environments>Default</environments>
     <interviewLabel>WTP - FLO_OnCreate_SendHumanTranslationEmail {!$Flow.CurrentDateTime}</interviewLabel>

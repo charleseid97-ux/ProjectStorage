@@ -10,5 +10,5 @@
     <openType>sidebar</openType>
     <protected>false</protected>
     <requireRowSelection>true</requireRowSelection>
-    <url>lightning/action/quick/Case.Tech_New_Case?objectApiName&amp;context=RECORD_DETAIL&amp;recordId=500bg0000013BpgAAE&amp;backgroundContext=lightning/o/Case/list?filterName=__Recent</url>
+    <url>/lightning/n/New_Work_Together_Process?c__accountId={!Account.Id}</url>
 </WebLink>

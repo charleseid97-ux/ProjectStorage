@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <GenAiPromptTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <activeVersionIdentifier>WVN3tZk4o404O8n8M7lvj2vqM7T4xnyoLEatZnrtmCY=_4</activeVersionIdentifier>
     <developerName>Product_Overview_Cross_Countries_Negative</developerName>
     <masterLabel>Product Overview Cross Countries - Negative</masterLabel>
     <templateVersions>
@@ -69,14 +70,16 @@ Example of customer comment: &quot;[Most relevant and/or most recent verbatim re
         <status>Published</status>
         <templateDataProviders>
             <definition>flow://Negative_Meeting_Notes_Collection</definition>
+            <label>Negative Meeting Notes Collection</label>
             <parameters>
                 <definition>primitive://String</definition>
-                <isRequired>true</isRequired>
+                <isRequired>false</isRequired>
                 <parameterName>Product_Id</parameterName>
                 <valueExpression>{!$Input:Product_Id}</valueExpression>
             </parameters>
             <referenceName>Flow:Negative_Meeting_Notes_Collection</referenceName>
         </templateDataProviders>
+        <versionIdentifier>WVN3tZk4o404O8n8M7lvj2vqM7T4xnyoLEatZnrtmCY=_4</versionIdentifier>
     </templateVersions>
     <type>einstein_gpt__flex</type>
     <visibility>Global</visibility>

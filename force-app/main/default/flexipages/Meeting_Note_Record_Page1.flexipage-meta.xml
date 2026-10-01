@@ -99,6 +99,10 @@
                     <value>false</value>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
+                    <name>hideSlackAction</name>
+                    <value>false</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
                     <name>numVisibleActions</name>
                     <value>3</value>
                 </componentInstanceProperties>
@@ -270,6 +274,16 @@
                 </fieldInstanceProperties>
                 <fieldItem>Record.Note__c</fieldItem>
                 <identifier>RecordNote_cField</identifier>
+            </fieldInstance>
+        </itemInstances>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>none</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.Raw_Note__c</fieldItem>
+                <identifier>RecordRaw_Note_cField</identifier>
             </fieldInstance>
         </itemInstances>
         <name>Facet-c59fff1a-a5f4-4d1d-9a6c-5c94db0071ae</name>
@@ -472,6 +486,10 @@
     <flexiPageRegions>
         <itemInstances>
             <componentInstance>
+                <componentInstanceProperties>
+                    <name>label</name>
+                    <value>Tabs</value>
+                </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>tabs</name>
                     <value>maintabs</value>

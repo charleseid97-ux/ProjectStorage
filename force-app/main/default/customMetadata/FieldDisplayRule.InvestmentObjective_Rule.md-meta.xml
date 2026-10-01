@@ -8,7 +8,7 @@
     </values>
     <values>
         <field>DisplayCondition__c</field>
-        <value xsi:type="xsd:string">record.TECH_ProjectRecordType__c === &quot;ShareclassCreation&quot;</value>
+        <value xsi:type="xsd:string">record.LegalForm__c!==&apos;OEIC&apos;</value>
     </values>
     <values>
         <field>FieldApiName__c</field>

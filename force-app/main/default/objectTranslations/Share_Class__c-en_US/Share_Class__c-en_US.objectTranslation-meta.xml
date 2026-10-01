@@ -44,6 +44,10 @@
         <name>FFA_History</name>
     </quickActions>
     <quickActions>
+        <label><!-- Manage Registration Countries Requests --></label>
+        <name>ManageRegistrationCountriesRequests</name>
+    </quickActions>
+    <quickActions>
         <label><!-- Request Tax Transparency --></label>
         <name>Request_Tax_Transparency</name>
     </quickActions>
@@ -103,6 +107,14 @@
     <validationRules>
         <errorMessage><!-- Only “Income” and “Accumulating” are applicable for OEIC Share Classes. --></errorMessage>
         <name>VR15_DividendPolicyOEIC</name>
+    </validationRules>
+    <validationRules>
+        <errorMessage><!-- The “Merged Into” field is required when the share class is Closed - merged. --></errorMessage>
+        <name>VR16_MergedIntoRequired</name>
+    </validationRules>
+    <validationRules>
+        <errorMessage><!-- The “Close Date” field is required when the share class is closed merged or liquidated --></errorMessage>
+        <name>VR17_CloseDateRequired</name>
     </validationRules>
     <webLinks>
         <label><!-- ExportShareclass --></label>

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<TransactionSecurityPolicy xmlns="http://soap.sforce.com/2006/04/metadata">
+    <action>
+        <block>false</block>
+        <endSession>false</endSession>
+        <freezeUser>false</freezeUser>
+        <notifications>
+            <inApp>false</inApp>
+            <sendEmail>true</sendEmail>
+            <user>coullon.thomas-crm@carmignac.com</user>
+        </notifications>
+        <twoFactorAuthentication>false</twoFactorAuthentication>
+    </action>
+    <active>true</active>
+    <customEmailContent>&lt;p&gt;&lt;strong&gt;Salesforce Security Alert – SSO Bypass Login Detected&lt;/strong&gt;&lt;/p&gt;&lt;p&gt;&lt;br&gt;&lt;/p&gt;&lt;p&gt;A browser-based login to Salesforce has been detected outside the approved SAML Single Sign-On authentication flow.&lt;/p&gt;&lt;p&gt;&lt;br&gt;&lt;/p&gt;&lt;p&gt;&lt;strong&gt;Policy:&lt;/strong&gt; {{policy.MasterLabel}}&lt;/p&gt;&lt;p&gt;&lt;strong&gt;Organization ID:&lt;/strong&gt; {{policy.OrganizationId}}&lt;/p&gt;&lt;p&gt;&lt;strong&gt;User:&lt;/strong&gt; {{event.Username}}&lt;/p&gt;&lt;p&gt;&lt;strong&gt;Event Date:&lt;/strong&gt; {{event.EventDate}}&lt;/p&gt;&lt;p&gt;&lt;strong&gt;Source IP:&lt;/strong&gt; {{event.SourceIp}}&lt;/p&gt;&lt;p&gt;&lt;strong&gt;Application:&lt;/strong&gt; {{event.Application}}&lt;/p&gt;&lt;p&gt;&lt;strong&gt;Login Type:&lt;/strong&gt; {{event.LoginType}}&lt;/p&gt;&lt;p&gt;&lt;strong&gt;Login URL:&lt;/strong&gt; {{event.LoginUrl}}&lt;/p&gt;&lt;p&gt;&lt;br&gt;&lt;/p&gt;&lt;p&gt;This activity may indicate a direct Salesforce login bypassing the corporate SSO authentication flow.&lt;/p&gt;&lt;p&gt;&lt;br&gt;&lt;/p&gt;&lt;p&gt;&lt;strong&gt;No login has been automatically blocked.&lt;/strong&gt;&lt;/p&gt;&lt;p&gt;&lt;br&gt;&lt;/p&gt;&lt;p&gt;Please review the activity and confirm whether the authentication method is expected and authorized.&lt;/p&gt;&lt;p&gt;&lt;br&gt;&lt;/p&gt;&lt;p&gt;Salesforce Security Monitoring&lt;/p&gt;</customEmailContent>
+    <description>Detects browser-based Salesforce login activity that does not use an approved SAML Single Sign-On flow. The policy alerts the Security team when an interactive login bypasses corporate SSO authentication.</description>
+    <developerName>TSPSSOBypassLoginAlert</developerName>
+    <eventName>LoginEvent</eventName>
+    <flow>PolicyCondition_MNuUyQEysoXxZVsnzrRF</flow>
+    <masterLabel>TSP SSO Bypass Login Alert</masterLabel>
+    <type>CustomConditionBuilderPolicy</type>
+</TransactionSecurityPolicy>

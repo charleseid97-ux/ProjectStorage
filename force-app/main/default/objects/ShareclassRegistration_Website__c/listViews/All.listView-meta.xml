@@ -7,6 +7,8 @@
     <columns>CURRENCY_ISO_CODE</columns>
     <columns>IsDisplay__c</columns>
     <columns>ISIN_Code_Country__c</columns>
+    <columns>CREATED_DATE</columns>
+    <columns>LAST_UPDATE</columns>
     <filterScope>Everything</filterScope>
     <filters>
         <field>Share_Class__c</field>

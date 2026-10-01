@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <GenAiPromptTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <activeVersionIdentifier>WVN3tZk4o404O8n8M7lvj2vqM7T4xnyoLEatZnrtmCY=_3</activeVersionIdentifier>
     <developerName>Product_Overview_Positive_By_Country</developerName>
     <masterLabel>Product Overview - Positive - By Country</masterLabel>
     <templateVersions>
@@ -96,6 +97,14 @@ Example Comment: &quot;Positive feedback on the meeting and the presentation/arg
         <status>Published</status>
         <templateDataProviders>
             <definition>flow://Positive_Meeting_Notes_Collection</definition>
+            <description>Test fix YTD filter</description>
+            <label>Positive Meeting Notes Collection</label>
+            <parameters>
+                <definition>primitive://String</definition>
+                <isRequired>true</isRequired>
+                <parameterName>Country</parameterName>
+                <valueExpression>{!$Input:Country}</valueExpression>
+            </parameters>
             <parameters>
                 <definition>primitive://String</definition>
                 <isRequired>true</isRequired>
@@ -108,14 +117,9 @@ Example Comment: &quot;Positive feedback on the meeting and the presentation/arg
                 <parameterName>Product_Id</parameterName>
                 <valueExpression>{!$Input:Product_Id}</valueExpression>
             </parameters>
-            <parameters>
-                <definition>primitive://String</definition>
-                <isRequired>true</isRequired>
-                <parameterName>Country</parameterName>
-                <valueExpression>{!$Input:Country}</valueExpression>
-            </parameters>
             <referenceName>Flow:Positive_Meeting_Notes_Collection</referenceName>
         </templateDataProviders>
+        <versionIdentifier>WVN3tZk4o404O8n8M7lvj2vqM7T4xnyoLEatZnrtmCY=_3</versionIdentifier>
     </templateVersions>
     <type>einstein_gpt__flex</type>
     <visibility>Global</visibility>

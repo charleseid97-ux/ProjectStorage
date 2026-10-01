@@ -17,6 +17,7 @@
         <nameSegment>Contact.Digital_Interactions_Flag_Thematic_EM</nameSegment>
     </actionCalls>
     <apiVersion>57.0</apiVersion>
+    <areMetricsLoggedToDataCloud>false</areMetricsLoggedToDataCloud>
     <environments>Default</environments>
     <interviewLabel>[Digital Interactions] EM {!$Flow.CurrentDateTime}</interviewLabel>
     <label>[Digital Interactions] Flag EM</label>

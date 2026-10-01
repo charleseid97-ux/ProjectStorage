@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <help><!-- Enable to be notified when a run completes without updating any FundManager__c record, which usually indicates a broken credential or endpoint even though individual callouts succeeded. --></help>
+    <label><!-- Alert On Zero Updates --></label>
+    <name>AlertOnZeroUpdates__c</name>
+</CustomFieldTranslation>

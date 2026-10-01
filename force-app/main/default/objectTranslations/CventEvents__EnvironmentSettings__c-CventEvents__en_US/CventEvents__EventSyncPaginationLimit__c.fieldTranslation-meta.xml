@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <help><!-- Stores event sync pagination limit. The limit can vary between 1 and 200. Invalid or NULL value is treated as a default of 200. --></help>
+    <label><!-- Event Sync Pagination Limit --></label>
+    <name>CventEvents__EventSyncPaginationLimit__c</name>
+</CustomFieldTranslation>

@@ -47,8 +47,10 @@
         </inputParameters>
         <nameSegment>emailSimple</nameSegment>
         <offset>0</offset>
+        <versionString>2.0.1</versionString>
     </actionCalls>
     <apiVersion>64.0</apiVersion>
+    <areMetricsLoggedToDataCloud>false</areMetricsLoggedToDataCloud>
     <description>Autolaunched flow used to create a VideoCallWithTranscript Platform Event</description>
     <environments>Default</environments>
     <interviewLabel>AL_VideoCall_GeneratePlatformEvent {!$Flow.CurrentDateTime}</interviewLabel>

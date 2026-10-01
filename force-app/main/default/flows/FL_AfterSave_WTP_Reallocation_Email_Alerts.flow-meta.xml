@@ -1,55 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Flow xmlns="http://soap.sforce.com/2006/04/metadata">
     <actionCalls>
-        <name>Alert_Account_Owners</name>
-        <label>Alert Account Owners</label>
-        <locationX>182</locationX>
-        <locationY>755</locationY>
-        <actionName>emailSimple</actionName>
-        <actionType>emailSimple</actionType>
-        <connector>
-            <targetReference>GetRecipientsForTeams1</targetReference>
-        </connector>
-        <flowTransactionModel>CurrentTransaction</flowTransactionModel>
-        <inputParameters>
-            <name>emailAddressesArray</name>
-            <value>
-                <elementReference>OwnersEmailAddresses</elementReference>
-            </value>
-        </inputParameters>
-        <inputParameters>
-            <name>senderType</name>
-            <value>
-                <stringValue>OrgWideEmailAddress</stringValue>
-            </value>
-        </inputParameters>
-        <inputParameters>
-            <name>senderAddress</name>
-            <value>
-                <elementReference>$Label.NoReplayWideAddress</elementReference>
-            </value>
-        </inputParameters>
-        <inputParameters>
-            <name>emailSubject</name>
-            <value>
-                <elementReference>Informationemailsubject</elementReference>
-            </value>
-        </inputParameters>
-        <inputParameters>
-            <name>emailBody</name>
-            <value>
-                <elementReference>WarningReallocationEmailBody</elementReference>
-            </value>
-        </inputParameters>
-        <inputParameters>
-            <name>sendRichBody</name>
-            <value>
-                <booleanValue>true</booleanValue>
-            </value>
-        </inputParameters>
-        <nameSegment>emailSimple</nameSegment>
-    </actionCalls>
-    <actionCalls>
         <name>Copy_2_of_Send_Closed_Email_to_DCO_and_Owners</name>
         <label>Copy 2 of Send Closed Email to DCO and Owners</label>
         <locationX>1854</locationX>
@@ -94,6 +45,7 @@
             </value>
         </inputParameters>
         <nameSegment>emailSimple</nameSegment>
+        <offset>0</offset>
     </actionCalls>
     <actionCalls>
         <name>Copy_2_of_Send_Closed_Email_to_Team</name>
@@ -143,6 +95,7 @@
             </value>
         </inputParameters>
         <nameSegment>emailSimple</nameSegment>
+        <offset>0</offset>
     </actionCalls>
     <actionCalls>
         <description>Send an email if the list is of 5 people</description>
@@ -193,6 +146,7 @@
             </value>
         </inputParameters>
         <nameSegment>emailSimple</nameSegment>
+        <offset>0</offset>
     </actionCalls>
     <actionCalls>
         <name>Send_Closed_Email</name>
@@ -242,6 +196,7 @@
             </value>
         </inputParameters>
         <nameSegment>emailSimple</nameSegment>
+        <offset>0</offset>
     </actionCalls>
     <actionCalls>
         <name>Send_Closed_Email_to_DCO_and_Owners</name>
@@ -288,6 +243,7 @@
             </value>
         </inputParameters>
         <nameSegment>emailSimple</nameSegment>
+        <offset>0</offset>
     </actionCalls>
     <actionCalls>
         <description>Send an email if the list is of 5 people</description>
@@ -338,12 +294,13 @@
             </value>
         </inputParameters>
         <nameSegment>emailSimple</nameSegment>
+        <offset>0</offset>
     </actionCalls>
     <actionCalls>
         <name>Send_New_Email_DCO</name>
         <label>Send New Email DCO</label>
         <locationX>380</locationX>
-        <locationY>431</locationY>
+        <locationY>539</locationY>
         <actionName>emailSimple</actionName>
         <actionType>emailSimple</actionType>
         <connector>
@@ -352,8 +309,11 @@
         <flowTransactionModel>CurrentTransaction</flowTransactionModel>
         <inputParameters>
             <name>emailAddresses</name>
+        </inputParameters>
+        <inputParameters>
+            <name>emailAddressesArray</name>
             <value>
-                <stringValue>distributionclientoperations@carmignac.com,silvia.manz@carmignac.com,franck.blachet@carmignac.com</stringValue>
+                <elementReference>OwnersEmailAddresses</elementReference>
             </value>
         </inputParameters>
         <inputParameters>
@@ -387,12 +347,13 @@
             </value>
         </inputParameters>
         <nameSegment>emailSimple</nameSegment>
+        <offset>0</offset>
     </actionCalls>
     <actionCalls>
         <name>Send_Warning_Email_to_Teams</name>
         <label>Send Warning Email to Teams</label>
         <locationX>50</locationX>
-        <locationY>1787</locationY>
+        <locationY>1679</locationY>
         <actionName>emailSimple</actionName>
         <actionType>emailSimple</actionType>
         <flowTransactionModel>CurrentTransaction</flowTransactionModel>
@@ -433,13 +394,14 @@
             </value>
         </inputParameters>
         <nameSegment>emailSimple</nameSegment>
+        <offset>0</offset>
     </actionCalls>
     <actionCalls>
         <description>Send an email if the list is of 5 people</description>
         <name>Send_Warning_Email_to_Teams_list_of_5</name>
         <label>Send Warning Email to Teams (list of 5)</label>
         <locationX>270</locationX>
-        <locationY>1295</locationY>
+        <locationY>1187</locationY>
         <actionName>emailSimple</actionName>
         <actionType>emailSimple</actionType>
         <connector>
@@ -483,8 +445,10 @@
             </value>
         </inputParameters>
         <nameSegment>emailSimple</nameSegment>
+        <offset>0</offset>
     </actionCalls>
-    <apiVersion>65.0</apiVersion>
+    <apiVersion>60.0</apiVersion>
+    <areMetricsLoggedToDataCloud>false</areMetricsLoggedToDataCloud>
     <assignments>
         <name>AssignEmails</name>
         <label>AssignEmails</label>
@@ -512,7 +476,7 @@
         <name>AssignEmails1</name>
         <label>AssignEmails1</label>
         <locationX>402</locationX>
-        <locationY>1079</locationY>
+        <locationY>971</locationY>
         <assignmentItems>
             <assignToReference>EmailRecipientsList</assignToReference>
             <operator>Add</operator>
@@ -558,7 +522,7 @@
         <name>AssignEmails2_1</name>
         <label>AssignEmails2(1)</label>
         <locationX>270</locationX>
-        <locationY>1403</locationY>
+        <locationY>1295</locationY>
         <assignmentItems>
             <assignToReference>EmailRecipientsList</assignToReference>
             <operator>Assign</operator>
@@ -624,10 +588,10 @@
         </connector>
     </assignments>
     <assignments>
-        <name>AssignOwnersEmail</name>
+        <name>Assignment_10</name>
         <label>AssignOwnersEmail</label>
-        <locationX>182</locationX>
-        <locationY>647</locationY>
+        <locationX>380</locationX>
+        <locationY>431</locationY>
         <assignmentItems>
             <assignToReference>OwnersEmailAddresses</assignToReference>
             <operator>Add</operator>
@@ -642,8 +606,29 @@
                 <elementReference>$Record.Company_To_Reallocate_To__r.Owner.Email</elementReference>
             </value>
         </assignmentItems>
+        <assignmentItems>
+            <assignToReference>OwnersEmailAddresses</assignToReference>
+            <operator>Add</operator>
+            <value>
+                <stringValue>distributionclientoperations@carmignac.com</stringValue>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>OwnersEmailAddresses</assignToReference>
+            <operator>Add</operator>
+            <value>
+                <stringValue>silvia.manz@carmignac.com</stringValue>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>OwnersEmailAddresses</assignToReference>
+            <operator>Add</operator>
+            <value>
+                <stringValue>franck.blachet@carmignac.com</stringValue>
+            </value>
+        </assignmentItems>
         <connector>
-            <targetReference>Alert_Account_Owners</targetReference>
+            <targetReference>Send_New_Email_DCO</targetReference>
         </connector>
     </assignments>
     <assignments>
@@ -710,7 +695,7 @@
         <name>Copy_1_of_Decide_List_Longer_than_5</name>
         <label>Decide List Longer than 5 ? (1)</label>
         <locationX>402</locationX>
-        <locationY>1187</locationY>
+        <locationY>1079</locationY>
         <defaultConnector>
             <targetReference>LoopAssignEmails1</targetReference>
         </defaultConnector>
@@ -835,7 +820,7 @@
         <name>Decision_5</name>
         <label>Decision 5</label>
         <locationX>182</locationX>
-        <locationY>1679</locationY>
+        <locationY>1571</locationY>
         <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
         <rules>
             <name>Remaining_Emails</name>
@@ -857,7 +842,7 @@
         <name>Same_Zone</name>
         <label>Same Zone ?</label>
         <locationX>380</locationX>
-        <locationY>539</locationY>
+        <locationY>647</locationY>
         <defaultConnectorLabel>Yes</defaultConnectorLabel>
         <rules>
             <name>NO</name>
@@ -870,7 +855,7 @@
                 </rightValue>
             </conditions>
             <connector>
-                <targetReference>AssignOwnersEmail</targetReference>
+                <targetReference>GetRecipientsForTeams1</targetReference>
             </connector>
             <label>No - Send Warning Email</label>
         </rules>
@@ -892,7 +877,7 @@
                 </rightValue>
             </conditions>
             <connector>
-                <targetReference>Send_New_Email_DCO</targetReference>
+                <targetReference>Assignment_10</targetReference>
             </connector>
             <doesRequireRecordChangedToMeetCriteria>true</doesRequireRecordChangedToMeetCriteria>
             <label>New WTP</label>
@@ -949,7 +934,7 @@ TEXT({!$Record.Date__c}) )</expression>
         <name>LoopAssignEmails1</name>
         <label>LoopAssignEmails1</label>
         <locationX>182</locationX>
-        <locationY>971</locationY>
+        <locationY>863</locationY>
         <collectionReference>GetRecipientsForTeams1</collectionReference>
         <iterationOrder>Asc</iterationOrder>
         <nextValueConnector>
@@ -1126,7 +1111,7 @@ TEXT({!$Record.Date__c}) )</expression>
         <name>GetRecipientsForTeams1</name>
         <label>GetRecipientsForTeams1</label>
         <locationX>182</locationX>
-        <locationY>863</locationY>
+        <locationY>755</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
             <targetReference>LoopAssignEmails1</targetReference>
@@ -1230,7 +1215,7 @@ TEXT({!$Record.Date__c}) )</expression>
         <recordTriggerType>CreateAndUpdate</recordTriggerType>
         <triggerType>RecordAfterSave</triggerType>
     </start>
-    <status>Draft</status>
+    <status>Active</status>
     <textTemplates>
         <name>ClosedConfirmedWTPEmailBody</name>
         <isViewedAsPlainText>false</isViewedAsPlainText>

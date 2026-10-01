@@ -30,6 +30,7 @@
         <offset>0</offset>
     </actionCalls>
     <apiVersion>63.0</apiVersion>
+    <areMetricsLoggedToDataCloud>false</areMetricsLoggedToDataCloud>
     <description>This flow sends Teams notifications when a milestone is marked as Completed in the Product Management Tool (PMT).
 All milestones trigger a notification except for “SPC Final” and “Go Live”, which are handled via separate email flows.
 Each notification is sent to the relevant Team Owner assigned to the milestone. If a team owner is not assigned (empty field), no notification will be sent for that team.</description>

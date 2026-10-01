@@ -641,6 +641,7 @@
         <nameSegment>Convention__c.AgreementExpired6Months_BP_UK</nameSegment>
     </actionCalls>
     <apiVersion>60.0</apiVersion>
+    <areMetricsLoggedToDataCloud>false</areMetricsLoggedToDataCloud>
     <decisions>
         <name>Agreement_Business_Region</name>
         <label>Agreement Business Region</label>

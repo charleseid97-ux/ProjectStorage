@@ -5,12 +5,8 @@
     <description>Signature date is mandatory when an Agreement is not in Negotiation</description>
     <errorConditionFormula>AND ( 
 			!$User.BypassValidationRules__c,
-   NOT(ISPICKVAL(Status__c, &apos;In Negotiation&apos;)),
-   OR(
-      ISNULL( SignedDate__c ),
-      ISBLANK( SignedDate__c )
-   ),
-   $RecordType.Name = &apos;Intermediary Agreement&apos;
+   ISPICKVAL(Status__c, &apos;Signed&apos;),
+   ISBLANK(SignedDate__c)
 )</errorConditionFormula>
     <errorDisplayField>SignedDate__c</errorDisplayField>
     <errorMessage>A Signature Date is mandatory for this Status</errorMessage>

@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <label><!-- Type --></label>
+    <name>CventEvents__Type__c</name>
+    <picklistValues>
+        <masterLabel>FileUpload</masterLabel>
+        <translation><!-- FileUpload --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>MatrixMultiPerRow</masterLabel>
+        <translation><!-- MatrixMultiPerRow --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>MatrixRating</masterLabel>
+        <translation><!-- MatrixRating --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>MatrixSinglePerRow</masterLabel>
+        <translation><!-- MatrixSinglePerRow --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>MultiChoice</masterLabel>
+        <translation><!-- MultiChoice --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>NetPromoter</masterLabel>
+        <translation><!-- NetPromoter --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>OpenEndedDateTime</masterLabel>
+        <translation><!-- OpenEndedDateTime --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>OpenEndedNumeric</masterLabel>
+        <translation><!-- OpenEndedNumeric --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>OpenEndedTextCommentBox</masterLabel>
+        <translation><!-- OpenEndedTextCommentBox --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>OpenEndedTextOneLine</masterLabel>
+        <translation><!-- OpenEndedTextOneLine --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Rating</masterLabel>
+        <translation><!-- Rating --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>SingleChoice</masterLabel>
+        <translation><!-- SingleChoice --></translation>
+    </picklistValues>
+</CustomFieldTranslation>

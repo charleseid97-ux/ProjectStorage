@@ -28,7 +28,7 @@
             <value>
                 <fullName>AUTNOTREG</fullName>
                 <default>false</default>
-                <label>AUTNOTREG</label>
+                <label>Registered Not Distributed</label>
             </value>
             <value>
                 <fullName>TOBEREG</fullName>
@@ -39,6 +39,26 @@
                 <fullName>UNDREG</fullName>
                 <default>false</default>
                 <label>Under Registration</label>
+            </value>
+            <value>
+                <fullName>TO_BE_REGISTERED_INSTIT</fullName>
+                <default>false</default>
+                <label>To be Registered Institutional</label>
+            </value>
+            <value>
+                <fullName>TO_BE_REGISTERED_RETAIL</fullName>
+                <default>false</default>
+                <label>To be Registered Retail</label>
+            </value>
+            <value>
+                <fullName>TO_BE_REGISTERED_SEMI_PRO</fullName>
+                <default>false</default>
+                <label>To be Registered Semi-pro</label>
+            </value>
+            <value>
+                <fullName>SEMI_PRO</fullName>
+                <default>false</default>
+                <label>Semi-pro</label>
             </value>
         </valueSetDefinition>
     </valueSet>

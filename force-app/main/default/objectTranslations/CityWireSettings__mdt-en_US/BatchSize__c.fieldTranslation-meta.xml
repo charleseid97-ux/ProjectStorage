@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <help><!-- Number of Share_Class__c records processed per execute() scope of the Citywire ratings batch. Keep well under the 100-callout-per-transaction governor limit. --></help>
+    <label><!-- Batch Size --></label>
+    <name>BatchSize__c</name>
+</CustomFieldTranslation>

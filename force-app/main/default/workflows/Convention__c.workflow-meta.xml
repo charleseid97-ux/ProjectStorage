@@ -1481,6 +1481,26 @@
         <reevaluateOnChange>false</reevaluateOnChange>
     </fieldUpdates>
     <fieldUpdates>
+        <fullName>AgreementTechAPRequestFinalized</fullName>
+        <field>TECH_AgreementRequestFinalized__c</field>
+        <literalValue>1</literalValue>
+        <name>Agreement Tech AP Request Finalized</name>
+        <notifyAssignee>false</notifyAssignee>
+        <operation>Literal</operation>
+        <protected>false</protected>
+        <reevaluateOnChange>false</reevaluateOnChange>
+    </fieldUpdates>
+    <fieldUpdates>
+        <fullName>AgreementTechAPRequestReset</fullName>
+        <field>TECH_AgreementRequestFinalized__c</field>
+        <literalValue>0</literalValue>
+        <name>Agreement Tech AP Request Reset</name>
+        <notifyAssignee>false</notifyAssignee>
+        <operation>Literal</operation>
+        <protected>false</protected>
+        <reevaluateOnChange>false</reevaluateOnChange>
+    </fieldUpdates>
+    <fieldUpdates>
         <fullName>Agreement_Amendment_Approval_Complete</fullName>
         <field>Amendment_Approval_Status__c</field>
         <literalValue>Approved</literalValue>

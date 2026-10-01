@@ -22,6 +22,7 @@
         </outputParameters>
     </actionCalls>
     <apiVersion>62.0</apiVersion>
+    <areMetricsLoggedToDataCloud>false</areMetricsLoggedToDataCloud>
     <environments>Default</environments>
     <interviewLabel>Get JSON insights from MeetingNotes {!$Flow.CurrentDateTime}</interviewLabel>
     <label>Get JSON insights from MeetingNotes</label>

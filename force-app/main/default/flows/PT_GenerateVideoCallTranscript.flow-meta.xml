@@ -29,6 +29,7 @@
         <storeOutputAutomatically>true</storeOutputAutomatically>
     </actionCalls>
     <apiVersion>64.0</apiVersion>
+    <areMetricsLoggedToDataCloud>false</areMetricsLoggedToDataCloud>
     <assignments>
         <description>Add the generated Transcript to the Prompt Template</description>
         <name>Add_Transcript_To_Prompt</name>

@@ -5,7 +5,7 @@
     <fieldManageability>DeveloperControlled</fieldManageability>
     <inlineHelpText>JSON object mapping Grid__c RecordType DeveloperName to an array of allowed Type__c values.
 Example:
-{"CustomGrid": ["SINGLE RULE", "MULTI RULE"], "OtherFeesGrid": ["Courtage Assurance et Capi", "Performance Fees"]}</inlineHelpText>
+{&quot;CustomGrid&quot;: [&quot;SINGLE RULE&quot;, &quot;MULTI RULE&quot;], &quot;OtherFeesGrid&quot;: [&quot;Courtage Assurance et Capi&quot;, &quot;Performance Fees&quot;]}</inlineHelpText>
     <label>Available Types Per Record Type</label>
     <length>4096</length>
     <type>LongTextArea</type>

@@ -3,16 +3,16 @@
     <label><!-- Liquidity Management Tool (LMT) --></label>
     <name>LiquidityManagementToolLMT__c</name>
     <picklistValues>
-        <masterLabel>Exceptional Redemption Fees (attention frais différent du champ Redemption Fees existant)</masterLabel>
-        <translation><!-- Exceptional Redemption Fees (attention frais différent du champ Redemption Fees existant) --></translation>
-    </picklistValues>
-    <picklistValues>
-        <masterLabel>Extension Notice Period (attention différent de la Notice Period existante dans Product Catalog)</masterLabel>
-        <translation><!-- Extension Notice Period (attention différent de la Notice Period existante dans Product Catalog) --></translation>
+        <masterLabel>Extension Notice Period</masterLabel>
+        <translation><!-- Extension Notice Period --></translation>
     </picklistValues>
     <picklistValues>
         <masterLabel>Gates</masterLabel>
         <translation><!-- Gates --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Redemption Fees</masterLabel>
+        <translation><!-- Redemption Fees --></translation>
     </picklistValues>
     <picklistValues>
         <masterLabel>Redemptions in Kind</masterLabel>

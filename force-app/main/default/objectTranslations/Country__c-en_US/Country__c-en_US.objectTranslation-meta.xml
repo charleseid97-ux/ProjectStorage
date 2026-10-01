@@ -28,4 +28,16 @@
         <name>TaxRegistration</name>
     </recordTypes>
     <startsWith>Consonant</startsWith>
+    <validationRules>
+        <errorMessage><!-- The Share Class field is required. --></errorMessage>
+        <name>VR01_ShareClassRequired</name>
+    </validationRules>
+    <validationRules>
+        <errorMessage><!-- ISINCountryKey must follow the format: &lt;12-character ISIN&gt;_&lt;2-letter ISO country code&gt; (e.g. FR0010148999_FR). --></errorMessage>
+        <name>VR02_FormatISINCountryKey</name>
+    </validationRules>
+    <validationRules>
+        <errorMessage><!-- ISINCountryKey can&apos;t be modified. --></errorMessage>
+        <name>VR03_AccessISINCountryKey</name>
+    </validationRules>
 </CustomObjectTranslation>

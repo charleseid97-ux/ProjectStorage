@@ -6,8 +6,6 @@
     <columns>Start_Date_Time__c</columns>
     <columns>Campaign_ID__c</columns>
     <columns>CAMPAIGN.STATUS</columns>
-    <columns>Approved_by_Compliance__c</columns>
-    <columns>PARENT_NAME</columns>
     <filterScope>Everything</filterScope>
     <filters>
         <field>CAMPAIGN.RECORDTYPE</field>
@@ -22,17 +20,17 @@
     <filters>
         <field>CAMPAIGN.NAME</field>
         <operation>contains</operation>
-        <value>Najet Newsletter,Antonio Newsletter,Zaccaria Newsletter,Federico Newsletter</value>
+        <value>Najet Newsletter,Antonio Newsletter,Zaccaria Newsletter,Federico Newsletter,Matteo Newsletter</value>
     </filters>
     <filters>
         <field>Newsletter_Country__c</field>
         <operation>equals</operation>
         <value>Italy</value>
     </filters>
+    <filters>
+        <field>Start_Date_Time__c</field>
+        <operation>equals</operation>
+        <value>THIS_YEAR</value>
+    </filters>
     <label>Sales Newsletters IT</label>
-    <sharedTo>
-        <group>Italy</group>
-        <group>Marketing_for_Newsletters</group>
-        <group>Product_Marketing</group>
-    </sharedTo>
 </ListView>

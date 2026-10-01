@@ -13,10 +13,6 @@
                 <field>Name</field>
             </layoutItems>
             <layoutItems>
-                <behavior>Required</behavior>
-                <field>Product_Name__c</field>
-            </layoutItems>
-            <layoutItems>
                 <behavior>Edit</behavior>
                 <field>NAVCalendar__c</field>
             </layoutItems>
@@ -116,6 +112,14 @@
                 <behavior>Edit</behavior>
                 <field>InitialLabPeriod__c</field>
             </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Date_Last_AUM_Available__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Date_YTD_Net_Flows__c</field>
+            </layoutItems>
         </layoutColumns>
         <layoutColumns>
             <layoutItems>
@@ -139,25 +143,8 @@
                 <behavior>Edit</behavior>
                 <field>Asset_Class__c</field>
             </layoutItems>
-            <layoutItems>
-                <behavior>Edit</behavior>
-                <field>Sub_Asset_Class__c</field>
-            </layoutItems>
-            <layoutItems>
-                <behavior>Edit</behavior>
-                <field>SAM_PtfId__c</field>
-            </layoutItems>
         </layoutColumns>
-        <layoutColumns>
-            <layoutItems>
-                <behavior>Edit</behavior>
-                <field>Investment_Style__c</field>
-            </layoutItems>
-            <layoutItems>
-                <behavior>Edit</behavior>
-                <field>SRI__c</field>
-            </layoutItems>
-        </layoutColumns>
+        <layoutColumns/>
         <style>TwoColumnsLeftToRight</style>
     </layoutSections>
     <layoutSections>
@@ -265,7 +252,6 @@
     </relatedLists>
     <relatedLists>
         <fields>NAME</fields>
-        <fields>Product_Name__c</fields>
         <relatedList>Product__c.Strategy__c</relatedList>
     </relatedLists>
     <relatedLists>

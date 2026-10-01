@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <help><!-- If the percentage of failed ISIN callouts in a run exceeds this value, an alert email is sent (requires the Alert Queue and Alert Email Template fields to also be set). --></help>
+    <label><!-- Failure Alert Threshold (%) --></label>
+    <name>FailureAlertThresholdPct__c</name>
+</CustomFieldTranslation>

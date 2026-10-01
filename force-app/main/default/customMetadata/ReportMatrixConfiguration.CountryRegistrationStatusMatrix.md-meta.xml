@@ -94,6 +94,6 @@ ShareClass__r.ISIN__c</value>
     </values>
     <values>
         <field>WhereClause__c</field>
-        <value xsi:type="xsd:string">ShareClass__c != null AND ShareClass__r.Name__c != null AND ShareClass__r.Fund__r.ProductName__c != null AND ShareClass__r.Validity__c = true AND ShareClass__r.Status__c = &apos;Active&apos;</value>
+        <value xsi:type="xsd:string">ShareClass__r.Fund__c != null AND ShareClass__r.Fund__r.InternalShortName__c != null AND ShareClass__r.Fund__r.Validity__c = true AND ShareClass__c != null AND (ShareClass__r.Status__c = &apos;Active&apos; OR ShareClass__r.Status__c = &apos;Active - Lab&apos;)</value>
     </values>
 </CustomMetadata>
