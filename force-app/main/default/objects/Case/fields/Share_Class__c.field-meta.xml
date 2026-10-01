@@ -7,9 +7,9 @@
     <lookupFilter>
         <active>true</active>
         <filterItems>
-            <field>$Source.Carmignac_Strategy__c</field>
+            <field>$Source.Strategy__c</field>
             <operation>equals</operation>
-            <valueField>Share_Class__c.Fund__r.Strategy__c</valueField>
+            <valueField>Share_Class__c.Fund__r.FundStrategy__c</valueField>
         </filterItems>
         <isOptional>true</isOptional>
     </lookupFilter>
