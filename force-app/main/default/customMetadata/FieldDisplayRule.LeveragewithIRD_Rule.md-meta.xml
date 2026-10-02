@@ -8,7 +8,7 @@
     </values>
     <values>
         <field>DisplayCondition__c</field>
-        <value xsi:type="xsd:string">((record.LegalForm__c===&apos;FCP&apos; || record.LegalForm__c===&apos;SICAV&apos;) &amp;&amp; (record.GlobalRiskMethod__c===&apos;Absolute VaR&apos; || record.GlobalRiskMethod__c===&apos;Relative VaR&apos;))</value>
+        <value xsi:type="xsd:string">((record.LegalForm__c===&apos;FCP&apos; || record.LegalForm__c===&apos;SICAV&apos; || record.LegalForm__c===&apos;OEIC&apos;) &amp;&amp; (record.GlobalRiskMethod__c===&apos;Absolute VaR&apos; || record.GlobalRiskMethod__c===&apos;Relative VaR&apos;))</value>
     </values>
     <values>
         <field>FieldApiName__c</field>
@@ -16,7 +16,7 @@
     </values>
     <values>
         <field>Mandatory_Rule__c</field>
-        <value xsi:type="xsd:string">((record.LegalForm__c===&apos;FCP&apos; || record.LegalForm__c===&apos;SICAV&apos;) &amp;&amp; (record.GlobalRiskMethod__c===&apos;Absolute VaR&apos; || record.GlobalRiskMethod__c===&apos;Relative VaR&apos;))</value>
+        <value xsi:type="xsd:string">((record.LegalForm__c===&apos;FCP&apos; || record.LegalForm__c===&apos;SICAV&apos; || record.LegalForm__c===&apos;OEIC&apos;) &amp;&amp; (record.GlobalRiskMethod__c===&apos;Absolute VaR&apos; || record.GlobalRiskMethod__c===&apos;Relative VaR&apos;))</value>
     </values>
     <values>
         <field>ObjectApiName__c</field>

@@ -4,9 +4,7 @@
     <active>true</active>
     <errorConditionFormula>AND(NOT($User.BypassValidationRules__c),
 RecordType.DeveloperName = &apos;ThirdParties&apos;,
-OR(ISBLANK(TEXT(DomiciledIn__c)),
 ISBLANK(LEICode__c)
-)
 )</errorConditionFormula>
-    <errorMessage>For Third Parties, both the LEI Code and Domiciled In fields are required.</errorMessage>
+    <errorMessage>For Third Parties, the LEI Code field is required.</errorMessage>
 </ValidationRule>

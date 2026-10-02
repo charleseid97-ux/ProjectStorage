@@ -1,53 +1,154 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Flow xmlns="http://soap.sforce.com/2006/04/metadata">
     <apiVersion>64.0</apiVersion>
+    <areMetricsLoggedToDataCloud>false</areMetricsLoggedToDataCloud>
     <decisions>
-        <name>TypeDispatcher</name>
-        <label>Type Dispatcher</label>
+        <name>Record_Type</name>
+        <label>Record Type</label>
         <locationX>0</locationX>
         <locationY>0</locationY>
         <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
         <rules>
-            <name>BiographyType</name>
+            <name>Biography</name>
             <conditionLogic>and</conditionLogic>
             <conditions>
-                <leftValueReference>$Record.Type__c</leftValueReference>
+                <leftValueReference>$Record.RecordType.DeveloperName</leftValueReference>
                 <operator>EqualTo</operator>
                 <rightValue>
                     <stringValue>Biography</stringValue>
                 </rightValue>
             </conditions>
             <connector>
-                <targetReference>Update_Biography_Name</targetReference>
+                <targetReference>Update_Biography</targetReference>
             </connector>
-            <label>Biography Type</label>
+            <label>Biography</label>
         </rules>
         <rules>
-            <name>ESGType</name>
+            <name>Third_Parties</name>
             <conditionLogic>and</conditionLogic>
             <conditions>
-                <leftValueReference>$Record.Type__c</leftValueReference>
+                <leftValueReference>$Record.RecordType.DeveloperName</leftValueReference>
                 <operator>EqualTo</operator>
                 <rightValue>
-                    <stringValue>ESG</stringValue>
+                    <stringValue>ThirdParties</stringValue>
                 </rightValue>
             </conditions>
-            <label>ESG Type</label>
-        </rules>
-        <rules>
-            <name>Risk_Type</name>
-            <conditionLogic>and</conditionLogic>
             <conditions>
-                <leftValueReference>$Record.Type__c</leftValueReference>
-                <operator>EqualTo</operator>
+                <leftValueReference>$Record.Name</leftValueReference>
+                <operator>IsChanged</operator>
                 <rightValue>
-                    <stringValue>Risk</stringValue>
+                    <booleanValue>true</booleanValue>
                 </rightValue>
             </conditions>
             <connector>
-                <targetReference>Update_Narrative_Name_Risk</targetReference>
+                <targetReference>Update_Related_TP_Narratives</targetReference>
             </connector>
-            <label>Risk Type</label>
+            <label>Third Parties</label>
+        </rules>
+        <rules>
+            <name>Narrative</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>$Record.RecordType.DeveloperName</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>Narrative</stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Type</targetReference>
+            </connector>
+            <label>Narrative</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <name>Scope</name>
+        <label>Scope</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>Product</name>
+            <conditionLogic>1 OR (2 AND 3)</conditionLogic>
+            <conditions>
+                <leftValueReference>$Record.Narrative_Scope__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>Product</stringValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>$Record.Product__c</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>$Record.ShareClass__c</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Update_Product_Narrative</targetReference>
+            </connector>
+            <label>Product</label>
+        </rules>
+        <rules>
+            <name>Share_Class</name>
+            <conditionLogic>1 OR (2 AND 3)</conditionLogic>
+            <conditions>
+                <leftValueReference>$Record.Narrative_Scope__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>Shareclass</stringValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>$Record.Product__c</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>$Record.ShareClass__c</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Update_Share_Class_Narrative</targetReference>
+            </connector>
+            <label>Share Class</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <name>Type</name>
+        <label>Type</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <defaultConnector>
+            <targetReference>Scope</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>NOT Third Party</defaultConnectorLabel>
+        <rules>
+            <name>Third_Party</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>$Record.Type__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>Third Party</stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Update_Narrative_of_Type_TP</targetReference>
+            </connector>
+            <label>Third Party</label>
         </rules>
     </decisions>
     <environments>Default</environments>
@@ -64,24 +165,76 @@ CASE(
   &quot;Italian&quot;, &quot;IT&quot;,
   &quot;Portuguese&quot;, &quot;PT&quot;,
   &quot;Spanish&quot;, &quot;ES&quot;,
+ &quot;Finnish&quot;, &quot;FI&quot;,
+  &quot;Swedish&quot;, &quot;SE&quot;,
   {!LanguageCodeText}
-) &amp; &quot; – &quot; &amp; TEXT($Record.SubType__c)</expression>
+)</expression>
     </formulas>
     <formulas>
-        <name>FormattedESGName</name>
+        <name>FormattedNarrativeProductName</name>
         <dataType>String</dataType>
-        <expression>&quot;Narrative ESG – &quot; &amp; TEXT($Record.SubType__c)</expression>
+        <expression>TEXT($Record.Type__c) &amp; &quot; – &quot; &amp; 
+CASE(
+  TEXT($Record.SubType__c),
+  &quot;Share_Class_Investment_Objective&quot;, &quot;Share Class Investment Objective&quot;,
+  &quot;Performance_fee_UCITS_KIID&quot;, &quot;Performance fee UCITS KIID&quot;,
+  &quot;Performance_fee_EPT/KID&quot;, &quot;Performance fee EPT/KID&quot;,
+  &quot;INTENDED_RETAIL_INVESTOR&quot;, &quot;Intented Retail Investor&quot;,
+  &quot;PERFORMANCE_FEE&quot;, &quot;Performance Fee&quot;,
+  &quot;PERFORMANCE_FEE_UCITS&quot;, &quot;Performance Fee UCITS&quot;,
+  &quot;REASON_FOR_RHP&quot;, &quot;Reason for RHP&quot;,
+  &quot;REDEEM_CONDITION&quot;, &quot;Redeem Condition&quot;,
+  TEXT($Record.SubType__c))
+ &amp; &quot; – &quot; &amp; {!$Record.Product__r.Name} &amp; &quot; – &quot; &amp;
+CASE(
+  {!LanguageCodeText},
+  &quot;Dutch&quot;, &quot;NL&quot;,
+  &quot;English&quot;, &quot;EN&quot;,
+  &quot;French&quot;, &quot;FR&quot;,
+  &quot;German&quot;, &quot;DE&quot;,
+  &quot;Italian&quot;, &quot;IT&quot;,
+  &quot;Portuguese&quot;, &quot;PT&quot;,
+  &quot;Spanish&quot;, &quot;ES&quot;,
+ &quot;Finnish&quot;, &quot;FI&quot;,
+  &quot;Swedish&quot;, &quot;SE&quot;,
+  {!LanguageCodeText}
+)</expression>
     </formulas>
     <formulas>
-        <description>Builds the formatted name of the Narrative</description>
-        <name>FormattedNarrativeName</name>
+        <name>FormattedNarrativeShareClassName</name>
         <dataType>String</dataType>
-        <expression>{!$Record.Fund_Manager__c} &amp; &quot; &quot; &amp; TEXT({!$Record.Language__c}) &amp; &quot; Bio&quot;</expression>
-    </formulas>
-    <formulas>
-        <name>FormattedRiskName</name>
-        <dataType>String</dataType>
-        <expression>&quot;Narrative Risk – &quot; &amp; TEXT($Record.SubType__c)</expression>
+        <expression>TEXT($Record.Type__c)
+&amp; &quot; – &quot; &amp;
+CASE(
+  TEXT($Record.SubType__c),
+  &quot;Share_Class_Investment_Objective&quot;, &quot;Share Class Investment Objective&quot;,
+  &quot;Performance_fee_UCITS_KIID&quot;, &quot;Performance fee UCITS KIID&quot;,
+  &quot;Performance_fee_EPT/KID&quot;, &quot;Performance fee EPT/KID&quot;,
+  &quot;INTENDED_RETAIL_INVESTOR&quot;, &quot;Intented Retail Investor&quot;,
+  &quot;PERFORMANCE_FEE&quot;, &quot;Performance Fee&quot;,
+  &quot;PERFORMANCE_FEE_UCITS&quot;, &quot;Performance Fee UCITS&quot;,
+  &quot;REASON_FOR_RHP&quot;, &quot;Reason for RHP&quot;,
+  &quot;REDEEM_CONDITION&quot;, &quot;Redeem Condition&quot;,
+  TEXT($Record.SubType__c)
+)
+&amp; &quot; – &quot; &amp;
+$Record.ShareClass__r.Fund__r.Name
+&amp; &quot; – &quot; &amp;
+$Record.ShareClass__r.ISIN__c
+&amp; &quot; – &quot; &amp;
+CASE(
+  {!LanguageCodeText},
+  &quot;Dutch&quot;, &quot;NL&quot;,
+  &quot;English&quot;, &quot;EN&quot;,
+  &quot;French&quot;, &quot;FR&quot;,
+  &quot;German&quot;, &quot;DE&quot;,
+  &quot;Italian&quot;, &quot;IT&quot;,
+  &quot;Portuguese&quot;, &quot;PT&quot;,
+  &quot;Spanish&quot;, &quot;ES&quot;,
+  &quot;Finnish&quot;, &quot;FI&quot;,
+  &quot;Swedish&quot;, &quot;SE&quot;,
+  {!LanguageCodeText}
+)</expression>
     </formulas>
     <formulas>
         <name>LanguageCodeText</name>
@@ -110,8 +263,8 @@ CASE(
     </processMetadataValues>
     <processType>AutoLaunchedFlow</processType>
     <recordUpdates>
-        <name>Update_Biography_Name</name>
-        <label>Update Narrative Name - Biography</label>
+        <name>Update_Biography</name>
+        <label>Update Biography</label>
         <locationX>0</locationX>
         <locationY>0</locationY>
         <inputAssignments>
@@ -123,14 +276,68 @@ CASE(
         <inputReference>$Record</inputReference>
     </recordUpdates>
     <recordUpdates>
-        <name>Update_Narrative_Name_Risk</name>
-        <label>Update Narrative Name – Risk</label>
+        <name>Update_Narrative_of_Type_TP</name>
+        <label>Update Narrative of Type TP</label>
         <locationX>0</locationX>
         <locationY>0</locationY>
         <inputAssignments>
             <field>Name</field>
             <value>
-                <elementReference>FormattedRiskName</elementReference>
+                <elementReference>$Record.Narrative__r.Name</elementReference>
+            </value>
+        </inputAssignments>
+        <inputReference>$Record</inputReference>
+    </recordUpdates>
+    <recordUpdates>
+        <name>Update_Product_Narrative</name>
+        <label>Update Product Narrative</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <inputAssignments>
+            <field>Name</field>
+            <value>
+                <elementReference>FormattedNarrativeProductName</elementReference>
+            </value>
+        </inputAssignments>
+        <inputReference>$Record</inputReference>
+    </recordUpdates>
+    <recordUpdates>
+        <name>Update_Related_TP_Narratives</name>
+        <label>Update Related TP Narratives</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>Type__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <stringValue>Third Party</stringValue>
+            </value>
+        </filters>
+        <filters>
+            <field>Narrative__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>$Record.Id</elementReference>
+            </value>
+        </filters>
+        <inputAssignments>
+            <field>Name</field>
+            <value>
+                <elementReference>$Record.Name</elementReference>
+            </value>
+        </inputAssignments>
+        <object>Narrative__c</object>
+    </recordUpdates>
+    <recordUpdates>
+        <name>Update_Share_Class_Narrative</name>
+        <label>Update Share Class Narrative</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <inputAssignments>
+            <field>Name</field>
+            <value>
+                <elementReference>FormattedNarrativeShareClassName</elementReference>
             </value>
         </inputAssignments>
         <inputReference>$Record</inputReference>
@@ -139,11 +346,11 @@ CASE(
         <locationX>0</locationX>
         <locationY>0</locationY>
         <connector>
-            <targetReference>TypeDispatcher</targetReference>
+            <targetReference>Record_Type</targetReference>
         </connector>
         <object>Narrative__c</object>
         <recordTriggerType>CreateAndUpdate</recordTriggerType>
         <triggerType>RecordAfterSave</triggerType>
     </start>
-    <status>Draft</status>
+    <status>Active</status>
 </Flow>

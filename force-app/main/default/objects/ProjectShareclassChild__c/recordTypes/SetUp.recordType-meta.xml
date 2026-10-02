@@ -139,7 +139,82 @@
         </values>
     </picklistValues>
     <picklistValues>
-        <picklist>CountryRegNeeded__c</picklist>
+        <picklist>CountryRegNeededInstitutional__c</picklist>
+        <values>
+            <fullName>Austria</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Belgium</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Finland</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>France</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Germany</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Ireland</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Italy</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Luxembourg</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Netherlands</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Norway</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Portugal%E2%80%8B</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Singapore</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Spain</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Sweden</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Switzerland</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Taiwan</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>United Arab Emirates</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>United Kingdom</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>CountryRegNeededOld__c</picklist>
         <values>
             <fullName>Austria</fullName>
             <default>false</default>
@@ -210,6 +285,156 @@
         </values>
     </picklistValues>
     <picklistValues>
+        <picklist>CountryRegNeededRetail__c</picklist>
+        <values>
+            <fullName>Austria</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Belgium</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Finland</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>France</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Germany</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Ireland</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Italy</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Luxembourg</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Netherlands</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Norway</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Portugal%E2%80%8B</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Singapore</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Spain</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Sweden</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Switzerland</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Taiwan</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>United Arab Emirates</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>United Kingdom</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>CountryRegNeededSemipro__c</picklist>
+        <values>
+            <fullName>Austria</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Belgium</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Finland</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>France</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Germany</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Ireland</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Italy</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Luxembourg</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Netherlands</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Norway</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Portugal%E2%80%8B</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Singapore</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Spain</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Sweden</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Switzerland</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Taiwan</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>United Arab Emirates</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>United Kingdom</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
         <picklist>CurrencyHedging__c</picklist>
         <values>
             <fullName>False</fullName>
@@ -244,6 +469,33 @@
         </values>
         <values>
             <fullName>USD</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>DisseminationRecipient__c</picklist>
+        <values>
+            <fullName>Bloomberg</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Factset</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Morningstar</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Morningstar %28EET Only%29</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Others</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>WM Daten</fullName>
             <default>false</default>
         </values>
     </picklistValues>
@@ -291,6 +543,10 @@
             <fullName>Distributing</fullName>
             <default>false</default>
         </values>
+        <values>
+            <fullName>Income</fullName>
+            <default>false</default>
+        </values>
     </picklistValues>
     <picklistValues>
         <picklist>EFAMAEFCCategory__c</picklist>
@@ -332,6 +588,10 @@
     </picklistValues>
     <picklistValues>
         <picklist>EFAMAEFCClassification__c</picklist>
+        <values>
+            <fullName>ARIS Global Macro</fullName>
+            <default>false</default>
+        </values>
         <values>
             <fullName>ARIS Long%2FShort Equity Variable Bias Strategy</fullName>
             <default>false</default>
@@ -634,7 +894,7 @@
             <default>false</default>
         </values>
         <values>
-            <fullName>Benchmark</fullName>
+            <fullName>Relative</fullName>
             <default>false</default>
         </values>
     </picklistValues>
@@ -706,6 +966,37 @@
         <picklist>InvestmentStyle__c</picklist>
         <values>
             <fullName>N%2FA</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>InvestorSubType__c</picklist>
+        <values>
+            <fullName>All investors</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Authorized institutional investors</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Authorized investors in Germany and Austria</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Clean shares eligible investors</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Reserved to funds managed by CG</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Reserved to selected institutional investors</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Reserved to selected investors</fullName>
             <default>false</default>
         </values>
     </picklistValues>
@@ -1065,6 +1356,10 @@
             <fullName>Closed - merged</fullName>
             <default>false</default>
         </values>
+        <values>
+            <fullName>Inactive</fullName>
+            <default>false</default>
+        </values>
     </picklistValues>
     <picklistValues>
         <picklist>SubAssetClass__c</picklist>
@@ -1152,7 +1447,34 @@
         </values>
     </picklistValues>
     <picklistValues>
+        <picklist>TaxTransparency__c</picklist>
+        <values>
+            <fullName>AT</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>BE Asset Test</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>BE TIS</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>CH</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>UK</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
         <picklist>TradeCycleRedemption__c</picklist>
+        <values>
+            <fullName>Bi-Monthly</fullName>
+            <default>false</default>
+        </values>
         <values>
             <fullName>Daily</fullName>
             <default>false</default>
@@ -1177,6 +1499,10 @@
     <picklistValues>
         <picklist>TradeCycleSubscription__c</picklist>
         <values>
+            <fullName>Bi-Monthly</fullName>
+            <default>false</default>
+        </values>
+        <values>
             <fullName>Daily</fullName>
             <default>false</default>
         </values>
@@ -1199,6 +1525,10 @@
     </picklistValues>
     <picklistValues>
         <picklist>TradeCycle__c</picklist>
+        <values>
+            <fullName>Bi-Monthly</fullName>
+            <default>false</default>
+        </values>
         <values>
             <fullName>Combined</fullName>
             <default>false</default>
@@ -1224,6 +1554,14 @@
         <picklist>Type__c</picklist>
         <values>
             <fullName>A</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>A1</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>A2</fullName>
             <default>false</default>
         </values>
         <values>
@@ -1267,6 +1605,14 @@
             <default>false</default>
         </values>
         <values>
+            <fullName>M</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>MyInvestor</fullName>
+            <default>false</default>
+        </values>
+        <values>
             <fullName>X</fullName>
             <default>false</default>
         </values>
@@ -1279,7 +1625,15 @@
             <default>false</default>
         </values>
         <values>
+            <fullName>X3</fullName>
+            <default>false</default>
+        </values>
+        <values>
             <fullName>Z</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Z2</fullName>
             <default>false</default>
         </values>
     </picklistValues>

@@ -955,36 +955,6 @@
                 <label>PreCentralAdmin</label>
             </value>
             <value>
-                <fullName>Counterparty risk</fullName>
-                <default>false</default>
-                <label>Counterparty risk</label>
-            </value>
-            <value>
-                <fullName>Credit risk</fullName>
-                <default>false</default>
-                <label>Credit risk</label>
-            </value>
-            <value>
-                <fullName>Liquidity risk</fullName>
-                <default>false</default>
-                <label>Liquidity risk</label>
-            </value>
-            <value>
-                <fullName>Pooled investments in secondaries risk</fullName>
-                <default>false</default>
-                <label>Pooled investments in secondaries risk</label>
-            </value>
-            <value>
-                <fullName>Risks associated with China</fullName>
-                <default>false</default>
-                <label>Risks associated with China</label>
-            </value>
-            <value>
-                <fullName>Risk of capital loss</fullName>
-                <default>false</default>
-                <label>Risk of capital loss</label>
-            </value>
-            <value>
                 <fullName>Investment Objective</fullName>
                 <default>false</default>
                 <label>Investment Objective</label>
@@ -1028,6 +998,36 @@
                 <fullName>ESG Sovereign Score</fullName>
                 <default>false</default>
                 <label>ESG Sovereign Score</label>
+            </value>
+            <value>
+                <fullName>Counterparty risk</fullName>
+                <default>false</default>
+                <label>Counterparty risk</label>
+            </value>
+            <value>
+                <fullName>Credit risk</fullName>
+                <default>false</default>
+                <label>Credit risk</label>
+            </value>
+            <value>
+                <fullName>Liquidity risk</fullName>
+                <default>false</default>
+                <label>Liquidity risk</label>
+            </value>
+            <value>
+                <fullName>Pooled investments in secondaries risk</fullName>
+                <default>false</default>
+                <label>Pooled investments in secondaries risk</label>
+            </value>
+            <value>
+                <fullName>Risks associated with China</fullName>
+                <default>false</default>
+                <label>Risks associated with China</label>
+            </value>
+            <value>
+                <fullName>Risk of capital loss</fullName>
+                <default>false</default>
+                <label>Risk of capital loss</label>
             </value>
         </valueSetDefinition>
         <valueSettings>
@@ -1203,6 +1203,10 @@
         <valueSettings>
             <controllingFieldValue>PRIIPs</controllingFieldValue>
             <valueName>Risks associated with China</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>PRIIPs</controllingFieldValue>
+            <valueName>Risk of capital loss</valueName>
         </valueSettings>
         <valueSettings>
             <controllingFieldValue>Marketing</controllingFieldValue>

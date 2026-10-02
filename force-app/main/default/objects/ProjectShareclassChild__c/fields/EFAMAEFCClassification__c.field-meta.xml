@@ -4,12 +4,18 @@
     <description>EFAMA Active EFC Classification</description>
     <label>EFAMA EFC Classification</label>
     <required>false</required>
+    <trackHistory>false</trackHistory>
     <trackTrending>false</trackTrending>
     <type>Picklist</type>
     <valueSet>
         <restricted>true</restricted>
         <valueSetDefinition>
             <sorted>true</sorted>
+            <value>
+                <fullName>ARIS Global Macro</fullName>
+                <default>false</default>
+                <label>ARIS Global Macro</label>
+            </value>
             <value>
                 <fullName>ARIS Long/Short Equity Variable Bias Strategy</fullName>
                 <default>false</default>

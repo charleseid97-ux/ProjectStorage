@@ -48,6 +48,7 @@
         <offset>0</offset>
     </actionCalls>
     <apiVersion>64.0</apiVersion>
+    <areMetricsLoggedToDataCloud>false</areMetricsLoggedToDataCloud>
     <description>This flow triggers when a project’s **Launch Date is in 7 days, the Launch milestone is not complete, and some phases are still incomplete.
 It alerts Product Strategy to review the project before the automatic batch launch.</description>
     <environments>Default</environments>

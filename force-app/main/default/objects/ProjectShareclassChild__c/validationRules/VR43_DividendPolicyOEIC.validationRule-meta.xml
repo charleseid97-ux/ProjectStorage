@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>VR43_DividendPolicyOEIC</fullName>
+    <active>true</active>
+    <errorConditionFormula>AND(
+NOT($User.BypassValidationRules__c),
+ISPICKVAL(ProjectShareclasses__r.Fund__r.LegalForm__c , &apos;OEIC&apos;),
+ISPICKVAL(DividendPolicy__c ,&apos;Distributing&apos;),
+$Permission.PRPProductStrategy,
+RecordType.DeveloperName = &apos;DesignAndProposal&apos;
+)</errorConditionFormula>
+    <errorDisplayField>DividendPolicy__c</errorDisplayField>
+    <errorMessage>Only “Income” and “Accumulating” are applicable for OEIC Share Classes.</errorMessage>
+</ValidationRule>

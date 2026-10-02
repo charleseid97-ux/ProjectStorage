@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>VR01_ShareClassRequired</fullName>
+    <active>true</active>
+    <errorConditionFormula>AND(
+NOT($User.BypassValidationRules__c),
+ISBLANK(ShareClass__c)
+)</errorConditionFormula>
+    <errorDisplayField>ShareClass__c</errorDisplayField>
+    <errorMessage>The Share Class field is required.</errorMessage>
+</ValidationRule>

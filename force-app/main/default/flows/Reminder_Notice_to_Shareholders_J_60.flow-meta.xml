@@ -10,11 +10,16 @@
         <flowTransactionModel>CurrentTransaction</flowTransactionModel>
         <inputParameters>
             <name>recipientAddresses</name>
-            <value/>
+            <value>
+                <collectionElements>
+                    <elementReference>emailsDistributionList</elementReference>
+                </collectionElements>
+            </value>
         </inputParameters>
         <inputParameters>
             <name>senderType</name>
             <value>
+                <inputConfiguratorMode>Custom</inputConfiguratorMode>
                 <stringValue>OrgWideEmailAddress</stringValue>
             </value>
         </inputParameters>
@@ -22,6 +27,7 @@
             <name>senderAddress</name>
             <value>
                 <elementReference>$Label.NoReplayWideAddress</elementReference>
+                <inputConfiguratorMode>Resource</inputConfiguratorMode>
             </value>
         </inputParameters>
         <inputParameters>
@@ -40,6 +46,7 @@
             <name>emailBody</name>
             <value>
                 <elementReference>emailBody</elementReference>
+                <inputConfiguratorMode>Resource</inputConfiguratorMode>
             </value>
         </inputParameters>
         <inputParameters>
@@ -50,8 +57,10 @@
         </inputParameters>
         <nameSegment>emailSimple</nameSegment>
         <offset>0</offset>
+        <versionString>2.0.1</versionString>
     </actionCalls>
     <apiVersion>65.0</apiVersion>
+    <areMetricsLoggedToDataCloud>false</areMetricsLoggedToDataCloud>
     <decisions>
         <name>Has_Notice_Document</name>
         <label>Has Notice Document ?</label>

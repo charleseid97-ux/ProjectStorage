@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Flow xmlns="http://soap.sforce.com/2006/04/metadata">
     <apiVersion>65.0</apiVersion>
+    <areMetricsLoggedToDataCloud>false</areMetricsLoggedToDataCloud>
     <customErrors>
         <name>Error_Duplicate_RepOrder</name>
         <label>Error - Duplicate RepOrder</label>
@@ -20,9 +21,16 @@
         <defaultConnectorLabel>No Duplicate</defaultConnectorLabel>
         <rules>
             <name>Duplicate_Found</name>
-            <conditionLogic>and</conditionLogic>
+            <conditionLogic>or</conditionLogic>
             <conditions>
-                <leftValueReference>Get_Existing_Assignments</leftValueReference>
+                <leftValueReference>Get_Existing_Product_Assignments</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>Get_Existing_Project_Assignments</leftValueReference>
                 <operator>IsNull</operator>
                 <rightValue>
                     <booleanValue>false</booleanValue>
@@ -32,6 +40,46 @@
                 <targetReference>Error_Duplicate_RepOrder</targetReference>
             </connector>
             <label>Duplicate Found</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <name>Check_Portfolio</name>
+        <label>Check Portfolio</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <defaultConnector>
+            <targetReference>Check_Duplicate_RepOrder</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>Product_Related</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>$Record.Product__c</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Get_Existing_Product_Assignments</targetReference>
+            </connector>
+            <label>Product Related</label>
+        </rules>
+        <rules>
+            <name>Project_Related</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>$Record.ProductManagementTool__c</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Get_Existing_Project_Assignments</targetReference>
+            </connector>
+            <label>Project Related</label>
         </rules>
     </decisions>
     <environments>Default</environments>
@@ -57,15 +105,15 @@
     </processMetadataValues>
     <processType>AutoLaunchedFlow</processType>
     <recordLookups>
-        <name>Get_Existing_Assignments</name>
-        <label>Get Existing Assignments</label>
+        <name>Get_Existing_Product_Assignments</name>
+        <label>Get Existing Product Assignments</label>
         <locationX>0</locationX>
         <locationY>0</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
             <targetReference>Check_Duplicate_RepOrder</targetReference>
         </connector>
-        <filterLogic>and</filterLogic>
+        <filterLogic>1 AND 3 AND ((2 AND 5) OR 4)</filterLogic>
         <filters>
             <field>Product__c</field>
             <operator>EqualTo</operator>
@@ -87,6 +135,69 @@
                 <elementReference>$Record.Id</elementReference>
             </value>
         </filters>
+        <filters>
+            <field>FundManager__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>$Record.FundManager__c</elementReference>
+            </value>
+        </filters>
+        <filters>
+            <field>RepOrder__c</field>
+            <operator>IsNull</operator>
+            <value>
+                <booleanValue>false</booleanValue>
+            </value>
+        </filters>
+        <getFirstRecordOnly>true</getFirstRecordOnly>
+        <object>FundManagerAssignment__c</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+    <recordLookups>
+        <name>Get_Existing_Project_Assignments</name>
+        <label>Get Existing Project Assignments</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>Check_Duplicate_RepOrder</targetReference>
+        </connector>
+        <filterLogic>1 AND 3 AND ((2 AND 5) OR 4)</filterLogic>
+        <filters>
+            <field>ProductManagementTool__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>$Record.ProductManagementTool__c</elementReference>
+            </value>
+        </filters>
+        <filters>
+            <field>RepOrder__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>$Record.RepOrder__c</elementReference>
+            </value>
+        </filters>
+        <filters>
+            <field>Id</field>
+            <operator>NotEqualTo</operator>
+            <value>
+                <elementReference>$Record.Id</elementReference>
+            </value>
+        </filters>
+        <filters>
+            <field>FundManager__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>$Record.FundManager__c</elementReference>
+            </value>
+        </filters>
+        <filters>
+            <field>RepOrder__c</field>
+            <operator>IsNull</operator>
+            <value>
+                <booleanValue>false</booleanValue>
+            </value>
+        </filters>
         <getFirstRecordOnly>true</getFirstRecordOnly>
         <object>FundManagerAssignment__c</object>
         <storeOutputAutomatically>true</storeOutputAutomatically>
@@ -95,7 +206,7 @@
         <locationX>0</locationX>
         <locationY>0</locationY>
         <connector>
-            <targetReference>Get_Existing_Assignments</targetReference>
+            <targetReference>Check_Portfolio</targetReference>
         </connector>
         <filterLogic>and</filterLogic>
         <filters>
@@ -106,5 +217,5 @@
         <recordTriggerType>CreateAndUpdate</recordTriggerType>
         <triggerType>RecordBeforeSave</triggerType>
     </start>
-    <status>Obsolete</status>
+    <status>Active</status>
 </Flow>

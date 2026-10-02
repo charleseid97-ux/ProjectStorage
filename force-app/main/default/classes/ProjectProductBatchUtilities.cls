@@ -103,6 +103,7 @@ public class ProjectProductBatchUtilities {
     }
 
 
+    // Récupère les Products liés avec tous leurs champs pour permettre les mises à jour dynamiques
     public static Map<Id, Product__c> getMapProductByProductId(List<ProjectProduct__c> listProjectProduct) {
         Set<Id> setProductIds = new Set<Id>();
         Map<Id, Product__c> mapProductByProductId = new Map<Id, Product__c>();
@@ -113,7 +114,11 @@ public class ProjectProductBatchUtilities {
             }
         }
 
-        for (Product__c currentProduct :  [SELECT Id FROM Product__c WHERE Id IN :setProductIds]) {
+        // Charge tous les champs Product__c utilisés ensuite par le batch
+        String query = 'SELECT ' + RecordCloneHelper.getAllFieldNames('Product__c')
+            + ' FROM Product__c WHERE Id IN :setProductIds';
+
+        for (Product__c currentProduct : Database.query(query)) {
             mapProductByProductId.put(currentProduct.Id, currentProduct);
         }
 

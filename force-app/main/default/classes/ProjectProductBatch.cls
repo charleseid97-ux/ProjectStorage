@@ -15,11 +15,12 @@ global class ProjectProductBatch implements Database.Batchable<SObject>, Databas
     global Database.QueryLocator start(Database.BatchableContext BC) {
         startTime = Datetime.now();
         return Database.getQueryLocator([
-            SELECT Id, RecordTypeId, EndDate__c,
+            SELECT Id, RecordTypeId, EndDate__c, ForceProductCatalogPush__c, LaunchedDate__c,
             (SELECT Id, Name, Status__c FROM Milestones__r WHERE Name = 'Launch Date' LIMIT 1),
             (SELECT Id, Status__c FROM Project_Product_Childs__r WHERE Status__c != 'Completed' AND Name != 'Design')
             FROM ProjectProduct__c 
-            WHERE EndDate__c = TODAY
+            WHERE (EndDate__c = TODAY OR ForceProductCatalogPush__c = true)
+            AND LaunchedDate__c = NULL
         ]);
     }
 
@@ -30,6 +31,7 @@ global class ProjectProductBatch implements Database.Batchable<SObject>, Databas
         List<ProjectProduct__c> listFundCreation = new List<ProjectProduct__c>();
         List<ProjectProduct__c> listFundShareClassModification = new List<ProjectProduct__c>();
         List<ProjectProduct__c> listShareclassCreation = new List<ProjectProduct__c>();
+        List<Id> launchedProjectProductIds = new List<Id>();
 
         for (ProjectProduct__c pp : scope) {
             if (ProjectProductBatchController.canProcessProjectProduct(pp, debugInformation, errorMessages)) {
@@ -53,7 +55,7 @@ global class ProjectProductBatch implements Database.Batchable<SObject>, Databas
         try {
             if (!listFundCreation.isEmpty()) {
                 
-                ProjectProductBatchController.createFundShareclass(listFundCreation, debugInformation, errorMessages, recordsFailedWrapper, insertedRecords);
+                ProjectProductBatchController.createFundShareclass(listFundCreation, debugInformation, errorMessages, recordsFailedWrapper, insertedRecords, launchedProjectProductIds);
                 recordsSuccess += insertedRecords.size();
             }
         } catch (Exception e) {
@@ -63,7 +65,7 @@ global class ProjectProductBatch implements Database.Batchable<SObject>, Databas
 
         try {
             if (!listFundShareClassModification.isEmpty()) {
-                ProjectProductBatchController.updateFundShareclassModification(listFundShareClassModification, debugInformation, errorMessages, recordsFailedWrapper, insertedRecords);
+                ProjectProductBatchController.updateFundShareclassModification(listFundShareClassModification, debugInformation, errorMessages, recordsFailedWrapper, insertedRecords, launchedProjectProductIds);
                 recordsSuccess += insertedRecords.size();
             }
         } catch (Exception e) {
@@ -73,12 +75,24 @@ global class ProjectProductBatch implements Database.Batchable<SObject>, Databas
 
         try {
             if (!listShareclassCreation.isEmpty()) {
-                ProjectProductBatchController.createShareclasses(listShareclassCreation, debugInformation, errorMessages, recordsFailedWrapper, insertedRecords);
+                ProjectProductBatchController.createShareclasses(listShareclassCreation, debugInformation, errorMessages, recordsFailedWrapper, insertedRecords, launchedProjectProductIds);
                 recordsSuccess += insertedRecords.size();
             }
         } catch (Exception e) {
             errorMessages.add('[ERROR] ShareclassCreation: ' + e.getMessage());
             debugInformation.add(e.getStackTraceString());
+        }
+
+        // Enregistre la date réelle de lancement uniquement pour les projets traités avec succès.
+        if (!launchedProjectProductIds.isEmpty()) {
+            List<ProjectProduct__c> launchedProjects = new List<ProjectProduct__c>();
+            for (Id projectProductId : launchedProjectProductIds) {
+                launchedProjects.add(new ProjectProduct__c(
+                    Id = projectProductId,
+                    LaunchedDate__c = Date.today()
+                ));
+            }
+            update launchedProjects;
         }
     }
 

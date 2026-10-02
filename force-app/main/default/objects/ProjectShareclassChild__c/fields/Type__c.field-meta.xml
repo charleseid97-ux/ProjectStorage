@@ -4,6 +4,7 @@
     <description>Shareclass type</description>
     <label>Shareclass type</label>
     <required>false</required>
+    <trackHistory>false</trackHistory>
     <trackTrending>false</trackTrending>
     <type>Picklist</type>
     <valueSet>
@@ -16,9 +17,13 @@
                 <label>A</label>
             </value>
             <value>
+                <fullName>A1</fullName>
+                <default>false</default>
+                <label>A1</label>
+            </value>
+            <value>
                 <fullName>A2</fullName>
                 <default>false</default>
-                <isActive>false</isActive>
                 <label>A2</label>
             </value>
             <value>
@@ -87,6 +92,11 @@
                 <fullName>M</fullName>
                 <default>false</default>
                 <label>M</label>
+            </value>
+            <value>
+                <fullName>MyInvestor</fullName>
+                <default>false</default>
+                <label>MyInvestor</label>
             </value>
             <value>
                 <fullName>Not Applicable</fullName>
@@ -158,9 +168,19 @@
                 <label>X2</label>
             </value>
             <value>
+                <fullName>X3</fullName>
+                <default>false</default>
+                <label>X3</label>
+            </value>
+            <value>
                 <fullName>Z</fullName>
                 <default>false</default>
                 <label>Z</label>
+            </value>
+            <value>
+                <fullName>Z2</fullName>
+                <default>false</default>
+                <label>Z2</label>
             </value>
         </valueSetDefinition>
     </valueSet>

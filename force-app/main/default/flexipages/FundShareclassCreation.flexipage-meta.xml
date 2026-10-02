@@ -87,6 +87,59 @@
             <componentInstance>
                 <componentInstanceProperties>
                     <name>actionNames</name>
+                    <valueList>
+                        <valueListItems>
+                            <value>ProjectProduct__c.Generate_Draft_KID</value>
+                            <visibilityRule>
+                                <booleanFilter>(1 OR 2 OR 3 OR 4 OR 6 OR 7 OR 8) AND ( 5 AND 9)</booleanFilter>
+                                <criteria>
+                                    <leftValue>{!$User.Username}</leftValue>
+                                    <operator>CONTAINS</operator>
+                                    <rightValue>leo.pawlicki</rightValue>
+                                </criteria>
+                                <criteria>
+                                    <leftValue>{!$User.Username}</leftValue>
+                                    <operator>CONTAINS</operator>
+                                    <rightValue>clementine.blanchard</rightValue>
+                                </criteria>
+                                <criteria>
+                                    <leftValue>{!$User.Profile.Name}</leftValue>
+                                    <operator>CONTAINS</operator>
+                                    <rightValue>Administrator</rightValue>
+                                </criteria>
+                                <criteria>
+                                    <leftValue>{!$User.Profile.Name}</leftValue>
+                                    <operator>EQUAL</operator>
+                                    <rightValue>Carmignac - Legal and Compliance</rightValue>
+                                </criteria>
+                                <criteria>
+                                    <leftValue>{!Record.ProjectStatus__c}</leftValue>
+                                    <operator>NE</operator>
+                                    <rightValue>Cancelled</rightValue>
+                                </criteria>
+                                <criteria>
+                                    <leftValue>{!$User.Username}</leftValue>
+                                    <operator>EQUAL</operator>
+                                    <rightValue>patrick.temfack-crm@carmignac.com</rightValue>
+                                </criteria>
+                                <criteria>
+                                    <leftValue>{!$User.Username}</leftValue>
+                                    <operator>EQUAL</operator>
+                                    <rightValue>dana.croize-crm@carmignac.com</rightValue>
+                                </criteria>
+                                <criteria>
+                                    <leftValue>{!$User.Username}</leftValue>
+                                    <operator>EQUAL</operator>
+                                    <rightValue>arnaud.sankou-crm@carmignac.com</rightValue>
+                                </criteria>
+                                <criteria>
+                                    <leftValue>{!Record.LegalForm__c}</leftValue>
+                                    <operator>NE</operator>
+                                    <rightValue>OEIC</rightValue>
+                                </criteria>
+                            </visibilityRule>
+                        </valueListItems>
+                    </valueList>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>collapsed</name>
@@ -103,6 +156,10 @@
                 <componentInstanceProperties>
                     <name>hideChatterActions</name>
                     <value>true</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>hideSlackAction</name>
+                    <value>false</value>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>numVisibleActions</name>
@@ -315,16 +372,6 @@
                 </fieldInstanceProperties>
                 <fieldItem>Record.ProductName__c</fieldItem>
                 <identifier>RecordProductName_cField2</identifier>
-            </fieldInstance>
-        </itemInstances>
-        <itemInstances>
-            <fieldInstance>
-                <fieldInstanceProperties>
-                    <name>uiBehavior</name>
-                    <value>none</value>
-                </fieldInstanceProperties>
-                <fieldItem>Record.ForeseenEUCategory__c</fieldItem>
-                <identifier>RecordEUCategory_cField</identifier>
             </fieldInstance>
         </itemInstances>
         <itemInstances>
@@ -573,16 +620,6 @@
                 </fieldInstanceProperties>
                 <fieldItem>Record.RegisteredShareLocation__c</fieldItem>
                 <identifier>RecordRegisteredShareLocation_cField</identifier>
-            </fieldInstance>
-        </itemInstances>
-        <itemInstances>
-            <fieldInstance>
-                <fieldInstanceProperties>
-                    <name>uiBehavior</name>
-                    <value>none</value>
-                </fieldInstanceProperties>
-                <fieldItem>Record.Sponsor__c</fieldItem>
-                <identifier>RecordSponsor_cField</identifier>
             </fieldInstance>
         </itemInstances>
         <itemInstances>
@@ -1122,8 +1159,8 @@
                     <name>uiBehavior</name>
                     <value>none</value>
                 </fieldInstanceProperties>
-                <fieldItem>Record.NoticePeriod__c</fieldItem>
-                <identifier>RecordNoticePeriod_cField</identifier>
+                <fieldItem>Record.NoticePeriodRedemption__c</fieldItem>
+                <identifier>RecordNoticePeriodRedemption_cField</identifier>
             </fieldInstance>
         </itemInstances>
         <itemInstances>
@@ -1132,8 +1169,8 @@
                     <name>uiBehavior</name>
                     <value>none</value>
                 </fieldInstanceProperties>
-                <fieldItem>Record.HasGate__c</fieldItem>
-                <identifier>RecordHasGate_cField</identifier>
+                <fieldItem>Record.NoticePeriodSubscription__c</fieldItem>
+                <identifier>RecordNoticePeriodSubscription_cField</identifier>
             </fieldInstance>
         </itemInstances>
         <name>Facet-a67a3091-1c2b-48e5-b187-fca016d74a0a</name>
@@ -1305,23 +1342,6 @@
                 </fieldInstanceProperties>
                 <fieldItem>Record.Benchmark__c</fieldItem>
                 <identifier>RecordBenchmark_cField2</identifier>
-                <visibilityRule>
-                    <criteria>
-                        <leftValue>{!Record.HasBenchmark__c}</leftValue>
-                        <operator>EQUAL</operator>
-                        <rightValue>True</rightValue>
-                    </criteria>
-                </visibilityRule>
-            </fieldInstance>
-        </itemInstances>
-        <itemInstances>
-            <fieldInstance>
-                <fieldInstanceProperties>
-                    <name>uiBehavior</name>
-                    <value>none</value>
-                </fieldInstanceProperties>
-                <fieldItem>Record.Useref__c</fieldItem>
-                <identifier>RecordUseref_cField</identifier>
                 <visibilityRule>
                     <criteria>
                         <leftValue>{!Record.HasBenchmark__c}</leftValue>
@@ -2133,6 +2153,16 @@
                 <identifier>RecordRegulator_cField</identifier>
             </fieldInstance>
         </itemInstances>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>none</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.ForeseenEUCategory__c</fieldItem>
+                <identifier>RecordEUCategory_cField</identifier>
+            </fieldInstance>
+        </itemInstances>
         <name>Facet-e71f8d0d-2729-46e4-a6a5-aa54e4b29454</name>
         <type>Facet</type>
     </flexiPageRegions>
@@ -2253,8 +2283,8 @@
                     <name>uiBehavior</name>
                     <value>none</value>
                 </fieldInstanceProperties>
-                <fieldItem>Record.RedeemCondition__c</fieldItem>
-                <identifier>RecordRedeemCondition_cField</identifier>
+                <fieldItem>Record.SettlementPeriod__c</fieldItem>
+                <identifier>RecordSettlementPeriod_cField</identifier>
             </fieldInstance>
         </itemInstances>
         <itemInstances>
@@ -2263,8 +2293,8 @@
                     <name>uiBehavior</name>
                     <value>none</value>
                 </fieldInstanceProperties>
-                <fieldItem>Record.LMT__c</fieldItem>
-                <identifier>RecordLMT_cField</identifier>
+                <fieldItem>Record.OtherRelevantInformation__c</fieldItem>
+                <identifier>RecordOtherRelevantInformation_cField</identifier>
             </fieldInstance>
         </itemInstances>
         <name>Facet-45229bf9-ac63-4058-8767-136eff2f9ef7</name>
@@ -2321,8 +2351,8 @@
                     <name>uiBehavior</name>
                     <value>none</value>
                 </fieldInstanceProperties>
-                <fieldItem>Record.HasSwingPricing__c</fieldItem>
-                <identifier>RecordHasSwingPricing_cField</identifier>
+                <fieldItem>Record.LiquidityManagementToolLMT__c</fieldItem>
+                <identifier>RecordLiquidityManagementToolLMT_cField</identifier>
             </fieldInstance>
         </itemInstances>
         <name>Facet-cc03199a-a815-4bd9-afdd-3796da436595</name>
@@ -2347,6 +2377,26 @@
                 </fieldInstanceProperties>
                 <fieldItem>Record.IsLeveraged__c</fieldItem>
                 <identifier>RecordIsLeveraged_cField</identifier>
+            </fieldInstance>
+        </itemInstances>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>none</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.PRIIPSCategory__c</fieldItem>
+                <identifier>RecordPRIIPSCategory_cField</identifier>
+            </fieldInstance>
+        </itemInstances>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>none</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.RiskNotConsideredinIndicator__c</fieldItem>
+                <identifier>RecordRiskNotConsideredinIndicator_cField</identifier>
             </fieldInstance>
         </itemInstances>
         <name>Facet-c380338f-e7ea-4c24-8c60-b0e6ca3a8958</name>
@@ -2605,7 +2655,7 @@
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>label</name>
-                    <value>Reporting</value>
+                    <value>PRIIPS KID / UCITS KIID</value>
                 </componentInstanceProperties>
                 <componentName>flexipage:fieldSection</componentName>
                 <identifier>flexipage_fieldSection16</identifier>
@@ -2810,6 +2860,10 @@
         <itemInstances>
             <componentInstance>
                 <componentInstanceProperties>
+                    <name>label</name>
+                    <value>Tabs</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
                     <name>tabs</name>
                     <value>Facet-e66b3a9d-e40e-4fe3-895c-4dfaa93ffd54</value>
                 </componentInstanceProperties>
@@ -2818,6 +2872,16 @@
             </componentInstance>
         </itemInstances>
         <name>Facet-de41155e-094a-4772-9b25-f805e7195f7b</name>
+        <type>Facet</type>
+    </flexiPageRegions>
+    <flexiPageRegions>
+        <itemInstances>
+            <componentInstance>
+                <componentName>priipsKid</componentName>
+                <identifier>c_priipsKid</identifier>
+            </componentInstance>
+        </itemInstances>
+        <name>Facet-7473f0f7-36d6-4f9d-8058-e5140cd4973d</name>
         <type>Facet</type>
     </flexiPageRegions>
     <flexiPageRegions>
@@ -3614,6 +3678,10 @@
         <itemInstances>
             <componentInstance>
                 <componentInstanceProperties>
+                    <name>label</name>
+                    <value>Tabs</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
                     <name>tabs</name>
                     <value>Facet-fea47ef1-7a44-473a-b13f-929e1e41813d</value>
                 </componentInstanceProperties>
@@ -3983,6 +4051,10 @@
         <itemInstances>
             <componentInstance>
                 <componentInstanceProperties>
+                    <name>label</name>
+                    <value>Tabs</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
                     <name>tabs</name>
                     <value>Facet-476f04d1-a819-4dc5-910e-7682ddec004c</value>
                 </componentInstanceProperties>
@@ -4264,6 +4336,20 @@
             <componentInstance>
                 <componentInstanceProperties>
                     <name>body</name>
+                    <value>Facet-7473f0f7-36d6-4f9d-8058-e5140cd4973d</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>title</name>
+                    <value>PRIIPS/KID</value>
+                </componentInstanceProperties>
+                <componentName>flexipage:tab</componentName>
+                <identifier>flexipage_tab19</identifier>
+            </componentInstance>
+        </itemInstances>
+        <itemInstances>
+            <componentInstance>
+                <componentInstanceProperties>
+                    <name>body</name>
                     <value>Facet-b8498d94-a000-4208-be6c-aee008e5a516</value>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
@@ -4361,6 +4447,10 @@
         <itemInstances>
             <componentInstance>
                 <componentInstanceProperties>
+                    <name>label</name>
+                    <value>Tabs</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
                     <name>tabs</name>
                     <value>Facet-46ff0ed3-8ecb-4ec5-90ef-bba65f163f4a</value>
                 </componentInstanceProperties>
@@ -4446,6 +4536,16 @@
     <flexiPageRegions>
         <itemInstances>
             <componentInstance>
+                <componentName>priipsKidCompletion</componentName>
+                <identifier>c_priipsKidCompletion2</identifier>
+            </componentInstance>
+        </itemInstances>
+        <name>Facet-bn7f3flaxp6</name>
+        <type>Facet</type>
+    </flexiPageRegions>
+    <flexiPageRegions>
+        <itemInstances>
+            <componentInstance>
                 <componentName>forceChatter:recordFeedContainer</componentName>
                 <identifier>forceChatter_recordFeedContainer</identifier>
             </componentInstance>
@@ -4492,6 +4592,20 @@
                 </componentInstanceProperties>
                 <componentName>flexipage:tab</componentName>
                 <identifier>flexipage_tab6</identifier>
+            </componentInstance>
+        </itemInstances>
+        <itemInstances>
+            <componentInstance>
+                <componentInstanceProperties>
+                    <name>body</name>
+                    <value>Facet-bn7f3flaxp6</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>title</name>
+                    <value>PRIIPS/KID</value>
+                </componentInstanceProperties>
+                <componentName>flexipage:tab</componentName>
+                <identifier>flexipage_tab20</identifier>
             </componentInstance>
         </itemInstances>
         <itemInstances>
@@ -4673,6 +4787,10 @@
         <itemInstances>
             <componentInstance>
                 <componentInstanceProperties>
+                    <name>label</name>
+                    <value>Tabs</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
                     <name>tabs</name>
                     <value>Facet-2e4cc9a2-b973-4052-95a0-b609857366d6</value>
                 </componentInstanceProperties>
@@ -4682,6 +4800,10 @@
         </itemInstances>
         <itemInstances>
             <componentInstance>
+                <componentInstanceProperties>
+                    <name>label</name>
+                    <value>Tabs</value>
+                </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>tabs</name>
                     <value>Facet-571511f1-1c9c-4e28-806d-dfee3a441da5</value>

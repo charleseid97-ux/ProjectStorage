@@ -4,7 +4,6 @@
     <active>true</active>
     <errorConditionFormula>AND(
 				NOT($User.BypassValidationRules__c),
-				$Profile.Name &lt;&gt; &apos;Carmignac - System Administrator&apos;,
 				$Permission.PRPProductStrategy,
 				NOT(
 								AND(
@@ -17,17 +16,8 @@
 																								ISPICKVAL(SubType__c, &quot;Delegated_Investment_Management_3&quot;),
 																								ISPICKVAL(SubType__c, &quot;Delegated_FX_Investment_Manager&quot;),
 																								ISPICKVAL(SubType__c, &quot;Delegated_Investment_Management_2&quot;),
-																								ISPICKVAL(SubType__c, &quot;FundAuditor&quot;),
-																								ISPICKVAL(SubType__c, &quot;Delegated_Investment_Management_1&quot;),
-																								ISPICKVAL(SubType__c, &quot;TransferAgent&quot;),
-																								ISPICKVAL(SubType__c, &quot;Prime_Agent&quot;),
-																								ISPICKVAL(SubType__c, &quot;Pre-central admin&quot;),
 																								ISPICKVAL(SubType__c, &quot;FundAdvisor&quot;),
-																								ISPICKVAL(SubType__c, &quot;Custodian&quot;),
-																								ISPICKVAL(SubType__c, &quot;Central_Admin2&quot;),
-																								ISPICKVAL(SubType__c, &quot;Central Admin&quot;),
-																								ISPICKVAL(SubType__c, &quot;FundAdmin&quot;)
-
+																								ISPICKVAL(SubType__c, &quot;Delegated_Investment_Management_1&quot;)
 																				)
 																)
 												)

@@ -4,6 +4,6 @@
     <protected>false</protected>
     <values>
         <field>FieldsToExclude__c</field>
-        <value xsi:type="xsd:string">ComplexityCompliance__c;ComplexityPS__c;ComplexityRisk__c;RiskDisclosed__c;TypeofFiling__c</value>
+        <value xsi:type="xsd:string">ComplexityCompliance__c;ComplexityPS__c;ComplexityRisk__c;RiskDisclosed__c;TypeofFiling__c;InternalShortName__c;ProductDescription__c;RecommendedHoldingPeriod__c;RecommendedHoldingPeriodUnit__c;RecommendedHoldingLabel__c;BenchmarkName__c;IsFeeder__c;</value>
     </values>
 </CustomMetadata>

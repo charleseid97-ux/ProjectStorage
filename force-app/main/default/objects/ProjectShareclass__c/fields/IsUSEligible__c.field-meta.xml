@@ -3,8 +3,8 @@
     <fullName>IsUSEligible__c</fullName>
     <defaultValue>false</defaultValue>
     <description>Eligible for US persons or US citizens (Category value)</description>
-    <inlineHelpText>Share Class eligible for US persons or US citizens</inlineHelpText>
-    <label>Is US Eligible</label>
+    <inlineHelpText>Carmignac Funds are not eligible to US Resident, for US Citizen and not US Resident, please Refer to the FATCA Status</inlineHelpText>
+    <label>Is the fund eligible to US Resident ?</label>
     <trackTrending>false</trackTrending>
     <type>Checkbox</type>
 </CustomField>

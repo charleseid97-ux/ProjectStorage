@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>VR03_AccessISINCountryKey</fullName>
+    <active>true</active>
+    <errorConditionFormula>AND(
+NOT($User.BypassValidationRules__c),
+ISCHANGED( ISINCountryKey__c),
+$Permission.PRPDM
+)</errorConditionFormula>
+    <errorDisplayField>ISINCountryKey__c</errorDisplayField>
+    <errorMessage>ISINCountryKey can&apos;t be modified.</errorMessage>
+</ValidationRule>

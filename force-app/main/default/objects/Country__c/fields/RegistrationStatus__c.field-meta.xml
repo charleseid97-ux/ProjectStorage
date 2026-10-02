@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>RegistrationStatus__c</fullName>
-    <externalId>false</externalId>
     <label>Registration Status</label>
     <required>false</required>
     <trackHistory>false</trackHistory>
@@ -29,7 +28,7 @@
             <value>
                 <fullName>AUTNOTREG</fullName>
                 <default>false</default>
-                <label>AUTNOTREG</label>
+                <label>Registered Not Distributed</label>
             </value>
             <value>
                 <fullName>TOBEREG</fullName>
@@ -40,6 +39,26 @@
                 <fullName>UNDREG</fullName>
                 <default>false</default>
                 <label>Under Registration</label>
+            </value>
+            <value>
+                <fullName>TOBEREG_INSTIT</fullName>
+                <default>false</default>
+                <label>To be Registered Institutional</label>
+            </value>
+            <value>
+                <fullName>TOBEREG_RETAIL</fullName>
+                <default>false</default>
+                <label>To be Registered Retail</label>
+            </value>
+            <value>
+                <fullName>TOBEREG_SEMI_PRO</fullName>
+                <default>false</default>
+                <label>To be Registered Semi-pro</label>
+            </value>
+            <value>
+                <fullName>SEMI_PRO</fullName>
+                <default>false</default>
+                <label>Semi-pro</label>
             </value>
         </valueSetDefinition>
     </valueSet>

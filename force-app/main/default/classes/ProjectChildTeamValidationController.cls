@@ -81,6 +81,12 @@ public without sharing class ProjectChildTeamValidationController {
     }
 
     @AuraEnabled(cacheable=true)
+    public static string getRecordTypeName(Id currentRecordId){
+        ProjectProductChild__c rec = [SELECT Id,TECH_ProjectRecordType__c FROM ProjectProductChild__c WHERE Id = :currentRecordId];
+        return rec.TECH_ProjectRecordType__c;
+    }
+
+    @AuraEnabled(cacheable=true)
     public static Id getRecordId(Id currentRecordId) {
         if (currentRecordId == null) {
             return null;
@@ -248,6 +254,7 @@ public without sharing class ProjectChildTeamValidationController {
 
         fieldList.add('Id');
         fieldList.add('shareClassName__c');
+        fieldList.add('LegalForm__c');
 
         List<Id> shareclassIds= new List<Id>();
         

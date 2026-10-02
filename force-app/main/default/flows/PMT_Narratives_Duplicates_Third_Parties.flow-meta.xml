@@ -77,13 +77,6 @@
             </value>
         </filters>
         <filters>
-            <field>DomiciledIn__c</field>
-            <operator>EqualTo</operator>
-            <value>
-                <elementReference>Record.DomiciledIn__c</elementReference>
-            </value>
-        </filters>
-        <filters>
             <field>RecordTypeId</field>
             <operator>EqualTo</operator>
             <value>
@@ -136,7 +129,7 @@
             <targetReference>Third_Parties_RecordType</targetReference>
         </connector>
     </start>
-    <status>Active</status>
+    <status>Draft</status>
     <variables>
         <name>errorMessage</name>
         <dataType>String</dataType>

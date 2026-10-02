@@ -260,6 +260,14 @@
             <default>false</default>
         </values>
         <values>
+            <fullName>10%3A30 CET</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>11%3A00 CET</fullName>
+            <default>false</default>
+        </values>
+        <values>
             <fullName>13%3A00 CET</fullName>
             <default>false</default>
         </values>
@@ -1322,11 +1330,31 @@
     <picklistValues>
         <picklist>EET40000__c</picklist>
         <values>
-            <fullName>False</fullName>
+            <fullName>A</fullName>
             <default>false</default>
         </values>
         <values>
-            <fullName>True</fullName>
+            <fullName>C</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>N</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>P</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>T</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Y</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Z</fullName>
             <default>false</default>
         </values>
     </picklistValues>
@@ -2181,6 +2209,10 @@
             <fullName>Reporting Model 1 FFI</fullName>
             <default>false</default>
         </values>
+        <values>
+            <fullName>Sponsored FFI</fullName>
+            <default>false</default>
+        </values>
     </picklistValues>
     <picklistValues>
         <picklist>FXRiskHedging__c</picklist>
@@ -2290,6 +2322,10 @@
             <default>false</default>
         </values>
         <values>
+            <fullName>GlobalNorms</fullName>
+            <default>false</default>
+        </values>
+        <values>
             <fullName>NuclearPowerProduction</fullName>
             <default>false</default>
         </values>
@@ -2326,6 +2362,17 @@
         </values>
         <values>
             <fullName>Relative VaR</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>GridManualUpdate__c</picklist>
+        <values>
+            <fullName>No</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Yes</fullName>
             <default>false</default>
         </values>
     </picklistValues>
@@ -2525,6 +2572,10 @@
             <default>false</default>
         </values>
         <values>
+            <fullName>FCPR</fullName>
+            <default>false</default>
+        </values>
+        <values>
             <fullName>ICAV</fullName>
             <default>false</default>
         </values>
@@ -2538,6 +2589,29 @@
         </values>
         <values>
             <fullName>SICAV</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>LiquidityManagementToolLMT__c</picklist>
+        <values>
+            <fullName>Extension Notice Period</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Gates</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Redemption Fees</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Redemptions in Kind</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Swing Pricing</fullName>
             <default>false</default>
         </values>
     </picklistValues>
@@ -2591,6 +2665,10 @@
             <default>false</default>
         </values>
         <values>
+            <fullName>CTS31</fullName>
+            <default>false</default>
+        </values>
+        <values>
             <fullName>FCP-SICAV China Economy</fullName>
             <default>false</default>
         </values>
@@ -2637,6 +2715,10 @@
     <picklistValues>
         <picklist>NAVFrequency__c</picklist>
         <values>
+            <fullName>Bi-Monthly</fullName>
+            <default>false</default>
+        </values>
+        <values>
             <fullName>Daily</fullName>
             <default>false</default>
         </values>
@@ -2661,6 +2743,48 @@
         </values>
         <values>
             <fullName>18%3A00 CET</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>NoticePeriodRedemption__c</picklist>
+        <values>
+            <fullName>D</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>D-1</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>D-30</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>D-5</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>D-60</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>D-90</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>NoticePeriodSubscription__c</picklist>
+        <values>
+            <fullName>D</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>D-1</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>D-5</fullName>
             <default>false</default>
         </values>
     </picklistValues>
@@ -2725,6 +2849,21 @@
         </values>
         <values>
             <fullName>Over Positive value</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>PRIIPSCategory__c</picklist>
+        <values>
+            <fullName>1</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>2</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>3</fullName>
             <default>false</default>
         </values>
     </picklistValues>
@@ -2898,6 +3037,33 @@
         </values>
         <values>
             <fullName>Volatility risk</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>RiskNotConsideredinIndicator__c</picklist>
+        <values>
+            <fullName>Counterparty risk</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Credit risk</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Liquidity risk</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Pooled investments in secondaries risk</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Risk of capital loss</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Risks associated with China</fullName>
             <default>false</default>
         </values>
     </picklistValues>

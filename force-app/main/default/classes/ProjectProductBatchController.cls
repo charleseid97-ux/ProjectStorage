@@ -64,7 +64,8 @@ public class ProjectProductBatchController {
         List<String> debugInformation,
         List<String> errorMessages,
         Integer[] recordsFailed,
-        List<Id> insertedRecords
+        List<Id> insertedRecords,
+        List<Id> launchedProjectProductIds
     ) {
         debugInformation.add('[INIT] Fund/Shareclass creation - ' + listFundCreation.size() + ' ProjectProduct(s) to process.');
         Savepoint sp = Database.setSavepoint();
@@ -223,6 +224,10 @@ public class ProjectProductBatchController {
             toUpsert.addAll(taxDataToUpdate);
             upsertAndLog(toUpsert, debugInformation, errorMessages, recordsFailed, insertedRecords);
 
+            // Le projet est marqué comme lancé uniquement si l'ensemble du traitement est arrivé à son terme.
+            for (ProjectProduct__c projectProduct : listFundCreation) {
+                launchedProjectProductIds.add(projectProduct.Id);
+            }
             debugInformation.add('[END] Fund/Shareclass creation complete.');
         } catch (Exception e) {
             rollbackAndLog(sp, e, debugInformation, errorMessages, recordsFailed);
@@ -234,7 +239,8 @@ public class ProjectProductBatchController {
         List<String> debugInformation,
         List<String> errorMessages,
         Integer[] recordsFailed,
-        List<Id> insertedRecords
+        List<Id> insertedRecords,
+        List<Id> launchedProjectProductIds
     ) {
         debugInformation.add('[INIT] Fund/Shareclass modification - ' + listMods.size() + ' ProjectProduct(s) to process.');
         Savepoint sp = Database.setSavepoint();
@@ -330,6 +336,10 @@ public class ProjectProductBatchController {
                 debugInformation
             );
 
+            // Le projet est marqué comme lancé uniquement si l'ensemble du traitement est arrivé à son terme.
+            for (ProjectProduct__c projectProduct : listMods) {
+                launchedProjectProductIds.add(projectProduct.Id);
+            }
             debugInformation.add('[END] Fund/Shareclass modification complete.');
         } catch (Exception e) {
             rollbackAndLog(sp, e, debugInformation, errorMessages, recordsFailed);
@@ -341,7 +351,8 @@ public class ProjectProductBatchController {
         List<String> debugInformation,
         List<String> errorMessages,
         Integer[] recordsFailed,
-        List<Id> insertedRecords
+        List<Id> insertedRecords,
+        List<Id> launchedProjectProductIds
     ) {
         debugInformation.add('[INIT] Shareclass creation for ' + listShareclassCreation.size() + ' ProjectProduct(s).');
         Savepoint sp = Database.setSavepoint();
@@ -419,6 +430,10 @@ public class ProjectProductBatchController {
 
             upsertAndLog(toUpsert, debugInformation, errorMessages, recordsFailed, insertedRecords);
 
+            // Le projet est marqué comme lancé uniquement si l'ensemble du traitement est arrivé à son terme.
+            for (ProjectProduct__c projectProduct : listShareclassCreation) {
+                launchedProjectProductIds.add(projectProduct.Id);
+            }
             debugInformation.add('[END] Shareclass creation complete.');
         } catch (Exception e) {
             rollbackAndLog(sp, e, debugInformation, errorMessages, recordsFailed);

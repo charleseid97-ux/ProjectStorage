@@ -4,7 +4,6 @@
     <active>true</active>
     <errorConditionFormula>AND(
 				NOT($User.BypassValidationRules__c),
-				$Profile.Name &lt;&gt; &apos;Carmignac - System Administrator&apos;,
 				$Permission.PRPOPS,
 				NOT(
 								AND(

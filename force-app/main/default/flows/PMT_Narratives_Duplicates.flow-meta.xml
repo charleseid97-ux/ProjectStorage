@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Flow xmlns="http://soap.sforce.com/2006/04/metadata">
     <apiVersion>65.0</apiVersion>
+    <areMetricsLoggedToDataCloud>false</areMetricsLoggedToDataCloud>
     <assignments>
         <name>Assignment_Error_Message</name>
         <label>Assignment Error Message</label>
@@ -11,6 +12,54 @@
             <operator>Assign</operator>
             <value>
                 <elementReference>PMT_Narratives_Duplicates_Biography.errorMessage</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>Check_Error_Message</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <name>Copy_1_of_Assignment_Error_Message</name>
+        <label>Assignment Error Message</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <assignmentItems>
+            <assignToReference>ErrorMessage</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>PMT_Narratives_Duplicates_Narrative_ThirdParty.errorMessage</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>Check_Error_Message</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <name>Copy_3_of_Assignment_Error_Message</name>
+        <label>Assignment Error Message</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <assignmentItems>
+            <assignToReference>ErrorMessage</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>PMT_Narratives_Duplicates_Third_Parties.errorMessage</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>Check_Error_Message</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <name>Copy_4_of_Assignment_Error_Message</name>
+        <label>Assignment Error Message</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <assignmentItems>
+            <assignToReference>ErrorMessage</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>PMT_Narratives_Duplicates_Narrative.errorMessage</elementReference>
             </value>
         </assignmentItems>
         <connector>
@@ -69,7 +118,7 @@
                 </rightValue>
             </conditions>
             <connector>
-                <targetReference>Check_Error_Message</targetReference>
+                <targetReference>Type</targetReference>
             </connector>
             <label>Narrative</label>
         </rules>
@@ -99,9 +148,59 @@
                 </rightValue>
             </conditions>
             <connector>
-                <targetReference>Check_Error_Message</targetReference>
+                <targetReference>PMT_Narratives_Duplicates_Third_Parties</targetReference>
             </connector>
             <label>Third Parties</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <name>Third_Party_Product</name>
+        <label>Third Party Product</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <defaultConnector>
+            <targetReference>Check_Error_Message</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>not_null</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>$Record.Product__c</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>PMT_Narratives_Duplicates_Narrative_ThirdParty</targetReference>
+            </connector>
+            <label>not null</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <name>Type</name>
+        <label>Type</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <defaultConnector>
+            <targetReference>PMT_Narratives_Duplicates_Narrative</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>Third_Party</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>$Record.Type__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>Third Party</stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Third_Party_Product</targetReference>
+            </connector>
+            <label>Third Party</label>
         </rules>
     </decisions>
     <environments>Default</environments>
@@ -146,6 +245,57 @@
             <targetReference>Assignment_Error_Message</targetReference>
         </connector>
         <flowName>PMT_Narratives_Duplicates_Biography</flowName>
+        <inputAssignments>
+            <name>Record</name>
+            <value>
+                <elementReference>$Record</elementReference>
+            </value>
+        </inputAssignments>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </subflows>
+    <subflows>
+        <name>PMT_Narratives_Duplicates_Narrative</name>
+        <label>PMT - Narratives Duplicates - Narrative</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <connector>
+            <targetReference>Copy_4_of_Assignment_Error_Message</targetReference>
+        </connector>
+        <flowName>PMT_Narratives_Duplicates_Narrative</flowName>
+        <inputAssignments>
+            <name>Record</name>
+            <value>
+                <elementReference>$Record</elementReference>
+            </value>
+        </inputAssignments>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </subflows>
+    <subflows>
+        <name>PMT_Narratives_Duplicates_Narrative_ThirdParty</name>
+        <label>PMT - Narratives Duplicates - Narrative ThirdParty</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <connector>
+            <targetReference>Copy_1_of_Assignment_Error_Message</targetReference>
+        </connector>
+        <flowName>PMT_Narratives_Duplicates_Narrative_ThirdParty</flowName>
+        <inputAssignments>
+            <name>Record</name>
+            <value>
+                <elementReference>$Record</elementReference>
+            </value>
+        </inputAssignments>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </subflows>
+    <subflows>
+        <name>PMT_Narratives_Duplicates_Third_Parties</name>
+        <label>PMT - Narratives Duplicates - Third Parties</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <connector>
+            <targetReference>Copy_3_of_Assignment_Error_Message</targetReference>
+        </connector>
+        <flowName>PMT_Narratives_Duplicates_Third_Parties</flowName>
         <inputAssignments>
             <name>Record</name>
             <value>

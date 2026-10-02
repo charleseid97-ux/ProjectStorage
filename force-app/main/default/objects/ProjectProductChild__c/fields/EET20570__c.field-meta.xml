@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>EET20570__c</fullName>
-    <label>20570 Financial Instrument With Objecti</label>
+    <description>20570 Objective Of A Reduction In Carbon Emissions</description>
+    <inlineHelpText>20570 Objective Of A Reduction In Carbon Emissions</inlineHelpText>
+    <label>20570 Obj Reduction In Carbon Emissions</label>
     <required>false</required>
     <trackTrending>false</trackTrending>
     <type>Picklist</type>

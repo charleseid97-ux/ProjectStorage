@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>PRIIPSKIDRedemptionFee__c</fullName>
+    <formula>ProjectShareclasses__r.PRIIPSKIDRedemptionFee__c</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <inlineHelpText>This is a calculated field equal to “Max Redemption Fees Favor Distributor” + “Max Redemption Fees Favor ManCo” + “Max Redemption Fees Favor Subfund”.
+Sequantis receives each component individually rather than the calculated value. 
+The aggregate of these components will be disclosed in the PRIIPs KID and UCITS KIID. 
+Each component is used separately in the EMT.</inlineHelpText>
+    <label>PRIIPS KID - Redemption Fee</label>
+    <precision>18</precision>
+    <required>false</required>
+    <scale>2</scale>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Percent</type>
+</CustomField>

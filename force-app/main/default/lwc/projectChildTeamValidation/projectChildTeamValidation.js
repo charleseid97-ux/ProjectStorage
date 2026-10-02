@@ -11,6 +11,7 @@ import getShareClasses from '@salesforce/apex/ProjectChildTeamValidationControll
 import hasProposalPortfolioManager from '@salesforce/apex/ProjectChildTeamValidationController.hasProposalPortfolioManager';
 import getRecordId from '@salesforce/apex/ProjectChildTeamValidationController.getRecordId';
 import getFieldRules from '@salesforce/apex/FieldDisplayRuleService.getRulesForObject';
+import getRecordTypeName from '@salesforce/apex/ProjectChildTeamValidationController.getRecordTypeName';
 import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 import getMetadataFields from '@salesforce/apex/ProjectChildTeamValidationController.getMetadataFields';
 import { refreshApex } from '@salesforce/apex';
@@ -33,6 +34,7 @@ export default class ProjectChildTeamValidation extends NavigationMixin(Lightnin
     @track emptySCRequiredFields;
     @track shouldDisplay = false; // Nouveau boolean pour afficher ou non le composant
     @track currentRecordId;
+    recordTypeName;
     fundMatrix;
     scDynamicRules;
     fundDynamicRules;
@@ -307,6 +309,19 @@ export default class ProjectChildTeamValidation extends NavigationMixin(Lightnin
         });
     }
 
+    @wire(getRecordTypeName, {currentRecordId: '$currentRecordId'})
+        getRecordTypeName({error, data}){
+            if(data){
+                console.log('record type name : '+data);
+                this.recordTypeName = data;
+            }else if(error){
+                console.log('error record type name '+error.message + error.body);
+                console.log('error record type name '+JSON.stringify(error.message) + JSON.stringify(error.body));
+            }
+    }
+
+
+
     /**
      * Refactor SONAR: réduction de l’imbrication des callbacks/fonctions
      * => Extraction du traitement Fund / ShareClass dans des méthodes dédiées
@@ -327,7 +342,11 @@ export default class ProjectChildTeamValidation extends NavigationMixin(Lightnin
                 console.log('data.Fund after refresh ', data.Fund);
 
                 // Traitement FUND (extrait tel quel)
-                this.handleFundRequiredFields(data);
+                if(this.recordTypeName != 'ShareclassCreation'){
+                    this.handleFundRequiredFields(data);
+                }else{
+                    this.emptyFundRequiredFields = []
+                }
 
                 // Traitement SHARECLASS (extrait tel quel)
                 this.handleShareClassRequiredFields(data);

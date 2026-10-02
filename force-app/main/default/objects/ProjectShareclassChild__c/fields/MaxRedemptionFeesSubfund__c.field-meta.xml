@@ -3,10 +3,11 @@
     <fullName>MaxRedemptionFeesSubfund__c</fullName>
     <description>Max Redemption Fees in Favor of Subfund</description>
     <inlineHelpText>Max Redemption Fees in Favor of Subfund</inlineHelpText>
-    <label>Max Redemption Fees in Favor of Subfund</label>
+    <label>Max Redemption Fees Favor Subfund</label>
     <precision>18</precision>
     <required>false</required>
     <scale>2</scale>
+    <trackHistory>false</trackHistory>
     <trackTrending>false</trackTrending>
     <type>Percent</type>
 </CustomField>
