@@ -3,11 +3,11 @@
     <fullName>VR47_RiskReturnScoreRRS</fullName>
     <active>true</active>
     <errorConditionFormula>AND(
-NOT(ISBLANK(RiskReturnScoreRRS__c)),
-OR(
-RiskReturnScoreRRS__c &lt; 1,
-RiskReturnScoreRRS__c &gt; 10
-)
+    NOT(ISBLANK(RiskReturnScoreRRS__c)),
+    OR(
+        RiskReturnScoreRRS__c &lt; 1,
+        RiskReturnScoreRRS__c &gt; 10
+    )
 )</errorConditionFormula>
     <errorDisplayField>RiskReturnScoreRRS__c</errorDisplayField>
     <errorMessage>Risk Return Score (RRS) must be between 1 and 10.</errorMessage>

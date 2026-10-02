@@ -35,7 +35,7 @@
         </connector>
     </assignments>
     <assignments>
-        <name>Copy_3_of_Assignment_Error_Message</name>
+        <name>Copy_2_of_Assignment_Error_Message</name>
         <label>Assignment Error Message</label>
         <locationX>0</locationX>
         <locationY>0</locationY>
@@ -51,7 +51,7 @@
         </connector>
     </assignments>
     <assignments>
-        <name>Copy_4_of_Assignment_Error_Message</name>
+        <name>Copy_3_of_Assignment_Error_Message</name>
         <label>Assignment Error Message</label>
         <locationX>0</locationX>
         <locationY>0</locationY>
@@ -154,31 +154,6 @@
         </rules>
     </decisions>
     <decisions>
-        <name>Third_Party_Product</name>
-        <label>Third Party Product</label>
-        <locationX>0</locationX>
-        <locationY>0</locationY>
-        <defaultConnector>
-            <targetReference>Check_Error_Message</targetReference>
-        </defaultConnector>
-        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
-        <rules>
-            <name>not_null</name>
-            <conditionLogic>and</conditionLogic>
-            <conditions>
-                <leftValueReference>$Record.Product__c</leftValueReference>
-                <operator>IsNull</operator>
-                <rightValue>
-                    <booleanValue>false</booleanValue>
-                </rightValue>
-            </conditions>
-            <connector>
-                <targetReference>PMT_Narratives_Duplicates_Narrative_ThirdParty</targetReference>
-            </connector>
-            <label>not null</label>
-        </rules>
-    </decisions>
-    <decisions>
         <name>Type</name>
         <label>Type</label>
         <locationX>0</locationX>
@@ -198,7 +173,7 @@
                 </rightValue>
             </conditions>
             <connector>
-                <targetReference>Third_Party_Product</targetReference>
+                <targetReference>PMT_Narratives_Duplicates_Narrative_ThirdParty</targetReference>
             </connector>
             <label>Third Party</label>
         </rules>
@@ -259,7 +234,7 @@
         <locationX>0</locationX>
         <locationY>0</locationY>
         <connector>
-            <targetReference>Copy_4_of_Assignment_Error_Message</targetReference>
+            <targetReference>Copy_3_of_Assignment_Error_Message</targetReference>
         </connector>
         <flowName>PMT_Narratives_Duplicates_Narrative</flowName>
         <inputAssignments>
@@ -293,7 +268,7 @@
         <locationX>0</locationX>
         <locationY>0</locationY>
         <connector>
-            <targetReference>Copy_3_of_Assignment_Error_Message</targetReference>
+            <targetReference>Copy_2_of_Assignment_Error_Message</targetReference>
         </connector>
         <flowName>PMT_Narratives_Duplicates_Third_Parties</flowName>
         <inputAssignments>

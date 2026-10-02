@@ -11,7 +11,8 @@
         <inputParameters>
             <name>emailAddresses</name>
             <value>
-                <elementReference>EmailDistributionList</elementReference>
+                <inputConfiguratorMode>Resource</inputConfiguratorMode>
+                <stringValue>meid@carmignac.com</stringValue>
             </value>
         </inputParameters>
         <inputParameters>
@@ -142,11 +143,11 @@
         <recordTriggerType>CreateAndUpdate</recordTriggerType>
         <triggerType>RecordAfterSave</triggerType>
     </start>
-    <status>Active</status>
+    <status>Draft</status>
     <textTemplates>
         <name>EmailBodyCreation</name>
         <isViewedAsPlainText>false</isViewedAsPlainText>
-        <text>&lt;p&gt;Dear Techno Fund Management Team,&lt;/p&gt;&lt;p&gt;&lt;br&gt;&lt;/p&gt;&lt;p&gt;Following the fact that the Investment Performance team has created or associated a new benchmark in the project&amp;nbsp;&lt;strong style=&quot;background-color: rgb(255, 255, 255);&quot;&gt;{!$Record.ProjectProductParent__r.Name}&lt;/strong&gt;, we kindly request the creation and association of the corresponding benchmark in&amp;nbsp;&lt;strong&gt;VOM&lt;/strong&gt;, linked to the correct product.&lt;/p&gt;&lt;p&gt;Please find below the required information:&lt;/p&gt;&lt;ul&gt;&lt;li&gt;&lt;strong&gt;Project Name&lt;/strong&gt;: &lt;a href=&quot;{!ParentRecordLink}&quot; rel=&quot;noopener noreferrer&quot; target=&quot;_blank&quot;&gt;{!$Record.ProjectProductParent__r.Name}&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;strong&gt;Fund Internal Code&lt;/strong&gt;: {!$Record.ProjectProductParent__r.InternalShortName__c}&lt;/li&gt;&lt;li&gt;&lt;strong&gt;Benchmark Name&lt;/strong&gt;: &lt;a href=&quot;{!BenchmarkLink}&quot; rel=&quot;noopener noreferrer&quot; target=&quot;_blank&quot;&gt;{!$Record.Benchmark__r.Name}&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;strong&gt;Rebalancing Frequency&lt;/strong&gt;: {!$Record.Benchmark__r.RebalancingFrequency__c}&lt;/li&gt;&lt;li&gt;&lt;strong&gt;Benchmark composition&lt;/strong&gt;: {!$Record.Benchmark__r.BenchmarkLongName__c}&lt;/li&gt;&lt;/ul&gt;&lt;p&gt;Best regards,&lt;/p&gt;&lt;p&gt;Product Management Team&lt;/p&gt;</text>
+        <text>&lt;p&gt;Dear Techno Fund Management Team,&lt;/p&gt;&lt;p&gt;&lt;br&gt;&lt;/p&gt;&lt;p&gt;Following the fact that the Investment Performance team has created or associated a new benchmark in the project&amp;nbsp;&lt;strong style=&quot;background-color: rgb(255, 255, 255);&quot;&gt;{!$Record.ProjectProductParent__r.Name}&lt;/strong&gt;, we kindly request the creation and association of the corresponding benchmark in&amp;nbsp;&lt;strong&gt;VOM&lt;/strong&gt;, linked to the correct product.&lt;/p&gt;&lt;p&gt;Please find below the required information:&lt;/p&gt;&lt;ul&gt;&lt;li&gt;&lt;strong&gt;Project Name&lt;/strong&gt;: &lt;a href=&quot;{!ParentRecordLink}&quot; rel=&quot;noopener noreferrer&quot; target=&quot;_blank&quot;&gt;{!$Record.ProjectProductParent__r.Name}&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;strong&gt;Fund Internal Code&lt;/strong&gt;: {!$Record.ProjectProductParent__r.InternalShortName__c}&lt;/li&gt;&lt;li&gt;&lt;strong&gt;Benchmark Name&lt;/strong&gt;: &lt;a href=&quot;{!BenchmarkLink}&quot; rel=&quot;noopener noreferrer&quot; target=&quot;_blank&quot;&gt;{!$Record.Benchmark__r.Name}&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;strong&gt;Rebalancing Frequency&lt;/strong&gt;: {!$Record.Benchmark__r.RebalancingFrequency__c}&lt;/li&gt;&lt;li&gt;&lt;strong&gt;Benchmark composition&lt;/strong&gt;: {!$Record.Benchmark__r.BenchmarkLongName__c}&lt;/li&gt;&lt;/ul&gt;&lt;p&gt;&lt;br&gt;&lt;/p&gt;&lt;p&gt;Best regards,&lt;/p&gt;&lt;p&gt;Product Management Team&lt;/p&gt;</text>
     </textTemplates>
     <textTemplates>
         <name>EmailSubject</name>

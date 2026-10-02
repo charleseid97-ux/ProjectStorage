@@ -1,12 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>OngoingCostsExante__c</fullName>
-    <inlineHelpText>This is the target rate which will be used in the PRIIPS KID and EMT.</inlineHelpText>
     <label>PRIIPS KID - Mgt fees and other costs</label>
     <precision>18</precision>
     <required>false</required>
-    <scale>2</scale>
-    <trackHistory>false</trackHistory>
+    <scale>3</scale>
     <trackTrending>false</trackTrending>
     <type>Percent</type>
 </CustomField>

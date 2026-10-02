@@ -3,10 +3,6 @@
     <fullName>PRIIPSKIDSubscriptionFee__c</fullName>
     <formula>MaxSubscriptionFee__c</formula>
     <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
-    <inlineHelpText>This is a calculated field equal to “Max Subscription Fee Favor Distributor”
-Sequantis receives each component individually rather than the calculated value. 
-The aggregate of these components will be disclosed in the PRIIPs KID and UCITS KIID.
-Each component is used separately in the EMT.</inlineHelpText>
     <label>PRIIPS KID - Subscription Fee</label>
     <precision>18</precision>
     <required>false</required>

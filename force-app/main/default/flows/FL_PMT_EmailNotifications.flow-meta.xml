@@ -524,7 +524,7 @@ Support Salesforce &gt; sf_pmt@carmignac.com</description>
         <recordTriggerType>Update</recordTriggerType>
         <triggerType>RecordAfterSave</triggerType>
     </start>
-    <status>Active</status>
+    <status>Obsolete</status>
     <textTemplates>
         <name>ActivationEmailBody</name>
         <isViewedAsPlainText>false</isViewedAsPlainText>

@@ -33,6 +33,11 @@
                 <label>ICAV</label>
             </value>
             <value>
+                <fullName>Other</fullName>
+                <default>false</default>
+                <label>Other</label>
+            </value>
+            <value>
                 <fullName>FCPE</fullName>
                 <default>false</default>
                 <label>FCPE</label>
@@ -41,11 +46,6 @@
                 <fullName>FCPR</fullName>
                 <default>false</default>
                 <label>FCPR</label>
-            </value>
-            <value>
-                <fullName>Other</fullName>
-                <default>false</default>
-                <label>Other</label>
             </value>
             <value>
                 <fullName>OIEC</fullName>

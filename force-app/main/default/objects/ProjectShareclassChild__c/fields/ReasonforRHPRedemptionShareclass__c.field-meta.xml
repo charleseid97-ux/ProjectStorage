@@ -2,11 +2,8 @@
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>ReasonforRHPRedemptionShareclass__c</fullName>
     <encryptionScheme>None</encryptionScheme>
-    <inlineHelpText>This text is optional and should be completed to add share class level description in the “How long should I hold it and can I take money out early?” section of the KID PRIIPS.
-It will be displayed in the PRIIPS KID after the product level text.</inlineHelpText>
     <label>Reason for RHP - Redemption Shareclass</label>
     <length>32768</length>
-    <trackHistory>false</trackHistory>
     <trackTrending>false</trackTrending>
     <type>Html</type>
     <visibleLines>25</visibleLines>

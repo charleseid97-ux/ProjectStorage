@@ -4,6 +4,8 @@
     <active>true</active>
     <errorConditionFormula>AND(
 				NOT($User.BypassValidationRules__c),
+				$Profile.Name &lt;&gt; &apos;Carmignac - System Administrator&apos;,
+				LEFT($User.Id, 15) &lt;&gt; &quot;0051i0000036qXR&quot;,
 				$Permission.PRPLegal,
 				NOT(
 								AND(
@@ -32,5 +34,5 @@
 								)
 				)
 )</errorConditionFormula>
-    <errorMessage>Oops...you don&apos;t have the necessary privileges to edit this record. See your administrator for help.</errorMessage>
+    <errorMessage>Oops...you don&apos;t have the necessary privileges to edit this record. See your administrator for help. Legal</errorMessage>
 </ValidationRule>

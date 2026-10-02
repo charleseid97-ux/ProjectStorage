@@ -7,7 +7,7 @@
 NOT($User.BypassValidationRules__c),
 $Permission.PRPRisk  = true,
 RecordType.DeveloperName = &apos;Filing&apos;,
-INCLUDES(ProjectShareclasses__r.CountryRegNeededOld__c, &apos;United Kingdom&apos;),
+INCLUDES(ProjectShareclasses__r.CountryRegNeeded__c, &apos;United Kingdom&apos;),
 ISBLANK(TEXT(SRRI__c))
 								)</errorConditionFormula>
     <errorMessage>If Country Reg Needed contains &quot;UnitedKingdom&quot;, please provide a value for SRRI.</errorMessage>

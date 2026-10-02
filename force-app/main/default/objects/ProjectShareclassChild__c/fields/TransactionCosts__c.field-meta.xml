@@ -2,13 +2,11 @@
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>TransactionCosts__c</fullName>
     <description>Transaction Costs Ex-ante</description>
-    <inlineHelpText>Enter the transaction costs as a percentage.
-This is the target rate which will be used in the PRIIPS KID and EMT.</inlineHelpText>
+    <inlineHelpText>Enter the transaction costs as a percentage.</inlineHelpText>
     <label>Transaction Costs Ex-ante</label>
     <precision>18</precision>
     <required>false</required>
     <scale>4</scale>
-    <trackHistory>false</trackHistory>
     <trackTrending>false</trackTrending>
     <type>Percent</type>
 </CustomField>

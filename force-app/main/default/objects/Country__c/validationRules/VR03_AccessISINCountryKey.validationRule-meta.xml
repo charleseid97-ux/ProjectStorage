@@ -3,9 +3,9 @@
     <fullName>VR03_AccessISINCountryKey</fullName>
     <active>true</active>
     <errorConditionFormula>AND(
-NOT($User.BypassValidationRules__c),
-ISCHANGED( ISINCountryKey__c),
-$Permission.PRPDM
+				NOT($User.BypassValidationRules__c),
+				ISCHANGED( ISINCountryKey__c),
+				$Permission.PRPDM				
 )</errorConditionFormula>
     <errorDisplayField>ISINCountryKey__c</errorDisplayField>
     <errorMessage>ISINCountryKey can&apos;t be modified.</errorMessage>

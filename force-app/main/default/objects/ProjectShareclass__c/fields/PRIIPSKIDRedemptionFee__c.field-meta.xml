@@ -3,10 +3,6 @@
     <fullName>PRIIPSKIDRedemptionFee__c</fullName>
     <formula>MaxRedemptionFee__c + MaxRedemptionFeesManCo__c + MaxRedemptionFeesSubfund__c</formula>
     <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
-    <inlineHelpText>This is a calculated field equal to “Max Redemption Fees Favor Distributor” + “Max Redemption Fees Favor ManCo” + “Max Redemption Fees Favor Subfund”.
-Sequantis receives each component individually rather than the calculated value. 
-The aggregate of these components will be disclosed in the PRIIPs KID and UCITS KIID. 
-Each component is used separately in the EMT.</inlineHelpText>
     <label>PRIIPS KID - Redemption Fee</label>
     <precision>18</precision>
     <required>false</required>

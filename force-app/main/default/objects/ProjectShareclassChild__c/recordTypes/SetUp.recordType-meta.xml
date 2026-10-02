@@ -205,78 +205,7 @@
             <default>false</default>
         </values>
         <values>
-            <fullName>United Arab Emirates</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>United Kingdom</fullName>
-            <default>false</default>
-        </values>
-    </picklistValues>
-    <picklistValues>
-        <picklist>CountryRegNeededOld__c</picklist>
-        <values>
-            <fullName>Austria</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Belgium</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Finland</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>France</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Germany</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Ireland</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Italy</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Luxembourg</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Netherlands</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Norway</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Portugal</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Singapore</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Spain</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Sweden</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Switzerland</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Taiwan</fullName>
+            <fullName>UAE</fullName>
             <default>false</default>
         </values>
         <values>
@@ -351,7 +280,7 @@
             <default>false</default>
         </values>
         <values>
-            <fullName>United Arab Emirates</fullName>
+            <fullName>UAE</fullName>
             <default>false</default>
         </values>
         <values>
@@ -426,7 +355,78 @@
             <default>false</default>
         </values>
         <values>
-            <fullName>United Arab Emirates</fullName>
+            <fullName>UAE</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>United Kingdom</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>CountryRegNeeded__c</picklist>
+        <values>
+            <fullName>Austria</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Belgium</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Finland</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>France</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Germany</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Ireland</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Italy</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Luxembourg</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Netherlands</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Norway</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Portugal</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Singapore</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Spain</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Sweden</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Switzerland</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Taiwan</fullName>
             <default>false</default>
         </values>
         <values>
@@ -1356,10 +1356,6 @@
             <fullName>Closed - merged</fullName>
             <default>false</default>
         </values>
-        <values>
-            <fullName>Inactive</fullName>
-            <default>false</default>
-        </values>
     </picklistValues>
     <picklistValues>
         <picklist>SubAssetClass__c</picklist>
@@ -1525,10 +1521,6 @@
     </picklistValues>
     <picklistValues>
         <picklist>TradeCycle__c</picklist>
-        <values>
-            <fullName>Bi-Monthly</fullName>
-            <default>false</default>
-        </values>
         <values>
             <fullName>Combined</fullName>
             <default>false</default>

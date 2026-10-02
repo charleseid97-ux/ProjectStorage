@@ -17,6 +17,7 @@ import getFieldRules from '@salesforce/apex/FieldDisplayRuleService.getRulesForO
 import ProjectProductChildOBJ from '@salesforce/schema/ProjectProductChild__c';
 import ProjectShareclassChildOBJ from '@salesforce/schema/ProjectShareclassChild__c';
 import getAllFieldsByRecordId from '@salesforce/apex/PageLayoutController.getAllFieldsByRecordId';
+import LightningConfirm from 'lightning/confirm';
 
 export default class LayoutEditableFields extends NavigationMixin(LightningElement) {
 
@@ -47,6 +48,8 @@ export default class LayoutEditableFields extends NavigationMixin(LightningEleme
     userHasEditPermission = false;
     // checkEditableConidtions = false;
     dynamicRules = [];
+    isHandlingTaxTransparencyChange = false;
+    lastTaxTransparencySignature = null;
     
 
     get tabClass() { 
@@ -268,7 +271,7 @@ export default class LayoutEditableFields extends NavigationMixin(LightningEleme
         }
     }
     
-    handleFieldChange(event) {
+    /*handleFieldChange(event) {
         const fieldName = event.target.fieldName;
         const fieldValue = event.target.value;
     
@@ -284,6 +287,115 @@ export default class LayoutEditableFields extends NavigationMixin(LightningEleme
         clonedAllData[fieldName] = fieldValue;
         this.allData = clonedAllData;
         this.sections = this.extractSections(this.recordUiData);
+    }*/
+
+    async handleFieldChange(event) {
+        const fieldName = event.target.fieldName;
+        let fieldValue = event.target.value;
+
+        console.log('🟡 Field changed:', fieldName, '➡️', fieldValue);
+
+        if (!this.fieldMetadata || !fieldName) {
+            console.warn('⚠️ Missing metadata or field name');
+            return;
+        }
+
+        if (fieldName === 'TaxTransparency__c' && this.isHandlingTaxTransparencyChange) {
+            return;
+        }
+
+        let clonedAllData = { ...this.allData };
+
+        if (fieldName === 'TaxTransparency__c') {
+            this.isHandlingTaxTransparencyChange = true;
+
+            try {
+                const oldValues = this.normalizeMultiPicklistValues(this.allData?.TaxTransparency__c);
+                const newValues = this.normalizeMultiPicklistValues(fieldValue);
+                const countryRegValues = this.normalizeMultiPicklistValues(this.allData?.CountryRegNeeded__c);
+
+                const signature = JSON.stringify(newValues.slice().sort());
+                if (this.lastTaxTransparencySignature === signature) {
+                    return;
+                }
+
+                const addedValues = newValues.filter(v => !oldValues.includes(v));
+
+                let invalidAddedValues = [];
+                let missingCountries = [];
+
+                for (const addedValue of addedValues) {
+                    const requiredCountry = this.getRequiredCountryForTaxTransparency(addedValue);
+
+                    if (!requiredCountry) {
+                        continue;
+                    }
+
+                    const isRegistered = countryRegValues.includes(requiredCountry);
+
+                    if (!isRegistered) {
+                        invalidAddedValues.push(addedValue);
+                        if (!missingCountries.includes(requiredCountry)) {
+                            missingCountries.push(requiredCountry);
+                        }
+                    }
+                }
+
+                if (invalidAddedValues.length > 0) {
+                    await LightningConfirm.open({
+                        label: 'Confirmation required',
+                        theme: 'warning',
+                        message:
+                            `This fund/share class is not registered in ${missingCountries.join(', ')}. ` +
+                            `Please review Country Reg Needed if you still want to keep: ${invalidAddedValues.join(', ')}.`
+                    });
+                }
+
+                this.lastTaxTransparencySignature = signature;
+            } finally {
+                this.isHandlingTaxTransparencyChange = false;
+            }
+        }
+
+        clonedAllData[fieldName] = fieldValue;
+        this.allData = clonedAllData;
+        this.sections = this.extractSections(this.recordUiData);
+    }
+
+    normalizeMultiPicklistValues(value) {
+        if (!value) {
+            return [];
+        }
+
+        if (Array.isArray(value)) {
+            return value.filter(v => !!v);
+        }
+
+        if (typeof value === 'string') {
+            return value
+                .split(';')
+                .map(v => v.trim())
+                .filter(v => !!v);
+        }
+
+        return [];
+    }
+
+    getRequiredCountryForTaxTransparency(taxValue) {
+        if (!taxValue) {
+            return null;
+        }
+
+        
+
+        // Règle générique basée sur le préfixe
+        if (taxValue.startsWith('BE') || taxValue.startsWith('Belgium')) return 'Belgium';
+        if (taxValue.startsWith('CH')) return 'Switzerland';
+        if (taxValue.startsWith('UK')) return 'United Kingdom';
+        if (taxValue.startsWith('IT')) return 'Italy';
+        if (taxValue.startsWith('AT')) return 'Austria';
+
+        return null;
     }
 
     extractSections(data) {
@@ -344,7 +456,7 @@ export default class LayoutEditableFields extends NavigationMixin(LightningEleme
                                         isRichTextArea: isRichTextArea,
                                         helptext : this.fieldMetadata?.[fieldApiName]?.helptext,
                                         isRequired: this.requiredFields.has(fieldApiName) || isMandatoryByRule ,
-                                        value: isMultiPicklist? fieldsValues[fieldApiName]?.value?.split(';') : fieldsValues[fieldApiName]?.value,
+                                        value: isMultiPicklist ? fieldsValues[fieldApiName]?.value?.split(';') : fieldsValues[fieldApiName]?.value,
                                         columnClass: isMultiPicklist
                                         ? 'slds-col slds-size_3-of-3 slds-p-right_medium slds-p-bottom_medium'
                                         : isRichTextArea? 'slds-col slds-size_3-of-3 slds-p-right_medium slds-p-bottom_medium' :'slds-col slds-size_1-of-3 slds-p-right_medium slds-p-bottom_medium'

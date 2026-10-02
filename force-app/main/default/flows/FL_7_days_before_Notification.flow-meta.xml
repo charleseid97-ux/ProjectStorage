@@ -110,7 +110,7 @@ It alerts Product Strategy to review the project before the automatic batch laun
         </schedule>
         <triggerType>Scheduled</triggerType>
     </start>
-    <status>Active</status>
+    <status>Obsolete</status>
     <textTemplates>
         <name>EmailBody_ProjectNotReady</name>
         <isViewedAsPlainText>false</isViewedAsPlainText>

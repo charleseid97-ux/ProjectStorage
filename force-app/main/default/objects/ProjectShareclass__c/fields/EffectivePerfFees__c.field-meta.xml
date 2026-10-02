@@ -2,12 +2,11 @@
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>EffectivePerfFees__c</fullName>
     <description>Effective Performance fee</description>
-    <inlineHelpText>Effective (Applied) Performance fees.
-This is the target rate which will be used in the PRIIPS KID and EMT.</inlineHelpText>
+    <inlineHelpText>Effective (Applied) Performance fees</inlineHelpText>
     <label>PRIIPS KID - Performance Fees Ex Ante</label>
     <precision>18</precision>
     <required>false</required>
-    <scale>2</scale>
+    <scale>3</scale>
     <trackTrending>false</trackTrending>
     <type>Percent</type>
 </CustomField>

@@ -20,10 +20,6 @@
                     <value>false</value>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
-                    <name>hideSlackAction</name>
-                    <value>false</value>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
                     <name>numVisibleActions</name>
                     <value>3</value>
                 </componentInstanceProperties>
@@ -283,34 +279,14 @@
                     <name>uiBehavior</name>
                     <value>none</value>
                 </fieldInstanceProperties>
-                <fieldItem>Record.CountryRegNeededInstitutional__c</fieldItem>
-                <identifier>RecordCountryRegNeededInstitutional_cField</identifier>
-            </fieldInstance>
-        </itemInstances>
-        <itemInstances>
-            <fieldInstance>
-                <fieldInstanceProperties>
-                    <name>uiBehavior</name>
-                    <value>none</value>
-                </fieldInstanceProperties>
-                <fieldItem>Record.CountryRegNeededRetail__c</fieldItem>
-                <identifier>RecordCountryRegNeededRetail_cField</identifier>
+                <fieldItem>Record.CountryRegNeeded__c</fieldItem>
+                <identifier>RecordCountryRegNeeded_cField</identifier>
             </fieldInstance>
         </itemInstances>
         <name>Facet-27c8a8ad-d1e4-478b-81e9-e178e23712b6</name>
         <type>Facet</type>
     </flexiPageRegions>
     <flexiPageRegions>
-        <itemInstances>
-            <fieldInstance>
-                <fieldInstanceProperties>
-                    <name>uiBehavior</name>
-                    <value>none</value>
-                </fieldInstanceProperties>
-                <fieldItem>Record.CountryRegNeededSemipro__c</fieldItem>
-                <identifier>RecordCountryRegNeededSemipro_cField</identifier>
-            </fieldInstance>
-        </itemInstances>
         <name>Facet-d60faedf-3893-42da-b934-9b5d7a1945a8</name>
         <type>Facet</type>
     </flexiPageRegions>

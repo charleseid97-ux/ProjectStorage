@@ -2,7 +2,6 @@
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>ShareclassInvestmentObjective__c</fullName>
     <encryptionScheme>None</encryptionScheme>
-    <inlineHelpText>This text is optional and should be completed to add share class level investment objective description. It will be displayed in the PRIIPS KID and UCITS KIID before the product level investment objective.</inlineHelpText>
     <label>Shareclass Investment Objective</label>
     <length>5000</length>
     <trackTrending>false</trackTrending>

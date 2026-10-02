@@ -2,8 +2,6 @@
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>PerformanceFeeUCITSKIID__c</fullName>
     <encryptionScheme>None</encryptionScheme>
-    <inlineHelpText>This text will be displayed next to the cost table of the UCITS KIID. 
-The tag {performanceFee}% can be used to display the target percent of performance fees.</inlineHelpText>
     <label>Performance Fee UCITS KIID</label>
     <length>32768</length>
     <trackTrending>false</trackTrending>

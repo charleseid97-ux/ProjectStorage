@@ -1130,8 +1130,8 @@
                     <name>uiBehavior</name>
                     <value>none</value>
                 </fieldInstanceProperties>
-                <fieldItem>Record.NoticePeriodRedemption__c</fieldItem>
-                <identifier>RecordNoticePeriodRedemption_cField</identifier>
+                <fieldItem>Record.NoticePeriod__c</fieldItem>
+                <identifier>RecordNoticePeriod_cField</identifier>
             </fieldInstance>
         </itemInstances>
         <itemInstances>
@@ -1140,8 +1140,8 @@
                     <name>uiBehavior</name>
                     <value>none</value>
                 </fieldInstanceProperties>
-                <fieldItem>Record.NoticePeriodSubscription__c</fieldItem>
-                <identifier>RecordNoticePeriodSubscription_cField</identifier>
+                <fieldItem>Record.HasGate__c</fieldItem>
+                <identifier>RecordHasGate_cField</identifier>
             </fieldInstance>
         </itemInstances>
         <name>Facet-a67a3091-1c2b-48e5-b187-fca016d74a0a</name>
@@ -2322,8 +2322,8 @@
                     <name>uiBehavior</name>
                     <value>none</value>
                 </fieldInstanceProperties>
-                <fieldItem>Record.LiquidityManagementToolLMT__c</fieldItem>
-                <identifier>RecordLiquidityManagementToolLMT_cField</identifier>
+                <fieldItem>Record.HasSwingPricing__c</fieldItem>
+                <identifier>RecordHasSwingPricing_cField</identifier>
             </fieldInstance>
         </itemInstances>
         <itemInstances>
@@ -2388,6 +2388,24 @@
                 </fieldInstanceProperties>
                 <fieldItem>Record.RiskNotConsideredinIndicator__c</fieldItem>
                 <identifier>RecordRiskNotConsideredinIndicator_cField</identifier>
+                <visibilityRule>
+                    <booleanFilter>1 OR 2 OR 3</booleanFilter>
+                    <criteria>
+                        <leftValue>{!Record.LegalForm__c}</leftValue>
+                        <operator>EQUAL</operator>
+                        <rightValue>SICAV</rightValue>
+                    </criteria>
+                    <criteria>
+                        <leftValue>{!Record.LegalForm__c}</leftValue>
+                        <operator>EQUAL</operator>
+                        <rightValue>FCP</rightValue>
+                    </criteria>
+                    <criteria>
+                        <leftValue>{!Record.LegalForm__c}</leftValue>
+                        <operator>EQUAL</operator>
+                        <rightValue>ICAV</rightValue>
+                    </criteria>
+                </visibilityRule>
             </fieldInstance>
         </itemInstances>
         <name>Facet-c380338f-e7ea-4c24-8c60-b0e6ca3a8958</name>
@@ -2741,16 +2759,6 @@
             </componentInstance>
         </itemInstances>
         <name>Facet-de41155e-094a-4772-9b25-f805e7195f7b</name>
-        <type>Facet</type>
-    </flexiPageRegions>
-    <flexiPageRegions>
-        <itemInstances>
-            <componentInstance>
-                <componentName>priipsKid</componentName>
-                <identifier>c_priipsKid</identifier>
-            </componentInstance>
-        </itemInstances>
-        <name>Facet-7bbc8012-4250-4172-81aa-787c1fda900b</name>
         <type>Facet</type>
     </flexiPageRegions>
     <flexiPageRegions>
@@ -3365,6 +3373,10 @@
         <type>Facet</type>
     </flexiPageRegions>
     <flexiPageRegions>
+        <name>Facet-bfa5d6e0-b44e-42ed-b629-5bef02991f2f</name>
+        <type>Facet</type>
+    </flexiPageRegions>
+    <flexiPageRegions>
         <itemInstances>
             <componentInstance>
                 <componentInstanceProperties>
@@ -3428,33 +3440,6 @@
             <componentInstance>
                 <componentInstanceProperties>
                     <name>body</name>
-                    <value>Facet-7bbc8012-4250-4172-81aa-787c1fda900b</value>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>title</name>
-                    <value>PRIIPS/KID</value>
-                </componentInstanceProperties>
-                <componentName>flexipage:tab</componentName>
-                <identifier>flexipage_tab18</identifier>
-                <visibilityRule>
-                    <booleanFilter>1 OR 2</booleanFilter>
-                    <criteria>
-                        <leftValue>{!$User.Username}</leftValue>
-                        <operator>EQUAL</operator>
-                        <rightValue>leo.pawlicki-crm@carmignac.com</rightValue>
-                    </criteria>
-                    <criteria>
-                        <leftValue>{!$User.Username}</leftValue>
-                        <operator>EQUAL</operator>
-                        <rightValue>clementine.blanchard-crm@carmignac.com</rightValue>
-                    </criteria>
-                </visibilityRule>
-            </componentInstance>
-        </itemInstances>
-        <itemInstances>
-            <componentInstance>
-                <componentInstanceProperties>
-                    <name>body</name>
                     <value>Facet-28ad708a-d7cf-4e61-bcfd-2988480ccd14</value>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
@@ -3505,6 +3490,20 @@
                         <rightValue>Dedicated</rightValue>
                     </criteria>
                 </visibilityRule>
+            </componentInstance>
+        </itemInstances>
+        <itemInstances>
+            <componentInstance>
+                <componentInstanceProperties>
+                    <name>body</name>
+                    <value>Facet-bfa5d6e0-b44e-42ed-b629-5bef02991f2f</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>title</name>
+                    <value>PRIIPS</value>
+                </componentInstanceProperties>
+                <componentName>flexipage:tab</componentName>
+                <identifier>flexipage_tab18</identifier>
             </componentInstance>
         </itemInstances>
         <name>Facet-46ff0ed3-8ecb-4ec5-90ef-bba65f163f4a</name>
@@ -3661,6 +3660,10 @@
         <type>Region</type>
     </flexiPageRegions>
     <flexiPageRegions>
+        <name>Facet-71cf8bc0-6ef5-441d-8d5b-508356f457eb</name>
+        <type>Facet</type>
+    </flexiPageRegions>
+    <flexiPageRegions>
         <itemInstances>
             <componentInstance>
                 <componentInstanceProperties>
@@ -3728,16 +3731,6 @@
     <flexiPageRegions>
         <itemInstances>
             <componentInstance>
-                <componentName>priipsKidCompletion</componentName>
-                <identifier>c_priipsKidCompletion</identifier>
-            </componentInstance>
-        </itemInstances>
-        <name>Facet-pzrhpocp6pg</name>
-        <type>Facet</type>
-    </flexiPageRegions>
-    <flexiPageRegions>
-        <itemInstances>
-            <componentInstance>
                 <componentName>forceChatter:recordFeedContainer</componentName>
                 <identifier>forceChatter_recordFeedContainer</identifier>
             </componentInstance>
@@ -3771,6 +3764,20 @@
         <itemInstances>
             <componentInstance>
                 <componentInstanceProperties>
+                    <name>body</name>
+                    <value>Facet-71cf8bc0-6ef5-441d-8d5b-508356f457eb</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>title</name>
+                    <value>PRIIPS/KIDS</value>
+                </componentInstanceProperties>
+                <componentName>flexipage:tab</componentName>
+                <identifier>flexipage_tab19</identifier>
+            </componentInstance>
+        </itemInstances>
+        <itemInstances>
+            <componentInstance>
+                <componentInstanceProperties>
                     <name>active</name>
                     <value>true</value>
                 </componentInstanceProperties>
@@ -3784,33 +3791,6 @@
                 </componentInstanceProperties>
                 <componentName>flexipage:tab</componentName>
                 <identifier>flexipage_tab6</identifier>
-            </componentInstance>
-        </itemInstances>
-        <itemInstances>
-            <componentInstance>
-                <componentInstanceProperties>
-                    <name>body</name>
-                    <value>Facet-pzrhpocp6pg</value>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>title</name>
-                    <value>PRIIPS/KID</value>
-                </componentInstanceProperties>
-                <componentName>flexipage:tab</componentName>
-                <identifier>flexipage_tab19</identifier>
-                <visibilityRule>
-                    <booleanFilter>1 OR 2</booleanFilter>
-                    <criteria>
-                        <leftValue>{!$User.Username}</leftValue>
-                        <operator>EQUAL</operator>
-                        <rightValue>clementine.blanchard-crm@carmignac.com</rightValue>
-                    </criteria>
-                    <criteria>
-                        <leftValue>{!$User.Username}</leftValue>
-                        <operator>EQUAL</operator>
-                        <rightValue>leo.pawlicki-crm@carmignac.com</rightValue>
-                    </criteria>
-                </visibilityRule>
             </componentInstance>
         </itemInstances>
         <itemInstances>

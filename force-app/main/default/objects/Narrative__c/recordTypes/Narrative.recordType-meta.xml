@@ -855,17 +855,6 @@
         </values>
     </picklistValues>
     <picklistValues>
-        <picklist>DomiciledIn__c</picklist>
-        <values>
-            <fullName>FR</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>LU</fullName>
-            <default>false</default>
-        </values>
-    </picklistValues>
-    <picklistValues>
         <picklist>KeyPointNum__c</picklist>
         <values>
             <fullName>1</fullName>
@@ -1125,10 +1114,6 @@
         </values>
         <values>
             <fullName>DRAWDOWNS</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Default</fullName>
             <default>false</default>
         </values>
         <values>
@@ -1537,10 +1522,6 @@
         </values>
         <values>
             <fullName>Pre-central admin</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>PreCentralAdmin</fullName>
             <default>false</default>
         </values>
         <values>

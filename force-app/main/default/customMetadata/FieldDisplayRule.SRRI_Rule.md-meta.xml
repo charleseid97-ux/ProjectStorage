@@ -16,7 +16,7 @@
     </values>
     <values>
         <field>Mandatory_Rule__c</field>
-        <value xsi:type="xsd:string">record.CountryRegNeededInstitutional__c?.includes(&apos;United Kingdom&apos;) || record.CountryRegNeededRetail__c?.includes(&apos;United Kingdom&apos;) || record.CountryRegNeededSemipro__c?.includes(&apos;United Kingdom&apos;)</value>
+        <value xsi:type="xsd:string">record.CountryRegNeededInstitutional__c?.includes(&apos;United Kingdom&apos;) || record.CountryRegNeededRetail__c?.includes(&apos;United Kingdom&apos;)  || record.CountryRegNeededSemipro__c?.includes(&apos;United Kingdom&apos;)</value>
     </values>
     <values>
         <field>ObjectApiName__c</field>

@@ -676,11 +676,18 @@
                 <booleanValue>true</booleanValue>
             </value>
         </filters>
+        <filters>
+            <field>TECH_ProjectRecordType__c</field>
+            <operator>NotEqualTo</operator>
+            <value>
+                <stringValue>FundShareClassModification</stringValue>
+            </value>
+        </filters>
         <object>ProjectProductChild__c</object>
         <recordTriggerType>Update</recordTriggerType>
         <triggerType>RecordAfterSave</triggerType>
     </start>
-    <status>Draft</status>
+    <status>Active</status>
     <variables>
         <name>CollIds</name>
         <dataType>String</dataType>

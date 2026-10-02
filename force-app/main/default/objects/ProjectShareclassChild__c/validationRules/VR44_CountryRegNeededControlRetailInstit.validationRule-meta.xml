@@ -20,7 +20,8 @@
 				AND(INCLUDES(CountryRegNeededRetail__c,&quot;Portugal&quot;),INCLUDES(CountryRegNeededInstitutional__c,&quot;Portugal&quot;)),
 				AND(INCLUDES(CountryRegNeededRetail__c,&quot;Taiwan&quot;),INCLUDES(CountryRegNeededInstitutional__c,&quot;Taiwan&quot;)),
 				AND(INCLUDES(CountryRegNeededRetail__c,&quot;Singapore&quot;),INCLUDES(CountryRegNeededInstitutional__c,&quot;Singapore&quot;)),
-				AND(INCLUDES(CountryRegNeededRetail__c,&quot;United Arab Emirates&quot;),INCLUDES(CountryRegNeededInstitutional__c,&quot;United Arab Emirates&quot;))
+				AND(INCLUDES(CountryRegNeededRetail__c,&quot;UAE&quot;),INCLUDES(CountryRegNeededInstitutional__c,&quot;UAE&quot;))
+
 )</errorConditionFormula>
     <errorMessage>A country can only be selected in one registration category (Retail, Semipro or Institutional). Please remove duplicate country selections.</errorMessage>
 </ValidationRule>

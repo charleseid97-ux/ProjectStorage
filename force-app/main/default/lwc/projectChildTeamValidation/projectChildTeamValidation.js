@@ -373,7 +373,10 @@ export default class ProjectChildTeamValidation extends NavigationMixin(Lightnin
      */
     handleFundRequiredFields(data) {
         this.buildEmptyFundRequiredFieldsFromApex(data);
-        this.applyFundDynamicRules();
+        if(this.recordTypeName != 'FundShareClassModification'){
+            this.applyFundDynamicRules();
+        }
+        
         console.log('emptyFundRequiredFields', this.emptyFundRequiredFields);
     }
 
@@ -441,7 +444,9 @@ export default class ProjectChildTeamValidation extends NavigationMixin(Lightnin
      */
     handleShareClassRequiredFields(data) {
         this.buildEmptyShareClassRequiredFieldsFromApex(data);
-        this.applyShareClassDynamicRules();
+        if(this.recordTypeName != 'FundShareClassModification'){
+            this.applyShareClassDynamicRules();
+        }
         this.cleanupEmptyShareClassRequiredFields();
     }
 

@@ -16,7 +16,7 @@
     </values>
     <values>
         <field>Mandatory_Rule__c</field>
-        <value xsi:type="xsd:string">record.LegalForm__c !== &apos;OEIC&apos; &amp;&amp; ((record.HasPerfFees__c===&quot;True&quot; || record.HasPerfFees__c === true))</value>
+        <value xsi:type="xsd:string">record.LegalForm__c!==&apos;OEIC&apos;</value>
     </values>
     <values>
         <field>ObjectApiName__c</field>

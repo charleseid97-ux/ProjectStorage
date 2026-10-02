@@ -2,8 +2,6 @@
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>IntentedRetailInvestor__c</fullName>
     <encryptionScheme>None</encryptionScheme>
-    <inlineHelpText>This text will be included in the “Intended Retail Investor” section of the PRIIPs KID. 
-The following standard wording will be automatically added by Sequantis in the PDF: “The appropriate amount to invest in this fund depends on the personal situation of the investor, their knowledge of investment products and experience, their personal wealth, their cash requirements now and in the future, and their degree of risk aversion.”</inlineHelpText>
     <label>Intented Retail Investor</label>
     <length>5000</length>
     <trackTrending>false</trackTrending>

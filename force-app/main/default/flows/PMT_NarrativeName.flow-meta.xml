@@ -150,12 +150,52 @@
             </connector>
             <label>Third Party</label>
         </rules>
+        <rules>
+            <name>Marketing_ESG</name>
+            <conditionLogic>or</conditionLogic>
+            <conditions>
+                <leftValueReference>$Record.Type__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>Marketing</stringValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>$Record.Type__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>ESG</stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Update_Mkt_ESG_Narrative</targetReference>
+            </connector>
+            <label>Marketing/ESG</label>
+        </rules>
     </decisions>
     <environments>Default</environments>
     <formulas>
         <name>FormattedBiographyName</name>
         <dataType>String</dataType>
         <expression>&quot;Biography – &quot; &amp; {!$Record.Fund_Manager__r.FullName__c} &amp; &quot; – &quot; &amp;
+CASE(
+  {!LanguageCodeText},
+  &quot;Dutch&quot;, &quot;NL&quot;,
+  &quot;English&quot;, &quot;EN&quot;,
+  &quot;French&quot;, &quot;FR&quot;,
+  &quot;German&quot;, &quot;DE&quot;,
+  &quot;Italian&quot;, &quot;IT&quot;,
+  &quot;Portuguese&quot;, &quot;PT&quot;,
+  &quot;Spanish&quot;, &quot;ES&quot;,
+ &quot;Finnish&quot;, &quot;FI&quot;,
+  &quot;Swedish&quot;, &quot;SE&quot;,
+  {!LanguageCodeText}
+)</expression>
+    </formulas>
+    <formulas>
+        <name>FormattedMktESGName</name>
+        <dataType>String</dataType>
+        <expression>TEXT($Record.Type__c) &amp; &quot; – &quot; &amp;  TEXT($Record.SubType__c) &amp; &quot; – &quot; &amp;  
 CASE(
   {!LanguageCodeText},
   &quot;Dutch&quot;, &quot;NL&quot;,
@@ -218,7 +258,7 @@ CASE(
   TEXT($Record.SubType__c)
 )
 &amp; &quot; – &quot; &amp;
-$Record.ShareClass__r.Fund__r.Name
+$Record.Product__r.Name
 &amp; &quot; – &quot; &amp;
 $Record.ShareClass__r.ISIN__c
 &amp; &quot; – &quot; &amp;
@@ -271,6 +311,19 @@ CASE(
             <field>Name</field>
             <value>
                 <elementReference>FormattedBiographyName</elementReference>
+            </value>
+        </inputAssignments>
+        <inputReference>$Record</inputReference>
+    </recordUpdates>
+    <recordUpdates>
+        <name>Update_Mkt_ESG_Narrative</name>
+        <label>Update Mkt/ESG Narrative</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <inputAssignments>
+            <field>Name</field>
+            <value>
+                <elementReference>FormattedMktESGName</elementReference>
             </value>
         </inputAssignments>
         <inputReference>$Record</inputReference>
@@ -352,5 +405,5 @@ CASE(
         <recordTriggerType>CreateAndUpdate</recordTriggerType>
         <triggerType>RecordAfterSave</triggerType>
     </start>
-    <status>Active</status>
+    <status>Draft</status>
 </Flow>
