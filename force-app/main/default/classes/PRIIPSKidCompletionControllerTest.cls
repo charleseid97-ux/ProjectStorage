@@ -127,6 +127,7 @@ private class PRIIPSKidCompletionControllerTest {
         reset();
         PRIIPSKidCompletionController.productIdOverride = fakeId(ProjectProduct__c.SObjectType, 1);
         PRIIPSKidCompletionController.recordTypeDeveloperNameOverride = 'FundCreation';
+        PRIIPSKidCompletionController.projectScopeOverride = 'PS';
         PRIIPSKidCompletionController.metadataRowsOverride = metadataRows();
         PRIIPSKidCompletionController.productRecordOverride = newProduct('Carmignac Credit 2027', null, null);
         PRIIPSKidCompletionController.shareclassRecordsOverride = new List<SObject>{
@@ -153,6 +154,7 @@ private class PRIIPSKidCompletionControllerTest {
         reset();
         PRIIPSKidCompletionController.productIdOverride = fakeId(ProjectProduct__c.SObjectType, 1);
         PRIIPSKidCompletionController.recordTypeDeveloperNameOverride = 'FundShareClassModification';
+        PRIIPSKidCompletionController.projectScopeOverride = 'PS';
         PRIIPSKidCompletionController.metadataRowsOverride = metadataRows();
         PRIIPSKidCompletionController.productRecordOverride = newProduct('Carmignac Credit 2027', 'FCP', 'ProjectProduct__c.ProductName__c');
         PRIIPSKidCompletionController.shareclassRecordsOverride = new List<SObject>{
@@ -177,7 +179,7 @@ private class PRIIPSKidCompletionControllerTest {
     // Verifies parsing of local and object-qualified modified field names.
     @IsTest
     static void parseModifiedFields_returnsLocalAndQualifiedNames() {
-        Set<String> fields = PRIIPSKidCompletionController.parseModifiedFields(
+        Set<String> fields = PRIIPSKidHelper.parseModifiedFields(
             'Currency__c;ProjectShareclass__c.TransactionCosts__c',
             'ProjectShareclass__c'
         );
@@ -194,6 +196,7 @@ private class PRIIPSKidCompletionControllerTest {
         reset();
         PRIIPSKidCompletionController.productIdOverride = fakeId(ProjectProduct__c.SObjectType, 1);
         PRIIPSKidCompletionController.recordTypeDeveloperNameOverride = 'FundCreation';
+        PRIIPSKidCompletionController.projectScopeOverride = 'PS';
         PRIIPSKidCompletionController.productRecordOverride = newProduct('Carmignac Credit 2027', 'FCP', null);
 
         // Conditions cover &&, ||, =, !=, ISBLANK(), !ISBLANK() and invalid tokens.
@@ -225,6 +228,7 @@ private class PRIIPSKidCompletionControllerTest {
         reset();
         Id productId = fakeId(ProjectProduct__c.SObjectType, 1);
         PRIIPSKidCompletionController.recordTypeDeveloperNameOverride = 'FundShareclassCreation';
+        PRIIPSKidCompletionController.projectScopeOverride = 'PS';
         PRIIPSKidCompletionController.productRecordOverride = newProduct('Carmignac Credit 2027', 'FCP', null);
 
         // Local field names cover object inference and Shareclass Creation filtering.
@@ -260,6 +264,7 @@ private class PRIIPSKidCompletionControllerTest {
         reset();
         PRIIPSKidCompletionController.productIdOverride = fakeId(ProjectProduct__c.SObjectType, 1);
         PRIIPSKidCompletionController.recordTypeDeveloperNameOverride = 'FundCreation';
+        PRIIPSKidCompletionController.projectScopeOverride = 'PS';
         PRIIPSKidCompletionController.productRecordOverride = newProduct('Carmignac Credit 2027', 'FCP', null);
 
         // Conditions cover &&, ||, =, !=, ISBLANK(), !ISBLANK() and invalid tokens.
@@ -333,7 +338,7 @@ private class PRIIPSKidCompletionControllerTest {
     // Verifies blank modified-field source parsing.
     @IsTest
     static void parseModifiedFields_blankValue_returnsEmptySet() {
-        Set<String> fields = PRIIPSKidCompletionController.parseModifiedFields(
+        Set<String> fields = PRIIPSKidHelper.parseModifiedFields(
             null,
             'ProjectShareclass__c'
         );

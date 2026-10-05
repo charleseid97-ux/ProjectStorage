@@ -20,6 +20,7 @@ private class PRIIPSKidControllerTest {
 
         PRIIPSKidController.productIdOverride = productId;
         PRIIPSKidController.recordTypeDeveloperNameOverride = 'FundCreation';
+        PRIIPSKidController.projectScopeOverride = 'PS';
         PRIIPSKidController.productRecordOverride = productRecord;
         PRIIPSKidController.shareclassRecordsOverride = new List<SObject>{ shareclassRecord };
         PRIIPSKidController.metadataRowsOverride = new List<PRIIPSField__mdt>{
@@ -61,6 +62,7 @@ private class PRIIPSKidControllerTest {
 
         PRIIPSKidController.productIdOverride = productId;
         PRIIPSKidController.recordTypeDeveloperNameOverride = 'FundShareClassModification';
+        PRIIPSKidController.projectScopeOverride = 'PS';
         PRIIPSKidController.productRecordOverride = productRecord;
         PRIIPSKidController.shareclassRecordsOverride = new List<SObject>{ shareclassRecord };
         PRIIPSKidController.metadataRowsOverride = new List<PRIIPSField__mdt>{

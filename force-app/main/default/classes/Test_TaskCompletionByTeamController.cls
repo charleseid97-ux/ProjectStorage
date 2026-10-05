@@ -5,20 +5,28 @@ public class Test_TaskCompletionByTeamController {
     static void setupData() {
         // Création des matrices
         PMTTestFactoryData.createMatrice('Proposal', 'Risk', 'InvestmentObjective__c;InvestmentStrategy__c', 'CurrencyIsoCode;Type__c');
-        
+
+        // Also covers the "Design" stage settings row, so getDesignTeams()/getOwnerTeamId() have data to work with.
+        PMTTestFactoryData.createMatrice('Design', 'Risk', 'InvestmentObjective__c;InvestmentStrategy__c', 'CurrencyIsoCode;Type__c');
+
         // Création projet et étape
         ProjectProduct__c proj = PMTTestFactoryData.createProjectProductWithAllFields(
             Schema.SObjectType.ProjectProduct__c.getRecordTypeInfosByDeveloperName().get('FundCreation').getRecordTypeId()
         );
-        
+
+        // A real owner on the Risk team field so getOwnerTeamId()/getOwnerTeamNameById() resolve an actual User.
+        proj.Risk__c = UserInfo.getUserId();
+        update proj;
+
 ProjectProductChild__c child = PMTTestFactoryData.createProjectProductChild(proj.Id, 'Proposal', 'Risk');
 
 
         ProjectShareclass__c shc = PMTTestFactoryData.createProjectShareclass(proj.Id, 'CurrencyIsoCode');
-         
 
-       
-
+        // Links the shareclass to the step child and gives it a matching child record, so
+        // getProjectChildShareClasses()/getProjectShareclassChildren() have data to iterate over.
+        PMTTestFactoryData.createJunction(child.Id, shc.Id);
+        PMTTestFactoryData.createShareclassChild(shc.Id, 'Proposal');
     }
  
     @isTest

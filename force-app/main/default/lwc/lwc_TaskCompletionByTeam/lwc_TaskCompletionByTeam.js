@@ -1,12 +1,10 @@
-import { api, LightningElement, track , wire } from 'lwc';
+import { api, LightningElement, track } from 'lwc';
 import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 import getStepsWithTeam  from '@salesforce/apex/TaskCompletionByTeamController.getStepWithTeams';
 import getCompletionRatesBulk  from '@salesforce/apex/TaskCompletionByTeamController.getCompletionRatesBulk';
 import { NavigationMixin } from 'lightning/navigation';
-import { getRecord } from 'lightning/uiRecordApi';
-import VEHICLE_TYPE from '@salesforce/schema/ProjectProduct__c.VehicleType__c';
- 
-export default class Lwc_TaskCompletionByTeam  extends NavigationMixin(LightningElement)  {  
+
+export default class Lwc_TaskCompletionByTeam  extends NavigationMixin(LightningElement)  {
     @api recordId;
     @track isModalOpen = false;
     @track steps=[];
@@ -17,8 +15,7 @@ export default class Lwc_TaskCompletionByTeam  extends NavigationMixin(Lightning
     wiredresultdata;
     istepactive=false;
     stepsdata=[];
-    vehicleType;
-   
+
     columns = [ 
       { label: 'Team', fieldName: 'team', type: 'text' },
       { label: 'Owner', fieldName: 'owner', type: 'text' },
@@ -102,52 +99,30 @@ export default class Lwc_TaskCompletionByTeam  extends NavigationMixin(Lightning
         form.submit();
     }
    
-    @wire(getRecord, { recordId: '$recordId', fields: [VEHICLE_TYPE] })
-    wiredRecord({ error, data }) {
-        if (data) {
-            this.vehicleType = data.fields.VehicleType__c.value;
-            this.getStepsWithTeam(); // Une fois qu'on a le type de véhicule, on charge les steps filtrés
-        } else if (error) {
-            console.error('Erreur récupération :', error);
-        }
+    connectedCallback() {
+        this.getStepsWithTeam();
     }
-   
+
     async getStepsWithTeam() {
         const result = await getStepsWithTeam({ recordId: this.recordId });
         const stepsArray = JSON.parse(result);
-        const vehicleType = (this.vehicleType || '').toLowerCase();
-     
-        const teamToExclude = (type) => {
-            if (['funds', 'umbrella'].includes(type)) return 'IS';
-            if (['mandate', 'dedicated'].includes(type)) return 'Product Strategy';
-            return null;
-        };
-     
-        const excludedTeam = teamToExclude(vehicleType);
-     
-        this.steps = stepsArray.map(step => {
-            let filteredTeams = step.teams;
-            if (excludedTeam) {
-                filteredTeams = step.teams.filter(team =>
-                    team.name.toLowerCase() !== excludedTeam.toLowerCase()
-                );
-            }
-     
-            return {
-                id: step.id || null,
-                name: step.name || 'Unnamed Step',
-                statustep: step.statustep || 'Unnamed Step',
-                teams: filteredTeams.map(team => ({
-                    id: team.id || null,
-                    stepid: step.id || null,
-                    team: team.name || 'Unnamed Milestone',
-                    owner: team.owner || 'Unknown',
-                    status: team.status || 'null',
-                    dynamicIcon: team.dynamicIcon
-                }))
-            };
-        });
-    
+
+        // US-20120: Apex (TaskCompletionByTeamController.getStepWithTeams) already returns only the
+        // "Product Strategy" or "IS" row matching the project's Scope__c - no client-side filtering needed.
+        this.steps = stepsArray.map(step => ({
+            id: step.id || null,
+            name: step.name || 'Unnamed Step',
+            statustep: step.statustep || 'Unnamed Step',
+            teams: step.teams.map(team => ({
+                id: team.id || null,
+                stepid: step.id || null,
+                team: team.name || 'Unnamed Milestone',
+                owner: team.owner || 'Unknown',
+                status: team.status || 'null',
+                dynamicIcon: team.dynamicIcon
+            }))
+        }));
+
         this.prepareData();
     }
  
