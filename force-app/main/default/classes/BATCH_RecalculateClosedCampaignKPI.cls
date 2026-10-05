@@ -3,12 +3,20 @@
 public with sharing class BATCH_RecalculateClosedCampaignKPI
     implements Database.Batchable<SObject> {
 
+    // Selects Bookly campaigns after the configured delay and keeps the existing rule for other campaigns.
     public Database.QueryLocator start(Database.BatchableContext bc) {
+        Integer kpiDelay = Integer.valueOf(Label.BooklyCampaignKPI_Delay);
+        Date kpiCalculationDate = Date.today().addDays(-kpiDelay);
+
+        // Bookly campaigns rely on the Event start date, while other campaigns keep the existing conditions.
         return Database.getQueryLocator([
             SELECT Id
             FROM Campaign
-            WHERE Status = 'Closed'
-              AND LyytiId__c != null
+            WHERE (Event__c != null
+                   AND Event__r.startDate__c <= :kpiCalculationDate)
+               OR (Event__c = null
+                   AND Status = 'Closed'
+                   AND LyytiId__c != null)
         ]);
     }
 
