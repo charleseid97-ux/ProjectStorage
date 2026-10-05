@@ -113,6 +113,11 @@
                 <label>US Offshore Agreement</label>
             </value>
             <value>
+                <fullName>Business Introducer</fullName>
+                <default>false</default>
+                <label>Business Introducer</label>
+            </value>
+            <value>
                 <fullName>Agreement without Rebates</fullName>
                 <default>false</default>
                 <isActive>false</isActive>
@@ -238,6 +243,11 @@
             <controllingFieldValue>Standard</controllingFieldValue>
             <controllingFieldValue>Master</controllingFieldValue>
             <valueName>US Offshore Agreement</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Standard</controllingFieldValue>
+            <controllingFieldValue>Master</controllingFieldValue>
+            <valueName>Business Introducer</valueName>
         </valueSettings>
         <valueSettings>
             <controllingFieldValue>Master</controllingFieldValue>

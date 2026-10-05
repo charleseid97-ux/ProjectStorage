@@ -182,6 +182,10 @@
     <picklistValues>
         <picklist>Code_Type__c</picklist>
         <values>
+            <fullName>Business Introducer</fullName>
+            <default>false</default>
+        </values>
+        <values>
             <fullName>Distribution Agreement</fullName>
             <default>false</default>
         </values>
