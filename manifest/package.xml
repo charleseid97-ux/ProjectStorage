@@ -1,3 +1,5 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Package xmlns="http://soap.sforce.com/2006/04/metadata">
     <types>
         <members>AgreementTriggerHandler</members>
         <members>BATCH_RecalculateClosedCampaignKPI</members>
@@ -7,3 +9,5 @@
         <members>BooklyCampaignKPI_Delay</members>
         <name>CustomLabel</name>
     </types>
+    <version>66.0</version>
+</Package>
