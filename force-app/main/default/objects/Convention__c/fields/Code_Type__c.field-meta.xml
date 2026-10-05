@@ -103,6 +103,21 @@
                 <label>IS Master Feeder</label>
             </value>
             <value>
+                <fullName>UK intermediaries (none platform)</fullName>
+                <default>false</default>
+                <label>UK intermediaries (none platform)</label>
+            </value>
+            <value>
+                <fullName>US Offshore Agreement</fullName>
+                <default>false</default>
+                <label>US Offshore Agreement</label>
+            </value>
+            <value>
+                <fullName>Business Introducer</fullName>
+                <default>false</default>
+                <label>Business Introducer</label>
+            </value>
+            <value>
                 <fullName>Agreement without Rebates</fullName>
                 <default>false</default>
                 <isActive>false</isActive>
@@ -155,16 +170,6 @@
                 <default>false</default>
                 <isActive>false</isActive>
                 <label>Sub-intermediary Agreement via platform</label>
-            </value>
-            <value>
-                <fullName>UK intermediaries (none platform)</fullName>
-                <default>false</default>
-                <label>UK intermediaries (none platform)</label>
-            </value>
-            <value>
-                <fullName>US Offshore Agreement</fullName>
-                <default>false</default>
-                <label>US Offshore Agreement</label>
             </value>
         </valueSetDefinition>
         <valueSettings>
@@ -231,6 +236,20 @@
             <valueName>IS Master Feeder</valueName>
         </valueSettings>
         <valueSettings>
+            <controllingFieldValue>Standard</controllingFieldValue>
+            <valueName>UK intermediaries (none platform)</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Standard</controllingFieldValue>
+            <controllingFieldValue>Master</controllingFieldValue>
+            <valueName>US Offshore Agreement</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Standard</controllingFieldValue>
+            <controllingFieldValue>Master</controllingFieldValue>
+            <valueName>Business Introducer</valueName>
+        </valueSettings>
+        <valueSettings>
             <controllingFieldValue>Master</controllingFieldValue>
             <valueName>Execution only Platform Agreement</valueName>
         </valueSettings>
@@ -241,15 +260,6 @@
         <valueSettings>
             <controllingFieldValue>Master</controllingFieldValue>
             <valueName>UK Execution only Platform Agreement</valueName>
-        </valueSettings>
-        <valueSettings>
-            <controllingFieldValue>Standard</controllingFieldValue>
-            <controllingFieldValue>Master</controllingFieldValue>
-            <valueName>US Offshore Agreement</valueName>
-        </valueSettings>
-        <valueSettings>
-            <controllingFieldValue>Standard</controllingFieldValue>
-            <valueName>UK intermediaries (none platform)</valueName>
         </valueSettings>
     </valueSet>
 </CustomField>

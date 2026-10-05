@@ -140,6 +140,17 @@
         </values>
     </picklistValues>
     <picklistValues>
+        <picklist>AssetAge__c</picklist>
+        <values>
+            <fullName>Legacy Asset</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>New Asset</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
         <picklist>CalculationFrequencyBasis__c</picklist>
         <values>
             <fullName>Liabilities - daily average</fullName>
@@ -170,6 +181,10 @@
     </picklistValues>
     <picklistValues>
         <picklist>Code_Type__c</picklist>
+        <values>
+            <fullName>Business Introducer</fullName>
+            <default>false</default>
+        </values>
         <values>
             <fullName>Distribution Agreement</fullName>
             <default>false</default>
