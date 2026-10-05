@@ -541,7 +541,10 @@ public without sharing class ProjectProductSetupHandler {
     
         // Affectation des propriétaires d'équipe
         for (ProjectProduct__c oProjectProduct : projectProduct) {
-            if (oProjectProduct.VehicleType__c == 'Funds') {
+            // US-20120: Scope (PS/IS) is determined by the creating user's custom permission, not VehicleType__c
+            oProjectProduct.Scope__c = FeatureManagement.checkPermission('PRPIS') ? 'IS' : 'PS';
+
+            if (oProjectProduct.Scope__c == 'PS') {
                 oProjectProduct.ProductStrategy__c = teamOwnerByTeam.get('Product Strategy');
                 oProjectProduct.IS__c = null;
             } else {
@@ -585,6 +588,13 @@ public without sharing class ProjectProductSetupHandler {
         for( ProjectProduct__c pp : projectProduct){
             if(pp.RecordTypeId == fundCreationRecordTypeId || pp.RecordTypeId == fundModificationRecordTypeId){
                 for(Task_List__mdt task_mdt : Task_List__mdt.getAll().values()){
+                    // US-20120: Control PS / Control IS task lists are mutually exclusive per project scope
+                    if (task_mdt.Team__c == 'Control PS' && pp.Scope__c == 'IS') {
+                        continue;
+                    }
+                    if (task_mdt.Team__c == 'Control IS' && pp.Scope__c != 'IS') {
+                        continue;
+                    }
                     ProjectTask__c task = new ProjectTask__c();
                     task.Product__c = pp.Id;
                     task.Description__c = task_mdt.Description__c;

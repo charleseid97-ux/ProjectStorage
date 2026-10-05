@@ -20,14 +20,22 @@ public with sharing class PRIIPSKidController {
 
     private static final List<String> TEAM_ORDER = new List<String>{
         'Product Strategy',
+        'Investment Solutions',
         'Investment Performance',
         'Operations',
         'Legal',
         'Risk Management'
     };
 
+    // US-20120: display name used in place of a "Product Strategy" PRIIPSField__mdt row's
+    // team when the project's Scope__c is IS and the row opted in via OtherTeams__c.
+    private static final String INVESTMENT_SOLUTIONS_TEAM = 'Investment Solutions';
+    private static final String PRODUCT_STRATEGY_TEAM = 'Product Strategy';
+    private static final String SCOPE_IS = 'IS';
+
     @TestVisible private static Id productIdOverride;
     @TestVisible private static String recordTypeDeveloperNameOverride;
+    @TestVisible private static String projectScopeOverride;
     @TestVisible private static List<PRIIPSField__mdt> metadataRowsOverride;
     @TestVisible private static SObject productRecordOverride;
     @TestVisible private static List<SObject> shareclassRecordsOverride;
@@ -91,10 +99,11 @@ public with sharing class PRIIPSKidController {
             Id productId = resolveProductId(recordId);
             String recordTypeDeveloperName = getProductRecordTypeDeveloperName(productId);
             String projectMode = resolveProjectMode(recordTypeDeveloperName);
+            String projectScope = getProjectScope(productId);
 
             Map<String, Schema.SObjectField> productFieldsDescribe = getFieldDescribeMap(PRODUCT_OBJECT_API_NAME);
             Map<String, Schema.SObjectField> shareclassFieldsDescribe = getFieldDescribeMap(SHARECLASS_OBJECT_API_NAME);
-            List<FieldConfig> configs = buildFieldConfigs(loadMetadataRows(), projectMode, productFieldsDescribe, shareclassFieldsDescribe);
+            List<FieldConfig> configs = buildFieldConfigs(loadMetadataRows(), projectMode, projectScope, productFieldsDescribe, shareclassFieldsDescribe);
 
             Set<String> productFieldsToQuery = collectFieldsToQuery(configs, PRODUCT_OBJECT_API_NAME);
             Set<String> shareclassFieldsToQuery = collectFieldsToQuery(configs, SHARECLASS_OBJECT_API_NAME);
@@ -145,6 +154,7 @@ public with sharing class PRIIPSKidController {
     private static void resetOverridesForTest() {
         productIdOverride = null;
         recordTypeDeveloperNameOverride = null;
+        projectScopeOverride = null;
         metadataRowsOverride = null;
         productRecordOverride = null;
         shareclassRecordsOverride = null;
@@ -182,6 +192,17 @@ public with sharing class PRIIPSKidController {
         return recordType == null ? '' : (String) recordType.get('DeveloperName');
     }
 
+    // US-20120: Gets the Project Product's Scope (PS/IS) to resolve team display names.
+    private static String getProjectScope(Id productId) {
+        if (Test.isRunningTest() && projectScopeOverride != null) {
+            return projectScopeOverride;
+        }
+
+        String soql = 'SELECT Scope__c FROM ' + PRODUCT_OBJECT_API_NAME + ' WHERE Id = :productId LIMIT 1';
+        SObject productRecord = Database.query(soql);
+        return (String) productRecord.get('Scope__c');
+    }
+
     // Converts a record type developer name into the functional project mode.
     @TestVisible
     private static String resolveProjectMode(String recordTypeDeveloperName) {
@@ -208,6 +229,7 @@ public with sharing class PRIIPSKidController {
                    MasterLabel,
                    FieldApiName__c,
                    Team__c,
+                   OtherTeams__c,
                    ProductCreation__c,
                    ShareclassCreation__c,
                    ProductShareModification__c,
@@ -219,11 +241,25 @@ public with sharing class PRIIPSKidController {
         ];
     }
 
+    // US-20120: a "Product Strategy" row also applies to Investment Solutions when its semicolon-delimited OtherTeams__c list names it - scales to future teams with no schema change.
+    private static Boolean appliesToTeam(String delimitedTeams, String teamName) {
+        if (String.isBlank(delimitedTeams)) {
+            return false;
+        }
+        for (String team : delimitedTeams.split(';')) {
+            if (team.trim().equalsIgnoreCase(teamName)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     // Builds strongly typed field configs and skips invalid metadata rows safely.
     @TestVisible
     private static List<FieldConfig> buildFieldConfigs(
         List<PRIIPSField__mdt> metadataRows,
         String projectMode,
+        String projectScope,
         Map<String, Schema.SObjectField> productFieldsDescribe,
         Map<String, Schema.SObjectField> shareclassFieldsDescribe
     ) {
@@ -239,11 +275,21 @@ public with sharing class PRIIPSKidController {
                 continue;
             }
 
+            // US-20120: for an IS-scoped project, only "Product Strategy" rows that opted in via
+            // OtherTeams__c are shown, rendered under "Investment Solutions" instead.
+            String effectiveTeam = metadataRow.Team__c;
+            if (projectScope == SCOPE_IS && effectiveTeam == PRODUCT_STRATEGY_TEAM) {
+                if (!appliesToTeam(metadataRow.OtherTeams__c, INVESTMENT_SOLUTIONS_TEAM)) {
+                    continue;
+                }
+                effectiveTeam = INVESTMENT_SOLUTIONS_TEAM;
+            }
+
             FieldConfig config = new FieldConfig();
             config.objectApiName = reference.objectApiName;
             config.fieldApiName = reference.fieldApiName;
             config.fullFieldApiName = reference.objectApiName + '.' + reference.fieldApiName;
-            config.team = metadataRow.Team__c;
+            config.team = effectiveTeam;
             config.label = getDisplayLabel(metadataRow.MasterLabel, reference, productFieldsDescribe, shareclassFieldsDescribe);
             config.displayCondition = metadataRow.DisplayCondition__c;
             config.exactValue = metadataRow.ExactValue__c;
