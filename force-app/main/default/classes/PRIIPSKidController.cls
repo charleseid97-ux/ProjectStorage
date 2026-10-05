@@ -11,23 +11,19 @@ public with sharing class PRIIPSKidController {
     private static final String MODE_MODIFICATION = 'Modification';
     private static final String ALL_SHARECLASSES_VALUE = 'ALL';
 
-    private static final List<String> SHARECLASS_IDENTITY_FIELDS = new List<String>{
-        'Name__c',
-        'Share_Class_Name__c',
-        'Name',
-        'ISIN__c'
-    };
+    private static final List<String> SHARECLASS_IDENTITY_FIELDS = new List<String>{'Name__c', 'Share_Class_Name__c', 'Name', 'ISIN__c'};
 
-    private static final List<String> TEAM_ORDER = new List<String>{
-        'Product Strategy',
-        'Investment Performance',
-        'Operations',
-        'Legal',
-        'Risk Management'
-    };
+    private static final List<String> TEAM_ORDER = new List<String>{'Product Strategy', 'Investment Solutions', 'Investment Performance', 'Operations', 'Legal', 'Risk Management'};
+
+    // US-20120: display name used in place of a "Product Strategy" PRIIPSField__mdt row's
+    // team when the project's Scope__c is IS and the row opted in via OtherTeams__c.
+    private static final String INVESTMENT_SOLUTIONS_TEAM = 'Investment Solutions';
+    private static final String PRODUCT_STRATEGY_TEAM = 'Product Strategy';
+    private static final String SCOPE_IS = 'IS';
 
     @TestVisible private static Id productIdOverride;
     @TestVisible private static String recordTypeDeveloperNameOverride;
+    @TestVisible private static String projectScopeOverride;
     @TestVisible private static List<PRIIPSField__mdt> metadataRowsOverride;
     @TestVisible private static SObject productRecordOverride;
     @TestVisible private static List<SObject> shareclassRecordsOverride;
@@ -91,10 +87,11 @@ public with sharing class PRIIPSKidController {
             Id productId = resolveProductId(recordId);
             String recordTypeDeveloperName = getProductRecordTypeDeveloperName(productId);
             String projectMode = resolveProjectMode(recordTypeDeveloperName);
+            String projectScope = getProjectScope(productId);
 
             Map<String, Schema.SObjectField> productFieldsDescribe = getFieldDescribeMap(PRODUCT_OBJECT_API_NAME);
             Map<String, Schema.SObjectField> shareclassFieldsDescribe = getFieldDescribeMap(SHARECLASS_OBJECT_API_NAME);
-            List<FieldConfig> configs = buildFieldConfigs(loadMetadataRows(), projectMode, productFieldsDescribe, shareclassFieldsDescribe);
+            List<FieldConfig> configs = buildFieldConfigs(loadMetadataRows(), projectMode, projectScope, productFieldsDescribe, shareclassFieldsDescribe);
 
             Set<String> productFieldsToQuery = collectFieldsToQuery(configs, PRODUCT_OBJECT_API_NAME);
             Set<String> shareclassFieldsToQuery = collectFieldsToQuery(configs, SHARECLASS_OBJECT_API_NAME);
@@ -104,12 +101,8 @@ public with sharing class PRIIPSKidController {
             addShareclassIdentityFields(shareclassFieldsToQuery, shareclassFieldsDescribe);
 
             List<String> warnings = new List<String>();
-            String productModifiedSourceField = projectMode == MODE_MODIFICATION
-                ? getLocalSourceField(PRODUCT_MODIFIED_FIELDS_FIELD, PRODUCT_OBJECT_API_NAME, productFieldsDescribe, warnings)
-                : null;
-            String shareclassModifiedSourceField = projectMode == MODE_MODIFICATION
-                ? getLocalSourceField(SHARECLASS_MODIFIED_FIELDS_FIELD, SHARECLASS_OBJECT_API_NAME, shareclassFieldsDescribe, warnings)
-                : null;
+            String productModifiedSourceField = projectMode == MODE_MODIFICATION ? getLocalSourceField(PRODUCT_MODIFIED_FIELDS_FIELD, PRODUCT_OBJECT_API_NAME, productFieldsDescribe, warnings) : null;
+            String shareclassModifiedSourceField = projectMode == MODE_MODIFICATION ? getLocalSourceField(SHARECLASS_MODIFIED_FIELDS_FIELD, SHARECLASS_OBJECT_API_NAME, shareclassFieldsDescribe, warnings) : null;
 
             addSourceField(productFieldsToQuery, productModifiedSourceField);
             addSourceField(shareclassFieldsToQuery, shareclassModifiedSourceField);
@@ -121,21 +114,12 @@ public with sharing class PRIIPSKidController {
 
             addModificationWarning(projectMode, productModifiedSourceField, shareclassModifiedSourceField, warnings);
 
-            return buildResponse(
-                projectMode,
-                recordTypeDeveloperName,
-                warnings,
-                configs,
-                productRecord,
-                shareclassRecords,
-                modifiedProductFields,
-                modifiedShareclassFieldsByRow,
-                String.isNotBlank(productModifiedSourceField),
-                String.isNotBlank(shareclassModifiedSourceField)
-            );
-        } catch (AuraHandledException e) {
+            return buildResponse(projectMode, recordTypeDeveloperName, warnings, configs, productRecord, shareclassRecords, modifiedProductFields, modifiedShareclassFieldsByRow, String.isNotBlank(productModifiedSourceField), String.isNotBlank(shareclassModifiedSourceField));
+        } 
+        catch (AuraHandledException e) {
             throw e;
-        } catch (Exception e) {
+        } 
+        catch (Exception e) {
             throw new AuraHandledException('Unable to load PRIIPs/KID data: ' + e.getMessage());
         }
     }
@@ -145,6 +129,7 @@ public with sharing class PRIIPSKidController {
     private static void resetOverridesForTest() {
         productIdOverride = null;
         recordTypeDeveloperNameOverride = null;
+        projectScopeOverride = null;
         metadataRowsOverride = null;
         productRecordOverride = null;
         shareclassRecordsOverride = null;
@@ -152,14 +137,10 @@ public with sharing class PRIIPSKidController {
 
     // Resolves the Project Product Id from supported PMT record page contexts.
     private static Id resolveProductId(Id recordId) {
-        if (Test.isRunningTest() && productIdOverride != null) {
-            return productIdOverride;
-        }
+        if (Test.isRunningTest() && productIdOverride != null) return productIdOverride;
 
         String objectApiName = recordId.getSObjectType().getDescribe().getName();
-        if (objectApiName == PRODUCT_OBJECT_API_NAME) {
-            return recordId;
-        }
+        if (objectApiName == PRODUCT_OBJECT_API_NAME) return recordId;
 
         if (objectApiName == PRODUCT_CHILD_OBJECT_API_NAME) {
             String soql = 'SELECT ' + PRODUCT_CHILD_PARENT_FIELD + ' FROM ' + PRODUCT_CHILD_OBJECT_API_NAME + ' WHERE Id = :recordId LIMIT 1';
@@ -172,9 +153,7 @@ public with sharing class PRIIPSKidController {
 
     // Gets the Project Product record type developer name to select the correct metadata flags.
     private static String getProductRecordTypeDeveloperName(Id productId) {
-        if (Test.isRunningTest() && recordTypeDeveloperNameOverride != null) {
-            return recordTypeDeveloperNameOverride;
-        }
+        if (Test.isRunningTest() && recordTypeDeveloperNameOverride != null) return recordTypeDeveloperNameOverride;
 
         String soql = 'SELECT RecordType.DeveloperName FROM ' + PRODUCT_OBJECT_API_NAME + ' WHERE Id = :productId LIMIT 1';
         SObject productRecord = Database.query(soql);
@@ -182,68 +161,67 @@ public with sharing class PRIIPSKidController {
         return recordType == null ? '' : (String) recordType.get('DeveloperName');
     }
 
+    // US-20120: Gets the Project Product's Scope (PS/IS) to resolve team display names.
+    private static String getProjectScope(Id productId) {
+        if (Test.isRunningTest() && projectScopeOverride != null) return projectScopeOverride;
+
+        String soql = 'SELECT Scope__c FROM ' + PRODUCT_OBJECT_API_NAME + ' WHERE Id = :productId LIMIT 1';
+        SObject productRecord = Database.query(soql);
+        return (String) productRecord.get('Scope__c');
+    }
+
     // Converts a record type developer name into the functional project mode.
     @TestVisible
     private static String resolveProjectMode(String recordTypeDeveloperName) {
         String safeRecordType = String.isBlank(recordTypeDeveloperName) ? '' : recordTypeDeveloperName.toLowerCase();
 
-        if (safeRecordType.contains('modification')) {
-            return MODE_MODIFICATION;
-        }
-        if (safeRecordType.contains('shareclass') || safeRecordType.contains('share_class')) {
-            return MODE_SHARECLASS_CREATION;
-        }
+        if (safeRecordType.contains('modification')) return MODE_MODIFICATION;
+        if (safeRecordType.contains('shareclass') || safeRecordType.contains('share_class')) return MODE_SHARECLASS_CREATION;
 
         return MODE_PRODUCT_CREATION;
     }
 
     // Loads configured PRIIPs/KID fields from Custom Metadata.
     private static List<PRIIPSField__mdt> loadMetadataRows() {
-        if (Test.isRunningTest() && metadataRowsOverride != null) {
-            return metadataRowsOverride;
-        }
+        if (Test.isRunningTest() && metadataRowsOverride != null) return metadataRowsOverride;
 
-        return [
-            SELECT DeveloperName,
-                   MasterLabel,
-                   FieldApiName__c,
-                   Team__c,
-                   ProductCreation__c,
-                   ShareclassCreation__c,
-                   ProductShareModification__c,
-                   DisplayCondition__c,
-                   Required__c,
-                   ExactValue__c
-            FROM PRIIPSField__mdt
-            ORDER BY Team__c, MasterLabel
-        ];
+        return [SELECT DeveloperName, MasterLabel, FieldApiName__c, Team__c, OtherTeams__c, ProductCreation__c, ShareclassCreation__c, ProductShareModification__c, DisplayCondition__c, Required__c, ExactValue__c
+                FROM PRIIPSField__mdt
+                ORDER BY Team__c, MasterLabel];
+    }
+
+    // US-20120: a "Product Strategy" row also applies to Investment Solutions when its semicolon-delimited OtherTeams__c list names it - scales to future teams with no schema change.
+    private static Boolean appliesToTeam(String delimitedTeams, String teamName) {
+        if (String.isBlank(delimitedTeams)) return false;
+        for (String team : delimitedTeams.split(';')) {
+            if (team.trim().equalsIgnoreCase(teamName)) return true;
+        }
+        return false;
     }
 
     // Builds strongly typed field configs and skips invalid metadata rows safely.
     @TestVisible
-    private static List<FieldConfig> buildFieldConfigs(
-        List<PRIIPSField__mdt> metadataRows,
-        String projectMode,
-        Map<String, Schema.SObjectField> productFieldsDescribe,
-        Map<String, Schema.SObjectField> shareclassFieldsDescribe
-    ) {
+    private static List<FieldConfig> buildFieldConfigs(List<PRIIPSField__mdt> metadataRows, String projectMode, String projectScope, Map<String, Schema.SObjectField> productFieldsDescribe, Map<String, Schema.SObjectField> shareclassFieldsDescribe) {
         List<FieldConfig> configs = new List<FieldConfig>();
 
         for (PRIIPSField__mdt metadataRow : metadataRows) {
-            if (!shouldDisplayForMode(metadataRow, projectMode)) {
-                continue;
-            }
+            if (!shouldDisplayForMode(metadataRow, projectMode)) continue;
 
             FieldReference reference = parseFieldReference(metadataRow.FieldApiName__c, productFieldsDescribe, shareclassFieldsDescribe);
-            if (reference == null || String.isBlank(metadataRow.Team__c)) {
-                continue;
+            if (reference == null || String.isBlank(metadataRow.Team__c)) continue;
+
+            // US-20120: for an IS-scoped project, only "Product Strategy" rows that opted in via OtherTeams__c are shown, rendered under "Investment Solutions" instead.
+            String effectiveTeam = metadataRow.Team__c;
+            if (projectScope == SCOPE_IS && effectiveTeam == PRODUCT_STRATEGY_TEAM) {
+                if (!appliesToTeam(metadataRow.OtherTeams__c, INVESTMENT_SOLUTIONS_TEAM)) continue;
+                effectiveTeam = INVESTMENT_SOLUTIONS_TEAM;
             }
 
             FieldConfig config = new FieldConfig();
             config.objectApiName = reference.objectApiName;
             config.fieldApiName = reference.fieldApiName;
             config.fullFieldApiName = reference.objectApiName + '.' + reference.fieldApiName;
-            config.team = metadataRow.Team__c;
+            config.team = effectiveTeam;
             config.label = getDisplayLabel(metadataRow.MasterLabel, reference, productFieldsDescribe, shareclassFieldsDescribe);
             config.displayCondition = metadataRow.DisplayCondition__c;
             config.exactValue = metadataRow.ExactValue__c;
@@ -258,68 +236,34 @@ public with sharing class PRIIPSKidController {
     // Applies the Custom Metadata flags for creation or modification projects.
     @TestVisible
     private static Boolean shouldDisplayForMode(PRIIPSField__mdt metadataRow, String projectMode) {
-        if (projectMode == MODE_MODIFICATION) {
-            return metadataRow.ProductShareModification__c == true;
-        }
-        if (projectMode == MODE_SHARECLASS_CREATION) {
-            return metadataRow.ShareclassCreation__c == true;
-        }
-
+        if (projectMode == MODE_MODIFICATION) return metadataRow.ProductShareModification__c == true;
+        if (projectMode == MODE_SHARECLASS_CREATION) return metadataRow.ShareclassCreation__c == true;
         return metadataRow.ProductCreation__c == true;
     }
 
     // Parses object-qualified or local field names from metadata.
-    private static FieldReference parseFieldReference(
-        String configuredFieldApiName,
-        Map<String, Schema.SObjectField> productFieldsDescribe,
-        Map<String, Schema.SObjectField> shareclassFieldsDescribe
-    ) {
-        if (String.isBlank(configuredFieldApiName)) {
-            return null;
-        }
+    private static FieldReference parseFieldReference(String configuredFieldApiName, Map<String, Schema.SObjectField> productFieldsDescribe, Map<String, Schema.SObjectField> shareclassFieldsDescribe) {
+        if (String.isBlank(configuredFieldApiName)) return null;
 
         String safeField = configuredFieldApiName.trim();
         List<String> parts = safeField.split('\\.');
-        if (parts.size() == 2) {
-            return buildReference(parts[0].trim(), parts[1].trim(), productFieldsDescribe, shareclassFieldsDescribe);
-        }
-        if (parts.size() == 1) {
-            return inferReferenceFromLocalField(safeField, productFieldsDescribe, shareclassFieldsDescribe);
-        }
+        if (parts.size() == 2) return buildReference(parts[0].trim(), parts[1].trim(), productFieldsDescribe, shareclassFieldsDescribe);
+        if (parts.size() == 1) return inferReferenceFromLocalField(safeField, productFieldsDescribe, shareclassFieldsDescribe);
 
         return null;
     }
 
     // Creates a field reference only when the object and field are readable.
-    private static FieldReference buildReference(
-        String objectApiName,
-        String fieldApiName,
-        Map<String, Schema.SObjectField> productFieldsDescribe,
-        Map<String, Schema.SObjectField> shareclassFieldsDescribe
-    ) {
-        if (objectApiName == PRODUCT_OBJECT_API_NAME && isReadableField(fieldApiName, productFieldsDescribe)) {
-            return createReference(PRODUCT_OBJECT_API_NAME, fieldApiName);
-        }
-        if (objectApiName == SHARECLASS_OBJECT_API_NAME && isReadableField(fieldApiName, shareclassFieldsDescribe)) {
-            return createReference(SHARECLASS_OBJECT_API_NAME, fieldApiName);
-        }
-
+    private static FieldReference buildReference(String objectApiName, String fieldApiName, Map<String, Schema.SObjectField> productFieldsDescribe, Map<String, Schema.SObjectField> shareclassFieldsDescribe) {
+        if (objectApiName == PRODUCT_OBJECT_API_NAME && isReadableField(fieldApiName, productFieldsDescribe)) return createReference(PRODUCT_OBJECT_API_NAME, fieldApiName);
+        if (objectApiName == SHARECLASS_OBJECT_API_NAME && isReadableField(fieldApiName, shareclassFieldsDescribe)) return createReference(SHARECLASS_OBJECT_API_NAME, fieldApiName);
         return null;
     }
 
     // Infers the object when metadata contains only the local field API name.
-    private static FieldReference inferReferenceFromLocalField(
-        String fieldApiName,
-        Map<String, Schema.SObjectField> productFieldsDescribe,
-        Map<String, Schema.SObjectField> shareclassFieldsDescribe
-    ) {
-        if (isReadableField(fieldApiName, productFieldsDescribe)) {
-            return createReference(PRODUCT_OBJECT_API_NAME, fieldApiName);
-        }
-        if (isReadableField(fieldApiName, shareclassFieldsDescribe)) {
-            return createReference(SHARECLASS_OBJECT_API_NAME, fieldApiName);
-        }
-
+    private static FieldReference inferReferenceFromLocalField(String fieldApiName, Map<String, Schema.SObjectField> productFieldsDescribe, Map<String, Schema.SObjectField> shareclassFieldsDescribe) {
+        if (isReadableField(fieldApiName, productFieldsDescribe)) return createReference(PRODUCT_OBJECT_API_NAME, fieldApiName);
+        if (isReadableField(fieldApiName, shareclassFieldsDescribe)) return createReference(SHARECLASS_OBJECT_API_NAME, fieldApiName);
         return null;
     }
 
@@ -332,19 +276,10 @@ public with sharing class PRIIPSKidController {
     }
 
     // Gets the display label from metadata first, then from the field describe.
-    private static String getDisplayLabel(
-        String metadataLabel,
-        FieldReference reference,
-        Map<String, Schema.SObjectField> productFieldsDescribe,
-        Map<String, Schema.SObjectField> shareclassFieldsDescribe
-    ) {
-        if (String.isNotBlank(metadataLabel)) {
-            return metadataLabel;
-        }
+    private static String getDisplayLabel(String metadataLabel, FieldReference reference, Map<String, Schema.SObjectField> productFieldsDescribe, Map<String, Schema.SObjectField> shareclassFieldsDescribe) {
+        if (String.isNotBlank(metadataLabel)) return metadataLabel;
 
-        Map<String, Schema.SObjectField> fieldsDescribe = reference.objectApiName == PRODUCT_OBJECT_API_NAME
-            ? productFieldsDescribe
-            : shareclassFieldsDescribe;
+        Map<String, Schema.SObjectField> fieldsDescribe = reference.objectApiName == PRODUCT_OBJECT_API_NAME ? productFieldsDescribe : shareclassFieldsDescribe;
         return fieldsDescribe.get(reference.fieldApiName).getDescribe().getLabel();
     }
 
@@ -360,9 +295,7 @@ public with sharing class PRIIPSKidController {
 
     // Checks field existence and field-level read access.
     private static Boolean isReadableField(String fieldApiName, Map<String, Schema.SObjectField> fieldsDescribe) {
-        if (String.isBlank(fieldApiName) || !fieldsDescribe.containsKey(fieldApiName)) {
-            return false;
-        }
+        if (String.isBlank(fieldApiName) || !fieldsDescribe.containsKey(fieldApiName)) return false;
 
         return fieldsDescribe.get(fieldApiName).getDescribe().isAccessible();
     }
@@ -372,9 +305,7 @@ public with sharing class PRIIPSKidController {
         Set<String> fieldNames = new Set<String>{ 'Id' };
 
         for (FieldConfig config : configs) {
-            if (config.objectApiName == objectApiName) {
-                fieldNames.add(config.fieldApiName);
-            }
+            if (config.objectApiName == objectApiName) fieldNames.add(config.fieldApiName);
         }
 
         return fieldNames;
@@ -383,26 +314,16 @@ public with sharing class PRIIPSKidController {
     // Adds standard row identity fields to every Shareclass query.
     private static void addShareclassIdentityFields(Set<String> fieldNames, Map<String, Schema.SObjectField> shareclassFieldsDescribe) {
         for (String identityField : SHARECLASS_IDENTITY_FIELDS) {
-            if (isReadableField(identityField, shareclassFieldsDescribe)) {
-                fieldNames.add(identityField);
-            }
+            if (isReadableField(identityField, shareclassFieldsDescribe)) fieldNames.add(identityField);
         }
     }
 
     // Adds all fields referenced by DisplayCondition__c to the dynamic SOQL queries.
-    private static void addConditionFieldsToQuery(
-        List<FieldConfig> configs,
-        Set<String> productFieldsToQuery,
-        Set<String> shareclassFieldsToQuery,
-        Map<String, Schema.SObjectField> productFieldsDescribe,
-        Map<String, Schema.SObjectField> shareclassFieldsDescribe
-    ) {
+    private static void addConditionFieldsToQuery(List<FieldConfig> configs, Set<String> productFieldsToQuery, Set<String> shareclassFieldsToQuery, Map<String, Schema.SObjectField> productFieldsDescribe, Map<String, Schema.SObjectField> shareclassFieldsDescribe) {
         Pattern fieldPattern = Pattern.compile('(ProjectProduct__c|ProjectShareclass__c)\\.([a-zA-Z0-9_]+)');
 
         for (FieldConfig config : configs) {
-            if (String.isBlank(config.displayCondition)) {
-                continue;
-            }
+            if (String.isBlank(config.displayCondition)) continue;
 
             Matcher matcher = fieldPattern.matcher(config.displayCondition);
             while (matcher.find()) {
@@ -410,41 +331,26 @@ public with sharing class PRIIPSKidController {
                 String fieldApiName = matcher.group(2);
 
                 // Adds only valid readable fields to avoid dynamic SOQL errors.
-                if (objectApiName == PRODUCT_OBJECT_API_NAME && isReadableField(fieldApiName, productFieldsDescribe)) {
-                    productFieldsToQuery.add(fieldApiName);
-                }
-                if (objectApiName == SHARECLASS_OBJECT_API_NAME && isReadableField(fieldApiName, shareclassFieldsDescribe)) {
-                    shareclassFieldsToQuery.add(fieldApiName);
-                }
+                if (objectApiName == PRODUCT_OBJECT_API_NAME && isReadableField(fieldApiName, productFieldsDescribe)) productFieldsToQuery.add(fieldApiName);
+                if (objectApiName == SHARECLASS_OBJECT_API_NAME && isReadableField(fieldApiName, shareclassFieldsDescribe)) shareclassFieldsToQuery.add(fieldApiName);
             }
         }
     }
 
     // Adds an optional source field to the dynamic SOQL query.
     private static void addSourceField(Set<String> fieldNames, String sourceFieldApiName) {
-        if (String.isNotBlank(sourceFieldApiName)) {
-            fieldNames.add(sourceFieldApiName);
-        }
+        if (String.isNotBlank(sourceFieldApiName)) fieldNames.add(sourceFieldApiName);
     }
 
     // Validates a configured source field and returns its local API name.
-    private static String getLocalSourceField(
-        String configuredSourceField,
-        String objectApiName,
-        Map<String, Schema.SObjectField> fieldsDescribe,
-        List<String> warnings
-    ) {
-        if (String.isBlank(configuredSourceField)) {
-            return null;
-        }
+    private static String getLocalSourceField(String configuredSourceField, String objectApiName, Map<String, Schema.SObjectField> fieldsDescribe, List<String> warnings) {
+        if (String.isBlank(configuredSourceField)) return null;
 
         String safeField = configuredSourceField.trim();
         List<String> parts = safeField.split('\\.');
         String localField = parts.size() == 2 && parts[0] == objectApiName ? parts[1] : safeField;
 
-        if (isReadableField(localField, fieldsDescribe)) {
-            return localField;
-        }
+        if (isReadableField(localField, fieldsDescribe)) return localField;
 
         warnings.add('Invalid modified-fields source: ' + configuredSourceField);
         return null;
@@ -452,12 +358,11 @@ public with sharing class PRIIPSKidController {
 
     // Queries the Project Product record with only fields required by the UI.
     private static SObject queryProductRecord(Id productId, Set<String> fieldNames) {
-        if (Test.isRunningTest() && productRecordOverride != null) {
-            return productRecordOverride;
-        }
+        if (Test.isRunningTest() && productRecordOverride != null) return productRecordOverride;
 
         String soql = 'SELECT ' + String.join(sortFieldNames(fieldNames), ',') +
-            ' FROM ' + PRODUCT_OBJECT_API_NAME + ' WHERE Id = :productId LIMIT 1';
+                      ' FROM ' + PRODUCT_OBJECT_API_NAME + 
+                      ' WHERE Id = :productId LIMIT 1';
         List<SObject> records = Database.query(soql);
 
         if (records.isEmpty()) {
@@ -467,14 +372,8 @@ public with sharing class PRIIPSKidController {
     }
 
     // Queries all Shareclass records linked to the current Project Product.
-    private static List<SObject> queryShareclassRecords(
-        Id productId,
-        Set<String> fieldNames,
-        Map<String, Schema.SObjectField> shareclassFieldsDescribe
-    ) {
-        if (Test.isRunningTest() && shareclassRecordsOverride != null) {
-            return shareclassRecordsOverride;
-        }
+    private static List<SObject> queryShareclassRecords(Id productId, Set<String> fieldNames, Map<String, Schema.SObjectField> shareclassFieldsDescribe) {
+        if (Test.isRunningTest() && shareclassRecordsOverride != null) return shareclassRecordsOverride;
 
         if (!isReadableField(DEFAULT_SHARECLASS_LOOKUP_FIELD, shareclassFieldsDescribe)) {
             throw new AuraHandledException('Invalid Shareclass lookup field: ' + DEFAULT_SHARECLASS_LOOKUP_FIELD);
@@ -482,7 +381,8 @@ public with sharing class PRIIPSKidController {
 
         fieldNames.add(DEFAULT_SHARECLASS_LOOKUP_FIELD);
         String soql = 'SELECT ' + String.join(sortFieldNames(fieldNames), ',') +
-            ' FROM ' + SHARECLASS_OBJECT_API_NAME + ' WHERE ' + DEFAULT_SHARECLASS_LOOKUP_FIELD + ' = :productId ORDER BY Name';
+                      ' FROM ' + SHARECLASS_OBJECT_API_NAME + 
+                      ' WHERE ' + DEFAULT_SHARECLASS_LOOKUP_FIELD + ' = :productId ORDER BY Name';
         return Database.query(soql);
     }
 
@@ -497,24 +397,19 @@ public with sharing class PRIIPSKidController {
     @TestVisible
     private static Set<String> parseModifiedFields(String rawValue, String objectApiName) {
         Set<String> modifiedFields = new Set<String>();
-        if (String.isBlank(rawValue)) {
-            return modifiedFields;
-        }
+        if (String.isBlank(rawValue)) return modifiedFields;
 
         String normalizedValue = rawValue.replace(',', ';').replace('\n', ';').replace('\r', ';');
         for (String token : normalizedValue.split(';')) {
             String cleanToken = token.trim();
-            if (String.isBlank(cleanToken)) {
-                continue;
-            }
+            if (String.isBlank(cleanToken)) continue;
 
             modifiedFields.add(cleanToken);
             if (cleanToken.contains('.')) {
                 List<String> parts = cleanToken.split('\\.');
-                if (parts.size() == 2 && parts[0] == objectApiName) {
-                    modifiedFields.add(parts[1]);
-                }
-            } else {
+                if (parts.size() == 2 && parts[0] == objectApiName) modifiedFields.add(parts[1]);
+            } 
+            else {
                 modifiedFields.add(objectApiName + '.' + cleanToken);
             }
         }
@@ -524,9 +419,7 @@ public with sharing class PRIIPSKidController {
 
     // Reads a modified-fields source value from one record.
     private static Set<String> getModifiedFieldsFromRecord(SObject record, String sourceFieldApiName, String objectApiName) {
-        if (String.isBlank(sourceFieldApiName)) {
-            return new Set<String>();
-        }
+        if (String.isBlank(sourceFieldApiName)) return new Set<String>();
 
         Object rawValue = getSObjectValue(record, sourceFieldApiName);
         String rawText = rawValue == null ? null : String.valueOf(rawValue);
@@ -534,15 +427,9 @@ public with sharing class PRIIPSKidController {
     }
 
     // Builds a row-keyed map of selected fields for Shareclass modification projects.
-    private static Map<String, Set<String>> buildModifiedFieldsByRow(
-        List<SObject> records,
-        String sourceFieldApiName,
-        String objectApiName
-    ) {
+    private static Map<String, Set<String>> buildModifiedFieldsByRow(List<SObject> records, String sourceFieldApiName, String objectApiName) {
         Map<String, Set<String>> modifiedFieldsByRow = new Map<String, Set<String>>();
-        if (String.isBlank(sourceFieldApiName)) {
-            return modifiedFieldsByRow;
-        }
+        if (String.isBlank(sourceFieldApiName)) return modifiedFieldsByRow;
 
         for (Integer index = 0; index < records.size(); index++) {
             SObject record = records[index];
@@ -553,15 +440,8 @@ public with sharing class PRIIPSKidController {
     }
 
     // Adds a warning when modification filtering cannot be field-level precise.
-    private static void addModificationWarning(
-        String projectMode,
-        String productModifiedSourceField,
-        String shareclassModifiedSourceField,
-        List<String> warnings
-    ) {
-        if (projectMode != MODE_MODIFICATION) {
-            return;
-        }
+    private static void addModificationWarning(String projectMode, String productModifiedSourceField, String shareclassModifiedSourceField, List<String> warnings) {
+        if (projectMode != MODE_MODIFICATION) return;
 
         if (String.isBlank(productModifiedSourceField) && String.isBlank(shareclassModifiedSourceField)) {
             warnings.add('Modification project detected: no modified-fields source configured, so all metadata fields marked for modification are displayed.');
@@ -569,18 +449,7 @@ public with sharing class PRIIPSKidController {
     }
 
     // Builds the final DTO consumed by the LWC.
-    private static PriipsKidResponse buildResponse(
-        String projectMode,
-        String recordTypeDeveloperName,
-        List<String> warnings,
-        List<FieldConfig> configs,
-        SObject productRecord,
-        List<SObject> shareclassRecords,
-        Set<String> modifiedProductFields,
-        Map<String, Set<String>> modifiedShareclassFieldsByRow,
-        Boolean useProductModifiedSource,
-        Boolean useShareclassModifiedSource
-    ) {
+    private static PriipsKidResponse buildResponse(String projectMode, String recordTypeDeveloperName, List<String> warnings, List<FieldConfig> configs, SObject productRecord, List<SObject> shareclassRecords, Set<String> modifiedProductFields, Map<String, Set<String>> modifiedShareclassFieldsByRow, Boolean useProductModifiedSource, Boolean useShareclassModifiedSource) {
         PriipsKidResponse response = new PriipsKidResponse();
         response.projectMode = projectMode;
         response.projectRecordType = recordTypeDeveloperName;
@@ -591,25 +460,13 @@ public with sharing class PRIIPSKidController {
     }
 
     // Builds Product-level fields grouped by team.
-    private static List<TeamSection> buildProductTeams(
-        List<FieldConfig> configs,
-        SObject productRecord,
-        Set<String> modifiedProductFields,
-        Boolean useProductModifiedSource,
-        String projectMode
-    ) {
+    private static List<TeamSection> buildProductTeams(List<FieldConfig> configs, SObject productRecord, Set<String> modifiedProductFields, Boolean useProductModifiedSource, String projectMode) {
         Map<String, TeamSection> sectionsByTeam = new Map<String, TeamSection>();
 
         for (FieldConfig config : configs) {
-            if (config.objectApiName != PRODUCT_OBJECT_API_NAME) {
-                continue;
-            }
-            if (projectMode == MODE_MODIFICATION && useProductModifiedSource && !fieldWasSelected(modifiedProductFields, config)) {
-                continue;
-            }
-            if (!shouldDisplayByCondition(config, productRecord, null)) {
-                continue;
-            }
+            if (config.objectApiName != PRODUCT_OBJECT_API_NAME) continue;
+            if (projectMode == MODE_MODIFICATION && useProductModifiedSource && !fieldWasSelected(modifiedProductFields, config)) continue;
+            if (!shouldDisplayByCondition(config, productRecord, null)) continue;
 
             TeamSection section = getOrCreateTeamSection(sectionsByTeam, config.team);
             section.fields.add(createFieldValue(config, productRecord));
@@ -620,14 +477,7 @@ public with sharing class PRIIPSKidController {
     }
 
     // Builds one Shareclass view with fields grouped by team for each Shareclass record.
-    private static List<ShareclassView> buildShareclassViews(
-        List<FieldConfig> configs,
-        SObject productRecord,
-        List<SObject> shareclassRecords,
-        Map<String, Set<String>> modifiedShareclassFieldsByRow,
-        Boolean useShareclassModifiedSource,
-        String projectMode
-    ) {
+    private static List<ShareclassView> buildShareclassViews(List<FieldConfig> configs, SObject productRecord, List<SObject> shareclassRecords, Map<String, Set<String>> modifiedShareclassFieldsByRow, Boolean useShareclassModifiedSource, String projectMode) {
         List<ShareclassView> shareclassViews = new List<ShareclassView>();
 
         for (Integer index = 0; index < shareclassRecords.size(); index++) {
@@ -638,15 +488,9 @@ public with sharing class PRIIPSKidController {
 
             // Applies modification and display-condition filters per Shareclass row.
             for (FieldConfig config : configs) {
-                if (config.objectApiName != SHARECLASS_OBJECT_API_NAME) {
-                    continue;
-                }
-                if (projectMode == MODE_MODIFICATION && useShareclassModifiedSource && !fieldWasSelected(modifiedFields, config)) {
-                    continue;
-                }
-                if (!shouldDisplayByCondition(config, productRecord, shareclassRecord)) {
-                    continue;
-                }
+                if (config.objectApiName != SHARECLASS_OBJECT_API_NAME) continue;
+                if (projectMode == MODE_MODIFICATION && useShareclassModifiedSource && !fieldWasSelected(modifiedFields, config)) continue;
+                if (!shouldDisplayByCondition(config, productRecord, shareclassRecord)) continue;
 
                 TeamSection section = getOrCreateTeamSection(sectionsByTeam, config.team);
                 section.fields.add(createFieldValue(config, shareclassRecord));
@@ -659,9 +503,7 @@ public with sharing class PRIIPSKidController {
             view.teams = sortTeamSections(sectionsByTeam);
             view.hasTeams = !view.teams.isEmpty();
 
-            if (view.hasTeams) {
-                shareclassViews.add(view);
-            }
+            if (view.hasTeams) shareclassViews.add(view);
         }
 
         return shareclassViews;
@@ -683,19 +525,13 @@ public with sharing class PRIIPSKidController {
 
     // Returns true when a displayed field satisfies the completion rule.
     private static Boolean isFieldFilled(Object value, FieldConfig config) {
-        if (value == null) {
-            return false;
-        }
+        if (value == null) return false;
 
         // ExactValue__c overrides the default non-empty completion rule.
-        if (String.isNotBlank(config.exactValue)) {
-            return String.valueOf(value).trim() == config.exactValue.trim();
-        }
+        if (String.isNotBlank(config.exactValue)) return String.valueOf(value).trim() == config.exactValue.trim();
 
         // Default rule keeps text values strict and accepts non-null values.
-        if (value instanceof String) {
-            return String.isNotBlank((String) value);
-        }
+        if (value instanceof String) return String.isNotBlank((String) value);
 
         return true;
     }
@@ -714,9 +550,7 @@ public with sharing class PRIIPSKidController {
 
     // Evaluates DisplayCondition__c against the current Product and Shareclass records.
     private static Boolean shouldDisplayByCondition(FieldConfig config, SObject productRecord, SObject shareclassRecord) {
-        if (String.isBlank(config.displayCondition)) {
-            return true;
-        }
+        if (String.isBlank(config.displayCondition)) return true;
 
         return evaluateDisplayCondition(config.displayCondition, productRecord, shareclassRecord);
     }
@@ -724,9 +558,7 @@ public with sharing class PRIIPSKidController {
     // Evaluates a simple expression with || and && operators.
     private static Boolean evaluateDisplayCondition(String expression, SObject productRecord, SObject shareclassRecord) {
         for (String orPart : expression.split('\\|\\|')) {
-            if (evaluateAndConditionGroup(orPart, productRecord, shareclassRecord)) {
-                return true;
-            }
+            if (evaluateAndConditionGroup(orPart, productRecord, shareclassRecord)) return true;
         }
 
         return false;
@@ -735,9 +567,7 @@ public with sharing class PRIIPSKidController {
     // Evaluates all && conditions inside one expression group.
     private static Boolean evaluateAndConditionGroup(String expressionGroup, SObject productRecord, SObject shareclassRecord) {
         for (String token : expressionGroup.split('&&')) {
-            if (!evaluateConditionToken(token, productRecord, shareclassRecord)) {
-                return false;
-            }
+            if (!evaluateConditionToken(token, productRecord, shareclassRecord)) return false;
         }
 
         return true;
@@ -746,9 +576,7 @@ public with sharing class PRIIPSKidController {
     // Evaluates one condition token: =, !=, ISBLANK(), or !ISBLANK().
     private static Boolean evaluateConditionToken(String rawToken, SObject productRecord, SObject shareclassRecord) {
         String token = String.isBlank(rawToken) ? '' : rawToken.trim();
-        if (String.isBlank(token)) {
-            return true;
-        }
+        if (String.isBlank(token)) return true;
 
         if (token.startsWith('ISBLANK(') && token.endsWith(')')) {
             String fieldReference = token.substring('ISBLANK('.length(), token.length() - 1);
@@ -815,15 +643,15 @@ public with sharing class PRIIPSKidController {
 
     // Checks whether a field is in the modification selection for the current record.
     private static Boolean fieldWasSelected(Set<String> selectedFields, FieldConfig config) {
-        return selectedFields != null &&
-            (selectedFields.contains(config.fieldApiName) || selectedFields.contains(config.fullFieldApiName));
+        return selectedFields != null && (selectedFields.contains(config.fieldApiName) || selectedFields.contains(config.fullFieldApiName));
     }
 
     // Safely reads a field value from queried or test-created SObjects.
     private static Object getSObjectValue(SObject record, String fieldApiName) {
         try {
             return record == null || String.isBlank(fieldApiName) ? null : record.get(fieldApiName);
-        } catch (Exception e) {
+        } 
+        catch (Exception e) {
             return null;
         }
     }
@@ -832,9 +660,7 @@ public with sharing class PRIIPSKidController {
     private static String getShareclassDisplayName(SObject shareclassRecord, Integer rowIndex) {
         for (String identityField : SHARECLASS_IDENTITY_FIELDS) {
             Object value = getSObjectValue(shareclassRecord, identityField);
-            if (value != null && String.isNotBlank(String.valueOf(value))) {
-                return String.valueOf(value);
-            }
+            if (value != null && String.isNotBlank(String.valueOf(value))) return String.valueOf(value);
         }
 
         return 'Shareclass ' + String.valueOf(rowIndex + 1);
@@ -848,18 +674,10 @@ public with sharing class PRIIPSKidController {
 
     // Formats field values for a read-only UI display.
     private static String formatValue(Object value) {
-        if (value == null) {
-            return '';
-        }
-        if (value instanceof Boolean) {
-            return ((Boolean) value) ? 'Yes' : 'No';
-        }
-        if (value instanceof Date) {
-            return ((Date) value).format();
-        }
-        if (value instanceof Datetime) {
-            return ((Datetime) value).format();
-        }
+        if (value == null) return '';
+        if (value instanceof Boolean) return ((Boolean) value) ? 'Yes' : 'No';
+        if (value instanceof Date) return ((Date) value).format();
+        if (value instanceof Datetime) return ((Datetime) value).format();
 
         return String.valueOf(value).replace(';', '; ');
     }
@@ -887,9 +705,7 @@ public with sharing class PRIIPSKidController {
     // Returns the configured team order index or a default value for unknown teams.
     private static Integer getTeamOrder(String teamName) {
         for (Integer index = 0; index < TEAM_ORDER.size(); index++) {
-            if (TEAM_ORDER[index] == teamName) {
-                return index;
-            }
+            if (TEAM_ORDER[index] == teamName) return index;
         }
 
         return 99;

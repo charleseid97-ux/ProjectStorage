@@ -227,16 +227,16 @@
                 <fieldItem>Record.Name</fieldItem>
                 <identifier>RecordNameField2</identifier>
                 <visibilityRule>
-                    <booleanFilter>(1 AND 2) OR (3 AND (4 OR 5))</booleanFilter>
+                    <booleanFilter>(1 AND 2) OR (3 AND 4)</booleanFilter>
                     <criteria>
                         <leftValue>{!$Permission.CustomPermission.PRPProductStrategy}</leftValue>
                         <operator>EQUAL</operator>
                         <rightValue>true</rightValue>
                     </criteria>
                     <criteria>
-                        <leftValue>{!Record.VehicleType__c}</leftValue>
+                        <leftValue>{!Record.Scope__c}</leftValue>
                         <operator>EQUAL</operator>
-                        <rightValue>Funds</rightValue>
+                        <rightValue>PS</rightValue>
                     </criteria>
                     <criteria>
                         <leftValue>{!$Permission.CustomPermission.PRPIS}</leftValue>
@@ -244,14 +244,9 @@
                         <rightValue>true</rightValue>
                     </criteria>
                     <criteria>
-                        <leftValue>{!Record.VehicleType__c}</leftValue>
+                        <leftValue>{!Record.Scope__c}</leftValue>
                         <operator>EQUAL</operator>
-                        <rightValue>Mandate</rightValue>
-                    </criteria>
-                    <criteria>
-                        <leftValue>{!Record.VehicleType__c}</leftValue>
-                        <operator>EQUAL</operator>
-                        <rightValue>Dedicated</rightValue>
+                        <rightValue>IS</rightValue>
                     </criteria>
                 </visibilityRule>
             </fieldInstance>
@@ -265,16 +260,16 @@
                 <fieldItem>Record.ProductDescription__c</fieldItem>
                 <identifier>RecordDescription_cField3</identifier>
                 <visibilityRule>
-                    <booleanFilter>(1 AND 2) OR (3 AND (4 OR 5))</booleanFilter>
+                    <booleanFilter>(1 AND 2) OR (3 AND 4)</booleanFilter>
                     <criteria>
                         <leftValue>{!$Permission.CustomPermission.PRPProductStrategy}</leftValue>
                         <operator>EQUAL</operator>
                         <rightValue>true</rightValue>
                     </criteria>
                     <criteria>
-                        <leftValue>{!Record.VehicleType__c}</leftValue>
+                        <leftValue>{!Record.Scope__c}</leftValue>
                         <operator>EQUAL</operator>
-                        <rightValue>Funds</rightValue>
+                        <rightValue>PS</rightValue>
                     </criteria>
                     <criteria>
                         <leftValue>{!$Permission.CustomPermission.PRPIS}</leftValue>
@@ -282,14 +277,9 @@
                         <rightValue>true</rightValue>
                     </criteria>
                     <criteria>
-                        <leftValue>{!Record.VehicleType__c}</leftValue>
+                        <leftValue>{!Record.Scope__c}</leftValue>
                         <operator>EQUAL</operator>
-                        <rightValue>Mandate</rightValue>
-                    </criteria>
-                    <criteria>
-                        <leftValue>{!Record.VehicleType__c}</leftValue>
-                        <operator>EQUAL</operator>
-                        <rightValue>Dedicated</rightValue>
+                        <rightValue>IS</rightValue>
                     </criteria>
                 </visibilityRule>
             </fieldInstance>
@@ -3365,16 +3355,16 @@
                 <componentName>flexipage:tab</componentName>
                 <identifier>flexipage_tab5</identifier>
                 <visibilityRule>
-                    <booleanFilter>(1 AND 2) OR (3 AND (4 OR 5))</booleanFilter>
+                    <booleanFilter>(1 AND 2) OR (3 AND 4)</booleanFilter>
                     <criteria>
                         <leftValue>{!$Permission.CustomPermission.PRPProductStrategy}</leftValue>
                         <operator>EQUAL</operator>
                         <rightValue>true</rightValue>
                     </criteria>
                     <criteria>
-                        <leftValue>{!Record.VehicleType__c}</leftValue>
+                        <leftValue>{!Record.Scope__c}</leftValue>
                         <operator>EQUAL</operator>
-                        <rightValue>Funds</rightValue>
+                        <rightValue>PS</rightValue>
                     </criteria>
                     <criteria>
                         <leftValue>{!$Permission.CustomPermission.PRPIS}</leftValue>
@@ -3382,14 +3372,9 @@
                         <rightValue>true</rightValue>
                     </criteria>
                     <criteria>
-                        <leftValue>{!Record.VehicleType__c}</leftValue>
+                        <leftValue>{!Record.Scope__c}</leftValue>
                         <operator>EQUAL</operator>
-                        <rightValue>Mandate</rightValue>
-                    </criteria>
-                    <criteria>
-                        <leftValue>{!Record.VehicleType__c}</leftValue>
-                        <operator>EQUAL</operator>
-                        <rightValue>Dedicated</rightValue>
+                        <rightValue>IS</rightValue>
                     </criteria>
                 </visibilityRule>
             </componentInstance>
@@ -3627,16 +3612,16 @@
                 <componentName>flexipage:tab</componentName>
                 <identifier>flexipage_tab8</identifier>
                 <visibilityRule>
-                    <booleanFilter>(1 AND 2) OR (3 AND (4 OR 5))</booleanFilter>
+                    <booleanFilter>(1 AND 2) OR (3 AND 4)</booleanFilter>
                     <criteria>
                         <leftValue>{!$Permission.CustomPermission.PRPProductStrategy}</leftValue>
                         <operator>EQUAL</operator>
                         <rightValue>true</rightValue>
                     </criteria>
                     <criteria>
-                        <leftValue>{!Record.VehicleType__c}</leftValue>
+                        <leftValue>{!Record.Scope__c}</leftValue>
                         <operator>EQUAL</operator>
-                        <rightValue>Funds</rightValue>
+                        <rightValue>PS</rightValue>
                     </criteria>
                     <criteria>
                         <leftValue>{!$Permission.CustomPermission.PRPIS}</leftValue>
@@ -3644,14 +3629,9 @@
                         <rightValue>true</rightValue>
                     </criteria>
                     <criteria>
-                        <leftValue>{!Record.VehicleType__c}</leftValue>
+                        <leftValue>{!Record.Scope__c}</leftValue>
                         <operator>EQUAL</operator>
-                        <rightValue>Mandate</rightValue>
-                    </criteria>
-                    <criteria>
-                        <leftValue>{!Record.VehicleType__c}</leftValue>
-                        <operator>EQUAL</operator>
-                        <rightValue>Dedicated</rightValue>
+                        <rightValue>IS</rightValue>
                     </criteria>
                 </visibilityRule>
             </componentInstance>
