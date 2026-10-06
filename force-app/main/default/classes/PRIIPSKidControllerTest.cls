@@ -20,6 +20,7 @@ private class PRIIPSKidControllerTest {
 
         PRIIPSKidController.productIdOverride = productId;
         PRIIPSKidController.recordTypeDeveloperNameOverride = 'FundCreation';
+        PRIIPSKidController.projectScopeOverride = 'PS';
         PRIIPSKidController.productRecordOverride = productRecord;
         PRIIPSKidController.shareclassRecordsOverride = new List<SObject>{ shareclassRecord };
         PRIIPSKidController.metadataRowsOverride = new List<PRIIPSField__mdt>{
@@ -30,7 +31,9 @@ private class PRIIPSKidControllerTest {
         };
 
         Test.startTest();
+
         PRIIPSKidController.PriipsKidResponse response = PRIIPSKidController.getPriipsKidData(productId);
+
         Test.stopTest();
 
         System.assertEquals('Product Creation', response.projectMode);
@@ -61,6 +64,7 @@ private class PRIIPSKidControllerTest {
 
         PRIIPSKidController.productIdOverride = productId;
         PRIIPSKidController.recordTypeDeveloperNameOverride = 'FundShareClassModification';
+        PRIIPSKidController.projectScopeOverride = 'PS';
         PRIIPSKidController.productRecordOverride = productRecord;
         PRIIPSKidController.shareclassRecordsOverride = new List<SObject>{ shareclassRecord };
         PRIIPSKidController.metadataRowsOverride = new List<PRIIPSField__mdt>{
@@ -71,7 +75,9 @@ private class PRIIPSKidControllerTest {
         };
 
         Test.startTest();
+
         PRIIPSKidController.PriipsKidResponse response = PRIIPSKidController.getPriipsKidData(productId);
+
         Test.stopTest();
 
         System.assertEquals('Modification', response.projectMode);
@@ -84,17 +90,7 @@ private class PRIIPSKidControllerTest {
     }
 
     // Creates an in-memory Custom Metadata row for controller tests.
-    private static PRIIPSField__mdt newMetadata(
-        String developerName,
-        String label,
-        String fieldApiName,
-        String team,
-        Boolean productCreation,
-        Boolean shareclassCreation,
-        Boolean modification,
-        String displayCondition,
-        Boolean required
-    ) {
+    private static PRIIPSField__mdt newMetadata(String developerName, String label, String fieldApiName, String team, Boolean productCreation, Boolean shareclassCreation, Boolean modification, String displayCondition, Boolean required) {
         PRIIPSField__mdt metadataRow = new PRIIPSField__mdt();
         metadataRow.DeveloperName = developerName;
         metadataRow.MasterLabel = label;

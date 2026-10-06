@@ -56,6 +56,12 @@
         <members>ProjectProductSetupHandler</members>
         <members>PRIIPSKidController</members>
         <members>PRIIPSKidCompletionController</members>
+        <members>PRIIPSKidHelper</members>
+        <members>PRIIPSKidCompletionControllerTest</members>
+        <members>PRIIPSKidControllerTest</members>
+        <members>TaskCompletionByTeamController</members>
+        <members>TaskCompletionByTeamControllerUtilities</members>
+        <members>Test_TaskCompletionByTeamController</members>
         <name>ApexClass</name>
     </types>
     <types>
@@ -63,6 +69,10 @@
         <members>FundShareclassModification</members>
         <members>ShareclassCreation</members>
         <name>FlexiPage</name>
+    </types>
+    <types>
+        <members>lwc_TaskCompletionByTeam</members>
+        <name>LightningComponentBundle</name>
     </types>
     <types>
         <members>ProjectTask__c.ControlTask</members>

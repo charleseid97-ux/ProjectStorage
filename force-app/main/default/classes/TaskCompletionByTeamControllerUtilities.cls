@@ -1,47 +1,44 @@
+/** ──────────────────────────────────────
+ * @description Shared data-access utility class for the Team Completion widget (lwc_TaskCompletionByTeam).
+ *              Provides stage/team configuration retrieval from ProductProjectSettings__c, Scope-based (PS/IS)
+ *                  row filtering (US-20120 - filterByScope/getProjectScope), team owner resolution from
+ *                  ProjectProduct__c, and the Project Product Child/Shareclass Child lookups used to calculate
+ *                  completion rates.
+ *              Called by TaskCompletionByTeamController.
+ * @lastModifiedBy Charles EID   [05-10-26]
+ * @testClass Test_TaskCompletionByTeamController
+ * @coverage 100%   [05-10-26]
+ ────────────────────────────────────── */
 public class TaskCompletionByTeamControllerUtilities {
  
-    /**
-     * 🔹 Récupère les étapes de configuration
-     */
+    // Récupère les étapes de configuration
     public static List<ProductProjectSettings__c> getProjectStages() {
-        return [
-            SELECT Id, Name, ProjectType__c, Stage__c, Order__c, Team__c, OrderTeam__c
-            FROM ProductProjectSettings__c
-            WHERE ProjectType__c = 'Creation' AND OrderTeam__c NOT IN (15, 16, 17, 18, 19, 20)
-            ORDER BY Order__c, OrderTeam__c ASC
-        ];
+        return [SELECT Id, Name, ProjectType__c, Stage__c, Order__c, Team__c, OrderTeam__c
+                FROM ProductProjectSettings__c
+                WHERE ProjectType__c = 'Creation' AND OrderTeam__c NOT IN (15, 16, 17, 18, 19, 20)
+                ORDER BY Order__c, OrderTeam__c ASC];
     }
  
-    /**
-     * 🔹 Récupère les équipes pour "Design"
-     */
+    // Récupère les équipes pour "Design"
     public static List<ProductProjectSettings__c> getDesignTeams() {
-        return [
-            SELECT Id, Name, ProjectType__c, Stage__c, Order__c, Team__c, OrderTeam__c
-            FROM ProductProjectSettings__c
-            WHERE ProjectType__c = 'Creation' AND Stage__c = 'Design' AND OrderTeam__c NOT IN (15, 16, 17, 18, 19, 20)
-            ORDER BY OrderTeam__c ASC
-        ];
+        return [SELECT Id, Name, ProjectType__c, Stage__c, Order__c, Team__c, OrderTeam__c
+                FROM ProductProjectSettings__c
+                WHERE ProjectType__c = 'Creation' AND Stage__c = 'Design' AND OrderTeam__c NOT IN (15, 16, 17, 18, 19, 20)
+                ORDER BY OrderTeam__c ASC];
     }
  
-    /**
-     * 🔹 Récupère les ProjectProductChild associés
-     */
+    // Récupère les ProjectProductChild associés
     public static Map<String, ProjectProductChild__c> getProjectChildren(Id recordId) {
         Map<String, ProjectProductChild__c> stepsrecords = new Map<String, ProjectProductChild__c>();
-        for (ProjectProductChild__c recordchild : [
-            SELECT Id, Name, Status__c, TECH_TeamValidation__c, StartDate__c, EndDate__c
-            FROM ProjectProductChild__c
-            WHERE ProjectProductParent__c = :recordId
-        ]) {
+        for (ProjectProductChild__c recordchild : [SELECT Id, Name, Status__c, TECH_TeamValidation__c, StartDate__c, EndDate__c
+                                                   FROM ProjectProductChild__c
+                                                   WHERE ProjectProductParent__c = :recordId]) {
             stepsrecords.put(recordchild.Name, recordchild);
         }
         return stepsrecords;
     }
  
-    /**
-     * 🔹 Récupère le nom des propriétaires en fonction de leur ID
-     */
+    // Récupère le nom des propriétaires en fonction de leur ID
     public static Map<Id, String> getOwnerTeamNameById(List<Id> recordsId) {
         Map<Id, String> mapIdNameOwner = new Map<Id, String>();
         for (User user : [SELECT Id, FirstName, LastName FROM User WHERE Id IN :recordsId]) {
@@ -50,9 +47,26 @@ public class TaskCompletionByTeamControllerUtilities {
         return mapIdNameOwner;
     }
  
-    /**
-     * 🔹 Récupère le propriétaire d'une équipe pour un projet donné
-     */
+    // US-20120: Récupère le Scope (PS/IS) du projet, pour filtrer les lignes "Product Strategy"/"IS" côté serveur.
+    public static String getProjectScope(Id recordId) {
+        ProjectProduct__c projectProduct = [SELECT Scope__c FROM ProjectProduct__c WHERE Id = :recordId LIMIT 1];
+        return projectProduct.Scope__c;
+    }
+
+    // US-20120: Ne garde que la ligne "Product Strategy" ou "IS" qui correspond au Scope du projet - l'autre est une configuration parallèle qui ne s'applique jamais au même projet.
+    public static List<ProductProjectSettings__c> filterByScope(List<ProductProjectSettings__c> settings, String scope) {
+        String excludedTeam = scope == 'IS' ? 'Product Strategy' : (scope == 'PS' ? 'IS' : null);
+        if (excludedTeam == null) return settings;
+
+        List<ProductProjectSettings__c> filtered = new List<ProductProjectSettings__c>();
+        for (ProductProjectSettings__c setting : settings) {
+            if (setting.Team__c == excludedTeam) continue;
+            filtered.add(setting);
+        }
+        return filtered;
+    }
+
+    // Récupère le propriétaire d'une équipe pour un projet donné
     public static Map<String, Id> getOwnerTeamId(Id recordId, List<ProductProjectSettings__c> recordsteams) {
         List<String> teamsName = new List<String>();
         for (ProductProjectSettings__c team : recordsteams) {
@@ -61,11 +75,9 @@ public class TaskCompletionByTeamControllerUtilities {
  
         if (teamsName.isEmpty()) return new Map<String, Id>();
  
-        ProjectProduct__c projectproduct = [
-            SELECT Id, ProductStrategy__c, Legal__c, Tax__c, OPS__c, Risk__c, ESG__c, Compliance__c,
-                   DCO__c, DCR__c, InvestmentPerf__c, Finance__c, Communication__c, Technology__c, IS__c
-            FROM ProjectProduct__c WHERE Id = :recordId
-        ];
+        ProjectProduct__c projectproduct = [SELECT Id, ProductStrategy__c, Legal__c, Tax__c, OPS__c, Risk__c, ESG__c, Compliance__c, DCO__c, DCR__c, InvestmentPerf__c, Finance__c, Communication__c, Technology__c, IS__c
+                                            FROM ProjectProduct__c 
+                                            WHERE Id = :recordId];
  
         Map<String, Id> mapteamowner = new Map<String, Id>();
         for (String teamName : teamsName) {
@@ -78,10 +90,7 @@ public class TaskCompletionByTeamControllerUtilities {
         return mapteamowner;
     }
 
-
-    /**
-     * 🔹 Récupère les noms des RecordTypes
-     */
+    // Récupère les noms des RecordTypes
     public static Map<Id, String> getRecordTypeName(Set<Id> ppChildIds) {
         Map<Id, String> recordTypeMap = new Map<Id, String>();
         for (ProjectProductChild__c record : [SELECT Id, RecordType.DeveloperName FROM ProjectProductChild__c WHERE Id IN :ppChildIds]) {
@@ -92,10 +101,9 @@ public class TaskCompletionByTeamControllerUtilities {
 
     public static Map<Id, Set<Id>> getProjectChildShareClasses(Set<Id> ppChildIds) {
         Map<Id, Set<Id>> projectChildWithShareClassesMap = new Map<Id, Set<Id>>();
-        for (ProjectChildJunction__c projectJunction : [
-            SELECT ProjectShareclass__c, ProjectProductChild__c FROM ProjectChildJunction__c
-            WHERE ProjectProductChild__c IN :ppChildIds
-        ]) {
+        for (ProjectChildJunction__c projectJunction : [SELECT ProjectShareclass__c, ProjectProductChild__c 
+                                                        FROM ProjectChildJunction__c
+                                                        WHERE ProjectProductChild__c IN :ppChildIds]) {
             if (!projectChildWithShareClassesMap.containsKey(projectJunction.ProjectProductChild__c)) {
                 projectChildWithShareClassesMap.put(projectJunction.ProjectProductChild__c, new Set<Id>());
             }
@@ -113,13 +121,7 @@ public class TaskCompletionByTeamControllerUtilities {
         Map<Id, List<ProjectShareclassChild__c>> pChildWithShareclasseChildsMap = new Map<Id, List<ProjectShareclassChild__c>>();
 
         if (!shareClassIds.isEmpty()) {
-            List<SObject> shareClassChilds = ProjectChildTeamValidationController.getRecordWithFields(
-                'ProjectShareclassChild__c',
-                shareClassIds,
-                fieldList
-            );
-
-            System.debug('shareClassChilds: ' + shareClassChilds);
+            List<SObject> shareClassChilds = ProjectChildTeamValidationController.getRecordWithFields('ProjectShareclassChild__c', shareClassIds, fieldList);
 
             for (SObject shareclasseChild : shareClassChilds) {
                 ProjectShareclassChild__c shareclasseChildConverted = (ProjectShareclassChild__c) shareclasseChild;
