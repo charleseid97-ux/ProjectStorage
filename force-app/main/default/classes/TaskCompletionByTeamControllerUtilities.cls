@@ -5,9 +5,9 @@
  *                  ProjectProduct__c, and the Project Product Child/Shareclass Child lookups used to calculate
  *                  completion rates.
  *              Called by TaskCompletionByTeamController.
- * @lastModifiedBy Charles EID   [05-10-26]
+ * @lastModifiedBy Charles EID   [06-10-26]
  * @testClass Test_TaskCompletionByTeamController
- * @coverage 100%   [05-10-26]
+ * @coverage 100%   [06-10-26]
  ────────────────────────────────────── */
 public class TaskCompletionByTeamControllerUtilities {
  
@@ -71,11 +71,10 @@ public class TaskCompletionByTeamControllerUtilities {
 
     /**
      * US-20120: Ne garde que la ligne "Product Strategy" ou "IS" qui correspond au Scope du projet - l'autre
-     * est une configuration parallèle qui ne s'applique jamais au même projet.
+     * est une configuration parallèle qui ne s'applique jamais au même projet. Scope vide = PS.
      */
     public static List<ProductProjectSettings__c> filterByScope(List<ProductProjectSettings__c> settings, String scope) {
-        String excludedTeam = scope == 'IS' ? 'Product Strategy' : (scope == 'PS' ? 'IS' : null);
-        if (excludedTeam == null) return settings;
+        String excludedTeam = scope == 'IS' ? 'Product Strategy' : 'IS';
 
         List<ProductProjectSettings__c> filtered = new List<ProductProjectSettings__c>();
         for (ProductProjectSettings__c setting : settings) {

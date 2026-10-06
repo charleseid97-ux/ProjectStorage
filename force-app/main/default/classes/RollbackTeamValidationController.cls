@@ -1,3 +1,13 @@
+/** ──────────────────────────────────────
+ * @description Lightning Web Component controller for the Rollback Validation panel (rollbackTeamValidation),
+ *                  on the "Admin interface" tab of the Project Product record pages.
+ *              Lists the Project Product Child phases and the teams of TECH_TeamValidation__c - with ProductStrategy
+ *                  and IS mutually exclusive according to the project's Scope__c (US-20120, blank = PS) - and adds or
+ *                  removes the selected teams from the validated teams of the chosen phase.
+ * @lastModifiedBy Charles EID   [06-10-26]
+ * @testClass Test_RollbackTeamValidationController
+ * @coverage 100%   [06-10-26]
+ ────────────────────────────────────── */
 public with sharing class RollbackTeamValidationController {
     @AuraEnabled(cacheable=true)
     public static List<RecordType> getProjectProductChildRecordTypes() {
@@ -5,10 +15,15 @@ public with sharing class RollbackTeamValidationController {
     }
  
     @AuraEnabled(cacheable=true)
-    public static List<String> getTeamPicklistValues() {
+    public static List<String> getTeamPicklistValues(Id recordId) {
+        // US-20120: ProductStrategy and IS are mutually exclusive, driven by the project's Scope__c (blank = PS)
+        String scope = [SELECT Scope__c FROM ProjectProduct__c WHERE Id = :recordId LIMIT 1].Scope__c;
+        String excludedTeam = scope == 'IS' ? 'ProductStrategy' : 'IS';
+
         Schema.DescribeFieldResult fieldResult = ProjectProductChild__c.TECH_TeamValidation__c.getDescribe();
         List<String> values = new List<String>();
         for (Schema.PicklistEntry entry : fieldResult.getPicklistValues()) {
+            if (entry.getValue() == excludedTeam) continue;
             values.add(entry.getValue());
         }
         return values;

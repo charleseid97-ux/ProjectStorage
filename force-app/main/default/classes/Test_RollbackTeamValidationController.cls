@@ -26,9 +26,12 @@ public class Test_RollbackTeamValidationController {
  
     @isTest
     static void test_getTeamPicklistValues() {
+        ProjectProduct__c parent = [SELECT Id FROM ProjectProduct__c LIMIT 1];
         Test.startTest();
-        List<String> values = RollbackTeamValidationController.getTeamPicklistValues();
+        List<String> values = RollbackTeamValidationController.getTeamPicklistValues(parent.Id);
         Test.stopTest();
+
+        System.assert(values.contains('ProductStrategy') != values.contains('IS'), 'ProductStrategy and IS must be mutually exclusive');
     }
  
     @isTest

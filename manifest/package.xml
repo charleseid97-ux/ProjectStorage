@@ -62,6 +62,8 @@
         <members>TaskCompletionByTeamController</members>
         <members>TaskCompletionByTeamControllerUtilities</members>
         <members>Test_TaskCompletionByTeamController</members>
+        <members>RollbackTeamValidationController</members>
+        <members>Test_RollbackTeamValidationController</members>
         <name>ApexClass</name>
     </types>
     <types>
@@ -72,6 +74,7 @@
     </types>
     <types>
         <members>lwc_TaskCompletionByTeam</members>
+        <members>rollbackTeamValidation</members>
         <name>LightningComponentBundle</name>
     </types>
     <types>
