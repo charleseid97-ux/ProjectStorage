@@ -1,14 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Package xmlns="http://soap.sforce.com/2006/04/metadata">
     <types>
-        <members>Convention__c.AdjutoAutoUpdate__c</members>
-        <members>Convention__c.Code_Type__c</members>
-        <members>Convention__c.TECH_AgreementRequestFinalized__c</members>
-        <name>CustomField</name>
-    </types>
-    <types>
-        <members>Convention__c.*</members>
-        <name>RecordType</name>
+        <members>customReportMatrix</members>
+        <name>LightningComponentBundle</name>
     </types>
     <version>64.0</version>
 </Package>
