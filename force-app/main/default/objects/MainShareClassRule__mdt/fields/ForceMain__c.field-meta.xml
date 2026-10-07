@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>ForceMain__c</fullName>
+    <defaultValue>false</defaultValue>
+    <description>Forces the configured Share Class to be Main when its Country Registration is eligible.</description>
+    <fieldManageability>DeveloperControlled</fieldManageability>
+    <label>Force Main</label>
+    <type>Checkbox</type>
+</CustomField>

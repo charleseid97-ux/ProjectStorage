@@ -1,5 +1,6 @@
 public class ShareClassTriggerHandler {
     
+    // Initializes the related fund and formats the Share Class name before insert.
     public static void handleBeforeInsert(List<Share_Class__c> newShareClasses) {
 		Id fundRecordTypeId = Schema.SObjectType.Product__c.getRecordTypeInfosByDeveloperName().get('Fund').getRecordTypeId();
         
@@ -19,14 +20,18 @@ public class ShareClassTriggerHandler {
         
     }
 
+    // Logs the new Share Class and recalculates any existing Country Registrations.
     public static void handleAfterInsert(List<Share_Class__c> newShareClasses) {
         FieldHistoryLogger.log(newShareClasses, null, 'Share_Class__c');
+        MainShareClassService.recalculateAfterShareClassInsert(newShareClasses);
     }
 
+    // Rebuilds the formatted Share Class name when relevant fields change.
     public static void handleBeforeUpdate(List<Share_Class__c> newShareClasses , Map<Id,Share_Class__c> oldShareClassesMap){
         ShareClassHandler.updateFormattedName(newShareClasses, oldShareClassesMap);
     }
     
+    // Executes existing update logic and recalculates Main Share Classes when required.
     public static void handleAfterUpdate(List<Share_Class__c> newShareClasses , Map<Id,Share_Class__c> oldShareClassesMap){
         FieldHistoryLogger.log( newShareClasses ,  oldShareClassesMap , 'Share_Class__c');
     	FieldHistoryLogger.logAllFields( newShareClasses ,  oldShareClassesMap , 'Share_Class__c');
@@ -45,6 +50,7 @@ public class ShareClassTriggerHandler {
 
         TaxEmailService.sendATMergerLiquidationEmails(newShareClasses, oldShareClassesMap);
         ShareClassHandler.closeTaxDataOnShareClassClosure(newShareClasses, oldShareClassesMap);
+        MainShareClassService.recalculateAfterShareClassUpdate(newShareClasses, oldShareClassesMap);
 
     }
 }
