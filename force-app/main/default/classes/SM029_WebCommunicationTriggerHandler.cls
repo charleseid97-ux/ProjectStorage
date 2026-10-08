@@ -1,16 +1,15 @@
-/**
-* @author: Noor Goolamnabee
-* @date : 12/07/2019 
-* @description : WebCommunicationTriggerHandler
-*
-* -- History
-* -- Date        Name        Version  Remarks
-* -- -----------  ----------  -------  ---------------------------------------
-* -- 12-JUL-2019  JLC         1.0    Init
-*
-*/
+/** ──────────────────────────────────────
+ * @description Trigger handler for Web_Communication__c: country check before save, and Prospace
+ *              opt-in reactivation when the website user creates or reactivates a subscription.
+ * @testClass SM029_WebCommunicationTest
+ * @coverage 100%   [08-10-26]
+ * @lastModifiedBy Charles EID   [08-10-26]
+ ────────────────────────────────────── */
 public class SM029_WebCommunicationTriggerHandler {
-    
+
+    // Prospace website integration user.
+    public static final String WEBSITE_PROSPACE_USER_ID = Label.WebsiteProspaceId;
+
     public static void onBeforeInsert(List<Web_Communication__c> webCommList) {
         // Map<Web_Communication__c, String> mapWebCom = new Map<Web_Communication__c, String>();
         Map<Web_Communication__c, Id> shareClassIdByWebComIdMap = new Map<Web_Communication__c, Id>();
@@ -63,7 +62,7 @@ public class SM029_WebCommunicationTriggerHandler {
         Set<Id> contProspaceOptIn = new Set<Id>();
         for (Web_Communication__c webComm : webCommList) {
             if (webComm.isActive__c) {
-                if(UserInfo.getUserId() != Label.WebsiteProspaceId) {
+                if(UserInfo.getUserId() != WEBSITE_PROSPACE_USER_ID) {
                     //activeWebCom.add(webComm);
                 }
                 else { 
@@ -91,7 +90,7 @@ public class SM029_WebCommunicationTriggerHandler {
             // if ((UserInfo.getUserId() != Label.WebsiteProspaceId) && (oldMap.get(webComm.Id).isActive__c != webComm.isActive__c) && !(oldMap.get(webComm.Id).Opted_out__c == False && webComm.Opted_out__c == True)) {//!(oldMap.get(webComm.Id).Opted_out__c == False && webComm.Opted_out__c == True)) { // Here we have to add the condition
             //     webComList.add(webComm);
             // }
-            if((UserInfo.getUserId() == Label.WebsiteProspaceId) && (oldMap.get(webComm.Id).isActive__c != webComm.isActive__c) && webComm.isActive__c){
+            if((UserInfo.getUserId() == WEBSITE_PROSPACE_USER_ID) && (oldMap.get(webComm.Id).isActive__c != webComm.isActive__c) && webComm.isActive__c){
                 contProspaceOptIn.add(webComm.Contact__c);
             }
         }

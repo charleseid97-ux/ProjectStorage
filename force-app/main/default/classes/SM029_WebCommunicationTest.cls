@@ -161,8 +161,49 @@ public class SM029_WebCommunicationTest {
             SM029_DeleteAllAlertsLTController.initializePicklistAlertType(testContact2.Id);
             SM029_DeleteAllAlertsLTController.deleteAllProspaceAlerts(testContact2.Id, selectedTypes);
             SM029_DeleteAllAlertsLTController.deleteAllProspaceAlerts(ld2.Id, selectedTypes);
-            
-            // Test End 
+
+            // Alert types for publications, from a Lead
+            SM029_AddAllAlertsLTController.initializePicklistAlertTypePub(ld2.Id);
+            SM029_DeleteAllAlertsLTController.initializePicklistAlertTypePub(ld2.Id);
+
+            // A subscription created, then reactivated, by the Prospace website user puts the Contact back in opt-in
+            User websiteUser = [SELECT Id FROM User WHERE Id = :SM029_WebCommunicationTriggerHandler.WEBSITE_PROSPACE_USER_ID];
+            testContact2.Prospace_Opt_Out__c = true;
+            Database.update(testContact2, true);
+            Web_Communication__c websiteWebCom = new Web_Communication__c(Contact__c = testContact2.Id, AlertTypeRecord__c = theme1.Id, ShareClass__c = sC.Id, Fund__c = prd.Id);
+            System.runAs(websiteUser) {
+                Database.insert(websiteWebCom, true);
+            }
+            System.assertEquals(false, [SELECT Prospace_Opt_Out__c FROM Contact WHERE Id = :testContact2.Id].Prospace_Opt_Out__c);
+
+            SM029_WebCommunication.deactivateAllWebCommunication('Contact', new Set<Id>{testContact2.Id});
+            testContact2.Prospace_Opt_Out__c = true;
+            Database.update(testContact2, true);
+            websiteWebCom.isActive__c = true;
+            System.runAs(websiteUser) {
+                Database.update(websiteWebCom, true);
+                Database.delete(websiteWebCom, true);
+            }
+            System.assertEquals(false, [SELECT Prospace_Opt_Out__c FROM Contact WHERE Id = :testContact2.Id].Prospace_Opt_Out__c);
+
+            // Contact merge transfer, then deletion of all the Contact's alerts
+            SM029_WebCommunication.transferContactAlerts(new Map<Id, Id>{testContact2.Id => testContact2.Id});
+            SM029_WebCommunication.delAllContactAlerts(new Set<Contact>{testContact2});
+            System.assertEquals(0, [SELECT COUNT() FROM Web_Communication__c WHERE Contact__c = :testContact2.Id]);
+
+            try {
+                SM029_WebCommunication.sendErrorEmail('Test subject', 'Test body');
+            } catch (EmailException e) {
+                // Email deliverability may be disabled in the org
+            }
+
+            // A Share Class not registered in the Contact's website country blocks the subscription
+            testContact2.WebsiteCountry__c = 'DE';
+            Database.update(testContact2, true);
+            Database.SaveResult blockedResult = Database.insert(new Web_Communication__c(Contact__c = testContact2.Id, ShareClass__c = sC.Id, Fund__c = prd.Id), false);
+            System.assert(!blockedResult.isSuccess());
+
+            // Test End
             System.test.stopTest();  
             
         }
