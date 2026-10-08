@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>IsValidationTeam__c</fullName>
+    <defaultValue>false</defaultValue>
+    <description>Checked when the team validates the project stages (step validation, Team Completion). Unchecked teams only get a default owner on the project.</description>
+    <externalId>false</externalId>
+    <fieldManageability>DeveloperControlled</fieldManageability>
+    <label>Is Validation Team</label>
+    <type>Checkbox</type>
+</CustomField>

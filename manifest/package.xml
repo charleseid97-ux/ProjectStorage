@@ -5,6 +5,22 @@
         <members>ProjectTask__c.Team__c</members>
         <members>Task_List__mdt.Team__c</members>
         <members>PRIIPSField__mdt.OtherTeams__c</members>
+        <members>PMTStage__mdt.DurationDays__c</members>
+        <members>PMTStage__mdt.Order__c</members>
+        <members>PMTTeam__mdt.IsValidationTeam__c</members>
+        <members>PMTTeam__mdt.Order__c</members>
+        <members>PMTTeam__mdt.OwnerFederationId__c</members>
+        <members>PMTTeam__mdt.Scope__c</members>
+        <members>PMTFieldRule__mdt.OptionalFieldsFund__c</members>
+        <members>PMTFieldRule__mdt.OptionalFieldsShareClass__c</members>
+        <members>PMTFieldRule__mdt.RequiredFieldsFund__c</members>
+        <members>PMTFieldRule__mdt.RequiredFieldsShareClass__c</members>
+        <members>PMTFieldRule__mdt.Stage__c</members>
+        <members>PMTFieldRule__mdt.Team__c</members>
+        <members>PMTOwnerRule__mdt.Field__c</members>
+        <members>PMTOwnerRule__mdt.OwnerFederationId__c</members>
+        <members>PMTOwnerRule__mdt.Team__c</members>
+        <members>PMTOwnerRule__mdt.Values__c</members>
         <name>CustomField</name>
     </types>
     <types>
@@ -50,6 +66,55 @@
         <members>PRIIPSField.ProductName</members>
         <members>PRIIPSField.RecommendedHoldingPeriod</members>
         <members>PRIIPSField.ShareclassName</members>
+        <members>PMTStage.Design</members>
+        <members>PMTStage.Engineering</members>
+        <members>PMTStage.Filing</members>
+        <members>PMTStage.Proposal</members>
+        <members>PMTStage.SetUp</members>
+        <members>PMTTeam.Communication</members>
+        <members>PMTTeam.Compliance</members>
+        <members>PMTTeam.DBS</members>
+        <members>PMTTeam.DCO</members>
+        <members>PMTTeam.DCP</members>
+        <members>PMTTeam.DCR</members>
+        <members>PMTTeam.DM</members>
+        <members>PMTTeam.ESG</members>
+        <members>PMTTeam.Finance</members>
+        <members>PMTTeam.FundMarketing</members>
+        <members>PMTTeam.InvestmentPerf</members>
+        <members>PMTTeam.IS</members>
+        <members>PMTTeam.Legal</members>
+        <members>PMTTeam.OPS</members>
+        <members>PMTTeam.ProductSpecialists</members>
+        <members>PMTTeam.ProductStrategy</members>
+        <members>PMTTeam.RFP</members>
+        <members>PMTTeam.Risk</members>
+        <members>PMTTeam.Tax</members>
+        <members>PMTTeam.Technology</members>
+        <members>PMTFieldRule.ComplianceProposal</members>
+        <members>PMTFieldRule.ESGFiling</members>
+        <members>PMTFieldRule.ESGProposal</members>
+        <members>PMTFieldRule.InvestmentPerfProposal</members>
+        <members>PMTFieldRule.InvestmentPerfSetUp</members>
+        <members>PMTFieldRule.ISEngineering</members>
+        <members>PMTFieldRule.ISProposal</members>
+        <members>PMTFieldRule.ISSetUp</members>
+        <members>PMTFieldRule.LegalEngineering</members>
+        <members>PMTFieldRule.LegalFiling</members>
+        <members>PMTFieldRule.LegalProposal</members>
+        <members>PMTFieldRule.LegalSetUp</members>
+        <members>PMTFieldRule.OPSEngineering</members>
+        <members>PMTFieldRule.OPSProposal</members>
+        <members>PMTFieldRule.OPSSetUp</members>
+        <members>PMTFieldRule.ProductStrategyEngineering</members>
+        <members>PMTFieldRule.ProductStrategyProposal</members>
+        <members>PMTFieldRule.ProductStrategySetUp</members>
+        <members>PMTFieldRule.RiskEngineering</members>
+        <members>PMTFieldRule.RiskFiling</members>
+        <members>PMTFieldRule.RiskProposal</members>
+        <members>PMTFieldRule.TaxSetUp</members>
+        <members>PMTOwnerRule.LegalDefault</members>
+        <members>PMTOwnerRule.LegalFCP</members>
         <name>CustomMetadata</name>
     </types>
     <types>
@@ -68,7 +133,16 @@
         <members>Test_FieldModificationController</members>
         <members>ProjectProductSetupHandlerUtilities</members>
         <members>ProjectShareclassHandler</members>
+        <members>PMTMatrix</members>
+        <members>Test_PMTMatrix</members>
         <name>ApexClass</name>
+    </types>
+    <types>
+        <members>PMTStage__mdt</members>
+        <members>PMTTeam__mdt</members>
+        <members>PMTFieldRule__mdt</members>
+        <members>PMTOwnerRule__mdt</members>
+        <name>CustomObject</name>
     </types>
     <types>
         <members>FundShareclassCreation</members>

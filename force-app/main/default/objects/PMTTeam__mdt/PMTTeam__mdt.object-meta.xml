@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObject xmlns="http://soap.sforce.com/2006/04/metadata">
+    <description>FIX-20178: PMT teams. The Label is the team name (e.g. "Product Strategy"); the same name without spaces is the team key used in TECH_TeamValidation__c, the PRP permission sets and the owner field on ProjectProduct__c. Read through the PMTMatrix Apex class.</description>
+    <label>PMT - Team</label>
+    <pluralLabel>PMT - Teams</pluralLabel>
+    <visibility>Public</visibility>
+</CustomObject>

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>RequiredFieldsShareClass__c</fullName>
+    <description>Share Class / Project Shareclass Child fields the team must fill at this stage (was ProductProjectSettings__c.RequiredFieldsShareClass__c). One field API name per line.</description>
+    <externalId>false</externalId>
+    <fieldManageability>DeveloperControlled</fieldManageability>
+    <inlineHelpText>One field API name per line.</inlineHelpText>
+    <label>Required Fields (Share Class)</label>
+    <length>32768</length>
+    <type>LongTextArea</type>
+    <visibleLines>10</visibleLines>
+</CustomField>

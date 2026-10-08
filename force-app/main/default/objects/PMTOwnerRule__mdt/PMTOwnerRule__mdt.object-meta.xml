@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObject xmlns="http://soap.sforce.com/2006/04/metadata">
+    <description>FIX-20178: exceptions to a PMT team's default owner, based on a ProjectProduct__c field value (e.g. Legal owner by LegalForm__c). For a team, the rule whose Values contains the project's value wins; otherwise the rule with empty Values; if the field is empty, the team's default owner (PMTTeam__mdt) stays. Read through the PMTMatrix Apex class.</description>
+    <label>PMT - Owner Rule</label>
+    <pluralLabel>PMT - Owner Rules</pluralLabel>
+    <visibility>Public</visibility>
+</CustomObject>

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Stage__c</fullName>
+    <description>Stage at which the team fills the fields of this rule.</description>
+    <fieldManageability>DeveloperControlled</fieldManageability>
+    <label>Stage</label>
+    <referenceTo>PMTStage__mdt</referenceTo>
+    <relationshipLabel>PMT - Field Rules</relationshipLabel>
+    <relationshipName>PMTFieldRules</relationshipName>
+    <required>true</required>
+    <type>MetadataRelationship</type>
+    <unique>false</unique>
+</CustomField>
