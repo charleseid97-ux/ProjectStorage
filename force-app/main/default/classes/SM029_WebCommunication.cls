@@ -1,14 +1,10 @@
-/**
-* @author: Noor Goolamnabee
-* @date : 12/07/2019
-* @description : SM029_WebCommunication
-*
-* -- History
-* -- Date        Name        Version  Remarks
-* -- -----------  ----------  -------  ---------------------------------------
-* -- 12-JUL-2019  JLC         1.0    Init
-*
-*/
+/** ──────────────────────────────────────
+ * @description Service class for Web_Communication__c (Prospace alerts): checks that the
+ *              Share Class is available in the Contact's website country (registration or override).
+ * @testClass SM029_WebCommunicationTest
+ * @coverage 93%   [08-10-26]
+ * @lastModifiedBy Charles EID   [08-10-26]
+ ────────────────────────────────────── */
 public class SM029_WebCommunication {
 
     private static list<EM023_Log.errorToLog> listLogError = new list<EM023_Log.errorToLog>();
@@ -425,6 +421,11 @@ public class SM029_WebCommunication {
             //     websiteCountry = LeadIdByLeadWebCountryMap.get(aLeadIdByWebComIdMap.get(webCom));
             // }
 
+            // Sans Share Class ou sans pays Website (ex. aucun Contact), il n'y a rien à contrôler.
+            if(shareClassRecord == null || String.isBlank(websiteCountry)){
+                continue;
+            }
+
             String overrideKey = websiteCountry + '|' + shareClassRecord.ISIN__c;
             // Un Country__c vide conserve le comportement historique de carte blanche.
             Boolean hasNoCountryRestriction = shareClassRecord.Country__c == null;
@@ -571,7 +572,7 @@ public class SM029_WebCommunication {
 
         String sObjectType = ((SObject)aObjectRec).getSObjectType().getDescribe().getName();
         System.debug('dev---- aObjectRec' + aObjectRec);
-        List<Web_Communication__c> webComToDeleteList;
+        List<Web_Communication__c> webComToDeleteList = new List<Web_Communication__c>();
         if(sObjectType == 'Contact'){
             webComToDeleteList = [SELECT Id, AlertTypeRecord__r.Id, AlertTypeRecord__r.TECH_WebSiteID__c FROM Web_Communication__c WHERE Contact__c = :aObjectRec.Id AND AlertTypeRecord__r.Id IN :selectedAlertTypes];
         }
