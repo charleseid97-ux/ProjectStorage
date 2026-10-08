@@ -2,106 +2,41 @@
 <Package xmlns="http://soap.sforce.com/2006/04/metadata">
 
     <types>
-        <members>CountryTriggerHandler</members>
-        <members>ShareClassTriggerHandler</members>
-        <members>MainShareClassService</members>
-        <members>MainShareClassBatch</members>
-        <members>MainShareClassServiceTest</members>
-        <members>MainShareClassBatchTest</members>
+        <members>BATCH025_DataRecoveryProspace</members>
+        <members>BATCH025_DataRecoveryProspaceTest</members>
+        <members>CTL_SearchSubscriptionProduct</members>
+        <members>LookUpFilterCriteriaController_TEST</members>
+        <members>ProspaceAlertsController</members>
+        <members>ProspaceAlertsControllerTest</members>
+        <members>SM017_LeadTriggerHandler</members>
+        <members>SM017_LeadTriggerHandlerTest</members>
+        <members>SM026_DeleteWebsiteLeadsSchedulable</members>
+        <members>SM026_DeleteWebsiteLeadsAsync</members>
+        <members>SM026_Lead_Website</members>
+        <members>SM026_SendSelectedLeadsAsync</members>
+        <members>SM029_AddAllAlertsLTController</members>
+        <members>SM029_DeleteWebsiteWebCommAsync</members>
+        <members>SM029_UpdateWebsiteCommunication</members>
+        <members>SM029_WebCommunication</members>
+        <members>SM029_WebCommunicationResponseParser</members>
+        <members>SM029_WebComResponseParser_Test</members>
+        <members>SM029_WebCommunicationTest</members>
+        <members>SM029_WebCommunicationTriggerHandler</members>
         <name>ApexClass</name>
     </types>
-
     <types>
-        <members>CountryTrigger</members>
-        <members>ShareClassTrigger</members>
-        <name>ApexTrigger</name>
-    </types>
-
-    <types>
-        <members>Country__c.IsMainShareClass__c</members>
-        <members>MainShareClassRule__mdt.Active__c</members>
-        <members>MainShareClassRule__mdt.Excluded__c</members>
-        <members>MainShareClassRule__mdt.ForceMain__c</members>
-        <members>MainShareClassRule__mdt.LegalForm__c</members>
-        <members>MainShareClassRule__mdt.Priority__c</members>
-        <members>MainShareClassRule__mdt.Scope__c</members>
-        <members>MainShareClassRule__mdt.shareclassName__c</members>
+        <members>Web_Communication__c.isContactMatch__c</members>
+        <members>Web_Communication__c.Fund__c</members>
         <name>CustomField</name>
     </types>
-
     <types>
-        <members>MainShareClassRule__mdt</members>
-        <name>CustomObject</name>
+        <members>Web_Communication__c.Web_Comm_VR01_Nav_Mandatory_Fields</members>
+        <members>Web_Communication__c.Web_Comm_VR02_CheckProspaceStatus</members>
+        <name>ValidationRule</name>
     </types>
-
     <types>
-        <members>MainShareClassRule.ALL_FCP_AW_EUR_ACC</members>
-        <members>MainShareClassRule.ALL_FCP_A_EUR_ACC</members>
-        <members>MainShareClassRule.ALL_FCP_A1_EUR_ACC</members>
-        <members>MainShareClassRule.ALL_FCP_A2_EUR_ACC</members>
-        <members>MainShareClassRule.ALL_FCP_FW_EUR_ACC</members>
-        <members>MainShareClassRule.ALL_FCP_F_EUR_ACC</members>
-        <members>MainShareClassRule.ALL_FCP_E_EUR_ACC</members>
-
-        <members>MainShareClassRule.ALL_FCPE_AW_EUR_ACC</members>
-        <members>MainShareClassRule.ALL_FCPE_A_EUR_ACC</members>
-        <members>MainShareClassRule.ALL_FCPE_A1_EUR_ACC</members>
-        <members>MainShareClassRule.ALL_FCPE_A2_EUR_ACC</members>
-        <members>MainShareClassRule.ALL_FCPE_FW_EUR_ACC</members>
-        <members>MainShareClassRule.ALL_FCPE_F_EUR_ACC</members>
-        <members>MainShareClassRule.ALL_FCPE_E_EUR_ACC</members>
-
-        <members>MainShareClassRule.ALL_SICAV_AW_EUR_ACC</members>
-        <members>MainShareClassRule.ALL_SICAV_A_EUR_ACC</members>
-        <members>MainShareClassRule.ALL_SICAV_FW_EUR_ACC</members>
-        <members>MainShareClassRule.ALL_SICAV_F_EUR_ACC</members>
-        <members>MainShareClassRule.ALL_SICAV_E_EUR_ACC</members>
-        <members>MainShareClassRule.ALL_SICAV_I_EUR_ACC</members>
-
-        <members>MainShareClassRule.ALL_ICAV_I_EUR_ACC</members>
-        <members>MainShareClassRule.ALL_ICAV_I_USD_ACC_HDG</members>
-        <members>MainShareClassRule.ALL_ICAV_I_CHF_ACC_HDG</members>
-        <members>MainShareClassRule.ALL_ICAV_B_EUR_ACC</members>
-        <members>MainShareClassRule.ALL_ICAV_B_USD_ACC_HDG</members>
-        <members>MainShareClassRule.ALL_ICAV_B_CHF_ACC_HDG</members>
-
-        <members>MainShareClassRule.UK_FCP_FW_GBP_ACC_HDG</members>
-        <members>MainShareClassRule.UK_FCP_F_GBP_ACC_HDG</members>
-        <members>MainShareClassRule.UK_FCP_FW_GBP_ACC</members>
-        <members>MainShareClassRule.UK_FCP_F_GBP_ACC</members>
-        <members>MainShareClassRule.UK_FCP_FW_EUR_ACC</members>
-        <members>MainShareClassRule.UK_FCP_F_EUR_ACC</members>
-        <members>MainShareClassRule.UK_FCP_I_EUR_ACC</members>
-        <members>MainShareClassRule.UK_FCP_F_USD_ACC</members>
-        <members>MainShareClassRule.UK_FCP_I_USD_ACC</members>
-
-        <members>MainShareClassRule.UK_SICAV_FW_GBP_ACC_HDG</members>
-        <members>MainShareClassRule.UK_SICAV_F_GBP_ACC_HDG</members>
-        <members>MainShareClassRule.UK_SICAV_FW_GBP_ACC</members>
-        <members>MainShareClassRule.UK_SICAV_F_GBP_ACC</members>
-        <members>MainShareClassRule.UK_SICAV_FW_EUR_ACC</members>
-        <members>MainShareClassRule.UK_SICAV_F_EUR_ACC</members>
-        <members>MainShareClassRule.UK_SICAV_I_EUR_ACC</members>
-        <members>MainShareClassRule.UK_SICAV_F_USD_ACC</members>
-        <members>MainShareClassRule.UK_SICAV_I_USD_ACC</members>
-
-        <members>MainShareClassRule.UK_ICAV_FW_GBP_ACC_HDG</members>
-        <members>MainShareClassRule.UK_ICAV_F_GBP_ACC_HDG</members>
-        <members>MainShareClassRule.UK_ICAV_FW_GBP_ACC</members>
-        <members>MainShareClassRule.UK_ICAV_F_GBP_ACC</members>
-        <members>MainShareClassRule.UK_ICAV_FW_EUR_ACC</members>
-        <members>MainShareClassRule.UK_ICAV_F_EUR_ACC</members>
-        <members>MainShareClassRule.UK_ICAV_I_EUR_ACC</members>
-        <members>MainShareClassRule.UK_ICAV_F_USD_ACC</members>
-        <members>MainShareClassRule.UK_ICAV_I_USD_ACC</members>
-
-        <members>MainShareClassRule.UK_OEIC_A_GBP_ACC_HDG</members>
-        <members>MainShareClassRule.UK_OEIC_A_GBP_ACC</members>
-        <members>MainShareClassRule.UK_OEIC_B_GBP_ACC_HDG</members>
-        <members>MainShareClassRule.UK_OEIC_B_GBP_ACC</members>
-
-        <name>CustomMetadata</name>
+        <members>searchSubscriptionProduct</members>
+        <name>LightningComponentBundle</name>
     </types>
-
-    <version>66.0</version>
+    <version>64.0</version>
 </Package>
