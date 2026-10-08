@@ -1,5 +1,11 @@
+/** ──────────────────────────────────────
+ * @description Lightning controller for the "Delete all" Prospace alerts action on Contact/Lead:
+ *              deletes the selected alert types and lists the alert types for the record's website language.
+ * @testClass SM029_WebCommunicationTest
+ * @coverage 100%   [08-10-26]
+ ────────────────────────────────────── */
 public class SM029_DeleteAllAlertsLTController {
-    
+
     @AuraEnabled
     public static void deleteAllProspaceAlerts(Id aContactId, List<String> selectedAlertTypes) {
         

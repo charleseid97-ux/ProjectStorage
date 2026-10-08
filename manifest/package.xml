@@ -4,6 +4,7 @@
         <members>BATCH025_DataRecoveryProspace</members>
         <members>BATCH025_DataRecoveryProspaceTest</members>
         <members>CTL_SearchSubscriptionProduct</members>
+        <members>LookUpFilterCriteriaController</members>
         <members>LookUpFilterCriteriaController_TEST</members>
         <members>ProspaceAlertsController</members>
         <members>ProspaceAlertsControllerTest</members>
@@ -14,6 +15,7 @@
         <members>SM026_Lead_Website</members>
         <members>SM026_SendSelectedLeadsAsync</members>
         <members>SM029_AddAllAlertsLTController</members>
+        <members>SM029_DeleteAllAlertsLTController</members>
         <members>SM029_DeleteWebsiteWebCommAsync</members>
         <members>SM029_UpdateWebsiteCommunication</members>
         <members>SM029_SendSelectedWebCommAsync</members>
@@ -22,6 +24,8 @@
         <members>SM029_WebComResponseParser_Test</members>
         <members>SM029_WebCommunicationTest</members>
         <members>SM029_WebCommunicationTriggerHandler</members>
+        <members>VFC11_AddAllProSpaceAlerts</members>
+        <members>VFC12_DeleteAllProspaceAlerts</members>
         <name>ApexClass</name>
     </types>
     <types>
