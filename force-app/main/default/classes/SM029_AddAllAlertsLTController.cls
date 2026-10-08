@@ -20,12 +20,12 @@ public class SM029_AddAllAlertsLTController {
         if(objectType == 'Contact'){
             if(!String.isBlank(contactRec.TECH_WebSiteID__c) && contactRec.Prospace_Status__c == 'Validated'){
                 System.debug('Contact Syncing 1');
-                SM029_WebCommunication.addAllContactAlerts(contactRec, selectedAlertTypes);
+                // SM029_WebCommunication.addAllContactAlerts(contactRec, selectedAlertTypes);
             }else{
                 throw new AuraHandledException('Error Contact not synced!');
             }
         }else if(!String.isBlank(leadRec.TECH_WebSiteID__c) && leadRec.Prospace_Status__c == 'Validated'){
-            SM029_WebCommunication.addAllLeadAlerts(leadRec, selectedAlertTypes);
+            // SM029_WebCommunication.addAllLeadAlerts(leadRec, selectedAlertTypes);
         }else{
             throw new AuraHandledException('Error Lead not synced!');
         }

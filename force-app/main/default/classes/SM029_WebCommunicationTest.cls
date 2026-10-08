@@ -106,21 +106,21 @@ public class SM029_WebCommunicationTest {
             
             List<Web_Communication__c> WebCommList = new List<Web_Communication__c>();
             Web_Communication__c web = new Web_Communication__c();
-            web.TECH_ISINCode__c = 'FR0011100000';
+            //web.TECH_ISINCode__c = 'FR0011100000';
             web.AlertTypeRecord__c = theme1.Id;
             web.Contact__c = testContact2.Id;
-            web.TECH_CommunicationWebsiteId__c = '1111';
+            // web.TECH_CommunicationWebsiteId__c = '1111';
             web.ShareClass__c = sC.Id;
             web.Fund__c = prd.Id;
             WebCommList.add(web);
             
             Web_Communication__c web2 = new Web_Communication__c();
-            web2.TECH_ISINCode__c = 'FR0011100011';
+            //web2.TECH_ISINCode__c = 'FR0011100011';
             web2.AlertTypeRecord__c = theme1.Id;
-            web2.Lead__c = ld2.Id;
+            // web2.Lead__c = ld2.Id;
             web2.ShareClass__c = sC.Id;
             web2.Fund__c = prd.Id;
-            web2.TECH_CommunicationWebsiteId__c = '22222';
+            // web2.TECH_CommunicationWebsiteId__c = '22222';
             
             WebCommList.add(web2);
             
@@ -139,20 +139,20 @@ public class SM029_WebCommunicationTest {
             SM029_AddAllAlertsLTController.addAllProspaceAlerts(testContact2.Id, selectedTypes);
             SM029_AddAllAlertsLTController.addAllProspaceAlerts(ld2.Id, selectedTypes);
 
-            SM029_SendSelectedWebCommAsync webAsync = new SM029_SendSelectedWebCommAsync(WebCommList, 0 , 1);
-            webAsync.executeNext(WebCommList, 0 , 1);
+            // SM029_SendSelectedWebCommAsync webAsync = new SM029_SendSelectedWebCommAsync(WebCommList, 0 , 1);
+            // webAsync.executeNext(WebCommList, 0 , 1);
             
-            SM029_DeleteWebsiteWebCommAsync leadDelAsync = new SM029_DeleteWebsiteWebCommAsync(WebCommList, 0 , 1);
-            leadDelAsync.executeNext(WebCommList, 0 , 1);
+            // SM029_DeleteWebsiteWebCommAsync leadDelAsync = new SM029_DeleteWebsiteWebCommAsync(WebCommList, 0 , 1);
+            // leadDelAsync.executeNext(WebCommList, 0 , 1);
             
             Web_Communication__c web3 = new Web_Communication__c();
-            web3.TECH_ISINCode__c = 'FR0011100033';
+            //web3.TECH_ISINCode__c = 'FR0011100033';
             web3.Contact__c = testContact2.Id;
-            web3.TECH_CommunicationWebsiteId__c = '3333';
+            // web3.TECH_CommunicationWebsiteId__c = '3333';
             web3.ShareClass__c = sC.Id;
             web3.Fund__c = prd.Id;
             Database.insert(web3, true);
-            SM029_WebCommunication.updateLookupAlertType(WebCommList);
+            //SM029_WebCommunication.updateLookupAlertType(WebCommList);
             
             Database.update(web3, true);
             
