@@ -4,10 +4,11 @@
  *                  already filtered to the single "Product Strategy" or "IS" row matching the project's Scope__c
  *                  (US-20120 - the client no longer needs to know this rule exists), and bulk-calculates
  *                  completion percentages per step/team from the required fields configured on ProductProjectSettings__c.
- *              Works in conjunction with TaskCompletionByTeamControllerUtilities for data retrieval.
- * @lastModifiedBy Charles EID   [05-10-26]
+ *              Works in conjunction with TaskCompletionByTeamControllerUtilities for data retrieval, and with
+ *                  ProjectProductSetupHandlerUtilities for the PS/IS Scope rule (FIX-20178).
+ * @lastModifiedBy Charles EID   [07-10-26]
  * @testClass Test_TaskCompletionByTeamController
- * @coverage 95%   [05-10-26]
+ * @coverage 96%   [07-10-26]
  ────────────────────────────────────── */
 public without sharing class TaskCompletionByTeamController {
 
@@ -16,9 +17,11 @@ public without sharing class TaskCompletionByTeamController {
     public static String getStepWithTeams(Id recordId) {
         // US-20120: ne garde que la ligne "Product Strategy" ou "IS" correspondant au Scope du projet,
         // pour que le client n'ait jamais à connaître/recoder cette règle.
-        String projectScope = TaskCompletionByTeamControllerUtilities.getProjectScope(recordId);
-        List<ProductProjectSettings__c> records = TaskCompletionByTeamControllerUtilities.filterByScope(TaskCompletionByTeamControllerUtilities.getProjectStages(), projectScope);
-        List<ProductProjectSettings__c> recordsteams = TaskCompletionByTeamControllerUtilities.filterByScope(TaskCompletionByTeamControllerUtilities.getDesignTeams(), projectScope);
+        String projectScope = ProjectProductSetupHandlerUtilities.getProjectScope(recordId);
+        List<ProductProjectSettings__c> stages = TaskCompletionByTeamControllerUtilities.getProjectStages();
+        List<ProductProjectSettings__c> designTeams = TaskCompletionByTeamControllerUtilities.getDesignTeams();
+        List<ProductProjectSettings__c> records = ProjectProductSetupHandlerUtilities.filterByScope(stages, projectScope);
+        List<ProductProjectSettings__c> recordsteams = ProjectProductSetupHandlerUtilities.filterByScope(designTeams, projectScope);
 
         Map<String, Id> mapteamowner = TaskCompletionByTeamControllerUtilities.getOwnerTeamId(recordId, recordsteams);
         

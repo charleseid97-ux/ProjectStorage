@@ -1,6 +1,13 @@
-/**
-
-**/
+/** ──────────────────────────────────────
+ * @description Apex controller for the fieldsModificationList LWC (FundShareclassModification projects).
+ *              Lists the fields selected for modification (TECH_FieldsToModify__c) on the Product or its Share Classes,
+ *                  with their owning team and stage from ProductProjectSettings__c, the current referential value and
+ *                  the new value, and updates field values.
+ *              The "Product Strategy"/"IS" rows are filtered on the project's Scope__c (FIX-20178, blank = PS).
+ * @lastModifiedBy Charles EID   [07-10-26]
+ * @testClass Test_FieldModificationController
+ * @coverage 95%   [07-10-26]
+ ────────────────────────────────────── */
 public without sharing class FieldModificationController {
     @AuraEnabled(cacheable=true)
     public static List<Map<String, String>> getFieldsToModify(String recordId, String objectApiName) {
@@ -18,10 +25,8 @@ public without sharing class FieldModificationController {
         Map<String, String> shareClassIds = new Map<String, String>();
 
         String parent ='ProjectProductParent__c';
-        Boolean isFund = false;
         if(objectApiName == 'Product__c'){
-            ProjectProduct__c pp = [SELECT TECH_FieldsToModify__c,Product__c,VehicleType__c FROM ProjectProduct__c WHERE id =:recordId LIMIT 1];
-            isFund = (pp.VehicleType__c == 'Funds');
+            ProjectProduct__c pp = [SELECT TECH_FieldsToModify__c,Product__c FROM ProjectProduct__c WHERE id =:recordId LIMIT 1];
 
             fieldString = pp.TECH_FieldsToModify__c;
             outputString = String.join(fieldString.split(';'), ',');
@@ -29,8 +34,8 @@ public without sharing class FieldModificationController {
             productFromRef = Database.query(query);
         }else {
             Set<String> shIds = new Set<String>();        
-            for(ProjectChildJunction__c junc : [SELECT Id, ProjectShareclass__c,  ProjectProductChild__r.VehicleType__c,
-                                                    ProjectShareclass__r.name, 
+            for(ProjectChildJunction__c junc : [SELECT Id, ProjectShareclass__c,
+                                                    ProjectShareclass__r.name,
                                                     ProjectShareclass__r.Share_Class_Name__c, 
                                                     ProjectShareclass__r.TECH_FieldsToModify__c,
                                                     ProjectShareclass__r.Tech_ShareClass__c,
@@ -38,7 +43,6 @@ public without sharing class FieldModificationController {
                                                     ProjectProductChild__r.Name
                                                     FROM ProjectChildJunction__c 
                                                     WHERE ProjectProductChild__r.ProjectProductParent__c =:recordId]){
-                isFund = (junc.ProjectProductChild__r.VehicleType__c == 'Funds');                                       
                 fieldString +=  junc.ProjectShareclass__r.TECH_FieldsToModify__c + ';' ;
                 shIds.add(junc.ProjectShareclass__r.Tech_ShareClass__c );
                 shareClassIds.put(junc.ProjectShareclass__c,junc.ProjectShareclass__r.Tech_ShareClass__c );
@@ -72,7 +76,10 @@ public without sharing class FieldModificationController {
         }
 
         String childObjectName = 'ProjectProductChild__c ';
-        List<ProductProjectSettings__c> matriceRecords = [SELECT Id ,Name,  ProjectType__c,Stage__c, Order__c , Team__c  ,OrderTeam__c , RequiredFields__c , RequiredFieldsShareClass__c , NonRequiredFieldsFund__c , NonRequiredFieldsShareClass__c  FROM ProductProjectSettings__c ORDER BY Order__c,OrderTeam__c   ASC];
+        List<ProductProjectSettings__c> allMatriceRecords = [SELECT Id ,Name,  ProjectType__c,Stage__c, Order__c , Team__c  ,OrderTeam__c , RequiredFields__c , RequiredFieldsShareClass__c , NonRequiredFieldsFund__c , NonRequiredFieldsShareClass__c  FROM ProductProjectSettings__c ORDER BY Order__c,OrderTeam__c   ASC];
+        String projectScope = ProjectProductSetupHandlerUtilities.getProjectScope(recordId);
+        // FIX-20178: only the "Product Strategy" or "IS" row matching the project's Scope__c is kept, otherwise the last row read (IS) wins
+        List<ProductProjectSettings__c> matriceRecords = ProjectProductSetupHandlerUtilities.filterByScope(allMatriceRecords, projectScope);
         for (ProductProjectSettings__c matrixElt : matriceRecords) {
             system.debug(matrixElt.Team__c);
             if(matrixElt.RequiredFields__c != null){
@@ -101,22 +108,6 @@ public without sharing class FieldModificationController {
                 }
             }
         }
-        // --- Override global : Fonds => PS remplace IS ---  US-17744   ----
-        system.debug('>>>>>>>>>>>>>>>>>>>>>>>>>>isFund before: '+isFund);
-        if (isFund) {
-            system.debug('>>>>>>>>>>>>>>>>>>>>>>>>>>isFund: '+isFund);
-            // On itère sur une copie des clés (évite toute surprise si la map évolue)
-            for (String fieldApi : new List<String>(teamOwners.keySet())) {
-                String owner = teamOwners.get(fieldApi);
-                system.debug('>>>>>>>>>>>>>>>>>>>>>>>>>>fieldApi: '+fieldApi+' | owner: '+owner);
-                if (owner != null && owner.trim().equalsIgnoreCase('IS')) {
-                    teamOwners.put(fieldApi, 'Product Strategy');
-                }
-            }
-        }
-        // --------------------------------------------------
-
-        
         String query = 'SELECT Id,TECH_Childtype__c,TECH_TeamValidation__c, ' + outputString + ' FROM  '+childObjectName+'  WHERE '+parent+' =\''+recordId+'\'' ;
         Map<String, String> stageToChildRecord = new Map<String, String>();
         Map<String, String> stageStatus = new Map<String, String>();

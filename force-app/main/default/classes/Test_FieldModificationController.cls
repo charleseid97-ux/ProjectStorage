@@ -17,14 +17,19 @@ public class Test_FieldModificationController {
         Share_Class__c sc0 = new Share_Class__c(Name='ShareClass0 A USD', CurrencyIsoCode='USD', Country__c='AT;BE;FR;DE;GB;XI;IT;LU;ES;SE;CH;NL', Type__c='A', Fund_Code__c='P0', Fund__c=p0.Id, Validity__c=true);
         insert sc0;
         
+        // FIX-20178: fields configured for both Product Strategy and IS must resolve to the project's Scope team
+        PMTTestFactoryData.createMatrice('Proposal', 'Product Strategy', 'NAVFrequency__c', 'DividendPolicy__c');
+        PMTTestFactoryData.createMatrice('Proposal', 'IS', 'NAVFrequency__c', 'DividendPolicy__c');
+
         ProjectProduct__c proj = PMTTestFactoryData.createProjectProductWithAllFields(fundModificationRtId);
         proj.Product__c = p0.Id;
+        proj.Scope__c = 'IS';
         proj.TECH_FieldsToModify__c = 'ForeseenEUCategory__c;NAVFrequency__c;PricingMethod__c;RecommendedHoldingPeriod__c';
         update proj;
         List<ProjectProductChild__c> childs = [SELECT Id,ProjectProductParent__c FROM ProjectProductChild__c where ProjectProductParent__c=:proj.Id];
         system.debug(proj.ProjectStartDate__c);
         
-        ProjectShareclass__c shareClass = PMTTestFactoryData.createProjectShareclass(proj.Id, 'DividendFrequency__c;Type__c;DividendPolicy__c;InvestmentStatusInvestors__c');
+        ProjectShareclass__c shareClass = PMTTestFactoryData.createProjectShareclass(proj.Id, 'DividendFrequency__c;Type__c;InvestmentStatusInvestors__c');
         shareClass.Tech_ShareClass__c = sc0.Id;
         update shareClass;
         List<ProjectChildJunction__c> junctionsToInsert = new List<ProjectChildJunction__c>();
@@ -37,14 +42,34 @@ public class Test_FieldModificationController {
             }
         insert junctionsToInsert;
         List<ProjectShareclassChild__c> scchilds = [Select Id From ProjectShareclassChild__c where ProjectShareclasses__c = :shareClass.Id];
-        
+
         List<ProjectChildJunction__c> junctions = [SELECT Id FROM ProjectChildJunction__c WHERE ProjectShareclass__c =:shareClass.Id ];
         Test.startTest();
+        // Saving the selected fields again once the junctions exist runs both validateSteps (project and share class)
+        proj.TECH_FieldsToModify__c = 'NAVFrequency__c;ForeseenEUCategory__c;PricingMethod__c;RecommendedHoldingPeriod__c';
+        update proj;
+        shareClass.TECH_FieldsToModify__c = 'DividendFrequency__c;Type__c;InvestmentStatusInvestors__c;DividendPolicy__c';
+        update shareClass;
+
 		List<Map<String, String>> productsList = FieldModificationController.getFieldsToModify(proj.Id, 'Product__c');
         List<Map<String, String>> scList = FieldModificationController.getFieldsToModify(proj.Id, 'Share_Class__c');
         system.assertNotEquals(0, productsList.size());
         system.assertNotEquals(0, scList.size());
         Test.stopTest();
+
+        // IS-scoped project: PS/IS fields are owned by IS, never by Product Strategy
+        for (Map<String, String> fieldData : productsList) {
+            if (fieldData.get('fieldName') == 'NAVFrequency__c') System.assertEquals('IS', fieldData.get('teamOwner'));
+        }
+        for (Map<String, String> fieldData : scList) {
+            if (fieldData.get('fieldName') == 'DividendPolicy__c') System.assertEquals('IS', fieldData.get('teamOwner'));
+        }
+
+        // IS still has to validate the Proposal step, Product Strategy has nothing to validate
+        ProjectProductChild__c proposalChild = [SELECT TECH_TeamValidation__c FROM ProjectProductChild__c WHERE ProjectProductParent__c = :proj.Id AND Name = 'Proposal' LIMIT 1];
+        Set<String> proposalTeams = new Set<String>(proposalChild.TECH_TeamValidation__c.split(';'));
+        System.assert(!proposalTeams.contains('IS'), 'IS must still validate the Proposal step');
+        System.assert(proposalTeams.contains('ProductStrategy'), 'Product Strategy has nothing to validate on an IS project');
         
     }
     

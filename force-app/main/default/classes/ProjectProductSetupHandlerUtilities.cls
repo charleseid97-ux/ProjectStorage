@@ -1,3 +1,16 @@
+/** ──────────────────────────────────────
+ * @description Helper methods for ProjectProduct__c trigger logic: stage list from ProductProjectSettings__c,
+ *                  Project Product Child creation, step validation (TECH_TeamValidation__c) and blanking of newly
+ *                  selected fields when TECH_FieldsToModify__c changes, filled-fields count, Launch Date milestone sync
+ *                  and Legal owner lookups.
+ *              Shared PS/IS rule, driven by ProjectProduct__c.Scope__c (blank = PS): getProjectScope, filterByScope
+ *                  (keeps the matching "Product Strategy"/"IS" ProductProjectSettings__c row) and resolveScopeTeam
+ *                  (a PS/IS field belongs to the Scope team). Used here (validateSteps) and by ProjectShareclassHandler,
+ *                  FieldModificationController, TaskCompletionByTeamController and RollbackTeamValidationController.
+ * @lastModifiedBy Charles EID   [07-10-26]
+ * @testClass Test_ProjectProductTrigger, Test_FieldModificationController
+ * @coverage 78%   [07-10-26]
+ ────────────────────────────────────── */
 public class ProjectProductSetupHandlerUtilities {
     static final Id fundModificationRecordTypeId = Schema.SObjectType.ProjectProduct__c.getRecordTypeInfosByDeveloperName().get('FundShareClassModification').getRecordTypeId(); 
     public static Set<String> getPicklistValuesForStages(String projectType) {
@@ -81,6 +94,30 @@ public class ProjectProductSetupHandlerUtilities {
         projectproduct.Technology__c=settings[12].TeamOwner__c;
     }
     
+    // US-20120: Récupère le Scope (PS/IS) du projet.
+    public static String getProjectScope(Id recordId) {
+        ProjectProduct__c projectProduct = [SELECT Scope__c FROM ProjectProduct__c WHERE Id = :recordId LIMIT 1];
+        return projectProduct.Scope__c;
+    }
+
+    // US-20120: Ne garde que la ligne "Product Strategy" ou "IS" qui correspond au Scope du projet - l'autre est une configuration parallèle qui ne s'applique jamais au même projet. Scope vide = PS.
+    public static List<ProductProjectSettings__c> filterByScope(List<ProductProjectSettings__c> settings, String scope) {
+        String excludedTeam = scope == 'IS' ? 'Product Strategy' : 'IS';
+
+        List<ProductProjectSettings__c> filtered = new List<ProductProjectSettings__c>();
+        for (ProductProjectSettings__c setting : settings) {
+            if (setting.Team__c == excludedTeam) continue;
+            filtered.add(setting);
+        }
+        return filtered;
+    }
+
+    // FIX-20178: Un champ configuré pour "Product Strategy" ou "IS" appartient à l'équipe du Scope du projet. Scope vide = PS.
+    public static String resolveScopeTeam(String team, String scope) {
+        if (team != 'Product Strategy' && team != 'IS') return team;
+        return scope == 'IS' ? 'IS' : 'Product Strategy';
+    }
+
     public static void validateSteps(Map<Id, ProjectProduct__c> newProjectProduct, Map<Id, ProjectProduct__c> oldProjectProduct) {
         Set<Id> changedProjectIds = new Set<Id>();
         system.debug('>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> Start validateSteps');
@@ -109,7 +146,7 @@ public class ProjectProductSetupHandlerUtilities {
 
         for (ProjectChildJunction__c junction : [
             SELECT ProjectProductChild__r.Id,
-                    ProjectProductChild__r.VehicleType__c,
+                   ProjectProductChild__r.ProjectProductParent__r.Scope__c,
                    ProjectProductChild__r.ProjectProductParent__c,
                    ProjectProductChild__r.TECH_TeamValidation__c,
                    ProjectProductChild__r.TECH_Childtype__c,
@@ -144,15 +181,10 @@ public class ProjectProductSetupHandlerUtilities {
                 if (child.TECH_Childtype__c == stage) {
                     String team = teamFields.get(field);
                     if (team != null) {
-                        //remainingTeams.remove(team.replaceAll(' ', ''));
-                        
+                        // FIX-20178: PS/IS team driven by the project's Scope__c (replaces the US-17744 VehicleType "Funds" rule)
+                        team = resolveScopeTeam(team, child.ProjectProductParent__r.Scope__c);
                         System.debug('field=>' + field + ' team=>' + team );
-                        if(junction.ProjectProductChild__r.VehicleType__c == 'Funds' && team.trim().equalsIgnoreCase('IS')){
-                            remainingTeams.remove('ProductStrategy');
-                        }else{
-                            remainingTeams.remove(team.replaceAll(' ', ''));
-                        }
-                        
+                        remainingTeams.remove(team.replaceAll(' ', ''));
                     }
                 }
             }
