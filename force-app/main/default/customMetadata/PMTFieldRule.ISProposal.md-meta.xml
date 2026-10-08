@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomMetadata xmlns="http://soap.sforce.com/2006/04/metadata" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <label>IS - Proposal</label>
+    <protected>false</protected>
+    <values>
+        <field>OptionalFieldsFund__c</field>
+        <value xsi:type="xsd:string">RecommendedHoldingPeriod__c
+RecommendedHoldingPeriodUnit__c
+RecommendedHoldingLabel__c
+BenchmarkName__c
+SeedDescription__c
+DistributorsRegion__c
+InvestorsRegion__c
+FundInvestCountries__c
+RationalName__c
+InvestmentStrategy__c
+DiffSimOtherProducts__c
+MktgDistribPlan__c
+MktgComPlan__c
+PricingMethod__c
+AMFBCEClassification__c
+IsPEA__c
+MaturityDate__c
+NoticePeriod__c
+HasPrePaymentPeriod__c
+DEEquityRatio__c
+ETDDetails__c
+CFDDetails__c
+OTCBilateralDetails__c
+OTCClearerDetails__c
+VanillaDetails__c
+CFD_Short_Comment__c
+CFD_Long_Comment__c
+Mutual_Funds_Comment__c
+AnticipatedFundSize5Y__c
+AnticipatedFundSize3Y__c
+InstrumentType__c
+FXRiskHedging__c
+InitialLabPeriod__c
+InvestmentStyle__c
+IsSeeded__c
+MasterFund__c
+Sponsor__c
+EFAMAEFCInvestTheme__c
+SwitchSettlementPeriod__c
+GridManualUpdate__c
+SFDRcategory__c</value>
+    </values>
+    <values>
+        <field>OptionalFieldsShareClass__c</field>
+        <value xsi:type="xsd:string">DecimalsMaxAmount__c
+DecimalsMaxShares__c
+MaxPerfFees__c
+PerformanceFeeMethod__c
+PerfFeesRefPeriod__c
+HurdleRate__c
+HurdleType__c
+OverPerformanceCondition__c
+CountryRegNeeded__c
+LockUp__c
+RoundingMethod__c
+HasLockUpPeriod__c
+IsESMAPerfFeesGuidelines__c
+LaunchPrice__c
+MaxConversionFee__c
+FREuroclearReg__c
+USNSCCreg__c
+CHKurliste__c
+ITWhitelist__c
+DEWMDatenlisting__c
+UKReportingStatus__c
+ATTransparency__c
+HighWaterMarkPeriod__c
+AuMBreakEven__c
+ExpectedFlowAverage__c
+ExpectedFlowBest__c
+ExpectedFlowWorst__c
+ExpectedAnnualRevenuesAverage__c
+ExpectedAnnualRevenuesBest__c
+ExpectedAnnualRevenuesWorst__c
+PerfFeesCrystallisationFreq__c
+ClearstreamVestima__c
+Clawback__c
+MaxIndirectFees__c
+TargetDistributionRate__c
+EFAMAEFCClassificationType__c
+EFAMAEFCClassification__c
+EFAMAEFCCategory__c
+MaxRedemptionFeesSubfund__c
+DisseminationRecipient__c
+MaxRedemptionFeesManCo__c
+Feeder__c
+DividendFrequency__c
+TaxTransparency__c
+HasCommercializationPeriod__c
+CommercializationEndDate__c
+OngoingCostsExante__c</value>
+    </values>
+    <values>
+        <field>RequiredFieldsFund__c</field>
+        <value xsi:type="xsd:string">ComplexityPS__c
+NAVFrequency__c
+VehicleType__c
+BaseCurrency__c
+InternalShortName__c
+CutOffTime__c
+SubscriptionSettlementPeriod__c
+RedemptionSettlementPeriod__c
+IsFeeder__c
+FundStrategy__c
+ProductName__c
+IsFundOfFund__c
+HasBenchmark__c
+ProductDescription__c
+NoticePeriodRedemption__c
+NoticePeriodSubscription__c</value>
+    </values>
+    <values>
+        <field>RequiredFieldsShareClass__c</field>
+        <value xsi:type="xsd:string">TradeCycleSubscription__c
+TradeCycleRedemption__c
+MinInitialSub__c
+DividendPolicy__c
+MaxServiceFees__c
+EffectiveServiceFees__c
+Dissemination__c
+Retail__c
+Professional__c
+EligibleCounterparty__c
+Basic__c
+Informed__c
+Advanced__c
+ExpertGermany__c
+CanNot__c
+CanLimited__c
+NoNeedCapGuarantee__c
+CanNoLimit__c
+LowestRiskTolGer__c
+Preservation__c
+Capitalgrowth__c
+Income__c
+LeveragedReturn__c
+PensionSchemeGer__c
+MayTerminateEarlier__c
+ExecutionOnly__c
+AppropTest__c
+InvestAdvice__c
+PortfolioManagement__c
+IsPayingTrailerFees__c
+InvestorType__c
+InvestorSubType__c
+MaxRedemptionFee__c
+MaxSubscriptionFee__c
+MinSubsequentSub__c
+Type__c
+CurrencyHedging__c
+Status__c
+MaxManagementFees__c
+EffectiveManagementFees__c
+HasPerfFees__c
+Currency__c
+MinInitialRed__c
+OngoingChargesKIID__c
+EffectiveIndirectFees__c</value>
+    </values>
+    <values>
+        <field>Stage__c</field>
+        <value xsi:type="xsd:string">Proposal</value>
+    </values>
+    <values>
+        <field>Team__c</field>
+        <value xsi:type="xsd:string">IS</value>
+    </values>
+</CustomMetadata>

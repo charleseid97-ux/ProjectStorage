@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObject xmlns="http://soap.sforce.com/2006/04/metadata">
+    <description>FIX-20178: fields owned by a PMT team at a PMT stage (replaces ProductProjectSettings__c). One record per team and stage that has fields; no record = the team has nothing to fill at that stage. Field lists hold one field API name per line. Read through the PMTMatrix Apex class.</description>
+    <label>PMT - Field Rule</label>
+    <pluralLabel>PMT - Field Rules</pluralLabel>
+    <visibility>Public</visibility>
+</CustomObject>

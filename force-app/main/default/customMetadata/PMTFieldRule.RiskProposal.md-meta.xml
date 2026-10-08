@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomMetadata xmlns="http://soap.sforce.com/2006/04/metadata" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <label>Risk - Proposal</label>
+    <protected>false</protected>
+    <values>
+        <field>OptionalFieldsFund__c</field>
+        <value xsi:type="xsd:string">IsLeveragedUCITS__c
+VARMethod__c
+LiquidityManagementToolLMT__c
+RiskNotConsideredinIndicator__c</value>
+    </values>
+    <values>
+        <field>OptionalFieldsShareClass__c</field>
+        <value xsi:nil="true"/>
+    </values>
+    <values>
+        <field>RequiredFieldsFund__c</field>
+        <value xsi:type="xsd:string">GlobalRiskMethod__c
+RiskAssociated__c
+ComplexityRisk__c
+RiskDisclosed__c
+IsLeveraged__c
+PRIIPSCategory__c</value>
+    </values>
+    <values>
+        <field>RequiredFieldsShareClass__c</field>
+        <value xsi:nil="true"/>
+    </values>
+    <values>
+        <field>Stage__c</field>
+        <value xsi:type="xsd:string">Proposal</value>
+    </values>
+    <values>
+        <field>Team__c</field>
+        <value xsi:type="xsd:string">Risk</value>
+    </values>
+</CustomMetadata>
