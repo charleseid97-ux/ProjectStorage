@@ -1,9 +1,41 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Package xmlns="http://soap.sforce.com/2006/04/metadata">
     <types>
+        <members>BATCH025_DataRecoveryProspace</members>
+        <members>BATCH025_DataRecoveryProspaceTest</members>
+        <members>CTL_SearchSubscriptionProduct</members>
+        <members>LookUpFilterCriteriaController_TEST</members>
+        <members>ProspaceAlertsController</members>
+        <members>ProspaceAlertsControllerTest</members>
+        <members>SM017_LeadTriggerHandler</members>
+        <members>SM017_LeadTriggerHandlerTest</members>
+        <members>SM026_DeleteWebsiteLeadsSchedulable</members>
+        <members>SM026_DeleteWebsiteLeadsAsync</members>
+        <members>SM026_Lead_Website</members>
+        <members>SM026_SendSelectedLeadsAsync</members>
+        <members>SM029_AddAllAlertsLTController</members>
+        <members>SM029_DeleteWebsiteWebCommAsync</members>
+        <members>SM029_UpdateWebsiteCommunication</members>
         <members>SM029_WebCommunication</members>
+        <members>SM029_WebCommunicationResponseParser</members>
+        <members>SM029_WebComResponseParser_Test</members>
+        <members>SM029_WebCommunicationTest</members>
+        <members>SM029_WebCommunicationTriggerHandler</members>
         <name>ApexClass</name>
     </types>
+    <types>
+        <members>Web_Communication__c.isContactMatch__c</members>
+        <members>Web_Communication__c.Fund__c</members>
+        <name>CustomField</name>
+    </types>
+    <types>
+        <members>Web_Communication__c.Web_Comm_VR01_Nav_Mandatory_Fields</members>
+        <members>Web_Communication__c.Web_Comm_VR02_CheckProspaceStatus</members>
+        <name>ValidationRule</name>
+    </types>
+    <types>
+        <members>searchSubscriptionProduct</members>
+        <name>LightningComponentBundle</name>
+    </types>
     <version>64.0</version>
-    
 </Package>
