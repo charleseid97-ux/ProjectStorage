@@ -1,15 +1,13 @@
-/**
- * ==================================================
- * Change Log
- * ==================================================
- * Date   : 2026-05-26
- * Author : Mira EID
- * Ref    : US-19137
- *
- * Changes:
- * - Updated SetNameWithoutProduct
- * ==================================================
- */
+/** ──────────────────────────────────────
+ * @description Trigger logic for ProjectShareclass__c: share class names, fields goal per stage, Project Shareclass
+ *                  Child creation, step validation (TECH_TeamValidation__c) when TECH_FieldsToModify__c changes,
+ *                  blanking of newly selected fields and Tax Transparency sync.
+ *              In validateSteps, the "Product Strategy"/"IS" team follows the project's Scope__c (FIX-20178, blank = PS).
+ *              Previous change: US-19137 (Mira EID, 26-05-26) - updated setNameWithoutProduct.
+ * @lastModifiedBy Charles EID   [07-10-26]
+ * @testClass Test_ProjectShareclassTrigger
+ * @coverage 96%   [07-10-26]
+ ────────────────────────────────────── */
 public class ProjectShareclassHandler {
     
     static final Id fundModificationRecordTypeId = Schema.SObjectType.ProjectProduct__c.getRecordTypeInfosByDeveloperName().get('FundShareClassModification').getRecordTypeId();  
@@ -143,7 +141,7 @@ public class ProjectShareclassHandler {
                    ProjectProductChild__r.ProjectProductParent__r.TECH_FieldsToModify__c,
                    ProjectProductChild__r.TECH_TeamValidation__c,
                    ProjectProductChild__r.TECH_Childtype__c,
-                   ProjectProductChild__r.VehicleType__c,
+                   ProjectProductChild__r.ProjectProductParent__r.Scope__c,
                    ProjectProductChild__r.Name
             FROM ProjectChildJunction__c
             WHERE ProjectShareclass__c IN :modifiedShareClassIds
@@ -180,12 +178,9 @@ public class ProjectShareclassHandler {
                 if (child.TECH_Childtype__c == stage) {
                     String team = teamFields.get(field);
                     if (team != null) {
+                        // FIX-20178: PS/IS team driven by the project's Scope__c (replaces the US-17744 VehicleType "Funds" rule, which removed both IS and PS)
+                        team = ProjectProductSetupHandlerUtilities.resolveScopeTeam(team, child.ProjectProductParent__r.Scope__c);
                         remainingTeams.remove(team.replaceAll(' ', ''));
-                        if(junction.ProjectProductChild__r.VehicleType__c == 'Funds' && team.trim().equalsIgnoreCase('IS')){
-                            remainingTeams.remove('ProductStrategy');
-                        }else{
-                            remainingTeams.remove(team.replaceAll(' ', ''));
-                        }
                     }
                 }
             }
