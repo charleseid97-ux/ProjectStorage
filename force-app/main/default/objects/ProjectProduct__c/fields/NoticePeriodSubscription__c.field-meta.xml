@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
-    <fullName>DomiciliedIn__c</fullName>
-    <label>Domicilied In</label>
+    <fullName>NoticePeriodSubscription__c</fullName>
+    <label>Notice Period Subscription</label>
     <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
     <trackTrending>false</trackTrending>
     <type>Picklist</type>
     <valueSet>
@@ -10,14 +12,19 @@
         <valueSetDefinition>
             <sorted>false</sorted>
             <value>
-                <fullName>LU</fullName>
+                <fullName>D</fullName>
                 <default>false</default>
-                <label>LU</label>
+                <label>D</label>
             </value>
             <value>
-                <fullName>FR</fullName>
+                <fullName>D-1</fullName>
                 <default>false</default>
-                <label>FR</label>
+                <label>D-1</label>
+            </value>
+            <value>
+                <fullName>D-5</fullName>
+                <default>false</default>
+                <label>D-5</label>
             </value>
         </valueSetDefinition>
     </valueSet>

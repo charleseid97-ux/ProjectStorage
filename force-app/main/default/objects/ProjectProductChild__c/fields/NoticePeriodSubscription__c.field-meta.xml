@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
-    <fullName>Nationality__c</fullName>
-    <description>Nationality</description>
-    <label>Nationality</label>
+    <fullName>NoticePeriodSubscription__c</fullName>
+    <label>Notice Period Subscription</label>
     <required>false</required>
     <trackTrending>false</trackTrending>
     <type>Picklist</type>
@@ -11,24 +10,19 @@
         <valueSetDefinition>
             <sorted>false</sorted>
             <value>
-                <fullName>French</fullName>
+                <fullName>D</fullName>
                 <default>false</default>
-                <label>French</label>
+                <label>D</label>
             </value>
             <value>
-                <fullName>British</fullName>
+                <fullName>D-1</fullName>
                 <default>false</default>
-                <label>British</label>
+                <label>D-1</label>
             </value>
             <value>
-                <fullName>Italian</fullName>
+                <fullName>D-5</fullName>
                 <default>false</default>
-                <label>Italian</label>
-            </value>
-            <value>
-                <fullName>Belgian</fullName>
-                <default>false</default>
-                <label>Belgian</label>
+                <label>D-5</label>
             </value>
         </valueSetDefinition>
     </valueSet>

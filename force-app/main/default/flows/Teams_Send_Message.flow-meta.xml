@@ -30,6 +30,7 @@
         <offset>0</offset>
     </actionCalls>
     <apiVersion>63.0</apiVersion>
+    <areMetricsLoggedToDataCloud>false</areMetricsLoggedToDataCloud>
     <description>This flow sends a Microsoft Teams notification when the Road to Market is activated for a PMT project.
 The goal is to inform all relevant Team Owners that the go-to-market process has officially started.</description>
     <environments>Default</environments>
@@ -202,7 +203,7 @@ IF(ISBLANK({!GETPMT.Technology__r.Email}), &apos;&apos;, {!GETPMT.Technology__r.
         </scheduledPaths>
         <triggerType>RecordAfterSave</triggerType>
     </start>
-    <status>Active</status>
+    <status>Obsolete</status>
     <textTemplates>
         <name>emailsTeamsTEST</name>
         <isViewedAsPlainText>true</isViewedAsPlainText>

@@ -13,15 +13,7 @@ private class PRIIPSKidCompletionControllerTest {
     }
 
         // Creates one Custom Metadata row used by the completion engine.
-    private static PRIIPSField__mdt newMetadata(
-        String developerName,
-        String label,
-        String fieldApiName,
-        String team,
-        Boolean productCreation,
-        Boolean shareclassCreation,
-        Boolean modification
-    ) {
+    private static PRIIPSField__mdt newMetadata(String developerName, String label, String fieldApiName, String team, Boolean productCreation, Boolean shareclassCreation, Boolean modification) {
         PRIIPSField__mdt metadataRow = new PRIIPSField__mdt();
         metadataRow.DeveloperName = developerName;
         metadataRow.MasterLabel = label;
@@ -37,26 +29,8 @@ private class PRIIPSKidCompletionControllerTest {
     }
 
         // Creates one Custom Metadata row with condition and exact-value rules.
-    private static PRIIPSField__mdt newMetadataWithCondition(
-        String developerName,
-        String label,
-        String fieldApiName,
-        String team,
-        Boolean productCreation,
-        Boolean shareclassCreation,
-        Boolean modification,
-        String displayCondition,
-        String exactValue
-    ) {
-        PRIIPSField__mdt metadataRow = newMetadata(
-            developerName,
-            label,
-            fieldApiName,
-            team,
-            productCreation,
-            shareclassCreation,
-            modification
-        );
+    private static PRIIPSField__mdt newMetadataWithCondition(String developerName, String label, String fieldApiName, String team, Boolean productCreation, Boolean shareclassCreation, Boolean modification, String displayCondition, String exactValue) {
+        PRIIPSField__mdt metadataRow = newMetadata(developerName, label, fieldApiName, team, productCreation, shareclassCreation, modification);
 
         // These fields cover conditional display and exact completion logic.
         metadataRow.DisplayCondition__c = displayCondition;
@@ -65,25 +39,8 @@ private class PRIIPSKidCompletionControllerTest {
     }
 
     // Creates one Custom Metadata row with a DisplayCondition__c expression.
-    private static PRIIPSField__mdt newMetadataWithCondition(
-        String developerName,
-        String label,
-        String fieldApiName,
-        String team,
-        Boolean productCreation,
-        Boolean shareclassCreation,
-        Boolean modification,
-        String displayCondition
-    ) {
-        PRIIPSField__mdt metadataRow = newMetadata(
-            developerName,
-            label,
-            fieldApiName,
-            team,
-            productCreation,
-            shareclassCreation,
-            modification
-        );
+    private static PRIIPSField__mdt newMetadataWithCondition(String developerName, String label, String fieldApiName, String team, Boolean productCreation, Boolean shareclassCreation, Boolean modification, String displayCondition) {
+        PRIIPSField__mdt metadataRow = newMetadata(developerName, label, fieldApiName, team, productCreation, shareclassCreation, modification);
 
         // DisplayCondition__c drives the private condition evaluator coverage.
         metadataRow.DisplayCondition__c = displayCondition;
@@ -127,6 +84,7 @@ private class PRIIPSKidCompletionControllerTest {
         reset();
         PRIIPSKidCompletionController.productIdOverride = fakeId(ProjectProduct__c.SObjectType, 1);
         PRIIPSKidCompletionController.recordTypeDeveloperNameOverride = 'FundCreation';
+        PRIIPSKidCompletionController.projectScopeOverride = 'PS';
         PRIIPSKidCompletionController.metadataRowsOverride = metadataRows();
         PRIIPSKidCompletionController.productRecordOverride = newProduct('Carmignac Credit 2027', null, null);
         PRIIPSKidCompletionController.shareclassRecordsOverride = new List<SObject>{
@@ -135,7 +93,9 @@ private class PRIIPSKidCompletionControllerTest {
         };
 
         Test.startTest();
+
         PRIIPSKidCompletionController.CompletionResponse response = PRIIPSKidCompletionController.getCompletionData(null);
+
         Test.stopTest();
 
         System.assertEquals('Product Creation', response.projectMode);
@@ -153,6 +113,7 @@ private class PRIIPSKidCompletionControllerTest {
         reset();
         PRIIPSKidCompletionController.productIdOverride = fakeId(ProjectProduct__c.SObjectType, 1);
         PRIIPSKidCompletionController.recordTypeDeveloperNameOverride = 'FundShareClassModification';
+        PRIIPSKidCompletionController.projectScopeOverride = 'PS';
         PRIIPSKidCompletionController.metadataRowsOverride = metadataRows();
         PRIIPSKidCompletionController.productRecordOverride = newProduct('Carmignac Credit 2027', 'FCP', 'ProjectProduct__c.ProductName__c');
         PRIIPSKidCompletionController.shareclassRecordsOverride = new List<SObject>{
@@ -161,7 +122,9 @@ private class PRIIPSKidCompletionControllerTest {
         };
 
         Test.startTest();
+
         PRIIPSKidCompletionController.CompletionResponse response = PRIIPSKidCompletionController.getCompletionData(null);
+
         Test.stopTest();
 
         System.assertEquals('Modification', response.projectMode);
@@ -177,10 +140,7 @@ private class PRIIPSKidCompletionControllerTest {
     // Verifies parsing of local and object-qualified modified field names.
     @IsTest
     static void parseModifiedFields_returnsLocalAndQualifiedNames() {
-        Set<String> fields = PRIIPSKidCompletionController.parseModifiedFields(
-            'Currency__c;ProjectShareclass__c.TransactionCosts__c',
-            'ProjectShareclass__c'
-        );
+        Set<String> fields = PRIIPSKidHelper.parseModifiedFields('Currency__c;ProjectShareclass__c.TransactionCosts__c', 'ProjectShareclass__c');
 
         System.assert(fields.contains('Currency__c'));
         System.assert(fields.contains('ProjectShareclass__c.Currency__c'));
@@ -188,12 +148,13 @@ private class PRIIPSKidCompletionControllerTest {
         System.assert(fields.contains('ProjectShareclass__c.TransactionCosts__c'));
     }
 
-        // Verifies DisplayCondition__c parsing through the public completion API.
+    // Verifies DisplayCondition__c parsing through the public completion API.
     @IsTest
     static void getCompletionData_productCreation_appliesDisplayConditions() {
         reset();
         PRIIPSKidCompletionController.productIdOverride = fakeId(ProjectProduct__c.SObjectType, 1);
         PRIIPSKidCompletionController.recordTypeDeveloperNameOverride = 'FundCreation';
+        PRIIPSKidCompletionController.projectScopeOverride = 'PS';
         PRIIPSKidCompletionController.productRecordOverride = newProduct('Carmignac Credit 2027', 'FCP', null);
 
         // Conditions cover &&, ||, =, !=, ISBLANK(), !ISBLANK() and invalid tokens.
@@ -210,7 +171,9 @@ private class PRIIPSKidCompletionControllerTest {
         };
 
         Test.startTest();
+
         PRIIPSKidCompletionController.CompletionResponse response = PRIIPSKidCompletionController.getCompletionData(null);
+
         Test.stopTest();
 
         System.assertEquals(3, response.teams.size());
@@ -219,12 +182,14 @@ private class PRIIPSKidCompletionControllerTest {
         System.assertEquals('Legal', response.teams[2].name);
         reset();
     }
-        // Verifies Shareclass Creation mode with local field API names.
+
+    // Verifies Shareclass Creation mode with local field API names.
     @IsTest
     static void getCompletionData_shareclassCreation_countsShareclassFieldsOnly() {
         reset();
         Id productId = fakeId(ProjectProduct__c.SObjectType, 1);
         PRIIPSKidCompletionController.recordTypeDeveloperNameOverride = 'FundShareclassCreation';
+        PRIIPSKidCompletionController.projectScopeOverride = 'PS';
         PRIIPSKidCompletionController.productRecordOverride = newProduct('Carmignac Credit 2027', 'FCP', null);
 
         // Local field names cover object inference and Shareclass Creation filtering.
@@ -240,7 +205,9 @@ private class PRIIPSKidCompletionControllerTest {
         };
 
         Test.startTest();
+
         PRIIPSKidCompletionController.CompletionResponse response = PRIIPSKidCompletionController.getCompletionData(productId);
+
         Test.stopTest();
 
         System.assertEquals('Shareclass Creation', response.projectMode);
@@ -260,6 +227,7 @@ private class PRIIPSKidCompletionControllerTest {
         reset();
         PRIIPSKidCompletionController.productIdOverride = fakeId(ProjectProduct__c.SObjectType, 1);
         PRIIPSKidCompletionController.recordTypeDeveloperNameOverride = 'FundCreation';
+        PRIIPSKidCompletionController.projectScopeOverride = 'PS';
         PRIIPSKidCompletionController.productRecordOverride = newProduct('Carmignac Credit 2027', 'FCP', null);
 
         // Conditions cover &&, ||, =, !=, ISBLANK(), !ISBLANK() and invalid tokens.
@@ -279,7 +247,9 @@ private class PRIIPSKidCompletionControllerTest {
         };
 
         Test.startTest();
+
         PRIIPSKidCompletionController.CompletionResponse response = PRIIPSKidCompletionController.getCompletionData(null);
+
         Test.stopTest();
 
         System.assertEquals(4, response.teams.size());
@@ -303,7 +273,8 @@ private class PRIIPSKidCompletionControllerTest {
         Test.startTest();
         try {
             PRIIPSKidCompletionController.getCompletionData(null);
-        } catch (AuraHandledException e) {
+        } 
+        catch (AuraHandledException e) {
             hasThrown = true;
         }
         Test.stopTest();
@@ -319,11 +290,14 @@ private class PRIIPSKidCompletionControllerTest {
         Boolean hasThrown = false;
 
         Test.startTest();
+
         try {
             PRIIPSKidCompletionController.getCompletionData(fakeId(Account.SObjectType, 1));
-        } catch (AuraHandledException e) {
+        } 
+        catch (AuraHandledException e) {
             hasThrown = true;
         }
+
         Test.stopTest();
 
         System.assertEquals(true, hasThrown);
@@ -333,11 +307,7 @@ private class PRIIPSKidCompletionControllerTest {
     // Verifies blank modified-field source parsing.
     @IsTest
     static void parseModifiedFields_blankValue_returnsEmptySet() {
-        Set<String> fields = PRIIPSKidCompletionController.parseModifiedFields(
-            null,
-            'ProjectShareclass__c'
-        );
-
+        Set<String> fields = PRIIPSKidHelper.parseModifiedFields(null, 'ProjectShareclass__c');
         System.assertEquals(0, fields.size());
     }
 }

@@ -16,7 +16,7 @@
     </values>
     <values>
         <field>Mandatory_Rule__c</field>
-        <value xsi:nil="true"/>
+        <value xsi:type="xsd:string">record.LegalForm__c!==&apos;OEIC&apos;</value>
     </values>
     <values>
         <field>ObjectApiName__c</field>

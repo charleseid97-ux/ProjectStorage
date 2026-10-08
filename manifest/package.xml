@@ -1,13 +1,85 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Package xmlns="http://soap.sforce.com/2006/04/metadata">
     <types>
-        <members>Convention__c.AdjutoAutoUpdate__c</members>
-        <members>Convention__c.Code_Type__c</members>
-        <members>Convention__c.TECH_AgreementRequestFinalized__c</members>
+        <members>ProjectProduct__c.Scope__c</members>
+        <members>ProjectTask__c.Team__c</members>
+        <members>Task_List__mdt.Team__c</members>
+        <members>PRIIPSField__mdt.OtherTeams__c</members>
         <name>CustomField</name>
     </types>
     <types>
-        <members>Convention__c.*</members>
+        <members>Task_List.Task_1_IS</members>
+        <members>Task_List.Task_2_IS</members>
+        <members>Task_List.Task_3_IS</members>
+        <members>Task_List.Task_4_IS</members>
+        <members>Task_List.Task_5_IS</members>
+        <members>Task_List.Task_6_IS</members>
+        <members>Task_List.Task_9_IS</members>
+        <members>Task_List.Task_10_IS</members>
+        <members>Task_List.Task_11_IS</members>
+        <members>Task_List.Task_12_IS</members>
+        <members>Task_List.Task_13_IS</members>
+        <members>Task_List.Task_14_IS</members>
+        <members>Task_List.Task_15_IS</members>
+        <members>Task_List.Task_16_IS</members>
+        <members>Task_List.Task_17_IS</members>
+        <members>Task_List.Task_18_IS</members>
+        <members>Task_List.Task_19_IS</members>
+        <members>Task_List.Task_20_IS</members>
+        <members>Task_List.Task_21_IS</members>
+        <members>PRIIPSField.AssetClass</members>
+        <members>PRIIPSField.Currency</members>
+        <members>PRIIPSField.CurrencyHedging</members>
+        <members>PRIIPSField.CutOffTime</members>
+        <members>PRIIPSField.DividendPolicy</members>
+        <members>PRIIPSField.EffectiveManagementFees</members>
+        <members>PRIIPSField.EffectiveServiceFees</members>
+        <members>PRIIPSField.HasPerfFees</members>
+        <members>PRIIPSField.MaturityDate</members>
+        <members>PRIIPSField.MaxConversionFee</members>
+        <members>PRIIPSField.MaxPerfFees</members>
+        <members>PRIIPSField.MaxRedemptionFee</members>
+        <members>PRIIPSField.MaxRedemptionFeesManCo</members>
+        <members>PRIIPSField.MaxRedemptionFeesSubfund</members>
+        <members>PRIIPSField.MaxSubscriptionFee</members>
+        <members>PRIIPSField.NAVFrequency</members>
+        <members>PRIIPSField.OngoingChargesKIID</members>
+        <members>PRIIPSField.OngoingCostsExante</members>
+        <members>PRIIPSField.PRIIPSKIDRedemptionFee</members>
+        <members>PRIIPSField.PRIIPSKIDSubscriptionFee</members>
+        <members>PRIIPSField.ProductName</members>
+        <members>PRIIPSField.RecommendedHoldingPeriod</members>
+        <members>PRIIPSField.ShareclassName</members>
+        <name>CustomMetadata</name>
+    </types>
+    <types>
+        <members>ProjectProductSetupHandler</members>
+        <members>PRIIPSKidController</members>
+        <members>PRIIPSKidCompletionController</members>
+        <members>PRIIPSKidHelper</members>
+        <members>PRIIPSKidCompletionControllerTest</members>
+        <members>PRIIPSKidControllerTest</members>
+        <members>TaskCompletionByTeamController</members>
+        <members>TaskCompletionByTeamControllerUtilities</members>
+        <members>Test_TaskCompletionByTeamController</members>
+        <members>RollbackTeamValidationController</members>
+        <members>Test_RollbackTeamValidationController</members>
+        <name>ApexClass</name>
+    </types>
+    <types>
+        <members>FundShareclassCreation</members>
+        <members>FundShareclassModification</members>
+        <members>ShareclassCreation</members>
+        <name>FlexiPage</name>
+    </types>
+    <types>
+        <members>lwc_TaskCompletionByTeam</members>
+        <members>rollbackTeamValidation</members>
+        <name>LightningComponentBundle</name>
+    </types>
+    <types>
+        <members>ProjectTask__c.ControlTask</members>
+        <members>ProjectTask__c.TodoTask</members>
         <name>RecordType</name>
     </types>
     <version>64.0</version>

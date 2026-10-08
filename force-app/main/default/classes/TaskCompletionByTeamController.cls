@@ -1,17 +1,25 @@
+/** ──────────────────────────────────────
+ * @description Lightning Web Component controller for the Team Completion widget (lwc_TaskCompletionByTeam).
+ *              Builds the per-stage/per-team step data (owner, status, icon) for the current Project Product,
+ *                  already filtered to the single "Product Strategy" or "IS" row matching the project's Scope__c
+ *                  (US-20120 - the client no longer needs to know this rule exists), and bulk-calculates
+ *                  completion percentages per step/team from the required fields configured on ProductProjectSettings__c.
+ *              Works in conjunction with TaskCompletionByTeamControllerUtilities for data retrieval.
+ * @lastModifiedBy Charles EID   [05-10-26]
+ * @testClass Test_TaskCompletionByTeamController
+ * @coverage 95%   [05-10-26]
+ ────────────────────────────────────── */
 public without sharing class TaskCompletionByTeamController {
-   
-    /**
-     * 🔹 Récupère les étapes et équipes associées pour un projet donné
-     */
+
+    // Récupère les étapes et équipes associées pour un projet donné
     @AuraEnabled
     public static String getStepWithTeams(Id recordId) {
-        System.debug('🔹 Fetching steps for record: ' + recordId);
- 
-        // Récupération des données via des fonctions utilitaires
+        // US-20120: ne garde que la ligne "Product Strategy" ou "IS" correspondant au Scope du projet,
+        // pour que le client n'ait jamais à connaître/recoder cette règle.
+        String projectScope = TaskCompletionByTeamControllerUtilities.getProjectScope(recordId);
+        List<ProductProjectSettings__c> records = TaskCompletionByTeamControllerUtilities.filterByScope(TaskCompletionByTeamControllerUtilities.getProjectStages(), projectScope);
+        List<ProductProjectSettings__c> recordsteams = TaskCompletionByTeamControllerUtilities.filterByScope(TaskCompletionByTeamControllerUtilities.getDesignTeams(), projectScope);
 
-        List<ProductProjectSettings__c> records = TaskCompletionByTeamControllerUtilities.getProjectStages();
-        List<ProductProjectSettings__c> recordsteams = TaskCompletionByTeamControllerUtilities.getDesignTeams();
-        
         Map<String, Id> mapteamowner = TaskCompletionByTeamControllerUtilities.getOwnerTeamId(recordId, recordsteams);
         
         Map<Id, String> mapownersName = TaskCompletionByTeamControllerUtilities.getOwnerTeamNameById(mapteamowner.values());
@@ -23,10 +31,8 @@ public without sharing class TaskCompletionByTeamController {
         // Transformation en JSON et retour
         return formatStepsAsJson(stepMap, stepsrecords);
     }
- 
-    /**
-     * 🔹 Construit une map des étapes avec les équipes associées
-     */
+
+    // Construit une map des étapes avec les équipes associées
     private static Map<String, List<Map<String, String>>> buildStepMap(List<ProductProjectSettings__c> records, Map<String, Id> mapteamowner, Map<Id, String> mapownersName, Map<String, ProjectProductChild__c> stepsrecords) {
         Map<String, List<Map<String, String>>> stepMap = new Map<String, List<Map<String, String>>>();
  
@@ -42,17 +48,13 @@ public without sharing class TaskCompletionByTeamController {
  
             Map<String, String> teamData = createTeamData(record.Id, teamName, owner, idrecord, teamNameSansSpaces);
        
-            if (!stepMap.containsKey(stepName)) {
-                stepMap.put(stepName, new List<Map<String, String>>());
-            }
+            if (!stepMap.containsKey(stepName)) stepMap.put(stepName, new List<Map<String, String>>());
             stepMap.get(stepName).add(teamData);
         }
         return stepMap;
     }
- 
-    /**
-     * 🔹 Crée une structure de données pour une équipe
-     */
+
+    // Crée une structure de données pour une équipe
     private static Map<String, String> createTeamData(Id recordId, String teamName, String owner, ProjectProductChild__c idrecord, String teamNameSansSpaces) {
         String status = 'Draft';
         String iconName = '🟠';
@@ -60,9 +62,11 @@ public without sharing class TaskCompletionByTeamController {
         if (!String.isBlank(idrecord.TECH_TeamValidation__c) && idrecord.TECH_TeamValidation__c.contains(teamNameSansSpaces)) {
             status = 'Completed';
             iconName = '✅';
-        } else if (Date.today().daysBetween(idrecord.EndDate__c) <= Math.round(idrecord.StartDate__c.daysBetween(idrecord.EndDate__c) * 0.3)) {
+        } 
+        else if (Date.today().daysBetween(idrecord.EndDate__c) <= Math.round(idrecord.StartDate__c.daysBetween(idrecord.EndDate__c) * 0.3)) {
             iconName = '⚠️';
-        } else if (Date.today().daysBetween(idrecord.EndDate__c) < 0) {
+        } 
+        else if (Date.today().daysBetween(idrecord.EndDate__c) < 0) {
             iconName = '🚨';
         }
  
@@ -75,9 +79,7 @@ public without sharing class TaskCompletionByTeamController {
         };
     }
  
-    /**
-     * 🔹 Transforme les données en JSON
-     */
+    // Transforme les données en JSON
     private static String formatStepsAsJson(Map<String, List<Map<String, String>>> stepMap, Map<String, ProjectProductChild__c> stepsrecords) {
         List<Map<String, Object>> steps = new List<Map<String, Object>>();
  
@@ -104,9 +106,7 @@ public without sharing class TaskCompletionByTeamController {
     @AuraEnabled
     public static List<TeamCompletionWrapper> getCompletionRatesBulk(List<Id> recordIds, List<String> stepNames, List<String> teamNames) { 
         List<TeamCompletionWrapper> results = new List<TeamCompletionWrapper>(); 
-        if (recordIds.isEmpty() || stepNames.isEmpty() || teamNames.isEmpty()) {
-            return results;
-        }
+        if (recordIds.isEmpty() || stepNames.isEmpty() || teamNames.isEmpty()) return results;
 
         // 1. Charger les settings des champs requis
         Map<String, ProductProjectSettings__c> settingsMap = new Map<String, ProductProjectSettings__c>();
@@ -114,23 +114,16 @@ public without sharing class TaskCompletionByTeamController {
         Set<String> allRequiredFieldsShareclass = new Set<String>();
         for (ProductProjectSettings__c setting : [SELECT Stage__c, Team__c, RequiredFields__c, RequiredFieldsShareClass__c  
                                                     FROM ProductProjectSettings__c 
-                                                    WHERE ProjectType__c = 'Creation']) 
-        {
+                                                    WHERE ProjectType__c = 'Creation']) {
             settingsMap.put(setting.Stage__c + '-' + setting.Team__c, setting);
           
-            if (setting.RequiredFields__c != null) {
-                allRequiredFields.addAll(setting.RequiredFields__c.split(';'));
-            }
-            if (setting.RequiredFieldsShareClass__c != null) {
-                allRequiredFieldsShareclass.addAll(setting.RequiredFieldsShareClass__c.split(';'));
-            }
+            if (setting.RequiredFields__c != null) allRequiredFields.addAll(setting.RequiredFields__c.split(';'));
+            if (setting.RequiredFieldsShareClass__c != null) allRequiredFieldsShareclass.addAll(setting.RequiredFieldsShareClass__c.split(';'));
         }
-         
+
         // 2. Récupérer les ProjectProductChild avec les bons champs
         String fieldsQuery = 'Id, Name, RecordType.DeveloperName, ProjectProductParent__c, Status__c, CompletionRateStep__c';
-        if (!allRequiredFields.isEmpty()) {
-            fieldsQuery += ', ' + String.join(new List<String>(allRequiredFields), ',');
-        }
+        if (!allRequiredFields.isEmpty()) fieldsQuery += ', ' + String.join(new List<String>(allRequiredFields), ',');
 
         List<SObject> rawChildren = Database.query('SELECT ' + fieldsQuery + ' FROM ProjectProductChild__c WHERE Id IN :recordIds');
         Map<Id, ProjectProductChild__c> projectProductChildMap = new Map<Id, ProjectProductChild__c>();
@@ -138,8 +131,7 @@ public without sharing class TaskCompletionByTeamController {
             ProjectProductChild__c child = (ProjectProductChild__c) s;
             projectProductChildMap.put(child.Id, child);
         }
-    
-         
+
         // 3. Récupérer les infos de shareclass child
         Set<Id> ppcIds = new Set<Id>(recordIds);
         Map<Id, String> recordTypeById = TaskCompletionByTeamControllerUtilities.getRecordTypeName(ppcIds);
@@ -166,7 +158,6 @@ public without sharing class TaskCompletionByTeamController {
             }
          
             // Ajout des champs shareclass si pertinents
-
             List<String> requiredFieldsShareclass = (setting.RequiredFieldsShareClass__c != null) ? setting.RequiredFieldsShareClass__c.split(';') : new List<String>();
             Set<Id> shareClassIds = ppcToShareclassMap.containsKey(ppcId) ? ppcToShareclassMap.get(ppcId) : new Set<Id>();
             if (!shareClassIds.isEmpty()) {
@@ -185,16 +176,12 @@ public without sharing class TaskCompletionByTeamController {
             }
          
             Decimal completionRate = (totalFields > 0) ? Decimal.valueOf(completedFields) / totalFields : 0;
- 
          
-            if (projectChild.Status__c == 'Completed' || totalFields == 0) {
-                completionRate = 1;
-            }
+            if (projectChild.Status__c == 'Completed' || totalFields == 0) completionRate = 1;
             results.add(new TeamCompletionWrapper(ppcId, step, team, completionRate.setScale(2)));
         }
         return results;
-         
-        }
+    }
  
     public class TeamCompletionWrapper {
         @AuraEnabled public Id recordId;
