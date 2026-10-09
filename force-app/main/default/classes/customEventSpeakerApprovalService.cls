@@ -1133,93 +1133,113 @@ public without sharing class customEventSpeakerApprovalService {
         public Set<String> products = new Set<String>();
     }
 
-    /**
-     * Groupe les SessionSpeakerProduct__c par SpeakerContact__c.
-     * Pour un même speaker, les produits strategy__r.Name sont fusionnés.
-     */
-    private static List<SpeakerHtmlRow> groupSpeakersForHtml(List<SessionSpeakerProduct__c> speakers) {
-        system.debug('==============groupSpeakersForHtml====speakers='+speakers);
-        Map<Id, SpeakerHtmlRow> rowsBySpeakerId = new Map<Id, SpeakerHtmlRow>();
-        List<SpeakerHtmlRow> rowsWithoutSpeakerId = new List<SpeakerHtmlRow>();
+/**
+ * Groupe les SessionSpeakerProduct__c par speaker et speaking slot.
+ * Pour un même slot, les produits strategy__r.Name sont fusionnés.
+ */
+private static List<SpeakerHtmlRow> groupSpeakersForHtml(List<SessionSpeakerProduct__c> speakers) {
+    system.debug('==============groupSpeakersForHtml====speakers=' + speakers);
 
-        if (speakers == null) return new List<SpeakerHtmlRow>();
+    Map<String, SpeakerHtmlRow> rowsBySpeakerSlot =
+        new Map<String, SpeakerHtmlRow>();
 
-        for (SessionSpeakerProduct__c s : speakers) {
-            if (s == null) continue;
+    List<SpeakerHtmlRow> rowsWithoutSpeakerId =
+        new List<SpeakerHtmlRow>();
 
-            // Cas nominal : speaker renseigné => groupement par SpeakerContact__c
-            if (s.SpeakerContact__c != null) {
-                SpeakerHtmlRow row = rowsBySpeakerId.get(s.SpeakerContact__c);
+    if (speakers == null) return new List<SpeakerHtmlRow>();
 
-                if (row == null) {
-                    row = new SpeakerHtmlRow();
-                    row.startTime = s.startTime__c;
-                    row.endTime = s.endTime__c;
-                    row.speakerId = s.SpeakerContact__c;
-                    row.speakerName = (s.SpeakerContact__r != null && String.isNotBlank(s.SpeakerContact__r.Name))
+    for (SessionSpeakerProduct__c s : speakers) {
+        if (s == null) continue;
+
+        // Cas nominal : un speaker peut avoir plusieurs speaking slots.
+        if (s.SpeakerContact__c != null) {
+            String slotKey =
+                String.valueOf(s.SpeakerContact__c) + '|' +
+                String.valueOf(s.Date__c) + '|' +
+                String.valueOf(s.startTime__c) + '|' +
+                String.valueOf(s.endTime__c);
+
+            SpeakerHtmlRow row = rowsBySpeakerSlot.get(slotKey);
+
+            if (row == null) {
+                row = new SpeakerHtmlRow();
+
+                row.startTime = s.startTime__c;
+                row.endTime = s.endTime__c;
+                row.speakerId = s.SpeakerContact__c;
+
+                row.speakerName =
+                    (s.SpeakerContact__r != null && String.isNotBlank(s.SpeakerContact__r.Name))
                         ? s.SpeakerContact__r.Name
                         : 'Unknown';
-                    row.accountName = (s.SpeakerContact__r != null && s.SpeakerContact__r.Account != null)
+
+                row.accountName =
+                    (s.SpeakerContact__r != null && s.SpeakerContact__r.Account != null)
                         ? s.SpeakerContact__r.Account.Name
                         : '';
-                    row.language = s.Language__c;
-                    row.speakerLanguage = s.speakerLanguage__c;
-                    row.presentationStatus = s.PresentationStatus__c;
-                    row.sessionDate = s.Date__c;
 
-                    rowsBySpeakerId.put(s.SpeakerContact__c, row);
-                }
-
-                if (String.isBlank(row.language) && String.isNotBlank(s.Language__c)) {
-                    row.language = s.Language__c;
-                }
-                if (String.isBlank(row.speakerLanguage) && String.isNotBlank(s.speakerLanguage__c)) {
-                    row.speakerLanguage = s.speakerLanguage__c;
-                }
-                if (String.isBlank(row.presentationStatus) && String.isNotBlank(s.PresentationStatus__c)) {
-                    row.presentationStatus = s.PresentationStatus__c;
-                }
-                if (row.sessionDate == null && s.Date__c != null) {
-                    row.sessionDate = s.Date__c;
-                }
-                if (row.startTime == null && s.startTime__c != null) {
-                    row.startTime = s.startTime__c;
-                }
-                if (row.endTime == null && s.endTime__c != null) {
-                    row.endTime = s.endTime__c;
-                }
-                system.debug('==============groupSpeakersForHtml====s.strategy__r='+s.strategy__r);
-                if (s.strategy__r != null && String.isNotBlank(s.strategy__r.Name)) {
-                    system.debug('==============groupSpeakersForHtml====s.strategy__r.Name='+s.strategy__r.Name);
-
-                    row.products.add(s.strategy__r.Name);
-                }
-            } else {
-                // Fallback rare : pas de speaker => une ligne isolée
-                SpeakerHtmlRow row = new SpeakerHtmlRow();
-                row.speakerName = 'Unknown';
-                row.accountName = '';
                 row.language = s.Language__c;
                 row.speakerLanguage = s.speakerLanguage__c;
                 row.presentationStatus = s.PresentationStatus__c;
                 row.sessionDate = s.Date__c;
-                row.startTime = s.startTime__c;
-                row.endTime = s.endTime__c;
 
-                if (s.strategy__r != null && String.isNotBlank(s.strategy__r.Name)) {
-                    row.products.add(s.strategy__r.Name);
-                }
-                rowsWithoutSpeakerId.add(row);
+                rowsBySpeakerSlot.put(slotKey, row);
             }
+
+            // Complète les données si elles étaient absentes.
+            if (String.isBlank(row.language) && String.isNotBlank(s.Language__c)) {
+                row.language = s.Language__c;
+            }
+
+            if (
+                String.isBlank(row.speakerLanguage) &&
+                String.isNotBlank(s.speakerLanguage__c)
+            ) {
+                row.speakerLanguage = s.speakerLanguage__c;
+            }
+
+            if (
+                String.isBlank(row.presentationStatus) &&
+                String.isNotBlank(s.PresentationStatus__c)
+            ) {
+                row.presentationStatus = s.PresentationStatus__c;
+            }
+
+            // Fusionne les produits uniquement pour le même speaking slot.
+            if (s.strategy__r != null && String.isNotBlank(s.strategy__r.Name)) {
+                row.products.add(s.strategy__r.Name);
+            }
+
+        } else {
+            // Fallback rare : pas de speaker => une ligne isolée.
+            SpeakerHtmlRow row = new SpeakerHtmlRow();
+
+            row.speakerName = 'Unknown';
+            row.accountName = '';
+            row.language = s.Language__c;
+            row.speakerLanguage = s.speakerLanguage__c;
+            row.presentationStatus = s.PresentationStatus__c;
+            row.sessionDate = s.Date__c;
+            row.startTime = s.startTime__c;
+            row.endTime = s.endTime__c;
+
+            if (s.strategy__r != null && String.isNotBlank(s.strategy__r.Name)) {
+                row.products.add(s.strategy__r.Name);
+            }
+
+            rowsWithoutSpeakerId.add(row);
         }
-
-        List<SpeakerHtmlRow> result = new List<SpeakerHtmlRow>();
-        result.addAll(rowsBySpeakerId.values());
-        result.addAll(rowsWithoutSpeakerId);
-
-        result.sort(new SpeakerHtmlRowSorter());
-        return result;
     }
+
+    List<SpeakerHtmlRow> result = new List<SpeakerHtmlRow>();
+
+    result.addAll(rowsBySpeakerSlot.values());
+    result.addAll(rowsWithoutSpeakerId);
+
+    result.sort(new SpeakerHtmlRowSorter());
+
+    return result;
+}
 
     /**
      * Sorts speakers chronologically by date and start time.
