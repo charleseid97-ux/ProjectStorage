@@ -1,13 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Package xmlns="http://soap.sforce.com/2006/04/metadata">
 
-    <types>
+    <!--types>
         <members>RecordTypeController</members>
-        <members>BATCH_CreateAIAgentReviewCasesTest</members>
         <members>BATCH_CreateAIAgentReviewCases</members>
-        
+        <members>BATCH_CreateAIAgentReviewCasesTest</members>
         <name>ApexClass</name>
-    </types>
+    </types-->
 
     <types>
         <members>recordTypeSelector</members>
@@ -15,13 +14,52 @@
     </types>
 
     <types>
+        <members>AI_Agent__c</members>
+        <name>CustomObject</name>
+    </types>
+
+    <types>
+        <members>Case.AIAgentRequest__c</members>
+        <members>Case.AgentStatus__c</members>
+        <members>Case.ReviewDecision__c</members>
+        <members>Case.AI_Agent_Request_Type__c</members>
+        <members>Case.AgentName__c</members>
+        <members>Case.AgentPurpose__c</members>
+        <members>Case.UseCaseCategory__c</members>
+        <members>Case.Connectors__c</members>
+        <members>Case.Old_UsageMode__c</members>
+        <members>Case.UsageMode__c</members>
+        <members>Case.Team__c</members>
+        <members>Case.AgentOwner__c</members>
+        <members>Case.AIAgentRequestedChange__c</members>
+        <members>Case.ReviewComments__c</members>
+        <name>CustomField</name>
+    </types>
+
+   <types>
+        <members>Case.AIAgentGovernance</members>
+        <name>RecordType</name>
+    </types>
+    <types>
+        <members>Case.AI_Agent</members>
+        <name>CompactLayout</name>
+    </types>
+    <types>
+        <members>AI_Agent_Path</members>
+        <name>PathAssistant</name>
+    </types>
+
+    <types>
         <members>NewAIAgent</members>
         <members>NewAIAgentWTP</members>
+        <members>AI_Agent_New_Request_Notification</members>
+        <members>AI_Agent_Set_Review_Frequency</members>
         <name>Flow</name>
     </types>
 
     <types>
         <members>AI_Agent__c.NewRequest</members>
+        <members>Case.CreateAgent</members>
         <name>QuickAction</name>
     </types>
 
@@ -32,30 +70,28 @@
     </types>
 
     <types>
-        <members>CaseAIAgentRequest</members>
         <members>AI_Agent_Record_Page</members>
+        <members>CaseAIAgentRequest</members>
         <name>FlexiPage</name>
     </types>
-
     <types>
-        <members>Case.AI_Agent_Request_Type__c</members>
-        <members>Case.AgentName__c</members>
-        <members>Case.AgentPurpose__c</members>
-        <members>Case.UseCaseCategory__c</members>
-        <members>Case.Connectors__c</members>
-        <members>Case.Old_UsageMode__c</members>
-        <members>Case.Team__c</members>
-        <name>CustomField</name>
+        <members>AI_Agent__c</members>
+        <name>CustomTab</name>
     </types>
 
     <types>
-        <members>AI_Agent__c</members>
-        <name>CustomObject</name>
+        <members>AIAgents</members>
+        <name>PermissionSet</name>
     </types>
 
     <types>
         <members>AI_Agent_Admin</members>
         <name>CustomPermission</name>
+    </types>
+
+    <types>
+        <members>Dust_Admin_Review</members>
+        <name>Queue</name>
     </types>
 
     <version>66.0</version>

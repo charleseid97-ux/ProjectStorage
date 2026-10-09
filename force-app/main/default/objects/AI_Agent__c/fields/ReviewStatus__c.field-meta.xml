@@ -5,15 +5,12 @@
     <formula>IF(
     ISBLANK(NextReviewDate__c),
     &quot;Review Required&quot;,
-
     IF(
         NextReviewDate__c &lt; TODAY(),
         &quot;Overdue&quot;,
-
         IF(
-            NextReviewDate__c = TODAY(),
+            NextReviewDate__c &lt;= TODAY() + 7,
             &quot;Review Required&quot;,
-
             IF(
                 NextReviewDate__c &lt;= TODAY() + 60,
                 &quot;Due Soon&quot;,

@@ -26,6 +26,11 @@
                 <default>false</default>
                 <label>Retired</label>
             </value>
+            <value>
+                <fullName>PendingImplementation</fullName>
+                <default>false</default>
+                <label>Pending Implementation</label>
+            </value>
         </valueSetDefinition>
     </valueSet>
 </CustomField>

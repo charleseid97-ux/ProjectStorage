@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Flow xmlns="http://soap.sforce.com/2006/04/metadata">
-    <apiVersion>68.0</apiVersion>
+    <apiVersion>66.0</apiVersion>
     <areMetricsLoggedToDataCloud>false</areMetricsLoggedToDataCloud>
     <assignments>
         <name>init_Case</name>
@@ -253,7 +253,7 @@
             <label>Agent Modification</label>
         </rules>
     </decisions>
-    <description>Create or Update AI Agent request (Case)</description>
+    <description>Creates an AI Agent Governance WTP request. It can be launched from a WTP for a new agent or change request, or directly from an existing AI Agent to request a modification</description>
     <environments>Default</environments>
     <formulas>
         <name>formulaSubject</name>
@@ -274,7 +274,7 @@ IF(
         <expression>BEGINS({!recordId}, &quot;a4F&quot;)</expression>
     </formulas>
     <interviewLabel>NewAIAgentWTP {!$Flow.CurrentDateTime}</interviewLabel>
-    <label>AI Agent Request</label>
+    <label>AI Agent - Create / Change Request</label>
     <processMetadataValues>
         <name>BuilderType</name>
         <value>

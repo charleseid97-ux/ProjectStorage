@@ -10,7 +10,10 @@ private class BATCH_CreateAIAgentReviewCasesTest {
         AI_Agent__c agent = new AI_Agent__c(
             Name = 'Test AI Agent',
             AgentCreationDate__c = Date.today().addMonths(-24),
-            ReviewFrequencyMonths__c = 24
+            ReviewFrequencyMonths__c = 24,
+            DustAgentID__c = 'test-agent-id',
+            DustAgentURL__c = 'https://example.com/test-agent',
+            Connectors__c = 'Dust'
         );
         insert agent;
 
@@ -67,7 +70,10 @@ private class BATCH_CreateAIAgentReviewCasesTest {
         AI_Agent__c agent = new AI_Agent__c(
             Name = 'Test AI Agent Duplicate',
             AgentCreationDate__c = Date.today().addMonths(-24),
-            ReviewFrequencyMonths__c = 24
+            ReviewFrequencyMonths__c = 24,
+            DustAgentID__c = 'test-agent-duplicate-id',
+            DustAgentURL__c = 'https://example.com/test-agent-duplicate',
+            Connectors__c = 'Dust'
         );
         insert agent;
 

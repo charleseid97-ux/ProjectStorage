@@ -21,6 +21,11 @@
                 <default>false</default>
                 <label>Agent Modification</label>
             </value>
+            <value>
+                <fullName>Agent Review</fullName>
+                <default>false</default>
+                <label>Agent Review</label>
+            </value>
         </valueSetDefinition>
     </valueSet>
 </CustomField>
