@@ -2209,4 +2209,12 @@ Il calcolo viene adattato alla data di variazione delle spese effettivamente app
         <shortDescription>EmailService Default Org-Wide Address</shortDescription>
         <value>noreplysalesforce@carmignac.com</value>
     </labels>
+    <labels>
+        <fullName>PMT_SPCFinalNoticeRequired</fullName>
+        <categories>PMT</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PMT SPC Final Notice Required</shortDescription>
+        <value>SPC Final cannot be completed until the Legal team has assessed whether a Notice to Shareholders is required and recorded the decision (Yes / No) on the project.</value>
+    </labels>
 </CustomLabels>

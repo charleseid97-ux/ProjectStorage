@@ -1,43 +1,40 @@
+/** ──────────────────────────────────────
+ * @description Trigger logic for ProjectProduct__c (PMT projects): Scope (PS/IS) and team owners at creation, owner
+ *                  rules on update, fields goal per stage, project structure (Road To Market, Project Product Child per
+ *                  stage with its dates and pre-validated teams), cloning from the Product, names, status date, task
+ *                  list and Chatter group.
+ *              Stages, durations, validation teams, fields and owners come from the PMT matrix (PMTMatrix, FIX-20178),
+ *                  restricted to the project's Scope where PS and IS are mutually exclusive.
+ * @lastModifiedBy Charles EID   [09-10-26]
+ * @testClass Test_ProjectProductTrigger
+ * @coverage 94%   [09-10-26]
+ ────────────────────────────────────── */
 public without sharing class ProjectProductSetupHandler {
 
     static final Id shareClassCreationRecordTypeId = Schema.SObjectType.ProjectProduct__c.getRecordTypeInfosByDeveloperName().get('ShareclassCreation').getRecordTypeId();  
     static final Id fundModificationRecordTypeId = Schema.SObjectType.ProjectProduct__c.getRecordTypeInfosByDeveloperName().get('FundShareClassModification').getRecordTypeId();  
     static final Id fundCreationRecordTypeId = Schema.SObjectType.ProjectProduct__c.getRecordTypeInfosByDeveloperName().get('FundCreation').getRecordTypeId();  
 
-    public static Map<String, Set<String>> getPicklistValuesForStages() {
-        Set<String> stageValues = new Set<String>();
-        List<ProductProjectSettings__c> metadataRecords = [SELECT Stage__c,ProjectType__c 
-                                                           FROM ProductProjectSettings__c
-                                                           ORDER BY Order__c ASC];
-        Map<String, Set<String>> stageMap = new Map<String, Set<String>>();
-        for (ProductProjectSettings__c record : metadataRecords) {
-            if (!stageMap.containsKey(record.ProjectType__c )) stageMap.put(record.ProjectType__c , new Set<String>());
-            stageMap.get(record.ProjectType__c ).add(record.Stage__c);
-        }
-        return stageMap;
-    }
-    public static void updateLegalOwner(Map<Id, ProjectProduct__c> newProjectProduct, Map<Id, ProjectProduct__c> oldProjectProduct) {
-        List<ProjectProduct__c> listProjectProductToCheck = new List<ProjectProduct__c>();
+    // FIX-20178: reapplies the PMT owner rules (PMTOwnerRule__mdt, e.g. Legal owner by LegalForm__c) of the teams whose rule field changed.
+    // Replaces updateLegalOwner and its hardcoded user names. An empty field or an owner not found keeps the current owner.
+    public static void applyOwnerRules(Map<Id, ProjectProduct__c> newProjectProduct, Map<Id, ProjectProduct__c> oldProjectProduct) {
+        PMTMatrix matrix = PMTMatrix.get();
+        if (matrix.getOwnerRuleFields().isEmpty()) return;
+
         for (ProjectProduct__c projectProduct : newProjectProduct.values()) {
-            if (projectProduct.LegalForm__c != null && projectProduct.LegalForm__c != oldProjectProduct.get(projectProduct.Id).LegalForm__c) {
-                listProjectProductToCheck.add(projectProduct);
-            }
-        }
- 
-        if (!listProjectProductToCheck.isEmpty()) {
-            User louiseUser = ProjectProductSetupHandlerUtilities.getUser('Louise BIERER');
-            User petriUser = ProjectProductSetupHandlerUtilities.getUser('Petri HAMALAINEN');
-            if (louiseUser == null || petriUser == null) return;
-            Map<Id, User> mapUserIdByUser = ProjectProductSetupHandlerUtilities.getLegalOwnerUsers(listProjectProductToCheck);
-            if (mapUserIdByUser != null) {
-                for (ProjectProduct__c projectProduct : listProjectProductToCheck) {
-                    if (projectProduct.LegalForm__c == 'FCP' && mapUserIdByUser.get(projectProduct.Legal__c).Id != louiseUser.Id) {
-                        projectProduct.Legal__c = louiseUser.Id;
-                    } 
-                    else if (projectProduct.LegalForm__c != 'FCP' && mapUserIdByUser.get(projectProduct.Legal__c).Id != petriUser.Id){
-                        projectProduct.Legal__c = petriUser.Id;
-                    }
+            ProjectProduct__c oldProject = oldProjectProduct.get(projectProduct.Id);
+            PMTMatrix scopedMatrix = matrix.forScope(ProjectProductSetupHandlerUtilities.normalizeScope(projectProduct.Scope__c));
+            Map<String, Id> ruleOwnerIdByTeam = scopedMatrix.getRuleOwnerIdByTeam(projectProduct);
+
+            for (String teamName : ruleOwnerIdByTeam.keySet()) {
+                Id ownerId = ruleOwnerIdByTeam.get(teamName);
+                if (ownerId == null) continue;
+
+                Boolean ruleFieldChanged = false;
+                for (String field : matrix.getOwnerRuleFields(teamName)) {
+                    if (projectProduct.get(field) != oldProject.get(field)) ruleFieldChanged = true;
                 }
+                if (ruleFieldChanged) projectProduct.put(matrix.getTeam(teamName).key + '__c', ownerId);
             }
         }
     }
@@ -50,11 +47,10 @@ public without sharing class ProjectProductSetupHandler {
         List<String> parentIds = new List<String>();
         Map<Id,String> parentToFields = new Map<Id,String>();
         
-        for (ProductProjectSettings__c setting : [SELECT Stage__c, Team__c, RequiredFields__c 
-                                                  FROM ProductProjectSettings__c 
-                                                  WHERE ProjectType__c = 'Creation' ]) {
-            if (!fieldListByStage.containsKey(setting.Stage__c)) fieldListByStage.put(setting.Stage__c, new Set<String>());
-            if (setting.RequiredFields__c != null) fieldListByStage.get(setting.Stage__c).addAll(setting.RequiredFields__c.split(';'));
+        // FIX-20178: champs Fund requis par étape, depuis la matrice PMT
+        Map<String, List<String>> requiredFieldsByStage = PMTMatrix.get().getRequiredFieldsByStage(true);
+        for (String stage : requiredFieldsByStage.keySet()) {
+            fieldListByStage.put(stage, new Set<String>(requiredFieldsByStage.get(stage)));
         }
 
         for (ProjectProduct__c  projparent : newProjectProducts.values()) {
@@ -94,8 +90,8 @@ public without sharing class ProjectProductSetupHandler {
     public void createProjectProduct(List<ProjectProduct__c> newProjectProducts) {
         if (newProjectProducts.isEmpty()) return;
     
-        Set<String> stageValues = ProjectProductSetupHandlerUtilities.getPicklistValuesForStages('Creation');
-        if (stageValues.isEmpty()) return;
+        // FIX-20178: no PMT stage configured, no project structure to create
+        if (PMTMatrix.get().stages.isEmpty()) return;
     
         // Prepare all related records
         List<RoadToMarket__c> mainRoads = new List<RoadToMarket__c>();
@@ -130,7 +126,7 @@ public without sharing class ProjectProductSetupHandler {
         List<RoadToMarket__c> allOtherRoads = new List<RoadToMarket__c>();
 
         for (ProjectProduct__c product : newProjectProducts) {
-            List<ProjectProductChild__c> children = createProjectProductChildren(product, 'Creation');
+            List<ProjectProductChild__c> children = createProjectProductChildren(product);
             if (!children.isEmpty()) allChildren.addAll(children);
     
             RoadToMarket__c mainRoad = projectProductToMainRoadMap.get(product.Id);
@@ -221,23 +217,17 @@ public without sharing class ProjectProductSetupHandler {
         }
     }
 
-    private List<ProjectProductChild__c> createProjectProductChildren(ProjectProduct__c projectProduct, String projectType) {
-        List<ProductProjectSettings__c> settings1 = [SELECT Stage__c, DaysBeforeLastStep__c, Order__c, Team__c 
-                                                     FROM ProductProjectSettings__c 
-                                                     WHERE ProjectType__c = :projectType
-                                                     AND Team__c = 'Legal' ORDER BY Order__c ASC];
+    private List<ProjectProductChild__c> createProjectProductChildren(ProjectProduct__c projectProduct) {
+        // FIX-20178: stages (order and duration), required fields and teams without fields come from the PMT matrix
+        PMTMatrix matrix = PMTMatrix.get();
 
         Integer nbOfFields = 0;
-        Map<String, Set<String>> fieldListByStage = new Map<String, Set<String>>();
+        Map<String, List<String>> fieldListByStage = matrix.getRequiredFieldsByStage(true);
 
-        for (ProductProjectSettings__c setting : [SELECT Stage__c, RequiredFields__c
-                                                  FROM ProductProjectSettings__c 
-                                                  WHERE ProjectType__c = :projectType]) {
-            if (setting.RequiredFields__c != null) {
-                if (!fieldListByStage.containsKey(setting.Stage__c)) fieldListByStage.put(setting.Stage__c, new Set<String>());
-                fieldListByStage.get(setting.Stage__c).addAll(setting.RequiredFields__c.split(';'));
-            }
-        }
+        // Every validation team (Product Strategy and IS included), validated upfront on modification projects
+        List<String> allTeamKeys = new List<String>();
+        for (PMTMatrix.Team team : matrix.getValidationTeams()) allTeamKeys.add(team.key);
+        String allTeamsValidated = String.join(allTeamKeys, ';');
 
         List<ProjectProductChild__c> projectProductChildren = new List<ProjectProductChild__c>();
 
@@ -249,36 +239,36 @@ public without sharing class ProjectProductSetupHandler {
         Date currentEndDate;
         Integer daysToAdd;
 
-        Map<String, List<String>> teamNoFieldsByStep = ProjectMatriceUtilities.getTeamwithNorequiredFieldsByStep();
+        Map<String, List<String>> teamNoFieldsByStep = matrix.getTeamsWithoutFieldsByStage();
 
-        for (ProductProjectSettings__c setting : settings1) {
+        for (PMTMatrix.Stage stage : matrix.stages) {
 
             if (projectProduct.RecordTypeId == fundModificationRecordTypeId) {
                 daysToAdd = 30;
-            } 
+            }
             else {
-                daysToAdd = Integer.valueOf(setting.DaysBeforeLastStep__c);
-            } 
+                daysToAdd = stage.durationDays;
+            }
             currentEndDate = currentStartDate.addDays(daysToAdd);
 
-            List<String> teamswithNofields = teamNoFieldsByStep.get(setting.Stage__c);
+            List<String> teamswithNofields = teamNoFieldsByStep.get(stage.name);
             ProjectProductChild__c child;
 
-            if (setting.Stage__c != 'Design') {
-                nbOfFields = fieldListByStage.get(setting.Stage__c)?.size() ?? 0;
-                child = ProjectProductSetupHandlerUtilities.createProjectProductChild(setting.Stage__c, projectProduct.Id, currentStartDate, currentEndDate,  teamswithNofields, nbOfFields);
+            if (stage.name != 'Design') {
+                nbOfFields = fieldListByStage.get(stage.name)?.size() ?? 0;
+                child = ProjectProductSetupHandlerUtilities.createProjectProductChild(stage.name, projectProduct.Id, currentStartDate, currentEndDate,  teamswithNofields, nbOfFields);
 
                 if (projectProduct.RecordTypeId == fundModificationRecordTypeId) {
-                    child.tech_teamvalidation__c = 'ProductStrategy;Risk;Legal;Tax;OPS;ESG;Compliance;DCO;DCR;InvestmentPerf;Finance;Communication;Technology;IS';
+                    child.tech_teamvalidation__c = allTeamsValidated;
                     child.CompletionRateStep__c = 100;
                 }
-            } 
+            }
             else {
-                child = ProjectProductSetupHandlerUtilities.createProjectProductChild(setting.Stage__c, projectProduct.Id, currentStartDate, currentEndDate,  new List<String>(),  0);
+                child = ProjectProductSetupHandlerUtilities.createProjectProductChild(stage.name, projectProduct.Id, currentStartDate, currentEndDate,  new List<String>(),  0);
                 child.CompletionRateStep__c = 100;
 
                 if (projectProduct.RecordTypeId == fundModificationRecordTypeId) {
-                    child.tech_teamvalidation__c = 'ProductStrategy;Risk;Legal;Tax;OPS;ESG;Compliance;DCO;DCR;InvestmentPerf;Finance;Communication;Technology;IS';
+                    child.tech_teamvalidation__c = allTeamsValidated;
                 }
             }
 
@@ -288,40 +278,15 @@ public without sharing class ProjectProductSetupHandler {
 
         // 💡 APPEL NOUVELLE MÉTHODE POUR LA LOGIQUE SHARECLASS CREATION
         if (projectProduct.RecordTypeId == shareClassCreationRecordTypeId) {
-            handleShareclassCreationTeamValidation(projectProductChildren, projectType);
+            handleShareclassCreationTeamValidation(projectProductChildren);
         }
 
         return projectProductChildren;
     }
 
-    private void handleShareclassCreationTeamValidation(List<ProjectProductChild__c> projectProductChildren, String projectType) {
-        // Mapping exact entre matrice et multipicklist Salesforce
-        Map<String, String> teamNameToPicklistValue = new Map<String, String>{
-            'Product Strategy' => 'ProductStrategy',
-            'Legal' => 'Legal',
-            'Tax' => 'Tax',
-            'OPS' => 'OPS',
-            'Risk' => 'Risk',
-            'ESG' => 'ESG',
-            'Compliance' => 'Compliance',
-            'DCO' => 'DCO',
-            'DCR' => 'DCR',
-            'Investment Perf' => 'InvestmentPerf',
-            'Finance' => 'Finance',
-            'Communication' => 'Communication',
-            'Technology' => 'Technology',
-            'IS' => 'IS'
-        };
-
-        // Charger tous les settings par stage et équipe
-        Map<String, Map<String, ProductProjectSettings__c>> scFieldsByStageTeam = new Map<String, Map<String, ProductProjectSettings__c>>();
-
-        for (ProductProjectSettings__c setting : [SELECT Stage__c, Team__c, RequiredFieldsShareClass__c, NonRequiredFieldsShareClass__c
-                                                  FROM ProductProjectSettings__c 
-                                                  WHERE ProjectType__c = :projectType AND Stage__c != 'Design']) {
-            if (!scFieldsByStageTeam.containsKey(setting.Stage__c)) scFieldsByStageTeam.put(setting.Stage__c, new Map<String, ProductProjectSettings__c>());
-            scFieldsByStageTeam.get(setting.Stage__c).put(setting.Team__c, setting);
-        }
+    private void handleShareclassCreationTeamValidation(List<ProjectProductChild__c> projectProductChildren) {
+        // FIX-20178: validation teams and their Share Class fields per stage come from the PMT matrix
+        PMTMatrix matrix = PMTMatrix.get();
 
         // Pour chaque étape (enfant) du projet
         for (ProjectProductChild__c child : projectProductChildren) {
@@ -331,20 +296,14 @@ public without sharing class ProjectProductSetupHandler {
             // Récupérer les équipes déjà présentes
             if (child.TECH_TeamValidation__c != null) currentTeams.addAll(child.TECH_TeamValidation__c.split(';'));
 
-            // Settings pour l'étape actuelle
+            // Étape actuelle (Design et Proposal partagent le type DesignAndProposal)
             String currentStep = child.Tech_Childtype__c;
             if (currentStep == 'DesignAndProposal') currentStep = 'Proposal';
-            Map<String, ProductProjectSettings__c> teamSettings = scFieldsByStageTeam.get(currentStep);
 
-            if (teamSettings != null) {
-                // Vérification équipe par équipe
-                for (String matrixTeamName : teamSettings.keySet()) {
-                    
-                    ProductProjectSettings__c setting = teamSettings.get(matrixTeamName);
-                    Boolean hasNoShareClassFields = String.isBlank(setting.RequiredFieldsShareClass__c) && String.isBlank(setting.NonRequiredFieldsShareClass__c);
-
-                    // Si aucun champ shareclass, ajouter équipe à la multipicklist
-                    if (hasNoShareClassFields && teamNameToPicklistValue.containsKey(matrixTeamName)) currentTeams.add(teamNameToPicklistValue.get(matrixTeamName));
+            if (matrix.getStage(currentStep) != null) {
+                // Vérification équipe par équipe : sans champ Share Class à cette étape, l'équipe est ajoutée à la multipicklist
+                for (PMTMatrix.Team team : matrix.getValidationTeams()) {
+                    if (matrix.getRule(team.name, currentStep).getAllShareClass().isEmpty()) currentTeams.add(team.key);
                 }
             }
 
@@ -407,50 +366,21 @@ public without sharing class ProjectProductSetupHandler {
     }
 
     public void getOwnersTeam(List<ProjectProduct__c> projectProduct) {
-        // Récupérer les settings par équipe
-        List<ProductProjectSettings__c> settings = [SELECT Team__c, TeamOwner__c
-                                                    FROM ProductProjectSettings__c
-                                                    WHERE ProjectType__c = 'Creation' AND Stage__c = 'Design'];
-    
-        // Construire une map: équipe → owner
-        Map<String, Id> teamOwnerByTeam = new Map<String, Id>();
-        for (ProductProjectSettings__c setting : settings) {
-            if (setting.Team__c != null && setting.TeamOwner__c != null) teamOwnerByTeam.put(setting.Team__c, setting.TeamOwner__c);
-        }
-    
-        // Affectation des propriétaires d'équipe
+        // FIX-20178: owners from the PMT matrix - the team's default owner (PMTTeam__mdt), then the owner rules (PMTOwnerRule__mdt, e.g. Legal by LegalForm__c)
+        PMTMatrix matrix = PMTMatrix.get();
+        Map<String, Schema.SObjectField> projectFields = Schema.SObjectType.ProjectProduct__c.fields.getMap();
+
+        // Affectation des propriétaires d'équipe (champ owner = clé de l'équipe + '__c', ex. ProductStrategy__c)
         for (ProjectProduct__c oProjectProduct : projectProduct) {
             // US-20120: Scope (PS/IS) is determined by the creating user's custom permission, not VehicleType__c
             oProjectProduct.Scope__c = FeatureManagement.checkPermission('PRPIS') ? 'IS' : 'PS';
 
-            if (oProjectProduct.Scope__c == 'PS') {
-                oProjectProduct.ProductStrategy__c = teamOwnerByTeam.get('Product Strategy');
-                oProjectProduct.IS__c = null;
-            } 
-            else {
-                oProjectProduct.IS__c = teamOwnerByTeam.get('IS');
-                oProjectProduct.ProductStrategy__c = null;
+            // Teams that don't apply to the Scope (IS on a PS project, and vice versa) get no owner
+            Map<String, Id> ownerIdByTeam = matrix.forScope(oProjectProduct.Scope__c).getOwnerIdByTeam(oProjectProduct);
+            for (PMTMatrix.Team team : matrix.teams) {
+                String ownerField = team.key + '__c';
+                if (projectFields.containsKey(ownerField)) oProjectProduct.put(ownerField, ownerIdByTeam.get(team.name));
             }
-    
-            oProjectProduct.Legal__c = teamOwnerByTeam.get('Legal');
-            oProjectProduct.Tax__c = teamOwnerByTeam.get('Tax');
-            oProjectProduct.OPS__c = teamOwnerByTeam.get('OPS');
-            oProjectProduct.Risk__c = teamOwnerByTeam.get('Risk');
-            oProjectProduct.ESG__c = teamOwnerByTeam.get('ESG');
-            oProjectProduct.Compliance__c = teamOwnerByTeam.get('Compliance');
-            oProjectProduct.DCO__c = teamOwnerByTeam.get('DCO');
-            oProjectProduct.DCR__c = teamOwnerByTeam.get('DCR');
-            oProjectProduct.InvestmentPerf__c = teamOwnerByTeam.get('Investment Perf');
-            oProjectProduct.Finance__c = teamOwnerByTeam.get('Finance');
-            oProjectProduct.Communication__c = teamOwnerByTeam.get('Communication');
-            oProjectProduct.Technology__c = teamOwnerByTeam.get('Technology');
-    
-            oProjectProduct.DM__c = teamOwnerByTeam.get('DM');
-            oProjectProduct.ProductSpecialists__c = teamOwnerByTeam.get('Product Specialists');
-            oProjectProduct.FundMarketing__c = teamOwnerByTeam.get('Fund Marketing');
-            oProjectProduct.DBS__c = teamOwnerByTeam.get('DBS');
-            oProjectProduct.RFP__c = teamOwnerByTeam.get('RFP');
-            oProjectProduct.DCP__c = teamOwnerByTeam.get('DCP');
         }
     }
     

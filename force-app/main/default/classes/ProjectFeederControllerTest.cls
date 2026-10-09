@@ -9,12 +9,14 @@ private class ProjectFeederControllerTest {
     static void setupData() {
         // Create ProjectProduct records
         ProjectProduct__c projectWithFeeder = new ProjectProduct__c(
-            Name = 'PT With Feeder'
+            Name = 'PT With Feeder',
+            ProjectStartDate__c = Date.today() // FIX-20178: the PMT stages always exist now, so the project structure is created and needs a start date
         );
         insert projectWithFeeder;
 
         ProjectProduct__c projectWithoutFeeder = new ProjectProduct__c(
-            Name = 'PT Without Feeder'
+            Name = 'PT Without Feeder',
+            ProjectStartDate__c = Date.today() // FIX-20178: the PMT stages always exist now, so the project structure is created and needs a start date
         );
         insert projectWithoutFeeder;
 

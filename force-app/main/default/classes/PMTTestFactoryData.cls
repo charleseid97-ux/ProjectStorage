@@ -22,7 +22,9 @@ public class PMTTestFactoryData {
             ProjectStatus__c = 'Closed',
             ProductName__c = 'toto',
             SFDRCategory__c = '0',
-            LegalForm__c = 'Other'
+            LegalForm__c = 'Other',
+            // US-18299: SPC Final can only be completed once the Notice to Shareholders decision is recorded
+            LettreRequise__c = 'No'
         );
         System.debug('createProjectProductWithAllFields: ' + p.recordTypeId);
         insert p;
@@ -88,18 +90,14 @@ public class PMTTestFactoryData {
         return u;
     }
 
-    public static ProductProjectSettings__c createMatrice(String stage, String team, String requiredFields, String requiredSHCFields) {
-        ProductProjectSettings__c m = new ProductProjectSettings__c(
-            ProjectType__c = 'Creation',
-            Stage__c = stage,
-            Team__c = team,
-            Order__c = 1,
-            OrderTeam__c = 1,
-            RequiredFields__c = requiredFields,
-            RequiredFieldsShareClass__c = requiredSHCFields
-        );
-        insert m;
-        return m;
+    // FIX-20178: adds a rule to the PMT matrix of the running test (custom metadata records can't be inserted).
+    // Fields are ';' separated; the rule is merged with an existing rule of the same team and stage.
+    public static void createMatrice(String stage, String team, String requiredFields, String requiredSHCFields) {
+        PMTMatrix.addRuleForTest(stage, team, splitFields(requiredFields), splitFields(requiredSHCFields));
+    }
+
+    private static List<String> splitFields(String fields) {
+        return String.isBlank(fields) ? new List<String>() : fields.split(';');
     }
  
     public static ProjectProductChild__c createProjectProductChild(Id parentId, String stage, String teamValues) {

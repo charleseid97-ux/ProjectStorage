@@ -1,3 +1,11 @@
+/** ──────────────────────────────────────
+ * @description Trigger handler of ProjectProduct__c (ProjectProductTrigger): dispatches the before/after insert and
+ *                  update logic to ProjectProductSetupHandler and ProjectProductSetupHandlerUtilities.
+ *              Before update, the PMT owner rules are reapplied (applyOwnerRules, FIX-20178 - replaces updateLegalOwner).
+ * @lastModifiedBy Charles EID   [09-10-26]
+ * @testClass Test_ProjectProductTrigger
+ * @coverage 100%   [09-10-26]
+ ────────────────────────────────────── */
 public class ProjectProductTriggerHandler {
     public static Boolean isBlankingFields = false;
 
@@ -9,7 +17,7 @@ public class ProjectProductTriggerHandler {
     
     public static void handleBeforeUpdate(Map<Id, ProjectProduct__c> newProjectProduct, Map<Id, ProjectProduct__c> oldProjectProduct) {
         new ProjectProductSetupHandler().updateProjectProductStatus(newProjectProduct , oldProjectProduct);
-        ProjectProductSetupHandler.updateLegalOwner(newProjectProduct, oldProjectProduct);
+        ProjectProductSetupHandler.applyOwnerRules(newProjectProduct, oldProjectProduct);
         new   ProjectProductSetupHandler().updateProjectProductName(newProjectProduct , oldProjectProduct);
     }
 

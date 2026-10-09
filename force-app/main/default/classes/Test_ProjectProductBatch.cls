@@ -61,7 +61,7 @@ private class Test_ProjectProductBatch {
         List<Id> createdRecords = new List<Id>();
         Integer[] recordsFailedWrapper = new Integer[] { 0 };
 
-        ProjectProductBatchController.createFundShareclass(new List<ProjectProduct__c>{proj}, debugInformation, errorMessages, recordsFailedWrapper, createdRecords);
+        ProjectProductBatchController.createFundShareclass(new List<ProjectProduct__c>{proj}, debugInformation, errorMessages, recordsFailedWrapper, createdRecords, new List<Id>());
     }
 
     @isTest
@@ -100,7 +100,7 @@ private class Test_ProjectProductBatch {
         List<Id> createdRecords = new List<Id>();
         Integer[] recordsFailedWrapper = new Integer[] { 0 };
         
-        ProjectProductBatchController.createFundShareclass(new List<ProjectProduct__c>{proj}, debugInformation, errorMessages, recordsFailedWrapper,createdRecords);
+        ProjectProductBatchController.createFundShareclass(new List<ProjectProduct__c>{proj}, debugInformation, errorMessages, recordsFailedWrapper,createdRecords, new List<Id>());
     }
  
     @isTest

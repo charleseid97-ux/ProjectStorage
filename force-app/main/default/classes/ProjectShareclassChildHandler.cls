@@ -1,3 +1,11 @@
+/** ──────────────────────────────────────
+ * @description Trigger logic for ProjectShareclassChild__c (Share Class stages of a PMT project): filled fields count
+ *                  against the stage's required Share Class fields (PMT matrix, FIX-20178), parent Share Class updates,
+ *                  record lock, cloning from the parent Share Class and tax fields.
+ * @lastModifiedBy Charles EID   [09-10-26]
+ * @testClass Test_ProjectShareclassChildTrigger
+ * @coverage 92%   [09-10-26]
+ ────────────────────────────────────── */
 public class ProjectShareclassChildHandler {
     static final Id fundModificationRecordTypeId = Schema.SObjectType.ProjectProduct__c.getRecordTypeInfosByDeveloperName().get('FundShareClassModification').getRecordTypeId();  
     
@@ -11,43 +19,38 @@ public class ProjectShareclassChildHandler {
             proj.NbofFilledFields__c  = 0;
             parentShareClass.add(proj.ProjectShareclasses__c);
         }
-        List<ProductProjectSettings__c> settings = [SELECT Stage__c, Team__c, RequiredFieldsShareClass__c FROM ProductProjectSettings__c WHERE ProjectType__c = 'Creation' ];
+        // FIX-20178: champs Share Class requis par étape, depuis la matrice PMT
+        Map<String, List<String>> requiredFieldsByStage = PMTMatrix.get().getRequiredFieldsByStage(false);
         for(ProjectShareclass__c proj : [SELECT id,Tech_FieldsToModify__c,Parent_Record_Type_Id__c FROM ProjectShareclass__c WHERE id IN :parentShareClass]){
             parentToFields.put(proj.Id, proj.Tech_FieldsToModify__c);
             parentToRT.put(proj.Id, proj.Parent_Record_Type_Id__c);
         }
             for (ProjectShareclassChild__c shareClass : m_newProjectShareclassChild) {
-                List<String> fieldList = new List<String>();
-
-                for (ProductProjectSettings__c setting : settings) {
-
                 String shareClassChildType = shareClass.TECH_Childtype__c;
 
                 if(shareClass.TECH_Childtype__c =='DesignAndProposal'){
                     shareClassChildType = 'Proposal';
                 }
-                if(shareClassChildType == setting.Stage__c) {
-                    if (setting.RequiredFieldsShareClass__c != null) {
-                        if(parentToRT.get(shareClass.ProjectShareclasses__c) ==fundModificationRecordTypeId){
+                List<String> stageFields = requiredFieldsByStage.get(shareClassChildType);
+                if (stageFields == null || stageFields.isEmpty()) continue;
 
-                            if(parentToFields.get(shareClass.ProjectShareclasses__c) != null){
-                                for (String str : parentToFields.get(shareClass.ProjectShareclasses__c).split(';')) {
-                                    if(setting.RequiredFieldsShareClass__c.split(';').contains(str)){
-                                        fieldList.add(str);
-                                    }
-                                }
+                List<String> fieldList = new List<String>();
+                if(parentToRT.get(shareClass.ProjectShareclasses__c) ==fundModificationRecordTypeId){
+
+                    if(parentToFields.get(shareClass.ProjectShareclasses__c) != null){
+                        for (String str : parentToFields.get(shareClass.ProjectShareclasses__c).split(';')) {
+                            if(stageFields.contains(str)){
+                                fieldList.add(str);
                             }
-
-                        } else {
-                            fieldList.addAll(setting.RequiredFieldsShareClass__c.split(';'));
                         }
-                        System.debug('Stage : '+shareClassChildType+' have Field List: ' + fieldList);
-                        shareClass.NbofFilledFields__c  = ProjectProductSetupHandlerUtilities.countFilledFields(shareClass,fieldList);
-
                     }
+
+                } else {
+                    fieldList.addAll(stageFields);
                 }
+                System.debug('Stage : '+shareClassChildType+' have Field List: ' + fieldList);
+                shareClass.NbofFilledFields__c  = ProjectProductSetupHandlerUtilities.countFilledFields(shareClass,fieldList);
             }
-        }
     }
     
     public static void updateShareclassParent(Map<Id, ProjectShareclassChild__c> m_newProjectShareclassChild,

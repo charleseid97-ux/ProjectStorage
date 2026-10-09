@@ -1,17 +1,21 @@
+/** ──────────────────────────────────────
+ * @description Apex controller for the projectChildTeamValidation LWC (team validation of a PMT project stage):
+ *                  user permissions, Fund and Share Class fields of the team at the stage, required fields still empty,
+ *                  team validation (TECH_TeamValidation__c) and record locking once validated.
+ *              The fields of a team at a stage come from the PMT matrix (PMTMatrix, FIX-20178).
+ * @lastModifiedBy Charles EID   [09-10-26]
+ * @testClass Test_ProjectChildTeamValidationCTRL
+ * @coverage 93%   [09-10-26]
+ ────────────────────────────────────── */
 public without sharing class ProjectChildTeamValidationController {
     static final Id fundModificationRecordTypeId = Schema.SObjectType.ProjectProduct__c.getRecordTypeInfosByDeveloperName().get('FundShareClassModification').getRecordTypeId();  
     
-    /**
-     * Méthode qui renvoie les champs à exclure lors des validations selon le record type.
-     * Ignore les exclusions si RecordType != ShareclassCreation
-     */
+    // Méthode qui renvoie les champs à exclure lors des validations selon le record type. Ignore les exclusions si RecordType != ShareclassCreation
     public static Set<String> getExcludedFieldsForValidation(String recordTypeDevName) {
         Set<String> fieldsToExclude = new Set<String>();
 
         // Ne pas appliquer d'exclusion si le recordType est ShareclassCreation
-        if (recordTypeDevName != 'ShareclassCreation') {
-            return fieldsToExclude; // Set vide
-        }
+        if (recordTypeDevName != 'ShareclassCreation') return fieldsToExclude; // Set vide
 
         // Sinon, charger les champs à exclure depuis PMTExcludeFieldSCValidation__mdt
         PMTExcludeFieldSCValidation__mdt excludeSettings = [SELECT FieldsToExclude__c FROM PMTExcludeFieldSCValidation__mdt WHERE developerName = 'ProjectProduct'];
@@ -239,18 +243,8 @@ public without sharing class ProjectChildTeamValidationController {
             FROM ProjectChildJunction__c 
             WHERE ProjectProductChild__c = :recordId];
            
-        ProductProjectSettings__c matrixFunds = [ SELECT Id, RequiredFieldsShareClass__c, NonRequiredFieldsShareClass__c 
-                                                    FROM ProductProjectSettings__c 
-                                                    WHERE Team__c =:teamName and Stage__c =:stepName
-                                                    LIMIT 1 ];
-                                                    
-        if (matrixFunds.RequiredFieldsShareClass__c != null) {
-            fieldList.addAll(matrixFunds.RequiredFieldsShareClass__c.split(';'));
-        }
-
-        if (matrixFunds.NonRequiredFieldsShareClass__c != null) {
-            fieldList.addAll(matrixFunds.NonRequiredFieldsShareClass__c.split(';'));
-        }
+        // FIX-20178: Share Class fields of the team at this stage, from the PMT matrix
+        fieldList.addAll(PMTMatrix.get().getRule(teamName, stepName).getAllShareClass());
 
         fieldList.add('Id');
         fieldList.add('shareClassName__c');
@@ -290,19 +284,8 @@ public without sharing class ProjectChildTeamValidationController {
         String fieldsToQuery = '';
         List<String> fieldList = new List<String>();
 
-        ProductProjectSettings__c matrixFunds = [
-            SELECT RequiredFields__c, NonRequiredFieldsFund__c 
-            FROM ProductProjectSettings__c 
-            WHERE Team__c = :teamName AND Stage__c = :stepName
-            LIMIT 1
-        ];
-
-        if (matrixFunds.RequiredFields__c != null) {
-            fieldList.addAll(matrixFunds.RequiredFields__c.split(';'));
-        }
-        if (matrixFunds.NonRequiredFieldsFund__c != null) {
-            fieldList.addAll(matrixFunds.NonRequiredFieldsFund__c.split(';'));
-        }
+        // FIX-20178: Fund fields of the team at this stage, from the PMT matrix
+        fieldList.addAll(PMTMatrix.get().getRule(teamName, stepName).getAllFund());
 
         // Always include Id
         fieldList.add('Id');
@@ -438,7 +421,7 @@ if (record.get(fieldName) == null) {
      
         Map<String, List<Map<String, List<String>>>> requiredFieldsEmpty = new Map<String, List<Map<String, List<String>>>>();
         List<String> emptyFundFields = new List<String>();
-        Map<String, String> m_StepByField = ProjectMatriceUtilities.getMapStepByField(teamName);
+        Map<String, String> m_StepByField = PMTMatrix.get().getStageByField(teamName);
      
         // Fund - ProjectProductChild
         ProjectProductChild__c fund = [
@@ -538,15 +521,9 @@ if (record.get(fieldName) == null) {
         Map<String,Schema.SObjectField> mfieldsFund = Schema.ProjectProductChild__c.SObjectType.getDescribe().fields.getMap();
         Map<String,Schema.SObjectField> mfieldsSC = Schema.ProjectShareclassChild__c.SObjectType.getDescribe().fields.getMap();
         
-        ProductProjectSettings__c  matriceRecord= ProjectMatriceUtilities.getmatriceByTeamStep(teamName , stepName);
-        if(matriceRecord.RequiredFields__c != null){
-            
-            requiredFieldsFund= matriceRecord.RequiredFields__c.split(';'); 
-        }
-        if(matriceRecord.RequiredFieldsShareClass__c != null){
-            
-            requiredFieldsShareClass= matriceRecord.RequiredFieldsShareClass__c.split(';'); 
-        }
+        PMTMatrix.FieldRule matriceRecord = PMTMatrix.get().getRule(teamName, stepName);
+        requiredFieldsFund = new List<String>(matriceRecord.requiredFund);
+        requiredFieldsShareClass = new List<String>(matriceRecord.requiredShareClass);
 
         List<ProjectShareclassChild__c> shareclassChildsRT= new List<ProjectShareclassChild__c>();
         Set<Id> shareClassIds= getShareclassesId(recordId);

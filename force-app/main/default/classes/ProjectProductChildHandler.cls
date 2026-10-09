@@ -1,3 +1,13 @@
+/** ──────────────────────────────────────
+ * @description Trigger logic for ProjectProductChild__c (PMT project stages): KPMG tax notifications, stage status
+ *                  once all validation teams have validated, SPC validation lock, completion rate and filled fields
+ *                  count, related Share Class children, cloning from the parent project, milestones and end dates,
+ *                  record lock, parent project updates and phase validation logs.
+ *              The validation teams and the required fields per stage come from the PMT matrix (PMTMatrix, FIX-20178).
+ * @lastModifiedBy Charles EID   [09-10-26]
+ * @testClass Test_ProjectProductChildTriggerHandler
+ * @coverage 91%   [09-10-26]
+ ────────────────────────────────────── */
 public without sharing class ProjectProductChildHandler {
 
     static final Id fundCreationRecordTypeId = Schema.SObjectType.ProjectProduct__c.getRecordTypeInfosByDeveloperName().get('FundCreation').getRecordTypeId();  
@@ -92,18 +102,14 @@ public without sharing class ProjectProductChildHandler {
         }
 
         if (!listProjectProductChildToUpdate.isEmpty()) {
-            //On récupère le nombre de record pour avoir le nombre d'équipe total
-            List<ProductProjectSettings__c> listProductProjectSettings = [SELECT Id
-                                                                            FROM ProductProjectSettings__c
-                                                                            WHERE ProjectType__c = 'Creation' AND Stage__c = 'Design'
-                                                                            AND OrderTeam__c NOT IN (15, 16, 17, 18, 19, 20)
-                                                                        ];
+            // FIX-20178: nombre total d'équipes de validation de la matrice PMT
+            List<PMTMatrix.Team> validationTeams = PMTMatrix.get().getValidationTeams();
 
-            if (!listProductProjectSettings.isEmpty()) {
+            if (!validationTeams.isEmpty()) {
                 for (ProjectProductChild__c projectProductChild : listProjectProductChildToUpdate) {
                     if (projectProductChild.TECH_TeamValidation__c.contains(';')) {
                         List<String> listTeamValidation = projectProductChild.TECH_TeamValidation__c.split(';');
-                        if (listTeamValidation.size() == listProductProjectSettings.size()) {
+                        if (listTeamValidation.size() == validationTeams.size()) {
                             //We need to update Design if all teams are validated on Proposal phase
                             if (projectProductChild.Name == 'Proposal') {
                                 setProjectProductParentId.add(projectProductChild.ProjectProductParent__c);
@@ -166,7 +172,7 @@ public static void blockValidationBeforeSPCValidated(Map<Id, ProjectProductChild
 
         Map<Id, String> idToFields = new Map<Id, String>();
         List<String> parentList = new List<String>();
-        Map<String, List<String>> requiredFieldsByStage = ProjectMatriceUtilities.getAllRequiredFieldsByStep();
+        Map<String, List<String>> requiredFieldsByStage = PMTMatrix.get().getRequiredFieldsByStage(true);
         for (ProjectProductChild__c proj : newProjectProductChild) {
             proj.NbOfFilledFields__c  = 0;
             parentList.add(proj.ProjectProductParent__c);

@@ -135,6 +135,25 @@
         <members>ProjectShareclassHandler</members>
         <members>PMTMatrix</members>
         <members>Test_PMTMatrix</members>
+        <members>PageLayoutController</members>
+        <members>PageLayoutControllerTest</members>
+        <members>ProjectChildTeamValidationController</members>
+        <members>FlowEmailNotificationCtrl</members>
+        <members>Test_FlowEmailNotificationCtrl</members>
+        <members>ProjectProductChildHandler</members>
+        <members>ProjectShareclassChildHandler</members>
+        <members>ProjectProductTriggerHandler</members>
+        <members>MilestoneHandler</members>
+        <members>PMTTestFactoryData</members>
+        <members>ProjectMatriceUtilities</members>
+        <members>Test_ProjectMatriceUtilities</members>
+        <members>Test_FieldSelectorController</members>
+        <members>Test_ProjectChildTeamValidationCTRL</members>
+        <members>Test_MilestoneTrigger</members>
+        <members>Test_ProjectProductTrigger</members>
+        <members>Test_ProjectProductBatch</members>
+        <members>ProjectFeederControllerTest</members>
+        <members>ProjectFeederFlowActionTest</members>
         <name>ApexClass</name>
     </types>
     <types>
@@ -143,6 +162,10 @@
         <members>PMTFieldRule__mdt</members>
         <members>PMTOwnerRule__mdt</members>
         <name>CustomObject</name>
+    </types>
+    <types>
+        <members>PMT_SPCFinalNoticeRequired</members>
+        <name>CustomLabel</name>
     </types>
     <types>
         <members>FundShareclassCreation</members>
