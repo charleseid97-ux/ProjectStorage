@@ -43,6 +43,8 @@ public class RecordTypeControllerTest {
             } 
             else if(rtw.Name == 'ESG'){
                 System.assertEquals('/lightning/n/ESG_Requests', rtw.url, 'Incorrect URL for ESG');
+            }else if(rtw.Name == 'AI Agent Request'){
+                System.assertEquals('/lightning/n/AIAgentRequest', rtw.url, 'Incorrect URL for AI Agent Request');
             } else {
                 System.assert(rtw.url.startsWith('/lightning/o/Case/new?backgroundContext=lightning/o/Case/list?filterName=__Recent&recordTypeId='), 'Incorrect URL format for non-TranslationRequest record type');
             }
