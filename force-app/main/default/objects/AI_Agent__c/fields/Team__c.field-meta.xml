@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Team__c</fullName>
+    <inlineHelpText>Select the team(s) or Dust group(s) the agent is shared with</inlineHelpText>
+    <label>Shared With Teams</label>
+    <required>false</required>
+    <trackHistory>true</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>MultiselectPicklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>true</sorted>
+            <value>
+                <fullName>DBS</fullName>
+                <default>false</default>
+                <label>DBS</label>
+            </value>
+            <value>
+                <fullName>DCO</fullName>
+                <default>false</default>
+                <label>DCO</label>
+            </value>
+            <value>
+                <fullName>DCR</fullName>
+                <default>false</default>
+                <label>DCR</label>
+            </value>
+            <value>
+                <fullName>Digital_Marketing</fullName>
+                <default>false</default>
+                <label>Digital Marketing</label>
+            </value>
+            <value>
+                <fullName>Direction</fullName>
+                <default>false</default>
+                <label>Direction</label>
+            </value>
+            <value>
+                <fullName>Equity</fullName>
+                <default>false</default>
+                <label>Equity</label>
+            </value>
+            <value>
+                <fullName>Fixed Income</fullName>
+                <default>false</default>
+                <label>Fixed Income</label>
+            </value>
+            <value>
+                <fullName>Investment Solutions</fullName>
+                <default>false</default>
+                <label>Investment Solutions</label>
+            </value>
+            <value>
+                <fullName>Marketing</fullName>
+                <default>false</default>
+                <label>Marketing</label>
+            </value>
+            <value>
+                <fullName>ProductSpecialists</fullName>
+                <default>false</default>
+                <label>ProductSpecialists</label>
+            </value>
+            <value>
+                <fullName>Product Strategy</fullName>
+                <default>false</default>
+                <label>Product Strategy</label>
+            </value>
+            <value>
+                <fullName>RFP</fullName>
+                <default>false</default>
+                <label>RFP</label>
+            </value>
+            <value>
+                <fullName>Sales</fullName>
+                <default>false</default>
+                <label>Sales</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+    <visibleLines>4</visibleLines>
+</CustomField>

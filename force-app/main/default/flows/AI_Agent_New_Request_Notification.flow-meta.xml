@@ -1,0 +1,1407 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <actionCalls>
+        <name>Agent_Approved</name>
+        <label>Agent Approved Notification</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <actionName>emailSimple</actionName>
+        <actionType>emailSimple</actionType>
+        <connector>
+            <targetReference>Close_AI_Agent_Request</targetReference>
+        </connector>
+        <flowTransactionModel>CurrentTransaction</flowTransactionModel>
+        <inputParameters>
+            <name>recipientAddresses</name>
+            <value>
+                <collectionElements>
+                    <elementReference>$Record.AgentOwner__r.Email</elementReference>
+                </collectionElements>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>senderType</name>
+            <value>
+                <inputConfiguratorMode>Custom</inputConfiguratorMode>
+                <stringValue>CurrentUser</stringValue>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>composeEmailContent</name>
+            <value>
+                <stringValue>True</stringValue>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>emailSubject</name>
+            <value>
+                <elementReference>EmailSubject_Approved</elementReference>
+                <inputConfiguratorMode>Resource</inputConfiguratorMode>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>emailBody</name>
+            <value>
+                <inputConfiguratorMode>Custom</inputConfiguratorMode>
+                <stringValue>{!ApprovedAgent}</stringValue>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>sendRichBody</name>
+            <value>
+                <booleanValue>true</booleanValue>
+                <inputConfiguratorMode>Resource</inputConfiguratorMode>
+            </value>
+        </inputParameters>
+        <nameSegment>emailSimple</nameSegment>
+        <offset>0</offset>
+        <versionString>3.0.1</versionString>
+    </actionCalls>
+    <actionCalls>
+        <name>Agent_Approved_Notification2</name>
+        <label>Agent Modification Approved Notification</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <actionName>emailSimple</actionName>
+        <actionType>emailSimple</actionType>
+        <connector>
+            <targetReference>Close_AI_Agent_Request</targetReference>
+        </connector>
+        <flowTransactionModel>CurrentTransaction</flowTransactionModel>
+        <inputParameters>
+            <name>recipientAddresses</name>
+            <value>
+                <collectionElements>
+                    <elementReference>$Record.Requester__r.Email</elementReference>
+                </collectionElements>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>senderType</name>
+            <value>
+                <inputConfiguratorMode>Custom</inputConfiguratorMode>
+                <stringValue>CurrentUser</stringValue>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>composeEmailContent</name>
+            <value>
+                <stringValue>True</stringValue>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>emailSubject</name>
+            <value>
+                <elementReference>EmailSubject_Approved</elementReference>
+                <inputConfiguratorMode>Resource</inputConfiguratorMode>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>emailBody</name>
+            <value>
+                <inputConfiguratorMode>Custom</inputConfiguratorMode>
+                <stringValue>{!ApprovedAgentModification}</stringValue>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>sendRichBody</name>
+            <value>
+                <booleanValue>true</booleanValue>
+                <inputConfiguratorMode>Resource</inputConfiguratorMode>
+            </value>
+        </inputParameters>
+        <nameSegment>emailSimple</nameSegment>
+        <offset>0</offset>
+        <versionString>3.0.1</versionString>
+    </actionCalls>
+    <actionCalls>
+        <name>Agent_Not_Approved</name>
+        <label>Agent Not Approved Notification</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <actionName>emailSimple</actionName>
+        <actionType>emailSimple</actionType>
+        <flowTransactionModel>CurrentTransaction</flowTransactionModel>
+        <inputParameters>
+            <name>recipientAddresses</name>
+            <value>
+                <collectionElements>
+                    <elementReference>$Record.AgentOwner__r.Email</elementReference>
+                </collectionElements>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>senderType</name>
+            <value>
+                <inputConfiguratorMode>Custom</inputConfiguratorMode>
+                <stringValue>CurrentUser</stringValue>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>composeEmailContent</name>
+            <value>
+                <stringValue>True</stringValue>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>emailSubject</name>
+            <value>
+                <elementReference>EmailSubject_NotApproved</elementReference>
+                <inputConfiguratorMode>Resource</inputConfiguratorMode>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>emailBody</name>
+            <value>
+                <inputConfiguratorMode>Custom</inputConfiguratorMode>
+                <stringValue>{!NotApprovedAgent}</stringValue>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>sendRichBody</name>
+            <value>
+                <booleanValue>true</booleanValue>
+                <inputConfiguratorMode>Resource</inputConfiguratorMode>
+            </value>
+        </inputParameters>
+        <nameSegment>emailSimple</nameSegment>
+        <offset>0</offset>
+        <versionString>3.0.1</versionString>
+    </actionCalls>
+    <actionCalls>
+        <name>Agent_Not_Approved_Notification3</name>
+        <label>Agent Modification Not Approved Notification</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <actionName>emailSimple</actionName>
+        <actionType>emailSimple</actionType>
+        <flowTransactionModel>CurrentTransaction</flowTransactionModel>
+        <inputParameters>
+            <name>recipientAddresses</name>
+            <value>
+                <collectionElements>
+                    <elementReference>$Record.Requester__r.Email</elementReference>
+                </collectionElements>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>senderType</name>
+            <value>
+                <inputConfiguratorMode>Custom</inputConfiguratorMode>
+                <stringValue>CurrentUser</stringValue>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>composeEmailContent</name>
+            <value>
+                <stringValue>True</stringValue>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>emailSubject</name>
+            <value>
+                <elementReference>EmailSubject_NotApproved</elementReference>
+                <inputConfiguratorMode>Resource</inputConfiguratorMode>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>emailBody</name>
+            <value>
+                <inputConfiguratorMode>Custom</inputConfiguratorMode>
+                <stringValue>{!NotApprovedAgentModification}</stringValue>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>sendRichBody</name>
+            <value>
+                <booleanValue>true</booleanValue>
+                <inputConfiguratorMode>Resource</inputConfiguratorMode>
+            </value>
+        </inputParameters>
+        <nameSegment>emailSimple</nameSegment>
+        <offset>0</offset>
+        <versionString>3.0.1</versionString>
+    </actionCalls>
+    <actionCalls>
+        <name>Request_Notification</name>
+        <label>Request Notification</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <actionName>emailSimple</actionName>
+        <actionType>emailSimple</actionType>
+        <flowTransactionModel>CurrentTransaction</flowTransactionModel>
+        <inputParameters>
+            <name>recipientAddresses</name>
+            <value>
+                <collectionElements>
+                    <stringValue>dust@carmignac.com</stringValue>
+                </collectionElements>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>senderType</name>
+            <value>
+                <inputConfiguratorMode>Custom</inputConfiguratorMode>
+                <stringValue>CurrentUser</stringValue>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>composeEmailContent</name>
+            <value>
+                <stringValue>True</stringValue>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>emailSubject</name>
+            <value>
+                <elementReference>EmailSubject_NewRequest</elementReference>
+                <inputConfiguratorMode>Resource</inputConfiguratorMode>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>emailBody</name>
+            <value>
+                <inputConfiguratorMode>Custom</inputConfiguratorMode>
+                <stringValue>{!NewAgentRequestEmail}</stringValue>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>sendRichBody</name>
+            <value>
+                <booleanValue>true</booleanValue>
+                <inputConfiguratorMode>Resource</inputConfiguratorMode>
+            </value>
+        </inputParameters>
+        <nameSegment>emailSimple</nameSegment>
+        <offset>0</offset>
+        <versionString>3.0.1</versionString>
+    </actionCalls>
+    <actionCalls>
+        <name>Send_Email_Action_4</name>
+        <label>Modification Request Notification</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <actionName>emailSimple</actionName>
+        <actionType>emailSimple</actionType>
+        <flowTransactionModel>CurrentTransaction</flowTransactionModel>
+        <inputParameters>
+            <name>recipientAddresses</name>
+            <value>
+                <collectionElements>
+                    <stringValue>dust@carmignac.com</stringValue>
+                </collectionElements>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>senderType</name>
+            <value>
+                <inputConfiguratorMode>Custom</inputConfiguratorMode>
+                <stringValue>CurrentUser</stringValue>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>composeEmailContent</name>
+            <value>
+                <stringValue>True</stringValue>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>emailSubject</name>
+            <value>
+                <elementReference>EmailSubject_Modification</elementReference>
+                <inputConfiguratorMode>Resource</inputConfiguratorMode>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>emailBody</name>
+            <value>
+                <inputConfiguratorMode>Custom</inputConfiguratorMode>
+                <stringValue>{!AgentModificationRequest}</stringValue>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>sendRichBody</name>
+            <value>
+                <booleanValue>true</booleanValue>
+                <inputConfiguratorMode>Resource</inputConfiguratorMode>
+            </value>
+        </inputParameters>
+        <nameSegment>emailSimple</nameSegment>
+        <offset>0</offset>
+        <versionString>3.0.1</versionString>
+    </actionCalls>
+    <apiVersion>66.0</apiVersion>
+    <areMetricsLoggedToDataCloud>false</areMetricsLoggedToDataCloud>
+    <decisions>
+        <name>Determine_Request_Event</name>
+        <label>Determine Request Event</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>Agent_Status_Submitted</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>$Record.AgentStatus__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>Submitted</stringValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>IsNewRecord</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>$Record.RecordTypeId</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <elementReference>Get_WTP_Record_Type.Id</elementReference>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Determine_Submitted_Request_Type</targetReference>
+            </connector>
+            <label>Agent Status = Submitted</label>
+        </rules>
+        <rules>
+            <name>Review_Decision_Approved</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>$Record.ReviewDecision__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>Approved</stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Determine_Submitted_Request_Type2</targetReference>
+            </connector>
+            <doesRequireRecordChangedToMeetCriteria>true</doesRequireRecordChangedToMeetCriteria>
+            <label>Review Decision = Approved</label>
+        </rules>
+        <rules>
+            <name>Review_Decision_Rejected</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>$Record.ReviewDecision__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>Not Approved</stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Determine_Submitted_Request_Type3</targetReference>
+            </connector>
+            <doesRequireRecordChangedToMeetCriteria>true</doesRequireRecordChangedToMeetCriteria>
+            <label>Review Decision = Rejected</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <name>Determine_Submitted_Request_Type</name>
+        <label>Determine Submitted Request Type</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>New_Agent</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>$Record.AI_Agent_Request_Type__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>New Agent</stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Request_Notification</targetReference>
+            </connector>
+            <label>New Agent</label>
+        </rules>
+        <rules>
+            <name>Agent_Modification</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>$Record.AI_Agent_Request_Type__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>Agent Modification</stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Send_Email_Action_4</targetReference>
+            </connector>
+            <label>Agent Modification</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <name>Determine_Submitted_Request_Type2</name>
+        <label>Determine Approved Request Type</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>Copy_1_of_New_Agent</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>$Record.AI_Agent_Request_Type__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>New Agent</stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Agent_Approved</targetReference>
+            </connector>
+            <label>New Agent</label>
+        </rules>
+        <rules>
+            <name>Copy_1_of_Agent_Modification</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>$Record.AI_Agent_Request_Type__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>Agent Modification</stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Agent_Approved_Notification2</targetReference>
+            </connector>
+            <label>Agent Modification</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <name>Determine_Submitted_Request_Type3</name>
+        <label>Determine Rejected Request Type</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>Copy_2_of_New_Agent</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>$Record.AI_Agent_Request_Type__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>New Agent</stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Agent_Not_Approved</targetReference>
+            </connector>
+            <label>New Agent</label>
+        </rules>
+        <rules>
+            <name>Copy_2_of_Agent_Modification</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>$Record.AI_Agent_Request_Type__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>Agent Modification</stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Agent_Not_Approved_Notification3</targetReference>
+            </connector>
+            <label>Agent Modification</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <name>Is_AI_Agent_Request</name>
+        <label>Is AI Agent Request?</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <defaultConnectorLabel>Not AI Agent Request</defaultConnectorLabel>
+        <rules>
+            <name>AIAgentRequestYES</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>$Record.RecordTypeId</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <elementReference>Get_WTP_Record_Type.Id</elementReference>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Determine_Request_Event</targetReference>
+            </connector>
+            <label>AI Agent Request</label>
+        </rules>
+    </decisions>
+    <description>Notifies Dust Admins when a new AI Agent request is submitted and notifies the requester when the request is approved or rejected.</description>
+    <environments>Default</environments>
+    <formulas>
+        <name>EmailSubject_Approved</name>
+        <dataType>String</dataType>
+        <expression>&quot;AI Agent Creation Request Approved - &quot; &amp; {!$Record.AgentName__c}</expression>
+    </formulas>
+    <formulas>
+        <name>EmailSubject_Modification</name>
+        <dataType>String</dataType>
+        <expression>&quot;AI Agent Modification Request - &quot; &amp; {!$Record.AgentName__c}</expression>
+    </formulas>
+    <formulas>
+        <name>EmailSubject_NewRequest</name>
+        <dataType>String</dataType>
+        <expression>&quot;New AI Agent Request - &quot; &amp; {!$Record.AgentName__c}</expression>
+    </formulas>
+    <formulas>
+        <name>EmailSubject_NotApproved</name>
+        <dataType>String</dataType>
+        <expression>&quot;AI Agent Creation Request Not Approved - &quot; &amp; {!$Record.AgentName__c}</expression>
+    </formulas>
+    <formulas>
+        <name>IsNewRecord</name>
+        <dataType>Boolean</dataType>
+        <expression>ISNEW()</expression>
+    </formulas>
+    <formulas>
+        <name>RecordLink</name>
+        <dataType>String</dataType>
+        <expression>&quot;https://carmignac-crm--uatmycrm.sandbox.lightning.force.com/lightning/r/Work_Together_Process__c/&quot;
+&amp;
+{!$Record.Id}
+&amp;
+&quot;/view&quot;</expression>
+    </formulas>
+    <interviewLabel>AI Agent - New Request Notification {!$Flow.CurrentDateTime}</interviewLabel>
+    <label>AI Agent - Request Notifications</label>
+    <processMetadataValues>
+        <name>BuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>CanvasMode</name>
+        <value>
+            <stringValue>AUTO_LAYOUT_CANVAS</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>OriginBuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processType>AutoLaunchedFlow</processType>
+    <recordLookups>
+        <name>Get_WTP_Record_Type</name>
+        <label>Get WTP Record Type</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>Is_AI_Agent_Request</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>DeveloperName</field>
+            <operator>EqualTo</operator>
+            <value>
+                <stringValue>AIAgentGovernance</stringValue>
+            </value>
+        </filters>
+        <filters>
+            <field>SobjectType</field>
+            <operator>EqualTo</operator>
+            <value>
+                <stringValue>Case</stringValue>
+            </value>
+        </filters>
+        <getFirstRecordOnly>true</getFirstRecordOnly>
+        <object>RecordType</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+    <recordUpdates>
+        <name>Close_AI_Agent_Request</name>
+        <label>Close AI Agent Request</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <inputAssignments>
+            <field>AgentStatus__c</field>
+            <value>
+                <stringValue>Closed</stringValue>
+            </value>
+        </inputAssignments>
+        <inputReference>$Record</inputReference>
+    </recordUpdates>
+    <start>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <connector>
+            <targetReference>Get_WTP_Record_Type</targetReference>
+        </connector>
+        <object>Case</object>
+        <recordTriggerType>CreateAndUpdate</recordTriggerType>
+        <triggerType>RecordAfterSave</triggerType>
+    </start>
+    <status>Active</status>
+    <textTemplates>
+        <name>AgentModificationRequest</name>
+        <isViewedAsPlainText>false</isViewedAsPlainText>
+        <text>&lt;table role=&quot;presentation&quot; width=&quot;100%&quot; cellspacing=&quot;0&quot; cellpadding=&quot;0&quot; border=&quot;0&quot; style=&quot;font-family:Arial,Helvetica,sans-serif;background:#f5f7f5;padding:24px;&quot;&gt;
+  &lt;tr&gt;
+    &lt;td align=&quot;center&quot;&gt;
+
+      &lt;table role=&quot;presentation&quot; width=&quot;620&quot; cellspacing=&quot;0&quot; cellpadding=&quot;0&quot; border=&quot;0&quot; style=&quot;width:620px;max-width:100%;background:#ffffff;border:1px solid #e2e6e2;&quot;&gt;
+
+        &lt;!-- Header --&gt;
+        &lt;tr&gt;
+          &lt;td style=&quot;background:#2f4233;padding:22px 28px;&quot;&gt;
+            &lt;div style=&quot;font-size:12px;letter-spacing:1px;color:#cbd8ce;font-weight:bold;&quot;&gt;
+              AI AGENT GOVERNANCE
+            &lt;/div&gt;
+            &lt;div style=&quot;font-size:22px;line-height:28px;color:#ffffff;font-weight:bold;margin-top:4px;&quot;&gt;
+              Agent Modification Request
+            &lt;/div&gt;
+          &lt;/td&gt;
+        &lt;/tr&gt;
+
+        &lt;!-- Intro --&gt;
+        &lt;tr&gt;
+          &lt;td style=&quot;padding:26px 28px 14px 28px;color:#242424;font-size:14px;line-height:21px;&quot;&gt;
+            Hello,
+            &lt;br&gt;&lt;br&gt;
+            A modification request has been submitted for an existing AI Agent and is ready for review.
+          &lt;/td&gt;
+        &lt;/tr&gt;
+
+        &lt;!-- Agent Details --&gt;
+        &lt;tr&gt;
+          &lt;td style=&quot;padding:6px 28px 22px 28px;&quot;&gt;
+
+            &lt;table role=&quot;presentation&quot; width=&quot;100%&quot; cellspacing=&quot;0&quot; cellpadding=&quot;0&quot; border=&quot;0&quot; style=&quot;font-size:14px;color:#242424;&quot;&gt;
+
+              &lt;tr&gt;
+                &lt;td width=&quot;160&quot; style=&quot;padding:10px 0;border-bottom:1px solid #eeeeee;color:#6b746d;font-weight:bold;&quot;&gt;
+                  Agent
+                &lt;/td&gt;
+                &lt;td style=&quot;padding:10px 0;border-bottom:1px solid #eeeeee;&quot;&gt;
+                  {!$Record.AgentName__c}
+                &lt;/td&gt;
+              &lt;/tr&gt;
+
+              &lt;tr&gt;
+                &lt;td style=&quot;padding:10px 0;border-bottom:1px solid #eeeeee;color:#6b746d;font-weight:bold;&quot;&gt;
+                  Category
+                &lt;/td&gt;
+                &lt;td style=&quot;padding:10px 0;border-bottom:1px solid #eeeeee;&quot;&gt;
+                  {!$Record.UseCaseCategory__c}
+                &lt;/td&gt;
+              &lt;/tr&gt;
+
+              &lt;tr&gt;
+                &lt;td style=&quot;padding:10px 0;border-bottom:1px solid #eeeeee;color:#6b746d;font-weight:bold;&quot;&gt;
+                  Request Type
+                &lt;/td&gt;
+                &lt;td style=&quot;padding:10px 0;border-bottom:1px solid #eeeeee;&quot;&gt;
+                  Agent Modification
+                &lt;/td&gt;
+              &lt;/tr&gt;
+
+            &lt;/table&gt;
+
+          &lt;/td&gt;
+        &lt;/tr&gt;
+
+        &lt;!-- Requested Change --&gt;
+        &lt;tr&gt;
+          &lt;td style=&quot;padding:0 28px 22px 28px;&quot;&gt;
+            &lt;div style=&quot;font-size:13px;color:#6b746d;font-weight:bold;margin-bottom:8px;&quot;&gt;
+              REQUESTED CHANGE
+            &lt;/div&gt;
+
+            &lt;div style=&quot;background:#f7f8f7;border-left:4px solid #2f4233;padding:16px 18px;color:#242424;font-size:14px;line-height:21px;&quot;&gt;
+              {!$Record.AIAgentRequestedChange__c}
+            &lt;/div&gt;
+          &lt;/td&gt;
+        &lt;/tr&gt;
+
+        &lt;!-- Current Configuration --&gt;
+        &lt;tr&gt;
+          &lt;td style=&quot;padding:0 28px 22px 28px;&quot;&gt;
+
+            &lt;table role=&quot;presentation&quot; width=&quot;100%&quot; cellspacing=&quot;0&quot; cellpadding=&quot;0&quot; border=&quot;0&quot; style=&quot;font-size:14px;color:#242424;&quot;&gt;
+
+              &lt;tr&gt;
+                &lt;td width=&quot;160&quot; style=&quot;padding:10px 0;border-bottom:1px solid #eeeeee;color:#6b746d;font-weight:bold;&quot;&gt;
+                  Data &amp;amp; Connectors
+                &lt;/td&gt;
+                &lt;td style=&quot;padding:10px 0;border-bottom:1px solid #eeeeee;&quot;&gt;
+                  {!$Record.Connectors__c}
+                &lt;/td&gt;
+              &lt;/tr&gt;
+
+              &lt;tr&gt;
+                &lt;td style=&quot;padding:10px 0;color:#6b746d;font-weight:bold;&quot;&gt;
+                  Usage Mode
+                &lt;/td&gt;
+                &lt;td style=&quot;padding:10px 0;&quot;&gt;
+                  {!$Record.UsageMode__c}
+                &lt;/td&gt;
+              &lt;/tr&gt;
+
+            &lt;/table&gt;
+
+          &lt;/td&gt;
+        &lt;/tr&gt;
+
+        &lt;!-- Review Guidance --&gt;
+        &lt;tr&gt;
+          &lt;td style=&quot;background:#f1f5f2;padding:20px 28px;color:#242424;font-size:14px;line-height:21px;&quot;&gt;
+            &lt;strong style=&quot;color:#2f4233;&quot;&gt;Review focus&lt;/strong&gt;
+            &lt;br&gt;&lt;br&gt;
+            Review the requested change and assess whether it impacts the agent&apos;s data access, connectors, actions, execution mode, sharing scope or overall risk level.
+            &lt;br&gt;&lt;br&gt;
+            Contact the requester if additional information or a short review discussion is required.
+          &lt;/td&gt;
+        &lt;/tr&gt;
+
+        &lt;!-- CTA --&gt;
+        &lt;tr&gt;
+          &lt;td style=&quot;padding:24px 28px 28px 28px;&quot;&gt;
+            &lt;table role=&quot;presentation&quot; cellspacing=&quot;0&quot; cellpadding=&quot;0&quot; border=&quot;0&quot;&gt;
+              &lt;tr&gt;
+                &lt;td style=&quot;background:#2f4233;&quot;&gt;
+                  &lt;a href=&quot;{!RecordLink}&quot;
+                     style=&quot;display:inline-block;padding:12px 20px;color:#ffffff;text-decoration:none;font-size:14px;font-weight:bold;&quot;&gt;
+                    Review Modification Request
+                  &lt;/a&gt;
+                &lt;/td&gt;
+              &lt;/tr&gt;
+            &lt;/table&gt;
+          &lt;/td&gt;
+        &lt;/tr&gt;
+
+        &lt;!-- Footer --&gt;
+        &lt;tr&gt;
+          &lt;td style=&quot;border-top:1px solid #eeeeee;padding:16px 28px;color:#777777;font-size:12px;line-height:18px;&quot;&gt;
+            Dust Admin Team&lt;br&gt;
+            Carmignac AI Agent Governance
+          &lt;/td&gt;
+        &lt;/tr&gt;
+
+      &lt;/table&gt;
+
+    &lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/table&gt;</text>
+    </textTemplates>
+    <textTemplates>
+        <name>ApprovedAgent</name>
+        <isViewedAsPlainText>false</isViewedAsPlainText>
+        <text>&lt;table role=&quot;presentation&quot; width=&quot;100%&quot; cellspacing=&quot;0&quot; cellpadding=&quot;0&quot; border=&quot;0&quot; style=&quot;font-family:Arial,Helvetica,sans-serif;background:#f5f7f5;padding:24px;&quot;&gt;
+  &lt;tr&gt;
+    &lt;td align=&quot;center&quot;&gt;
+
+      &lt;table role=&quot;presentation&quot; width=&quot;620&quot; cellspacing=&quot;0&quot; cellpadding=&quot;0&quot; border=&quot;0&quot; style=&quot;width:620px;max-width:100%;background:#ffffff;border:1px solid #e2e6e2;&quot;&gt;
+
+        &lt;!-- Header --&gt;
+        &lt;tr&gt;
+          &lt;td style=&quot;background:#2f4233;padding:22px 28px;&quot;&gt;
+            &lt;div style=&quot;font-size:12px;letter-spacing:1px;color:#cbd8ce;font-weight:bold;&quot;&gt;
+              AI AGENT GOVERNANCE
+            &lt;/div&gt;
+            &lt;div style=&quot;font-size:22px;line-height:28px;color:#ffffff;font-weight:bold;margin-top:4px;&quot;&gt;
+              Agent Request Approved
+            &lt;/div&gt;
+          &lt;/td&gt;
+        &lt;/tr&gt;
+
+        &lt;!-- Intro --&gt;
+        &lt;tr&gt;
+          &lt;td style=&quot;padding:26px 28px 14px 28px;color:#242424;font-size:14px;line-height:21px;&quot;&gt;
+            Hello,
+            &lt;br&gt;&lt;br&gt;
+            Your request to create the &lt;strong&gt;{!$Record.AgentName__c}&lt;/strong&gt; AI Agent has been approved.
+            &lt;br&gt;&lt;br&gt;
+            You can now start building your agent in Dust.
+          &lt;/td&gt;
+        &lt;/tr&gt;
+
+        &lt;!-- Details --&gt;
+        &lt;tr&gt;
+          &lt;td style=&quot;padding:6px 28px 22px 28px;&quot;&gt;
+
+            &lt;table role=&quot;presentation&quot; width=&quot;100%&quot; cellspacing=&quot;0&quot; cellpadding=&quot;0&quot; border=&quot;0&quot; style=&quot;font-size:14px;color:#242424;&quot;&gt;
+
+              &lt;tr&gt;
+                &lt;td width=&quot;160&quot; style=&quot;padding:10px 0;border-bottom:1px solid #eeeeee;color:#6b746d;font-weight:bold;&quot;&gt;
+                  Agent
+                &lt;/td&gt;
+                &lt;td style=&quot;padding:10px 0;border-bottom:1px solid #eeeeee;&quot;&gt;
+                  {!$Record.AgentName__c}
+                &lt;/td&gt;
+              &lt;/tr&gt;
+
+              &lt;tr&gt;
+                &lt;td style=&quot;padding:10px 0;border-bottom:1px solid #eeeeee;color:#6b746d;font-weight:bold;&quot;&gt;
+                  Category
+                &lt;/td&gt;
+                &lt;td style=&quot;padding:10px 0;border-bottom:1px solid #eeeeee;&quot;&gt;
+                  {!$Record.UseCaseCategory__c}
+                &lt;/td&gt;
+              &lt;/tr&gt;
+
+              &lt;tr&gt;
+                &lt;td style=&quot;padding:10px 0;color:#6b746d;font-weight:bold;&quot;&gt;
+                  Purpose
+                &lt;/td&gt;
+                &lt;td style=&quot;padding:10px 0;&quot;&gt;
+                  {!$Record.AgentPurpose__c}
+                &lt;/td&gt;
+              &lt;/tr&gt;
+
+            &lt;/table&gt;
+
+          &lt;/td&gt;
+        &lt;/tr&gt;
+
+        &lt;!-- Support --&gt;
+        &lt;tr&gt;
+          &lt;td style=&quot;background:#f1f5f2;padding:20px 28px;color:#242424;font-size:14px;line-height:21px;&quot;&gt;
+            &lt;strong style=&quot;color:#2f4233;&quot;&gt;What happens next?&lt;/strong&gt;
+            &lt;br&gt;&lt;br&gt;
+            The Dust Admin team will support you during the build to help ensure:
+            &lt;ul style=&quot;margin:8px 0 0 20px;padding:0;&quot;&gt;
+              &lt;li style=&quot;margin-bottom:5px;&quot;&gt;the right data sources and access levels are used;&lt;/li&gt;
+              &lt;li style=&quot;margin-bottom:5px;&quot;&gt;connectors and actions are appropriate for the use case;&lt;/li&gt;
+              &lt;li style=&quot;margin-bottom:5px;&quot;&gt;execution time and credit consumption are optimised;&lt;/li&gt;
+              &lt;li style=&quot;margin-bottom:5px;&quot;&gt;the output is adapted to the user need;&lt;/li&gt;
+              &lt;li&gt;the appropriate sharing scope is defined.&lt;/li&gt;
+            &lt;/ul&gt;
+          &lt;/td&gt;
+        &lt;/tr&gt;
+
+        &lt;!-- Important note --&gt;
+        &lt;tr&gt;
+          &lt;td style=&quot;padding:20px 28px;color:#242424;font-size:13px;line-height:20px;&quot;&gt;
+            &lt;strong&gt;Important:&lt;/strong&gt; this approval allows you to start building the agent. 
+            Its final configuration and sharing scope should be reviewed before making it available to a wider audience.
+          &lt;/td&gt;
+        &lt;/tr&gt;
+
+        &lt;!-- CTA --&gt;
+        &lt;tr&gt;
+          &lt;td style=&quot;padding:8px 28px 28px 28px;&quot;&gt;
+            &lt;table role=&quot;presentation&quot; cellspacing=&quot;0&quot; cellpadding=&quot;0&quot; border=&quot;0&quot;&gt;
+              &lt;tr&gt;
+                &lt;td style=&quot;background:#2f4233;&quot;&gt;
+                  &lt;a href=&quot;{!RecordLink}&quot;
+                     style=&quot;display:inline-block;padding:12px 20px;color:#ffffff;text-decoration:none;font-size:14px;font-weight:bold;&quot;&gt;
+                    Open Agent Request
+                  &lt;/a&gt;
+                &lt;/td&gt;
+              &lt;/tr&gt;
+            &lt;/table&gt;
+          &lt;/td&gt;
+        &lt;/tr&gt;
+
+        &lt;!-- Footer --&gt;
+        &lt;tr&gt;
+          &lt;td style=&quot;border-top:1px solid #eeeeee;padding:16px 28px;color:#777777;font-size:12px;line-height:18px;&quot;&gt;
+            Need help? Contact &lt;strong&gt;dust@carmignac.com&lt;/strong&gt;.&lt;br&gt;&lt;br&gt;
+            Dust Admin Team&lt;br&gt;
+            Carmignac AI Agent Governance
+          &lt;/td&gt;
+        &lt;/tr&gt;
+
+      &lt;/table&gt;
+
+    &lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/table&gt;</text>
+    </textTemplates>
+    <textTemplates>
+        <name>ApprovedAgentModification</name>
+        <isViewedAsPlainText>true</isViewedAsPlainText>
+        <text>&lt;table role=&quot;presentation&quot; width=&quot;100%&quot; cellspacing=&quot;0&quot; cellpadding=&quot;0&quot; border=&quot;0&quot; style=&quot;font-family:Arial,Helvetica,sans-serif;background:#f5f7f5;padding:24px;&quot;&gt;
+  &lt;tr&gt;
+    &lt;td align=&quot;center&quot;&gt;
+
+      &lt;table role=&quot;presentation&quot; width=&quot;620&quot; cellspacing=&quot;0&quot; cellpadding=&quot;0&quot; border=&quot;0&quot; style=&quot;width:620px;max-width:100%;background:#ffffff;border:1px solid #e2e6e2;&quot;&gt;
+
+        &lt;!-- Header --&gt;
+        &lt;tr&gt;
+          &lt;td style=&quot;background:#2f4233;padding:22px 28px;&quot;&gt;
+            &lt;div style=&quot;font-size:12px;letter-spacing:1px;color:#cbd8ce;font-weight:bold;&quot;&gt;
+              AI AGENT GOVERNANCE
+            &lt;/div&gt;
+            &lt;div style=&quot;font-size:22px;line-height:28px;color:#ffffff;font-weight:bold;margin-top:4px;&quot;&gt;
+              Agent Modification Approved
+            &lt;/div&gt;
+          &lt;/td&gt;
+        &lt;/tr&gt;
+
+        &lt;!-- Intro --&gt;
+        &lt;tr&gt;
+          &lt;td style=&quot;padding:26px 28px 14px 28px;color:#242424;font-size:14px;line-height:21px;&quot;&gt;
+            Hello,
+            &lt;br&gt;&lt;br&gt;
+            Your request to modify the &lt;strong&gt;{!$Record.AgentName__c}&lt;/strong&gt; AI Agent has been approved.
+            &lt;br&gt;&lt;br&gt;
+            You can now proceed with the requested change.
+          &lt;/td&gt;
+        &lt;/tr&gt;
+
+        &lt;!-- Agent Details --&gt;
+        &lt;tr&gt;
+          &lt;td style=&quot;padding:6px 28px 22px 28px;&quot;&gt;
+
+            &lt;table role=&quot;presentation&quot; width=&quot;100%&quot; cellspacing=&quot;0&quot; cellpadding=&quot;0&quot; border=&quot;0&quot; style=&quot;font-size:14px;color:#242424;&quot;&gt;
+
+              &lt;tr&gt;
+                &lt;td width=&quot;160&quot; style=&quot;padding:10px 0;border-bottom:1px solid #eeeeee;color:#6b746d;font-weight:bold;&quot;&gt;
+                  Agent
+                &lt;/td&gt;
+                &lt;td style=&quot;padding:10px 0;border-bottom:1px solid #eeeeee;&quot;&gt;
+                  {!$Record.AgentName__c}
+                &lt;/td&gt;
+              &lt;/tr&gt;
+
+              &lt;tr&gt;
+                &lt;td style=&quot;padding:10px 0;border-bottom:1px solid #eeeeee;color:#6b746d;font-weight:bold;&quot;&gt;
+                  Category
+                &lt;/td&gt;
+                &lt;td style=&quot;padding:10px 0;border-bottom:1px solid #eeeeee;&quot;&gt;
+                  {!$Record.UseCaseCategory__c}
+                &lt;/td&gt;
+              &lt;/tr&gt;
+
+            &lt;/table&gt;
+
+          &lt;/td&gt;
+        &lt;/tr&gt;
+
+        &lt;!-- Approved Change --&gt;
+        &lt;tr&gt;
+          &lt;td style=&quot;padding:0 28px 22px 28px;&quot;&gt;
+            &lt;div style=&quot;font-size:13px;color:#6b746d;font-weight:bold;margin-bottom:8px;&quot;&gt;
+              APPROVED CHANGE
+            &lt;/div&gt;
+
+            &lt;div style=&quot;background:#f7f8f7;border-left:4px solid #2f4233;padding:16px 18px;color:#242424;font-size:14px;line-height:21px;&quot;&gt;
+              {!$Record.AIAgentRequestedChange__c}
+            &lt;/div&gt;
+          &lt;/td&gt;
+        &lt;/tr&gt;
+
+        &lt;!-- Support --&gt;
+        &lt;tr&gt;
+          &lt;td style=&quot;background:#f1f5f2;padding:20px 28px;color:#242424;font-size:14px;line-height:21px;&quot;&gt;
+            &lt;strong style=&quot;color:#2f4233;&quot;&gt;What happens next?&lt;/strong&gt;
+            &lt;br&gt;&lt;br&gt;
+            You can implement the approved modification. The Dust Admin team can support you where needed to help ensure that:
+            &lt;ul style=&quot;margin:8px 0 0 20px;padding:0;&quot;&gt;
+              &lt;li style=&quot;margin-bottom:5px;&quot;&gt;data sources and access levels remain appropriate;&lt;/li&gt;
+              &lt;li style=&quot;margin-bottom:5px;&quot;&gt;connectors and actions remain aligned with the approved use case;&lt;/li&gt;
+              &lt;li style=&quot;margin-bottom:5px;&quot;&gt;execution time and credit consumption remain efficient;&lt;/li&gt;
+              &lt;li style=&quot;margin-bottom:5px;&quot;&gt;the output remains relevant for users;&lt;/li&gt;
+              &lt;li&gt;the sharing scope remains appropriate.&lt;/li&gt;
+            &lt;/ul&gt;
+          &lt;/td&gt;
+        &lt;/tr&gt;
+
+        &lt;!-- Important note --&gt;
+        &lt;tr&gt;
+          &lt;td style=&quot;padding:20px 28px;color:#242424;font-size:13px;line-height:20px;&quot;&gt;
+            &lt;strong&gt;Important:&lt;/strong&gt; if the implemented change materially affects the agent&apos;s data access, connectors, actions, execution mode or sharing scope, the agent&apos;s governance information should be updated accordingly.
+          &lt;/td&gt;
+        &lt;/tr&gt;
+
+        &lt;!-- CTA --&gt;
+        &lt;tr&gt;
+          &lt;td style=&quot;padding:8px 28px 28px 28px;&quot;&gt;
+            &lt;table role=&quot;presentation&quot; cellspacing=&quot;0&quot; cellpadding=&quot;0&quot; border=&quot;0&quot;&gt;
+              &lt;tr&gt;
+                &lt;td style=&quot;background:#2f4233;&quot;&gt;
+                  &lt;a href=&quot;{!RecordLink}&quot;
+                     style=&quot;display:inline-block;padding:12px 20px;color:#ffffff;text-decoration:none;font-size:14px;font-weight:bold;&quot;&gt;
+                    Open Modification Request
+                  &lt;/a&gt;
+                &lt;/td&gt;
+              &lt;/tr&gt;
+            &lt;/table&gt;
+          &lt;/td&gt;
+        &lt;/tr&gt;
+
+        &lt;!-- Footer --&gt;
+        &lt;tr&gt;
+          &lt;td style=&quot;border-top:1px solid #eeeeee;padding:16px 28px;color:#777777;font-size:12px;line-height:18px;&quot;&gt;
+            Need help? Contact &lt;strong&gt;dust@carmignac.com&lt;/strong&gt;.&lt;br&gt;&lt;br&gt;
+            Dust Admin Team&lt;br&gt;
+            Carmignac AI Agent Governance
+          &lt;/td&gt;
+        &lt;/tr&gt;
+
+      &lt;/table&gt;
+
+    &lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/table&gt;</text>
+    </textTemplates>
+    <textTemplates>
+        <name>NewAgentRequestEmail</name>
+        <isViewedAsPlainText>false</isViewedAsPlainText>
+        <text>&lt;table role=&quot;presentation&quot; width=&quot;100%&quot; cellspacing=&quot;0&quot; cellpadding=&quot;0&quot; border=&quot;0&quot; style=&quot;font-family:Arial,Helvetica,sans-serif;background:#f5f7f5;padding:24px;&quot;&gt;
+  &lt;tr&gt;
+    &lt;td align=&quot;center&quot;&gt;
+
+      &lt;table role=&quot;presentation&quot; width=&quot;620&quot; cellspacing=&quot;0&quot; cellpadding=&quot;0&quot; border=&quot;0&quot; style=&quot;width:620px;max-width:100%;background:#ffffff;border:1px solid #e2e6e2;&quot;&gt;
+
+        &lt;!-- Header --&gt;
+        &lt;tr&gt;
+          &lt;td style=&quot;background:#2f4233;padding:22px 28px;&quot;&gt;
+            &lt;div style=&quot;font-size:12px;letter-spacing:1px;color:#cbd8ce;font-weight:bold;&quot;&gt;
+              AI AGENT GOVERNANCE
+            &lt;/div&gt;
+            &lt;div style=&quot;font-size:22px;line-height:28px;color:#ffffff;font-weight:bold;margin-top:4px;&quot;&gt;
+              New Agent Request
+            &lt;/div&gt;
+          &lt;/td&gt;
+        &lt;/tr&gt;
+
+        &lt;!-- Intro --&gt;
+        &lt;tr&gt;
+          &lt;td style=&quot;padding:26px 28px 14px 28px;color:#242424;font-size:14px;line-height:21px;&quot;&gt;
+            Hello,
+            &lt;br&gt;&lt;br&gt;
+            A new AI Agent request has been submitted and is ready for review.
+          &lt;/td&gt;
+        &lt;/tr&gt;
+
+        &lt;!-- Details --&gt;
+        &lt;tr&gt;
+          &lt;td style=&quot;padding:6px 28px 22px 28px;&quot;&gt;
+
+            &lt;table role=&quot;presentation&quot; width=&quot;100%&quot; cellspacing=&quot;0&quot; cellpadding=&quot;0&quot; border=&quot;0&quot; style=&quot;font-size:14px;color:#242424;&quot;&gt;
+
+              &lt;tr&gt;
+                &lt;td width=&quot;160&quot; style=&quot;padding:10px 0;border-bottom:1px solid #eeeeee;color:#6b746d;font-weight:bold;&quot;&gt;
+                  Agent
+                &lt;/td&gt;
+                &lt;td style=&quot;padding:10px 0;border-bottom:1px solid #eeeeee;&quot;&gt;
+                  {!$Record.AgentName__c}
+                &lt;/td&gt;
+              &lt;/tr&gt;
+
+              &lt;tr&gt;
+                &lt;td style=&quot;padding:10px 0;border-bottom:1px solid #eeeeee;color:#6b746d;font-weight:bold;&quot;&gt;
+                  Category
+                &lt;/td&gt;
+                &lt;td style=&quot;padding:10px 0;border-bottom:1px solid #eeeeee;&quot;&gt;
+                  {!$Record.UseCaseCategory__c}
+                &lt;/td&gt;
+              &lt;/tr&gt;
+
+              &lt;tr&gt;
+                &lt;td style=&quot;padding:10px 0;border-bottom:1px solid #eeeeee;color:#6b746d;font-weight:bold;&quot;&gt;
+                  Purpose
+                &lt;/td&gt;
+                &lt;td style=&quot;padding:10px 0;border-bottom:1px solid #eeeeee;&quot;&gt;
+                  {!$Record.AgentPurpose__c}
+                &lt;/td&gt;
+              &lt;/tr&gt;
+
+              &lt;tr&gt;
+                &lt;td style=&quot;padding:10px 0;border-bottom:1px solid #eeeeee;color:#6b746d;font-weight:bold;&quot;&gt;
+                  Data &amp;amp; Connectors
+                &lt;/td&gt;
+                &lt;td style=&quot;padding:10px 0;border-bottom:1px solid #eeeeee;&quot;&gt;
+                  {!$Record.Connectors__c}
+                &lt;/td&gt;
+              &lt;/tr&gt;
+
+              &lt;tr&gt;
+                &lt;td style=&quot;padding:10px 0;color:#6b746d;font-weight:bold;&quot;&gt;
+                  Usage Mode
+                &lt;/td&gt;
+                &lt;td style=&quot;padding:10px 0;&quot;&gt;
+                  {!$Record.UsageMode__c}
+                &lt;/td&gt;
+              &lt;/tr&gt;
+
+            &lt;/table&gt;
+
+          &lt;/td&gt;
+        &lt;/tr&gt;
+
+        &lt;!-- Next step --&gt;
+        &lt;tr&gt;
+          &lt;td style=&quot;background:#f1f5f2;padding:20px 28px;color:#242424;font-size:14px;line-height:21px;&quot;&gt;
+            &lt;strong style=&quot;color:#2f4233;&quot;&gt;Next step&lt;/strong&gt;
+            &lt;br&gt;
+            Review the request and contact the builder to organise a short review meeting.
+          &lt;/td&gt;
+        &lt;/tr&gt;
+
+        &lt;!-- CTA --&gt;
+        &lt;tr&gt;
+          &lt;td style=&quot;padding:24px 28px 28px 28px;&quot;&gt;
+            &lt;table role=&quot;presentation&quot; cellspacing=&quot;0&quot; cellpadding=&quot;0&quot; border=&quot;0&quot;&gt;
+              &lt;tr&gt;
+                &lt;td style=&quot;background:#2f4233;&quot;&gt;
+                  &lt;a href=&quot;{!RecordLink}&quot;
+                     style=&quot;display:inline-block;padding:12px 20px;color:#ffffff;text-decoration:none;font-size:14px;font-weight:bold;&quot;&gt;
+                    Open Agent Request
+                  &lt;/a&gt;
+                &lt;/td&gt;
+              &lt;/tr&gt;
+            &lt;/table&gt;
+          &lt;/td&gt;
+        &lt;/tr&gt;
+
+        &lt;!-- Footer --&gt;
+        &lt;tr&gt;
+          &lt;td style=&quot;border-top:1px solid #eeeeee;padding:16px 28px;color:#777777;font-size:12px;line-height:18px;&quot;&gt;
+            Dust Admin Team&lt;br&gt;
+            Carmignac AI Agent Governance
+          &lt;/td&gt;
+        &lt;/tr&gt;
+
+      &lt;/table&gt;
+
+    &lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/table&gt;</text>
+    </textTemplates>
+    <textTemplates>
+        <name>NotApprovedAgent</name>
+        <isViewedAsPlainText>false</isViewedAsPlainText>
+        <text>&lt;table role=&quot;presentation&quot; width=&quot;100%&quot; cellspacing=&quot;0&quot; cellpadding=&quot;0&quot; border=&quot;0&quot; style=&quot;font-family:Arial,Helvetica,sans-serif;background:#f5f7f5;padding:24px;&quot;&gt;
+  &lt;tr&gt;
+    &lt;td align=&quot;center&quot;&gt;
+
+      &lt;table role=&quot;presentation&quot; width=&quot;620&quot; cellspacing=&quot;0&quot; cellpadding=&quot;0&quot; border=&quot;0&quot; style=&quot;width:620px;max-width:100%;background:#ffffff;border:1px solid #e2e6e2;&quot;&gt;
+
+        &lt;!-- Header --&gt;
+        &lt;tr&gt;
+          &lt;td style=&quot;background:#2f4233;padding:22px 28px;&quot;&gt;
+            &lt;div style=&quot;font-size:12px;letter-spacing:1px;color:#cbd8ce;font-weight:bold;&quot;&gt;
+              AI AGENT GOVERNANCE
+            &lt;/div&gt;
+            &lt;div style=&quot;font-size:22px;line-height:28px;color:#ffffff;font-weight:bold;margin-top:4px;&quot;&gt;
+              Agent Request Not Approved
+            &lt;/div&gt;
+          &lt;/td&gt;
+        &lt;/tr&gt;
+
+        &lt;!-- Intro --&gt;
+        &lt;tr&gt;
+          &lt;td style=&quot;padding:26px 28px 14px 28px;color:#242424;font-size:14px;line-height:21px;&quot;&gt;
+            Hello,
+            &lt;br&gt;&lt;br&gt;
+            Following the review of your request to create the
+            &lt;strong&gt;{!$Record.AgentName__c}&lt;/strong&gt; AI Agent, we are not able to approve the request in its current form.
+          &lt;/td&gt;
+        &lt;/tr&gt;
+
+        &lt;!-- Details --&gt;
+        &lt;tr&gt;
+          &lt;td style=&quot;padding:6px 28px 22px 28px;&quot;&gt;
+
+            &lt;table role=&quot;presentation&quot; width=&quot;100%&quot; cellspacing=&quot;0&quot; cellpadding=&quot;0&quot; border=&quot;0&quot; style=&quot;font-size:14px;color:#242424;&quot;&gt;
+
+              &lt;tr&gt;
+                &lt;td width=&quot;160&quot; style=&quot;padding:10px 0;border-bottom:1px solid #eeeeee;color:#6b746d;font-weight:bold;&quot;&gt;
+                  Agent
+                &lt;/td&gt;
+                &lt;td style=&quot;padding:10px 0;border-bottom:1px solid #eeeeee;&quot;&gt;
+                  {!$Record.AgentName__c}
+                &lt;/td&gt;
+              &lt;/tr&gt;
+
+              &lt;tr&gt;
+                &lt;td style=&quot;padding:10px 0;border-bottom:1px solid #eeeeee;color:#6b746d;font-weight:bold;&quot;&gt;
+                  Category
+                &lt;/td&gt;
+                &lt;td style=&quot;padding:10px 0;border-bottom:1px solid #eeeeee;&quot;&gt;
+                  {!$Record.UseCaseCategory__c}
+                &lt;/td&gt;
+              &lt;/tr&gt;
+
+              &lt;tr&gt;
+                &lt;td style=&quot;padding:10px 0;color:#6b746d;font-weight:bold;&quot;&gt;
+                  Purpose
+                &lt;/td&gt;
+                &lt;td style=&quot;padding:10px 0;&quot;&gt;
+                  {!$Record.AgentPurpose__c}
+                &lt;/td&gt;
+              &lt;/tr&gt;
+
+            &lt;/table&gt;
+
+          &lt;/td&gt;
+        &lt;/tr&gt;
+
+        &lt;!-- Next step --&gt;
+        &lt;tr&gt;
+          &lt;td style=&quot;background:#f1f5f2;padding:20px 28px;color:#242424;font-size:14px;line-height:21px;&quot;&gt;
+            &lt;strong style=&quot;color:#2f4233;&quot;&gt;Next step&lt;/strong&gt;
+            &lt;br&gt;&lt;br&gt;
+            If the reasons for this decision have not already been shared with you, the Dust Admin team will contact you shortly to explain them and discuss the next steps.
+            &lt;br&gt;&lt;br&gt;
+            This does not necessarily mean that the use case cannot be addressed. We can help you adjust the scope, approach or configuration where appropriate.
+          &lt;/td&gt;
+        &lt;/tr&gt;
+
+        &lt;!-- CTA --&gt;
+        &lt;tr&gt;
+          &lt;td style=&quot;padding:24px 28px 28px 28px;&quot;&gt;
+            &lt;table role=&quot;presentation&quot; cellspacing=&quot;0&quot; cellpadding=&quot;0&quot; border=&quot;0&quot;&gt;
+              &lt;tr&gt;
+                &lt;td style=&quot;background:#2f4233;&quot;&gt;
+                  &lt;a href=&quot;{!RecordLink}&quot;
+                     style=&quot;display:inline-block;padding:12px 20px;color:#ffffff;text-decoration:none;font-size:14px;font-weight:bold;&quot;&gt;
+                    Open Agent Request
+                  &lt;/a&gt;
+                &lt;/td&gt;
+              &lt;/tr&gt;
+            &lt;/table&gt;
+          &lt;/td&gt;
+        &lt;/tr&gt;
+
+        &lt;!-- Footer --&gt;
+        &lt;tr&gt;
+          &lt;td style=&quot;border-top:1px solid #eeeeee;padding:16px 28px;color:#777777;font-size:12px;line-height:18px;&quot;&gt;
+            If needed, contact &lt;strong&gt;dust@carmignac.com&lt;/strong&gt;.&lt;br&gt;&lt;br&gt;
+            Dust Admin Team&lt;br&gt;
+            Carmignac AI Agent Governance
+          &lt;/td&gt;
+        &lt;/tr&gt;
+
+      &lt;/table&gt;
+
+    &lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/table&gt;</text>
+    </textTemplates>
+    <textTemplates>
+        <name>NotApprovedAgentModification</name>
+        <isViewedAsPlainText>true</isViewedAsPlainText>
+        <text>&lt;table role=&quot;presentation&quot; width=&quot;100%&quot; cellspacing=&quot;0&quot; cellpadding=&quot;0&quot; border=&quot;0&quot; style=&quot;font-family:Arial,Helvetica,sans-serif;background:#f5f7f5;padding:24px;&quot;&gt;
+  &lt;tr&gt;
+    &lt;td align=&quot;center&quot;&gt;
+
+      &lt;table role=&quot;presentation&quot; width=&quot;620&quot; cellspacing=&quot;0&quot; cellpadding=&quot;0&quot; border=&quot;0&quot; style=&quot;width:620px;max-width:100%;background:#ffffff;border:1px solid #e2e6e2;&quot;&gt;
+
+        &lt;!-- Header --&gt;
+        &lt;tr&gt;
+          &lt;td style=&quot;background:#2f4233;padding:22px 28px;&quot;&gt;
+            &lt;div style=&quot;font-size:12px;letter-spacing:1px;color:#cbd8ce;font-weight:bold;&quot;&gt;
+              AI AGENT GOVERNANCE
+            &lt;/div&gt;
+            &lt;div style=&quot;font-size:22px;line-height:28px;color:#ffffff;font-weight:bold;margin-top:4px;&quot;&gt;
+              Agent Modification Not Approved
+            &lt;/div&gt;
+          &lt;/td&gt;
+        &lt;/tr&gt;
+
+        &lt;!-- Intro --&gt;
+        &lt;tr&gt;
+          &lt;td style=&quot;padding:26px 28px 14px 28px;color:#242424;font-size:14px;line-height:21px;&quot;&gt;
+            Hello,
+            &lt;br&gt;&lt;br&gt;
+            Following the review of your request to modify the
+            &lt;strong&gt;{!$Record.AgentName__c}&lt;/strong&gt; AI Agent, we are not able to approve the requested change in its current form.
+          &lt;/td&gt;
+        &lt;/tr&gt;
+
+        &lt;!-- Agent Details --&gt;
+        &lt;tr&gt;
+          &lt;td style=&quot;padding:6px 28px 22px 28px;&quot;&gt;
+
+            &lt;table role=&quot;presentation&quot; width=&quot;100%&quot; cellspacing=&quot;0&quot; cellpadding=&quot;0&quot; border=&quot;0&quot; style=&quot;font-size:14px;color:#242424;&quot;&gt;
+
+              &lt;tr&gt;
+                &lt;td width=&quot;160&quot; style=&quot;padding:10px 0;border-bottom:1px solid #eeeeee;color:#6b746d;font-weight:bold;&quot;&gt;
+                  Agent
+                &lt;/td&gt;
+                &lt;td style=&quot;padding:10px 0;border-bottom:1px solid #eeeeee;&quot;&gt;
+                  {!$Record.AgentName__c}
+                &lt;/td&gt;
+              &lt;/tr&gt;
+
+              &lt;tr&gt;
+                &lt;td style=&quot;padding:10px 0;border-bottom:1px solid #eeeeee;color:#6b746d;font-weight:bold;&quot;&gt;
+                  Category
+                &lt;/td&gt;
+                &lt;td style=&quot;padding:10px 0;border-bottom:1px solid #eeeeee;&quot;&gt;
+                  {!$Record.UseCaseCategory__c}
+                &lt;/td&gt;
+              &lt;/tr&gt;
+
+            &lt;/table&gt;
+
+          &lt;/td&gt;
+        &lt;/tr&gt;
+
+        &lt;!-- Requested Change --&gt;
+        &lt;tr&gt;
+          &lt;td style=&quot;padding:0 28px 22px 28px;&quot;&gt;
+            &lt;div style=&quot;font-size:13px;color:#6b746d;font-weight:bold;margin-bottom:8px;&quot;&gt;
+              REQUESTED CHANGE
+            &lt;/div&gt;
+
+            &lt;div style=&quot;background:#f7f8f7;border-left:4px solid #2f4233;padding:16px 18px;color:#242424;font-size:14px;line-height:21px;&quot;&gt;
+              {!$Record.AIAgentRequestedChange__c}
+            &lt;/div&gt;
+          &lt;/td&gt;
+        &lt;/tr&gt;
+
+        &lt;!-- Next Step --&gt;
+        &lt;tr&gt;
+          &lt;td style=&quot;background:#f1f5f2;padding:20px 28px;color:#242424;font-size:14px;line-height:21px;&quot;&gt;
+            &lt;strong style=&quot;color:#2f4233;&quot;&gt;Next step&lt;/strong&gt;
+            &lt;br&gt;&lt;br&gt;
+            If the reasons for this decision have not already been shared with you, the Dust Admin team will contact you shortly to explain them and discuss the next steps.
+            &lt;br&gt;&lt;br&gt;
+            This does not necessarily mean that the requested change cannot be implemented. We can help you adjust the scope, approach or configuration where appropriate.
+          &lt;/td&gt;
+        &lt;/tr&gt;
+
+        &lt;!-- Important Note --&gt;
+        &lt;tr&gt;
+          &lt;td style=&quot;padding:20px 28px;color:#242424;font-size:13px;line-height:20px;&quot;&gt;
+            &lt;strong&gt;Please do not implement the requested change until the review has been clarified or a revised approach has been approved.&lt;/strong&gt;
+          &lt;/td&gt;
+        &lt;/tr&gt;
+
+        &lt;!-- CTA --&gt;
+        &lt;tr&gt;
+          &lt;td style=&quot;padding:8px 28px 28px 28px;&quot;&gt;
+            &lt;table role=&quot;presentation&quot; cellspacing=&quot;0&quot; cellpadding=&quot;0&quot; border=&quot;0&quot;&gt;
+              &lt;tr&gt;
+                &lt;td style=&quot;background:#2f4233;&quot;&gt;
+                  &lt;a href=&quot;{!RecordLink}&quot;
+                     style=&quot;display:inline-block;padding:12px 20px;color:#ffffff;text-decoration:none;font-size:14px;font-weight:bold;&quot;&gt;
+                    Open Modification Request
+                  &lt;/a&gt;
+                &lt;/td&gt;
+              &lt;/tr&gt;
+            &lt;/table&gt;
+          &lt;/td&gt;
+        &lt;/tr&gt;
+
+        &lt;!-- Footer --&gt;
+        &lt;tr&gt;
+          &lt;td style=&quot;border-top:1px solid #eeeeee;padding:16px 28px;color:#777777;font-size:12px;line-height:18px;&quot;&gt;
+            Need help? Contact &lt;strong&gt;dust@carmignac.com&lt;/strong&gt;.&lt;br&gt;&lt;br&gt;
+            Dust Admin Team&lt;br&gt;
+            Carmignac AI Agent Governance
+          &lt;/td&gt;
+        &lt;/tr&gt;
+
+      &lt;/table&gt;
+
+    &lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/table&gt;</text>
+    </textTemplates>
+</Flow>

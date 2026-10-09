@@ -2,7 +2,7 @@
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>Request_type__c</fullName>
     <description>Type of request</description>
-    <label>Request type</label>
+    <label>Request Type</label>
     <required>false</required>
     <trackFeedHistory>false</trackFeedHistory>
     <trackHistory>false</trackHistory>
@@ -56,6 +56,16 @@
                 <fullName>Others</fullName>
                 <default>false</default>
                 <label>Others</label>
+            </value>
+            <value>
+                <fullName>Firm-Level ESG</fullName>
+                <default>false</default>
+                <label>Firm-Level ESG</label>
+            </value>
+            <value>
+                <fullName>Product ESG</fullName>
+                <default>false</default>
+                <label>Product ESG</label>
             </value>
         </valueSetDefinition>
     </valueSet>

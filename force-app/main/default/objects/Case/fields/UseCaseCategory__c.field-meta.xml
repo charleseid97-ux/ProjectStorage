@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>UseCaseCategory__c</fullName>
+    <label>Use Case Category</label>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Client &amp; Sales Enablement</fullName>
+                <default>false</default>
+                <label>Client &amp; Sales Enablement</label>
+            </value>
+            <value>
+                <fullName>Research &amp; Decision Support</fullName>
+                <default>false</default>
+                <label>Research &amp; Decision Support</label>
+            </value>
+            <value>
+                <fullName>Knowledge &amp; Document Search</fullName>
+                <default>false</default>
+                <label>Knowledge &amp; Document Search</label>
+            </value>
+            <value>
+                <fullName>Content &amp; Communication</fullName>
+                <default>false</default>
+                <label>Content &amp; Communication</label>
+            </value>
+            <value>
+                <fullName>Workflow Automation &amp; Productivity</fullName>
+                <default>false</default>
+                <label>Workflow Automation &amp; Productivity</label>
+            </value>
+            <value>
+                <fullName>Data, Reporting &amp; Analytics</fullName>
+                <default>false</default>
+                <label>Data, Reporting &amp; Analytics</label>
+            </value>
+            <value>
+                <fullName>Risk, Compliance &amp; Control</fullName>
+                <default>false</default>
+                <label>Risk, Compliance &amp; Control</label>
+            </value>
+            <value>
+                <fullName>Other</fullName>
+                <default>false</default>
+                <label>Other</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>
