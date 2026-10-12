@@ -4,11 +4,24 @@
 
 public with sharing class TSP_Notifier implements TxnSecurity.EventCondition
 {
-    private final Set<String> blockedObjects = new Set<String>
+    private final Set<String> blockedObjects = getBlockedObjects();
+
+    // Retrieves dynamically the objects configured for Transaction Security monitoring.
+    private static Set<String> getBlockedObjects()
     {
-            'Contact',
-            'Lead'
-    };
+        Set<String> configuredObjects = new Set<String>();
+
+        // Custom Metadata configuration defines which objects must be monitored.
+        for(TSP_Setting__mdt setting : TSP_Setting__mdt.getAll().values())
+        {
+            if(String.isNotBlank(setting.Object__c))
+            {
+                configuredObjects.add(setting.Object__c.trim());
+            }
+        }
+
+        return configuredObjects;
+    }
 
     public Boolean evaluate(SObject event)
     {
