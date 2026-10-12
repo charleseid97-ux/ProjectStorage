@@ -64,6 +64,16 @@
         <layoutColumns/>
         <style>CustomLinks</style>
     </layoutSections>
+    <relatedLists>
+        <fields>MasterLabel</fields>
+        <fields>DeveloperName</fields>
+        <fields>Team__c</fields>
+        <fields>RequiredFieldsFund__c</fields>
+        <fields>OptionalFieldsFund__c</fields>
+        <fields>RequiredFieldsShareClass__c</fields>
+        <fields>OptionalFieldsShareClass__c</fields>
+        <relatedList>PMTFieldRule__mdt.Stage__c</relatedList>
+    </relatedLists>
     <showEmailCheckbox>false</showEmailCheckbox>
     <showHighlightsPanel>false</showHighlightsPanel>
     <showInteractionLogPanel>false</showInteractionLogPanel>

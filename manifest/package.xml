@@ -155,6 +155,7 @@
         <members>Test_ProjectProductBatch</members>
         <members>ProjectFeederControllerTest</members>
         <members>ProjectFeederFlowActionTest</members>
+        <members>FieldSelectorController</members>
         <name>ApexClass</name>
     </types>
     <types>
@@ -189,6 +190,7 @@
         <members>rollbackTeamValidation</members>
         <members>fieldsModificationList</members>
         <members>lwc_TimelineV3</members>
+        <members>fieldSelector</members>
         <name>LightningComponentBundle</name>
     </types>
     <types>

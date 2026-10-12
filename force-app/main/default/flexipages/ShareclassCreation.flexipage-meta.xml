@@ -3063,6 +3063,16 @@
     </flexiPageRegions>
     <flexiPageRegions>
         <itemInstances>
+            <componentInstance>
+                <componentName>priipsKid</componentName>
+                <identifier>c_priipsKid</identifier>
+            </componentInstance>
+        </itemInstances>
+        <name>Facet-4sxux1xzpb</name>
+        <type>Facet</type>
+    </flexiPageRegions>
+    <flexiPageRegions>
+        <itemInstances>
             <fieldInstance>
                 <fieldInstanceProperties>
                     <name>uiBehavior</name>
@@ -3302,16 +3312,6 @@
     <flexiPageRegions>
         <itemInstances>
             <componentInstance>
-                <componentName>priipsKid</componentName>
-                <identifier>c_priipsKid</identifier>
-            </componentInstance>
-        </itemInstances>
-        <name>Facet-4sxux1xzpb</name>
-        <type>Facet</type>
-    </flexiPageRegions>
-    <flexiPageRegions>
-        <itemInstances>
-            <componentInstance>
                 <componentInstanceProperties>
                     <name>active</name>
                     <value>true</value>
@@ -3360,6 +3360,20 @@
             <componentInstance>
                 <componentInstanceProperties>
                     <name>body</name>
+                    <value>Facet-4sxux1xzpb</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>title</name>
+                    <value>PRIIPS/KID</value>
+                </componentInstanceProperties>
+                <componentName>flexipage:tab</componentName>
+                <identifier>flexipage_tab16</identifier>
+            </componentInstance>
+        </itemInstances>
+        <itemInstances>
+            <componentInstance>
+                <componentInstanceProperties>
+                    <name>body</name>
                     <value>Facet-e274b42e-713c-403a-ba49-c9b21ebfd3b2</value>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
@@ -3391,20 +3405,6 @@
                         <rightValue>IS</rightValue>
                     </criteria>
                 </visibilityRule>
-            </componentInstance>
-        </itemInstances>
-        <itemInstances>
-            <componentInstance>
-                <componentInstanceProperties>
-                    <name>body</name>
-                    <value>Facet-4sxux1xzpb</value>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>title</name>
-                    <value>PRIIPS/KID</value>
-                </componentInstanceProperties>
-                <componentName>flexipage:tab</componentName>
-                <identifier>flexipage_tab16</identifier>
             </componentInstance>
         </itemInstances>
         <name>Facet-46ff0ed3-8ecb-4ec5-90ef-bba65f163f4a</name>
