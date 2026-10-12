@@ -15,11 +15,6 @@
             <operation>equals</operation>
             <value>True</value>
         </filterItems>
-        <filterItems>
-            <field>$Source.AlertType__c</field>
-            <operation>notEqual</operation>
-            <value>Carmignac, Video, Letter, Flash, Report</value>
-        </filterItems>
         <isOptional>true</isOptional>
     </lookupFilter>
     <referenceTo>Share_Class__c</referenceTo>

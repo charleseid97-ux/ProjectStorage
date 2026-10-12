@@ -1,0 +1,341 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<RecordType xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>AIAgentGovernance</fullName>
+    <active>true</active>
+    <businessProcess>Client delivery support process</businessProcess>
+    <compactLayoutAssignment>AI_Agent</compactLayoutAssignment>
+    <description>Submit a request to create a new AI Agent.</description>
+    <label>AI Agent Request</label>
+    <picklistValues>
+        <picklist>AI_Agent_Request_Type__c</picklist>
+        <values>
+            <fullName>Agent Modification</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>New Agent</fullName>
+            <default>false</default>
+        </values>
+                <values>
+            <fullName>Agent Review</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>AgentStatus__c</picklist>
+        <values>
+            <fullName>Closed</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Submitted</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Under Review</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>AssetClass__c</picklist>
+        <values>
+            <fullName>Diversified%2C Alternatives</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Equity</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Fixed Income</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Investment Solutions</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Connectors__c</picklist>
+        <values>
+            <fullName>MCP %2F Other</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Microsoft Teams</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>OLYMPIA</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>OneDrive</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Outlook</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>SAM</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Salesforce</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>SharePoint</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Vendome</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Web Search Access</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Old_UsageMode__c</picklist>
+        <values>
+            <fullName>On demand - user initiated</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Triggered by an event %2F schedule</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Origin</picklist>
+        <values>
+            <fullName>Email</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Phone</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Web</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Priority</picklist>
+        <values>
+            <fullName>High</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Highest</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Low</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Lowest</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Medium</fullName>
+            <default>true</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Reason</picklist>
+        <values>
+            <fullName>Fonctionnalité complexe</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>L%E2%80%99utilisateur n%E2%80%99a pas assisté à la forma</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Manque de clarté des instructions</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Nouveau problème</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Problème actuel</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>ReviewDecision__c</picklist>
+        <values>
+            <fullName>Approved</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Not Approved</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Type</picklist>
+        <values>
+            <fullName>Ad-hoc Question</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Awards</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Buy List%2FPortfolio analysis</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Client Delivery</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Comparison 1 to 1</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Comparison 1 to many</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Composite Analysis</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>DD - On-site</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>DDQ - Follow up</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>DDQ - Initial</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>DDQ - Recurring</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>ESG Questionnaire</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Follow-up</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Fund Features</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Market Views %2F Fund Positioning</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>New</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Other</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Performance Comment</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Priips</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Pure RFP No Go</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Questionnaire</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>RFI</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>RFP</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Recurrent</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Slide Update</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Solvency</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Tableau</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>UsageMode__c</picklist>
+        <values>
+            <fullName>On demand - user initiated</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Triggered by an event %2F schedule</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>UseCaseCategory__c</picklist>
+        <values>
+            <fullName>Client %26 Sales Enablement</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Content %26 Communication</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Data%2C Reporting %26 Analytics</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Knowledge %26 Document Search</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Other</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Research %26 Decision Support</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Risk%2C Compliance %26 Control</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Workflow Automation %26 Productivity</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+</RecordType>

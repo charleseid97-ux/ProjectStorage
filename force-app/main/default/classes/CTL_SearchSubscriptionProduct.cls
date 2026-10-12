@@ -65,9 +65,20 @@ public with sharing class CTL_SearchSubscriptionProduct {
             upsert alerts;
         }
     }
+
     @AuraEnabled(cacheable=true)
-    public static List<ProspaceAlertType__mdt> getAlertTypes(String cat){
-        return ([SELECT LWCLabel__c, MasterLabel,DeveloperName,WebsiteId__c,Order__c FROM ProspaceAlertType__mdt WHERE Category__c = :cat ORDER BY Order__c ASC]);
+    public static ProspaceAlertTypesWrapper getAlertTypes(String cat){
+        ProspaceAlertTypesWrapper result = new ProspaceAlertTypesWrapper();
+        result.metadataRecords = getAlertTypeMetadata(cat);
+        result.alertTypeRecords = [SELECT Id, TECH_WebSiteID__c FROM AlertType__c];
+        return result;
+    }
+
+    private static List<ProspaceAlertType__mdt> getAlertTypeMetadata(String cat){
+        return ([SELECT LWCLabel__c, MasterLabel, DeveloperName, WebsiteId__c, Order__c 
+                 FROM ProspaceAlertType__mdt 
+                 WHERE Category__c = :cat 
+                 ORDER BY Order__c ASC]);
     }
 
     @AuraEnabled(cacheable=true)
@@ -77,7 +88,7 @@ public with sharing class CTL_SearchSubscriptionProduct {
 
         Boolean canSeeXZ = FeatureManagement.checkPermission('See_Share_Classes_X_et_Z');
 
-        ProspaceAlertType__mdt[] alerts = getAlertTypes(cat);
+        ProspaceAlertType__mdt[] alerts = getAlertTypeMetadata(cat);
         Set<String> alertVal= new Set<String>();
         Set<String> alertDevName= new Set<String>();
         for(ProspaceAlertType__mdt mdt:alerts) {
@@ -114,12 +125,12 @@ public with sharing class CTL_SearchSubscriptionProduct {
         String query =
         'SELECT Id, Name, Fund__c, Fund__r.ProductName__c, Fund__r.Name, ISIN__c, Type__c, Currency__c, DividendPolicy__c, Hedged__c,' +
         ' Fund__r.FundStrategy__c, Fund__r.FundStrategy__r.Code__c, Fund__r.FundStrategy__r.Name,' +
-        ' (SELECT AlertTypeRecord__r.Name, AlertTypeRecord__r.TECH_WebSiteID__c, AlertType__c, IsActive__c' +
+        ' (SELECT AlertTypeRecord__r.Name, AlertTypeRecord__r.TECH_WebSiteID__c, IsActive__c ' + //, AlertType__c ' +
         '  FROM WebCommunications__r' +
         '  WHERE Contact__c = :contId' +
-        '    AND ((AlertTypeRecord__r.Name IN :alertVal)' +
-        '      OR (AlertType__c IN :alertDevName)' +
-        '      OR (AlertType__c IN :alertVal)))' +
+        '    AND AlertTypeRecord__r.Name IN :alertVal)' +
+        //'      OR (AlertType__c IN :alertDevName)' +
+        //'      OR (AlertType__c IN :alertVal)))' +
         ' FROM Share_Class__c' +
         ' WHERE (Id IN :shareClassCountryids OR ISIN__c IN :overrideIsins)' +
         '   AND TechIsActive__c = TRUE' +
@@ -140,7 +151,7 @@ public with sharing class CTL_SearchSubscriptionProduct {
     @AuraEnabled(cacheable=true)
     public static List<Product__c> getFundsWithSub(String cat,String contId, Integer counter){
         //get list picklist possible value
-        ProspaceAlertType__mdt[] alerts = getAlertTypes(cat);
+        ProspaceAlertType__mdt[] alerts = getAlertTypeMetadata(cat);
         Set<String> alertVal= new Set<String>();
         Set<String> alertDevName= new Set<String>();
         for(ProspaceAlertType__mdt mdt:alerts) {
@@ -148,29 +159,27 @@ public with sharing class CTL_SearchSubscriptionProduct {
             alertDevName.add(mdt.DeveloperName);
         }
         
-
-        return ([SELECT Id, Name,ProductName__c ,FundStrategy__c,FundStrategy__r.Code__c,FundStrategy__r.Name,
-                                                            (SELECT AlertTypeRecord__r.Name,AlertTypeRecord__r.TECH_WebSiteID__c,AlertType__c,IsActive__c FROM WebCommunications__r
-                                                            WHERE  (Contact__c = :contId) AND ((AlertTypeRecord__r.Name IN :alertVal) OR (AlertType__c IN :alertDevName) 
-                                                            OR (AlertType__c IN :alertVal))),(SELECT Id,ISIN__c FROM Share_Classes__r where Primary_Portfolio_Share_Class__c=true)
-                                                    FROM Product__c
-                                                    WHERE FundStrategy__c!=null
-                                                    ORDER BY FundStrategy__r.Name,ProductName__c  asc ]);
+        return ([SELECT Id, Name, ProductName__c, FundStrategy__c, FundStrategy__r.Code__c, FundStrategy__r.Name,
+                    (SELECT AlertTypeRecord__r.Name, AlertTypeRecord__r.TECH_WebSiteID__c, /* AlertType__c, */ IsActive__c FROM WebCommunications__r WHERE Contact__c = :contId AND AlertTypeRecord__r.Name IN :alertVal /* OR AlertType__c IN :alertDevName OR AlertType__c IN :alertVal */),
+                    (SELECT Id,ISIN__c FROM Share_Classes__r WHERE Primary_Portfolio_Share_Class__c = true)
+                FROM Product__c
+                WHERE FundStrategy__c != null
+                ORDER BY FundStrategy__r.Name,ProductName__c ASC]);
     }
 
     public class PickListFieldsValues {
-
-        @AuraEnabled
-        public List<String> optionsDividendPolicy;
-        @AuraEnabled
-        public List<String> optionsSharestypes;
-        @AuraEnabled
-        public List<String> optionsCurrencyIsoCode;
+        @AuraEnabled public List<String> optionsDividendPolicy;
+        @AuraEnabled public List<String> optionsSharestypes;
+        @AuraEnabled public List<String> optionsCurrencyIsoCode;
         public PickListFieldsValues( List<String> optionsDividendPolicy, List<String> optionsSharestypes, List<String> optionsCurrencyIsoCode){
-            
             this.optionsDividendPolicy = optionsDividendPolicy;
             this.optionsSharestypes = optionsSharestypes; 
             this.optionsCurrencyIsoCode = optionsCurrencyIsoCode;
         }
+    }
+
+    public class ProspaceAlertTypesWrapper {
+        @AuraEnabled public List<ProspaceAlertType__mdt> metadataRecords { get; set; }
+        @AuraEnabled public List<AlertType__c> alertTypeRecords { get; set; }
     }
 }

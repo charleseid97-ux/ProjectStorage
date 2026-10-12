@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>OverallRiskScore__c</fullName>
+    <description>Calculates the agent’s overall risk score based on data sensitivity, client impact, business criticality, connector exposure and the breadth of team sharing.</description>
+    <externalId>false</externalId>
+    <formula>/* DATA SENSITIVITY */
+CASE(
+    TEXT(DataSensitivity__c),
+    &quot;Public&quot;, 0,
+    &quot;Internal&quot;, 2,
+    &quot;Confidential&quot;, 4,
+    &quot;Restricted&quot;, 8,
+    0
+)
+
+/* CLIENT IMPACT */
++
+CASE(
+    TEXT(ClientImpact__c),
+    &quot;None&quot;, 0,
+    &quot;Indirect&quot;, 2,
+    &quot;Direct&quot;, 4,
+    &quot;Automated&quot;, 6,
+    0
+)
+
+/* BUSINESS CRITICALITY */
++
+CASE(
+    TEXT(Business_Criticality__c),
+    &quot;Low&quot;, 0,
+    &quot;Medium&quot;, 1,
+    &quot;High&quot;, 2,
+    &quot;Critical&quot;, 3,
+    0
+)
+
+/* CONNECTOR EXPOSURE */
++
+ConnectorExposureScore__c
+
+/* SHARING EXPOSURE */
++
+MIN(
+    2,
+    MAX(
+        0,
+        (
+            IF(INCLUDES(Team__c, &quot;DBS&quot;), 1, 0) +
+            IF(INCLUDES(Team__c, &quot;DCO&quot;), 1, 0) +
+            IF(INCLUDES(Team__c, &quot;DCR&quot;), 1, 0) +
+            IF(INCLUDES(Team__c, &quot;Digital_Marketing&quot;), 1, 0) +
+            IF(INCLUDES(Team__c, &quot;Direction&quot;), 1, 0) +
+            IF(INCLUDES(Team__c, &quot;Equity&quot;), 1, 0) +
+            IF(INCLUDES(Team__c, &quot;Fixed_Income&quot;), 1, 0) +
+            IF(INCLUDES(Team__c, &quot;Investment Solutions&quot;), 1, 0) +
+            IF(INCLUDES(Team__c, &quot;Marketing&quot;), 1, 0) +
+            IF(INCLUDES(Team__c, &quot;ProductSpecialists&quot;), 1, 0) +
+            IF(INCLUDES(Team__c, &quot;Product Strategy&quot;), 1, 0) +
+            IF(INCLUDES(Team__c, &quot;RFP&quot;), 1, 0) +
+            IF(INCLUDES(Team__c, &quot;Sales&quot;), 1, 0)
+        ) - 1
+    )
+)</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <inlineHelpText>Automatically calculated from the agent’s risk factors. A higher score indicates a higher overall level of exposure and business impact.</inlineHelpText>
+    <label>Overall Risk Score</label>
+    <precision>18</precision>
+    <required>false</required>
+    <scale>0</scale>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Number</type>
+    <unique>false</unique>
+</CustomField>
