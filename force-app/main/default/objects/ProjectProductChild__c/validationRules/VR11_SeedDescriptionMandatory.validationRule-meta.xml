@@ -5,7 +5,7 @@
     <description>Display &amp; Mandatory ONLY if IsSeeded = True</description>
     <errorConditionFormula>AND(
 NOT($User.BypassValidationRules__c),
-$Permission.PRPProductStrategy,
+OR($Permission.PRPProductStrategy, $Permission.PRPIS),
 Name = &apos;Proposal&apos;,
 ISPICKVAL(IsSeeded__c, &apos;true&apos;),
 ISBLANK(SeedDescription__c)
