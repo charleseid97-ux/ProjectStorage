@@ -1627,11 +1627,6 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>ProjectProductChild__c.IsUSEligible__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
         <field>ProjectProductChild__c.IsUsingPAI__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -2681,5 +2676,5 @@
         <readable>true</readable>
     </fieldPermissions>
     <hasActivationRequired>false</hasActivationRequired>
-    <label>Product Strategy - Edit</label>
+    <label>PRP - PS/IS - Edit</label>
 </PermissionSet>
