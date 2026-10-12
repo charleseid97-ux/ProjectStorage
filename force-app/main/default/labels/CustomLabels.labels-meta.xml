@@ -2217,4 +2217,12 @@ Il calcolo viene adattato alla data di variazione delle spese effettivamente app
         <shortDescription>PMT SPC Final Notice Required</shortDescription>
         <value>SPC Final cannot be completed until the Legal team has assessed whether a Notice to Shareholders is required and recorded the decision (Yes / No) on the project.</value>
     </labels>
+    <labels>
+        <fullName>PMT_PhaseAlreadyValidated</fullName>
+        <categories>PMT</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PMT Phase Already Validated</shortDescription>
+        <value>You have validated this phase. You can no longer edit or contribute to this phase. If you need to make changes, please contact the project owner to request a rollback to draft status.</value>
+    </labels>
 </CustomLabels>

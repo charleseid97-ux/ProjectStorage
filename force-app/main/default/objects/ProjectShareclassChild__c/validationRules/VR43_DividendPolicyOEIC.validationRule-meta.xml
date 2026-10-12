@@ -6,7 +6,7 @@
 				NOT($User.BypassValidationRules__c),
 				ISPICKVAL(ProjectShareclasses__r.Fund__r.LegalForm__c , &apos;OEIC&apos;),
 				ISPICKVAL(DividendPolicy__c ,&apos;Distributing&apos;),
-				$Permission.PRPProductStrategy,
+				OR($Permission.PRPProductStrategy, $Permission.PRPIS),
 				RecordType.DeveloperName = &apos;DesignAndProposal&apos;
 )</errorConditionFormula>
     <errorDisplayField>DividendPolicy__c</errorDisplayField>

@@ -165,6 +165,7 @@
         <name>CustomObject</name>
     </types>
     <types>
+        <members>PMT_PhaseAlreadyValidated</members>
         <members>PMT_SPCFinalNoticeRequired</members>
         <name>CustomLabel</name>
     </types>
@@ -172,6 +173,8 @@
         <members>FundShareclassCreation</members>
         <members>FundShareclassModification</members>
         <members>ShareclassCreation</members>
+        <members>ProjectShareclassChild_Design_Proposal</members>
+        <members>Road_To_Market_Record_Page_1</members>
         <name>FlexiPage</name>
     </types>
     <types>
@@ -184,12 +187,20 @@
     <types>
         <members>lwc_TaskCompletionByTeam</members>
         <members>rollbackTeamValidation</members>
+        <members>fieldsModificationList</members>
+        <members>lwc_TimelineV3</members>
         <name>LightningComponentBundle</name>
     </types>
     <types>
         <members>ProjectTask__c.ControlTask</members>
         <members>ProjectTask__c.TodoTask</members>
         <name>RecordType</name>
+    </types>
+    <types>
+        <members>ProjectProductChild__c.VR11_SeedDescriptionMandatory</members>
+        <members>ProjectProductChild__c.VR13_MasterFundMandatory</members>
+        <members>ProjectShareclassChild__c.VR43_DividendPolicyOEIC</members>
+        <name>ValidationRule</name>
     </types>
     <version>64.0</version>
 </Package>

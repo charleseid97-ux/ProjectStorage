@@ -2,9 +2,9 @@
  * @description Apex controller for the PMT LWCs layoutEditableFields and projectChildTeamValidation: editable fields
  *                  from the user's PRP permission set, editability/modification conditions of a record, its fields and
  *                  record type, and the required fields of the PMT matrix (getFields, read from PMTMatrix since FIX-20178).
- * @lastModifiedBy Charles EID   [09-10-26]
+ * @lastModifiedBy Charles EID   [12-10-26]
  * @testClass PageLayoutControllerTest
- * @coverage 92%   [09-10-26]
+ * @coverage 92%   [12-10-26]
  ────────────────────────────────────── */
 public without sharing class PageLayoutController {
 
@@ -19,7 +19,7 @@ public without sharing class PageLayoutController {
             for (FieldPermissions perm : [SELECT Field, PermissionsEdit FROM FieldPermissions WHERE SObjectType = :objectApiName AND Parent.Name = :permissionSetName]) {
                 if (viewAll || perm.PermissionsEdit) fieldPermissions.put(perm.Field, perm.PermissionsEdit);
             }
-            if (teamView == 'PRPProductStrategy' && objectApiName == 'ProjectShareclassChild__c') fieldPermissions.put('ProjectShareclassChild__c.CurrencyIsoCode', !viewAll);
+            if ((teamView == 'PRPProductStrategy' || teamView == 'PRPIS') && objectApiName == 'ProjectShareclassChild__c') fieldPermissions.put('ProjectShareclassChild__c.CurrencyIsoCode', !viewAll);
         } 
         catch (Exception e) {
             System.debug('❌ Error retrieving field permissions: ' + e.getMessage());

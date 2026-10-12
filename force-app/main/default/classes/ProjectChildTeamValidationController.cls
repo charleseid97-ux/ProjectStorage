@@ -3,9 +3,9 @@
  *                  user permissions, Fund and Share Class fields of the team at the stage, required fields still empty,
  *                  team validation (TECH_TeamValidation__c) and record locking once validated.
  *              The fields of a team at a stage come from the PMT matrix (PMTMatrix, FIX-20178).
- * @lastModifiedBy Charles EID   [09-10-26]
+ * @lastModifiedBy Charles EID   [12-10-26]
  * @testClass Test_ProjectChildTeamValidationCTRL
- * @coverage 93%   [09-10-26]
+ * @coverage 93%   [12-10-26]
  ────────────────────────────────────── */
 public without sharing class ProjectChildTeamValidationController {
     static final Id fundModificationRecordTypeId = Schema.SObjectType.ProjectProduct__c.getRecordTypeInfosByDeveloperName().get('FundShareClassModification').getRecordTypeId();  
@@ -600,8 +600,8 @@ public static void lockRecordPPC(List<ProjectProductChild__c> newList, List<Proj
         String validatedTeams = String.valueOf(newRec.get('TECH_TeamValidation__c'));
         if (String.isEmpty(validatedTeams)) continue;
 
-        //On ajoute un bypass pour product strategy si ils modifient la start date / end date du project product child
-        if (PRPUserPermissionSet.contains('ProductStrategy') && (newRec.StartDate__c != oldRec.StartDate__c || newRec.EndDate__c != oldRec.EndDate__c)) {
+        //On ajoute un bypass pour product strategy (et IS, FIX-20178) si ils modifient la start date / end date du project product child
+        if ((PRPUserPermissionSet.contains('ProductStrategy') || PRPUserPermissionSet.contains('IS')) && (newRec.StartDate__c != oldRec.StartDate__c || newRec.EndDate__c != oldRec.EndDate__c)) {
             continue;
         }
           
@@ -609,10 +609,7 @@ public static void lockRecordPPC(List<ProjectProductChild__c> newList, List<Proj
             if (!allowedFields.contains(field) && isChanged(oldRec, newRec, field) && isAlreadyValidated(validatedTeams, PRPUserPermissionSet, newRec)) {
               
                 System.debug('[LAUNCHING ERROR]: You have validated this phase Fund triggered');
-                newRec.addError(
-                    'You have validated this phase. You can no longer edit or contribute to this phase.\n' +
-                    'If you need to make changes, please contact the project owner to request a rollback to draft status.'
-                );
+                newRec.addError(System.Label.PMT_PhaseAlreadyValidated);
                 // On arrête dès qu’un champ interdit est modifié
                 break; 
             }
@@ -626,7 +623,7 @@ private static Boolean isAlreadyValidated(String validatedTeams, List<String> PR
     if (PRPUserPermissionSet.isEmpty()) {
         return true;
     }
-    if (PRPUserPermissionSet.contains('ProductStrategy') && projectProductchild.Parent_Record_Type_Id__c == fundModificationRecordTypeId) {
+    if ((PRPUserPermissionSet.contains('ProductStrategy') || PRPUserPermissionSet.contains('IS')) && projectProductchild.Parent_Record_Type_Id__c == fundModificationRecordTypeId) { // FIX-20178: IS edits modification projects like Product Strategy
         return false;
     }
     List<String> l_validatedTeams = validatedTeams.split(';');
@@ -686,7 +683,7 @@ public static void lockRecordShareClassChild(ProjectShareclassChild__c newProjec
     String  recordtypeSCChild= [SELECT Id, DeveloperName from RecordType WHERE Id= :newProjectShareclassChild.RecordTypeId ].DeveloperName;
     for (ProjectChildJunction__c projectChildJunction:projectChildJunctions){
             if(projectChildJunction.ProjectProductChild__r.RecordType.DeveloperName == recordtypeSCChild){
-                if(psName =='ProductStrategy' && projectChildJunction.ProjectProductChild__r.TECH_ProjectRecordType__c == 'FundShareClassModification'){
+                if((psName == 'ProductStrategy' || psName == 'IS') && projectChildJunction.ProjectProductChild__r.TECH_ProjectRecordType__c == 'FundShareClassModification'){
                     continue;
                 }
                 String teamValidation =(String) projectChildJunction.ProjectProductChild__r.TECH_TeamValidation__c;
@@ -694,7 +691,7 @@ public static void lockRecordShareClassChild(ProjectShareclassChild__c newProjec
                     System.debug(teamValidation);
                     if(newProjectShareclassChild!= oldProjectShareclassChild){
                         System.debug('[LAUNCHING ERROR]: You have validated this phase Shareclass triggered');
-                        newProjectShareclassChild.addError('You have validated this phase. You can no longer edit or contribute to this phase. If you need to make changes, please contact the project owner to request a rollback to draft status.');
+                        newProjectShareclassChild.addError(System.Label.PMT_PhaseAlreadyValidated);
                     }  
                 }}}
  }
