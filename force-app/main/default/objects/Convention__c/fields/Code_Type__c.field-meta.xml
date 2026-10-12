@@ -118,6 +118,11 @@
                 <label>Business Introducer</label>
             </value>
             <value>
+                <fullName>IS CGF (French ELS)</fullName>
+                <default>false</default>
+                <label>IS CGF (French ELS)</label>
+            </value>
+            <value>
                 <fullName>Agreement without Rebates</fullName>
                 <default>false</default>
                 <isActive>false</isActive>
@@ -248,6 +253,10 @@
             <controllingFieldValue>Standard</controllingFieldValue>
             <controllingFieldValue>Master</controllingFieldValue>
             <valueName>Business Introducer</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Standard</controllingFieldValue>
+            <valueName>IS CGF (French ELS)</valueName>
         </valueSettings>
         <valueSettings>
             <controllingFieldValue>Master</controllingFieldValue>
