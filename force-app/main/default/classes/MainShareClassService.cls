@@ -1,6 +1,5 @@
 public without sharing class MainShareClassService {
 
-    private static final String RegistrationRecordTypeDeveloperName = 'RegistrationCountry';
     private static final String UkCountryCode = 'GB';
     private static final String UkScope = 'UK';
     private static final String AllCountriesScope = 'ALL_COUNTRIES';
@@ -51,12 +50,7 @@ public without sharing class MainShareClassService {
             return;
         }
 
-        Id registrationRecordTypeId = getRegistrationRecordTypeId();
         for (Country__c registration : newRegistrations) {
-            if (!isRegistrationCountry(registration, registrationRecordTypeId)) {
-                continue;
-            }
-
             Country__c oldRegistration = oldRegistrationsMap == null ? null : oldRegistrationsMap.get(registration.Id);
             Boolean isManualChange = oldRegistration == null
                 ? registration.IsMainShareClass__c == true
@@ -150,7 +144,7 @@ public without sharing class MainShareClassService {
         }
 
         List<Country__c> registrations = [
-            SELECT Id, RecordTypeId, Country__c, ShareClass__c
+            SELECT Id, Country__c, ShareClass__c
             FROM Country__c
             WHERE Id IN :registrationIds
         ];
@@ -163,19 +157,18 @@ public without sharing class MainShareClassService {
             return;
         }
 
-        Id registrationRecordTypeId = getRegistrationRecordTypeId();
-        Set<Id> shareClassIds = collectShareClassIds(registrations, registrationRecordTypeId);
+        Set<Id> shareClassIds = collectShareClassIds(registrations);
         if (shareClassIds.isEmpty()) {
             return;
         }
 
         Map<Id, Share_Class__c> shareClasses = new Map<Id, Share_Class__c>([
-            SELECT Id, Fund__c,Name__c
+            SELECT Id, Fund__c, Name__c
             FROM Share_Class__c
             WHERE Id IN :shareClassIds
         ]);
 
-        Set<String> groupKeys = collectGroupKeys(registrations, shareClasses, registrationRecordTypeId);
+        Set<String> groupKeys = collectGroupKeys(registrations, shareClasses);
         recalculateGroups(groupKeys);
     }
 
@@ -189,16 +182,15 @@ public without sharing class MainShareClassService {
             return;
         }
 
-        Id registrationRecordTypeId = getRegistrationRecordTypeId();
         List<Country__c> registrations = [
-            SELECT Id, RecordTypeId, Country__c, ShareClass__c
+            SELECT Id, Country__c, ShareClass__c
             FROM Country__c
             WHERE ShareClass__c IN :shareClassIds
         ];
 
         Set<String> groupKeys = new Set<String>();
         for (Country__c registration : registrations) {
-            if (!isRegistrationCountry(registration, registrationRecordTypeId) || String.isBlank(registration.Country__c)) {
+            if (registration == null || String.isBlank(registration.Country__c)) {
                 continue;
             }
 
@@ -499,8 +491,7 @@ public without sharing class MainShareClassService {
             SELECT Id, Country__c, RegistrationStatus__c, ShareClass__c, IsMainShareClass__c,
                    ShareClass__r.Name__c, ShareClass__r.Fund__c, ShareClass__r.Fund__r.LegalForm__c
             FROM Country__c
-            WHERE RecordType.DeveloperName = :RegistrationRecordTypeDeveloperName
-            AND ShareClass__r.Fund__c IN :fundIds
+            WHERE  ShareClass__r.Fund__c IN :fundIds
             AND Country__c IN :countryCodes
         ];
     }
@@ -526,11 +517,11 @@ public without sharing class MainShareClassService {
         return registrationsByGroup;
     }
 
-    // Collects Share Class identifiers from RegistrationCountry records only.
-    private static Set<Id> collectShareClassIds(List<Country__c> registrations, Id registrationRecordTypeId) {
+    // Collects Share Class identifiers from Country records.
+    private static Set<Id> collectShareClassIds(List<Country__c> registrations) {
         Set<Id> shareClassIds = new Set<Id>();
         for (Country__c registration : registrations) {
-            if (isRegistrationCountry(registration, registrationRecordTypeId) && registration.ShareClass__c != null) {
+            if (registration != null && registration.ShareClass__c != null) {
                 shareClassIds.add(registration.ShareClass__c);
             }
         }
@@ -541,12 +532,11 @@ public without sharing class MainShareClassService {
     // Builds Product + Country keys from the registrations and their related Share Classes.
     private static Set<String> collectGroupKeys(
         List<Country__c> registrations,
-        Map<Id, Share_Class__c> shareClasses,
-        Id registrationRecordTypeId
+        Map<Id, Share_Class__c> shareClasses
     ) {
         Set<String> groupKeys = new Set<String>();
         for (Country__c registration : registrations) {
-            if (!isRegistrationCountry(registration, registrationRecordTypeId) || String.isBlank(registration.Country__c)) {
+            if (registration == null || String.isBlank(registration.Country__c)) {
                 continue;
             }
 
@@ -588,8 +578,7 @@ public without sharing class MainShareClassService {
         return oldRegistration == null
             || newRegistration.Country__c != oldRegistration.Country__c
             || newRegistration.ShareClass__c != oldRegistration.ShareClass__c
-            || newRegistration.RegistrationStatus__c != oldRegistration.RegistrationStatus__c
-            || newRegistration.RecordTypeId != oldRegistration.RecordTypeId;
+            || newRegistration.RegistrationStatus__c != oldRegistration.RegistrationStatus__c;
     }
 
     // Detects Share Class changes used directly by the Main Share Class rules or grouping.
@@ -597,19 +586,6 @@ public without sharing class MainShareClassService {
         return oldShareClass == null
             || newShareClass.Fund__c != oldShareClass.Fund__c
             || newShareClass.Name__c != oldShareClass.Name__c;
-    }
-
-    // Checks whether a Country record belongs to the RegistrationCountry record type.
-    private static Boolean isRegistrationCountry(Country__c registration, Id registrationRecordTypeId) {
-        return registration != null && registration.RecordTypeId == registrationRecordTypeId;
-    }
-
-    // Returns the RegistrationCountry record type identifier from the org metadata.
-    private static Id getRegistrationRecordTypeId() {
-        Schema.RecordTypeInfo recordTypeInfo = Schema.SObjectType.Country__c
-            .getRecordTypeInfosByDeveloperName()
-            .get(RegistrationRecordTypeDeveloperName);
-        return recordTypeInfo == null ? null : recordTypeInfo.getRecordTypeId();
     }
 
     // Builds a stable key for one Product + Country calculation group.

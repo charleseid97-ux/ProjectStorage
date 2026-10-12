@@ -5,8 +5,7 @@ public without sharing class MainShareClassBatch implements Database.Batchable<S
         return Database.getQueryLocator([
             SELECT Id
             FROM Country__c
-            WHERE RecordType.DeveloperName = 'RegistrationCountry'
-            AND ShareClass__c != null
+            WHERE ShareClass__c != null
             AND Country__c != null
         ]);
     }
