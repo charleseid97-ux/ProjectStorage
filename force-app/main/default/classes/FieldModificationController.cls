@@ -4,9 +4,9 @@
  *                  with their owning team and stage from the PMT matrix, the current referential value and the new
  *                  value, and updates field values.
  *              The matrix is restricted to the project's Scope (PMTMatrix.forScope, FIX-20178, blank = PS).
- * @lastModifiedBy Charles EID   [09-10-26]
+ * @lastModifiedBy Charles EID   [12-10-26]
  * @testClass Test_FieldModificationController
- * @coverage 100%   [09-10-26]
+ * @coverage 100%   [12-10-26]
  ────────────────────────────────────── */
 public without sharing class FieldModificationController {
     @AuraEnabled(cacheable=true)
@@ -152,7 +152,7 @@ public without sharing class FieldModificationController {
     private static Map<String, String> buildFieldRow(String field, Map<String, String> childIdByStage, Map<String, String> teamOwners, Map<String, String> phases, Map<String, Map<String, String>> fieldNewValue, Map<String, Map<String, String>> fieldOldValue, Map<String, String> stageStatus) {
         String team = teamOwners.get(field);
         String phase = phases.get(field);
-        String childId = childIdByStage.get(phase);
+        String childId = childIdByStage?.get(phase); // FIX-20269: no stage record when the field is not in the project's scoped matrix (phase unknown) or the project has no record for that stage
         String validatedTeams = stageStatus.get(childId);
 
         return new Map<String, String>{
@@ -160,8 +160,8 @@ public without sharing class FieldModificationController {
             'teamOwner' => team ?? 'Unknown',
             'phase' => phase ?? 'Unknown',
             'childRecordId' => childId ?? '',
-            'newValue' => fieldNewValue.get(childId).get(field) ?? '',
-            'previousValue' => fieldOldValue.get(childId).get(field) ?? '',
+            'newValue' => fieldNewValue.get(childId)?.get(field) ?? '',
+            'previousValue' => fieldOldValue.get(childId)?.get(field) ?? '',
             'statusValue' => validatedTeams != null && validatedTeams.contains(team?.replaceAll(' ', '')) ? 'Valid' : 'Invalid'
         };
     }
