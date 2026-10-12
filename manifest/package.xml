@@ -1,8 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Package xmlns="http://soap.sforce.com/2006/04/metadata">
     <types>
-        <members>TSP_Notifier</members>
-        <name>ApexClass</name>
+        <members>Case.AIAgentGovernance</members>
+        <name>RecordType</name>
+    </types>
+    <types>
+        <members>AI_Agents_Users</members>
+        <name>PermissionSet</name>
     </types>
     <version>66.0</version>
 </Package>
