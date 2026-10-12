@@ -4,10 +4,10 @@
     <protected>false</protected>
     <values>
         <field>DurationDays__c</field>
-        <value xsi:type="xsd:double">30</value>
+        <value xsi:type="xsd:double">30.0</value>
     </values>
     <values>
         <field>Order__c</field>
-        <value xsi:type="xsd:double">2</value>
+        <value xsi:type="xsd:double">2.0</value>
     </values>
 </CustomMetadata>

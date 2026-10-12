@@ -1,33 +1,16 @@
 /** ──────────────────────────────────────
- * @description Helper methods for ProjectProduct__c trigger logic: stage list from ProductProjectSettings__c,
- *                  Project Product Child creation, step validation (TECH_TeamValidation__c) and blanking of newly
- *                  selected fields when TECH_FieldsToModify__c changes, filled-fields count, Launch Date milestone sync
- *                  and Legal owner lookups.
- *              Shared PS/IS rule, driven by ProjectProduct__c.Scope__c (blank = PS): getProjectScope, filterByScope
- *                  (keeps the matching "Product Strategy"/"IS" ProductProjectSettings__c row) and resolveScopeTeam
- *                  (a PS/IS field belongs to the Scope team). Used here (validateSteps) and by ProjectShareclassHandler,
- *                  FieldModificationController, TaskCompletionByTeamController and RollbackTeamValidationController.
- * @lastModifiedBy Charles EID   [07-10-26]
+ * @description Helper methods for ProjectProduct__c trigger logic: Project Product Child creation, step validation
+ *                  (TECH_TeamValidation__c) and blanking of newly selected fields when TECH_FieldsToModify__c changes,
+ *                  filled-fields count and Launch Date milestone sync.
+ *              Project side of the PS/IS rule: getProjectScope and normalizeScope (blank Scope = PS, defined only here).
+ *                  Which team applies to a Scope is configuration (PMTTeam__mdt.Scope__c, read by PMTMatrix.forScope,
+ *                  FIX-20178); validateSteps reads the PMT matrix restricted to the project's Scope.
+ * @lastModifiedBy Charles EID   [09-10-26]
  * @testClass Test_ProjectProductTrigger, Test_FieldModificationController
- * @coverage 78%   [07-10-26]
+ * @coverage 95%   [09-10-26]
  ────────────────────────────────────── */
 public class ProjectProductSetupHandlerUtilities {
-    static final Id fundModificationRecordTypeId = Schema.SObjectType.ProjectProduct__c.getRecordTypeInfosByDeveloperName().get('FundShareClassModification').getRecordTypeId(); 
-    public static Set<String> getPicklistValuesForStages(String projectType) {
-        Set<String> stageValues = new Set<String>();
-        List<ProductProjectSettings__c> metadataRecords = [
-            SELECT Stage__c
-            FROM ProductProjectSettings__c
-            WHERE ProjectType__c = :projectType
-            ORDER BY Order__c ASC
-        ];
-        for (ProductProjectSettings__c record : metadataRecords) {
-            if (record.Stage__c != null) {
-                stageValues.add(record.Stage__c);
-            }
-        }
-        return stageValues;
-    }
+    static final Id fundModificationRecordTypeId = Schema.SObjectType.ProjectProduct__c.getRecordTypeInfosByDeveloperName().get('FundShareClassModification').getRecordTypeId();
 
     public static ProjectProductChild__c createProjectProductChild(String stage, String parentId, Date startDate, Date endDate , List<String> teamswithNofields, Integer nbOfFieldsGoal) {
         System.debug('### [DEBUG] Setting for stage ' + stage);
@@ -65,57 +48,15 @@ public class ProjectProductSetupHandlerUtilities {
         return ppc;
     }
 
-    public static void getOwnersTeam(ProjectProduct__c projectproduct) {
-         List<ProductProjectSettings__c> settings = [
-            SELECT TeamOwner__c , Owner__c ,Team__c , OrderTeam__c
-            FROM ProductProjectSettings__c
-            WHERE ProjectType__c = 'Creation' AND Stage__c = 'Design'
-            ORDER BY OrderTeam__c ASC
-        ];
-        
-        if (projectproduct.VehicleType__c == 'Fund') {
-            projectproduct.ProductStrategy__c = settings[0].TeamOwner__c;
-            projectproduct.IS__c = null;
-        } else {
-            projectproduct.IS__c = settings[13].TeamOwner__c;
-            projectproduct.ProductStrategy__c = null;
-        }
-        projectproduct.Legal__c=settings[1].TeamOwner__c;
-        projectproduct.Tax__c=settings[2].TeamOwner__c;
-        projectproduct.OPS__c=settings[3].TeamOwner__c;
-        projectproduct.Risk__c=settings[4].TeamOwner__c;
-        projectproduct.ESG__c=settings[5].TeamOwner__c;
-        projectproduct.Compliance__c=settings[6].TeamOwner__c;
-        projectproduct.DCO__c=settings[7].TeamOwner__c;
-        projectproduct.DCR__c=settings[8].TeamOwner__c;
-        projectproduct.InvestmentPerf__c=settings[9].TeamOwner__c;
-        projectproduct.Finance__c=settings[10].TeamOwner__c;
-        projectproduct.Communication__c=settings[11].TeamOwner__c;
-        projectproduct.Technology__c=settings[12].TeamOwner__c;
-    }
-    
-    // US-20120: Récupère le Scope (PS/IS) du projet.
+    // US-20120: Récupère le Scope (PS/IS) du projet, normalisé (Scope vide = PS).
     public static String getProjectScope(Id recordId) {
         ProjectProduct__c projectProduct = [SELECT Scope__c FROM ProjectProduct__c WHERE Id = :recordId LIMIT 1];
-        return projectProduct.Scope__c;
+        return normalizeScope(projectProduct.Scope__c);
     }
 
-    // US-20120: Ne garde que la ligne "Product Strategy" ou "IS" qui correspond au Scope du projet - l'autre est une configuration parallèle qui ne s'applique jamais au même projet. Scope vide = PS.
-    public static List<ProductProjectSettings__c> filterByScope(List<ProductProjectSettings__c> settings, String scope) {
-        String excludedTeam = scope == 'IS' ? 'Product Strategy' : 'IS';
-
-        List<ProductProjectSettings__c> filtered = new List<ProductProjectSettings__c>();
-        for (ProductProjectSettings__c setting : settings) {
-            if (setting.Team__c == excludedTeam) continue;
-            filtered.add(setting);
-        }
-        return filtered;
-    }
-
-    // FIX-20178: Un champ configuré pour "Product Strategy" ou "IS" appartient à l'équipe du Scope du projet. Scope vide = PS.
-    public static String resolveScopeTeam(String team, String scope) {
-        if (team != 'Product Strategy' && team != 'IS') return team;
-        return scope == 'IS' ? 'IS' : 'Product Strategy';
+    // US-20120 / FIX-20178: un projet sans Scope (antérieur au champ) est un projet PS. Seul endroit où ce défaut est défini.
+    public static String normalizeScope(String scope) {
+        return String.isBlank(scope) ? 'PS' : scope;
     }
 
     public static void validateSteps(Map<Id, ProjectProduct__c> newProjectProduct, Map<Id, ProjectProduct__c> oldProjectProduct) {
@@ -133,14 +74,15 @@ public class ProjectProductSetupHandlerUtilities {
 
         if (changedProjectIds.isEmpty()) return;
     
-        // Get mappings
-        Map<String, String> teamFields = ProjectMatriceUtilities.getAllRequiredAndNonRequiredFieldsByTeamShareClass();
-        teamFields.putAll(ProjectMatriceUtilities.getAllRequiredAndNonRequiredFieldsByTeamFund());
-        Map<String, String> stageFields = ProjectMatriceUtilities.getAllRequiredAndNonRequiredFieldsByStepShareClass();
-        stageFields.putAll(ProjectMatriceUtilities.getAllRequiredAndNonRequiredFieldsByStepFund());
-    
-        // Set<String> allTeams = new Set<String>(teamFields.values()); // complete list of teams
-    
+        // FIX-20178: stage and team of each field from the PMT matrix restricted to the project's Scope (one set of maps per scope)
+        PMTMatrix matrix = PMTMatrix.get();
+        Map<String, Map<String, String>> stageFieldsByScope = new Map<String, Map<String, String>>();
+        Map<String, Map<String, String>> teamFieldsByScope = new Map<String, Map<String, String>>();
+
+        // Every validation team (Product Strategy and IS included) - the ones owning a modified field are removed below
+        List<String> allTeams = new List<String>();
+        for (PMTMatrix.Team team : matrix.getValidationTeams()) allTeams.add(team.key);
+
         Map<Id, ProjectProductChild__c> updates = new Map<Id, ProjectProductChild__c>();
         Set<String> fieldsToModify = new Set<String>();
 
@@ -158,9 +100,16 @@ public class ProjectProductSetupHandlerUtilities {
               AND ProjectProductChild__r.Name != 'Design'
         ]) {
             ProjectProductChild__c child = junction.ProjectProductChild__r;
-            child.TECH_TeamValidation__c = 'ProductStrategy;Risk;Legal;Tax;OPS;ESG;Compliance;DCO;DCR;InvestmentPerf;Finance;Communication;Technology;IS';
-            List<String> allTeams = new List<String>(child.TECH_TeamValidation__c.split(';'));
             Id parentId = child.ProjectProductParent__c;
+
+            String scope = normalizeScope(child.ProjectProductParent__r.Scope__c);
+            if (!stageFieldsByScope.containsKey(scope)) {
+                PMTMatrix scopedMatrix = matrix.forScope(scope);
+                stageFieldsByScope.put(scope, scopedMatrix.getStageByField());
+                teamFieldsByScope.put(scope, scopedMatrix.getTeamByField());
+            }
+            Map<String, String> stageFields = stageFieldsByScope.get(scope);
+            Map<String, String> teamFields = teamFieldsByScope.get(scope);
     
             if (String.isNotBlank(junction.ProjectShareclass__r.TECH_FieldsToModify__c)) {
                 fieldsToModify.addAll(junction.ProjectShareclass__r.TECH_FieldsToModify__c.split(';'));
@@ -181,8 +130,6 @@ public class ProjectProductSetupHandlerUtilities {
                 if (child.TECH_Childtype__c == stage) {
                     String team = teamFields.get(field);
                     if (team != null) {
-                        // FIX-20178: PS/IS team driven by the project's Scope__c (replaces the US-17744 VehicleType "Funds" rule)
-                        team = resolveScopeTeam(team, child.ProjectProductParent__r.Scope__c);
                         System.debug('field=>' + field + ' team=>' + team );
                         remainingTeams.remove(team.replaceAll(' ', ''));
                     }
@@ -312,37 +259,4 @@ public class ProjectProductSetupHandlerUtilities {
         }
     }
 
-    public static Map<Id, User> getLegalOwnerUsers(List<ProjectProduct__c> listProjectProductChild) {
-        Map<Id, User> mapUserByUserId = new Map<Id, User>();
-        Set<Id> setUserId = new Set<Id>();
-
-        for (ProjectProduct__c projectProductChild : listProjectProductChild) {
-            if (projectProductChild.Legal__c != null) {
-                 setUserId.add(projectProductChild.Legal__c);
-            }
-        }
-
-        if (!setUserId.isEmpty()) {
-            for (User oUser : [SELECT Id, Name FROM User WHERE Id IN :setUserId]) {
-                mapUserByUserId.put(oUser.Id, oUser);
-            }
-            if (!mapUserByUserId.isEmpty()) {
-                return mapUserByUserId;
-            }
-        }
-        else {
-            System.debug('[DEBUG] getLegalOwnerUsers : setUser is empty');
-        }
-        return null;
-    }
-
-    public static User getUser(String name) {
-        List<User> listUsers = [SELECT Id, Name FROM User WHERE Name = :name LIMIT 1];
-        if (!listUsers.isEmpty()) {
-            return listUsers[0];
-        }
-        System.debug('[DEBUG] getUser : No user found for name :' + name);
-        return null;
-     
-    }
 }

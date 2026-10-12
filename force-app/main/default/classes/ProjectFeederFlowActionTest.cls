@@ -9,12 +9,14 @@ private class ProjectFeederFlowActionTest {
 
         // Create Project Products
         ProjectProduct__c projectWithFeeder = new ProjectProduct__c(
-            Name = 'Test Project With Feeder'
+            Name = 'Test Project With Feeder',
+            ProjectStartDate__c = Date.today() // FIX-20178: the PMT stages always exist now, so the project structure is created and needs a start date
         );
         insert projectWithFeeder;
 
         ProjectProduct__c projectWithoutFeeder = new ProjectProduct__c(
-            Name = 'Test Project Without Feeder'
+            Name = 'Test Project Without Feeder',
+            ProjectStartDate__c = Date.today() // FIX-20178: the PMT stages always exist now, so the project structure is created and needs a start date
         );
         insert projectWithoutFeeder;
 

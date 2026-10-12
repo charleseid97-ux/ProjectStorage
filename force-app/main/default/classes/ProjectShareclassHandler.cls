@@ -2,11 +2,13 @@
  * @description Trigger logic for ProjectShareclass__c: share class names, fields goal per stage, Project Shareclass
  *                  Child creation, step validation (TECH_TeamValidation__c) when TECH_FieldsToModify__c changes,
  *                  blanking of newly selected fields and Tax Transparency sync.
- *              In validateSteps, the "Product Strategy"/"IS" team follows the project's Scope__c (FIX-20178, blank = PS).
+ *              Fields goal and step validation read the PMT matrix (PMTMatrix, FIX-20178); in validateSteps the matrix
+ *                  is restricted to the project's Scope (PMTMatrix.forScope), so a field owned by Product Strategy and
+ *                  IS goes to the Scope's team.
  *              Previous change: US-19137 (Mira EID, 26-05-26) - updated setNameWithoutProduct.
- * @lastModifiedBy Charles EID   [07-10-26]
+ * @lastModifiedBy Charles EID   [09-10-26]
  * @testClass Test_ProjectShareclassTrigger
- * @coverage 96%   [07-10-26]
+ * @coverage 96%   [09-10-26]
  ────────────────────────────────────── */
 public class ProjectShareclassHandler {
     
@@ -16,18 +18,11 @@ public class ProjectShareclassHandler {
 
     public static void nbOfFieldsGoal(Map<id, ProjectShareclass__c> newChilds) {
         System.debug('ProjectShareclassHandler.nbOfFieldsGoal - newChilds: ' + newChilds);
+        // FIX-20178: champs Share Class requis par étape, depuis la matrice PMT
         Map<String, Set<String>> fieldListByStage = new Map<String, Set<String>>();
-        for (ProductProjectSettings__c setting : [SELECT Stage__c, Team__c, RequiredFieldsShareClass__c 
-                                                    FROM ProductProjectSettings__c 
-                                                    WHERE ProjectType__c = 'Creation' ]) {
-            
-            if (setting.RequiredFieldsShareClass__c != null) {
-                if (!fieldListByStage.containsKey(setting.Stage__c)) {
-                    fieldListByStage.put(setting.Stage__c, new Set<String>());
-                }
-                
-                fieldListByStage.get(setting.Stage__c).addAll(setting.RequiredFieldsShareClass__c.split(';'));                
-            }
+        Map<String, List<String>> requiredFieldsByStage = PMTMatrix.get().getRequiredFieldsByStage(false);
+        for (String stage : requiredFieldsByStage.keySet()) {
+            fieldListByStage.put(stage, new Set<String>(requiredFieldsByStage.get(stage)));
         }
 
         Decimal nbOfFields = 0;
@@ -124,14 +119,15 @@ public class ProjectShareclassHandler {
     
         if (modifiedShareClassIds.isEmpty()) return;
     
-        // Load all field mappings
-        Map<String, String> stageFields = ProjectMatriceUtilities.getAllRequiredAndNonRequiredFieldsByStepShareClass();
-        stageFields.putAll(ProjectMatriceUtilities.getAllRequiredAndNonRequiredFieldsByStepFund());
-    
-        Map<String, String> teamFields = ProjectMatriceUtilities.getAllRequiredAndNonRequiredFieldsByTeamShareClass();
-        teamFields.putAll(ProjectMatriceUtilities.getAllRequiredAndNonRequiredFieldsByTeamFund());
-    
-    
+        // FIX-20178: stage and team of each field from the PMT matrix restricted to the project's Scope (one set of maps per scope)
+        PMTMatrix matrix = PMTMatrix.get();
+        Map<String, Map<String, String>> stageFieldsByScope = new Map<String, Map<String, String>>();
+        Map<String, Map<String, String>> teamFieldsByScope = new Map<String, Map<String, String>>();
+
+        // Every validation team (Product Strategy and IS included) - the ones owning a modified field are removed below
+        List<String> allTeams = new List<String>();
+        for (PMTMatrix.Team team : matrix.getValidationTeams()) allTeams.add(team.key);
+
         List<ProjectProductChild__c> toUpdate = new List<ProjectProductChild__c>();
     
         for (ProjectChildJunction__c junction : [
@@ -148,8 +144,15 @@ public class ProjectShareclassHandler {
               AND ProjectProductChild__r.Name != 'Design'
         ]) {
             ProjectProductChild__c child = junction.ProjectProductChild__r;
-            child.TECH_TeamValidation__c = 'ProductStrategy;Risk;Legal;Tax;OPS;ESG;Compliance;DCO;DCR;InvestmentPerf;Finance;Communication;Technology;IS';
-            List<String> allTeams = new List<String>(child.TECH_TeamValidation__c.split(';'));
+
+            String scope = ProjectProductSetupHandlerUtilities.normalizeScope(child.ProjectProductParent__r.Scope__c);
+            if (!stageFieldsByScope.containsKey(scope)) {
+                PMTMatrix scopedMatrix = matrix.forScope(scope);
+                stageFieldsByScope.put(scope, scopedMatrix.getStageByField());
+                teamFieldsByScope.put(scope, scopedMatrix.getTeamByField());
+            }
+            Map<String, String> stageFields = stageFieldsByScope.get(scope);
+            Map<String, String> teamFields = teamFieldsByScope.get(scope);
 
             Set<String> fields = new Set<String>();
             //String shareClassFields = newMap.get(junction.ProjectShareclass__c)?.TECH_FieldsToModify__c;
@@ -178,8 +181,6 @@ public class ProjectShareclassHandler {
                 if (child.TECH_Childtype__c == stage) {
                     String team = teamFields.get(field);
                     if (team != null) {
-                        // FIX-20178: PS/IS team driven by the project's Scope__c (replaces the US-17744 VehicleType "Funds" rule, which removed both IS and PS)
-                        team = ProjectProductSetupHandlerUtilities.resolveScopeTeam(team, child.ProjectProductParent__r.Scope__c);
                         remainingTeams.remove(team.replaceAll(' ', ''));
                     }
                 }

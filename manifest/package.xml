@@ -3,6 +3,7 @@
     <types>
         <members>ProjectProduct__c.Scope__c</members>
         <members>ProjectTask__c.Team__c</members>
+        <members>ProjectTask__c.Type__c</members>
         <members>Task_List__mdt.Team__c</members>
         <members>PRIIPSField__mdt.OtherTeams__c</members>
         <members>PMTStage__mdt.DurationDays__c</members>
@@ -135,6 +136,25 @@
         <members>ProjectShareclassHandler</members>
         <members>PMTMatrix</members>
         <members>Test_PMTMatrix</members>
+        <members>PageLayoutController</members>
+        <members>PageLayoutControllerTest</members>
+        <members>ProjectChildTeamValidationController</members>
+        <members>FlowEmailNotificationCtrl</members>
+        <members>Test_FlowEmailNotificationCtrl</members>
+        <members>ProjectProductChildHandler</members>
+        <members>ProjectShareclassChildHandler</members>
+        <members>ProjectProductTriggerHandler</members>
+        <members>MilestoneHandler</members>
+        <members>PMTTestFactoryData</members>
+        <members>ProjectMatriceUtilities</members>
+        <members>Test_ProjectMatriceUtilities</members>
+        <members>Test_FieldSelectorController</members>
+        <members>Test_ProjectChildTeamValidationCTRL</members>
+        <members>Test_MilestoneTrigger</members>
+        <members>Test_ProjectProductTrigger</members>
+        <members>Test_ProjectProductBatch</members>
+        <members>ProjectFeederControllerTest</members>
+        <members>ProjectFeederFlowActionTest</members>
         <name>ApexClass</name>
     </types>
     <types>
@@ -145,10 +165,21 @@
         <name>CustomObject</name>
     </types>
     <types>
+        <members>PMT_SPCFinalNoticeRequired</members>
+        <name>CustomLabel</name>
+    </types>
+    <types>
         <members>FundShareclassCreation</members>
         <members>FundShareclassModification</members>
         <members>ShareclassCreation</members>
         <name>FlexiPage</name>
+    </types>
+    <types>
+        <members>PMTFieldRule__mdt-PMT - Field Rule Layout</members>
+        <members>PMTOwnerRule__mdt-PMT - Owner Rule Layout</members>
+        <members>PMTStage__mdt-PMT - Stage Layout</members>
+        <members>PMTTeam__mdt-PMT - Team Layout</members>
+        <name>Layout</name>
     </types>
     <types>
         <members>lwc_TaskCompletionByTeam</members>

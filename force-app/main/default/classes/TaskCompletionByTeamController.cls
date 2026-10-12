@@ -1,27 +1,25 @@
 /** ──────────────────────────────────────
  * @description Lightning Web Component controller for the Team Completion widget (lwc_TaskCompletionByTeam).
- *              Builds the per-stage/per-team step data (owner, status, icon) for the current Project Product,
- *                  already filtered to the single "Product Strategy" or "IS" row matching the project's Scope__c
- *                  (US-20120 - the client no longer needs to know this rule exists), and bulk-calculates
- *                  completion percentages per step/team from the required fields configured on ProductProjectSettings__c.
- *              Works in conjunction with TaskCompletionByTeamControllerUtilities for data retrieval, and with
- *                  ProjectProductSetupHandlerUtilities for the PS/IS Scope rule (FIX-20178).
- * @lastModifiedBy Charles EID   [07-10-26]
+ *              Builds the per-stage/per-team step data (owner, status, icon) for the current Project Product, from the
+ *                  PMT matrix restricted to the project's Scope (PMTMatrix.forScope - only the "Product Strategy" or
+ *                  "IS" team applies, the client never needs to know this rule), and bulk-calculates completion
+ *                  percentages per step/team from the required fields of the PMT matrix (FIX-20178).
+ *              Works in conjunction with TaskCompletionByTeamControllerUtilities for data retrieval.
+ * @lastModifiedBy Charles EID   [09-10-26]
  * @testClass Test_TaskCompletionByTeamController
- * @coverage 96%   [07-10-26]
+ * @coverage 99%   [09-10-26]
  ────────────────────────────────────── */
 public without sharing class TaskCompletionByTeamController {
 
     // Récupère les étapes et équipes associées pour un projet donné
     @AuraEnabled
     public static String getStepWithTeams(Id recordId) {
-        // US-20120: ne garde que la ligne "Product Strategy" ou "IS" correspondant au Scope du projet,
+        // US-20120 / FIX-20178: matrice PMT restreinte au Scope du projet (PS ou IS),
         // pour que le client n'ait jamais à connaître/recoder cette règle.
         String projectScope = ProjectProductSetupHandlerUtilities.getProjectScope(recordId);
-        List<ProductProjectSettings__c> stages = TaskCompletionByTeamControllerUtilities.getProjectStages();
-        List<ProductProjectSettings__c> designTeams = TaskCompletionByTeamControllerUtilities.getDesignTeams();
-        List<ProductProjectSettings__c> records = ProjectProductSetupHandlerUtilities.filterByScope(stages, projectScope);
-        List<ProductProjectSettings__c> recordsteams = ProjectProductSetupHandlerUtilities.filterByScope(designTeams, projectScope);
+        PMTMatrix matrix = PMTMatrix.get().forScope(projectScope);
+        List<PMTMatrix.FieldRule> records = TaskCompletionByTeamControllerUtilities.getProjectStages(matrix);
+        List<PMTMatrix.Team> recordsteams = matrix.getValidationTeams();
 
         Map<String, Id> mapteamowner = TaskCompletionByTeamControllerUtilities.getOwnerTeamId(recordId, recordsteams);
         
@@ -36,20 +34,21 @@ public without sharing class TaskCompletionByTeamController {
     }
 
     // Construit une map des étapes avec les équipes associées
-    private static Map<String, List<Map<String, String>>> buildStepMap(List<ProductProjectSettings__c> records, Map<String, Id> mapteamowner, Map<Id, String> mapownersName, Map<String, ProjectProductChild__c> stepsrecords) {
+    private static Map<String, List<Map<String, String>>> buildStepMap(List<PMTMatrix.FieldRule> records, Map<String, Id> mapteamowner, Map<Id, String> mapownersName, Map<String, ProjectProductChild__c> stepsrecords) {
         Map<String, List<Map<String, String>>> stepMap = new Map<String, List<Map<String, String>>>();
- 
-        for (ProductProjectSettings__c record : records) {
-            String stepName = record.Stage__c;
-            String teamName = record.Team__c;
+
+        for (PMTMatrix.FieldRule record : records) {
+            String stepName = record.stage;
+            String teamName = record.team;
             String teamNameSansSpaces = teamName.replaceAll('\\s', '');
-       
+
             Id ownerId = mapteamowner.get(teamName);
             String owner = mapownersName.get(ownerId);
             ProjectProductChild__c idrecord = stepsrecords.get(stepName);
             if (idrecord == null) continue;
- 
-            Map<String, String> teamData = createTeamData(record.Id, teamName, owner, idrecord, teamNameSansSpaces);
+
+            // FIX-20178: clé de ligne du datatable (key-field "id"), unique par étape et équipe
+            Map<String, String> teamData = createTeamData(stepName + '-' + teamNameSansSpaces, teamName, owner, idrecord, teamNameSansSpaces);
        
             if (!stepMap.containsKey(stepName)) stepMap.put(stepName, new List<Map<String, String>>());
             stepMap.get(stepName).add(teamData);
@@ -58,7 +57,7 @@ public without sharing class TaskCompletionByTeamController {
     }
 
     // Crée une structure de données pour une équipe
-    private static Map<String, String> createTeamData(Id recordId, String teamName, String owner, ProjectProductChild__c idrecord, String teamNameSansSpaces) {
+    private static Map<String, String> createTeamData(String recordId, String teamName, String owner, ProjectProductChild__c idrecord, String teamNameSansSpaces) {
         String status = 'Draft';
         String iconName = '🟠';
  
@@ -111,18 +110,10 @@ public without sharing class TaskCompletionByTeamController {
         List<TeamCompletionWrapper> results = new List<TeamCompletionWrapper>(); 
         if (recordIds.isEmpty() || stepNames.isEmpty() || teamNames.isEmpty()) return results;
 
-        // 1. Charger les settings des champs requis
-        Map<String, ProductProjectSettings__c> settingsMap = new Map<String, ProductProjectSettings__c>();
-        Set<String> allRequiredFields = new Set<String>();
-        Set<String> allRequiredFieldsShareclass = new Set<String>();
-        for (ProductProjectSettings__c setting : [SELECT Stage__c, Team__c, RequiredFields__c, RequiredFieldsShareClass__c  
-                                                    FROM ProductProjectSettings__c 
-                                                    WHERE ProjectType__c = 'Creation']) {
-            settingsMap.put(setting.Stage__c + '-' + setting.Team__c, setting);
-          
-            if (setting.RequiredFields__c != null) allRequiredFields.addAll(setting.RequiredFields__c.split(';'));
-            if (setting.RequiredFieldsShareClass__c != null) allRequiredFieldsShareclass.addAll(setting.RequiredFieldsShareClass__c.split(';'));
-        }
+        // 1. Champs requis de la matrice PMT (FIX-20178)
+        PMTMatrix matrix = PMTMatrix.get();
+        Set<String> allRequiredFields = new Set<String>(matrix.getRequiredFields(true));
+        Set<String> allRequiredFieldsShareclass = new Set<String>(matrix.getRequiredFields(false));
 
         // 2. Récupérer les ProjectProductChild avec les bons champs
         String fieldsQuery = 'Id, Name, RecordType.DeveloperName, ProjectProductParent__c, Status__c, CompletionRateStep__c';
@@ -146,13 +137,12 @@ public without sharing class TaskCompletionByTeamController {
             Id ppcId = recordIds[i];
             String step = stepNames[i];
             String team = teamNames[i];
-            String key = step + '-' + team;
-         
-            ProductProjectSettings__c setting = settingsMap.get(key);
+
             ProjectProductChild__c projectChild = projectProductChildMap.get(ppcId);
-            if (setting == null || projectChild == null) continue;
-         
-            List<String> requiredFields = (setting.RequiredFields__c != null) ? setting.RequiredFields__c.split(';') : new List<String>();
+            if (matrix.getTeam(team) == null || projectChild == null) continue;
+            PMTMatrix.FieldRule setting = matrix.getRule(team, step);
+
+            List<String> requiredFields = setting.requiredFund;
             Integer completedFields = 0;
             Integer totalFields = requiredFields.size();
          
@@ -161,7 +151,7 @@ public without sharing class TaskCompletionByTeamController {
             }
          
             // Ajout des champs shareclass si pertinents
-            List<String> requiredFieldsShareclass = (setting.RequiredFieldsShareClass__c != null) ? setting.RequiredFieldsShareClass__c.split(';') : new List<String>();
+            List<String> requiredFieldsShareclass = setting.requiredShareClass;
             Set<Id> shareClassIds = ppcToShareclassMap.containsKey(ppcId) ? ppcToShareclassMap.get(ppcId) : new Set<Id>();
             if (!shareClassIds.isEmpty()) {
                 for (Id shareClassId : shareClassIds) {

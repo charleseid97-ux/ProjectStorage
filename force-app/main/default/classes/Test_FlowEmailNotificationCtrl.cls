@@ -3,14 +3,8 @@ public class Test_FlowEmailNotificationCtrl {
  
     @isTest
     static void testGetUsers() {
-        ProductProjectSettings__c settings = new ProductProjectSettings__c(
-            Team__c = 'OPS',
-            RequiredFields__c = 'ComplexityPS__c;NAVFrequency__c',
-            RequiredFieldsShareClass__c = 'DividendPolicy__c;MaxServiceFees__c',
-            NonRequiredFieldsFund__c = 'RecommendedHoldingPeriod__c',
-            NonRequiredFieldsShareClass__c = 'DecimalsMaxAmount__c'
-        );
-        insert settings;
+        // FIX-20178: OPS owns the modified fields in the PMT matrix of this test
+        PMTTestFactoryData.createMatrice('Proposal', 'OPS', 'ComplexityPS__c;NAVFrequency__c', 'DividendPolicy__c;MaxServiceFees__c');
 
         User opsUser = new User(
             FirstName = 'Test',
@@ -26,7 +20,9 @@ public class Test_FlowEmailNotificationCtrl {
         );
         insert opsUser;
 
+        // FIX-20178: the PMT stages always exist now (custom metadata), so the project structure is created and needs a start date
         ProjectProduct__c product = new ProjectProduct__c(
+            ProjectStartDate__c = Date.today(),
             TECH_FieldsToModify__c = 'ComplexityPS__c;RecommendedHoldingPeriod__c',
             OPS__c = opsUser.Id
         );

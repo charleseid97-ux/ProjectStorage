@@ -1,3 +1,11 @@
+/** ──────────────────────────────────────
+ * @description Trigger handler of ProjectProduct__c (ProjectProductTrigger): dispatches the before/after insert and
+ *                  update logic to ProjectProductSetupHandler and ProjectProductSetupHandlerUtilities.
+ *              Before update, the PMT owner rules are reapplied (applyOwnerRules, FIX-20178 - replaces updateLegalOwner).
+ * @lastModifiedBy Charles EID   [09-10-26]
+ * @testClass Test_ProjectProductTrigger
+ * @coverage 100%   [09-10-26]
+ ────────────────────────────────────── */
 public class ProjectProductTriggerHandler {
     public static Boolean isBlankingFields = false;
 
@@ -9,8 +17,8 @@ public class ProjectProductTriggerHandler {
     
     public static void handleBeforeUpdate(Map<Id, ProjectProduct__c> newProjectProduct, Map<Id, ProjectProduct__c> oldProjectProduct) {
         new ProjectProductSetupHandler().updateProjectProductStatus(newProjectProduct , oldProjectProduct);
-        ProjectProductSetupHandler.updateLegalOwner(newProjectProduct, oldProjectProduct);
-        new   ProjectProductSetupHandler().updateProjectProductName(newProjectProduct , oldProjectProduct);
+        ProjectProductSetupHandler.applyOwnerRules(newProjectProduct, oldProjectProduct);
+        new ProjectProductSetupHandler().updateProjectProductName(newProjectProduct , oldProjectProduct);
     }
 
     public static void handleAfterInsert(Map<Id, ProjectProduct__c> l_project) {
@@ -18,7 +26,6 @@ public class ProjectProductTriggerHandler {
         new ProjectProductSetupHandler().createProjectProduct(l_project.values());
         new ProjectProductSetupHandler().createTaskList(l_project.values());
         ProjectProductSetupHandler.nbOfFieldsGoal(l_project);
-
     }
 
     public static void handleAfterUpdate(Map<Id, ProjectProduct__c> newProjectProduct, Map<Id, ProjectProduct__c> oldProjectProduct) {
@@ -26,13 +33,10 @@ public class ProjectProductTriggerHandler {
         Map<Id, ProjectProduct__c> cleanednewProjectProduct = newProjectProduct;
         Map<Id, ProjectProduct__c> recalNbOfFields = new Map<Id, ProjectProduct__c>();
             
-        if(ProjectProductChildTriggerHandler.isBlankingFields){
-            return;
-        }
+        if(ProjectProductChildTriggerHandler.isBlankingFields) return;
 
         for(String projectId : newProjectProduct.keySet()) {
-            if(newProjectProduct.get(projectId).TECH_FieldsToModify__c != oldProjectProduct.get(projectId).TECH_FieldsToModify__c){
-               
+            if(newProjectProduct.get(projectId).TECH_FieldsToModify__c != oldProjectProduct.get(projectId).TECH_FieldsToModify__c) {
                 recalNbOfFields.put(projectId, newProjectProduct.get(projectId));
             }
         }

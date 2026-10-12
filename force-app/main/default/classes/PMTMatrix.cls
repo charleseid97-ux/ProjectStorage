@@ -8,9 +8,9 @@
  *              Field lists hold one field API name per line. A team and stage without a PMTFieldRule__mdt record has
  *                  no fields there: getRule() then returns an empty rule, never null.
  * @author Charles EID
- * @lastModifiedBy Charles EID   [08-10-26]
+ * @lastModifiedBy Charles EID   [09-10-26]
  * @testClass Test_PMTMatrix
- * @coverage 100%   [08-10-26]
+ * @coverage 100%   [09-10-26]
  ────────────────────────────────────── */
 public without sharing class PMTMatrix {
 
@@ -186,15 +186,34 @@ public without sharing class PMTMatrix {
         return fields;
     }
 
+    // ProjectProduct__c fields read by the owner rules of one team.
+    public Set<String> getOwnerRuleFields(String teamName) {
+        Set<String> fields = new Set<String>();
+        for (OwnerRule rule : ownerRules) {
+            if (rule.team == teamName) fields.add(rule.field);
+        }
+        return fields;
+    }
+
     // Owner of each team of this matrix for a project: the team's default owner, then the owner rules.
     // The project must hold the fields read by the owner rules (getOwnerRuleFields()).
     public Map<String, Id> getOwnerIdByTeam(ProjectProduct__c project) {
         Map<String, Id> userIds = getUserIdByFederationId();
         Map<String, Id> ownerIdByTeam = new Map<String, Id>();
         for (Team team : teams) {
+            ownerIdByTeam.put(team.name, String.isBlank(team.ownerFederationId) ? null : userIds.get(team.ownerFederationId.toLowerCase()));
+        }
+        ownerIdByTeam.putAll(getRuleOwnerIdByTeam(project));
+        return ownerIdByTeam;
+    }
+
+    // Owner of the teams of this matrix for which an owner rule applies to the project (teams without an applicable rule are absent).
+    public Map<String, Id> getRuleOwnerIdByTeam(ProjectProduct__c project) {
+        Map<String, Id> userIds = getUserIdByFederationId();
+        Map<String, Id> ownerIdByTeam = new Map<String, Id>();
+        for (Team team : teams) {
             OwnerRule ownerRule = getOwnerRule(team.name, project);
-            String federationId = ownerRule != null ? ownerRule.ownerFederationId : team.ownerFederationId;
-            ownerIdByTeam.put(team.name, String.isBlank(federationId) ? null : userIds.get(federationId.toLowerCase()));
+            if (ownerRule != null) ownerIdByTeam.put(team.name, userIds.get(ownerRule.ownerFederationId.toLowerCase()));
         }
         return ownerIdByTeam;
     }

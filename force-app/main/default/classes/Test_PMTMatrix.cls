@@ -69,10 +69,14 @@ private class Test_PMTMatrix {
         System.assertEquals(new List<String>{ 'Legal', 'Risk' }, testMatrix.getTeamsWithoutFieldsByStage().get('Filing'), 'Validation teams without fields at the stage');
         System.assertEquals(2, testMatrix.getValidationTeams().size(), 'Teams added for tests are validation teams');
         System.assertEquals(new Set<String>{ 'LegalForm__c' }, testMatrix.getOwnerRuleFields(), 'Fields read by the owner rules');
+        System.assertEquals(new Set<String>{ 'LegalForm__c' }, testMatrix.getOwnerRuleFields('Legal'), 'Fields read by the owner rules of a team');
+        System.assert(testMatrix.getOwnerRuleFields('Risk').isEmpty(), 'A team without owner rule reads no field');
 
         System.assertEquals(fcpOwner.Id, testMatrix.getOwnerIdByTeam(new ProjectProduct__c(LegalForm__c = 'FCP')).get('Legal'), 'The rule matching the value wins');
         System.assertEquals(defaultOwner.Id, testMatrix.getOwnerIdByTeam(new ProjectProduct__c(LegalForm__c = 'SICAV')).get('Legal'), 'Any other value takes the fallback rule');
         System.assertEquals(null, testMatrix.getOwnerIdByTeam(new ProjectProduct__c()).get('Legal'), 'An empty field keeps the team default owner (none here)');
+        System.assertEquals(fcpOwner.Id, testMatrix.getRuleOwnerIdByTeam(new ProjectProduct__c(LegalForm__c = 'FCP')).get('Legal'), 'Owner of an applicable rule');
+        System.assert(!testMatrix.getRuleOwnerIdByTeam(new ProjectProduct__c()).containsKey('Legal'), 'No applicable rule when the field is empty');
     }
 
     private static User newUser(String alias, String suffix) {

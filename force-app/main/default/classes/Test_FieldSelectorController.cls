@@ -12,13 +12,7 @@ public class Test_FieldSelectorController {
     
     @isTest static void test_getSelectedFields_ProductProduct() {
         
-        // Création de la matrice nécessaire
-        PMTTestFactoryData.createMatrice(
-            'Proposal', 'Risk',
-            'RiskAssociated__c;ProjectStatus__c',
-            'CurrencyIsoCode;Type__c'
-        );
-        
+        // FIX-20178: la matrice PMT (custom metadata) est toujours disponible, plus besoin d'en créer une
         // Création d'un ProjectProduct complet
         Id prodRT = PMTTestFactoryData.getRecordTypeId('ProjectProduct__c', 'FundCreation');
         PMTTestFactoryData.createProjectProductWithAllFields(prodRT);
@@ -44,13 +38,7 @@ public class Test_FieldSelectorController {
     
     @isTest static void test_updateSelectedFields_ProductProduct() {
         
-        // Création de la matrice nécessaire
-        PMTTestFactoryData.createMatrice(
-            'Proposal', 'Risk',
-            'RiskAssociated__c;ProjectStatus__c',
-            'CurrencyIsoCode;Type__c'
-        );
-        
+        // FIX-20178: la matrice PMT (custom metadata) est toujours disponible, plus besoin d'en créer une
         // Création d'un ProjectProduct complet
         Id prodRT = PMTTestFactoryData.getRecordTypeId('ProjectProduct__c', 'FundCreation');
         ProjectProduct__c proj  = PMTTestFactoryData.createProjectProductWithAllFields(prodRT);
@@ -69,13 +57,7 @@ public class Test_FieldSelectorController {
     
     @isTest static void test_getAndUpdate_ParentShareclass() {
         
-        // Création de la matrice nécessaire
-        PMTTestFactoryData.createMatrice(
-            'Proposal', 'Risk',
-            'RiskAssociated__c;ProjectStatus__c',
-            'CurrencyIsoCode;Type__c'
-        );
-        
+        // FIX-20178: la matrice PMT (custom metadata) est toujours disponible, plus besoin d'en créer une
         // Création d'un ProjectProduct complet
         Id prodRT = PMTTestFactoryData.getRecordTypeId('ProjectProduct__c', 'FundCreation');
         ProjectProduct__c proj  = PMTTestFactoryData.createProjectProductWithAllFields(prodRT);
@@ -97,13 +79,7 @@ public class Test_FieldSelectorController {
     
     @isTest static void test_getAndUpdate_ShareclassChild() {
         
-        // Création de la matrice nécessaire
-        PMTTestFactoryData.createMatrice(
-            'Proposal', 'Risk',
-            'RiskAssociated__c;ProjectStatus__c',
-            'CurrencyIsoCode;Type__c'
-        );
-        
+        // FIX-20178: la matrice PMT (custom metadata) est toujours disponible, plus besoin d'en créer une
         // Création d'un ProjectProduct complet
         Id prodRT = PMTTestFactoryData.getRecordTypeId('ProjectProduct__c', 'FundCreation');
         PMTTestFactoryData.createProjectProductWithAllFields(prodRT);

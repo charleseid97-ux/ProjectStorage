@@ -2683,6 +2683,13 @@
                 </fieldInstanceProperties>
                 <fieldItem>Record.ProductStrategy__c</fieldItem>
                 <identifier>RecordProductStrategy_cField</identifier>
+                <visibilityRule>
+                    <criteria>
+                        <leftValue>{!Record.Scope__c}</leftValue>
+                        <operator>NE</operator>
+                        <rightValue>IS</rightValue>
+                    </criteria>
+                </visibilityRule>
             </fieldInstance>
         </itemInstances>
         <itemInstances>
@@ -2713,6 +2720,13 @@
                 </fieldInstanceProperties>
                 <fieldItem>Record.IS__c</fieldItem>
                 <identifier>RecordIS_cField</identifier>
+                <visibilityRule>
+                    <criteria>
+                        <leftValue>{!Record.Scope__c}</leftValue>
+                        <operator>EQUAL</operator>
+                        <rightValue>IS</rightValue>
+                    </criteria>
+                </visibilityRule>
             </fieldInstance>
         </itemInstances>
         <itemInstances>

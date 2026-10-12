@@ -1,9 +1,17 @@
+/** ──────────────────────────────────────
+ * @description Trigger logic for ProjectShareclassChild__c (Share Class stages of a PMT project): filled fields count
+ *                  against the stage's required Share Class fields (PMT matrix, FIX-20178), parent Share Class updates,
+ *                  record lock, cloning from the parent Share Class and tax fields.
+ * @lastModifiedBy Charles EID   [09-10-26]
+ * @testClass Test_ProjectShareclassChildTrigger
+ * @coverage 92%   [09-10-26]
+ ────────────────────────────────────── */
 public class ProjectShareclassChildHandler {
-    static final Id fundModificationRecordTypeId = Schema.SObjectType.ProjectProduct__c.getRecordTypeInfosByDeveloperName().get('FundShareClassModification').getRecordTypeId();  
+
+    static final Id fundModificationRecordTypeId = Schema.SObjectType.ProjectProduct__c.getRecordTypeInfosByDeveloperName().get('FundShareClassModification').getRecordTypeId();
+    private static Boolean isRunning = false;
     
     public static void calculNbOfFields(List<ProjectShareclassChild__c> m_newProjectShareclassChild) {
-        
-        // List<String> fieldList = new List<String>();
         List<String> parentShareClass = new List<String>();
         Map<Id, String> parentToFields = new Map<Id, String>();
         Map<Id, String> parentToRT = new Map<Id, String>();
@@ -11,54 +19,42 @@ public class ProjectShareclassChildHandler {
             proj.NbofFilledFields__c  = 0;
             parentShareClass.add(proj.ProjectShareclasses__c);
         }
-        List<ProductProjectSettings__c> settings = [SELECT Stage__c, Team__c, RequiredFieldsShareClass__c FROM ProductProjectSettings__c WHERE ProjectType__c = 'Creation' ];
-        for(ProjectShareclass__c proj : [SELECT id,Tech_FieldsToModify__c,Parent_Record_Type_Id__c FROM ProjectShareclass__c WHERE id IN :parentShareClass]){
+        // FIX-20178: champs Share Class requis par étape, depuis la matrice PMT
+        Map<String, List<String>> requiredFieldsByStage = PMTMatrix.get().getRequiredFieldsByStage(false);
+        for(ProjectShareclass__c proj : [SELECT Id, Tech_FieldsToModify__c, Parent_Record_Type_Id__c FROM ProjectShareclass__c WHERE Id IN :parentShareClass]){
             parentToFields.put(proj.Id, proj.Tech_FieldsToModify__c);
             parentToRT.put(proj.Id, proj.Parent_Record_Type_Id__c);
         }
-            for (ProjectShareclassChild__c shareClass : m_newProjectShareclassChild) {
-                List<String> fieldList = new List<String>();
+        for (ProjectShareclassChild__c shareClass : m_newProjectShareclassChild) {
+            String shareClassChildType = shareClass.TECH_Childtype__c;
 
-                for (ProductProjectSettings__c setting : settings) {
+            if(shareClass.TECH_Childtype__c =='DesignAndProposal') shareClassChildType = 'Proposal';
+            List<String> stageFields = requiredFieldsByStage.get(shareClassChildType);
+            if (stageFields == null || stageFields.isEmpty()) continue;
 
-                String shareClassChildType = shareClass.TECH_Childtype__c;
+            List<String> fieldList = new List<String>();
+            if(parentToRT.get(shareClass.ProjectShareclasses__c) ==fundModificationRecordTypeId){
 
-                if(shareClass.TECH_Childtype__c =='DesignAndProposal'){
-                    shareClassChildType = 'Proposal';
-                }
-                if(shareClassChildType == setting.Stage__c) {
-                    if (setting.RequiredFieldsShareClass__c != null) {
-                        if(parentToRT.get(shareClass.ProjectShareclasses__c) ==fundModificationRecordTypeId){
-
-                            if(parentToFields.get(shareClass.ProjectShareclasses__c) != null){
-                                for (String str : parentToFields.get(shareClass.ProjectShareclasses__c).split(';')) {
-                                    if(setting.RequiredFieldsShareClass__c.split(';').contains(str)){
-                                        fieldList.add(str);
-                                    }
-                                }
-                            }
-
-                        } else {
-                            fieldList.addAll(setting.RequiredFieldsShareClass__c.split(';'));
+                if(parentToFields.get(shareClass.ProjectShareclasses__c) != null){
+                    for (String str : parentToFields.get(shareClass.ProjectShareclasses__c).split(';')) {
+                        if(stageFields.contains(str)){
+                            fieldList.add(str);
                         }
-                        System.debug('Stage : '+shareClassChildType+' have Field List: ' + fieldList);
-                        shareClass.NbofFilledFields__c  = ProjectProductSetupHandlerUtilities.countFilledFields(shareClass,fieldList);
-
                     }
                 }
+            } 
+            else {
+                fieldList.addAll(stageFields);
             }
+            shareClass.NbofFilledFields__c  = ProjectProductSetupHandlerUtilities.countFilledFields(shareClass,fieldList);
         }
     }
     
-    public static void updateShareclassParent(Map<Id, ProjectShareclassChild__c> m_newProjectShareclassChild,
-                                          Map<Id, ProjectShareclassChild__c> m_oldProjectShareclassChild) {
+    public static void updateShareclassParent(Map<Id, ProjectShareclassChild__c> m_newProjectShareclassChild, Map<Id, ProjectShareclassChild__c> m_oldProjectShareclassChild) {
         
-        if(ProjectShareclassTriggerHandler.isUpdatingNbOfGoals){
-            return;
-        }
+        if(ProjectShareclassTriggerHandler.isUpdatingNbOfGoals) return;
 
         Set<Id> parentIds = new Set<Id>();
-        
         for (ProjectShareclassChild__c newChild : m_newProjectShareclassChild.values()) {
             if (newChild.ProjectShareclasses__c != null) {
                 parentIds.add(newChild.ProjectShareclasses__c);
@@ -68,16 +64,10 @@ public class ProjectShareclassChildHandler {
         if (parentIds.isEmpty()) return;
     
         // Récupération des parents existants
-        Map<Id, ProjectShareclass__c> parentRecords = new Map<Id, ProjectShareclass__c>(
-            [SELECT Id FROM ProjectShareclass__c WHERE Id IN :parentIds]
-        );
+        Map<Id, ProjectShareclass__c> parentRecords = new Map<Id, ProjectShareclass__c>([SELECT Id FROM ProjectShareclass__c WHERE Id IN :parentIds]);
         if (parentRecords.isEmpty()) return;
     
-        Set<String> excludedFields = new Set<String>{
-            'id', 'createddate', 'createdbyid', 'lastmodifieddate',
-            'lastmodifiedbyid', 'systemmodstamp', 'ownerid',
-            'lastactivitydate', 'recordtypeid'
-        };
+        Set<String> excludedFields = new Set<String>{'id', 'createddate', 'createdbyid', 'lastmodifieddate', 'lastmodifiedbyid', 'systemmodstamp', 'ownerid', 'lastactivitydate', 'recordtypeid'};
         Map<String, Schema.SObjectField> childFields = ProjectShareclassChild__c.SObjectType.getDescribe().fields.getMap();
         Map<String, Schema.SObjectField> parentFields = ProjectShareclass__c.SObjectType.getDescribe().fields.getMap();
     
@@ -124,25 +114,24 @@ public class ProjectShareclassChildHandler {
         }
     }
  
- 
     public static void cloneParentShareclass(List<ProjectShareclassChild__c> newProjectShareclassChild) {
         Set<Id> shareClassesIds = new Set<Id>();
         for (ProjectShareclassChild__c target : newProjectShareclassChild) {
             if(target.ProjectShareclasses__c != null ){
                 shareClassesIds.add(target.ProjectShareclasses__c);
             }
-            
         }
     
         // Query all related Shareclass records
         if (!shareClassesIds.isEmpty()) {
             Map<Id, SObject> sourceRecords = new Map<Id, SObject>();
- 
+
             try {
                 for (SObject sc : Database.query('SELECT ' + RecordCloneHelper.getAllFieldNames('ProjectShareclass__c') + ' FROM ProjectShareclass__c WHERE Id IN :shareClassesIds')) {
                     sourceRecords.put((Id)sc.get('Id'), sc);
                 }
-            } catch (Exception e) {
+            } 
+            catch (Exception e) {
                 for (ProjectShareclassChild__c target : newProjectShareclassChild) {
                     target.addError('Error querying source records: ' + e.getMessage());
                 }
@@ -154,115 +143,41 @@ public class ProjectShareclassChildHandler {
                 if (sourceRecords.containsKey(target.ProjectShareclasses__c)) {
                     try {
                         RecordCloneHelper.cloneRecordFields(sourceRecords.get(target.ProjectShareclasses__c), target);
-                    } catch (Exception e) {
+                    } 
+                    catch (Exception e) {
                         target.addError('Error cloning record: ' + e.getMessage());
                     }
-                } else {
+                } 
+                else {
                     target.addError('No matching Parent record found for cloning.');
                 }
             }
         }
     }
 
-    private static Boolean isRunning = false;
+    public static void updateTaxFields(Map<Id, ProjectShareclassChild__c> m_newProjectShareclassChild, Map<Id, ProjectShareclassChild__c> m_oldProjectShareclassChild){
+        if (isRunning) return;
+        isRunning = true;
 
-    public static void updateTaxFields(
-            Map<Id, ProjectShareclassChild__c> m_newProjectShareclassChild,
-            Map<Id, ProjectShareclassChild__c> m_oldProjectShareclassChild
-        ){
-            if (isRunning) return;
-            isRunning = true;
+        try {
+            String BE_TIS = 'BE TIS';
+            String BE_ASSET_TEST = 'BE Asset Test';
 
-            try {
-                String BE_TIS = 'BE TIS';
-                String BE_ASSET_TEST = 'BE Asset Test';
-
-                for (ProjectShareclassChild__c newRec : m_newProjectShareclassChild.values()) {
-
-                    Set<String> valuesSet = new Set<String>();
-
-                    if (!String.isBlank(newRec.TaxTransparency__c)) {
-                        valuesSet.addAll(newRec.TaxTransparency__c.split(';'));
-                    }
-
-                    // Preserve only the Tax Transparency values explicitly selected by the user
-                    Boolean hasBeTis = valuesSet.contains(BE_TIS);
-                    Boolean hasBeAssetTest = valuesSet.contains(BE_ASSET_TEST);
-                    system.debug('hasBeTis: ' + hasBeTis + ', hasBeAssetTest: ' + hasBeAssetTest);
-
-                    // Save the current selection without automatically adding the other Belgium value
-                    newRec.TaxTransparency__c = String.join(new List<String>(valuesSet), ';');
+            for (ProjectShareclassChild__c newRec : m_newProjectShareclassChild.values()) {
+                Set<String> valuesSet = new Set<String>();
+                if (!String.isBlank(newRec.TaxTransparency__c)) {
+                    valuesSet.addAll(newRec.TaxTransparency__c.split(';'));
                 }
 
-            } finally {
-                isRunning = false;
+                // Preserve only the Tax Transparency values explicitly selected by the user
+                Boolean hasBeTis = valuesSet.contains(BE_TIS);
+                Boolean hasBeAssetTest = valuesSet.contains(BE_ASSET_TEST);
+
+                newRec.TaxTransparency__c = String.join(new List<String>(valuesSet), ';'); // Save the current selection without automatically adding the other Belgium value
             }
+        } 
+        finally {
+            isRunning = false;
         }
-    
-
-    /*public static void validateBelgiumSimulatorOnProject(
-        Map<Id, ProjectShareclassChild__c> m_newProjectShareclassChild,
-        Map<Id, ProjectShareclassChild__c> m_oldProjectShareclassChild
-    ) {
-        if (m_newProjectShareclassChild == null || m_newProjectShareclassChild.isEmpty()) {
-            return;
-        }
-
-        String BELGIUM_SIMULATOR = 'Belgium Simulator';
-        String ACCUMULATING = 'Accumulating';
-        String FCP = 'FCP';
-        String BELGIUM = 'Belgium';
-
-        for (ProjectShareclassChild__c rec : m_newProjectShareclassChild.values()) {
-            Set<String> newTaxValues = new Set<String>();
-            if (!String.isBlank(rec.TaxTransparency__c)) {
-                for (String val : rec.TaxTransparency__c.split(';')) {
-                    if (!String.isBlank(val)) {
-                        newTaxValues.add(val.trim());
-                    }
-                }
-            }
-
-            Boolean shouldValidate = false;
-
-            ProjectShareclassChild__c oldRec = m_oldProjectShareclassChild.get(rec.Id);
-
-            Set<String> oldTaxValues = new Set<String>();
-            if (!String.isBlank(oldRec.TaxTransparency__c)) {
-                for (String val : oldRec.TaxTransparency__c.split(';')) {
-                    if (!String.isBlank(val)) {
-                        oldTaxValues.add(val.trim());
-                    }
-                }
-            }
-
-            shouldValidate =
-                newTaxValues.contains(BELGIUM_SIMULATOR) &&
-                !oldTaxValues.contains(BELGIUM_SIMULATOR);
-            
-
-            if (!shouldValidate) {
-                continue;
-            }
-
-            Set<String> countryValues = new Set<String>();
-            if (!String.isBlank(rec.CountryRegNeeded__c)) {
-                for (String val : rec.CountryRegNeeded__c.split(';')) {
-                    if (!String.isBlank(val)) {
-                        countryValues.add(val.trim());
-                    }
-                }
-            }
-
-            Boolean isAccumulating = rec.DividendPolicy__c == ACCUMULATING;
-            Boolean isFcp = rec.LegalForm__c == FCP;
-            Boolean isRegisteredInBe = countryValues.contains(BELGIUM);
-
-            if (!(isAccumulating && isFcp && isRegisteredInBe)) {
-                rec.addError(
-                    'Belgium Simulator can only be added for Acc share classes of FCP funds registered in Belgium.'
-                );
-            }
-        }
-    }*/
+    }
 }

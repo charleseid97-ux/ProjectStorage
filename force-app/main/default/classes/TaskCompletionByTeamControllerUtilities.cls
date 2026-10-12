@@ -1,30 +1,24 @@
 /** ──────────────────────────────────────
  * @description Shared data-access utility class for the Team Completion widget (lwc_TaskCompletionByTeam).
- *              Provides stage/team configuration retrieval from ProductProjectSettings__c, team owner resolution from
- *                  ProjectProduct__c, and the Project Product Child/Shareclass Child lookups used to calculate
- *                  completion rates.
- *              Called by TaskCompletionByTeamController. The PS/IS Scope rule (getProjectScope/filterByScope) lives in
- *                  ProjectProductSetupHandlerUtilities (FIX-20178).
- * @lastModifiedBy Charles EID   [07-10-26]
+ *              Provides the stage x validation team grid of the PMT matrix (PMTMatrix, FIX-20178), team owner
+ *                  resolution from ProjectProduct__c, and the Project Product Child/Shareclass Child lookups used to
+ *                  calculate completion rates.
+ *              Called by TaskCompletionByTeamController, which restricts the matrix to the project's Scope (PMTMatrix.forScope).
+ * @lastModifiedBy Charles EID   [09-10-26]
  * @testClass Test_TaskCompletionByTeamController
- * @coverage 100%   [07-10-26]
+ * @coverage 100%   [09-10-26]
  ────────────────────────────────────── */
 public class TaskCompletionByTeamControllerUtilities {
  
-    // Récupère les étapes de configuration
-    public static List<ProductProjectSettings__c> getProjectStages() {
-        return [SELECT Id, Name, ProjectType__c, Stage__c, Order__c, Team__c, OrderTeam__c
-                FROM ProductProjectSettings__c
-                WHERE ProjectType__c = 'Creation' AND OrderTeam__c NOT IN (15, 16, 17, 18, 19, 20)
-                ORDER BY Order__c, OrderTeam__c ASC];
-    }
- 
-    // Récupère les équipes pour "Design"
-    public static List<ProductProjectSettings__c> getDesignTeams() {
-        return [SELECT Id, Name, ProjectType__c, Stage__c, Order__c, Team__c, OrderTeam__c
-                FROM ProductProjectSettings__c
-                WHERE ProjectType__c = 'Creation' AND Stage__c = 'Design' AND OrderTeam__c NOT IN (15, 16, 17, 18, 19, 20)
-                ORDER BY OrderTeam__c ASC];
+    // FIX-20178: grille étapes x équipes de validation de la matrice PMT (triée par étape puis par équipe)
+    public static List<PMTMatrix.FieldRule> getProjectStages(PMTMatrix matrix) {
+        List<PMTMatrix.FieldRule> stageTeams = new List<PMTMatrix.FieldRule>();
+        for (PMTMatrix.Stage stage : matrix.stages) {
+            for (PMTMatrix.Team team : matrix.getValidationTeams()) {
+                stageTeams.add(matrix.getRule(team.name, stage.name));
+            }
+        }
+        return stageTeams;
     }
  
     // Récupère les ProjectProductChild associés
@@ -48,10 +42,10 @@ public class TaskCompletionByTeamControllerUtilities {
     }
  
     // Récupère le propriétaire d'une équipe pour un projet donné
-    public static Map<String, Id> getOwnerTeamId(Id recordId, List<ProductProjectSettings__c> recordsteams) {
+    public static Map<String, Id> getOwnerTeamId(Id recordId, List<PMTMatrix.Team> recordsteams) {
         List<String> teamsName = new List<String>();
-        for (ProductProjectSettings__c team : recordsteams) {
-            teamsName.add(team.Team__c);
+        for (PMTMatrix.Team team : recordsteams) {
+            teamsName.add(team.name);
         }
  
         if (teamsName.isEmpty()) return new Map<String, Id>();
