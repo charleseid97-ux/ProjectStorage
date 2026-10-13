@@ -15,10 +15,10 @@
             </value>
         </assignmentItems>
         <assignmentItems>
-            <assignToReference>Record.InvestSolutionScope__c</assignToReference>
+            <assignToReference>Record.Scope__c</assignToReference>
             <operator>Assign</operator>
             <value>
-                <booleanValue>true</booleanValue>
+                <stringValue>IS</stringValue>
             </value>
         </assignmentItems>
         <assignmentItems>
@@ -33,13 +33,6 @@
             <operator>Assign</operator>
             <value>
                 <elementReference>Max_Public_Equities_Exposure_FID</elementReference>
-            </value>
-        </assignmentItems>
-        <assignmentItems>
-            <assignToReference>Record.InvestSolutionScope__c</assignToReference>
-            <operator>Assign</operator>
-            <value>
-                <booleanValue>true</booleanValue>
             </value>
         </assignmentItems>
         <assignmentItems>
