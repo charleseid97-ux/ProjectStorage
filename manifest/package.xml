@@ -156,6 +156,8 @@
         <members>ProjectFeederControllerTest</members>
         <members>ProjectFeederFlowActionTest</members>
         <members>FieldSelectorController</members>
+        <members>ReferentialProductHomepageCtrl</members>
+        <members>ReferentialProductHomepageCtrlTest</members>
         <name>ApexClass</name>
     </types>
     <types>
@@ -191,6 +193,7 @@
         <members>fieldsModificationList</members>
         <members>lwc_TimelineV3</members>
         <members>fieldSelector</members>
+        <members>referentialProductHomepage</members>
         <name>LightningComponentBundle</name>
     </types>
     <types>

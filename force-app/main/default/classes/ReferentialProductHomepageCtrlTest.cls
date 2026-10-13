@@ -9,10 +9,10 @@ public class ReferentialProductHomepageCtrlTest {
         insert s0;
         insert s1;
         
-        Product__c p0 = new Product__c(Name='P0', FundStrategy__c=s0.Id, ProductName__c='Product Zero', InternalShortName__c='CC27', Record_Type_Name__c = 'Fund', RecordTypeId=fundRecordTypeId, Validity__c=true, LegalForm__c='SICAV',VehicleType__c='Funds');
-        Product__c p1 = new Product__c(Name='P1', FundStrategy__c=s1.Id, ProductName__c='Product One', Record_Type_Name__c = 'Fund', RecordTypeId=fundRecordTypeId, Validity__c=true);
+        Product__c p0 = new Product__c(Name='P0', FundStrategy__c=s0.Id, ProductName__c='Product Zero', InternalShortName__c='CC27', Record_Type_Name__c = 'Fund', RecordTypeId=fundRecordTypeId, Validity__c=true, LegalForm__c='SICAV',VehicleType__c='Funds', InvestSolutionScope__c=true);
+        Product__c p1 = new Product__c(Name='P1', FundStrategy__c=s1.Id, ProductName__c='Product One', Record_Type_Name__c = 'Fund', RecordTypeId=fundRecordTypeId, Validity__c=true, InvestSolutionScope__c=true);
         Product__c p2 = new Product__c(Name='P2', FundStrategy__c=s1.Id, ProductName__c='Product Inactif', Record_Type_Name__c = 'Fund', RecordTypeId=fundRecordTypeId, Validity__c=false);
-        
+
         insert p0;
         insert p1;
         insert p2;
@@ -27,19 +27,20 @@ public class ReferentialProductHomepageCtrlTest {
         insert c;
         
     }
-    
+
     @isTest
     static void getAllProducts_Test() {
         Test.startTest();
 
-        String filteredProducts = ReferentialProductHomepageCtrl.getAllProducts(NULL, NULL, NULL, NULL, 'Equity', 'A',NULL, 'SICAV', 'Funds', 'USD', NULL, true, NULL);
-        String allProducts = ReferentialProductHomepageCtrl.getAllProducts(NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, true, NULL);
-        String inactifProducts = ReferentialProductHomepageCtrl.getAllProducts(NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, false, NULL);
-        String p0Product = ReferentialProductHomepageCtrl.getAllProducts(NULL, NULL, NULL, 'FR', NULL, NULL, NULL, NULL, NULL, NULL, 'P0', true, NULL);
-        String isinProduct = ReferentialProductHomepageCtrl.getAllProducts(NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'FR0000000001', true, NULL);
-        String shortNameProduct = ReferentialProductHomepageCtrl.getAllProducts(NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'CC27', true, NULL);
-        String noTextMatch = ReferentialProductHomepageCtrl.getAllProducts(NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'NoSuchFund', true, NULL);
-        String noCountryMatch = ReferentialProductHomepageCtrl.getAllProducts(NULL, NULL, NULL, 'DE', NULL, NULL, NULL, NULL, NULL, NULL, NULL, true, NULL);
+        String filteredProducts = ReferentialProductHomepageCtrl.getAllProducts(NULL, NULL, NULL, NULL, 'Equity', 'A',NULL, 'SICAV', 'Funds', 'USD', NULL, true, false, NULL);
+        String allProducts = ReferentialProductHomepageCtrl.getAllProducts(NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, true, false, NULL);
+        String inactifProducts = ReferentialProductHomepageCtrl.getAllProducts(NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, false, false, NULL);
+        String p0Product = ReferentialProductHomepageCtrl.getAllProducts(NULL, NULL, NULL, 'FR', NULL, NULL, NULL, NULL, NULL, NULL, 'P0', true, false, NULL);
+        String isinProduct = ReferentialProductHomepageCtrl.getAllProducts(NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'FR0000000001', true, false, NULL);
+        String shortNameProduct = ReferentialProductHomepageCtrl.getAllProducts(NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'CC27', true, false, NULL);
+        String noTextMatch = ReferentialProductHomepageCtrl.getAllProducts(NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'NoSuchFund', true, false, NULL);
+        String noCountryMatch = ReferentialProductHomepageCtrl.getAllProducts(NULL, NULL, NULL, 'DE', NULL, NULL, NULL, NULL, NULL, NULL, NULL, true, false, NULL);
+        String isProducts = ReferentialProductHomepageCtrl.getAllProducts(NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, true, true, NULL);
 
         Test.stopTest();
     }

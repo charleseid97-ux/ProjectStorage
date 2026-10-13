@@ -4,11 +4,14 @@
  *                  and returns them as a hierarchy (flat list when a filter is active, grouped by Strategy otherwise).
  *              Works in conjunction with ProductHierarchyHelper for building the hierarchy items.
  * @testClass ReferentialProductHomepageCtrlTest
- * @coverage 100%   [21-09-26]
+ * @coverage TBD   [21-09-26]
  * @changes [21-09-26] [Charles EID]
  * -> Refactored for better complexity handling.
  * -> Optimized
  * -> Adapted new fields (after the removal of legacy fields)
+ * -> ItemDTO moved here from productHierarchyController (obsolete, to be deleted).
+ * -> IS Products mode only: product label is ProductName__c (falls back to Name) and products are collapsed (Share Class level hidden until opened).
+ * -> IS Products filter (isISProducts): scope on InvestSolutionScope__c (all Vehicle Types), funds not restricted to the Share Class funds, grouped by VehicleType__c (buildISProductHierarchy).
  ────────────────────────────────────── */
 public class ReferentialProductHomepageCtrl {
 
@@ -22,17 +25,17 @@ public class ReferentialProductHomepageCtrl {
                                                      ' FROM Share_Class__c WHERE ';
     private static final String SHARE_CLASS_ORDER = ' ORDER BY Primary_Portfolio_Share_Class__c desc';
 
-    private static final String FUND_SELECT = 'SELECT Id, Name, Record_Type_Name__c, RecordTypeId, LaunchDate__c, FundStrategy__c, AssetClass__c, Validity__c ' +
+    private static final String FUND_SELECT = 'SELECT Id, Name, ProductName__c, Record_Type_Name__c, RecordTypeId, LaunchDate__c, FundStrategy__c, AssetClass__c, Validity__c, VehicleType__c ' +
                                               ' FROM Product__c ' +
-                                              ' WHERE Tech_NotDisplayedProductCatalog__c = false ' +
-                                              ' AND RecordTypeId = :fundRecordTypeId ' +
-                                              ' AND VehicleType__c = \'Funds\' ';
+                                              ' WHERE Tech_NotDisplayedProductCatalog__c = false ';
+    private static final String FUND_STANDARD_SCOPE = ' AND RecordTypeId = :fundRecordTypeId AND VehicleType__c = \'Funds\' '; // Le catalogue standard ne retourne que les Funds de type 'Funds'
+    private static final String FUND_IS_SCOPE = ' AND InvestSolutionScope__c = true '; // Le catalogue IS accepte tous les Vehicle Types
 
     @AuraEnabled
     public static string getAllProducts(Boolean showSRI, Boolean showRF, Boolean showAC, String country, String assetClass, String SCType, String dividendPolicy,
-                                        String legalForm, String fundType, String selectedCurrency, String searchKey, Boolean isActiveProducts, String sfdr) {
+                                        String legalForm, String fundType, String selectedCurrency, String searchKey, Boolean isActiveProducts, Boolean isISProducts, String sfdr) {
 
-        CatalogFilters filters = new CatalogFilters(country, assetClass, SCType, dividendPolicy, legalForm, fundType, selectedCurrency, searchKey, isActiveProducts, sfdr);
+        CatalogFilters filters = new CatalogFilters(country, assetClass, SCType, dividendPolicy, legalForm, fundType, selectedCurrency, searchKey, isActiveProducts, isISProducts, sfdr);
 
         // Step 1: Share_Class__c selon les filtres et l'ISIN. Une recherche texte est résolue directement sur les Products (step 2).
         List<Share_Class__c> sharesList = new List<Share_Class__c>();
@@ -88,14 +91,21 @@ public class ReferentialProductHomepageCtrl {
     }
 
     private static List<Product__c> queryFunds(CatalogFilters filters, Set<Id> fundIdsFromShares) {
-        Map<String, Object> binds = new Map<String, Object>{'fundRecordTypeId' => fundRecordTypeId};
+        Map<String, Object> binds = new Map<String, Object>();
         String query = FUND_SELECT;
 
-        // Recherche texte : correspondance directe sur le Product. Sinon, limite aux fonds issus des Share Classes.
+        if (filters.isIS) {
+            query += FUND_IS_SCOPE;
+        } else {
+            query += FUND_STANDARD_SCOPE;
+            binds.put('fundRecordTypeId', fundRecordTypeId);
+        }
+
+        // Recherche texte : correspondance directe sur le Product. Sinon, en mode standard, limite aux fonds issus des Share Classes.
         if (filters.isTextSearch()) {
             query += ' AND (' + textSearchClause() + ')';
             binds.put('searchLike', '%' + filters.searchKey + '%');
-        } else if (!fundIdsFromShares.isEmpty()) {
+        } else if (!filters.isIS && !fundIdsFromShares.isEmpty()) {
             query += ' AND Id IN :fundIdsFromShares';
             binds.put('fundIdsFromShares', fundIdsFromShares);
         }
@@ -164,9 +174,11 @@ public class ReferentialProductHomepageCtrl {
         return fundIds;
     }
 
-    // Un filtre actif affiche la liste plate des produits, sinon l'arbre par Strategy
+    // Le mode IS regroupe les produits par Vehicle Type. Sinon, un filtre actif affiche la liste plate des produits, sinon l'arbre par Strategy
     private static ItemDTO buildCatalog(CatalogFilters filters, List<Product__c> filteredFunds, List<Share_Class__c> sharesList) {
         Map<Id, List<Share_Class__c>> fundToSharesMap = ProductHierarchyHelper.setFundToSharesMap(sharesList);
+
+        if (filters.isIS) return buildISProductHierarchy(filteredFunds, fundToSharesMap);
 
         if (filters.hasAnyFilter()) {
             List<ItemDTO> fundItems = ProductHierarchyHelper.getFundsItemsWithSharesReferential(filteredFunds, fundToSharesMap, true);
@@ -178,6 +190,39 @@ public class ReferentialProductHomepageCtrl {
         Map<Id, List<Product__c>> strategyToFundsMap = ProductHierarchyHelper.setFundStrategyToFundsMap(filteredFunds);
         List<ItemDTO> strategyItems = ProductHierarchyHelper.getAllStrategywithFundsItems(strategyToFundsMap, strategies, fundToSharesMap);
         return new ItemDTO('All Strategies', null, null, null, null, null, false, true, true, true, strategyItems);
+    }
+
+    // Construit la hiérarchie IS en regroupant les produits par Vehicle Type
+    private static ItemDTO buildISProductHierarchy(List<Product__c> products, Map<Id, List<Share_Class__c>> fundToSharesMap) {
+        Map<String, List<Product__c>> vehicleTypeToProducts = new Map<String, List<Product__c>>();
+
+        // Regroupe chaque produit IS selon son VehicleType__c
+        for (Product__c product : products) {
+            String vehicleType = String.isBlank(product.VehicleType__c) ? 'Other' : product.VehicleType__c;
+
+            if (!vehicleTypeToProducts.containsKey(vehicleType)) {
+                vehicleTypeToProducts.put(vehicleType, new List<Product__c>());
+            }
+            vehicleTypeToProducts.get(vehicleType).add(product);
+        }
+
+        List<String> vehicleTypes = new List<String>(vehicleTypeToProducts.keySet());
+        vehicleTypes.sort();
+
+        // Construit un niveau de hiérarchie pour chaque Vehicle Type
+        List<ItemDTO> vehicleTypeItems = new List<ItemDTO>();
+        for (String vehicleType : vehicleTypes) {
+            List<Product__c> vehicleProducts = vehicleTypeToProducts.get(vehicleType);
+            List<ItemDTO> productItems = ProductHierarchyHelper.getFundsItemsWithSharesReferential(vehicleProducts, fundToSharesMap, false);
+
+            for (Integer i = 0; i < productItems.size(); i++) {
+                if (String.isNotBlank(vehicleProducts[i].ProductName__c)) productItems[i].label = vehicleProducts[i].ProductName__c;
+            }
+            vehicleTypeItems.add(new ItemDTO(vehicleType, null, null, null, null, null, false, true, true, true, productItems));
+        }
+
+        // Retourne la racine spécifique au catalogue IS
+        return new ItemDTO('IS Products', null, null, null, null, null, false, true, true, true, vehicleTypeItems);
     }
 
     // Filtres du catalogue et dérivés de la recherche (ISIN ou texte)
@@ -192,10 +237,11 @@ public class ReferentialProductHomepageCtrl {
         public String searchKey;
         public String sfdr;
         public Boolean isActive;
+        public Boolean isIS;
         public Boolean isIsin = false;
 
         public CatalogFilters(String country, String assetClass, String scType, String dividendPolicy, String legalForm, String fundType,
-                              String selectedCurrency, String searchKey, Boolean isActiveProducts, String sfdr) {
+                              String selectedCurrency, String searchKey, Boolean isActiveProducts, Boolean isISProducts, String sfdr) {
             this.country = country;
             this.assetClass = assetClass;
             this.scType = scType;
@@ -205,6 +251,7 @@ public class ReferentialProductHomepageCtrl {
             this.selectedCurrency = selectedCurrency;
             this.sfdr = sfdr;
             this.isActive = isActiveProducts == true;
+            this.isIS = isISProducts == true;
             if (String.isNotBlank(searchKey)) {
                 this.searchKey = searchKey.trim();
                 this.isIsin = Pattern.matches(ISIN_PATTERN, this.searchKey.toUpperCase());
