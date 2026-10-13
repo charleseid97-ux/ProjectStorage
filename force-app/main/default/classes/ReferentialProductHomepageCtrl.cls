@@ -4,14 +4,15 @@
  *                  and returns them as a hierarchy (flat list when a filter is active, grouped by Strategy otherwise).
  *              Works in conjunction with ProductHierarchyHelper for building the hierarchy items.
  * @testClass ReferentialProductHomepageCtrlTest
- * @coverage TBD   [21-09-26]
+ * @coverage 96%   [13-10-26]
+ * @lastModifiedBy Charles EID   [13-10-26]
  * @changes [21-09-26] [Charles EID]
  * -> Refactored for better complexity handling.
  * -> Optimized
  * -> Adapted new fields (after the removal of legacy fields)
  * -> ItemDTO moved here from productHierarchyController (obsolete, to be deleted).
  * -> IS Products mode only: product label is ProductName__c (falls back to Name) and products are collapsed (Share Class level hidden until opened).
- * -> IS Products filter (isISProducts): scope on InvestSolutionScope__c (all Vehicle Types), funds not restricted to the Share Class funds, grouped by VehicleType__c (buildISProductHierarchy).
+ * -> IS Products filter (isISProducts): scope on Scope__c = 'IS' (all Vehicle Types), funds not restricted to the Share Class funds, grouped by VehicleType__c (buildISProductHierarchy).
  ────────────────────────────────────── */
 public class ReferentialProductHomepageCtrl {
 
@@ -29,7 +30,7 @@ public class ReferentialProductHomepageCtrl {
                                               ' FROM Product__c ' +
                                               ' WHERE Tech_NotDisplayedProductCatalog__c = false ';
     private static final String FUND_STANDARD_SCOPE = ' AND RecordTypeId = :fundRecordTypeId AND VehicleType__c = \'Funds\' '; // Le catalogue standard ne retourne que les Funds de type 'Funds'
-    private static final String FUND_IS_SCOPE = ' AND InvestSolutionScope__c = true '; // Le catalogue IS accepte tous les Vehicle Types
+    private static final String FUND_IS_SCOPE = ' AND Scope__c = \'IS\' '; // Le catalogue IS accepte tous les Vehicle Types
 
     @AuraEnabled
     public static string getAllProducts(Boolean showSRI, Boolean showRF, Boolean showAC, String country, String assetClass, String SCType, String dividendPolicy,
