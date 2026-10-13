@@ -211,5 +211,10 @@
         <members>ProjectShareclassChild__c.VR43_DividendPolicyOEIC</members>
         <name>ValidationRule</name>
     </types>
+    <types>
+        <members>New_IS_Product</members>
+        <members>New_IS_Benchmark</members>
+        <name>Flow</name>
+    </types>
     <version>64.0</version>
 </Package>
