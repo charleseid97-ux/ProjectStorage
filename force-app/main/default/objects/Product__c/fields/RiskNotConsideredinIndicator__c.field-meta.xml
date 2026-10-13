@@ -35,6 +35,11 @@
                 <default>false</default>
                 <label>Risks associated with China</label>
             </value>
+            <value>
+                <fullName>Risk of capital loss</fullName>
+                <default>false</default>
+                <label>Risk of capital loss</label>
+            </value>
         </valueSetDefinition>
     </valueSet>
     <visibleLines>4</visibleLines>
