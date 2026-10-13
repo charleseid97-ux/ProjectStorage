@@ -26,7 +26,7 @@ public class ReferentialProductHomepageCtrl {
                                                      ' FROM Share_Class__c WHERE ';
     private static final String SHARE_CLASS_ORDER = ' ORDER BY Primary_Portfolio_Share_Class__c desc';
 
-    private static final String FUND_SELECT = 'SELECT Id, Name, ProductName__c, Record_Type_Name__c, RecordTypeId, LaunchDate__c, FundStrategy__c, AssetClass__c, Validity__c, VehicleType__c ' +
+    private static final String FUND_SELECT = 'SELECT Id, Name, ProductName__c, RecordTypeId, LaunchDate__c, FundStrategy__c, AssetClass__c, Validity__c, VehicleType__c ' +
                                               ' FROM Product__c ' +
                                               ' WHERE Tech_NotDisplayedProductCatalog__c = false ';
     private static final String FUND_STANDARD_SCOPE = ' AND RecordTypeId = :fundRecordTypeId AND VehicleType__c = \'Funds\' '; // Le catalogue standard ne retourne que les Funds de type 'Funds'

@@ -1,6 +1,7 @@
 /** ──────────────────────────────────────
  * @description Tests the Product Catalog controller: getAllProducts with the standard filters, the ISIN / text searches and the IS Products mode (Scope__c = 'IS'), and logClick.
  * @covers ReferentialProductHomepageCtrl   96%   [13-10-26]
+ *         ProductHierarchyHelper   96%   [13-10-26]
  * @lastModifiedBy Charles EID   [13-10-26]
  ────────────────────────────────────── */
 @isTest
