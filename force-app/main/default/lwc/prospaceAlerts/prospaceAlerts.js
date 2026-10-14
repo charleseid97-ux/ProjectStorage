@@ -68,11 +68,11 @@ export default class prospaceAlerts extends LightningElement {
         const websiteCountry = getFieldValue(this.contact.data, CONTACT_WEBSITECOUNTRY_FIELD);
 
         // Aucun filtrage supplémentaire pour les autres pays.
-        if (websiteCountry !== 'UAE') {
+        if (websiteCountry !== 'AE') {
             return true;
         }
 
-        // Pour UAE, seuls Nav, Report, Carmignac's Note et EC Letter sont disponibles.
+        // Pour AE, seuls Nav, Report, Carmignac's Note et EC Letter sont disponibles.
         return element.checkboxCategory === 'Nav'
             || element.checkboxCategory === 'Report'
             || element.checkboxLabel === "Carmignac's Note"
