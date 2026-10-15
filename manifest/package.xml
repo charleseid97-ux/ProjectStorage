@@ -4,5 +4,9 @@
         <members>ProductSelectionCtrl</members>
         <name>ApexClass</name>
     </types>
+    <types>
+        <members>Opportunity.InvestmentSolutionProduct__c</members>
+        <name>CustomField</name>
+    </types>
     <version>61.0</version>
 </Package>

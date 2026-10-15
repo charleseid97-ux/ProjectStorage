@@ -6,32 +6,16 @@
     <label>Investment Solution Product</label>
     <lookupFilter>
         <active>true</active>
-        <booleanFilter>(1 AND 2) OR (3 AND 4 AND 5)</booleanFilter>
-        <errorMessage>You have to choose a product of the type Dummy Products.</errorMessage>
-        <filterItems>
-            <field>Product__c.RecordType.Name</field>
-            <operation>equals</operation>
-            <value>Dummy Products</value>
-        </filterItems>
+        <errorMessage>You have to choose a valid product of the Investment Solutions Strategies strategy.</errorMessage>
         <filterItems>
             <field>Product__c.Validity__c</field>
             <operation>equals</operation>
             <value>True</value>
         </filterItems>
         <filterItems>
-            <field>Product__c.RecordType.Name</field>
+            <field>Product__c.FundStrategy__r.Name</field>
             <operation>equals</operation>
-            <value>Strategy</value>
-        </filterItems>
-        <filterItems>
-            <field>Product__c.ProductName__c</field>
-            <operation>equals</operation>
-            <value>Investment Solutions Generic Strategy</value>
-        </filterItems>
-        <filterItems>
-            <field>Product__c.Validity__c</field>
-            <operation>equals</operation>
-            <value>True</value>
+            <value>Investment Solutions Strategies</value>
         </filterItems>
         <isOptional>false</isOptional>
     </lookupFilter>
