@@ -6,6 +6,32 @@
     <compactLayoutAssignment>Publication_Compact_LAyout</compactLayoutAssignment>
     <label>Sub Publication Request</label>
     <picklistValues>
+        <picklist>AI_Agent_Request_Type__c</picklist>
+        <values>
+            <fullName>Agent Modification</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>New Agent</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>AgentStatus__c</picklist>
+        <values>
+            <fullName>Closed</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Submitted</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Under Review</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
         <picklist>Amount_Shares__c</picklist>
         <values>
             <fullName>Amount</fullName>
@@ -184,6 +210,49 @@
         </values>
         <values>
             <fullName>Wholesale</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Connectors__c</picklist>
+        <values>
+            <fullName>MCP %2F Other</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Microsoft Teams</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>OLYMPIA</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>OneDrive</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Outlook</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>SAM</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Salesforce</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>SharePoint</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Vendome</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Web Search Access</fullName>
             <default>false</default>
         </values>
     </picklistValues>
@@ -948,6 +1017,17 @@
         </values>
     </picklistValues>
     <picklistValues>
+        <picklist>Old_UsageMode__c</picklist>
+        <values>
+            <fullName>On demand - user initiated</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Triggered by an event %2F schedule</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
         <picklist>Origin</picklist>
         <values>
             <fullName>Email</fullName>
@@ -1249,6 +1329,17 @@
         </values>
         <values>
             <fullName>Sales</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>ReviewDecision__c</picklist>
+        <values>
+            <fullName>Approved</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Not Approved</fullName>
             <default>false</default>
         </values>
     </picklistValues>
@@ -1836,6 +1927,52 @@
         </values>
         <values>
             <fullName>Retail</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>UsageMode__c</picklist>
+        <values>
+            <fullName>On demand - user initiated</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Triggered by an event %2F schedule</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>UseCaseCategory__c</picklist>
+        <values>
+            <fullName>Client %26 Sales Enablement</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Content %26 Communication</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Data%2C Reporting %26 Analytics</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Knowledge %26 Document Search</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Other</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Research %26 Decision Support</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Risk%2C Compliance %26 Control</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Workflow Automation %26 Productivity</fullName>
             <default>false</default>
         </values>
     </picklistValues>

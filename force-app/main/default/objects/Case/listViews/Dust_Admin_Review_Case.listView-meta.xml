@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Dust_Admin_Review_Case</fullName>
+    <filterScope>Queue</filterScope>
+    <label>Dust Admin Review</label>
+    <queue>Dust_Admin_Review</queue>
+    <sharedTo>
+        <allInternalUsers></allInternalUsers>
+    </sharedTo>
+</ListView>

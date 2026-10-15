@@ -2,6 +2,11 @@
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>Media__c</fullName>
     <description>Media</description>
+    <inlineHelpText>•	FLF : Factsheets mensuelles.
+•	FLFBE : Factsheets mensuelles pour le marché belge (certains produits uniquement).
+•	RPT : Rapports des fonds Mandat gérés par l’équipe IS.
+•	Web Site : Narratifs destinés au site internet.
+•	PS : Fiches Produit.</inlineHelpText>
     <label>Media</label>
     <required>false</required>
     <trackTrending>false</trackTrending>

@@ -7,7 +7,7 @@ This is the target rate which will be used in the PRIIPS KID and EMT.</inlineHel
     <label>PRIIPS KID - Performance Fees Ex Ante</label>
     <precision>18</precision>
     <required>false</required>
-    <scale>2</scale>
+    <scale>3</scale>
     <trackHistory>false</trackHistory>
     <trackTrending>false</trackTrending>
     <type>Percent</type>

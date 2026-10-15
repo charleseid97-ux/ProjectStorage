@@ -23,6 +23,11 @@
                 <label>Aberdeen</label>
             </value>
             <value>
+                <fullName>Abu Dhabi</fullName>
+                <default>false</default>
+                <label>Abu Dhabi</label>
+            </value>
+            <value>
                 <fullName>Aix-en-Provence</fullName>
                 <default>false</default>
                 <label>Aix-en-Provence</label>
@@ -1410,6 +1415,10 @@
         </valueSettings>
         <valueSettings>
             <controllingFieldValue>United Arab Emirates</controllingFieldValue>
+            <valueName>Abu Dhabi</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>United Arab Emirates</controllingFieldValue>
             <valueName>Dubai</valueName>
         </valueSettings>
         <valueSettings>
@@ -2331,6 +2340,10 @@
         <valueSettings>
             <controllingFieldValue>Belgium</controllingFieldValue>
             <valueName>Uccle</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Belgium</controllingFieldValue>
+            <valueName>Waregem</valueName>
         </valueSettings>
         <valueSettings>
             <controllingFieldValue>Belgium</controllingFieldValue>

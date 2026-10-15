@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>VR22_RiskReturnScoreRRSDate</fullName>
+    <active>true</active>
+    <errorConditionFormula>AND(
+NOT($User.BypassValidationRules__c),
+NOT(ISBLANK(RiskReturnScoreRRS__c)),
+ISBLANK(RiskReturnScoreRRSDate__c)
+)</errorConditionFormula>
+    <errorDisplayField>RiskReturnScoreRRSDate__c</errorDisplayField>
+    <errorMessage>Risk Return Score (RRS) Date is required when Risk Return Score (RRS) is filled.</errorMessage>
+</ValidationRule>

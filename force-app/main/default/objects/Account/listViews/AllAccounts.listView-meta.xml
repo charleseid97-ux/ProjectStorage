@@ -7,6 +7,7 @@
     <columns>ACCOUNT.ADDRESS1_COUNTRY_CODE</columns>
     <columns>Distributor_Type__c</columns>
     <columns>CORE.USERS.LAST_NAME</columns>
+    <columns>Last_Month_AUM_EUR__c</columns>
     <filterScope>Everything</filterScope>
     <filters>
         <field>CompanyStatus__c</field>

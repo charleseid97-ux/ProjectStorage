@@ -5491,6 +5491,10 @@
     <picklistValues>
         <picklist>WebsiteCountry__c</picklist>
         <values>
+            <fullName>AE</fullName>
+            <default>false</default>
+        </values>
+        <values>
             <fullName>AT</fullName>
             <default>false</default>
         </values>
@@ -5540,10 +5544,6 @@
         </values>
         <values>
             <fullName>TW</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>UAE</fullName>
             <default>false</default>
         </values>
         <values>

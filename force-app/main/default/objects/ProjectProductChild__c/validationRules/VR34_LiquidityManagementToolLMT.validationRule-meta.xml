@@ -5,6 +5,7 @@
     <errorConditionFormula>AND(
     NOT($User.BypassValidationRules__c),
     $Permission.PRPRisk,
+    NOT(ISPICKVAL(LegalForm__c, &quot;OEIC&quot;)),
 
     (
         IF(INCLUDES(LiquidityManagementToolLMT__c, &quot;Gates&quot;), 1, 0) +
@@ -13,7 +14,8 @@
         IF(INCLUDES(LiquidityManagementToolLMT__c, &quot;Redemption Fees&quot;), 1, 0) +
         IF(INCLUDES(LiquidityManagementToolLMT__c, &quot;Redemptions in Kind&quot;), 1, 0)
     ) &lt; 2,
-				Name = &apos;Proposal&apos;
+
+    Name = &quot;Proposal&quot;
 )</errorConditionFormula>
     <errorDisplayField>LiquidityManagementToolLMT__c</errorDisplayField>
     <errorMessage>Please select at least two Liquidity Management Tools (LMTs).</errorMessage>

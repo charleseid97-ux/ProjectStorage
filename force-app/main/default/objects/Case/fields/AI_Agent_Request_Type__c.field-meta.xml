@@ -4,11 +4,10 @@
     <label>AI Agent Request Type</label>
     <required>false</required>
     <trackFeedHistory>false</trackFeedHistory>
-    <trackHistory>false</trackHistory>
+    <trackHistory>true</trackHistory>
     <trackTrending>false</trackTrending>
     <type>Picklist</type>
     <valueSet>
-        <restricted>true</restricted>
         <valueSetDefinition>
             <sorted>false</sorted>
             <value>
@@ -20,11 +19,6 @@
                 <fullName>Agent Modification</fullName>
                 <default>false</default>
                 <label>Agent Modification</label>
-            </value>
-            <value>
-                <fullName>Agent Review</fullName>
-                <default>false</default>
-                <label>Agent Review</label>
             </value>
         </valueSetDefinition>
     </valueSet>

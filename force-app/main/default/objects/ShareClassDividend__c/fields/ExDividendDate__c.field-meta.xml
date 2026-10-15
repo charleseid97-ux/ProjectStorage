@@ -3,7 +3,7 @@
     <fullName>ExDividendDate__c</fullName>
     <description>Ex-dividend date of the distribution. Source VOM: ExecutionDate. The semantic equivalence between ExecutionDate and the Ex-Dividend Date must be confirmed with DDI/business.</description>
     <encryptionScheme>None</encryptionScheme>
-    <label>Ex-Dividend Date</label>
+    <label>Execution Dividend Date</label>
     <required>false</required>
     <trackTrending>false</trackTrending>
     <type>Date</type>

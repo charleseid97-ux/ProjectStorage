@@ -3,7 +3,7 @@
     <fullName>DividendAmountScCcy__c</fullName>
     <description>Dividend amount per share expressed in the Share Class quotation currency. Source VOM: DividendUnit.</description>
     <externalId>false</externalId>
-    <label>Dividend Amount - SC CCY</label>
+    <label>Amount in Share Class Currency</label>
     <precision>18</precision>
     <required>false</required>
     <scale>8</scale>

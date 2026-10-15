@@ -172,8 +172,11 @@
     <recordTypeTrackHistory>true</recordTypeTrackHistory>
     <searchLayouts>
         <searchResultsAdditionalFields>ConventionName__c</searchResultsAdditionalFields>
+        <searchResultsAdditionalFields>RecordTypeName__c</searchResultsAdditionalFields>
         <searchResultsAdditionalFields>Code_Type__c</searchResultsAdditionalFields>
         <searchResultsAdditionalFields>Grid__c</searchResultsAdditionalFields>
+        <searchResultsAdditionalFields>Status__c</searchResultsAdditionalFields>
+        <searchResultsAdditionalFields>AUM_To_Date__c</searchResultsAdditionalFields>
     </searchLayouts>
     <sharingModel>Private</sharingModel>
     <startsWith>Vowel</startsWith>
