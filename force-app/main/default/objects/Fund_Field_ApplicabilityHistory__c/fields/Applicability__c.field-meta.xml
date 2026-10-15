@@ -3,6 +3,7 @@
     <fullName>Applicability__c</fullName>
     <defaultValue>false</defaultValue>
     <label>Applicability</label>
+    <securityClassification>Internal</securityClassification>
     <trackTrending>false</trackTrending>
     <type>Checkbox</type>
 </CustomField>

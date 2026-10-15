@@ -12,6 +12,7 @@ IF(NOT(ISBLANK(Parent.Id)),Parent.Id, Id)))))))</formula>
     <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
     <label>Ultimate Parent ID</label>
     <required>false</required>
+    <securityClassification>Internal</securityClassification>
     <trackHistory>false</trackHistory>
     <type>Text</type>
     <unique>false</unique>

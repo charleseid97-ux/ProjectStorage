@@ -5,6 +5,7 @@
     <deprecated>false</deprecated>
     <description>field for determining if the &quot;all&quot; tag should be true in Cassandra</description>
     <label>Assigned to All Users</label>
+    <securityClassification>Confidential</securityClassification>
     <trackTrending>false</trackTrending>
     <type>Checkbox</type>
 </CustomField>

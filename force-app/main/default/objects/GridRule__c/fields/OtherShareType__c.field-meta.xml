@@ -3,6 +3,7 @@
     <fullName>OtherShareType__c</fullName>
     <label>Other Share Type</label>
     <required>false</required>
+    <securityClassification>Confidential</securityClassification>
     <trackTrending>false</trackTrending>
     <type>Picklist</type>
     <valueSet>

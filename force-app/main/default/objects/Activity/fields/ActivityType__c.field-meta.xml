@@ -3,6 +3,7 @@
     <fullName>ActivityType__c</fullName>
     <label>Activity Type</label>
     <required>false</required>
+    <securityClassification>Confidential</securityClassification>
     <type>Picklist</type>
     <valueSet>
         <restricted>true</restricted>

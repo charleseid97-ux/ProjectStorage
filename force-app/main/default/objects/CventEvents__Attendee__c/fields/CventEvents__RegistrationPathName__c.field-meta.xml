@@ -7,6 +7,7 @@
     <label>Registration Path</label>
     <length>100</length>
     <required>false</required>
+    <securityClassification>Restricted</securityClassification>
     <trackFeedHistory>false</trackFeedHistory>
     <trackTrending>false</trackTrending>
     <type>Text</type>

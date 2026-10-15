@@ -6,6 +6,7 @@
     <description>Is Async Processing Enabled</description>
     <inlineHelpText>Is Async Processing Enabled</inlineHelpText>
     <label>Enable Async</label>
+    <securityClassification>Confidential</securityClassification>
     <trackTrending>false</trackTrending>
     <type>Checkbox</type>
 </CustomField>

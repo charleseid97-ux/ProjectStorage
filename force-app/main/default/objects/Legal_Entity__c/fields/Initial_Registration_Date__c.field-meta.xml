@@ -5,6 +5,7 @@
     <encryptionScheme>None</encryptionScheme>
     <label>Initial Registration Date</label>
     <required>false</required>
+    <securityClassification>Restricted</securityClassification>
     <trackHistory>true</trackHistory>
     <trackTrending>false</trackTrending>
     <type>Date</type>

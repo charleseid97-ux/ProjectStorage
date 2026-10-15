@@ -5,6 +5,7 @@
     <description>Check if the agreement includes a fee other than retrocession (e.g. performance fees)</description>
     <inlineHelpText>Check if the agreement includes a fee other than retrocession (e.g. performance fees)</inlineHelpText>
     <label>Other Fees</label>
+    <securityClassification>Confidential</securityClassification>
     <trackFeedHistory>false</trackFeedHistory>
     <trackTrending>false</trackTrending>
     <type>Checkbox</type>

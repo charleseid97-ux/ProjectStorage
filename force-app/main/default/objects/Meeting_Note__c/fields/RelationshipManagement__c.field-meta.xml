@@ -3,6 +3,7 @@
     <fullName>RelationshipManagement__c</fullName>
     <defaultValue>false</defaultValue>
     <label>Relationship Management</label>
+    <securityClassification>Confidential</securityClassification>
     <trackHistory>false</trackHistory>
     <trackTrending>false</trackTrending>
     <type>Checkbox</type>

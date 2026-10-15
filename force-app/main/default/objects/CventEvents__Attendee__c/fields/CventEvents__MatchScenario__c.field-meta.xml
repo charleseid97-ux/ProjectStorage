@@ -6,6 +6,7 @@
     <inlineHelpText>Stores the record matching scenario which had been applied during matching with the Salesforce Contact/Lead.</inlineHelpText>
     <label>Match Scenario</label>
     <required>false</required>
+    <securityClassification>Confidential</securityClassification>
     <trackFeedHistory>false</trackFeedHistory>
     <trackTrending>false</trackTrending>
     <type>Picklist</type>

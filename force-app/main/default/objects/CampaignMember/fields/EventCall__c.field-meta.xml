@@ -3,5 +3,6 @@
     <fullName>EventCall__c</fullName>
     <defaultValue>false</defaultValue>
     <label>EventCall</label>
+    <securityClassification>Confidential</securityClassification>
     <type>Checkbox</type>
 </CustomField>

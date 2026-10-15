@@ -8,6 +8,7 @@
     <relationshipLabel>AI Agents (Agent Owner)</relationshipLabel>
     <relationshipName>Owned_AI_Agents</relationshipName>
     <required>false</required>
+    <securityClassification>Internal</securityClassification>
     <trackHistory>true</trackHistory>
     <trackTrending>false</trackTrending>
     <type>Lookup</type>

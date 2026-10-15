@@ -4,6 +4,7 @@
     <description>Allows to categorize In and Out flows</description>
     <label>Type</label>
     <required>false</required>
+    <securityClassification>Internal</securityClassification>
     <trackHistory>false</trackHistory>
     <trackTrending>false</trackTrending>
     <type>Picklist</type>

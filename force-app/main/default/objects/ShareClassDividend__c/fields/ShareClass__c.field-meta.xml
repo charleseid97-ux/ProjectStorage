@@ -8,6 +8,7 @@
     <relationshipLabel>Dividend History</relationshipLabel>
     <relationshipName>DividendHistory</relationshipName>
     <required>true</required>
+    <securityClassification>Internal</securityClassification>
     <trackTrending>false</trackTrending>
     <type>Lookup</type>
 </CustomField>

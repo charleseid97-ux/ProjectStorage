@@ -6,6 +6,7 @@
     <referenceTo>ProjectProduct__c</referenceTo>
     <relationshipName>ProjectCoreDocuments</relationshipName>
     <required>false</required>
+    <securityClassification>Confidential</securityClassification>
     <trackTrending>false</trackTrending>
     <type>Lookup</type>
 </CustomField>

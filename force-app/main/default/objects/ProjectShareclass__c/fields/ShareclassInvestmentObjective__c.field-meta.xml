@@ -5,6 +5,7 @@
     <inlineHelpText>This text is optional and should be completed to add share class level investment objective description. It will be displayed in the PRIIPS KID and UCITS KIID before the product level investment objective.</inlineHelpText>
     <label>Shareclass Investment Objective</label>
     <length>5000</length>
+    <securityClassification>Confidential</securityClassification>
     <trackTrending>false</trackTrending>
     <type>Html</type>
     <visibleLines>20</visibleLines>

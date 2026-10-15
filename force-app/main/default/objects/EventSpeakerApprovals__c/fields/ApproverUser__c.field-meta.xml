@@ -6,6 +6,7 @@
     <referenceTo>User</referenceTo>
     <relationshipName>Event_Speaker_Approvals</relationshipName>
     <required>false</required>
+    <securityClassification>Internal</securityClassification>
     <trackTrending>false</trackTrending>
     <type>Lookup</type>
 </CustomField>

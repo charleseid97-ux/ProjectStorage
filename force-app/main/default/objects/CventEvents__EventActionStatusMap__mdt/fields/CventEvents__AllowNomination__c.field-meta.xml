@@ -6,5 +6,6 @@
     <description>Indicates whether the nomination to an event in this status is allowed.</description>
     <fieldManageability>DeveloperControlled</fieldManageability>
     <label>Allow Nomination</label>
+    <securityClassification>Internal</securityClassification>
     <type>Checkbox</type>
 </CustomField>

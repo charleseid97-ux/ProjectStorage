@@ -6,6 +6,7 @@
     <label>LEI Code</label>
     <length>255</length>
     <required>false</required>
+    <securityClassification>Confidential</securityClassification>
     <trackTrending>false</trackTrending>
     <type>Text</type>
     <unique>false</unique>

@@ -9,6 +9,7 @@
     </summaryFilterItems>
     <summaryForeignKey>CampaignMember.CampaignId</summaryForeignKey>
     <summaryOperation>count</summaryOperation>
+    <securityClassification>Confidential</securityClassification>
     <trackHistory>false</trackHistory>
     <type>Summary</type>
 </CustomField>

@@ -5,6 +5,7 @@
     <inlineHelpText>Information on the distributors</inlineHelpText>
     <label>Distributors Region</label>
     <required>false</required>
+    <securityClassification>Confidential</securityClassification>
     <trackTrending>false</trackTrending>
     <type>MultiselectPicklist</type>
     <valueSet>

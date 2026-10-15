@@ -9,6 +9,7 @@
     <label>VideoCallId</label>
     <length>18</length>
     <required>true</required>
+    <securityClassification>Internal</securityClassification>
     <type>Text</type>
     <unique>false</unique>
 </CustomField>

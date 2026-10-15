@@ -5,6 +5,7 @@
     <description>This must only be checked on the Middle Office Investor Service Contact for auto linking to Agreements</description>
     <inlineHelpText>This must only be checked on the Middle Office Investor Service Contact for auto linking to Agreements</inlineHelpText>
     <label>MOIS Default Contact</label>
+    <securityClassification>Confidential</securityClassification>
     <trackFeedHistory>false</trackFeedHistory>
     <trackHistory>false</trackHistory>
     <type>Checkbox</type>

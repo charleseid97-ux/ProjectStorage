@@ -3,6 +3,7 @@
     <fullName>CountryRegNeededSemipro__c</fullName>
     <label>Country Reg Needed Semi-pro</label>
     <required>false</required>
+    <securityClassification>Confidential</securityClassification>
     <trackHistory>true</trackHistory>
     <trackTrending>false</trackTrending>
     <type>MultiselectPicklist</type>

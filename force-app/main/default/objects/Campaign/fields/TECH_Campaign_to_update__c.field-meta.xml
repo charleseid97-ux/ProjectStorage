@@ -4,6 +4,7 @@
     <defaultValue>false</defaultValue>
     <description>TECH field to use in order to trigger automation if needed</description>
     <label>TECH_Campaign_to_update</label>
+    <securityClassification>Internal</securityClassification>
     <trackFeedHistory>false</trackFeedHistory>
     <trackHistory>false</trackHistory>
     <type>Checkbox</type>

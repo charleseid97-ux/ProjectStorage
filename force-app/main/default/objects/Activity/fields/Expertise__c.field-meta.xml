@@ -3,5 +3,6 @@
     <fullName>Expertise__c</fullName>
     <defaultValue>false</defaultValue>
     <label>Expertise</label>
+    <securityClassification>Confidential</securityClassification>
     <type>Checkbox</type>
 </CustomField>

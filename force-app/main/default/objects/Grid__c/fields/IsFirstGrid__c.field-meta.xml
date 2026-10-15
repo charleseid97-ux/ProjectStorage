@@ -4,6 +4,7 @@
     <formula>AND(Agreement__r.Grid__c == null, Agreement__r.Grid_Request__c == Id)</formula>
     <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
     <label>Is First Grid of Agreement</label>
+    <securityClassification>Confidential</securityClassification>
     <trackTrending>false</trackTrending>
     <type>Checkbox</type>
 </CustomField>

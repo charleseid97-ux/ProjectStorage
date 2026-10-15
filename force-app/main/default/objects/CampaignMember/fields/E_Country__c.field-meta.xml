@@ -6,6 +6,7 @@
     <label>E_Country</label>
     <length>100</length>
     <required>false</required>
+    <securityClassification>Confidential</securityClassification>
     <type>Text</type>
     <unique>false</unique>
 </CustomField>

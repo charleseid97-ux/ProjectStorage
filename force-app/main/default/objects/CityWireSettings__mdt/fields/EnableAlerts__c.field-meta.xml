@@ -6,5 +6,6 @@
     <fieldManageability>DeveloperControlled</fieldManageability>
     <inlineHelpText>When unchecked, no alert email is ever sent, regardless of the failure threshold, the Alert On Zero Updates setting, or whether an Alert Queue/Alert Email Template is configured.</inlineHelpText>
     <label>Enable Alerts</label>
+    <securityClassification>Internal</securityClassification>
     <type>Checkbox</type>
 </CustomField>

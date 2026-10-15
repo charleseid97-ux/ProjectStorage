@@ -3,6 +3,7 @@
     <fullName>BypassProposedOwnerVR__c</fullName>
     <defaultValue>false</defaultValue>
     <label>Bypass Proposed Owner VR</label>
+    <securityClassification>Internal</securityClassification>
     <trackFeedHistory>false</trackFeedHistory>
     <trackHistory>false</trackHistory>
     <type>Checkbox</type>

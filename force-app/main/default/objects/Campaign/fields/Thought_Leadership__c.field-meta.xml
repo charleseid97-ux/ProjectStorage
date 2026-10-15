@@ -3,6 +3,7 @@
     <fullName>Thought_Leadership__c</fullName>
     <defaultValue>false</defaultValue>
     <label>Thought Leadership</label>
+    <securityClassification>Confidential</securityClassification>
     <trackFeedHistory>false</trackFeedHistory>
     <trackHistory>false</trackHistory>
     <type>Checkbox</type>

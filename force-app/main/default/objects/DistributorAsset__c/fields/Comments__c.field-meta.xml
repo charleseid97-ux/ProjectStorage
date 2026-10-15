@@ -4,6 +4,7 @@
     <encryptionScheme>ProbabilisticEncryption</encryptionScheme>
     <label>Comments</label>
     <length>500</length>
+    <securityClassification>Confidential</securityClassification>
     <trackHistory>false</trackHistory>
     <trackTrending>false</trackTrending>
     <type>LongTextArea</type>

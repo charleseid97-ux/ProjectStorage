@@ -13,6 +13,7 @@ Blocking = Urgent / Blocking to do my work
 (depending of the issue, administration can change the level of priority)</inlineHelpText>
     <label>Priority / Severity</label>
     <required>true</required>
+    <securityClassification>Internal</securityClassification>
     <trackFeedHistory>false</trackFeedHistory>
     <trackHistory>true</trackHistory>
     <trackTrending>false</trackTrending>

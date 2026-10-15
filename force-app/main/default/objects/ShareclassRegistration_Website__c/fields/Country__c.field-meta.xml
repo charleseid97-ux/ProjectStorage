@@ -3,6 +3,7 @@
     <fullName>Country__c</fullName>
     <label>Country</label>
     <required>false</required>
+    <securityClassification>Public</securityClassification>
     <trackTrending>false</trackTrending>
     <type>Picklist</type>
     <valueSet>

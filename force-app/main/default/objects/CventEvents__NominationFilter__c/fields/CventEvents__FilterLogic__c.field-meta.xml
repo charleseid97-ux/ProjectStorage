@@ -6,6 +6,7 @@
     <inlineHelpText>Indicates what filter logic should be applied to the conditions.</inlineHelpText>
     <label>Filter Logic</label>
     <required>true</required>
+    <securityClassification>Internal</securityClassification>
     <trackTrending>false</trackTrending>
     <type>Picklist</type>
     <valueSet>

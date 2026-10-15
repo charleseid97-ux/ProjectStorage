@@ -3,6 +3,7 @@
     <fullName>LegalForm__c</fullName>
     <label>Legal Form</label>
     <required>false</required>
+    <securityClassification>Confidential</securityClassification>
     <trackFeedHistory>false</trackFeedHistory>
     <trackHistory>false</trackHistory>
     <type>Picklist</type>

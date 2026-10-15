@@ -6,6 +6,7 @@
     <inlineHelpText>Enter a JSON object. Each key is a tracked field API name (e.g. &quot;Name__c&quot;), its value is an array of email addresses. Use &quot;*&quot; to subscribe to all fields. Example: {&quot;Name__c&quot;: [&quot;a@x.com&quot;], &quot;*&quot;: [&quot;admin@x.com&quot;]}</inlineHelpText>
     <label>Alert Recipients (JSON)</label>
     <length>32768</length>
+    <securityClassification>Internal</securityClassification>
     <type>LongTextArea</type>
     <visibleLines>8</visibleLines>
 </CustomField>

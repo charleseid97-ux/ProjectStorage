@@ -30,6 +30,7 @@ Field visible for admins &amp; reports only</description>
     <precision>18</precision>
     <required>false</required>
     <scale>2</scale>
+    <securityClassification>Confidential</securityClassification>
     <trackHistory>false</trackHistory>
     <type>Number</type>
     <unique>false</unique>

@@ -5,6 +5,7 @@
     <inlineHelpText>Required field to submit for termination approval</inlineHelpText>
     <label>Termination Description</label>
     <length>32768</length>
+    <securityClassification>Confidential</securityClassification>
     <trackFeedHistory>false</trackFeedHistory>
     <trackHistory>true</trackHistory>
     <trackTrending>false</trackTrending>

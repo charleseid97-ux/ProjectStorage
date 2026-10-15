@@ -4,6 +4,7 @@
     <defaultValue>false</defaultValue>
     <description>Bypass validation rule Agreement_Lock_terminated_record</description>
     <label>Agreement_Lock_terminated_record</label>
+    <securityClassification>Internal</securityClassification>
     <trackTrending>false</trackTrending>
     <type>Checkbox</type>
 </CustomField>

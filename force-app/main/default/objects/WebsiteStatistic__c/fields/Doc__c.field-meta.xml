@@ -3,6 +3,7 @@
     <fullName>Doc__c</fullName>
     <defaultValue>false</defaultValue>
     <label>Doc</label>
+    <securityClassification>Confidential</securityClassification>
     <trackTrending>false</trackTrending>
     <type>Checkbox</type>
 </CustomField>

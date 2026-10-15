@@ -4,6 +4,7 @@
     <description>Severity level of the log entry.</description>
     <label>Level</label>
     <required>true</required>
+    <securityClassification>Internal</securityClassification>
     <trackTrending>false</trackTrending>
     <type>Picklist</type>
     <valueSet>

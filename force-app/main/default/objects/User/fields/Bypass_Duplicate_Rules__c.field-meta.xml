@@ -3,6 +3,7 @@
     <fullName>Bypass_Duplicate_Rules__c</fullName>
     <defaultValue>false</defaultValue>
     <label>Bypass Duplicate Rules</label>
+    <securityClassification>Confidential</securityClassification>
     <trackFeedHistory>false</trackFeedHistory>
     <trackHistory>false</trackHistory>
     <type>Checkbox</type>

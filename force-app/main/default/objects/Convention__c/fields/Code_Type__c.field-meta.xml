@@ -3,6 +3,7 @@
     <fullName>Code_Type__c</fullName>
     <label>Code Type</label>
     <required>true</required>
+    <securityClassification>Confidential</securityClassification>
     <trackFeedHistory>false</trackFeedHistory>
     <trackHistory>true</trackHistory>
     <trackTrending>false</trackTrending>

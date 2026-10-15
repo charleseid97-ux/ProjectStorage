@@ -4,6 +4,7 @@
     <encryptionScheme>None</encryptionScheme>
     <label>Document Signed Date</label>
     <required>false</required>
+    <securityClassification>Confidential</securityClassification>
     <trackTrending>false</trackTrending>
     <type>Date</type>
 </CustomField>

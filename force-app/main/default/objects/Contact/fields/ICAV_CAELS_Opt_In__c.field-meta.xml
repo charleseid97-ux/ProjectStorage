@@ -3,6 +3,7 @@
     <fullName>ICAV_CAELS_Opt_In__c</fullName>
     <defaultValue>false</defaultValue>
     <label>ICAV - CAELS Opt In</label>
+    <securityClassification>Restricted</securityClassification>
     <trackFeedHistory>false</trackFeedHistory>
     <trackHistory>false</trackHistory>
     <type>Checkbox</type>

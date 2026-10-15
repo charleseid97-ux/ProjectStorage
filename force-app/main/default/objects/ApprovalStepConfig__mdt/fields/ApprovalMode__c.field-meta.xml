@@ -6,6 +6,7 @@
     <inlineHelpText>Set to All when multiple ApprovalStepApproverConfig__mdt records are configured for this step and unanimous approval is required. Rejection is always immediate regardless of this setting.</inlineHelpText>
     <label>Approval Mode</label>
     <required>true</required>
+    <securityClassification>Internal</securityClassification>
     <type>Picklist</type>
     <valueSet>
         <restricted>true</restricted>

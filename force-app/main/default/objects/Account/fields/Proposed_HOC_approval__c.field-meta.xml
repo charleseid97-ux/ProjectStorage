@@ -4,6 +4,7 @@
     <defaultValue>false</defaultValue>
     <inlineHelpText>Checkbox dedicated to approval by HOC of proposed Business Developer</inlineHelpText>
     <label>Proposed HOC approval</label>
+    <securityClassification>Confidential</securityClassification>
     <trackFeedHistory>false</trackFeedHistory>
     <trackHistory>true</trackHistory>
     <type>Checkbox</type>

@@ -9,6 +9,7 @@
     <relationshipLabel>Approval Lock Field Exemption Configs</relationshipLabel>
     <relationshipName>FieldExemptions</relationshipName>
     <required>true</required>
+    <securityClassification>Internal</securityClassification>
     <type>MetadataRelationship</type>
     <unique>false</unique>
 </CustomField>

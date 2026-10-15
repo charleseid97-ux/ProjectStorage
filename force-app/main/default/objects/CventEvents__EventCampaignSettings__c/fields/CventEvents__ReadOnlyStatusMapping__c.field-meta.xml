@@ -6,6 +6,7 @@
     <description>Indicates whether the campaign member status mapping can be changed on the campaign level.</description>
     <inlineHelpText>Indicates whether the campaign member status mapping can be changed on the campaign level.</inlineHelpText>
     <label>Read Only Status Mapping</label>
+    <securityClassification>Internal</securityClassification>
     <trackTrending>false</trackTrending>
     <type>Checkbox</type>
 </CustomField>

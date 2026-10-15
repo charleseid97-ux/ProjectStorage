@@ -4,6 +4,7 @@
     <inlineHelpText>Catégorie principale du cas d’usage.</inlineHelpText>
     <label>Use Case Category</label>
     <required>false</required>
+    <securityClassification>Internal</securityClassification>
     <trackHistory>true</trackHistory>
     <trackTrending>false</trackTrending>
     <type>Picklist</type>

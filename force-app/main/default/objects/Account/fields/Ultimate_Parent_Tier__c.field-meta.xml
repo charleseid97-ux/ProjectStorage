@@ -12,6 +12,7 @@ IF(NOT(ISBLANK(TEXT(Parent.Client_Tier__c))),TEXT(Parent.Client_Tier__c) , TEXT(
     <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
     <label>Ultimate Tier at GROUP Level</label>
     <required>false</required>
+    <securityClassification>Confidential</securityClassification>
     <trackHistory>false</trackHistory>
     <type>Text</type>
     <unique>false</unique>

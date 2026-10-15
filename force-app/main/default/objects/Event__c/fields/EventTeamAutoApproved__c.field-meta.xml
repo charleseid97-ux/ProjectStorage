@@ -3,6 +3,7 @@
     <fullName>EventTeamAutoApproved__c</fullName>
     <defaultValue>false</defaultValue>
     <label>EventTeamAutoApproved</label>
+    <securityClassification>Internal</securityClassification>
     <trackFeedHistory>false</trackFeedHistory>
     <trackHistory>false</trackHistory>
     <trackTrending>false</trackTrending>

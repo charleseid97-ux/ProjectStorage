@@ -4,6 +4,7 @@
     <encryptionScheme>None</encryptionScheme>
     <label>Endpoint</label>
     <required>true</required>
+    <securityClassification>Internal</securityClassification>
     <trackTrending>false</trackTrending>
     <type>Url</type>
 </CustomField>

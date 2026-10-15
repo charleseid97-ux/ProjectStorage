@@ -6,5 +6,6 @@
     <description>Indicates whether the nomination of an attendee in this status is allowed.</description>
     <fieldManageability>DeveloperControlled</fieldManageability>
     <label>Allow Nomination</label>
+    <securityClassification>Confidential</securityClassification>
     <type>Checkbox</type>
 </CustomField>

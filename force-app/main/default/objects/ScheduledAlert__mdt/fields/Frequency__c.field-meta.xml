@@ -6,6 +6,7 @@
     <inlineHelpText>Daily = every day; Weekly = every Monday; Biweekly = every other Monday; Monthly = on the 1st of each month.</inlineHelpText>
     <label>Frequency</label>
     <required>true</required>
+    <securityClassification>Internal</securityClassification>
     <type>Picklist</type>
     <valueSet>
         <restricted>true</restricted>

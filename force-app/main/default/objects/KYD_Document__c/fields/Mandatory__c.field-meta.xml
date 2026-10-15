@@ -4,6 +4,7 @@
     <defaultValue>false</defaultValue>
     <inlineHelpText>If check the document is mandatory else document is optional</inlineHelpText>
     <label>Is Document Mandatory</label>
+    <securityClassification>Restricted</securityClassification>
     <trackHistory>true</trackHistory>
     <trackTrending>false</trackTrending>
     <type>Checkbox</type>

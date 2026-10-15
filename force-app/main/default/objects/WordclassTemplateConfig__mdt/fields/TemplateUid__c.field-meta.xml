@@ -6,6 +6,7 @@
     <label>Template Uid</label>
     <length>64</length>
     <required>false</required>
+    <securityClassification>Internal</securityClassification>
     <type>Text</type>
     <unique>false</unique>
 </CustomField>

@@ -3,6 +3,7 @@
     <fullName>Regulator__c</fullName>
     <label>Forseen Regulator</label>
     <required>false</required>
+    <securityClassification>Confidential</securityClassification>
     <trackTrending>false</trackTrending>
     <type>Picklist</type>
     <valueSet>

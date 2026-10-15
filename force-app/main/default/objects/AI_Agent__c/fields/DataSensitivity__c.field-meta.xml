@@ -4,6 +4,7 @@
     <inlineHelpText>Sensitivity level of the data handled</inlineHelpText>
     <label>Data Sensitivity</label>
     <required>false</required>
+    <securityClassification>Internal</securityClassification>
     <trackHistory>true</trackHistory>
     <trackTrending>false</trackTrending>
     <type>Picklist</type>

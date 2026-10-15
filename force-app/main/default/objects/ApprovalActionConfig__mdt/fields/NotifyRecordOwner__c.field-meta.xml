@@ -6,5 +6,6 @@
     <fieldManageability>SubscriberControlled</fieldManageability>
     <inlineHelpText>Sends to the user in the OwnerId field of the target record. If the record is owned by a queue, the queue members are resolved and notified individually.</inlineHelpText>
     <label>Notify Record Owner</label>
+    <securityClassification>Internal</securityClassification>
     <type>Checkbox</type>
 </CustomField>

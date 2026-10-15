@@ -6,6 +6,7 @@
     <inlineHelpText>Process-level types (InitialSubmission, FinalApproval, FinalRejection, Recall) require ProcessConfig__c. Step-level types (StepApproval, StepRejection) require StepConfig__c.</inlineHelpText>
     <label>Action Type</label>
     <required>true</required>
+    <securityClassification>Internal</securityClassification>
     <type>Picklist</type>
     <valueSet>
         <restricted>true</restricted>

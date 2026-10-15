@@ -6,6 +6,7 @@
     <inlineHelpText>AssigneeValue__c is ignored when this is General.</inlineHelpText>
     <label>Scope Type</label>
     <required>true</required>
+    <securityClassification>Internal</securityClassification>
     <type>Picklist</type>
     <valueSet>
         <restricted>true</restricted>

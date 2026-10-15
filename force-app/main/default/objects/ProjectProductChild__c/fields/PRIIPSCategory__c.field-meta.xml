@@ -3,6 +3,7 @@
     <fullName>PRIIPSCategory__c</fullName>
     <label>PRIIPS Category</label>
     <required>false</required>
+    <securityClassification>Confidential</securityClassification>
     <trackTrending>false</trackTrending>
     <type>Picklist</type>
     <valueSet>

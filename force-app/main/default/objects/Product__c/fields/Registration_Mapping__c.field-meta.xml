@@ -9,6 +9,7 @@ IF(Domicile__c = &apos;France&apos;,HYPERLINK(&apos;https://home.carmignac.com/d
     <inlineHelpText>Link to Sharepoint for up-to-date Registration Mapping</inlineHelpText>
     <label>Old_Registration Mapping</label>
     <required>false</required>
+    <securityClassification>Internal</securityClassification>
     <trackHistory>false</trackHistory>
     <trackTrending>false</trackTrending>
     <type>Text</type>

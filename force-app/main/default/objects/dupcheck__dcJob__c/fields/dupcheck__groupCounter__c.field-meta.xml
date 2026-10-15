@@ -10,6 +10,7 @@
     </summaryFilterItems>
     <summaryForeignKey>dupcheck__dcGroup__c.dupcheck__dcJob__c</summaryForeignKey>
     <summaryOperation>count</summaryOperation>
+    <securityClassification>Internal</securityClassification>
     <trackTrending>false</trackTrending>
     <type>Summary</type>
 </CustomField>

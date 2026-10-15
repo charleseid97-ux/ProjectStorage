@@ -6,6 +6,7 @@
     <referenceTo>User</referenceTo>
     <relationshipName>BugsLogs</relationshipName>
     <required>false</required>
+    <securityClassification>Internal</securityClassification>
     <trackFeedHistory>false</trackFeedHistory>
     <trackHistory>true</trackHistory>
     <trackTrending>false</trackTrending>

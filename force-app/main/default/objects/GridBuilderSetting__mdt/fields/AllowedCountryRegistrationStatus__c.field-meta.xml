@@ -6,5 +6,6 @@
     <inlineHelpText>Each Country Registration Status must be on a line</inlineHelpText>
     <label>Allowed Country Registration Status</label>
     <required>true</required>
+    <securityClassification>Internal</securityClassification>
     <type>TextArea</type>
 </CustomField>

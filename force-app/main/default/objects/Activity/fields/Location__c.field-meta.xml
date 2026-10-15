@@ -4,6 +4,7 @@
     <description>Location of the meeting</description>
     <label>Location Type</label>
     <required>false</required>
+    <securityClassification>Confidential</securityClassification>
     <type>Picklist</type>
     <valueSet>
         <restricted>true</restricted>

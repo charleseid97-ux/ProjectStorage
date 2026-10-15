@@ -6,5 +6,6 @@
     <fieldManageability>SubscriberControlled</fieldManageability>
     <inlineHelpText>Sends to the approvers who will receive the work item at the next step. Useful for advance notification. Has no effect on FinalApproval, FinalRejection, Recall, or InitialSubmission action types where there is no next step.</inlineHelpText>
     <label>Notify Next Step Approvers</label>
+    <securityClassification>Internal</securityClassification>
     <type>Checkbox</type>
 </CustomField>

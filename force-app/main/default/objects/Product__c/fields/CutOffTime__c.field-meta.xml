@@ -6,6 +6,7 @@
 This is the official cut-off time as defined by the Transfer Agent (TA). Please note that each distributor may have its own cut-off time. For clients subscribing via Luxembourg, the Prime TA cut-off time may apply.</inlineHelpText>
     <label>Cut Off Time</label>
     <required>false</required>
+    <securityClassification>Public</securityClassification>
     <trackHistory>false</trackHistory>
     <trackTrending>false</trackTrending>
     <type>Picklist</type>

@@ -6,6 +6,7 @@
     <inlineHelpText>One field API name per line. On cell hover, displays each field on its own line as &quot;Field Label: Value&quot;, using the first record in the cell.</inlineHelpText>
     <label>On Hover Fields</label>
     <length>32768</length>
+    <securityClassification>Internal</securityClassification>
     <type>LongTextArea</type>
     <visibleLines>5</visibleLines>
 </CustomField>

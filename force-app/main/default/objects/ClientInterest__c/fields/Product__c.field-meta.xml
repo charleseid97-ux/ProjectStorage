@@ -16,6 +16,7 @@
     <relationshipLabel>Clients Interests</relationshipLabel>
     <relationshipName>ClientInterestProduct</relationshipName>
     <required>false</required>
+    <securityClassification>Internal</securityClassification>
     <trackHistory>false</trackHistory>
     <trackTrending>false</trackTrending>
     <type>Lookup</type>

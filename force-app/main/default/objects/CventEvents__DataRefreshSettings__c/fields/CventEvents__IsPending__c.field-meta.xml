@@ -6,6 +6,7 @@
     <description>Indicates whether there is pending sync process.</description>
     <inlineHelpText>Indicates whether there is pending sync process.</inlineHelpText>
     <label>Pending Sync</label>
+    <securityClassification>Internal</securityClassification>
     <trackTrending>false</trackTrending>
     <type>Checkbox</type>
 </CustomField>

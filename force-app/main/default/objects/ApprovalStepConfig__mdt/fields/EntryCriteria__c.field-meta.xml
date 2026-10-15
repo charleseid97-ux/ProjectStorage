@@ -6,6 +6,7 @@
     <inlineHelpText>Optional literal SOQL WHERE-clause fragment evaluated against the target record. Leave blank for the step to always run.</inlineHelpText>
     <label>Entry Criteria</label>
     <length>4000</length>
+    <securityClassification>Internal</securityClassification>
     <type>LongTextArea</type>
     <visibleLines>5</visibleLines>
 </CustomField>

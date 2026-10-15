@@ -6,5 +6,6 @@
     <fieldManageability>SubscriberControlled</fieldManageability>
     <inlineHelpText>Uncheck to pause this alert without deleting the configuration.</inlineHelpText>
     <label>Is Active</label>
+    <securityClassification>Internal</securityClassification>
     <type>Checkbox</type>
 </CustomField>

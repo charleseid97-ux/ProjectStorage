@@ -10,6 +10,7 @@
         &amp; HYPERLINK(&quot;/&quot; &amp; CventEvents__Lead__c, CventEvents__Lead__r.FirstName + &quot; &quot; + CventEvents__Lead__r.LastName))</formula>
     <label>Attendee Name</label>
     <required>false</required>
+    <securityClassification>Internal</securityClassification>
     <trackTrending>false</trackTrending>
     <type>Text</type>
     <unique>false</unique>

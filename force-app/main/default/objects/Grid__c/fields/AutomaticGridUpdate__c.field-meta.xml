@@ -3,6 +3,7 @@
     <fullName>AutomaticGridUpdate__c</fullName>
     <defaultValue>false</defaultValue>
     <label>Automatic Grid Update</label>
+    <securityClassification>Confidential</securityClassification>
     <trackFeedHistory>false</trackFeedHistory>
     <trackTrending>false</trackTrending>
     <type>Checkbox</type>

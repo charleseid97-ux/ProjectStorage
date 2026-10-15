@@ -3,6 +3,7 @@
     <fullName>Role__c</fullName>
     <label>Role</label>
     <required>false</required>
+    <securityClassification>Restricted</securityClassification>
     <trackHistory>true</trackHistory>
     <trackTrending>false</trackTrending>
     <type>MultiselectPicklist</type>

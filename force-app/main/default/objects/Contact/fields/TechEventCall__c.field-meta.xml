@@ -4,6 +4,7 @@
     <defaultValue>false</defaultValue>
     <description>This field enables Pardot to inject the same fields without the &apos;Tech&apos; in CampaignMember</description>
     <label>TechEventCall</label>
+    <securityClassification>Internal</securityClassification>
     <trackFeedHistory>false</trackFeedHistory>
     <trackHistory>false</trackHistory>
     <type>Checkbox</type>

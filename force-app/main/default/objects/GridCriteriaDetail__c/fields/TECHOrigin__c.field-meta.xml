@@ -3,6 +3,7 @@
     <fullName>TECHOrigin__c</fullName>
     <label>TECH Origin</label>
     <required>true</required>
+    <securityClassification>Internal</securityClassification>
     <trackHistory>false</trackHistory>
     <trackTrending>false</trackTrending>
     <type>Picklist</type>

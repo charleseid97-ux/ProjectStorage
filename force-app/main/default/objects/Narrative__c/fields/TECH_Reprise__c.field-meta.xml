@@ -3,6 +3,7 @@
     <fullName>TECH_Reprise__c</fullName>
     <defaultValue>false</defaultValue>
     <label>TECH_Reprise</label>
+    <securityClassification>Internal</securityClassification>
     <trackTrending>false</trackTrending>
     <type>Checkbox</type>
 </CustomField>

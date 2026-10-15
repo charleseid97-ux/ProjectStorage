@@ -6,6 +6,7 @@
     <referenceTo>Product__c</referenceTo>
     <relationshipName>MasterFund</relationshipName>
     <required>false</required>
+    <securityClassification>Confidential</securityClassification>
     <trackFeedHistory>false</trackFeedHistory>
     <trackHistory>false</trackHistory>
     <trackTrending>false</trackTrending>

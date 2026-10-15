@@ -5,6 +5,7 @@
     <deprecated>false</deprecated>
     <description>Indicates whether the ATR was created during custom web service invocation.</description>
     <label>Real Time Sync</label>
+    <securityClassification>Internal</securityClassification>
     <trackTrending>false</trackTrending>
     <type>Checkbox</type>
 </CustomField>

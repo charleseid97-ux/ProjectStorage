@@ -3,6 +3,7 @@
     <fullName>ComplexOwnership__c</fullName>
     <defaultValue>false</defaultValue>
     <label>Complex Ownership</label>
+    <securityClassification>Restricted</securityClassification>
     <trackHistory>false</trackHistory>
     <trackTrending>false</trackTrending>
     <type>Checkbox</type>

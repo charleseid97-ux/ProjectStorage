@@ -3,6 +3,7 @@
     <fullName>Approved_by_Compliance__c</fullName>
     <defaultValue>false</defaultValue>
     <label>Approved by Compliance</label>
+    <securityClassification>Confidential</securityClassification>
     <trackFeedHistory>false</trackFeedHistory>
     <trackHistory>true</trackHistory>
     <type>Checkbox</type>

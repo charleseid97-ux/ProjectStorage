@@ -5,6 +5,7 @@
 established to decide legal cases)</description>
     <label>Jurisdiction</label>
     <required>false</required>
+    <securityClassification>Restricted</securityClassification>
     <trackHistory>true</trackHistory>
     <trackTrending>false</trackTrending>
     <type>Picklist</type>

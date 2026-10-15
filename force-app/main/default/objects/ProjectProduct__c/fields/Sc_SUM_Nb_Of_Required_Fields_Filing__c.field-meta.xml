@@ -5,6 +5,7 @@
     <summarizedField>ProjectShareclass__c.Nb_Of_Required_FieldsFiling__c</summarizedField>
     <summaryForeignKey>ProjectShareclass__c.ProjectProduct__c</summaryForeignKey>
     <summaryOperation>sum</summaryOperation>
+    <securityClassification>Confidential</securityClassification>
     <trackHistory>false</trackHistory>
     <trackTrending>false</trackTrending>
     <type>Summary</type>

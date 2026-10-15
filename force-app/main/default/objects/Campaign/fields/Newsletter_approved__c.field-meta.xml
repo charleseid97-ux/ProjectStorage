@@ -3,6 +3,7 @@
     <fullName>Newsletter_approved__c</fullName>
     <defaultValue>false</defaultValue>
     <label>Newsletter Approved</label>
+    <securityClassification>Confidential</securityClassification>
     <trackFeedHistory>false</trackFeedHistory>
     <trackHistory>true</trackHistory>
     <type>Checkbox</type>

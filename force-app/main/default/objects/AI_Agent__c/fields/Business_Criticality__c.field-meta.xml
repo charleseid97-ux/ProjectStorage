@@ -4,6 +4,7 @@
     <inlineHelpText>Assess how important the agent is to the users’ business activity, considering the impact of incorrect results or unavailability.</inlineHelpText>
     <label>Business Criticality</label>
     <required>false</required>
+    <securityClassification>Internal</securityClassification>
     <trackHistory>true</trackHistory>
     <trackTrending>false</trackTrending>
     <type>Picklist</type>

@@ -6,6 +6,7 @@
     <label>shareclassName</label>
     <length>50</length>
     <required>true</required>
+    <securityClassification>Public</securityClassification>
     <type>Text</type>
     <unique>false</unique>
 </CustomField>

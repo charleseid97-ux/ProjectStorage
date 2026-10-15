@@ -6,6 +6,7 @@
     <inlineHelpText>Configured requires ApproverType__c and ApproverValue__c. Dynamic requires ApproverResolverClass__c. UserInput does not require any additional field.</inlineHelpText>
     <label>Approver Source</label>
     <required>true</required>
+    <securityClassification>Internal</securityClassification>
     <type>Picklist</type>
     <valueSet>
         <restricted>true</restricted>

@@ -3,6 +3,7 @@
     <fullName>Weakness_Type__c</fullName>
     <label>Weakness Type</label>
     <required>false</required>
+    <securityClassification>Confidential</securityClassification>
     <trackHistory>true</trackHistory>
     <trackTrending>false</trackTrending>
     <type>Picklist</type>

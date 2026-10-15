@@ -6,6 +6,7 @@
     <inlineHelpText>Indicates the assignment rule for the Task owner.</inlineHelpText>
     <label>Assignment Rule</label>
     <required>true</required>
+    <securityClassification>Internal</securityClassification>
     <trackTrending>false</trackTrending>
     <type>Picklist</type>
     <valueSet>

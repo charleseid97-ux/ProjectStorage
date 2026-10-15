@@ -6,6 +6,7 @@
     <encryptionScheme>None</encryptionScheme>
     <label>API URL Domain</label>
     <required>true</required>
+    <securityClassification>Internal</securityClassification>
     <trackTrending>false</trackTrending>
     <type>Url</type>
 </CustomField>

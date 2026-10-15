@@ -4,6 +4,7 @@
     <label>Number of Members</label>
     <summaryForeignKey>CampaignMember.CampaignId</summaryForeignKey>
     <summaryOperation>count</summaryOperation>
+    <securityClassification>Confidential</securityClassification>
     <trackHistory>false</trackHistory>
     <type>Summary</type>
 </CustomField>

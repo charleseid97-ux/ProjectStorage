@@ -6,6 +6,7 @@
     <label>Category name</label>
     <length>255</length>
     <required>false</required>
+    <securityClassification>Restricted</securityClassification>
     <type>Text</type>
     <unique>false</unique>
 </CustomField>

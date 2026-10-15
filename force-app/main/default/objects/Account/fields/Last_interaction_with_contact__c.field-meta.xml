@@ -7,6 +7,7 @@
     <inlineHelpText>Date/Time of last interaction with a contact from the company. Filled in with process builder when &quot;last interaction date&quot; is changed in a contact</inlineHelpText>
     <label>Last interaction with contact</label>
     <required>false</required>
+    <securityClassification>Confidential</securityClassification>
     <trackFeedHistory>false</trackFeedHistory>
     <trackHistory>false</trackHistory>
     <type>DateTime</type>

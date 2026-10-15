@@ -4,6 +4,7 @@
     <label>CVent Counter</label>
     <summaryForeignKey>CventEvents__EventCampaignEntry__c.CventEvents__Campaign__c</summaryForeignKey>
     <summaryOperation>count</summaryOperation>
+    <securityClassification>Internal</securityClassification>
     <trackHistory>false</trackHistory>
     <type>Summary</type>
 </CustomField>

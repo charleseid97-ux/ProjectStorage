@@ -5,6 +5,7 @@
     <inlineHelpText>One status value per line. The record is locked while its status field holds any of these values.</inlineHelpText>
     <label>Locking Statuses</label>
     <length>32768</length>
+    <securityClassification>Internal</securityClassification>
     <type>LongTextArea</type>
     <visibleLines>5</visibleLines>
 </CustomField>

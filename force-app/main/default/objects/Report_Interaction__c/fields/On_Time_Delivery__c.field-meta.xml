@@ -16,6 +16,7 @@ ISPICKVAL(Work_Together_Process__r.Report_frequency__c, &apos;Quarterly&apos;)),
     <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
     <label>On-Time Delivery</label>
     <required>false</required>
+    <securityClassification>Confidential</securityClassification>
     <trackHistory>false</trackHistory>
     <trackTrending>false</trackTrending>
     <type>Text</type>

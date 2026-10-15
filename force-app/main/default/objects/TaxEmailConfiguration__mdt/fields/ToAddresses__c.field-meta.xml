@@ -4,6 +4,7 @@
     <fieldManageability>DeveloperControlled</fieldManageability>
     <label>ToAddresses</label>
     <length>32768</length>
+    <securityClassification>Internal</securityClassification>
     <type>LongTextArea</type>
     <visibleLines>3</visibleLines>
 </CustomField>

@@ -3,6 +3,7 @@
     <fullName>Thought_Leadership_T__c</fullName>
     <label>Thought Leadership</label>
     <required>false</required>
+    <securityClassification>Confidential</securityClassification>
     <trackFeedHistory>false</trackFeedHistory>
     <trackHistory>false</trackHistory>
     <type>MultiselectPicklist</type>

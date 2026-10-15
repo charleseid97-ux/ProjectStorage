@@ -5,5 +5,6 @@
     <description>When enabled, displays a search filter bar above the matrix table.</description>
     <fieldManageability>DeveloperControlled</fieldManageability>
     <label>Allow Filters</label>
+    <securityClassification>Internal</securityClassification>
     <type>Checkbox</type>
 </CustomField>

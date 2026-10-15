@@ -6,6 +6,7 @@
     <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
     <label>Link</label>
     <required>false</required>
+    <securityClassification>Internal</securityClassification>
     <type>Text</type>
     <unique>false</unique>
 </CustomField>

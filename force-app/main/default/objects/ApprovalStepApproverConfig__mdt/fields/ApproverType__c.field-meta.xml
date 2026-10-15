@@ -6,6 +6,7 @@
     <inlineHelpText>Leave blank when ApproverSource__c is Dynamic or UserInput. For RelatedUser, the field must hold a User ID (e.g. OwnerId, CreatedById, or a custom lookup to User). Cross-object field paths are not supported.</inlineHelpText>
     <label>Approver Type</label>
     <required>false</required>
+    <securityClassification>Internal</securityClassification>
     <type>Picklist</type>
     <valueSet>
         <restricted>true</restricted>

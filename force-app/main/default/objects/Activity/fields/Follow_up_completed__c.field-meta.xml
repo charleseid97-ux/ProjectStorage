@@ -3,5 +3,6 @@
     <fullName>Follow_up_completed__c</fullName>
     <defaultValue>false</defaultValue>
     <label>Report completed</label>
+    <securityClassification>Confidential</securityClassification>
     <type>Checkbox</type>
 </CustomField>

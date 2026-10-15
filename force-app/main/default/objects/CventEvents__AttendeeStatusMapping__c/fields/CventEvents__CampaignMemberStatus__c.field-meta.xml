@@ -7,6 +7,7 @@
     <label>Campaign Member Status</label>
     <length>40</length>
     <required>true</required>
+    <securityClassification>Internal</securityClassification>
     <trackTrending>false</trackTrending>
     <type>Text</type>
     <unique>false</unique>

@@ -3,6 +3,7 @@
     <fullName>CFDDetails__c</fullName>
     <label>CFD Details</label>
     <required>false</required>
+    <securityClassification>Confidential</securityClassification>
     <trackTrending>false</trackTrending>
     <type>MultiselectPicklist</type>
     <valueSet>

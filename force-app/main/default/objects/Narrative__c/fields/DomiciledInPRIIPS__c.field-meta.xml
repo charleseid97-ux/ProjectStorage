@@ -11,6 +11,7 @@ NULL
     <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
     <label>Domiciled In PRIIPS</label>
     <required>false</required>
+    <securityClassification>Confidential</securityClassification>
     <trackTrending>false</trackTrending>
     <type>Text</type>
     <unique>false</unique>

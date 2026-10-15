@@ -8,6 +8,7 @@
     <relationshipLabel>Plauti Deduplicate Logs</relationshipLabel>
     <relationshipName>Duplicate_Check_Jobs</relationshipName>
     <required>false</required>
+    <securityClassification>Internal</securityClassification>
     <trackTrending>false</trackTrending>
     <type>Lookup</type>
 </CustomField>

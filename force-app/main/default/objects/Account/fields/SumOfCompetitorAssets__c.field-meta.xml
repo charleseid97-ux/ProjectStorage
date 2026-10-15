@@ -10,6 +10,7 @@
     </summaryFilterItems>
     <summaryForeignKey>DistributorAsset__c.Distributor__c</summaryForeignKey>
     <summaryOperation>sum</summaryOperation>
+    <securityClassification>Confidential</securityClassification>
     <trackHistory>false</trackHistory>
     <type>Summary</type>
 </CustomField>

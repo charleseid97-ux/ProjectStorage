@@ -4,6 +4,7 @@
     <fieldManageability>DeveloperControlled</fieldManageability>
     <label>Source</label>
     <required>false</required>
+    <securityClassification>Restricted</securityClassification>
     <type>Picklist</type>
     <valueSet>
         <restricted>true</restricted>

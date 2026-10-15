@@ -3,6 +3,7 @@
     <fullName>Client_Accomodation__c</fullName>
     <defaultValue>false</defaultValue>
     <label>Client Accommodation ?</label>
+    <securityClassification>Confidential</securityClassification>
     <trackFeedHistory>false</trackFeedHistory>
     <trackHistory>false</trackHistory>
     <type>Checkbox</type>

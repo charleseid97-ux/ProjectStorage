@@ -6,6 +6,7 @@
     <label>City of Birth</label>
     <length>50</length>
     <required>false</required>
+    <securityClassification>Restricted</securityClassification>
     <trackHistory>true</trackHistory>
     <trackTrending>false</trackTrending>
     <type>Text</type>

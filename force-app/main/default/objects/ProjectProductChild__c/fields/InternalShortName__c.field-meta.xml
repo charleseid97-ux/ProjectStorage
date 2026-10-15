@@ -9,6 +9,7 @@ This value will also be used to automatically populate the project name.</inline
     <label>Internal Short Name</label>
     <length>255</length>
     <required>false</required>
+    <securityClassification>Confidential</securityClassification>
     <trackTrending>false</trackTrending>
     <type>Text</type>
     <unique>false</unique>

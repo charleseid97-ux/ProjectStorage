@@ -6,6 +6,7 @@
     <inlineHelpText>Standard = Salesforce standard approvals only; Custom = custom approval steps only; blank = both.</inlineHelpText>
     <label>Approval System</label>
     <required>false</required>
+    <securityClassification>Internal</securityClassification>
     <type>Picklist</type>
     <valueSet>
         <restricted>true</restricted>

@@ -3,6 +3,7 @@
     <fullName>Agency_Translation_language__c</fullName>
     <label>Agency Translation language</label>
     <required>false</required>
+    <securityClassification>Confidential</securityClassification>
     <trackFeedHistory>false</trackFeedHistory>
     <trackHistory>false</trackHistory>
     <type>MultiselectPicklist</type>

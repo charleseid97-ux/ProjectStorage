@@ -6,5 +6,6 @@
     <fieldManageability>DeveloperControlled</fieldManageability>
     <inlineHelpText>Enable to validate a run without writing to FundManager__c records. Disable once results have been reviewed and the integration is ready to go live.</inlineHelpText>
     <label>Dry Run</label>
+    <securityClassification>Internal</securityClassification>
     <type>Checkbox</type>
 </CustomField>

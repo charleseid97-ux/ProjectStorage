@@ -3,5 +3,6 @@
     <fullName>Subscriber__c</fullName>
     <defaultValue>false</defaultValue>
     <label>Event Optout</label>
+    <securityClassification>Restricted</securityClassification>
     <type>Checkbox</type>
 </CustomField>

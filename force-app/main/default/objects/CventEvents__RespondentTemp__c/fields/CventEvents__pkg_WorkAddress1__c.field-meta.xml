@@ -7,6 +7,7 @@
     <label>Work Address 1</label>
     <length>40</length>
     <required>false</required>
+    <securityClassification>Restricted</securityClassification>
     <trackTrending>false</trackTrending>
     <type>Text</type>
     <unique>false</unique>

@@ -8,5 +8,6 @@
     <fieldManageability>SubscriberControlled</fieldManageability>
     <inlineHelpText>If True, the FieldPro app will not share any app analytics with the FieldPro team.</inlineHelpText>
     <label>Disable &quot;FieldPro Analytics&quot;</label>
+    <securityClassification>Internal</securityClassification>
     <type>Checkbox</type>
 </CustomField>

@@ -4,6 +4,7 @@
     <description>Indicates the reason why an entity has become INACTIVE (cf. further details in appendix slide 12)</description>
     <label>Registration Status</label>
     <required>false</required>
+    <securityClassification>Restricted</securityClassification>
     <trackHistory>true</trackHistory>
     <trackTrending>false</trackTrending>
     <type>Picklist</type>

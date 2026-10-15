@@ -8,6 +8,7 @@ Example:
 {&quot;CustomGrid&quot;: [&quot;SINGLE RULE&quot;, &quot;MULTI RULE&quot;], &quot;OtherFeesGrid&quot;: [&quot;Courtage Assurance et Capi&quot;, &quot;Performance Fees&quot;]}</inlineHelpText>
     <label>Available Types Per Record Type</label>
     <length>4096</length>
+    <securityClassification>Internal</securityClassification>
     <type>LongTextArea</type>
     <visibleLines>5</visibleLines>
 </CustomField>

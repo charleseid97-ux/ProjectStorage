@@ -5,6 +5,7 @@
     <inlineHelpText>Value automatically populated from the linked opportunity (Client Feedback field)</inlineHelpText>
     <label>Client Feedback</label>
     <length>130000</length>
+    <securityClassification>Confidential</securityClassification>
     <trackFeedHistory>false</trackFeedHistory>
     <trackHistory>false</trackHistory>
     <trackTrending>false</trackTrending>

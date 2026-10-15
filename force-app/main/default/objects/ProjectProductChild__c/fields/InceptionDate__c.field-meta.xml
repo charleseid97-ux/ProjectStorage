@@ -6,6 +6,7 @@
     <inlineHelpText>InceptionDate Field</inlineHelpText>
     <label>InceptionDate</label>
     <required>false</required>
+    <securityClassification>Confidential</securityClassification>
     <trackTrending>false</trackTrending>
     <type>Date</type>
 </CustomField>

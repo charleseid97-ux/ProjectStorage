@@ -3,6 +3,7 @@
     <fullName>InitialLabPeriod__c</fullName>
     <label>Initial Lab Period</label>
     <required>false</required>
+    <securityClassification>Confidential</securityClassification>
     <trackTrending>false</trackTrending>
     <type>Picklist</type>
     <valueSet>

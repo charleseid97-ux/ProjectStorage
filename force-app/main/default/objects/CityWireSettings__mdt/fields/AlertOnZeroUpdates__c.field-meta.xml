@@ -6,5 +6,6 @@
     <fieldManageability>DeveloperControlled</fieldManageability>
     <inlineHelpText>Enable to be notified when a run completes without updating any FundManager__c record, which usually indicates a broken credential or endpoint even though individual callouts succeeded.</inlineHelpText>
     <label>Alert On Zero Updates</label>
+    <securityClassification>Internal</securityClassification>
     <type>Checkbox</type>
 </CustomField>

@@ -3,6 +3,7 @@
     <fullName>PostalDeliveryOptOut__c</fullName>
     <defaultValue>false</defaultValue>
     <label>Postal Delivery Opt Out</label>
+    <securityClassification>Restricted</securityClassification>
     <trackFeedHistory>false</trackFeedHistory>
     <trackHistory>false</trackHistory>
     <type>Checkbox</type>

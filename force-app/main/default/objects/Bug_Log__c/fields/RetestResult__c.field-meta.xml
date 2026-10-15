@@ -3,6 +3,7 @@
     <fullName>RetestResult__c</fullName>
     <label>Result</label>
     <required>false</required>
+    <securityClassification>Internal</securityClassification>
     <trackFeedHistory>true</trackFeedHistory>
     <trackHistory>true</trackHistory>
     <trackTrending>false</trackTrending>

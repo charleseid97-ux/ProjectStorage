@@ -6,6 +6,7 @@
     <description>Indicates whether the nomination requester should be shown as a sender of invitation email.</description>
     <inlineHelpText>Indicates whether the nomination requester should be shown as a sender of invitation email.</inlineHelpText>
     <label>Send Invite On Behalf Of Requester</label>
+    <securityClassification>Internal</securityClassification>
     <trackTrending>false</trackTrending>
     <type>Checkbox</type>
 </CustomField>

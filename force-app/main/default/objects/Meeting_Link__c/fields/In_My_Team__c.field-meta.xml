@@ -4,6 +4,7 @@
     <formula>IF( Employee__r.User__r.UserRoleId = $User.UserRoleId ,TRUE,FALSE)</formula>
     <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
     <label>In My Team</label>
+    <securityClassification>Internal</securityClassification>
     <trackTrending>false</trackTrending>
     <type>Checkbox</type>
 </CustomField>

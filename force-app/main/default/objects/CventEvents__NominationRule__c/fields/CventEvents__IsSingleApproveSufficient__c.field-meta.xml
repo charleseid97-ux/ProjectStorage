@@ -6,6 +6,7 @@
     <description>In case of &apos;Public Group&apos; type indicates whether the single approve sufficient for the entire level.</description>
     <inlineHelpText>In case of &apos;Public Group&apos; type indicates whether the single approve sufficient for the entire level.</inlineHelpText>
     <label>Is Single Approve Sufficient</label>
+    <securityClassification>Internal</securityClassification>
     <trackTrending>false</trackTrending>
     <type>Checkbox</type>
 </CustomField>

@@ -3,6 +3,7 @@
     <fullName>Professionnal_only__c</fullName>
     <defaultValue>false</defaultValue>
     <label>Professional only</label>
+    <securityClassification>Confidential</securityClassification>
     <trackFeedHistory>false</trackFeedHistory>
     <trackHistory>true</trackHistory>
     <type>Checkbox</type>

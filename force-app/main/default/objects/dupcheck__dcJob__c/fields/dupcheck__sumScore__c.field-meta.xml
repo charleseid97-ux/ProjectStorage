@@ -11,6 +11,7 @@
     </summaryFilterItems>
     <summaryForeignKey>dupcheck__dcGroup__c.dupcheck__dcJob__c</summaryForeignKey>
     <summaryOperation>sum</summaryOperation>
+    <securityClassification>Internal</securityClassification>
     <trackTrending>false</trackTrending>
     <type>Summary</type>
 </CustomField>

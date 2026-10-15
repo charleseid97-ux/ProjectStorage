@@ -3,6 +3,7 @@
     <fullName>DomiciliedIn__c</fullName>
     <label>Domicilied In</label>
     <required>false</required>
+    <securityClassification>Confidential</securityClassification>
     <trackTrending>false</trackTrending>
     <type>Picklist</type>
     <valueSet>

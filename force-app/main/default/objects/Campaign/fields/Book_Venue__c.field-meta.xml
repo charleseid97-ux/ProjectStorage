@@ -3,6 +3,7 @@
     <fullName>Book_Venue__c</fullName>
     <defaultValue>false</defaultValue>
     <label>Book Venue ?</label>
+    <securityClassification>Confidential</securityClassification>
     <trackFeedHistory>false</trackFeedHistory>
     <trackHistory>false</trackHistory>
     <type>Checkbox</type>

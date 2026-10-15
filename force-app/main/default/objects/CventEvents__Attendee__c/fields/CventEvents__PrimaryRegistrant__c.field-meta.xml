@@ -8,6 +8,7 @@
     <relationshipLabel>Guests</relationshipLabel>
     <relationshipName>Guests</relationshipName>
     <required>false</required>
+    <securityClassification>Internal</securityClassification>
     <trackFeedHistory>false</trackFeedHistory>
     <trackTrending>false</trackTrending>
     <type>Lookup</type>

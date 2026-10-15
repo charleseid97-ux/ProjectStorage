@@ -5,5 +5,6 @@
     <description>Controls whether the rule participates in Main Share Class selection.</description>
     <fieldManageability>DeveloperControlled</fieldManageability>
     <label>Active</label>
+    <securityClassification>Internal</securityClassification>
     <type>Checkbox</type>
 </CustomField>

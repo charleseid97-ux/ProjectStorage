@@ -3,6 +3,7 @@
     <fullName>TargetWebsite__c</fullName>
     <label>Target Website</label>
     <required>false</required>
+    <securityClassification>Confidential</securityClassification>
     <trackFeedHistory>false</trackFeedHistory>
     <trackHistory>true</trackHistory>
     <trackTrending>false</trackTrending>

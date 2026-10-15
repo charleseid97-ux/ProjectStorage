@@ -4,6 +4,7 @@
     <formula>( Name = &quot;Filing&quot; ) &amp;&amp; ( StartDate__c = TODAY() + 7 )&amp;&amp; (Project_product__r.RecordType.DeveloperName = &quot;FundCreation&quot; || Project_product__r.RecordType.DeveloperName = &quot;ShareclassCreation&quot;)</formula>
     <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
     <label>Send Notification</label>
+    <securityClassification>Internal</securityClassification>
     <trackHistory>false</trackHistory>
     <trackTrending>false</trackTrending>
     <type>Checkbox</type>

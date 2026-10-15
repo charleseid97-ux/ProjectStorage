@@ -3,6 +3,7 @@
     <fullName>Nationality__c</fullName>
     <label>Nationality</label>
     <required>false</required>
+    <securityClassification>Internal</securityClassification>
     <trackHistory>true</trackHistory>
     <trackTrending>false</trackTrending>
     <type>Picklist</type>

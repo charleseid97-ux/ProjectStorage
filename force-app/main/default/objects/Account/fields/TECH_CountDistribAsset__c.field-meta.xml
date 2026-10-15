@@ -9,6 +9,7 @@
     </summaryFilterItems>
     <summaryForeignKey>DistributorAsset__c.Distributor__c</summaryForeignKey>
     <summaryOperation>count</summaryOperation>
+    <securityClassification>Internal</securityClassification>
     <trackHistory>false</trackHistory>
     <type>Summary</type>
 </CustomField>

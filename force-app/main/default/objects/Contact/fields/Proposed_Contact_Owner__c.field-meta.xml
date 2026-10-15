@@ -17,6 +17,7 @@
     <referenceTo>User</referenceTo>
     <relationshipName>Contacts1</relationshipName>
     <required>false</required>
+    <securityClassification>Internal</securityClassification>
     <trackFeedHistory>false</trackFeedHistory>
     <trackHistory>true</trackHistory>
     <type>Lookup</type>

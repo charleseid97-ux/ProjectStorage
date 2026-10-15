@@ -4,5 +4,6 @@
     <defaultValue>false</defaultValue>
     <inlineHelpText>Has the client viewed the content?</inlineHelpText>
     <label>Content Viewed</label>
+    <securityClassification>Confidential</securityClassification>
     <type>Checkbox</type>
 </CustomField>

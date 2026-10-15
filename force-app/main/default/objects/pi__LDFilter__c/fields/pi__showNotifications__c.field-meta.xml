@@ -6,6 +6,7 @@
     <description>boolean to determine whether notifications should be shown on the desktop version</description>
     <inlineHelpText>boolean to determine whether notifications should be shown on the desktop version</inlineHelpText>
     <label>Show Notifications</label>
+    <securityClassification>Confidential</securityClassification>
     <trackTrending>false</trackTrending>
     <type>Checkbox</type>
 </CustomField>

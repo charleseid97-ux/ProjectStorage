@@ -3,6 +3,7 @@
     <fullName>salesTeam__c</fullName>
     <label>Sales team</label>
     <required>true</required>
+    <securityClassification>Internal</securityClassification>
     <trackFeedHistory>false</trackFeedHistory>
     <trackHistory>true</trackHistory>
     <trackTrending>false</trackTrending>

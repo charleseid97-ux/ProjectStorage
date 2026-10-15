@@ -5,6 +5,7 @@
     <description>Last Campaign Sync</description>
     <label>Last Campaign Sync Status</label>
     <required>false</required>
+    <securityClassification>Internal</securityClassification>
     <trackTrending>false</trackTrending>
     <type>Picklist</type>
     <valueSet>

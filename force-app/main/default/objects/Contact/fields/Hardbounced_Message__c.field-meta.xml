@@ -4,6 +4,7 @@
     <encryptionScheme>None</encryptionScheme>
     <label>Hardbounced Message</label>
     <length>32768</length>
+    <securityClassification>Confidential</securityClassification>
     <trackFeedHistory>false</trackFeedHistory>
     <trackHistory>false</trackHistory>
     <type>LongTextArea</type>

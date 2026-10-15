@@ -6,5 +6,6 @@
     <description>Indicates whether the registration to an event in this status is allowed.</description>
     <fieldManageability>SubscriberControlled</fieldManageability>
     <label>Allow Registration</label>
+    <securityClassification>Internal</securityClassification>
     <type>Checkbox</type>
 </CustomField>

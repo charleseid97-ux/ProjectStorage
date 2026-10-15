@@ -3,6 +3,7 @@
     <fullName>Strength_Type__c</fullName>
     <label>Strength  Type</label>
     <required>false</required>
+    <securityClassification>Confidential</securityClassification>
     <trackHistory>true</trackHistory>
     <trackTrending>false</trackTrending>
     <type>Picklist</type>

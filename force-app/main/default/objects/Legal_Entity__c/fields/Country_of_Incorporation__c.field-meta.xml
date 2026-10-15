@@ -4,6 +4,7 @@
     <description>Country of Incorporation of the Legal Entity</description>
     <label>Country of Incorporation</label>
     <required>false</required>
+    <securityClassification>Restricted</securityClassification>
     <trackHistory>true</trackHistory>
     <trackTrending>false</trackTrending>
     <type>Picklist</type>

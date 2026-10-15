@@ -10,6 +10,7 @@
     </summaryFilterItems>
     <summaryForeignKey>ProjectShareclassChild__c.ProjectShareclasses__c</summaryForeignKey>
     <summaryOperation>sum</summaryOperation>
+    <securityClassification>Confidential</securityClassification>
     <trackTrending>false</trackTrending>
     <type>Summary</type>
 </CustomField>

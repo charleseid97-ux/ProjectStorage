@@ -6,6 +6,7 @@
     <inlineHelpText>Enter one Queue Developer Name per line to notify multiple queues. Each must match the DeveloperName of an existing Queue. No alert email is sent if this is left blank.</inlineHelpText>
     <label>Alert Queues Developer Names</label>
     <length>2048</length>
+    <securityClassification>Internal</securityClassification>
     <type>LongTextArea</type>
     <visibleLines>5</visibleLines>
 </CustomField>

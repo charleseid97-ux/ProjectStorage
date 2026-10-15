@@ -7,6 +7,7 @@
     <label>TechEventId</label>
     <length>18</length>
     <required>false</required>
+    <securityClassification>Internal</securityClassification>
     <trackFeedHistory>false</trackFeedHistory>
     <trackHistory>false</trackHistory>
     <type>Text</type>

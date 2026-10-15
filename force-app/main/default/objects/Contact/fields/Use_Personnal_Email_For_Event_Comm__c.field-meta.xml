@@ -4,6 +4,7 @@
     <defaultValue>false</defaultValue>
     <inlineHelpText>The professional email is used by default. Tick the box and the personal email will be used for Event communications.</inlineHelpText>
     <label>Select Personal Email for Events</label>
+    <securityClassification>Restricted</securityClassification>
     <trackFeedHistory>false</trackFeedHistory>
     <trackHistory>false</trackHistory>
     <type>Checkbox</type>

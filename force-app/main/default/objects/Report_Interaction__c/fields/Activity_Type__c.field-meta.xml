@@ -3,6 +3,7 @@
     <fullName>Activity_Type__c</fullName>
     <label>Activity Type</label>
     <required>false</required>
+    <securityClassification>Confidential</securityClassification>
     <trackHistory>false</trackHistory>
     <trackTrending>false</trackTrending>
     <type>Picklist</type>

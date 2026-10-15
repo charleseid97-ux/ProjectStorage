@@ -8,6 +8,7 @@
     <inlineHelpText>Represents either the related contact&apos;s account name or lead&apos;s company.</inlineHelpText>
     <label>Company</label>
     <required>false</required>
+    <securityClassification>Confidential</securityClassification>
     <trackTrending>false</trackTrending>
     <type>Text</type>
     <unique>false</unique>

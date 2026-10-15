@@ -3,6 +3,7 @@
     <fullName>Kind__c</fullName>
     <label>Kind</label>
     <required>false</required>
+    <securityClassification>Confidential</securityClassification>
     <trackFeedHistory>false</trackFeedHistory>
     <trackTrending>false</trackTrending>
     <type>Picklist</type>

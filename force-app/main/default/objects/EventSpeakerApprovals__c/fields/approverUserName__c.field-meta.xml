@@ -6,6 +6,7 @@
     <label>Approver UserName</label>
     <length>80</length>
     <required>false</required>
+    <securityClassification>Internal</securityClassification>
     <trackTrending>false</trackTrending>
     <type>Text</type>
     <unique>false</unique>

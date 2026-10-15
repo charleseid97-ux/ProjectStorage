@@ -9,6 +9,7 @@
     <relationshipLabel>Approval Step Configs</relationshipLabel>
     <relationshipName>ApprovalStepConfigs</relationshipName>
     <required>true</required>
+    <securityClassification>Internal</securityClassification>
     <type>MetadataRelationship</type>
     <unique>false</unique>
 </CustomField>

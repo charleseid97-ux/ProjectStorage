@@ -3,6 +3,7 @@
     <fullName>Type__c</fullName>
     <label>Tax Type</label>
     <required>false</required>
+    <securityClassification>Public</securityClassification>
     <trackHistory>false</trackHistory>
     <trackTrending>false</trackTrending>
     <type>Picklist</type>

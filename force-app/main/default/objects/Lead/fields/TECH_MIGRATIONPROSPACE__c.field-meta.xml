@@ -4,6 +4,7 @@
     <defaultValue>false</defaultValue>
     <description>Technical field used to distinguish which records have been migrated during the prospace implementation.</description>
     <label>TECH_MIGRATIONPROSPACE</label>
+    <securityClassification>Internal</securityClassification>
     <trackFeedHistory>false</trackFeedHistory>
     <trackHistory>false</trackHistory>
     <type>Checkbox</type>

@@ -4,5 +4,6 @@
     <formula>IF(ISBLANK(LeadId) , Contact.Contact_Opt_out__c, Lead.Prospect_Opt_out__c  )</formula>
     <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
     <label>TECH_ParentNewsletterOptOut</label>
+    <securityClassification>Restricted</securityClassification>
     <type>Checkbox</type>
 </CustomField>

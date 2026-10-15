@@ -4,6 +4,7 @@
     <defaultValue>false</defaultValue>
     <description>Identifies the Main Share Class for the Product + Country combination.</description>
     <label>Is Main Share Class</label>
+    <securityClassification>Public</securityClassification>
     <trackHistory>false</trackHistory>
     <trackTrending>false</trackTrending>
     <type>Checkbox</type>

@@ -4,6 +4,7 @@
     <defaultValue>false</defaultValue>
     <description>When true, the approval history is read-only — approve/reject/recall buttons are hidden regardless of the current user&apos;s permissions.</description>
     <label>Read Only</label>
+    <securityClassification>Internal</securityClassification>
     <trackTrending>false</trackTrending>
     <type>Checkbox</type>
 </CustomField>

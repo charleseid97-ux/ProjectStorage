@@ -4,6 +4,7 @@
     <formula>(IsNot_MilestoneLaunch__c + NotCompletedChilds__c &gt; 0) &amp;&amp; ( EndDate__c = TODAY()+7)</formula>
     <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
     <label>Send Notification?</label>
+    <securityClassification>Confidential</securityClassification>
     <trackHistory>false</trackHistory>
     <trackTrending>false</trackTrending>
     <type>Checkbox</type>

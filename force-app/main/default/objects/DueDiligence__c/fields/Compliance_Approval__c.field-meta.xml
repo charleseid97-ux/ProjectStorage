@@ -4,6 +4,7 @@
     <description>Compliance approval of distributors risk</description>
     <label>Compliance Approval</label>
     <required>false</required>
+    <securityClassification>Restricted</securityClassification>
     <trackHistory>true</trackHistory>
     <trackTrending>false</trackTrending>
     <type>Picklist</type>

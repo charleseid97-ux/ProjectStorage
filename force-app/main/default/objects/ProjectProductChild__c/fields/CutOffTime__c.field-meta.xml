@@ -4,6 +4,7 @@
     <inlineHelpText>Time limit until which transactions (subscriptions, redemptions, switch in and out) will be included in the day&apos;s settlement.</inlineHelpText>
     <label>Cut Off Time</label>
     <required>false</required>
+    <securityClassification>Confidential</securityClassification>
     <trackTrending>false</trackTrending>
     <type>Picklist</type>
     <valueSet>

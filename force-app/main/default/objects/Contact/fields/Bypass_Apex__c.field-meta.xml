@@ -3,6 +3,7 @@
     <fullName>Bypass_Apex__c</fullName>
     <defaultValue>false</defaultValue>
     <label>Bypass Apex</label>
+    <securityClassification>Internal</securityClassification>
     <trackFeedHistory>false</trackFeedHistory>
     <trackHistory>false</trackHistory>
     <type>Checkbox</type>

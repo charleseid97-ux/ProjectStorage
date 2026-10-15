@@ -18,6 +18,7 @@
     <relationshipLabel>Grids (Sales Owner)</relationshipLabel>
     <relationshipName>SalesOwnerGrids</relationshipName>
     <required>false</required>
+    <securityClassification>Internal</securityClassification>
     <trackFeedHistory>false</trackFeedHistory>
     <trackTrending>false</trackTrending>
     <type>Lookup</type>

@@ -3,6 +3,7 @@
     <fullName>Publication_File__c</fullName>
     <defaultValue>false</defaultValue>
     <label>Publication File</label>
+    <securityClassification>Internal</securityClassification>
     <trackHistory>false</trackHistory>
     <type>Checkbox</type>
 </CustomField>

@@ -3,6 +3,7 @@
     <fullName>AgentStatus__c</fullName>
     <label>Agent Status</label>
     <required>false</required>
+    <securityClassification>Internal</securityClassification>
     <trackFeedHistory>false</trackFeedHistory>
     <trackHistory>true</trackHistory>
     <trackTrending>false</trackTrending>

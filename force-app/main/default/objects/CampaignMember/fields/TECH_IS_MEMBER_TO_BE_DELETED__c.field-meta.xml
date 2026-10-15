@@ -5,5 +5,6 @@
     <formula>AND( NOT(ISPICKVAL(Campaign.Status, &apos;Closed&apos;)), NOT(ISPICKVAL(Campaign.Status, &apos;Cancelled&apos;)), NOT(ISPICKVAL(Campaign.Status, &apos;Archived&apos;)) )</formula>
     <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
     <label>TECH_IS_MEMBER_TO_BE_DELETED</label>
+    <securityClassification>Internal</securityClassification>
     <type>Checkbox</type>
 </CustomField>

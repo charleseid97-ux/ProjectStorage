@@ -8,6 +8,7 @@ RegistrationStatus__c
 RegistrationDate__c</inlineHelpText>
     <label>Value Fields</label>
     <length>1000</length>
+    <securityClassification>Internal</securityClassification>
     <type>LongTextArea</type>
     <visibleLines>4</visibleLines>
 </CustomField>

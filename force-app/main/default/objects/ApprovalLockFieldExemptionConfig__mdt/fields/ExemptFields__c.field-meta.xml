@@ -6,6 +6,7 @@
     <inlineHelpText>One field API name per line, e.g. EndDate__c.</inlineHelpText>
     <label>Exempt Fields</label>
     <length>32768</length>
+    <securityClassification>Internal</securityClassification>
     <type>LongTextArea</type>
     <visibleLines>5</visibleLines>
 </CustomField>

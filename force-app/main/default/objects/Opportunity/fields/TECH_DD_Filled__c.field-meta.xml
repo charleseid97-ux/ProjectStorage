@@ -4,6 +4,7 @@
     <defaultValue>false</defaultValue>
     <description>Is checked if field Due Diligence Feedback is filled-in. Else, is empty</description>
     <label>TECH DD Filled</label>
+    <securityClassification>Internal</securityClassification>
     <trackFeedHistory>false</trackFeedHistory>
     <trackHistory>false</trackHistory>
     <trackTrending>false</trackTrending>

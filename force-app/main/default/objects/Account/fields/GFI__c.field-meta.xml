@@ -4,6 +4,7 @@
     <defaultValue>false</defaultValue>
     <description>Checkbox indicating if a company is a GFI</description>
     <label>GFI</label>
+    <securityClassification>Confidential</securityClassification>
     <trackFeedHistory>false</trackFeedHistory>
     <trackHistory>false</trackHistory>
     <type>Checkbox</type>

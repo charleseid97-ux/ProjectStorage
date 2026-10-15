@@ -4,6 +4,7 @@
     <description>Business Country of the Legal Entity</description>
     <label>Country</label>
     <required>false</required>
+    <securityClassification>Restricted</securityClassification>
     <trackHistory>true</trackHistory>
     <trackTrending>false</trackTrending>
     <type>Picklist</type>

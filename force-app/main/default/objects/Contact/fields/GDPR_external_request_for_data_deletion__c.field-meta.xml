@@ -3,6 +3,7 @@
     <fullName>GDPR_external_request_for_data_deletion__c</fullName>
     <defaultValue>false</defaultValue>
     <label>GDPR external request for data deletion</label>
+    <securityClassification>Restricted</securityClassification>
     <trackFeedHistory>false</trackFeedHistory>
     <trackHistory>true</trackHistory>
     <type>Checkbox</type>

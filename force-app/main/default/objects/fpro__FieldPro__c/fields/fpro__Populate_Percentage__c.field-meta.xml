@@ -13,6 +13,7 @@ IF(fpro__Total_Count__c = 0, TEXT(0), TEXT(fpro__Populated_On__c / fpro__Total_C
     <precision>18</precision>
     <required>false</required>
     <scale>2</scale>
+    <securityClassification>Internal</securityClassification>
     <trackHistory>false</trackHistory>
     <trackTrending>false</trackTrending>
     <type>Percent</type>

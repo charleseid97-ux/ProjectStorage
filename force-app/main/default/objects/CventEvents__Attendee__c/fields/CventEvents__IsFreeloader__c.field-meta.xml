@@ -5,6 +5,7 @@
     <deprecated>false</deprecated>
     <description>Represents whether the Attendee is guest or not.</description>
     <label>Guest</label>
+    <securityClassification>Confidential</securityClassification>
     <trackFeedHistory>false</trackFeedHistory>
     <trackTrending>false</trackTrending>
     <type>Checkbox</type>

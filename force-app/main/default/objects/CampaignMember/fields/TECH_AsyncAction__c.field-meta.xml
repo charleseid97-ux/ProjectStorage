@@ -4,6 +4,7 @@
     <description>Field used to store the status of the campaign</description>
     <label>TECH_AsyncAction</label>
     <required>false</required>
+    <securityClassification>Internal</securityClassification>
     <type>Picklist</type>
     <valueSet>
         <valueSetDefinition>

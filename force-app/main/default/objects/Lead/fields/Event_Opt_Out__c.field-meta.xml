@@ -3,6 +3,7 @@
     <fullName>Event_Opt_Out__c</fullName>
     <defaultValue>false</defaultValue>
     <label>Event Opt Out</label>
+    <securityClassification>Restricted</securityClassification>
     <trackFeedHistory>false</trackFeedHistory>
     <trackHistory>false</trackHistory>
     <type>Checkbox</type>

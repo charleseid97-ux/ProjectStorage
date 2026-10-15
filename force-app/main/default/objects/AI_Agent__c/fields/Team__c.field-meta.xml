@@ -4,6 +4,7 @@
     <inlineHelpText>Select the team(s) or Dust group(s) the agent is shared with</inlineHelpText>
     <label>Shared With Teams</label>
     <required>false</required>
+    <securityClassification>Internal</securityClassification>
     <trackHistory>true</trackHistory>
     <trackTrending>false</trackTrending>
     <type>MultiselectPicklist</type>

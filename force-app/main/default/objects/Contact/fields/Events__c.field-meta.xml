@@ -3,6 +3,7 @@
     <fullName>Events__c</fullName>
     <defaultValue>false</defaultValue>
     <label>Invitations</label>
+    <securityClassification>Confidential</securityClassification>
     <trackFeedHistory>false</trackFeedHistory>
     <trackHistory>true</trackHistory>
     <type>Checkbox</type>

@@ -4,6 +4,7 @@
     <description>Allows to track preferences originally stored within different fi[&apos;Fund_Selector_Day__c&apos;, &apos;Quarterly_meeting_category__c&apos;, &apos;Campaign_Targeting__c&apos;, &apos;Sales_Event__c&apos;, &apos;Partnership__c&apos;]</description>
     <label>Event type</label>
     <required>false</required>
+    <securityClassification>Confidential</securityClassification>
     <trackFeedHistory>false</trackFeedHistory>
     <trackHistory>true</trackHistory>
     <type>MultiselectPicklist</type>

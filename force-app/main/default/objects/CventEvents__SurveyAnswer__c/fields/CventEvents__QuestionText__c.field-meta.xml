@@ -6,6 +6,7 @@
     <formula>HYPERLINK(&quot;/&quot; &amp; CventEvents__Question__r.CventEvents__QuestionText__c, &quot;&quot;) &amp; HYPERLINK(&quot;/&quot; &amp; CventEvents__Question__c, CventEvents__Question__r.CventEvents__QuestionText__c)</formula>
     <label>Question</label>
     <required>false</required>
+    <securityClassification>Internal</securityClassification>
     <trackTrending>false</trackTrending>
     <type>Text</type>
     <unique>false</unique>

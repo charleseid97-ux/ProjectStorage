@@ -3,6 +3,7 @@
     <fullName>presentationStatus__c</fullName>
     <label>Presentation status</label>
     <required>false</required>
+    <securityClassification>Internal</securityClassification>
     <trackTrending>false</trackTrending>
     <type>Picklist</type>
     <valueSet>

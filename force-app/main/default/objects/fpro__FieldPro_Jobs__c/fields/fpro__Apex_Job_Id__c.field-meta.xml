@@ -10,6 +10,7 @@
     <label>Apex Job Id</label>
     <length>255</length>
     <required>false</required>
+    <securityClassification>Internal</securityClassification>
     <trackTrending>false</trackTrending>
     <type>Text</type>
     <unique>true</unique>

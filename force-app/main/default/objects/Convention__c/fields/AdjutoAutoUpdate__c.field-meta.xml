@@ -5,6 +5,7 @@
     <description>Indicates whether this grid should be automatically pushed to Adjuto whenever it is updated in Salesforce.</description>
     <inlineHelpText>Check this box if the grid should be automatically updated in Adjuto.</inlineHelpText>
     <label>Adjuto Auto Update</label>
+    <securityClassification>Confidential</securityClassification>
     <trackFeedHistory>false</trackFeedHistory>
     <trackHistory>false</trackHistory>
     <trackTrending>false</trackTrending>

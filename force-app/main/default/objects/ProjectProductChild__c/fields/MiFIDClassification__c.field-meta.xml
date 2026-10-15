@@ -4,6 +4,7 @@
     <description>MiFID Securities Classification</description>
     <label>MiFID Securities Classification</label>
     <required>false</required>
+    <securityClassification>Confidential</securityClassification>
     <trackTrending>false</trackTrending>
     <type>Picklist</type>
     <valueSet>

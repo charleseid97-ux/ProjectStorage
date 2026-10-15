@@ -7,6 +7,7 @@
     <relationshipLabel>Meeting Notes</relationshipLabel>
     <relationshipName>Meeting_Links_Employee</relationshipName>
     <required>false</required>
+    <securityClassification>Internal</securityClassification>
     <trackTrending>false</trackTrending>
     <type>Lookup</type>
 </CustomField>

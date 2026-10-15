@@ -13,6 +13,7 @@ if(NumberofMandatoryDocuments__c &gt; 0 &amp;&amp; NumberofMandatoryDocuments__c
     <inlineHelpText>All mandatory document should be uploaded and the final risk needs to be populated for the status to be completed</inlineHelpText>
     <label>KYD DD Oversight Status</label>
     <required>false</required>
+    <securityClassification>Restricted</securityClassification>
     <trackHistory>false</trackHistory>
     <trackTrending>false</trackTrending>
     <type>Text</type>

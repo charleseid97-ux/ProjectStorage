@@ -5,6 +5,7 @@
     <inlineHelpText>Regulatory Document Type</inlineHelpText>
     <label>Type</label>
     <required>true</required>
+    <securityClassification>Restricted</securityClassification>
     <trackTrending>false</trackTrending>
     <type>Picklist</type>
     <valueSet>

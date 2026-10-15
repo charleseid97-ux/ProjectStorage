@@ -8,6 +8,7 @@ This is the target rate which will be used in the PRIIPS KID and EMT.</inlineHel
     <precision>18</precision>
     <required>false</required>
     <scale>3</scale>
+    <securityClassification>Confidential</securityClassification>
     <trackHistory>false</trackHistory>
     <trackTrending>false</trackTrending>
     <type>Percent</type>

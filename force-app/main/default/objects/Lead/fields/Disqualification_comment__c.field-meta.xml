@@ -5,6 +5,7 @@
     <inlineHelpText>Please fill information to manage Contact/Lead details only and avoid (1) sensitive data (political/religious beliefs, union membership, medical information, racial/ethnic origin, sexual orientation); (2) any assessment of behaviour and (3) value judgment</inlineHelpText>
     <label>Disqualification comment</label>
     <length>32768</length>
+    <securityClassification>Confidential</securityClassification>
     <trackFeedHistory>false</trackFeedHistory>
     <trackHistory>false</trackHistory>
     <type>LongTextArea</type>

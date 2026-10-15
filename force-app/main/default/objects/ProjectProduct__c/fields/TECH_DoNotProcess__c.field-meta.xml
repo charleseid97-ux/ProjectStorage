@@ -6,6 +6,7 @@
 Utilisé dans l&apos;outil PMT (Project Management Tool)
 Le cas principal est d&apos;éviter de transferer les informations du ProjectProduct vers Fund lors du déclenchement du batch</description>
     <label>TECH_DoNotProcess</label>
+    <securityClassification>Internal</securityClassification>
     <trackFeedHistory>false</trackFeedHistory>
     <trackHistory>false</trackHistory>
     <trackTrending>false</trackTrending>

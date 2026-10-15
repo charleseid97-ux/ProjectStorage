@@ -4,6 +4,7 @@
     <description>Same as Campaign, with the same value.</description>
     <label>Sales Team</label>
     <required>true</required>
+    <securityClassification>Internal</securityClassification>
     <trackTrending>false</trackTrending>
     <type>Picklist</type>
     <valueSet>

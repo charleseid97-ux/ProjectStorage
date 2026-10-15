@@ -8,6 +8,7 @@
     <label>Pardot Owner ID</label>
     <length>12</length>
     <required>false</required>
+    <securityClassification>Internal</securityClassification>
     <trackTrending>false</trackTrending>
     <type>Text</type>
     <unique>false</unique>

@@ -4,6 +4,7 @@
     <description>Indicates if the Legal Entity information will be retrieved from UME or GLEIF</description>
     <label>Legal Entity Source</label>
     <required>false</required>
+    <securityClassification>Restricted</securityClassification>
     <trackHistory>true</trackHistory>
     <trackTrending>false</trackTrending>
     <type>Picklist</type>

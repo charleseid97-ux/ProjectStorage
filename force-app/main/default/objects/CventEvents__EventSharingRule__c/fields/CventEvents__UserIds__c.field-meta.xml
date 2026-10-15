@@ -7,6 +7,7 @@
     <inlineHelpText>Stores the Ids of the users to share the events with.</inlineHelpText>
     <label>User Ids</label>
     <length>500</length>
+    <securityClassification>Internal</securityClassification>
     <trackTrending>false</trackTrending>
     <type>LongTextArea</type>
     <visibleLines>3</visibleLines>

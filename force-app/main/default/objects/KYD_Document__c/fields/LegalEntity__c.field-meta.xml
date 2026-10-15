@@ -6,6 +6,7 @@
     <referenceTo>Legal_Entity__c</referenceTo>
     <relationshipName>KYC_Documents</relationshipName>
     <required>false</required>
+    <securityClassification>Restricted</securityClassification>
     <trackHistory>true</trackHistory>
     <trackTrending>false</trackTrending>
     <type>Lookup</type>

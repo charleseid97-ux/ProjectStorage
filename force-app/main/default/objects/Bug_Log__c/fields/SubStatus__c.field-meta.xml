@@ -3,6 +3,7 @@
     <fullName>SubStatus__c</fullName>
     <label>Sub-Status</label>
     <required>false</required>
+    <securityClassification>Internal</securityClassification>
     <trackFeedHistory>false</trackFeedHistory>
     <trackHistory>true</trackHistory>
     <trackTrending>false</trackTrending>

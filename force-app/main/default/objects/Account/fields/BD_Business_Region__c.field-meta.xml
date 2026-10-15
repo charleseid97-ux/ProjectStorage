@@ -6,6 +6,7 @@
     <formula>Owner.TECH_TextBusinessDevelopmentRegions__c</formula>
     <label>BD Business Region</label>
     <required>false</required>
+    <securityClassification>Confidential</securityClassification>
     <trackHistory>false</trackHistory>
     <type>Text</type>
     <unique>false</unique>

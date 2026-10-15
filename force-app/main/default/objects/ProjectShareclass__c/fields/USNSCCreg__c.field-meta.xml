@@ -3,6 +3,7 @@
     <fullName>USNSCCreg__c</fullName>
     <defaultValue>false</defaultValue>
     <label>USNSC Creg</label>
+    <securityClassification>Confidential</securityClassification>
     <trackTrending>false</trackTrending>
     <type>Checkbox</type>
 </CustomField>

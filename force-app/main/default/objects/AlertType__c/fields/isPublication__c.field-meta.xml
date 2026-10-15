@@ -3,6 +3,7 @@
     <fullName>isPublication__c</fullName>
     <defaultValue>true</defaultValue>
     <label>isPublication</label>
+    <securityClassification>Internal</securityClassification>
     <trackTrending>false</trackTrending>
     <type>Checkbox</type>
 </CustomField>

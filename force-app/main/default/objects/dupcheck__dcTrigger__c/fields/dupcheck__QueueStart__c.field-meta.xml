@@ -5,6 +5,7 @@
     <deprecated>false</deprecated>
     <description>dupcheck__dcQueue__c start the Queuebatch on insert</description>
     <label>Queue Start</label>
+    <securityClassification>Internal</securityClassification>
     <trackTrending>false</trackTrending>
     <type>Checkbox</type>
 </CustomField>

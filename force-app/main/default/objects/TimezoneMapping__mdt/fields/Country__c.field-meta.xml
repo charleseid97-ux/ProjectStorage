@@ -6,6 +6,7 @@
     <label>Country</label>
     <length>70</length>
     <required>false</required>
+    <securityClassification>Public</securityClassification>
     <type>Text</type>
     <unique>false</unique>
 </CustomField>

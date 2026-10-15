@@ -9,6 +9,7 @@ add RFP library related list to WTP</description>
     <relationshipLabel>RFP Libraries</relationshipLabel>
     <relationshipName>RFP_Libraries</relationshipName>
     <required>false</required>
+    <securityClassification>Internal</securityClassification>
     <trackFeedHistory>false</trackFeedHistory>
     <trackTrending>false</trackTrending>
     <type>Lookup</type>

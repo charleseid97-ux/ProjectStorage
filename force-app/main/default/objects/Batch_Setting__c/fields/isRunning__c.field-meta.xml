@@ -3,6 +3,7 @@
     <fullName>isRunning__c</fullName>
     <defaultValue>false</defaultValue>
     <label>isRunning</label>
+    <securityClassification>Internal</securityClassification>
     <trackTrending>false</trackTrending>
     <type>Checkbox</type>
 </CustomField>

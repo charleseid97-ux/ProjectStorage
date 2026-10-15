@@ -7,6 +7,7 @@ MONTH(DATEVALUE(
 LEFT(Event_Local_Start_Time__c,4)&amp;&quot;-&quot;&amp;MID(Event_Local_Start_Time__c,6,2)&amp;&quot;-&quot;&amp;MID(Event_Local_Start_Time__c,9,2))),1,&quot;January&quot;,2,&quot;February&quot;,3,&quot;March&quot;,4,&quot;April&quot;,5,&quot;May&quot;,6,&quot;June&quot;,7,&quot;July&quot;,8,&quot;August&quot;,9,&quot;September&quot;,10,&quot;October&quot;,11,&quot;November&quot;,&quot;December&quot;),&quot;&quot;)</formula>
     <label>Month</label>
     <required>false</required>
+    <securityClassification>Confidential</securityClassification>
     <trackHistory>false</trackHistory>
     <type>Text</type>
     <unique>false</unique>

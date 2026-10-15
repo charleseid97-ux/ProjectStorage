@@ -5,6 +5,7 @@
     <encryptionScheme>None</encryptionScheme>
     <label>Audit Date</label>
     <required>true</required>
+    <securityClassification>Internal</securityClassification>
     <trackTrending>false</trackTrending>
     <type>DateTime</type>
 </CustomField>

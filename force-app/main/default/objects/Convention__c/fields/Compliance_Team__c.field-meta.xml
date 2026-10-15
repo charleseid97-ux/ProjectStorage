@@ -3,6 +3,7 @@
     <fullName>Compliance_Team__c</fullName>
     <defaultValue>false</defaultValue>
     <label>Compliance Team</label>
+    <securityClassification>Confidential</securityClassification>
     <trackFeedHistory>false</trackFeedHistory>
     <trackHistory>false</trackHistory>
     <trackTrending>false</trackTrending>

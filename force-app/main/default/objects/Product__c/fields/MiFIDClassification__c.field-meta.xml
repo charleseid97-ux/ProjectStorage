@@ -3,6 +3,7 @@
     <fullName>MiFIDClassification__c</fullName>
     <label>MiFID Securities Classification</label>
     <required>false</required>
+    <securityClassification>Internal</securityClassification>
     <trackHistory>false</trackHistory>
     <trackTrending>false</trackTrending>
     <type>Picklist</type>

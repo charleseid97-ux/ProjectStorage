@@ -6,6 +6,7 @@
     <label>Private Key</label>
     <length>255</length>
     <required>false</required>
+    <securityClassification>MissionCritical</securityClassification>
     <type>Text</type>
     <unique>false</unique>
 </CustomField>

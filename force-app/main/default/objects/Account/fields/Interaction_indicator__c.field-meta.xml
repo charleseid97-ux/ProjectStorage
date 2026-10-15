@@ -8,6 +8,7 @@
     <inlineHelpText>If the elapsed time from today and Last Interaction date is &gt; 60 days , then the Interaction indicator is RED.</inlineHelpText>
     <label>Interaction indicator</label>
     <required>false</required>
+    <securityClassification>Confidential</securityClassification>
     <trackHistory>false</trackHistory>
     <type>Text</type>
     <unique>false</unique>

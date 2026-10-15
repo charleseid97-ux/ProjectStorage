@@ -3,6 +3,7 @@
     <fullName>format__c</fullName>
     <label>Format</label>
     <required>true</required>
+    <securityClassification>Internal</securityClassification>
     <trackFeedHistory>false</trackFeedHistory>
     <trackHistory>true</trackHistory>
     <trackTrending>false</trackTrending>

@@ -6,6 +6,7 @@
     <label>Address 1</label>
     <length>255</length>
     <required>false</required>
+    <securityClassification>Restricted</securityClassification>
     <trackFeedHistory>false</trackFeedHistory>
     <trackHistory>true</trackHistory>
     <type>Text</type>

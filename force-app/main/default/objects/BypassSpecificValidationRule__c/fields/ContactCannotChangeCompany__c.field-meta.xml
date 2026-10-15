@@ -5,6 +5,7 @@
     <description>If selected these users/profile will be able to bypass the rule Contact_Cannot_Change_Company on Contact object</description>
     <inlineHelpText>For Contact Object</inlineHelpText>
     <label>Contact_Cannot_Change_Company</label>
+    <securityClassification>Internal</securityClassification>
     <trackTrending>false</trackTrending>
     <type>Checkbox</type>
 </CustomField>

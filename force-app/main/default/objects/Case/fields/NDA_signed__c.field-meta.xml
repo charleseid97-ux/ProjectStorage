@@ -4,6 +4,7 @@
     <defaultValue>false</defaultValue>
     <description>Please sign NDA first before create the solvency request and attach it after the request creation</description>
     <label>NDA Signed ?</label>
+    <securityClassification>Confidential</securityClassification>
     <trackFeedHistory>false</trackFeedHistory>
     <trackHistory>false</trackHistory>
     <trackTrending>false</trackTrending>

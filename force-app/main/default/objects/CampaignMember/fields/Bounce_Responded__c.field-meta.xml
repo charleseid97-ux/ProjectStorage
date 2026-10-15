@@ -3,5 +3,6 @@
     <fullName>Bounce_Responded__c</fullName>
     <defaultValue>false</defaultValue>
     <label>Bounce Responded</label>
+    <securityClassification>Restricted</securityClassification>
     <type>Checkbox</type>
 </CustomField>

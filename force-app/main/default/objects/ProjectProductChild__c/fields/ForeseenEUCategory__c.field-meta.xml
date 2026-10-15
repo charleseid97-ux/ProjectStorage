@@ -4,6 +4,7 @@
     <description>Applicable EU directive</description>
     <label>Foreseen EU Category</label>
     <required>false</required>
+    <securityClassification>Confidential</securityClassification>
     <trackTrending>false</trackTrending>
     <type>Picklist</type>
     <valueSet>

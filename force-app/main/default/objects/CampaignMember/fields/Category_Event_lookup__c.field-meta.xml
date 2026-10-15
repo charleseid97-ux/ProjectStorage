@@ -9,5 +9,6 @@
     <relationshipLabel>Campaign Members</relationshipLabel>
     <relationshipName>Campaign_Members</relationshipName>
     <required>false</required>
+    <securityClassification>Internal</securityClassification>
     <type>Lookup</type>
 </CustomField>

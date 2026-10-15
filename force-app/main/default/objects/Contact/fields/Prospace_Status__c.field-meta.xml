@@ -3,6 +3,7 @@
     <fullName>Prospace_Status__c</fullName>
     <label>Prospace Status</label>
     <required>false</required>
+    <securityClassification>Internal</securityClassification>
     <trackFeedHistory>false</trackFeedHistory>
     <trackHistory>true</trackHistory>
     <type>Picklist</type>

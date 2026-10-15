@@ -6,6 +6,7 @@
     <formula>HYPERLINK(&apos;/&apos; + BrightTALK__Webcast__r.BrightTALK__Channel__c, BrightTALK__Webcast__r.BrightTALK__Channel__r.BrightTALK__Name__c)</formula>
     <label>Channel</label>
     <required>false</required>
+    <securityClassification>Internal</securityClassification>
     <trackTrending>false</trackTrending>
     <type>Text</type>
     <unique>false</unique>

@@ -3,6 +3,7 @@
     <fullName>CountryRegNeededRetail__c</fullName>
     <label>Country Reg Needed Retail</label>
     <required>false</required>
+    <securityClassification>Confidential</securityClassification>
     <trackTrending>false</trackTrending>
     <type>MultiselectPicklist</type>
     <valueSet>

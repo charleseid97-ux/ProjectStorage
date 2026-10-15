@@ -5,6 +5,7 @@
     <formula>LEFT(Event_Local_Start_Time__c,4)</formula>
     <label>Year</label>
     <required>false</required>
+    <securityClassification>Confidential</securityClassification>
     <trackHistory>false</trackHistory>
     <type>Text</type>
     <unique>false</unique>

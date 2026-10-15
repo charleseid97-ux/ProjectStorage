@@ -8,6 +8,7 @@ $User.ProfileId = &apos;00e1i000000KfYN&apos;,
 )</defaultValue>
     <label>Agreement Type</label>
     <required>false</required>
+    <securityClassification>Confidential</securityClassification>
     <trackTrending>false</trackTrending>
     <type>Picklist</type>
     <valueSet>

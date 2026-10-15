@@ -6,6 +6,7 @@
     <referenceTo>Share_Class__c</referenceTo>
     <relationshipName>NDA_Products</relationshipName>
     <required>false</required>
+    <securityClassification>Restricted</securityClassification>
     <trackTrending>false</trackTrending>
     <type>Lookup</type>
 </CustomField>

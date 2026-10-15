@@ -4,6 +4,7 @@
     <fieldManageability>DeveloperControlled</fieldManageability>
     <label>Emails To Notify</label>
     <length>10000</length>
+    <securityClassification>Internal</securityClassification>
     <type>LongTextArea</type>
     <visibleLines>3</visibleLines>
 </CustomField>

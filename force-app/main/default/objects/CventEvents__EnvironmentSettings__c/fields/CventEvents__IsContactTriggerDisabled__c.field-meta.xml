@@ -6,6 +6,7 @@
     <description>When checked, Cvent logic for Contact Trigger is disabled.</description>
     <inlineHelpText>When checked, Cvent logic for Contact Trigger is disabled.</inlineHelpText>
     <label>Disable Contact Trigger</label>
+    <securityClassification>Internal</securityClassification>
     <trackTrending>false</trackTrending>
     <type>Checkbox</type>
 </CustomField>

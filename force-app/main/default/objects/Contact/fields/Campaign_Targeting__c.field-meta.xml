@@ -3,6 +3,7 @@
     <fullName>Campaign_Targeting__c</fullName>
     <label>Campaign Targeting (OLD)</label>
     <required>false</required>
+    <securityClassification>Confidential</securityClassification>
     <trackFeedHistory>false</trackFeedHistory>
     <trackHistory>true</trackHistory>
     <type>MultiselectPicklist</type>

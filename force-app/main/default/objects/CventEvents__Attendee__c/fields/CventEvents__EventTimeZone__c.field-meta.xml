@@ -6,6 +6,7 @@
     <formula>CventEvents__Event__r.CventEvents__pkg_TimeZone__c</formula>
     <label>Event Time Zone</label>
     <required>false</required>
+    <securityClassification>Confidential</securityClassification>
     <trackTrending>false</trackTrending>
     <type>Text</type>
     <unique>false</unique>

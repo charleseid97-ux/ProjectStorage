@@ -6,6 +6,7 @@
     <inlineHelpText>Optional. Displayed in the approval history.</inlineHelpText>
     <label>Comments</label>
     <length>32768</length>
+    <securityClassification>Internal</securityClassification>
     <trackTrending>false</trackTrending>
     <type>LongTextArea</type>
     <visibleLines>4</visibleLines>

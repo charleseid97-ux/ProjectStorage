@@ -8,6 +8,7 @@ Country__c
 ShareClass__r.Currency__c</inlineHelpText>
     <label>Column Groups</label>
     <length>1000</length>
+    <securityClassification>Internal</securityClassification>
     <type>LongTextArea</type>
     <visibleLines>4</visibleLines>
 </CustomField>

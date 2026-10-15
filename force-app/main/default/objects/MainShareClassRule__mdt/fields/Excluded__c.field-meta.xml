@@ -5,5 +5,6 @@
     <description>Excludes the configured Share Class from Main Share Class selection.</description>
     <fieldManageability>DeveloperControlled</fieldManageability>
     <label>Excluded</label>
+    <securityClassification>Internal</securityClassification>
     <type>Checkbox</type>
 </CustomField>

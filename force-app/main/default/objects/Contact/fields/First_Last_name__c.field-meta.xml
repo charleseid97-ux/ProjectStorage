@@ -6,6 +6,7 @@
     <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
     <label>First &amp; Last name</label>
     <required>false</required>
+    <securityClassification>Restricted</securityClassification>
     <trackHistory>false</trackHistory>
     <type>Text</type>
     <unique>false</unique>

@@ -6,6 +6,7 @@
     <referenceTo>ProjectProductChild__c</referenceTo>
     <relationshipName>Project_products</relationshipName>
     <required>false</required>
+    <securityClassification>Confidential</securityClassification>
     <trackFeedHistory>false</trackFeedHistory>
     <trackHistory>false</trackHistory>
     <trackTrending>false</trackTrending>

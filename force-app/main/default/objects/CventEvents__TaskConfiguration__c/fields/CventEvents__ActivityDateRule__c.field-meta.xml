@@ -6,6 +6,7 @@
     <inlineHelpText>Indicates the logic of population the Task Activity Date field.</inlineHelpText>
     <label>Activity Date Rule</label>
     <required>false</required>
+    <securityClassification>Internal</securityClassification>
     <trackTrending>false</trackTrending>
     <type>Picklist</type>
     <valueSet>

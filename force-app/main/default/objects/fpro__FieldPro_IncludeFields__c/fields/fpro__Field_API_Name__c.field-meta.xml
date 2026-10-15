@@ -8,6 +8,7 @@
     <label>Field API Name</label>
     <length>100</length>
     <required>true</required>
+    <securityClassification>Internal</securityClassification>
     <trackTrending>false</trackTrending>
     <type>Text</type>
     <unique>false</unique>

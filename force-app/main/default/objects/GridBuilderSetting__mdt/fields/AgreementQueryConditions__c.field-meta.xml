@@ -12,6 +12,7 @@ Status__c = &apos;Active&apos; AND Country__c IN (&apos;France&apos;, &apos;Luxe
 Do not include the WHERE keyword.</inlineHelpText>
     <label>Agreement Query Conditions</label>
     <length>4096</length>
+    <securityClassification>Internal</securityClassification>
     <type>LongTextArea</type>
     <visibleLines>3</visibleLines>
 </CustomField>

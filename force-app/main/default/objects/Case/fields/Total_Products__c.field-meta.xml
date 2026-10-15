@@ -4,6 +4,7 @@
     <label>Total Products</label>
     <summaryForeignKey>Case_Product__c.Work_Together_Process__c</summaryForeignKey>
     <summaryOperation>count</summaryOperation>
+    <securityClassification>Confidential</securityClassification>
     <trackHistory>false</trackHistory>
     <trackTrending>false</trackTrending>
     <type>Summary</type>

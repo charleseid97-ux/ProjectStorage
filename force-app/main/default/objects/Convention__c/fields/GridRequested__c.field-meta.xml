@@ -3,6 +3,7 @@
     <fullName>GridRequested__c</fullName>
     <formula>NOT(ISBLANK(Grid_Request__c))</formula>
     <label>Grid Requested</label>
+    <securityClassification>Confidential</securityClassification>
     <trackHistory>false</trackHistory>
     <trackTrending>false</trackTrending>
     <type>Checkbox</type>

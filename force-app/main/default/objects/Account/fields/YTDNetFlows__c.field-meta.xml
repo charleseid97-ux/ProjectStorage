@@ -6,6 +6,7 @@
     <summarizedField>AUM__c.YTDNetFlows__c</summarizedField>
     <summaryForeignKey>AUM__c.Company__c</summaryForeignKey>
     <summaryOperation>sum</summaryOperation>
+    <securityClassification>Confidential</securityClassification>
     <trackHistory>false</trackHistory>
     <type>Summary</type>
 </CustomField>

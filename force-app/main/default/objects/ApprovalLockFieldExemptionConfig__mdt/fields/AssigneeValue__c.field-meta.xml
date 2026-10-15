@@ -6,6 +6,7 @@
     <inlineHelpText>Example (User scope): jdoe@company.com, one per line. Example (Queue scope): Legal_Queue, one per line.</inlineHelpText>
     <label>Assignee Value</label>
     <length>32768</length>
+    <securityClassification>Internal</securityClassification>
     <type>LongTextArea</type>
     <visibleLines>5</visibleLines>
 </CustomField>

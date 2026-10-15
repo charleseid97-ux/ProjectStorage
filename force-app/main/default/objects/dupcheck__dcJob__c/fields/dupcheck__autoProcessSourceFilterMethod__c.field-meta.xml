@@ -5,6 +5,7 @@
     <description>Contains the filter method or predefined filter.</description>
     <label>Auto Process Source Filter Method</label>
     <required>false</required>
+    <securityClassification>Internal</securityClassification>
     <trackTrending>false</trackTrending>
     <type>Picklist</type>
     <valueSet>

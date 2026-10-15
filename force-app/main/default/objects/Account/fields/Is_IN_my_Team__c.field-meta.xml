@@ -4,6 +4,7 @@
     <formula>IF (CONTAINS( $User.Tech_text_All_teams__c , TECH_Text_Team__c  ) = true,true,false)</formula>
     <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
     <label>Is IN my Team</label>
+    <securityClassification>Confidential</securityClassification>
     <trackHistory>false</trackHistory>
     <type>Checkbox</type>
 </CustomField>

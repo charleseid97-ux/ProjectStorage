@@ -5,6 +5,7 @@
     <formula>TEXT(WebsiteCountry__c) &amp; &apos;.&apos; &amp; TEXT(WebsiteLanguage__c)</formula>
     <label>Website_Country_Language</label>
     <required>false</required>
+    <securityClassification>Confidential</securityClassification>
     <trackHistory>false</trackHistory>
     <type>Text</type>
     <unique>false</unique>

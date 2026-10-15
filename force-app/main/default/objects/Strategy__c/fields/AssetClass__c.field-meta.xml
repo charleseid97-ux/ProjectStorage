@@ -3,6 +3,7 @@
     <fullName>AssetClass__c</fullName>
     <label>Range</label>
     <required>false</required>
+    <securityClassification>Public</securityClassification>
     <trackTrending>false</trackTrending>
     <type>Picklist</type>
     <valueSet>

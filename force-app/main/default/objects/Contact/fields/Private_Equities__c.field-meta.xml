@@ -3,6 +3,7 @@
     <fullName>Private_Equities__c</fullName>
     <defaultValue>false</defaultValue>
     <label>Private Equity</label>
+    <securityClassification>Confidential</securityClassification>
     <trackFeedHistory>false</trackFeedHistory>
     <trackHistory>false</trackHistory>
     <type>Checkbox</type>

@@ -20,6 +20,7 @@
     </summaryFilterItems>
     <summaryForeignKey>dupcheck__dc3Duplicate__c.dupcheck__dcGroup__c</summaryForeignKey>
     <summaryOperation>count</summaryOperation>
+    <securityClassification>Internal</securityClassification>
     <trackTrending>false</trackTrending>
     <type>Summary</type>
 </CustomField>

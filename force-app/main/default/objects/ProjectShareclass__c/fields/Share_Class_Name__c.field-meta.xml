@@ -104,6 +104,7 @@ IF(
     <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
     <label>Share Class Name</label>
     <required>false</required>
+    <securityClassification>Confidential</securityClassification>
     <trackTrending>false</trackTrending>
     <type>Text</type>
     <unique>false</unique>

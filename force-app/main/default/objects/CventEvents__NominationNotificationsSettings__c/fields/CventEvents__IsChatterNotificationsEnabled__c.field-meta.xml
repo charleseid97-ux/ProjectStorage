@@ -6,6 +6,7 @@
     <description>Indicates whether the chatter notifications are enabled.</description>
     <inlineHelpText>Indicates whether the chatter notifications are enabled.</inlineHelpText>
     <label>Is Chatter Notifications Enabled</label>
+    <securityClassification>Internal</securityClassification>
     <trackTrending>false</trackTrending>
     <type>Checkbox</type>
 </CustomField>

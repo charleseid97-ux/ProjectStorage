@@ -3,6 +3,7 @@
     <fullName>Synchrostatus__c</fullName>
     <label>Synchro status</label>
     <required>false</required>
+    <securityClassification>Confidential</securityClassification>
     <trackFeedHistory>false</trackFeedHistory>
     <trackHistory>true</trackHistory>
     <type>Picklist</type>

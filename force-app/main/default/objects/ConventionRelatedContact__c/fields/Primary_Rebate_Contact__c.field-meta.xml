@@ -3,6 +3,7 @@
     <fullName>Primary_Rebate_Contact__c</fullName>
     <defaultValue>false</defaultValue>
     <label>Primary Rebate/Reallocation Contact</label>
+    <securityClassification>Confidential</securityClassification>
     <trackTrending>false</trackTrending>
     <type>Checkbox</type>
 </CustomField>

@@ -16,6 +16,7 @@ ROUND(MOD((now() - Last_interaction_with_contact__c )*1440,60),0)
     <inlineHelpText>Elapsed time since last interaction with contact</inlineHelpText>
     <label>Last Interaction elapsed time</label>
     <required>false</required>
+    <securityClassification>Confidential</securityClassification>
     <trackHistory>false</trackHistory>
     <type>Text</type>
     <unique>false</unique>

@@ -5,6 +5,7 @@
     <fieldManageability>DeveloperControlled</fieldManageability>
     <label>Legal Form</label>
     <required>true</required>
+    <securityClassification>Public</securityClassification>
     <type>Picklist</type>
     <valueSet>
         <restricted>true</restricted>

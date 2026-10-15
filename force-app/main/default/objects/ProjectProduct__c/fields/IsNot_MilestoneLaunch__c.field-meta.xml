@@ -14,6 +14,7 @@
     </summaryFilterItems>
     <summaryForeignKey>Milestone__c.Project_product__c</summaryForeignKey>
     <summaryOperation>count</summaryOperation>
+    <securityClassification>Confidential</securityClassification>
     <trackHistory>false</trackHistory>
     <trackTrending>false</trackTrending>
     <type>Summary</type>

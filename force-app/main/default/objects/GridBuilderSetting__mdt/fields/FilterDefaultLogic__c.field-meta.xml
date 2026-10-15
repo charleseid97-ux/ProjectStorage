@@ -5,6 +5,7 @@
     <fieldManageability>DeveloperControlled</fieldManageability>
     <label>Filter Default Logic</label>
     <required>true</required>
+    <securityClassification>Internal</securityClassification>
     <type>Picklist</type>
     <valueSet>
         <restricted>true</restricted>

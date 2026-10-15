@@ -4,6 +4,7 @@
     <description>Overall qualification following Risk Assessment. 3 possible Values: Low, Medium &amp; High</description>
     <label>UME DDQ Risk</label>
     <required>false</required>
+    <securityClassification>Restricted</securityClassification>
     <trackHistory>true</trackHistory>
     <trackTrending>false</trackTrending>
     <type>Picklist</type>

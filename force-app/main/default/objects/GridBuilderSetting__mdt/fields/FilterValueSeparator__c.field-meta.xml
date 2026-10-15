@@ -12,6 +12,7 @@ Each value will be treated as a separate item in the filter.</inlineHelpText>
     <label>Filter Value Separator</label>
     <length>8</length>
     <required>true</required>
+    <securityClassification>Internal</securityClassification>
     <type>Text</type>
     <unique>false</unique>
 </CustomField>

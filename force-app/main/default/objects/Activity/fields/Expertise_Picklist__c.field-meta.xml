@@ -3,6 +3,7 @@
     <fullName>Expertise_Picklist__c</fullName>
     <label>Expertise</label>
     <required>false</required>
+    <securityClassification>Confidential</securityClassification>
     <type>MultiselectPicklist</type>
     <valueSet>
         <controllingField>Expertise__c</controllingField>

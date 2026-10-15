@@ -3,6 +3,7 @@
     <fullName>UsageMode__c</fullName>
     <label>Usage Mode</label>
     <required>false</required>
+    <securityClassification>Internal</securityClassification>
     <trackHistory>true</trackHistory>
     <trackTrending>false</trackTrending>
     <type>MultiselectPicklist</type>

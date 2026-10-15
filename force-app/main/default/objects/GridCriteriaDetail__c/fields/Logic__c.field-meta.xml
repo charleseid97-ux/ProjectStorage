@@ -4,6 +4,7 @@
     <description>The comparison operator: = (equals), != (not equals), IN (value is in list), NOT IN (value not in list).</description>
     <label>Logic</label>
     <required>true</required>
+    <securityClassification>Confidential</securityClassification>
     <trackHistory>false</trackHistory>
     <trackTrending>false</trackTrending>
     <type>Picklist</type>

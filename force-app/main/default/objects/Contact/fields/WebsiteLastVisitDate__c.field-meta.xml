@@ -5,6 +5,7 @@
     <summarizedField>WebsiteStatistic__c.LastVisitDate__c</summarizedField>
     <summaryForeignKey>WebsiteStatistic__c.Contact__c</summaryForeignKey>
     <summaryOperation>max</summaryOperation>
+    <securityClassification>Confidential</securityClassification>
     <trackHistory>false</trackHistory>
     <type>Summary</type>
 </CustomField>

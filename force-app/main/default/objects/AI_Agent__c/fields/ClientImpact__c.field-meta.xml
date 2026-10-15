@@ -4,6 +4,7 @@
     <inlineHelpText>Level of potential impact on the client</inlineHelpText>
     <label>Client Impact</label>
     <required>false</required>
+    <securityClassification>Internal</securityClassification>
     <trackHistory>true</trackHistory>
     <trackTrending>false</trackTrending>
     <type>Picklist</type>

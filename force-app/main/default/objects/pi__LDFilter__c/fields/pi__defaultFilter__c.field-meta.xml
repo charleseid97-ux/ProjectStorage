@@ -6,6 +6,7 @@
     <description>boolean to determine whether this is this a default filter</description>
     <inlineHelpText>boolean to determine whether this is this a default filter</inlineHelpText>
     <label>Default Filter</label>
+    <securityClassification>Confidential</securityClassification>
     <trackTrending>false</trackTrending>
     <type>Checkbox</type>
 </CustomField>

@@ -6,6 +6,7 @@
     <formula>IF(OR(ISBLANK(CventEvents__AttendeeStub__c), CventEvents__IsFreeloader__c ), null, CventEvents__Event__r.CventEvents__pkg_RegistrationLink__c + &apos;?i=&apos; + CventEvents__AttendeeStub__c)</formula>
     <label>Personalized Registration Link</label>
     <required>false</required>
+    <securityClassification>Internal</securityClassification>
     <trackTrending>false</trackTrending>
     <type>Text</type>
     <unique>false</unique>

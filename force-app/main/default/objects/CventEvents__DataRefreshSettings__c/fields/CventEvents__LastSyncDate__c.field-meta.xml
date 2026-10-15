@@ -7,6 +7,7 @@
     <inlineHelpText>The last date that the synchronization occurred.</inlineHelpText>
     <label>Last Synced Date</label>
     <required>true</required>
+    <securityClassification>Internal</securityClassification>
     <trackTrending>false</trackTrending>
     <type>DateTime</type>
 </CustomField>

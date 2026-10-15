@@ -36,6 +36,7 @@
     <referenceTo>User</referenceTo>
     <relationshipName>Bookly_Requests</relationshipName>
     <required>false</required>
+    <securityClassification>Internal</securityClassification>
     <trackFeedHistory>false</trackFeedHistory>
     <trackHistory>true</trackHistory>
     <trackTrending>false</trackTrending>

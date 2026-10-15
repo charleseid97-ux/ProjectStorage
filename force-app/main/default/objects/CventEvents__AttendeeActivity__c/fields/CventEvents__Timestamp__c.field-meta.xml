@@ -5,6 +5,7 @@
     <encryptionScheme>None</encryptionScheme>
     <label>Activity Date</label>
     <required>true</required>
+    <securityClassification>Confidential</securityClassification>
     <trackTrending>false</trackTrending>
     <type>DateTime</type>
 </CustomField>

@@ -15,6 +15,7 @@
     </summaryFilterItems>
     <summaryForeignKey>CampaignMember.CampaignId</summaryForeignKey>
     <summaryOperation>count</summaryOperation>
+    <securityClassification>Internal</securityClassification>
     <trackHistory>false</trackHistory>
     <type>Summary</type>
 </CustomField>

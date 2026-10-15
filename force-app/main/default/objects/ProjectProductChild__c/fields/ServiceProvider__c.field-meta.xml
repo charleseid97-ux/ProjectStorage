@@ -5,6 +5,7 @@
     <description>Is the fund required an onboarding of service provider</description>
     <inlineHelpText>Does the fund require the integration of a service provider?</inlineHelpText>
     <label>Need for Service Provider</label>
+    <securityClassification>Confidential</securityClassification>
     <trackTrending>false</trackTrending>
     <type>Checkbox</type>
 </CustomField>

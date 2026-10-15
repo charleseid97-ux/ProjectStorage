@@ -6,6 +6,7 @@
     <label>Passport number</label>
     <length>50</length>
     <required>false</required>
+    <securityClassification>MissionCritical</securityClassification>
     <trackHistory>true</trackHistory>
     <trackTrending>false</trackTrending>
     <type>Text</type>

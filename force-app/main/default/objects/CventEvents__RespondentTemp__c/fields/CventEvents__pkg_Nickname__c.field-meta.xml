@@ -7,6 +7,7 @@
     <label>Nickname</label>
     <length>30</length>
     <required>false</required>
+    <securityClassification>Confidential</securityClassification>
     <trackTrending>false</trackTrending>
     <type>Text</type>
     <unique>false</unique>

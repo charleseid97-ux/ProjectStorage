@@ -6,6 +6,7 @@
     <description>Indicates whether this record type is used for new records creation.</description>
     <inlineHelpText>Indicates whether this record type is used for new records creation.</inlineHelpText>
     <label>Is For New Record</label>
+    <securityClassification>Internal</securityClassification>
     <trackTrending>false</trackTrending>
     <type>Checkbox</type>
 </CustomField>

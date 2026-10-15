@@ -6,6 +6,7 @@
     <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
     <label>Lead Bounce Reason</label>
     <required>false</required>
+    <securityClassification>Restricted</securityClassification>
     <type>Text</type>
     <unique>false</unique>
 </CustomField>

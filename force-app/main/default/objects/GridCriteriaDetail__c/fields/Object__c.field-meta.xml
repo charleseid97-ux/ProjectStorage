@@ -4,6 +4,7 @@
     <description>The object on which the filter applies.</description>
     <label>Object</label>
     <required>true</required>
+    <securityClassification>Confidential</securityClassification>
     <trackHistory>false</trackHistory>
     <trackTrending>false</trackTrending>
     <type>Picklist</type>

@@ -3,6 +3,7 @@
     <fullName>Interpreter__c</fullName>
     <defaultValue>false</defaultValue>
     <label>Interpreter ?</label>
+    <securityClassification>Confidential</securityClassification>
     <trackFeedHistory>false</trackFeedHistory>
     <trackHistory>false</trackHistory>
     <type>Checkbox</type>

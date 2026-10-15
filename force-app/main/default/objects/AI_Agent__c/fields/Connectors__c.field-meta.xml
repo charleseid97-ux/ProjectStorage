@@ -4,6 +4,7 @@
     <inlineHelpText>Connectors and data sources used by the agent</inlineHelpText>
     <label>Data &amp; Connectors Required</label>
     <required>true</required>
+    <securityClassification>Internal</securityClassification>
     <trackHistory>true</trackHistory>
     <trackTrending>false</trackTrending>
     <type>MultiselectPicklist</type>

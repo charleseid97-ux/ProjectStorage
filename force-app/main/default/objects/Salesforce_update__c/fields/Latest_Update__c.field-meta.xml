@@ -3,6 +3,7 @@
     <fullName>Latest_Update__c</fullName>
     <defaultValue>false</defaultValue>
     <label>Latest Update</label>
+    <securityClassification>Internal</securityClassification>
     <trackTrending>false</trackTrending>
     <type>Checkbox</type>
 </CustomField>

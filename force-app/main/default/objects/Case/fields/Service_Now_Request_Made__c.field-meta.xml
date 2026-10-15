@@ -4,6 +4,7 @@
     <defaultValue>false</defaultValue>
     <inlineHelpText>Already requested access through Service Now? (D_AAD_TBLServer_PRD_User)</inlineHelpText>
     <label>Service Now Request Made</label>
+    <securityClassification>Confidential</securityClassification>
     <trackFeedHistory>false</trackFeedHistory>
     <trackHistory>false</trackHistory>
     <trackTrending>false</trackTrending>

@@ -4,6 +4,7 @@
     <label>Newsletter hierarchy</label>
     <relationshipName>Users</relationshipName>
     <restrictedAdminField>true</restrictedAdminField>
+    <securityClassification>Confidential</securityClassification>
     <trackFeedHistory>false</trackFeedHistory>
     <trackHistory>false</trackHistory>
     <type>Hierarchy</type>

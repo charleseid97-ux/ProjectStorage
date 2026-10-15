@@ -4,6 +4,7 @@
     <fieldManageability>DeveloperControlled</fieldManageability>
     <label>Team</label>
     <required>false</required>
+    <securityClassification>Internal</securityClassification>
     <type>Picklist</type>
     <valueSet>
         <restricted>true</restricted>

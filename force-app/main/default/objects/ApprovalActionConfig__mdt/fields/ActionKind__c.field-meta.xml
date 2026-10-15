@@ -6,6 +6,7 @@
     <inlineHelpText>FieldUpdate requires TargetFieldApiName__c and FieldValue__c. EmailAlert requires EmailTemplateName__c; recipients controlled via RecipientType__c, AdditionalQueues__c, and AdditionalUsers__c. CustomApex requires ActionClass__c.</inlineHelpText>
     <label>Action Kind</label>
     <required>true</required>
+    <securityClassification>Internal</securityClassification>
     <type>Picklist</type>
     <valueSet>
         <restricted>true</restricted>

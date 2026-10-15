@@ -5,6 +5,7 @@
     <description>Prevents this contact from triggering automated web activity alerts to Sales Owners. Used for known false positives, internal users, test contacts, or non-relevant tracking activity.
 FL After Save Task Business Opportunity with logs and update EMAIL</description>
     <label>Exclude Web Alert</label>
+    <securityClassification>Confidential</securityClassification>
     <trackFeedHistory>false</trackFeedHistory>
     <trackHistory>false</trackHistory>
     <type>Checkbox</type>

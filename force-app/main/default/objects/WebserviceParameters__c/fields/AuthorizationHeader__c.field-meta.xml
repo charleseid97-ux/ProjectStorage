@@ -6,6 +6,7 @@
     <label>AuthorizationHeader</label>
     <length>255</length>
     <required>false</required>
+    <securityClassification>MissionCritical</securityClassification>
     <trackTrending>false</trackTrending>
     <type>Text</type>
     <unique>false</unique>

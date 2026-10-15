@@ -6,6 +6,7 @@
     <description>Indicates if a Cvent contact has been removed from address book.</description>
     <inlineHelpText>Indicates if a Cvent contact has been removed from address book.</inlineHelpText>
     <label>Cvent Contact Deleted</label>
+    <securityClassification>Confidential</securityClassification>
     <trackTrending>false</trackTrending>
     <type>Checkbox</type>
 </CustomField>

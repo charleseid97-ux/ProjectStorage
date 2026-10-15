@@ -8,6 +8,7 @@
     <inlineHelpText>Apex job status</inlineHelpText>
     <label>Apex Job ExtendedStatus</label>
     <length>32768</length>
+    <securityClassification>Internal</securityClassification>
     <trackTrending>false</trackTrending>
     <type>LongTextArea</type>
     <visibleLines>3</visibleLines>

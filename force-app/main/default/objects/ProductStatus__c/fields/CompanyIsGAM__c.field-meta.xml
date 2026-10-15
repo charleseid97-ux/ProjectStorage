@@ -5,6 +5,7 @@
     <formula>IF( Company__r.RecordType.DeveloperName = &quot;Account_GlobalAccount&quot;, TRUE, FALSE)</formula>
     <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
     <label>Company Is GAM</label>
+    <securityClassification>Internal</securityClassification>
     <trackHistory>false</trackHistory>
     <trackTrending>false</trackTrending>
     <type>Checkbox</type>

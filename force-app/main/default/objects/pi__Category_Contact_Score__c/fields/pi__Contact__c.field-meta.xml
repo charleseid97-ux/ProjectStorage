@@ -8,6 +8,7 @@
     <relationshipLabel>Pardot Category Scores (Contact)</relationshipLabel>
     <relationshipName>Category_Contact_Scores</relationshipName>
     <required>false</required>
+    <securityClassification>Internal</securityClassification>
     <trackTrending>false</trackTrending>
     <type>Lookup</type>
 </CustomField>

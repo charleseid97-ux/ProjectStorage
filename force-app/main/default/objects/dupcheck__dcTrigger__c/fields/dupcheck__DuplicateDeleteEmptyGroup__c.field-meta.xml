@@ -5,6 +5,7 @@
     <deprecated>false</deprecated>
     <description>dupcheck__dc3Duplicate__c delete empty groups</description>
     <label>Duplicate Delete Emptry Group</label>
+    <securityClassification>Internal</securityClassification>
     <trackTrending>false</trackTrending>
     <type>Checkbox</type>
 </CustomField>

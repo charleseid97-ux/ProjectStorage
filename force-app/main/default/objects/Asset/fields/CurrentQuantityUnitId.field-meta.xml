@@ -2,6 +2,7 @@
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>CurrentQuantityUnitId</fullName>
     <inlineHelpText>The current unit of measure for the quantity that&apos;s associated with the asset.</inlineHelpText>
+    <securityClassification>Internal</securityClassification>
     <trackHistory>false</trackHistory>
     <type>Lookup</type>
 </CustomField>

@@ -3,6 +3,7 @@
     <fullName>IsFeeder__c</fullName>
     <label>Is Feeder</label>
     <required>false</required>
+    <securityClassification>Confidential</securityClassification>
     <trackTrending>false</trackTrending>
     <type>Picklist</type>
     <valueSet>

@@ -3,6 +3,7 @@
     <fullName>IsThematic__c</fullName>
     <defaultValue>false</defaultValue>
     <label>Is Thematic</label>
+    <securityClassification>Internal</securityClassification>
     <trackTrending>false</trackTrending>
     <type>Checkbox</type>
 </CustomField>

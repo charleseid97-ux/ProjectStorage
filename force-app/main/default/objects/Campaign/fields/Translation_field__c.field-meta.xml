@@ -6,6 +6,7 @@
     <inlineHelpText>Please copy/paste here your translation after the template is finished. This field is not mandatory at the initial request.</inlineHelpText>
     <label>Translation area for Sales/CRM</label>
     <length>32768</length>
+    <securityClassification>Confidential</securityClassification>
     <trackFeedHistory>false</trackFeedHistory>
     <trackHistory>false</trackHistory>
     <type>LongTextArea</type>

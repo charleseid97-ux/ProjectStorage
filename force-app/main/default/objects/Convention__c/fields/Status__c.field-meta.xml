@@ -3,6 +3,7 @@
     <fullName>Status__c</fullName>
     <label>Status</label>
     <required>false</required>
+    <securityClassification>Internal</securityClassification>
     <trackFeedHistory>true</trackFeedHistory>
     <trackHistory>true</trackHistory>
     <trackTrending>false</trackTrending>

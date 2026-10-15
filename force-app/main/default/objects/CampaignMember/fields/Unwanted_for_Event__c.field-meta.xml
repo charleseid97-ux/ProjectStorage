@@ -4,5 +4,6 @@
     <formula>Contact.UnwantedforEvent__c</formula>
     <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
     <label>Unwanted for Event</label>
+    <securityClassification>Confidential</securityClassification>
     <type>Checkbox</type>
 </CustomField>

@@ -4,6 +4,7 @@
     <description>Indicates whether LEI references is legally registered and operating. 2 possible values: ACTIVE or INACTIVE</description>
     <label>LEI Status</label>
     <required>false</required>
+    <securityClassification>Restricted</securityClassification>
     <trackHistory>true</trackHistory>
     <trackTrending>false</trackTrending>
     <type>Picklist</type>

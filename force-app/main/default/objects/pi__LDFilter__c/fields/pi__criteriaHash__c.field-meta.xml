@@ -8,6 +8,7 @@
     <label>Criteria Hash</label>
     <length>40</length>
     <required>true</required>
+    <securityClassification>Confidential</securityClassification>
     <trackTrending>false</trackTrending>
     <type>Text</type>
     <unique>false</unique>

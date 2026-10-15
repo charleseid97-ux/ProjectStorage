@@ -3,6 +3,7 @@
     <fullName>IsDisplay__c</fullName>
     <defaultValue>false</defaultValue>
     <label>IsDisplay</label>
+    <securityClassification>Internal</securityClassification>
     <trackTrending>false</trackTrending>
     <type>Checkbox</type>
 </CustomField>

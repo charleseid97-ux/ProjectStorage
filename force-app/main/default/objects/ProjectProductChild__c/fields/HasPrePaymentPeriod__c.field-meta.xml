@@ -4,6 +4,7 @@
     <defaultValue>false</defaultValue>
     <inlineHelpText>Does a pre payment period applies (for any transaction)</inlineHelpText>
     <label>Has Pre Payment Period</label>
+    <securityClassification>Confidential</securityClassification>
     <trackTrending>false</trackTrending>
     <type>Checkbox</type>
 </CustomField>

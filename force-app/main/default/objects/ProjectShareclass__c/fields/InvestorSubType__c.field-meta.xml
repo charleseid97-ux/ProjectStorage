@@ -3,6 +3,7 @@
     <fullName>InvestorSubType__c</fullName>
     <label>Investor Sub Type</label>
     <required>false</required>
+    <securityClassification>Confidential</securityClassification>
     <trackTrending>false</trackTrending>
     <type>Picklist</type>
     <valueSet>

@@ -15,6 +15,7 @@ TEXT(MOD(FLOOR(Time_Spent__c), 60)) &amp; &quot; s&quot;
     <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
     <label>Time Spent</label>
     <required>false</required>
+    <securityClassification>Confidential</securityClassification>
     <trackHistory>false</trackHistory>
     <trackTrending>false</trackTrending>
     <type>Text</type>

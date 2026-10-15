@@ -3,6 +3,7 @@
     <fullName>ISDAEligibilityValue__c</fullName>
     <label>ISDA eligibility (value)</label>
     <required>false</required>
+    <securityClassification>Confidential</securityClassification>
     <trackTrending>false</trackTrending>
     <type>Picklist</type>
     <valueSet>

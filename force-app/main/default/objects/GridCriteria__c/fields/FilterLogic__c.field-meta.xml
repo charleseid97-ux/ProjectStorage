@@ -10,6 +10,7 @@ Use OR if products only need to match at least one condition.
 Use Custom Logic to combine conditions using a formula such as 1 AND (2 OR 3).</inlineHelpText>
     <label>Filter Logic</label>
     <required>false</required>
+    <securityClassification>Confidential</securityClassification>
     <trackHistory>false</trackHistory>
     <trackTrending>false</trackTrending>
     <type>Picklist</type>

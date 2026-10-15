@@ -5,5 +5,6 @@
     <fieldManageability>SubscriberControlled</fieldManageability>
     <inlineHelpText>Inactivate records to ignore them from the timeline lwc</inlineHelpText>
     <label>Active</label>
+    <securityClassification>Internal</securityClassification>
     <type>Checkbox</type>
 </CustomField>

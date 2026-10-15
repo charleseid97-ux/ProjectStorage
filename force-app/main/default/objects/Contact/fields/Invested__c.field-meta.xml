@@ -5,6 +5,7 @@
 				 Account.Last_Month_AUM_EUR__c &gt; 0, true, false)</formula>
     <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
     <label>Invested</label>
+    <securityClassification>Confidential</securityClassification>
     <trackHistory>false</trackHistory>
     <type>Checkbox</type>
 </CustomField>

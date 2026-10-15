@@ -4,6 +4,7 @@
     <defaultValue>false</defaultValue>
     <description>Agreement Request is validated and converted to an Agreement Record.</description>
     <label>Legal Role Validation</label>
+    <securityClassification>Confidential</securityClassification>
     <trackHistory>false</trackHistory>
     <trackTrending>false</trackTrending>
     <type>Checkbox</type>

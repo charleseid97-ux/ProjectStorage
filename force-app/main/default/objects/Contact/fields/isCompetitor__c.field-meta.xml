@@ -5,6 +5,7 @@
     <formula>ISPICKVAL(Account.Competitor__c, &quot;Yes&quot;) || ISPICKVAL(Account.Type, &quot;Competitor&quot;)</formula>
     <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
     <label>isCompetitor</label>
+    <securityClassification>Confidential</securityClassification>
     <trackHistory>false</trackHistory>
     <type>Checkbox</type>
 </CustomField>

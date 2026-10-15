@@ -6,6 +6,7 @@
     <description>Indicates whether the Task will be created in case of new SF prospect has been created and associated with Cvent contact.</description>
     <inlineHelpText>Indicates whether the Task will be created in case of new SF prospect has been created and associated with Cvent contact.</inlineHelpText>
     <label>No Match Scenario</label>
+    <securityClassification>Internal</securityClassification>
     <trackTrending>false</trackTrending>
     <type>Checkbox</type>
 </CustomField>

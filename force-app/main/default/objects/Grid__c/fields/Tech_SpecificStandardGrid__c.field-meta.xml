@@ -4,6 +4,7 @@
     <defaultValue>false</defaultValue>
     <description>When checked, this standard grid is a specific/exception grid (e.g. CTS - S4 except X=60%). Leave unchecked for general standard grids (S1, S2, S3...).</description>
     <label>Specific Standard Grid</label>
+    <securityClassification>Internal</securityClassification>
     <trackFeedHistory>false</trackFeedHistory>
     <trackTrending>false</trackTrending>
     <type>Checkbox</type>

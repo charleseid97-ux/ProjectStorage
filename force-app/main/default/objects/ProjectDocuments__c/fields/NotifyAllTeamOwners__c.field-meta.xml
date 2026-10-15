@@ -3,6 +3,7 @@
     <fullName>NotifyAllTeamOwners__c</fullName>
     <defaultValue>false</defaultValue>
     <label>Notify all team owners</label>
+    <securityClassification>Confidential</securityClassification>
     <trackTrending>false</trackTrending>
     <type>Checkbox</type>
 </CustomField>

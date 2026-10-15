@@ -3,6 +3,7 @@
     <fullName>VIP__c</fullName>
     <defaultValue>false</defaultValue>
     <label>VIP</label>
+    <securityClassification>Confidential</securityClassification>
     <trackFeedHistory>false</trackFeedHistory>
     <trackHistory>false</trackHistory>
     <type>Checkbox</type>

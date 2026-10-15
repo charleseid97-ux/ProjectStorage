@@ -5,6 +5,7 @@
     <formula>CventEvents__Event__r.CventEvents__pkg_StartTime__c</formula>
     <label>Event Start Time</label>
     <required>false</required>
+    <securityClassification>Confidential</securityClassification>
     <trackTrending>false</trackTrending>
     <type>Time</type>
 </CustomField>

@@ -4,6 +4,7 @@
     <defaultValue>false</defaultValue>
     <inlineHelpText>This contact will be automatically opted-out and will no longer receive CG communication</inlineHelpText>
     <label>GDPR Flag for Deletion</label>
+    <securityClassification>Restricted</securityClassification>
     <trackFeedHistory>false</trackFeedHistory>
     <trackHistory>true</trackHistory>
     <type>Checkbox</type>

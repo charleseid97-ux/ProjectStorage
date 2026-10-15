@@ -3,6 +3,7 @@
     <fullName>OTCBilateralDetails__c</fullName>
     <label>OTC (bilateral) Details</label>
     <required>false</required>
+    <securityClassification>Confidential</securityClassification>
     <trackTrending>false</trackTrending>
     <type>MultiselectPicklist</type>
     <valueSet>

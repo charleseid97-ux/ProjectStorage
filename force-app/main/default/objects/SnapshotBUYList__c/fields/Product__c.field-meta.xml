@@ -7,6 +7,7 @@
     <referenceTo>Product__c</referenceTo>
     <relationshipName>SnapshotBUYList</relationshipName>
     <required>false</required>
+    <securityClassification>Internal</securityClassification>
     <trackTrending>false</trackTrending>
     <type>Lookup</type>
 </CustomField>

@@ -11,6 +11,7 @@ Sent status means that prospect received the email but did not take an action (u
     </summaryFilterItems>
     <summaryForeignKey>CampaignMember.CampaignId</summaryForeignKey>
     <summaryOperation>count</summaryOperation>
+    <securityClassification>Confidential</securityClassification>
     <trackHistory>false</trackHistory>
     <type>Summary</type>
 </CustomField>

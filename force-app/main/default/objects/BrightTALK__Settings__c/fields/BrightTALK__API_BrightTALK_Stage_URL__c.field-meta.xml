@@ -7,6 +7,7 @@
     <encryptionScheme>None</encryptionScheme>
     <label>API BrightTALK CE URL</label>
     <required>true</required>
+    <securityClassification>Internal</securityClassification>
     <trackTrending>false</trackTrending>
     <type>Url</type>
 </CustomField>

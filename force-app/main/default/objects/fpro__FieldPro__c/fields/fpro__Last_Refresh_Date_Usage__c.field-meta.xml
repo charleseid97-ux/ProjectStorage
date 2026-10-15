@@ -8,6 +8,7 @@
     <inlineHelpText>The date on which populate % was calculated on this custom field.</inlineHelpText>
     <label>Last Refresh Date (Usage)</label>
     <required>false</required>
+    <securityClassification>Internal</securityClassification>
     <trackHistory>false</trackHistory>
     <trackTrending>false</trackTrending>
     <type>DateTime</type>

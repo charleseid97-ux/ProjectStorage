@@ -9,6 +9,7 @@
         &amp; HYPERLINK(&quot;/&quot; &amp; CventEvents__CurrentApprover__r.CventEvents__User__c, CventEvents__CurrentApprover__r.CventEvents__User__r.FirstName + &quot; &quot; + CventEvents__CurrentApprover__r.CventEvents__User__r.LastName))</formula>
     <label>Current Approver</label>
     <required>false</required>
+    <securityClassification>Internal</securityClassification>
     <trackTrending>false</trackTrending>
     <type>Text</type>
     <unique>false</unique>

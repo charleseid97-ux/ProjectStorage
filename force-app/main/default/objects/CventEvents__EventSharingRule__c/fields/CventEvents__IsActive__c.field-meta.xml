@@ -6,6 +6,7 @@
     <description>Indicates whether the Event Sharing Rule is active.</description>
     <inlineHelpText>Indicates whether the Event Sharing Rule is active.</inlineHelpText>
     <label>Is Active</label>
+    <securityClassification>Internal</securityClassification>
     <trackTrending>false</trackTrending>
     <type>Checkbox</type>
 </CustomField>

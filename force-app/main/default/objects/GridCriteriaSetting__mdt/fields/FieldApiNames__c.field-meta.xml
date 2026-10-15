@@ -6,6 +6,7 @@
     <inlineHelpText>List the API names of the fields that can be used for filtering on this object. Separate multiple field names with a comma (,)</inlineHelpText>
     <label>Field Api Names</label>
     <length>2048</length>
+    <securityClassification>Internal</securityClassification>
     <type>LongTextArea</type>
     <visibleLines>2</visibleLines>
 </CustomField>

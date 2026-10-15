@@ -6,6 +6,7 @@
     <encryptionScheme>None</encryptionScheme>
     <label>Last run time.</label>
     <required>false</required>
+    <securityClassification>Confidential</securityClassification>
     <trackTrending>false</trackTrending>
     <type>DateTime</type>
 </CustomField>

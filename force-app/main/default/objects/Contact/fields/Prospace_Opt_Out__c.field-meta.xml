@@ -3,6 +3,7 @@
     <fullName>Prospace_Opt_Out__c</fullName>
     <defaultValue>false</defaultValue>
     <label>Prospace Opt Out</label>
+    <securityClassification>Restricted</securityClassification>
     <trackFeedHistory>false</trackFeedHistory>
     <trackHistory>false</trackHistory>
     <type>Checkbox</type>

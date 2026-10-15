@@ -6,6 +6,7 @@
     <description>Indicates whether the Task will be created in case of multiple SF prospects has been matched with Cvent contact.</description>
     <inlineHelpText>Indicates whether the Task will be created in case of multiple SF prospects has been matched with Cvent contact.</inlineHelpText>
     <label>Multiple Match Scenario</label>
+    <securityClassification>Internal</securityClassification>
     <trackTrending>false</trackTrending>
     <type>Checkbox</type>
 </CustomField>

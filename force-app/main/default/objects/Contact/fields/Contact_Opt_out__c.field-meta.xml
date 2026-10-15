@@ -4,6 +4,7 @@
     <defaultValue>false</defaultValue>
     <inlineHelpText>If the field « Newsletter Opt out » is ticked, the contact won’t receive any Newsletters from Pardot</inlineHelpText>
     <label>Newsletter Opt Out (OLD)</label>
+    <securityClassification>Restricted</securityClassification>
     <trackFeedHistory>false</trackFeedHistory>
     <trackHistory>true</trackHistory>
     <type>Checkbox</type>

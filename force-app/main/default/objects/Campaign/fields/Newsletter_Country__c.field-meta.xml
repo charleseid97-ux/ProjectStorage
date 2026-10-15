@@ -3,6 +3,7 @@
     <fullName>Newsletter_Country__c</fullName>
     <label>Newsletter Country</label>
     <required>false</required>
+    <securityClassification>Confidential</securityClassification>
     <trackFeedHistory>false</trackFeedHistory>
     <trackHistory>false</trackHistory>
     <type>MultiselectPicklist</type>

@@ -5,6 +5,7 @@
     <deprecated>false</deprecated>
     <description>Reflects whether &apos;Invite&apos; button is shown on the event details page.</description>
     <label>Allow Add To Invitation List</label>
+    <securityClassification>Internal</securityClassification>
     <trackTrending>false</trackTrending>
     <type>Checkbox</type>
 </CustomField>

@@ -3,6 +3,7 @@
     <fullName>DisseminationRecipient__c</fullName>
     <label>Dissemination Recipient</label>
     <required>false</required>
+    <securityClassification>Confidential</securityClassification>
     <trackTrending>false</trackTrending>
     <type>MultiselectPicklist</type>
     <valueSet>

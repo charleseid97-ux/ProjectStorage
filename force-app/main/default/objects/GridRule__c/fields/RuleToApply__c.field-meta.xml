@@ -3,6 +3,7 @@
     <fullName>RuleToApply__c</fullName>
     <label>Rule To Apply</label>
     <required>true</required>
+    <securityClassification>Confidential</securityClassification>
     <trackTrending>false</trackTrending>
     <type>Picklist</type>
     <valueSet>

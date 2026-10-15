@@ -7,6 +7,7 @@
     <formula>HYPERLINK(&apos;/&apos; + CventEvents__RelatedRecordId__c, IF( ISBLANK(CventEvents__RelatedRecordName__c) , CventEvents__RelatedRecordType__c, CventEvents__RelatedRecordType__c + &apos;: &apos; + CventEvents__RelatedRecordName__c))</formula>
     <label>Related Record</label>
     <required>false</required>
+    <securityClassification>Internal</securityClassification>
     <trackHistory>false</trackHistory>
     <trackTrending>false</trackTrending>
     <type>Text</type>

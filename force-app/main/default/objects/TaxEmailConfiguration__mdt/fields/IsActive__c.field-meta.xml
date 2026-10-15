@@ -4,5 +4,6 @@
     <defaultValue>false</defaultValue>
     <fieldManageability>DeveloperControlled</fieldManageability>
     <label>IsActive</label>
+    <securityClassification>Internal</securityClassification>
     <type>Checkbox</type>
 </CustomField>

@@ -5,6 +5,7 @@
     <encryptionScheme>None</encryptionScheme>
     <label>Responded Date</label>
     <required>false</required>
+    <securityClassification>Confidential</securityClassification>
     <trackFeedHistory>false</trackFeedHistory>
     <trackTrending>false</trackTrending>
     <type>DateTime</type>

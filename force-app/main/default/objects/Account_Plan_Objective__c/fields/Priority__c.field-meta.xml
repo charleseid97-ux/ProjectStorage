@@ -3,6 +3,7 @@
     <fullName>Priority__c</fullName>
     <label>Priority</label>
     <required>true</required>
+    <securityClassification>Confidential</securityClassification>
     <trackHistory>true</trackHistory>
     <trackTrending>false</trackTrending>
     <type>Picklist</type>

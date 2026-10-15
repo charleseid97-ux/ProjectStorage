@@ -6,6 +6,7 @@
     <formula>HYPERLINK(&quot;/&quot; &amp; CventEvents__Event__r.CventEvents__pkg_Title__c, &quot;&quot;) &amp; HYPERLINK(&quot;/&quot; &amp; CventEvents__Event__c, CventEvents__Event__r.CventEvents__pkg_Title__c)</formula>
     <label>Cvent Event</label>
     <required>false</required>
+    <securityClassification>Confidential</securityClassification>
     <type>Text</type>
     <unique>false</unique>
 </CustomField>

@@ -5,6 +5,7 @@
     <deprecated>false</deprecated>
     <inlineHelpText>Tick the box to always overwrite the value in the target field with the value in the BrightTALK field.</inlineHelpText>
     <label>Overwrite Lead Value</label>
+    <securityClassification>Internal</securityClassification>
     <trackTrending>false</trackTrending>
     <type>Checkbox</type>
 </CustomField>

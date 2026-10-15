@@ -4,6 +4,7 @@
     <deprecated>false</deprecated>
     <label>Attendee Status</label>
     <required>true</required>
+    <securityClassification>Internal</securityClassification>
     <trackTrending>false</trackTrending>
     <type>MultiselectPicklist</type>
     <valueSet>

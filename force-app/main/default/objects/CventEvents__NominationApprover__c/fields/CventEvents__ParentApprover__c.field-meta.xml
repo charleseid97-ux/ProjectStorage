@@ -10,6 +10,7 @@
     <relationshipLabel>Approvers</relationshipLabel>
     <relationshipName>ChildApprovers</relationshipName>
     <required>false</required>
+    <securityClassification>Internal</securityClassification>
     <trackTrending>false</trackTrending>
     <type>Lookup</type>
 </CustomField>

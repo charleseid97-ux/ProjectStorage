@@ -13,6 +13,7 @@ IF(OR(LEN(BillingCity)=0,LEN(BillingStreet)=0,LEN(BillingCountry)=0),&quot;Compl
 IF( LEN(Phone) = 0, &quot;Phone, &quot;,&quot;&quot;))</formula>
     <label>Data Quality Description</label>
     <required>false</required>
+    <securityClassification>Confidential</securityClassification>
     <trackHistory>false</trackHistory>
     <type>Text</type>
     <unique>false</unique>

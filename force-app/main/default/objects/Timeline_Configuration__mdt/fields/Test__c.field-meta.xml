@@ -6,5 +6,6 @@
     <fieldManageability>DeveloperControlled</fieldManageability>
     <inlineHelpText>Used as test data only. Ignored for production operations.</inlineHelpText>
     <label>Test</label>
+    <securityClassification>Internal</securityClassification>
     <type>Checkbox</type>
 </CustomField>

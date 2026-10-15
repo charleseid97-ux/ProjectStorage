@@ -4,6 +4,7 @@
     <encryptionScheme>None</encryptionScheme>
     <label>Street</label>
     <required>false</required>
+    <securityClassification>Restricted</securityClassification>
     <trackHistory>true</trackHistory>
     <trackTrending>false</trackTrending>
     <type>TextArea</type>

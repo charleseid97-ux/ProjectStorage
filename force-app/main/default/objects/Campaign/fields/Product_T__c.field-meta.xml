@@ -3,6 +3,7 @@
     <fullName>Product_T__c</fullName>
     <label>Product</label>
     <required>false</required>
+    <securityClassification>Confidential</securityClassification>
     <trackFeedHistory>false</trackFeedHistory>
     <trackHistory>false</trackHistory>
     <type>MultiselectPicklist</type>

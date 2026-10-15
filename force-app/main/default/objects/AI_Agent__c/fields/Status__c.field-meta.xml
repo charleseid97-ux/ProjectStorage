@@ -4,6 +4,7 @@
     <inlineHelpText>Current status of the agent in its lifecycle</inlineHelpText>
     <label>Status</label>
     <required>true</required>
+    <securityClassification>Internal</securityClassification>
     <trackHistory>true</trackHistory>
     <trackTrending>false</trackTrending>
     <type>Picklist</type>

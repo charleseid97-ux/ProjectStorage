@@ -6,6 +6,7 @@
     <inlineHelpText>Indicates the approval status.</inlineHelpText>
     <label>Status</label>
     <required>true</required>
+    <securityClassification>Internal</securityClassification>
     <trackTrending>false</trackTrending>
     <type>Picklist</type>
     <valueSet>

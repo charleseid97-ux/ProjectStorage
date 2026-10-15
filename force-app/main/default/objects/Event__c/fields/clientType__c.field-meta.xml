@@ -3,6 +3,7 @@
     <fullName>clientType__c</fullName>
     <label>Client type</label>
     <required>true</required>
+    <securityClassification>Internal</securityClassification>
     <trackFeedHistory>false</trackFeedHistory>
     <trackHistory>true</trackHistory>
     <trackTrending>false</trackTrending>

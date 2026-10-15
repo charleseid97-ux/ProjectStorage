@@ -5,6 +5,7 @@
     <deprecated>false</deprecated>
     <description>Boolean that determines whether lead hard bounced.</description>
     <label>Account Engagement Hard Bounced</label>
+    <securityClassification>Restricted</securityClassification>
     <trackFeedHistory>false</trackFeedHistory>
     <trackHistory>false</trackHistory>
     <type>Checkbox</type>

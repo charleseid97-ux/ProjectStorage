@@ -7,6 +7,7 @@
     <referenceTo>Lead</referenceTo>
     <relationshipName>Category_Lead_Scores</relationshipName>
     <required>false</required>
+    <securityClassification>Internal</securityClassification>
     <trackTrending>false</trackTrending>
     <type>Lookup</type>
 </CustomField>

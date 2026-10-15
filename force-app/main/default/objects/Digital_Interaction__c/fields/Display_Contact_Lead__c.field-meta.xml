@@ -4,6 +4,7 @@
     <formula>IF( ISBLANK(Contact_lu__c) , false, true)</formula>
     <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
     <label>Display Contact/Lead</label>
+    <securityClassification>Confidential</securityClassification>
     <trackHistory>false</trackHistory>
     <trackTrending>false</trackTrending>
     <type>Checkbox</type>

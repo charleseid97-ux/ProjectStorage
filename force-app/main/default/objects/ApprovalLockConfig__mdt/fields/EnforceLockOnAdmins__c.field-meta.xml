@@ -6,5 +6,6 @@
     <fieldManageability>DeveloperControlled</fieldManageability>
     <inlineHelpText>Uncheck to let Administrators bypass this lock entirely.</inlineHelpText>
     <label>Enforce Lock on Admins</label>
+    <securityClassification>Internal</securityClassification>
     <type>Checkbox</type>
 </CustomField>

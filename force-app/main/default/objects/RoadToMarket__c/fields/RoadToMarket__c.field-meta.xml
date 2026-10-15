@@ -6,6 +6,7 @@
     <referenceTo>RoadToMarket__c</referenceTo>
     <relationshipName>Road_To_Market</relationshipName>
     <required>false</required>
+    <securityClassification>Internal</securityClassification>
     <trackHistory>false</trackHistory>
     <trackTrending>false</trackTrending>
     <type>Lookup</type>

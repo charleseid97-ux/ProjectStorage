@@ -8,6 +8,7 @@
     <label>Target Record ID</label>
     <length>18</length>
     <required>true</required>
+    <securityClassification>Internal</securityClassification>
     <trackTrending>false</trackTrending>
     <type>Text</type>
     <unique>false</unique>

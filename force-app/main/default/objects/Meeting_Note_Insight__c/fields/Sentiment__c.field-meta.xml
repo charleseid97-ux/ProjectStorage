@@ -3,6 +3,7 @@
     <fullName>Sentiment__c</fullName>
     <label>Sentiment</label>
     <required>false</required>
+    <securityClassification>Confidential</securityClassification>
     <trackTrending>false</trackTrending>
     <type>Picklist</type>
     <valueSet>

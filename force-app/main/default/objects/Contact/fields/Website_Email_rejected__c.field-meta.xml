@@ -4,6 +4,7 @@
     <defaultValue>false</defaultValue>
     <description>Allows to track if the login email used for Prospace (in the Website Login field) is detected as hadbounced by Mandrill</description>
     <label>Website Email rejected</label>
+    <securityClassification>Restricted</securityClassification>
     <trackFeedHistory>false</trackFeedHistory>
     <trackHistory>false</trackHistory>
     <type>Checkbox</type>

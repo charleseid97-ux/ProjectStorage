@@ -5,6 +5,7 @@
     <description>True if this record is currently awaiting action. Multiple records may be simultaneously active for unanimous-approval steps. Set to false once action is taken.</description>
     <inlineHelpText>Managed automatically by the approval engine. Do not edit manually.</inlineHelpText>
     <label>Is Current Step</label>
+    <securityClassification>Internal</securityClassification>
     <trackTrending>false</trackTrending>
     <type>Checkbox</type>
 </CustomField>

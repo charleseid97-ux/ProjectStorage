@@ -6,5 +6,6 @@
     <fieldManageability>SubscriberControlled</fieldManageability>
     <inlineHelpText>Sends to the user who clicked Submit for Approval. Useful for FinalApproval, FinalRejection, and Recall notifications so the submitter is informed of the outcome.</inlineHelpText>
     <label>Notify Submitter</label>
+    <securityClassification>Internal</securityClassification>
     <type>Checkbox</type>
 </CustomField>

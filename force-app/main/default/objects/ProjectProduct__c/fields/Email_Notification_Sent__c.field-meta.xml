@@ -4,6 +4,7 @@
     <defaultValue>false</defaultValue>
     <description>Field for Email notification on benchmark</description>
     <label>Email Notification Sent</label>
+    <securityClassification>Confidential</securityClassification>
     <trackFeedHistory>false</trackFeedHistory>
     <trackHistory>false</trackHistory>
     <trackTrending>false</trackTrending>

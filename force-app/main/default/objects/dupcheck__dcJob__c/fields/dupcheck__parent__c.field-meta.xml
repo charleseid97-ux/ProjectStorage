@@ -8,6 +8,7 @@
     <relationshipLabel>Plauti Deduplicate Jobs</relationshipLabel>
     <relationshipName>parent</relationshipName>
     <required>false</required>
+    <securityClassification>Internal</securityClassification>
     <trackTrending>false</trackTrending>
     <type>Lookup</type>
 </CustomField>

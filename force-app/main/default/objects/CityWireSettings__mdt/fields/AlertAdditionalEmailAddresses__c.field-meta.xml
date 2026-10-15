@@ -6,6 +6,7 @@
     <inlineHelpText>Enter one email address per line to notify recipients with no Salesforce User (e.g. a shared mailbox). These are added on top of the members of Alert Queues Developer Names, not instead of them.</inlineHelpText>
     <label>Alert Additional Email Addresses</label>
     <length>2048</length>
+    <securityClassification>Internal</securityClassification>
     <type>LongTextArea</type>
     <visibleLines>5</visibleLines>
 </CustomField>

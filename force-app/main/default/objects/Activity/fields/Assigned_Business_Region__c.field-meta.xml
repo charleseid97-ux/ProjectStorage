@@ -6,6 +6,7 @@
     <formula>Owner:User.TECH_TextBusinessDevelopmentRegions__c</formula>
     <label>Assigned Business Region</label>
     <required>false</required>
+    <securityClassification>Confidential</securityClassification>
     <type>Text</type>
     <unique>false</unique>
 </CustomField>

@@ -3,6 +3,7 @@
     <fullName>DocumentFormat__c</fullName>
     <label>Document Format</label>
     <required>false</required>
+    <securityClassification>Restricted</securityClassification>
     <trackHistory>true</trackHistory>
     <trackTrending>false</trackTrending>
     <type>MultiselectPicklist</type>

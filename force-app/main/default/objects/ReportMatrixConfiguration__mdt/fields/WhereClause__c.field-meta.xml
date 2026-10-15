@@ -6,6 +6,7 @@
     <inlineHelpText>Optional SOQL WHERE condition (without the WHERE keyword). Example: ShareClass__c != null AND RegistrationStatus__c != null</inlineHelpText>
     <label>Where Clause</label>
     <length>1000</length>
+    <securityClassification>Internal</securityClassification>
     <type>LongTextArea</type>
     <visibleLines>3</visibleLines>
 </CustomField>

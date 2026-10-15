@@ -2,4 +2,5 @@
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>BccAddress</fullName>
     <encryptionScheme>None</encryptionScheme>
+<securityClassification>Restricted</securityClassification>
 </CustomField>

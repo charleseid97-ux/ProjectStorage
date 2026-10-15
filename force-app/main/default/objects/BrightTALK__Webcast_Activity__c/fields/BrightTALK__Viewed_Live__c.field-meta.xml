@@ -5,6 +5,7 @@
     <formula>BrightTALK__Live_Viewings__c &gt; 0</formula>
     <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
     <label>Viewed Live</label>
+    <securityClassification>Internal</securityClassification>
     <trackTrending>false</trackTrending>
     <type>Checkbox</type>
 </CustomField>

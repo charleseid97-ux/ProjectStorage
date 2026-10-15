@@ -6,6 +6,7 @@
     <inlineHelpText>Describe the business context for this grid (e.g. client relationship background, special commercial conditions). This will appear in the review email.</inlineHelpText>
     <label>Business Background</label>
     <length>32768</length>
+    <securityClassification>Confidential</securityClassification>
     <trackFeedHistory>false</trackFeedHistory>
     <trackTrending>false</trackTrending>
     <type>LongTextArea</type>

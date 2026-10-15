@@ -3,6 +3,7 @@
     <fullName>Gender__c</fullName>
     <label>Gender</label>
     <required>false</required>
+    <securityClassification>Restricted</securityClassification>
     <trackHistory>true</trackHistory>
     <trackTrending>false</trackTrending>
     <type>Picklist</type>

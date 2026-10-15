@@ -5,6 +5,7 @@
     <deprecated>false</deprecated>
     <description>Indicates whether the error is occurred during the record matching flow.</description>
     <label>Has Record Matching Error</label>
+    <securityClassification>Confidential</securityClassification>
     <trackTrending>false</trackTrending>
     <type>Checkbox</type>
 </CustomField>

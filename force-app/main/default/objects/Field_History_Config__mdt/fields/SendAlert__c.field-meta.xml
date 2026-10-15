@@ -4,5 +4,6 @@
     <defaultValue>false</defaultValue>
     <fieldManageability>DeveloperControlled</fieldManageability>
     <label>Send Alert on Tracked Fields Change</label>
+    <securityClassification>Internal</securityClassification>
     <type>Checkbox</type>
 </CustomField>

@@ -3,6 +3,7 @@
     <fullName>DoNotDisplayOnWebsiteFactsheet__c</fullName>
     <defaultValue>false</defaultValue>
     <label>Do Not Display On Website/Factsheet</label>
+    <securityClassification>Internal</securityClassification>
     <trackHistory>false</trackHistory>
     <trackTrending>false</trackTrending>
     <type>Checkbox</type>

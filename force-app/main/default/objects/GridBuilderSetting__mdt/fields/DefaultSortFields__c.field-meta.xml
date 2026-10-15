@@ -15,6 +15,7 @@ Each line represents one sorting level, where the first line is the primary sort
 The Grid Builder will automatically apply these sort fields to search results when no user-defined sorting is applied.</inlineHelpText>
     <label>Default Sort Fields</label>
     <length>4096</length>
+    <securityClassification>Internal</securityClassification>
     <type>LongTextArea</type>
     <visibleLines>3</visibleLines>
 </CustomField>

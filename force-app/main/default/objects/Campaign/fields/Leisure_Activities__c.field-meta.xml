@@ -3,6 +3,7 @@
     <fullName>Leisure_Activities__c</fullName>
     <defaultValue>false</defaultValue>
     <label>Leisure Activities ?</label>
+    <securityClassification>Confidential</securityClassification>
     <trackFeedHistory>false</trackFeedHistory>
     <trackHistory>false</trackHistory>
     <type>Checkbox</type>

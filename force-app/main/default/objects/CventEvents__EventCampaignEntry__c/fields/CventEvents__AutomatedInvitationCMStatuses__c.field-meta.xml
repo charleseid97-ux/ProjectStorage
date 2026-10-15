@@ -7,6 +7,7 @@
     <inlineHelpText>Stores campaign member statuses which trigger the automated invitation process.</inlineHelpText>
     <label>Automated Invitation CM Statuses</label>
     <length>131072</length>
+    <securityClassification>Internal</securityClassification>
     <trackTrending>false</trackTrending>
     <type>LongTextArea</type>
     <visibleLines>3</visibleLines>

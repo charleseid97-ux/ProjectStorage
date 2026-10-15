@@ -8,6 +8,7 @@
     <label>Currency Code</label>
     <length>3</length>
     <required>true</required>
+    <securityClassification>Public</securityClassification>
     <type>Text</type>
     <unique>false</unique>
 </CustomField>

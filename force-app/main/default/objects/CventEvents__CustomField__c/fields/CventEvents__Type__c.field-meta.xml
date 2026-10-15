@@ -6,6 +6,7 @@
     <inlineHelpText>Stores the Cvent field type.</inlineHelpText>
     <label>Type</label>
     <required>true</required>
+    <securityClassification>Internal</securityClassification>
     <trackTrending>false</trackTrending>
     <type>Picklist</type>
     <valueSet>

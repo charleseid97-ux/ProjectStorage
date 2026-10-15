@@ -6,6 +6,7 @@
     <inlineHelpText>JSON array defining cell coloring. Each object has: field (API name), rules (array of {values, background, color}), default ({background, color}). Values use picklist API values. Example: [{&quot;field&quot;:&quot;RegistrationStatus__c&quot;,&quot;rules&quot;:[{&quot;values&quot;:[&quot;REG&quot;],&quot;background&quot;:&quot;#c8e6c9&quot;,&quot;color&quot;:&quot;#1b5e20&quot;}]}]</inlineHelpText>
     <label>Cell Styles</label>
     <length>8192</length>
+    <securityClassification>Internal</securityClassification>
     <type>LongTextArea</type>
     <visibleLines>10</visibleLines>
 </CustomField>

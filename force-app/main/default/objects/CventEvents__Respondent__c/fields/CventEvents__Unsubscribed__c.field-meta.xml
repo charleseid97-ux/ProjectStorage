@@ -6,6 +6,7 @@
     <description>Indicates whether the respondent unsubscribed from the survey.</description>
     <inlineHelpText>Indicates whether the respondent unsubscribed from the survey.</inlineHelpText>
     <label>Unsubscribed</label>
+    <securityClassification>Restricted</securityClassification>
     <trackFeedHistory>false</trackFeedHistory>
     <trackTrending>false</trackTrending>
     <type>Checkbox</type>

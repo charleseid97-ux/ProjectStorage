@@ -6,6 +6,7 @@
     <description>Indicates whether the automatic sync is configured.</description>
     <inlineHelpText>Indicates whether the automatic sync is configured.</inlineHelpText>
     <label>Is Configured</label>
+    <securityClassification>Internal</securityClassification>
     <trackTrending>false</trackTrending>
     <type>Checkbox</type>
 </CustomField>

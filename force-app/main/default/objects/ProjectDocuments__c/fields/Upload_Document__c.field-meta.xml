@@ -13,6 +13,7 @@ CASESAFEID( Project_product__c) &amp;
     <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
     <label>Upload Document</label>
     <required>false</required>
+    <securityClassification>Confidential</securityClassification>
     <trackTrending>false</trackTrending>
     <type>Text</type>
     <unique>false</unique>

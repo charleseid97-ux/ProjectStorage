@@ -6,6 +6,7 @@
     <fieldManageability>DeveloperControlled</fieldManageability>
     <label>hocEmail</label>
     <required>false</required>
+    <securityClassification>Internal</securityClassification>
     <type>Email</type>
     <unique>false</unique>
 </CustomField>

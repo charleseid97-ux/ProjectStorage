@@ -6,6 +6,7 @@
     <inlineHelpText>Enter one field API path per line. Use dot notation for relationships, e.g. Agreement__r.Name or Status__c.</inlineHelpText>
     <label>Inbox Display Fields</label>
     <length>2000</length>
+    <securityClassification>Internal</securityClassification>
     <type>LongTextArea</type>
     <visibleLines>5</visibleLines>
 </CustomField>

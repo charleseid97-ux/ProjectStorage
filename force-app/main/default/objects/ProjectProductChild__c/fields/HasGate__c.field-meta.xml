@@ -4,6 +4,7 @@
     <defaultValue>false</defaultValue>
     <description>Gate mechanism</description>
     <label>Has Gate</label>
+    <securityClassification>Confidential</securityClassification>
     <trackTrending>false</trackTrending>
     <type>Checkbox</type>
 </CustomField>

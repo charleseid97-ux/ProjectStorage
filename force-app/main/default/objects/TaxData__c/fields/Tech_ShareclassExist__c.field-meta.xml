@@ -4,6 +4,7 @@
     <formula>NOT(ISBLANK(ShareClass__c))</formula>
     <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
     <label>Tech_ShareclassExist</label>
+    <securityClassification>Restricted</securityClassification>
     <trackHistory>false</trackHistory>
     <trackTrending>false</trackTrending>
     <type>Checkbox</type>

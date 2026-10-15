@@ -6,6 +6,7 @@
     <formula>CASESAFEID(dupcheck__object__c) + &apos;-&apos; + TEXT(dupcheck__Type__c)</formula>
     <label>Key</label>
     <required>false</required>
+    <securityClassification>Internal</securityClassification>
     <trackTrending>false</trackTrending>
     <type>Text</type>
     <unique>false</unique>

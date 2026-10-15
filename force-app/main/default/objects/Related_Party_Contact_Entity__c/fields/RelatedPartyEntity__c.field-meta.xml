@@ -6,6 +6,7 @@
     <referenceTo>Legal_Entity__c</referenceTo>
     <relationshipName>Related_Parties_Contact_Entity1</relationshipName>
     <required>true</required>
+    <securityClassification>Restricted</securityClassification>
     <trackHistory>true</trackHistory>
     <trackTrending>false</trackTrending>
     <type>Lookup</type>

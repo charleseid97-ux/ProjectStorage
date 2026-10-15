@@ -3,6 +3,7 @@
     <fullName>country__c</fullName>
     <label>Location Country</label>
     <required>true</required>
+    <securityClassification>Internal</securityClassification>
     <trackFeedHistory>false</trackFeedHistory>
     <trackHistory>true</trackHistory>
     <trackTrending>false</trackTrending>

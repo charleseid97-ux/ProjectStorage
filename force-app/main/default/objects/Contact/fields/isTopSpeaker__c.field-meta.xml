@@ -4,6 +4,7 @@
     <formula>IF (ISPICKVAL (JobTitle__c, &apos;Sales&apos;), false, true)</formula>
     <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
     <label>Is Top Speaker</label>
+    <securityClassification>Confidential</securityClassification>
     <trackHistory>false</trackHistory>
     <type>Checkbox</type>
 </CustomField>

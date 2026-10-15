@@ -14,6 +14,7 @@
     <encryptionScheme>ProbabilisticEncryption</encryptionScheme>
     <label>Strategic News</label>
     <length>32768</length>
+    <securityClassification>Confidential</securityClassification>
     <trackHistory>true</trackHistory>
     <trackTrending>false</trackTrending>
     <type>LongTextArea</type>

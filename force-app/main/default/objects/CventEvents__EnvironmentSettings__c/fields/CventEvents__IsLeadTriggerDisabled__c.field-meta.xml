@@ -6,6 +6,7 @@
     <description>When checked, Cvent logic for Lead Trigger is disabled.</description>
     <inlineHelpText>When checked, Cvent logic for Lead Trigger is disabled.</inlineHelpText>
     <label>Disable Lead Trigger</label>
+    <securityClassification>Internal</securityClassification>
     <trackTrending>false</trackTrending>
     <type>Checkbox</type>
 </CustomField>

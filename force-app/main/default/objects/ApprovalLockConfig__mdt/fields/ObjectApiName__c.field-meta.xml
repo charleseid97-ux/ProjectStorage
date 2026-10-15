@@ -7,6 +7,7 @@
     <label>Object API Name</label>
     <length>255</length>
     <required>true</required>
+    <securityClassification>Internal</securityClassification>
     <type>Text</type>
     <unique>true</unique>
 </CustomField>

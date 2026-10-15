@@ -3,6 +3,7 @@
     <fullName>Use_Company_Address__c</fullName>
     <defaultValue>false</defaultValue>
     <label>Use Company Address</label>
+    <securityClassification>Restricted</securityClassification>
     <trackFeedHistory>false</trackFeedHistory>
     <trackHistory>false</trackHistory>
     <type>Checkbox</type>

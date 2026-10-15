@@ -5,6 +5,7 @@
     <fieldManageability>DeveloperControlled</fieldManageability>
     <label>Email addressSalesCRM</label>
     <required>true</required>
+    <securityClassification>Internal</securityClassification>
     <type>Email</type>
     <unique>false</unique>
 </CustomField>

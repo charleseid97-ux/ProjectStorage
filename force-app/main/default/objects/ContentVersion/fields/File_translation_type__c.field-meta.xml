@@ -3,6 +3,7 @@
     <fullName>File_translation_type__c</fullName>
     <defaultValue>false</defaultValue>
     <label>File translation type</label>
+    <securityClassification>Internal</securityClassification>
     <trackHistory>false</trackHistory>
     <type>Checkbox</type>
 </CustomField>

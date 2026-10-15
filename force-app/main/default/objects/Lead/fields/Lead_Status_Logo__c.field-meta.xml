@@ -8,6 +8,7 @@ IMAGE(&quot;https://carmignac-crm--c.eu6.content.force.com/servlet/servlet.FileD
     <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
     <label>Lead Status Logo</label>
     <required>false</required>
+    <securityClassification>Internal</securityClassification>
     <trackHistory>false</trackHistory>
     <type>Text</type>
     <unique>false</unique>

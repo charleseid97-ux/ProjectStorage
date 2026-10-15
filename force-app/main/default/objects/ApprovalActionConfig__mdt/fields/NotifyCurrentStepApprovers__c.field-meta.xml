@@ -6,5 +6,6 @@
     <fieldManageability>SubscriberControlled</fieldManageability>
     <inlineHelpText>Sends to the approvers who acted on (or were assigned to) the current step. For a queue assignment, all queue members are resolved and notified individually.</inlineHelpText>
     <label>Notify Current Step Approvers</label>
+    <securityClassification>Internal</securityClassification>
     <type>Checkbox</type>
 </CustomField>

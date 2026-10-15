@@ -4,6 +4,7 @@
     <description>Risk disclosed</description>
     <label>Risk Disclosed</label>
     <required>false</required>
+    <securityClassification>Confidential</securityClassification>
     <trackTrending>false</trackTrending>
     <type>MultiselectPicklist</type>
     <valueSet>

@@ -3,6 +3,7 @@
     <fullName>Event_Training__c</fullName>
     <defaultValue>false</defaultValue>
     <label>Event Training</label>
+    <securityClassification>Internal</securityClassification>
     <trackTrending>false</trackTrending>
     <type>Checkbox</type>
 </CustomField>

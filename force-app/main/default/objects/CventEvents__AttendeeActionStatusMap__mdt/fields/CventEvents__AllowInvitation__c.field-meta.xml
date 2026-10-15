@@ -6,5 +6,6 @@
     <description>Indicates whether the invitation of an attendee in this status is allowed.</description>
     <fieldManageability>SubscriberControlled</fieldManageability>
     <label>Allow Invitation</label>
+    <securityClassification>Confidential</securityClassification>
     <type>Checkbox</type>
 </CustomField>

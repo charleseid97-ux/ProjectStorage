@@ -4,6 +4,7 @@
     <description>Target market</description>
     <label>Target Market</label>
     <required>false</required>
+    <securityClassification>Public</securityClassification>
     <trackHistory>false</trackHistory>
     <trackTrending>false</trackTrending>
     <type>MultiselectPicklist</type>

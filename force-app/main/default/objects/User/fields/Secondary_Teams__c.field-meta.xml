@@ -3,6 +3,7 @@
     <fullName>Secondary_Teams__c</fullName>
     <label>Secondary Teams</label>
     <required>false</required>
+    <securityClassification>Confidential</securityClassification>
     <trackFeedHistory>false</trackFeedHistory>
     <trackHistory>false</trackHistory>
     <type>MultiselectPicklist</type>

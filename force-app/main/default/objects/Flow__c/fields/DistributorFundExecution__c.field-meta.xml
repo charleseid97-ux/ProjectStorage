@@ -7,6 +7,7 @@
     <relationshipLabel>Flows (Distributor Fund Execution)</relationshipLabel>
     <relationshipName>Flows</relationshipName>
     <required>false</required>
+    <securityClassification>Internal</securityClassification>
     <trackHistory>false</trackHistory>
     <trackTrending>false</trackTrending>
     <type>Lookup</type>

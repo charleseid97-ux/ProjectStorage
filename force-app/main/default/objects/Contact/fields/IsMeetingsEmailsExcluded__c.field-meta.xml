@@ -3,6 +3,7 @@
     <fullName>IsMeetingsEmailsExcluded__c</fullName>
     <defaultValue>false</defaultValue>
     <label>Is Meetings Emails excluded</label>
+    <securityClassification>Restricted</securityClassification>
     <trackFeedHistory>false</trackFeedHistory>
     <trackHistory>false</trackHistory>
     <type>Checkbox</type>

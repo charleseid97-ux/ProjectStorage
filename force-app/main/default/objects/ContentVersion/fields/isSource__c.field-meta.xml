@@ -3,6 +3,7 @@
     <fullName>isSource__c</fullName>
     <defaultValue>false</defaultValue>
     <label>isSource</label>
+    <securityClassification>Internal</securityClassification>
     <trackHistory>false</trackHistory>
     <type>Checkbox</type>
 </CustomField>

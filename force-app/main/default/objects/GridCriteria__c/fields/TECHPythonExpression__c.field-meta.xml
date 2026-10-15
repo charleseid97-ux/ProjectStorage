@@ -6,6 +6,7 @@
     <inlineHelpText>Auto-computed combined Pandas expression (e.g. (LegalForm__c.isin([&apos;FCP&apos;,&apos;SICAV&apos;]))&amp;(Type__c.eq(&apos;E&apos;)))</inlineHelpText>
     <label>TECH Python Expression</label>
     <length>5000</length>
+    <securityClassification>Internal</securityClassification>
     <trackHistory>false</trackHistory>
     <trackTrending>false</trackTrending>
     <type>LongTextArea</type>

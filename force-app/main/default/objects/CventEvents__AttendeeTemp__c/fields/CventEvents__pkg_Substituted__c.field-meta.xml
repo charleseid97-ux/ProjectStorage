@@ -5,6 +5,7 @@
     <deprecated>false</deprecated>
     <description>Indicates if the attendee was substituted or not.</description>
     <label>Substituted</label>
+    <securityClassification>Confidential</securityClassification>
     <trackTrending>false</trackTrending>
     <type>Checkbox</type>
 </CustomField>

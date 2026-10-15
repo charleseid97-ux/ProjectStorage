@@ -3,6 +3,7 @@
     <fullName>ActiveGrid__c</fullName>
     <defaultValue>false</defaultValue>
     <label>Active Grid</label>
+    <securityClassification>Internal</securityClassification>
     <trackFeedHistory>true</trackFeedHistory>
     <trackTrending>false</trackTrending>
     <type>Checkbox</type>

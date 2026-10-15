@@ -39,6 +39,7 @@
     <inlineHelpText>Date and Time of the last interaction : Call , Meeting (End date), or Newsletter opened</inlineHelpText>
     <label>Last Interaction</label>
     <required>false</required>
+    <securityClassification>Confidential</securityClassification>
     <trackHistory>false</trackHistory>
     <type>DateTime</type>
 </CustomField>

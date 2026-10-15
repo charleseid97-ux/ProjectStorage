@@ -9,6 +9,7 @@
     <referenceTo>User</referenceTo>
     <relationshipName>Lead_Deck_Filters</relationshipName>
     <required>false</required>
+    <securityClassification>Internal</securityClassification>
     <trackTrending>false</trackTrending>
     <type>Lookup</type>
 </CustomField>
