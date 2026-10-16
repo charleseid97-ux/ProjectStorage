@@ -104,11 +104,13 @@ public with sharing class CTL_SearchSubscriptionProduct {
             countryCode = 'LU';
         }
 
-        // Récupère les Share Classes officiellement enregistrées pour le pays.
+        // Récupère uniquement les Share Classes officiellement enregistrées pour le pays.
         for (Country__c c : [
-            SELECT ShareClass__c 
-            FROM Country__c 
-            WHERE Country__c = :countryCode AND ShareClass__c != null
+            SELECT ShareClass__c
+            FROM Country__c
+            WHERE Country__c = :countryCode
+            AND RegistrationStatus__c IN ('REG', 'INSTITUTIONAL_ONLY', 'SEMI_PRO')
+            AND ShareClass__c != null
         ]) {
             shareClassCountryids.add(c.ShareClass__c);
         }
