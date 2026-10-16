@@ -180,9 +180,9 @@ private class MainShareClassServiceTest {
         System.assertEquals(fEurAcc.Id, selectedId, 'An excluded rule must not be selected.');
     }
 
-    // Verifies that no Main is returned when the context has no configured rules.
+    // Verifies that the only eligible registration becomes Main even without configured rules.
     @IsTest
-    static void testReturnsNullWithoutContextRules() {
+    static void testSelectsSingleRegistrationWithoutContextRules() {
         Country__c aEurAcc = buildRegistration('a3a000000000014', 'FR', 'REG', 'A EUR Acc', 'SICAV');
 
         Id selectedId = MainShareClassService.selectMainRegistration(
@@ -190,7 +190,11 @@ private class MainShareClassServiceTest {
             new Map<String, List<MainShareClassService.RuleDefinition>>()
         );
 
-        System.assertEquals(null, selectedId, 'No configured context must result in no Main Share Class.');
+        System.assertEquals(
+            aEurAcc.Id,
+            selectedId,
+            'The only eligible registration must become Main even without configured rules.'
+        );
     }
 
     // Verifies that duplicate priorities in the same competing context are rejected.
@@ -221,14 +225,16 @@ private class MainShareClassServiceTest {
     @IsTest
     static void testExcludedAndForceMainThrowsException() {
         Country__c aEurAcc = buildRegistration('a3a000000000017', 'FR', 'REG', 'A EUR Acc', 'SICAV');
+        Country__c fEurAcc = buildRegistration('a3a000000000018', 'FR', 'REG', 'F EUR Acc', 'SICAV');
 
         List<MainShareClassService.RuleDefinition> rules = new List<MainShareClassService.RuleDefinition>{
-            buildRule('ALL_SICAV_A_EUR_ACC', 'ALL_COUNTRIES', 'SICAV', 'A EUR Acc', 2, true, true, Datetime.newInstance(2026, 1, 1, 10, 0, 0))
+            buildRule('ALL_SICAV_A_EUR_ACC', 'ALL_COUNTRIES', 'SICAV', 'A EUR Acc', 2, true, true, Datetime.newInstance(2026, 1, 1, 10, 0, 0)),
+            buildRule('ALL_SICAV_F_EUR_ACC', 'ALL_COUNTRIES', 'SICAV', 'F EUR Acc', 4, false, false, Datetime.newInstance(2026, 1, 1, 10, 0, 1))
         };
 
         try {
             MainShareClassService.selectMainRegistration(
-                new List<Country__c>{ aEurAcc },
+                new List<Country__c>{ aEurAcc, fEurAcc },
                 new Map<String, List<MainShareClassService.RuleDefinition>>{
                     AllCountriesSicavContext => rules
                 }
