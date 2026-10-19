@@ -5,9 +5,9 @@
  *                  list and Chatter group.
  *              Stages, durations, validation teams, fields and owners come from the PMT matrix (PMTMatrix, FIX-20178),
  *                  restricted to the project's Scope where PS and IS are mutually exclusive.
- * @lastModifiedBy Charles EID   [09-10-26]
+ * @lastModifiedBy Charles EID   [19-10-26]
  * @testClass Test_ProjectProductTrigger
- * @coverage 94%   [09-10-26]
+ * @coverage 94%   [19-10-26]
  ────────────────────────────────────── */
 public without sharing class ProjectProductSetupHandler {
 
@@ -39,12 +39,10 @@ public without sharing class ProjectProductSetupHandler {
         }
     }
     
+    // Fields goal (fundNbOfFields__c) of each phase: the required Fund fields of its stage; on a modification project, only the selected fields (TECH_FieldsToModify__c) of its stage.
+    // FIX-20270: the selected fields are counted per phase. Before, one set accumulated across the phases, so a phase also counted the fields of the stages read before it.
     public static void nbOfFieldsGoal(Map<id,  ProjectProduct__c> newProjectProducts) {
-        Set<String> fieldListFund = new Set<String>();
-        Set<String> fieldListFundModif = new Set<String>();
         Map<String, Set<String>> fieldListByStage = new Map<String, Set<String>>();
-
-        List<String> parentIds = new List<String>();
         Map<Id,String> parentToFields = new Map<Id,String>();
         
         // FIX-20178: champs Fund requis par étape, depuis la matrice PMT
@@ -73,6 +71,7 @@ public without sharing class ProjectProductSetupHandler {
 
             if(proj.Parent_Record_Type_Id__c == fundModificationRecordTypeId){
                 nbOfFields = 0;
+                Set<String> fieldListFundModif = new Set<String>();
                 if(parentToFields.get(proj.ProjectProductParent__c) != null){
                     for(String str : parentToFields.get(proj.ProjectProductParent__c).split(';')){
                         if(fieldListByStage.get(tmp)?.contains(str)) fieldListFundModif.add(str);
@@ -225,9 +224,7 @@ public without sharing class ProjectProductSetupHandler {
         Map<String, List<String>> fieldListByStage = matrix.getRequiredFieldsByStage(true);
 
         // Every validation team (Product Strategy and IS included), validated upfront on modification projects
-        List<String> allTeamKeys = new List<String>();
-        for (PMTMatrix.Team team : matrix.getValidationTeams()) allTeamKeys.add(team.key);
-        String allTeamsValidated = String.join(allTeamKeys, ';');
+        String allTeamsValidated = String.join(matrix.getValidationTeamKeys(), ';');
 
         List<ProjectProductChild__c> projectProductChildren = new List<ProjectProductChild__c>();
 

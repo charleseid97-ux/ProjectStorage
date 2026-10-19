@@ -8,9 +8,9 @@
  *              Field lists hold one field API name per line. A team and stage without a PMTFieldRule__mdt record has
  *                  no fields there: getRule() then returns an empty rule, never null.
  * @author Charles EID
- * @lastModifiedBy Charles EID   [09-10-26]
+ * @lastModifiedBy Charles EID   [19-10-26]
  * @testClass Test_PMTMatrix
- * @coverage 100%   [09-10-26]
+ * @coverage 100%   [19-10-26]
  ────────────────────────────────────── */
 public without sharing class PMTMatrix {
 
@@ -112,6 +112,13 @@ public without sharing class PMTMatrix {
             if (team.isValidationTeam) validationTeams.add(team);
         }
         return validationTeams;
+    }
+
+    // Keys of the validation teams (values of TECH_TeamValidation__c), in team order.
+    public Set<String> getValidationTeamKeys() {
+        Set<String> keys = new Set<String>();
+        for (Team team : getValidationTeams()) keys.add(team.key);
+        return keys;
     }
 
     // Fields of a team at a stage. Never null: a team without fields at that stage gets an empty rule.

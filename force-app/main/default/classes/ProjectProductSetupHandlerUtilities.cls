@@ -5,36 +5,25 @@
  *              Project side of the PS/IS rule: getProjectScope and normalizeScope (blank Scope = PS, defined only here).
  *                  Which team applies to a Scope is configuration (PMTTeam__mdt.Scope__c, read by PMTMatrix.forScope,
  *                  FIX-20178); validateSteps reads the PMT matrix restricted to the project's Scope.
- * @lastModifiedBy Charles EID   [09-10-26]
+ *              Phase completion rule (FIX-20270): isPhaseValidated - every validation team of the project's Scope has
+ *                  validated the phase. splitMultiPicklist is the shared multi-select picklist split.
+ * @lastModifiedBy Charles EID   [19-10-26]
  * @testClass Test_ProjectProductTrigger, Test_FieldModificationController
- * @coverage 95%   [09-10-26]
+ * @coverage 100%   [19-10-26]
  ────────────────────────────────────── */
 public class ProjectProductSetupHandlerUtilities {
-    static final Id fundModificationRecordTypeId = Schema.SObjectType.ProjectProduct__c.getRecordTypeInfosByDeveloperName().get('FundShareClassModification').getRecordTypeId();
 
-    public static ProjectProductChild__c createProjectProductChild(String stage, String parentId, Date startDate, Date endDate , List<String> teamswithNofields, Integer nbOfFieldsGoal) {
-        System.debug('### [DEBUG] Setting for stage ' + stage);
-        List<String> cleanteamswithNofields= new List<String>();
-        
-        for(String team: teamswithNofields ){
-            cleanteamswithNofields.add(team.replaceAll(' ', ''));
+    public static ProjectProductChild__c createProjectProductChild(String stage, String parentId, Date startDate, Date endDate, List<String> teamswithNofields, Integer nbOfFieldsGoal) {
+        List<String> cleanTeamsWithNoFields = new List<String>();
+        for (String team : teamswithNofields) {
+            cleanTeamsWithNoFields.add(team.replaceAll(' ', ''));
         }
 
-        String teamsNofields= String.join( cleanteamswithNofields , ';');
-        System.debug('test doha teams with no fields'+teamsNofields );
+        // Design and Proposal share the DesignAndProposal record type
+        String childType = (stage == 'Design' || stage == 'Proposal') ? 'DesignAndProposal' : stage;
+        Id recordTypeId = Schema.SObjectType.ProjectProductChild__c.getRecordTypeInfosByDeveloperName().get(childType).getRecordTypeId();
 
-        String recordTypeId;
-        String childType;
-
-        if (stage == 'Design' || stage == 'Proposal') {
-            recordTypeId = Schema.SObjectType.ProjectProductChild__c.getRecordTypeInfosByDeveloperName().get('DesignAndProposal').getRecordTypeId();
-            childType = 'DesignAndProposal';
-        } else {
-            recordTypeId = Schema.SObjectType.ProjectProductChild__c.getRecordTypeInfosByDeveloperName().get(stage).getRecordTypeId();
-            childType = stage;
-        }
-
-        ProjectProductChild__c ppc = new ProjectProductChild__c(
+        return new ProjectProductChild__c(
             Name = stage,
             Status__c = 'Not Started',
             ProjectProductParent__c = parentId,
@@ -42,10 +31,9 @@ public class ProjectProductSetupHandlerUtilities {
             EndDate__c = endDate,
             RecordTypeId = recordTypeId,
             TECH_Childtype__c = childType,
-            TECH_TeamValidation__c= teamsNofields,
+            TECH_TeamValidation__c = String.join(cleanTeamsWithNoFields, ';'),
             fundNbOfFields__c = nbOfFieldsGoal
         );
-        return ppc;
     }
 
     // US-20120: Récupère le Scope (PS/IS) du projet, normalisé (Scope vide = PS).
@@ -59,204 +47,130 @@ public class ProjectProductSetupHandlerUtilities {
         return String.isBlank(scope) ? 'PS' : scope;
     }
 
+    // FIX-20270: values of a multi-select picklist (e.g. TECH_TeamValidation__c, TECH_FieldsToModify__c), trimmed, without blanks or duplicates.
+    public static Set<String> splitMultiPicklist(String value) {
+        Set<String> values = new Set<String>();
+        if (String.isBlank(value)) return values;
+
+        for (String item : value.split(';')) {
+            if (String.isNotBlank(item)) values.add(item.trim());
+        }
+        return values;
+    }
+
+    // FIX-20270: a phase is validated once every validation team of the project's Scope (PMTMatrix.forScope) is in its TECH_TeamValidation__c. The caller passes a normalized scope.
+    public static Boolean isPhaseValidated(String teamValidation, String scope) {
+        Set<String> scopeTeams = PMTMatrix.get().forScope(scope).getValidationTeamKeys();
+        return !scopeTeams.isEmpty() && splitMultiPicklist(teamValidation).containsAll(scopeTeams);
+    }
+
+    // Recomputes TECH_TeamValidation__c of every phase (except Design) of the projects whose TECH_FieldsToModify__c changed: the teams owning a field to modify at the phase's stage are left to validate.
+    // FIX-20270: the fields of a phase are the project's fields + the fields of the phase's share classes. Before, one list accumulated across every junction of the save, so in a multi-project save the fields of one project leaked into the next projects' phases.
     public static void validateSteps(Map<Id, ProjectProduct__c> newProjectProduct, Map<Id, ProjectProduct__c> oldProjectProduct) {
         Set<Id> changedProjectIds = new Set<Id>();
-        system.debug('>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> Start validateSteps');
         for (Id id : newProjectProduct.keySet()) {
-            System.debug('validateSteps.TECH_FieldsToModify__c => ' + newProjectProduct.get(id).TECH_FieldsToModify__c);
-            System.debug('validateSteps.TECH_FieldsToModify__c => ' + oldProjectProduct.get(id)?.TECH_FieldsToModify__c);
-
-            if (newProjectProduct.get(id).TECH_FieldsToModify__c != oldProjectProduct.get(id)?.TECH_FieldsToModify__c) {
-                changedProjectIds.add(id);
-            }
+            if (newProjectProduct.get(id).TECH_FieldsToModify__c != oldProjectProduct.get(id)?.TECH_FieldsToModify__c) changedProjectIds.add(id);
         }
-        System.debug('changedProjectIds => ' + changedProjectIds);
 
         if (changedProjectIds.isEmpty()) return;
-    
-        // FIX-20178: stage and team of each field from the PMT matrix restricted to the project's Scope (one set of maps per scope)
-        PMTMatrix matrix = PMTMatrix.get();
-        Map<String, Map<String, String>> stageFieldsByScope = new Map<String, Map<String, String>>();
-        Map<String, Map<String, String>> teamFieldsByScope = new Map<String, Map<String, String>>();
 
-        // Every validation team (Product Strategy and IS included) - the ones owning a modified field are removed below
-        List<String> allTeams = new List<String>();
-        for (PMTMatrix.Team team : matrix.getValidationTeams()) allTeams.add(team.key);
-
-        Map<Id, ProjectProductChild__c> updates = new Map<Id, ProjectProductChild__c>();
-        Set<String> fieldsToModify = new Set<String>();
-
-        for (ProjectChildJunction__c junction : [
-            SELECT ProjectProductChild__r.Id,
-                   ProjectProductChild__r.ProjectProductParent__r.Scope__c,
-                   ProjectProductChild__r.ProjectProductParent__c,
-                   ProjectProductChild__r.TECH_TeamValidation__c,
-                   ProjectProductChild__r.TECH_Childtype__c,
-                   ProjectProductChild__r.Name,
-                   ProjectShareclass__r.TECH_FieldsToModify__c,
-                   ProjectProductChild__r.ProjectProductParent__r.TECH_FieldsToModify__c
-            FROM ProjectChildJunction__c
-            WHERE ProjectProductChild__r.ProjectProductParent__c IN :changedProjectIds
-              AND ProjectProductChild__r.Name != 'Design'
-        ]) {
+        Map<Id, ProjectProductChild__c> phaseById = new Map<Id, ProjectProductChild__c>();
+        Map<Id, Set<String>> fieldsByPhaseId = new Map<Id, Set<String>>();
+        for (ProjectChildJunction__c junction : [SELECT ProjectProductChild__r.Id, ProjectProductChild__r.ProjectProductParent__c, ProjectProductChild__r.ProjectProductParent__r.Scope__c,
+                                                        ProjectProductChild__r.TECH_TeamValidation__c, ProjectProductChild__r.TECH_Childtype__c, ProjectProductChild__r.Name, ProjectShareclass__r.TECH_FieldsToModify__c
+                                                 FROM ProjectChildJunction__c
+                                                 WHERE ProjectProductChild__r.ProjectProductParent__c IN :changedProjectIds
+                                                 AND ProjectProductChild__r.Name != 'Design']) {
             ProjectProductChild__c child = junction.ProjectProductChild__r;
-            Id parentId = child.ProjectProductParent__c;
-
-            String scope = normalizeScope(child.ProjectProductParent__r.Scope__c);
-            if (!stageFieldsByScope.containsKey(scope)) {
-                PMTMatrix scopedMatrix = matrix.forScope(scope);
-                stageFieldsByScope.put(scope, scopedMatrix.getStageByField());
-                teamFieldsByScope.put(scope, scopedMatrix.getTeamByField());
+            if (!phaseById.containsKey(child.Id)) {
+                phaseById.put(child.Id, child);
+                fieldsByPhaseId.put(child.Id, splitMultiPicklist(newProjectProduct.get(child.ProjectProductParent__c)?.TECH_FieldsToModify__c));
             }
-            Map<String, String> stageFields = stageFieldsByScope.get(scope);
-            Map<String, String> teamFields = teamFieldsByScope.get(scope);
-    
-            if (String.isNotBlank(junction.ProjectShareclass__r.TECH_FieldsToModify__c)) {
-                fieldsToModify.addAll(junction.ProjectShareclass__r.TECH_FieldsToModify__c.split(';'));
-            }
-       
-            if (String.isNotBlank(newProjectProduct.get(parentId)?.TECH_FieldsToModify__c)) {
-                fieldsToModify.addAll(newProjectProduct.get(parentId).TECH_FieldsToModify__c.split(';'));
-            }
-            Set<String> remainingTeams = new Set<String>(allTeams);
-            System.debug('fieldsToModify=>' + fieldsToModify);
-
-            Set<String> coveredTeams = new Set<String>();
-            for (String field : fieldsToModify) {
-                String stage = stageFields.get(field);
-                System.debug('stage=>' + stage);
-
-                if (stage == 'Design' || stage == 'Proposal') stage = 'DesignAndProposal';
-                if (child.TECH_Childtype__c == stage) {
-                    String team = teamFields.get(field);
-                    if (team != null) {
-                        System.debug('field=>' + field + ' team=>' + team );
-                        remainingTeams.remove(team.replaceAll(' ', ''));
-                    }
-                }
-            }
-
-            child.TECH_TeamValidation__c = String.join(remainingTeams, ';');
-    
-            System.debug('team=>' + child.TECH_Childtype__c+ ' child.TECH_TeamValidation__c => ' + child.TECH_TeamValidation__c);
-
-            updates.put(child.Id, child);
+            fieldsByPhaseId.get(child.Id).addAll(splitMultiPicklist(junction.ProjectShareclass__r.TECH_FieldsToModify__c));
         }
-        if (!updates.isEmpty()) {
-            update updates.values();
+
+        for (ProjectProductChild__c child : phaseById.values()) {
+            child.TECH_TeamValidation__c = getTeamsAfterModification(child, fieldsByPhaseId.get(child.Id));
         }
-        system.debug('>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> END validateSteps');
+        if (!phaseById.isEmpty()) update phaseById.values();
     }
 
-    private static Set<String> splitToSet(String s) {
-        Set<String> out = new Set<String>();
-        if (String.isBlank(s)) return out;
+    // FIX-20270: TECH_TeamValidation__c of a phase once fields are modified: every validation team (Product Strategy and IS included) except the teams owning one of the fields at the phase's stage, from the PMT matrix of the project's Scope.
+    // Shared by the project and share class validateSteps. The phase must hold TECH_Childtype__c and ProjectProductParent__r.Scope__c.
+    public static String getTeamsAfterModification(ProjectProductChild__c phase, Set<String> modifiedFields) {
+        PMTMatrix scopedMatrix = PMTMatrix.get().forScope(normalizeScope(phase.ProjectProductParent__r.Scope__c));
+        Map<String, String> stageByField = scopedMatrix.getStageByField();
+        Map<String, String> teamByField = scopedMatrix.getTeamByField();
 
-        for (String token : s.split(';')) {
-            token = token != null ? token.trim() : null;
-            if (String.isNotBlank(token)) out.add(token);
+        Set<String> remainingTeams = PMTMatrix.get().getValidationTeamKeys();
+        for (String field : modifiedFields) {
+            String stage = stageByField.get(field);
+            if (stage == 'Design' || stage == 'Proposal') stage = 'DesignAndProposal';
+            String team = teamByField.get(field);
+            if (phase.TECH_Childtype__c == stage && team != null) remainingTeams.remove(team.replaceAll(' ', ''));
         }
-        return out;
+        return String.join(new List<String>(remainingTeams), ';');
     }
 
+    // Blanks, on the phases, the fields newly added to TECH_FieldsToModify__c (checkboxes excepted).
     public static void emptyFields(Map<Id, ProjectProduct__c> newProjectProduct, Map<Id, ProjectProduct__c> oldProjectProduct) {
         Set<Id> changedProjectIds = new Set<Id>();
-        for (ProjectProduct__c proj : newProjectProduct.values()) {
-            if (proj.TECH_FieldsToModify__c != oldProjectProduct.get(proj.Id)?.TECH_FieldsToModify__c) {
-                changedProjectIds.add(proj.Id);
-            }
+        for (ProjectProduct__c project : newProjectProduct.values()) {
+            if (project.TECH_FieldsToModify__c != oldProjectProduct.get(project.Id)?.TECH_FieldsToModify__c) changedProjectIds.add(project.Id);
         }
-    
+
         if (changedProjectIds.isEmpty()) return;
-    
+
         Map<String, Schema.SObjectField> fieldMap = ProjectProductChild__c.SObjectType.getDescribe().fields.getMap();
         List<ProjectProductChild__c> toUpdate = new List<ProjectProductChild__c>();
-    
-        for (ProjectProductChild__c child : [
-            SELECT Id, ProjectProductParent__c
-            FROM ProjectProductChild__c
-            WHERE ProjectProductParent__c IN :changedProjectIds
-        ]) {
-            Id parentId = child.ProjectProductParent__c;
-            String newFieldsStr = newProjectProduct.get(parentId)?.TECH_FieldsToModify__c;
-            String oldFieldsStr = oldProjectProduct.get(parentId)?.TECH_FieldsToModify__c;
-    
+        for (ProjectProductChild__c child : [SELECT Id, ProjectProductParent__c FROM ProjectProductChild__c WHERE ProjectProductParent__c IN :changedProjectIds]) {
+            String newFieldsStr = newProjectProduct.get(child.ProjectProductParent__c)?.TECH_FieldsToModify__c;
             if (String.isBlank(newFieldsStr)) continue;
-    
-            Set<String> newFields = new Set<String>(newFieldsStr.split(';'));
-            Set<String> oldFields = oldFieldsStr != null ? new Set<String>(oldFieldsStr.split(';')) : new Set<String>();
-            System.debug('### [DEBUG] emptyFields - newFields: ' + newFields);
-            System.debug('### [DEBUG] emptyFields - oldFields: ' + oldFields);
 
-            for (String field : newFields) {
-                if (!oldFields.contains(field) && fieldMap.containsKey(field)) {
-                    Schema.DisplayType type = fieldMap.get(field).getDescribe().getType();
-                    if (type != Schema.DisplayType.Boolean) {
-                        child.put(field, null);
-                    }
-                }
+            Set<String> oldFields = splitMultiPicklist(oldProjectProduct.get(child.ProjectProductParent__c)?.TECH_FieldsToModify__c);
+            for (String field : splitMultiPicklist(newFieldsStr)) {
+                if (!oldFields.contains(field) && fieldMap.containsKey(field) && fieldMap.get(field).getDescribe().getType() != Schema.DisplayType.Boolean) child.put(field, null);
             }
-    
             toUpdate.add(child);
         }
-        System.debug('### [DEBUG] emptyFields - toUpdate size: ' + toUpdate.size());
-        System.debug('### [DEBUG] emptyFields - toUpdate : ' + toUpdate);
-        if (!toUpdate.isEmpty()) {
-            update toUpdate;
-        }
+        if (!toUpdate.isEmpty()) update toUpdate;
     }
 
     public static Integer countFilledFields(SObject record, List<String> fieldApiNames) {
         Integer filledCount = 0;
-        Set<String> fields = new Set<String>();
-        fields.addAll(fieldApiNames);
-        for (String fieldName : fields) {
-
-            // if (record.get(fieldName) != null) {
-                Object value = record.get(fieldName);
-                // Vérifie si le champ est non null et, s'il s'agit d'une string, non vide
-                if (value != null && (!(value instanceof String) || String.valueOf(value).trim() != '')) {
-                    System.debug('### [DEBUG] countFilledFields - fieldName: ' + fieldName);
-
-                    filledCount++;
-                }
-            // }
+        for (String fieldName : new Set<String>(fieldApiNames)) {
+            Object value = record.get(fieldName);
+            // Vérifie si le champ est non null et, s'il s'agit d'une string, non vide
+            if (value != null && (!(value instanceof String) || String.valueOf(value).trim() != '')) filledCount++;
         }
-        
-        System.debug('### [DEBUG] countFilledFields - filledCount: ' + filledCount);
         return filledCount;
     }
 
+    // Moves the Launch Date milestone to the project's new end date.
     public static void updateMilestoneGolive(Map<Id, ProjectProduct__c> newProjectProduct, Map<Id, ProjectProduct__c> oldProjectProduct) {
-        List<Milestone__c> lMilestone = [SELECT Id, StartDate__c, Project_product__c
-                                        FROM Milestone__c
-                                        WHERE Project_product__c IN :newProjectProduct.keySet()
-                                        AND Name = 'Launch Date'];
+        List<Milestone__c> launchDateMilestones = [SELECT Id, StartDate__c, Project_product__c
+                                                   FROM Milestone__c
+                                                   WHERE Project_product__c IN :newProjectProduct.keySet()
+                                                   AND Name = 'Launch Date'];
 
-        if (lMilestone.isEmpty() || lMilestone == null) {
-            return;
+        if (launchDateMilestones.isEmpty()) return;
+
+        Map<Id, Milestone__c> milestoneByProjectId = new Map<Id, Milestone__c>();
+        for (Milestone__c milestone : launchDateMilestones) {
+            milestoneByProjectId.put(milestone.Project_product__c, milestone);
         }
-    
-        Map<Id, Milestone__c> mapMilestoneByProject = new Map<Id, Milestone__c>();
-        for (Milestone__c milestone : lMilestone) {
-            mapMilestoneByProject.put(milestone.Project_product__c, milestone);
-        }
-    
+
         List<Milestone__c> milestonesToUpdate = new List<Milestone__c>();
-
         for (ProjectProduct__c projectProduct : newProjectProduct.values()) {
-            if (projectProduct.EndDate__c != oldProjectProduct.get(projectProduct.Id).EndDate__c) {
-                Milestone__c relatedMilestone = mapMilestoneByProject.get(projectProduct.Id);
-                if (relatedMilestone.StartDate__c != projectProduct.EndDate__c) {
-                    relatedMilestone.StartDate__c = projectProduct.EndDate__c;
-                    milestonesToUpdate.add(relatedMilestone); 
-                }
+            if (projectProduct.EndDate__c == oldProjectProduct.get(projectProduct.Id).EndDate__c) continue;
+
+            // FIX-20270: a project of the save without a Launch Date milestone is skipped (it raised a null pointer exception when another project of the save had one)
+            Milestone__c relatedMilestone = milestoneByProjectId.get(projectProduct.Id);
+            if (relatedMilestone != null && relatedMilestone.StartDate__c != projectProduct.EndDate__c) {
+                relatedMilestone.StartDate__c = projectProduct.EndDate__c;
+                milestonesToUpdate.add(relatedMilestone);
             }
         }
-
-        if (!milestonesToUpdate.isEmpty()) {
-            update milestonesToUpdate;
-        }
+        if (!milestonesToUpdate.isEmpty()) update milestonesToUpdate;
     }
-
 }

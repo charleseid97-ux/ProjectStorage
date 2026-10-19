@@ -1,12 +1,15 @@
 /** ──────────────────────────────────────
  * @description Trigger logic for ProjectProductChild__c (PMT project stages): KPMG tax notifications, stage status
- *                  once all validation teams have validated, SPC validation lock, completion rate and filled fields
- *                  count, related Share Class children, cloning from the parent project, milestones and end dates,
- *                  record lock, parent project updates and phase validation logs.
+ *                  following the validation of the project's Scope teams, SPC validation lock, completion rate and
+ *                  filled fields count, related Share Class children, cloning from the parent project, milestones and
+ *                  end dates, record lock, parent project updates and phase validation logs.
  *              The validation teams and the required fields per stage come from the PMT matrix (PMTMatrix, FIX-20178).
- * @lastModifiedBy Charles EID   [09-10-26]
- * @testClass Test_ProjectProductChildTriggerHandler
- * @coverage 91%   [09-10-26]
+ *              Stage status (FIX-20270): Completed once every validation team of the project's Scope has validated
+ *                  (ProjectProductSetupHandlerUtilities.isPhaseValidated), back to On track when a team is removed;
+ *                  Design takes the status of Proposal.
+ * @lastModifiedBy Charles EID   [19-10-26]
+ * @testClass Test_ProjectProductChildTriggerHandler, Test_RollbackTeamValidationController
+ * @coverage 93%   [19-10-26]
  ────────────────────────────────────── */
 public without sharing class ProjectProductChildHandler {
 
@@ -15,6 +18,10 @@ public without sharing class ProjectProductChildHandler {
     static final Id shareClassCreationRecordTypeId = Schema.SObjectType.ProjectProduct__c.getRecordTypeInfosByDeveloperName().get('ShareclassCreation').getRecordTypeId();     
     
     private static final String TECH_LEGAL = 'Legal';
+    private static final String STATUS_COMPLETED = 'Completed';
+    private static final String STATUS_ON_TRACK = 'On track';
+    private static final String PHASE_DESIGN = 'Design';
+    private static final String PHASE_PROPOSAL = 'Proposal';
 
     public static void sendTaxNotificationsKPMG(List<ProjectProductChild__c> newProjectProductChild, Map<Id, ProjectProductChild__c> oldProjectProductChild){
 
@@ -48,58 +55,51 @@ public without sharing class ProjectProductChildHandler {
     }
 
     private static Boolean wasMultiPicklistValueAdded(String oldValue, String newValue, String targetValue) {
-        Set<String> oldValues = splitMultiPicklist(oldValue);
-        Set<String> newValues = splitMultiPicklist(newValue);
+        Set<String> oldValues = ProjectProductSetupHandlerUtilities.splitMultiPicklist(oldValue);
+        Set<String> newValues = ProjectProductSetupHandlerUtilities.splitMultiPicklist(newValue);
 
         return !oldValues.contains(targetValue) && newValues.contains(targetValue);
     }
 
-    private static Set<String> splitMultiPicklist(String value) {
-        Set<String> result = new Set<String>();
-
-        if (String.isBlank(value)) return result;
-
-        for (String item : value.split(';')) {
-            if (!String.isBlank(item)) {
-                result.add(item.trim());
-            }
-        }
-
-        return result;
-    }
-
+    // FIX-20270: the phase status follows the validation of the teams of the project's Scope (isPhaseValidated). Completed once they all validated,
+    // back to On track when a team is removed from a Completed phase (a save that only adds teams never reverts a manual Completed).
+    // Design has no team validation of its own: it takes the status of Proposal.
     public static void updatePhaseStatusWAllTeamValidation(Map<Id, ProjectProductChild__c> newProjectProductChild, Map<Id, ProjectProductChild__c> oldProjectProductChild) {
-        List<ProjectProductChild__c> listProjectProductChildToUpdate = new List<ProjectProductChild__c>();
-        Set<Id> setProjectProductParentId = new Set<Id>();
+        List<ProjectProductChild__c> changedPhases = new List<ProjectProductChild__c>();
+        Set<Id> parentIds = new Set<Id>();
 
         for (ProjectProductChild__c projectProductChild : newProjectProductChild.values()) {
-            if (projectProductChild.TECH_TeamValidation__c != null && projectProductChild.TECH_TeamValidation__c != oldProjectProductChild.get(projectProductChild.Id).TECH_TeamValidation__c && projectProductChild.Status__c != 'Completed') {
-                listProjectProductChildToUpdate.add(projectProductChild);
+            if (projectProductChild.Name != PHASE_DESIGN && projectProductChild.ProjectProductParent__c != null && projectProductChild.TECH_TeamValidation__c != oldProjectProductChild.get(projectProductChild.Id).TECH_TeamValidation__c) {
+                changedPhases.add(projectProductChild);
+                parentIds.add(projectProductChild.ProjectProductParent__c);
             }
         }
 
-        if (!listProjectProductChildToUpdate.isEmpty()) {
-            // FIX-20178: nombre total d'équipes de validation de la matrice PMT
-            List<PMTMatrix.Team> validationTeams = PMTMatrix.get().getValidationTeams();
+        if (changedPhases.isEmpty()) return;
 
-            if (!validationTeams.isEmpty()) {
-                for (ProjectProductChild__c projectProductChild : listProjectProductChildToUpdate) {
-                    if (projectProductChild.TECH_TeamValidation__c.contains(';')) {
-                        List<String> listTeamValidation = projectProductChild.TECH_TeamValidation__c.split(';');
-                        if (listTeamValidation.size() == validationTeams.size()) {
-                            //We need to update Design if all teams are validated on Proposal phase
-                            if (projectProductChild.Name == 'Proposal') {
-                                setProjectProductParentId.add(projectProductChild.ProjectProductParent__c);
-                            }
-                            projectProductChild.Status__c = 'Completed';
-                        }
-                    }
-                }
+        Map<Id, ProjectProduct__c> projectById = new Map<Id, ProjectProduct__c>([SELECT Id, Scope__c FROM ProjectProduct__c WHERE Id IN :parentIds]);
+        Map<Id, String> designStatusByProjectId = new Map<Id, String>();
+
+        for (ProjectProductChild__c projectProductChild : changedPhases) {
+            String scope = ProjectProductSetupHandlerUtilities.normalizeScope(projectById.get(projectProductChild.ProjectProductParent__c)?.Scope__c);
+            Boolean isValidated = ProjectProductSetupHandlerUtilities.isPhaseValidated(projectProductChild.TECH_TeamValidation__c, scope);
+            Set<String> newTeams = ProjectProductSetupHandlerUtilities.splitMultiPicklist(projectProductChild.TECH_TeamValidation__c);
+            Set<String> oldTeams = ProjectProductSetupHandlerUtilities.splitMultiPicklist(oldProjectProductChild.get(projectProductChild.Id).TECH_TeamValidation__c);
+
+            String newStatus;
+            if (projectProductChild.Status__c != STATUS_COMPLETED && isValidated) {
+                newStatus = STATUS_COMPLETED;
             }
-            if (!setProjectProductParentId.isEmpty()) {
-                ProjectProductChildHandlerUtilities.updateDesignStatusPhase(setProjectProductParentId);
-            }    
+            else if (projectProductChild.Status__c == STATUS_COMPLETED && !isValidated && !newTeams.containsAll(oldTeams)) {
+                newStatus = STATUS_ON_TRACK;
+            }
+            if (newStatus == null) continue;
+
+            projectProductChild.Status__c = newStatus;
+            if (projectProductChild.Name == PHASE_PROPOSAL) designStatusByProjectId.put(projectProductChild.ProjectProductParent__c, newStatus);
         }
+
+        if (!designStatusByProjectId.isEmpty()) ProjectProductChildHandlerUtilities.updateDesignStatusPhase(designStatusByProjectId, newProjectProductChild);
     }
 
     public static void blockValidationBeforeSPCValidated(Map<Id, ProjectProductChild__c> newProjectProductChild, Map<Id, ProjectProductChild__c> oldProjectProductChild) {
@@ -131,13 +131,15 @@ public without sharing class ProjectProductChildHandler {
         }
     }
      
+    // Completion rate of the phase: 100 for Design (no fields of its own) and for a Completed phase of a modification project, otherwise the Completion_Rate_Test__c formula.
+    // FIX-20270: runs after updatePhaseStatusWAllTeamValidation (the status set in this save counts), and the formulas are recalculated first so the rate uses the NbOfFilledFields__c computed in this save.
     public static void updateCompletionRate(Map<Id, ProjectProductChild__c> newProjectProductChild, Map<Id, ProjectProductChild__c> oldProjectProductChild) {
-        //Si statut = Completed alors taux de completion = 100% pour les projets de modifications
+        Formula.recalculateFormulas(newProjectProductChild.values());
+
         for (ProjectProductChild__c projectProductChild : newProjectProductChild.values()) {
-            if((projectProductChild.Parent_Record_Type_Id__c == fundModificationRecordTypeId && projectProductChild.Status__c == 'Completed' 
-                && projectProductChild.Status__c != oldProjectProductChild.get(projectProductChild.Id).Status__c) || projectProductChild.Name == 'Design'  ) {                 
-                    projectProductChild.CompletionRateStep__c = 100;
-            } 
+            if ((projectProductChild.Parent_Record_Type_Id__c == fundModificationRecordTypeId && projectProductChild.Status__c == STATUS_COMPLETED) || projectProductChild.Name == PHASE_DESIGN) {
+                projectProductChild.CompletionRateStep__c = 100;
+            }
             else {
                 projectProductChild.CompletionRateStep__c = projectProductChild.Completion_Rate_Test__c;
             }
