@@ -162,6 +162,15 @@
         <members>ReferentialProductHomepageCtrlTest</members>
         <members>ProductHierarchyHelper</members>
         <members>ProjectProductBatchController</members>
+        <members>ProjectProductChildHandlerUtilities</members>
+        <members>ProjectProductChildTriggerHandler</members>
+        <members>ProjectManagementPhaseController</members>
+        <members>Test_ProjectManagementPhaseController</members>
+        <members>Test_ProjectShareclassTrigger</members>
+        <members>Test_ProjectShareclassChildTrigger</members>
+        <members>Test_ProjectProductChildTriggerHandler</members>
+        <members>Test_ProjectProductChildDatatableCTRL</members>
+        <members>ProjectProductChildDatatableController</members>
         <name>ApexClass</name>
     </types>
     <types>
@@ -198,6 +207,8 @@
         <members>lwc_TimelineV3</members>
         <members>fieldSelector</members>
         <members>referentialProductHomepage</members>
+        <members>projectManagementPhase</members>
+        <members>projectProductChildDatatable</members>
         <name>LightningComponentBundle</name>
     </types>
     <types>

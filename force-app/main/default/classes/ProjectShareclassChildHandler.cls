@@ -3,8 +3,8 @@
  *                  against the stage's required Share Class fields (PMT matrix, FIX-20178), parent Share Class updates,
  *                  record lock, cloning from the parent Share Class and tax fields.
  * @lastModifiedBy Charles EID   [09-10-26]
- * @testClass Test_ProjectShareclassChildTrigger
- * @coverage 92%   [09-10-26]
+ * @testClass Test_ProjectShareclassTrigger
+ * @coverage 92%   [19-10-26]
  ────────────────────────────────────── */
 public class ProjectShareclassChildHandler {
 

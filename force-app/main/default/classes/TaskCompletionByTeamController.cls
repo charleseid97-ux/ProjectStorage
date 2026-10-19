@@ -5,9 +5,9 @@
  *                  "IS" team applies, the client never needs to know this rule), and bulk-calculates completion
  *                  percentages per step/team from the required fields of the PMT matrix (FIX-20178).
  *              Works in conjunction with TaskCompletionByTeamControllerUtilities for data retrieval.
- * @lastModifiedBy Charles EID   [09-10-26]
+ * @lastModifiedBy Charles EID   [19-10-26]
  * @testClass Test_TaskCompletionByTeamController
- * @coverage 99%   [09-10-26]
+ * @coverage 99%   [19-10-26]
  ────────────────────────────────────── */
 public without sharing class TaskCompletionByTeamController {
 
@@ -61,7 +61,7 @@ public without sharing class TaskCompletionByTeamController {
         String status = 'Draft';
         String iconName = '🟠';
  
-        if (!String.isBlank(idrecord.TECH_TeamValidation__c) && idrecord.TECH_TeamValidation__c.contains(teamNameSansSpaces)) {
+        if (ProjectProductSetupHandlerUtilities.splitMultiPicklist(idrecord.TECH_TeamValidation__c).contains(teamNameSansSpaces)) { // FIX-20270: exact team key, not a substring of the multi-select value
             status = 'Completed';
             iconName = '✅';
         } 
