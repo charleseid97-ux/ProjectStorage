@@ -351,9 +351,9 @@ public with sharing class VFC16_SequantisGenerateDraft {
             return '';
         }
 
-        // Remove all HTML tags except <p>, </p>, <i>, </i>, <b>, </b>, <strong>, </strong>
+        // Remove all HTML tags except p, i, b and strong, including tags with attributes
         String noHTML = inputText.replaceAll(
-            '<(?!\\/??(p|i|b|strong)>)[^>]+>',
+            '<(?!\\/?(?:p|i|b|strong)(?:\\s[^>]*)?>)[^>]+>',
             ' '
         );
 
