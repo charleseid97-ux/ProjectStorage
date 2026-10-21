@@ -20,6 +20,7 @@ public with sharing class VFC16_SequantisGenerateDraft {
     private  List <ProjectShareclass__c> shareclasses { get; set; }
 
 
+    // Initialise le contrôleur et récupère les Share Classes du projet.
     public VFC16_SequantisGenerateDraft(ApexPages.standardController con){
         payloadDebug = '';
         showPDF = false;
@@ -61,6 +62,7 @@ public with sharing class VFC16_SequantisGenerateDraft {
                 showPDF = false;
                 return;
             }
+
             // Étape 3 — Encodage base64 pour renvoi au LWC
             pdf = pdfString;
             showPDF = true;
@@ -75,6 +77,8 @@ public with sharing class VFC16_SequantisGenerateDraft {
         }
     }
 
+
+    // Met à jour l'ensemble des Share Classes du projet dans Sequantis.
     private void updateAllShareClasses() {   
         
             // Step 1 — Fetch authentication token
@@ -96,10 +100,14 @@ public with sharing class VFC16_SequantisGenerateDraft {
                     System.debug('Error updating ShareClass with ID ' + shareClassId + ': ' + innerEx.getMessage());
                 }
             }
+
             if (errorMessage == '') {
                 infoMessage = 'All ShareClasses processed.';
             }         
     }
+
+
+    // Construit le payload configuré et appelle le service Sequantis.
     public  String callSequantisService(String token, String projectShareClassId,Boolean returnPDF) {
         payloadDebug = '';
         system.debug('====callSequantisService=======projectShareClassId = ' + projectShareClassId);
@@ -108,32 +116,36 @@ public with sharing class VFC16_SequantisGenerateDraft {
         req.setTimeout(60000);
         Map<String, Object> payload  = new Map<String, Object>();
 
-        // Requetage des champs 
-        projectShareClass__c projectShareClassRec = [SELECT Id, Name,Name__c, ISIN__c, Currency__c, MaxRedemptionFee__c, EffectivePerfFees__c, MaxSubscriptionFee__c, EffectiveManagementFees__c, EffectiveServiceFees__c, TransactionCosts__c,
-                                ProxyRisk__c, CurrencyHedging__c, HasPerfFees__c, DividendPolicy__c, Status__c, 
-                                Retail__c, Professional__c, EligibleCounterparty__c, Basic__c, Informed__c, Advanced__c, ExpertGermany__c, LowestRiskTolGer__c, CanNot__c, CanLimited__c, NoNeedCapGuarantee__c, CanNoLimit__c, Preservation__c, CapitalGrowth__c, Income__c,
-                                LeveragedReturn__c, PensionSchemeGer__c, MayTerminateEarlier__c, ExecutionOnly__c, AppropTest__c, InvestAdvice__c, PortfolioManagement__c,
-                                ProjectProduct__c, ShareclassInvestmentObjective__c, InvestorType__c,PerformanceFeeUCITSKIID__c,PerformanceFeeEPTKID__c, MaxPerfFees__c,
-                                PerformanceFeeMethod__c,MaxRedemptionFeesSubfund__c,MaxRedemptionFeesManCo__c,OngoingCostsExante__c,OngoingChargesKIID__c,ReasonforRHPRedemptionShareclass__c
-                                ,MaxConversionFee__c,IsPayingTrailerFees__c
-                                ,CountryRegNeededSemipro__c,CountryRegNeededInstitutional__c,CountryRegNeededRetail__c
-                                FROM projectShareClass__c
-                                WHERE id = :projectShareClassId];
-        
-        ProjectProduct__c ProjectProductRec = [SELECT Id, Name, ProductName__c, NAVFrequency__c, RecommendedHoldingPeriod__c,RecommendedHoldingPeriodUnit__c, DomiciledIn__c, LegalForm__c,
-                                BenchmarkName__c, MaturityDate__c, CutOffTime__c, AssetClass__c, LEICode__c, ESGLabel__c,
-                                MinSustainableInvest__c, MinTaxAlignment__c, SFDRCategory__c, IsUsingPAI__c, EET20080__c, EET20190__c, 
-                                EET20200__c, EET20210__c, EET20400__c, EET20430__c, EET20460__c, EET20250__c, AMFESGCommunication__c, HasCarbonTarget__c, EET60440__c, FundSpecificExclusions__c,
-                                EndDate__c, Product__c,ParentProduct__r.ProductName__c,InvestmentObjective__c,IntentedRetailInvestor__c,ReasonForRHP__c,RedeemCondition__c,LMT__c,
-                                internalShortName__c,TECH_RTName__c, BaseCurrency__c,RecordTypeId,DefaultLanguage__c,SettlementPeriod__c,OtherRelevantInformation__c,
-                                RiskNotConsideredinIndicator__c ,RegulatoryNumber__c
-                            FROM ProjectProduct__c
-                            WHERE Id = :projectShareClassRec.ProjectProduct__c];
+        // Construit les champs SOQL depuis les mappings configurés.
+        List<SequantisDraftMapping__mdt> mappings = SequantisDraftMapping__mdt.getAll().values();
+
+        Set<String> shareClassFields = new Set<String>{
+            'Id', 'Name', 'Name__c', 'ProjectProduct__c'
+        };
+        Set<String> projectProductFields = new Set<String>{
+            'Id', 'RecordTypeId', 'EndDate__c', 'internalShortName__c',
+            'RecommendedHoldingPeriod__c', 'RecommendedHoldingPeriodUnit__c',
+            'ParentProduct__r.ProductName__c'
+        };
+
+        addConfiguredQueryFields(mappings, shareClassFields, projectProductFields);
+
+        String shareClassQuery = 'SELECT ' + String.join(new List<String>(shareClassFields), ',')
+            + ' FROM ProjectShareclass__c WHERE Id = :projectShareClassId';
+
+        ProjectShareclass__c projectShareClassRec =
+            Database.query(shareClassQuery);
+
+        Id projectProductId = projectShareClassRec.ProjectProduct__c;
+        String projectProductQuery = 'SELECT ' + String.join(new List<String>(projectProductFields), ',')
+            + ' FROM ProjectProduct__c WHERE Id = :projectProductId';
+
+        ProjectProduct__c ProjectProductRec =
+            Database.query(projectProductQuery);
         system.debug('====callSequantisService=======endDate = ' + ProjectProductRec.EndDate__c); 
         
         Id fundShareClassModificationRecordTypeId = Schema.SObjectType.ProjectProduct__c.getRecordTypeInfosByDeveloperName().get('FundShareClassModification').getRecordTypeId();
         Id fundCreationRecordTypeId = Schema.SObjectType.ProjectProduct__c.getRecordTypeInfosByDeveloperName().get('FundCreation').getRecordTypeId();
-        Id shareclassCreationRecordTypeId = Schema.SObjectType.ProjectProduct__c.getRecordTypeInfosByDeveloperName().get('ShareclassCreation').getRecordTypeId();
 
         // ---------------------------------------------------------------------
         // BLOCK Sequantis call: only allow sending within 1 month before launch date
@@ -177,143 +189,38 @@ public with sharing class VFC16_SequantisGenerateDraft {
             errorMsg = '<br/> generation failed due to missing required fields '+projectShareClassRec.Name__c+' : '+errorMsg;
             return errorMsg;
         }
-        // Ajout des champs
+
+        // Ajout des valeurs dynamiques configurées dans le Custom Metadata
         payload.put('genereKID', returnPDF);
-        
-        payload.put('portfolioManagement', projectShareClassRec.PortfolioManagement__c); //values : P,B
-        payload.put('investmentAdvice', projectShareClassRec.InvestAdvice__c); //values : P,B
-        payload.put('executionWithAppropriatenessTestOrNonAdvisedServices', projectShareClassRec.AppropTest__c); //values : P,B
-        payload.put('executionOnly', projectShareClassRec.ExecutionOnly__c); //values : P,B
-        payload.put('mayBeTerminatedEarly', formatYesNoField(projectShareClassRec.MayTerminateEarlier__c)); //values : Yes, No, NA
-        payload.put('returnProfilePensionSchemeGermany', formatYesNoField(projectShareClassRec.PensionSchemeGer__c)); //values : Yes, No, Neutral
-        payload.put('optionOrLeveragedReturnProfile', formatYesNoField(projectShareClassRec.LeveragedReturn__c )); //values : Yes, No, Neutral
-        payload.put('returnProfileIncome',  formatYesNoField(projectShareClassRec.Income__c)); //values : Yes, No, Neutral
-        payload.put('returnProfileGrowth', formatYesNoField(projectShareClassRec.CapitalGrowth__c )); //values : Yes, No, Neutral
-        payload.put('returnProfilePreservation', formatYesNoField(projectShareClassRec.Preservation__c )); //values : Yes, No, Neutral
-        payload.put('lossBeyondCapital', formatYesNoField(projectShareClassRec.CanNoLimit__c )); //values : Yes, No, Neutral
-        payload.put('noCapitalGuarantee', formatYesNoField(projectShareClassRec.NoNeedCapGuarantee__c)); //values : Yes, No, Neutral
-        payload.put('limitedCapitalLoss', formatYesNoField(projectShareClassRec.CanLimited__c )); //values : Yes, No, Neutral
-        payload.put('noCapitalLoss', formatYesNoField(projectShareClassRec.CanNot__c)); //values : Yes, No, Neutral
-        payload.put('notForInvestorsWithTheLowestRiskToleranceGermany', formatYesNoField(projectShareClassRec.LowestRiskTolGer__c)); //values : Yes, No, Neutral
-        payload.put('expertInvestorGermany', formatYesNoField(projectShareClassRec.ExpertGermany__c )); //values : Yes, No, Neutral
-        payload.put('advancedInvestor', formatYesNoField(projectShareClassRec.Advanced__c)); //values : Yes, No, Neutral
-        payload.put('informedInvestor', formatYesNoField(projectShareClassRec.Informed__c)); //values : Yes, No, Neutral
-        payload.put('basicInvestor', formatYesNoField(projectShareClassRec.Basic__c)); //values : Yes, No, Neutral
-        payload.put('investorTypeEligibleCounterparty', formatYesNoField(projectShareClassRec.EligibleCounterparty__c )); //values : Yes, No, Neutral
-        payload.put('investorTypeProfessional', formatYesNoField(projectShareClassRec.Professional__c)); //values : Yes, No, Neutral
-        payload.put('investorTypeRetail', formatYesNoField(projectShareClassRec.Retail__c )); //values : Yes, No, Neutral
-        payload.put('existingNegativeScreeningStrategy', ProjectProductRec.FundSpecificExclusions__c);
-        payload.put('sustainableIndicatorsForGermanMifidMarket', ProjectProductRec.EET60440__c);
-        payload.put('carbonReductionObjective', ProjectProductRec.HasCarbonTarget__c);
-        payload.put('amfDoctrine', ProjectProductRec.AMFESGCommunication__c);
-        payload.put('minInvestSocial', ProjectProductRec.EET20250__c);
-        payload.put('otherInvestEnv', ProjectProductRec.EET20460__c);
-        payload.put('otherInvestEnvOrSocial', ProjectProductRec.EET20430__c);
-        payload.put('minInvestEOrS', ProjectProductRec.EET20400__c);
-        payload.put('sustainableInvestSocial', ProjectProductRec.EET20250__c);
-        payload.put('nonTaxoEnvSustInvest', ProjectProductRec.EET20200__c);
-        payload.put('alignedWithTaxonomy', ProjectProductRec.EET20190__c);
-        payload.put('lookedThroughArt9', ProjectProductRec.EET20080__c);
-        //payload.put('lookedThroughArt8', ProjectProductRec.EET20070__c);
-        payload.put('sfdrAdverseImpact', ProjectProductRec.IsUsingPAI__c);
-        payload.put('sfdrCategory', ProjectProductRec.SFDRCategory__c);
-        payload.put('minInvestTaxo', ProjectProductRec.MinTaxAlignment__c);
-        payload.put('minSustInv', ProjectProductRec.MinSustainableInvest__c);
-        payload.put('esgStandard', ProjectProductRec.ESGLabel__c);
-        payload.put('statut', projectShareClassRec.Status__c);
-        payload.put('leiCode',ProjectProductRec.LEICode__c);
-        payload.put('accumulationDistribution', projectShareClassRec.DividendPolicy__c);
-        payload.put('proxy', projectShareClassRec.ProxyRisk__c);
-        payload.put('hasPerFees', projectShareClassRec.HasPerfFees__c);
-        payload.put('assetClass',ProjectProductRec.AssetClass__c);
-        payload.put('cutOff',ProjectProductRec.CutOffTime__c);
-        payload.put('maturite',ProjectProductRec.MaturityDate__c);
-        payload.put('hedge', projectShareClassRec.CurrencyHedging__c);
-       // payload.put('partDeReference', projectShareClassRec.ProxyRisk__c);
-        payload.put('benchmark',ProjectProductRec.BenchmarkName__c);
-        payload.put('transactionCosts', projectShareClassRec.TransactionCosts__c);
-        payload.put('effectiveServiceFees', projectShareClassRec.EffectiveServiceFees__c);
-        payload.put('effectiveManagementFees', projectShareClassRec.EffectiveManagementFees__c);
-        payload.put('maxSubscriptionFees', projectShareClassRec.MaxSubscriptionFee__c);
-        payload.put('effectivePerfFees', projectShareClassRec.EffectivePerfFees__c);
-        payload.put('maxRedemptionFees', projectShareClassRec.MaxRedemptionFee__c);
-        payload.put('launchDate', ProjectProductRec.EndDate__c);
-        payload.put('legalForm', ProjectProductRec.LegalForm__c );
-        payload.put('domiciliation', ProjectProductRec.DomiciledIn__c);
-        payload.put('navFrequency',ProjectProductRec.NAVFrequency__c);
-        payload.put('currency',projectShareClassRec.Currency__c);
-        payload.put('shareName',projectShareClassRec.Name__c);
-        payload.put('fundName',ProjectProductRec.ProductName__c);
-        payload.put('isin',projectShareClassRec.ISIN__c);
+        addConfiguredMappings(payload, ProjectProductRec, projectShareClassRec, mappings);
+        // Valeurs calculées ne provenant pas directement d'un champ Salesforce
         payload.put('shareClassId','');
-        payload.put('conversionFees',projectShareClassRec.MaxConversionFee__c);
-        
-        payload.put('productId',ProjectProductRec.Product__c);
-        payload.put('projectShareClassId',projectShareClassRec.Id);
-        payload.put('projectId',ProjectProductRec.Id);
-        Payload.put('maxRedemptionFeesManco', projectShareClassRec.MaxRedemptionFeesManCo__c );
-        payload.put('settlementPeriod',escapeHTML(ProjectProductRec.SettlementPeriod__c));
-        payload.put('otherRelevantInformation',escapeHTML(ProjectProductRec.OtherRelevantInformation__c));    
-         
+        payload.put('userMail', UserInfo.getUserEmail());
+
         if (ProjectProductRec.ParentProduct__r != null &&
             ProjectProductRec.ParentProduct__r.ProductName__c != null) {
             payload.put('parentProduct', ProjectProductRec.ParentProduct__r.ProductName__c);
         }
 
-
-        payload.put('maxRedemptionFeesFund',  projectShareClassRec.MaxRedemptionFeesSubfund__c);
-        payload.put('isPayingTrailerFees'  ,  projectShareClassRec.IsPayingTrailerFees__c);
-
-        
-        payload.put('maxPerformanceFees', projectShareClassRec.MaxPerfFees__c);
-        payload.put('language', ProjectProductRec.DefaultLanguage__c);
-        //payload.put('performanceFeeMethod', projectShareClassRec.PerformanceFeeMethod__c  ); 
-        String shareClassInvestmentObjectiveNoHTML = escapeHTML(projectShareClassRec.ShareclassInvestmentObjective__c);
-        String projectInvestmentObjectiveNoHTML = escapeHTML(ProjectProductRec.InvestmentObjective__c );
-        payload.put('projectType',  ProjectProductRec.TECH_RTName__c);
-        payload.put('internalShortName',  ProjectProductRec.internalShortName__c);
-        payload.put('ongoingCosts',projectShareClassRec.OngoingCostsExante__c != null ? projectShareClassRec.OngoingCostsExante__c : 0 );
-        payload.put('ongoingCostsKiid',projectShareClassRec.OngoingChargesKIID__c);
-
-        payload.put('userMail', UserInfo.getUserEmail());
         Id rtId = ProjectProductRec.RecordTypeId;
 
-        // Envoi des pays uniquement lors d'une Product Creation ou Shareclass Creation
-        if (rtId == fundCreationRecordTypeId || rtId == shareclassCreationRecordTypeId) {
-            payload.put('countryRegNeededSemPro', projectShareClassRec.CountryRegNeededSemipro__c);
-            payload.put('countryRegNeededInstit', projectShareClassRec.CountryRegNeededInstitutional__c);
-            payload.put('countryRegNeededRetail', projectShareClassRec.CountryRegNeededRetail__c);
-        }
-
+        // Contrôles obligatoires propres à Fund Creation
         if (rtId == fundCreationRecordTypeId) {
             if (ProjectProductRec.RecommendedHoldingPeriod__c == null ){
                 errorMsg += '<br/> Recommended Holding Period is required. ';
             }
             if (ProjectProductRec.RecommendedHoldingPeriodUnit__c == null ){
                 errorMsg += '<br/> Recommended Holding Period Unit is required. ';
-            } 
-            
-            payload.put('regulatoryNumber', ProjectProductRec.RegulatoryNumber__c);
-            payload.put('rhp', ProjectProductRec.RecommendedHoldingPeriod__c);
-            payload.put('rhpUnit', escapeHTML(ProjectProductRec.RecommendedHoldingPeriodUnit__c));
-            payload.put('reasonForRedemptionShareClass',escapeHTML(projectShareClassRec.ReasonforRHPRedemptionShareclass__c ));
-            payload.put('investmentObjective', projectInvestmentObjectiveNoHTML);
-            payload.put('sortieAnticipee1', escapeHTML( ProjectProductRec.ReasonForRHP__c));
-            payload.put('typeInvestisseur', escapeHTML( ProjectProductRec.IntentedRetailInvestor__c));
-            payload.put('shareClassInvestmentObjective', shareClassInvestmentObjectiveNoHTML);
-            payload.put('performanceFeesCommentEPT', escapeHTML( projectShareClassRec.PerformanceFeeEPTKID__c));
-            payload.put('performanceFeesComment', escapeHTML(projectShareClassRec.PerformanceFeeUCITSKIID__c));
-            payload.put('riskNarrative', ProjectProductRec.RiskNotConsideredinIndicator__c);
-            
-            if(narratives.size() > 0 ){payload.put('managementCompany',  narratives[0].Name );}
+            }
 
-        }else if (rtId == shareclassCreationRecordTypeId) {
-            payload.put('reasonForRedemptionShareClass',escapeHTML( projectShareClassRec.ReasonforRHPRedemptionShareclass__c ));
-            payload.put('shareClassInvestmentObjective', shareClassInvestmentObjectiveNoHTML);
-            payload.put('performanceFeesCommentEPT', escapeHTML(projectShareClassRec.PerformanceFeeEPTKID__c));
-            payload.put('performanceFeesComment', escapeHTML(projectShareClassRec.PerformanceFeeUCITSKIID__c));
+            if(narratives.size() > 0 ){
+                payload.put('managementCompany', narratives[0].Name);
+            }
         }
-       // payload.put('fundcurrency',  ProjectProductRec.BaseCurrency__c); //champ pas encore créé coté Sequantis
+
+
+
+        //payload.put('fundcurrency',  ProjectProductRec.BaseCurrency__c); //champ pas encore créé coté Sequantis
         //payload.put('????'  shareClassInvestmentObjectiveNoHTML
         //payload.put('riskNarrative', 'L\'indicateur synthétique de risque indique la probabilité que ce produit...');
         //payload.put('sortieAnticipee','');
@@ -343,6 +250,114 @@ public with sharing class VFC16_SequantisGenerateDraft {
         return EncodingUtil.base64Encode(res.getBodyAsBlob());
     }
 
+
+    /**
+     * Ajoute au payload les mappings actifs configurés dans SequantisDraftMapping__mdt.
+     */
+    private void addConfiguredMappings(
+        Map<String, Object> payload,
+        ProjectProduct__c projectProductRec,
+        ProjectShareclass__c projectShareClassRec,
+        List<SequantisDraftMapping__mdt> mappings
+    ) {
+        Schema.RecordTypeInfo recordTypeInfo = Schema.SObjectType.ProjectProduct__c
+            .getRecordTypeInfosById()
+            .get(projectProductRec.RecordTypeId);
+
+        String recordTypeName = recordTypeInfo.getDeveloperName();
+
+        // Chaque Custom Metadata représente une clé du payload Sequantis.
+        for (SequantisDraftMapping__mdt mapping : mappings) {
+            if (String.isBlank(mapping.PayloadKey__c)
+                || String.isBlank(mapping.SourceObject__c)
+                || String.isBlank(mapping.SourceField__c)
+                || !isMappingValidForRecordType(mapping.RecordTypes__c, recordTypeName)) {
+                continue;
+            }
+
+            SObject sourceRecord = getMappingSourceRecord(
+                mapping.SourceObject__c,
+                projectProductRec,
+                projectShareClassRec
+            );
+
+            // Ignore une configuration dont l'objet source n'est pas supporté.
+            if (sourceRecord == null) {
+                continue;
+            }
+
+            Object value = sourceRecord.get(mapping.SourceField__c);
+
+            value = transformMappingValue(value, mapping.Transformation__c);
+            payload.put(mapping.PayloadKey__c, value);
+        }
+    }
+
+
+    /**
+     * Retourne l'enregistrement Salesforce contenant le champ configuré.
+     */
+    private SObject getMappingSourceRecord(
+        String sourceObject,
+        ProjectProduct__c projectProductRec,
+        ProjectShareclass__c projectShareClassRec
+    ) {
+        if (sourceObject == 'ProjectProduct__c') {
+            return projectProductRec;
+        }
+
+        if (sourceObject == 'ProjectShareclass__c') {
+            return projectShareClassRec;
+        }
+
+        return null;
+    }
+
+
+    /**
+     * Vérifie si le mapping est applicable au Record Type courant.
+     * Un champ RecordTypes__c vide signifie que le mapping est valide pour tous les Record Types.
+     */
+    private Boolean isMappingValidForRecordType(String configuredRecordTypes, String recordTypeName) {
+        if (String.isBlank(configuredRecordTypes)) {
+            return true;
+        }
+
+        // Les DeveloperName des Record Types sont séparés par des points-virgules.
+        for (String configuredRecordType : configuredRecordTypes.split(';')) {
+            if (configuredRecordType.trim() == recordTypeName) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+
+
+
+
+    /**
+     * Applique la transformation définie dans le Custom Metadata.
+     */
+    private Object transformMappingValue(Object value, String transformation) {
+        if (String.isBlank(transformation) || transformation == 'NONE') {
+            return value;
+        }
+
+        // HTML conserve le comportement historique : null devient une chaîne vide.
+        if (transformation == 'HTML') {
+            return escapeHTML(value == null ? null : String.valueOf(value));
+        }
+
+        if (transformation == 'YES_NO') {
+            return value == null ? null : formatYesNoField(String.valueOf(value));
+        }
+
+        return value;
+    }
+
+
     /* Escape HTML tags from text
     except bold, italic and paragraph
     */
@@ -351,9 +366,9 @@ public with sharing class VFC16_SequantisGenerateDraft {
             return '';
         }
 
-        // Remove all HTML tags except <p>, </p>, <i>, </i>, <b>, </b>, <strong>, </strong>
+        // Remove all HTML tags except p, i, b and strong, including tags with attributes
         String noHTML = inputText.replaceAll(
-            '<(?!\\/??(p|i|b|strong)>)[^>]+>',
+            '<(?!\\/?(?:p|i|b|strong)(?:\\s[^>]*)?>)[^>]+>',
             ' '
         );
 
@@ -361,6 +376,8 @@ public with sharing class VFC16_SequantisGenerateDraft {
         inputText = noHTML.replaceAll('\\s+', ' ').trim();
         return inputText;
     }   
+
+
     //convert text field 'Yes'/'No'/Neutral to Boolean
     private Boolean formatYesNoField(String fieldValue){
         if(fieldValue == 'Yes'){
@@ -372,6 +389,7 @@ public with sharing class VFC16_SequantisGenerateDraft {
         }
     }
     
+
    /**
      * Récupère un access token via le Named Credential 'Sequantis'
      * @param tokenPath chemin relatif de l’endpoint token (ex: '/oauth/token')
@@ -379,6 +397,7 @@ public with sharing class VFC16_SequantisGenerateDraft {
      public static String fetchAccessToken(String tokenPath) {
         HttpRequest req = new HttpRequest();
         req.setMethod('POST');
+
         // Utilise le Named Credential
         //req.setEndpoint('callout:Sequantis' + tokenPath);
         req.setEndpoint('callout:Sequantis/rest/authentication/');
@@ -407,5 +426,33 @@ public with sharing class VFC16_SequantisGenerateDraft {
         //}
         //return token.access_token;
 
+    }
+        /**
+     * Ajoute aux requêtes SOQL les champs déclarés dans les mappings Sequantis.
+     */
+    private void addConfiguredQueryFields(
+        List<SequantisDraftMapping__mdt> mappings,
+        Set<String> shareClassFields,
+        Set<String> projectProductFields
+    ) {
+        Map<String, Schema.SObjectField> shareClassFieldMap =
+            Schema.SObjectType.ProjectShareclass__c.fields.getMap();
+        Map<String, Schema.SObjectField> projectProductFieldMap =
+            Schema.SObjectType.ProjectProduct__c.fields.getMap();
+
+        // Seuls les champs réellement présents sur l'objet sont ajoutés au SELECT.
+        for (SequantisDraftMapping__mdt mapping : mappings) {
+            if (String.isBlank(mapping.SourceField__c)) {
+                continue;
+            }
+
+            if (mapping.SourceObject__c == 'ProjectShareclass__c'
+                && shareClassFieldMap.containsKey(mapping.SourceField__c)) {
+                shareClassFields.add(mapping.SourceField__c);
+            } else if (mapping.SourceObject__c == 'ProjectProduct__c'
+                && projectProductFieldMap.containsKey(mapping.SourceField__c)) {
+                projectProductFields.add(mapping.SourceField__c);
+            }
+        }
     }
 }
