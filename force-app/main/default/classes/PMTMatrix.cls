@@ -1,30 +1,45 @@
 /** ──────────────────────────────────────
  * @description Single entry point to the PMT matrix (FIX-20178, replaces ProductProjectSettings__c): stages, teams,
- *                  the fields each team owns at each stage, and the team owners.
- *              Read from PMTStage__mdt, PMTTeam__mdt, PMTFieldRule__mdt and PMTOwnerRule__mdt, once per transaction:
+ *                  the fields each team uses at each stage, and the team owners.
+ *              Read from PMTStage__mdt, PMTTeam__mdt, PMTFieldRule__mdt (team x stage), PMTFieldRuleLine__mdt (one field of a team at a
+ *                  stage, Required or Optional, with an optional condition, US-20194) and PMTOwnerRule__mdt, once per transaction:
  *                  PMTMatrix matrix = PMTMatrix.get();
- *              forScope(scope) restricts the matrix to the teams of a project scope (PMTTeam__mdt.Scope__c empty or
- *                  equal to the scope); the caller passes an already normalized scope.
- *              Field lists hold one field API name per line. A team and stage without a PMTFieldRule__mdt record has
- *                  no fields there: getRule() then returns an empty rule, never null.
+ *              forScope(scope) restricts the matrix to the teams of a project scope (PMTTeam__mdt.Scope__c empty or equal to the scope);
+ *                  the caller passes an already normalized scope.
+ *              forConditions(project) drops the lines whose condition (PMTCondition) is false for the project, forProject(project) = forScope
+ *                  + forConditions, and forShareClass(id) then drops the lines whose share class condition is false for one share class.
+ *                  loadProjects(ids) reads the projects with the fields their conditions read (callers holding only Ids).
+ *              A team and stage without an applicable line has no fields there: getRule() then returns an empty rule, never null.
  * @author Charles EID
- * @lastModifiedBy Charles EID   [19-10-26]
- * @testClass Test_PMTMatrix
- * @coverage 100%   [19-10-26]
+ * @lastModifiedBy Charles EID   [21-10-26]
+ * @testClass PMTMatrixTest
+ * @coverage 99%   [21-10-26]
  ────────────────────────────────────── */
 public without sharing class PMTMatrix {
 
+    private static final String FUND_OBJECT = 'Product__c';
+    private static final String REQUIRED = 'Required';
+
+    // Test classes (PMTTestFactoryData) replace the matrix of the transaction: custom metadata records cannot be inserted in a test
+    @TestVisible
     private static PMTMatrix instance;
+    @TestVisible
     private static Map<String, Id> userIdByFederationId;
+    private static Map<Id, ProjectProduct__c> loadedProjectById = new Map<Id, ProjectProduct__c>();
+    private static Map<Id, ProjectShareclass__c> loadedShareClassById = new Map<Id, ProjectShareclass__c>();
 
     public List<Stage> stages { get; private set; }
     public List<Team> teams { get; private set; }
     public List<FieldRule> rules { get; private set; }
+    @TestVisible
+    private List<Line> lines = new List<Line>();
+    @TestVisible
     private List<OwnerRule> ownerRules;
     private Map<String, FieldRule> ruleByKey = new Map<String, FieldRule>();
     private Map<String, PMTMatrix> matrixByScope = new Map<String, PMTMatrix>();
+    private Map<String, PMTMatrix> matrixByConditionResults = new Map<String, PMTMatrix>();
 
-    // Loads the configuration once per transaction. SOQL rather than getAll(): getAll() truncates Long Text Areas to 255 characters.
+    // Loads the configuration once per transaction. SOQL rather than getAll(): getAll() truncates Long Text Areas (conditions) to 255 characters.
     public static PMTMatrix get() {
         if (instance != null) return instance;
 
@@ -34,38 +49,74 @@ public without sharing class PMTMatrix {
         }
 
         List<Team> teams = new List<Team>();
-        for (PMTTeam__mdt record : [SELECT MasterLabel, Order__c, IsValidationTeam__c, Scope__c, OwnerFederationId__c FROM PMTTeam__mdt ORDER BY Order__c]) {
+        for (PMTTeam__mdt record : [SELECT MasterLabel, Order__c, IsValidationTeam__c, Scope__c, OwnerFederationId__c
+                                    FROM PMTTeam__mdt ORDER BY Order__c]) {
             teams.add(new Team(record.MasterLabel, record.Order__c?.intValue(), record.IsValidationTeam__c, record.Scope__c, record.OwnerFederationId__c));
         }
 
-        List<FieldRule> rules = new List<FieldRule>();
-        for (PMTFieldRule__mdt record : [SELECT Team__r.MasterLabel, Stage__r.MasterLabel, RequiredFieldsFund__c, OptionalFieldsFund__c,
-                                                RequiredFieldsShareClass__c, OptionalFieldsShareClass__c
-                                         FROM PMTFieldRule__mdt]) {
-            rules.add(new FieldRule(record.Team__r.MasterLabel, record.Stage__r.MasterLabel,
-                                    lines(record.RequiredFieldsFund__c), lines(record.OptionalFieldsFund__c),
-                                    lines(record.RequiredFieldsShareClass__c), lines(record.OptionalFieldsShareClass__c)));
+        Map<String, PMTFieldRule__mdt> ruleByDeveloperName = new Map<String, PMTFieldRule__mdt>();
+        for (PMTFieldRule__mdt record : [SELECT DeveloperName, Team__r.MasterLabel, Stage__r.MasterLabel FROM PMTFieldRule__mdt]) {
+            ruleByDeveloperName.put(record.DeveloperName, record);
+        }
+
+        List<Line> lines = new List<Line>();
+        for (PMTFieldRuleLine__mdt record : [SELECT DeveloperName, FieldRule__r.DeveloperName, Field__r.Object__c, Field__r.FieldApiName__c, Requirement__c, Condition__c
+                                             FROM PMTFieldRuleLine__mdt ORDER BY DeveloperName]) {
+            PMTFieldRule__mdt rule = ruleByDeveloperName.get(record.FieldRule__r.DeveloperName);
+            lines.add(new Line(rule.Team__r.MasterLabel, rule.Stage__r.MasterLabel, record.Field__r.Object__c == FUND_OBJECT, record.Field__r.FieldApiName__c,
+                               record.Requirement__c == REQUIRED, compileCondition(PMTFieldRuleLine__mdt.SObjectType, record.DeveloperName, record.Condition__c)));
         }
 
         List<OwnerRule> ownerRules = new List<OwnerRule>();
-        for (PMTOwnerRule__mdt record : [SELECT Team__r.MasterLabel, Field__c, Values__c, OwnerFederationId__c FROM PMTOwnerRule__mdt ORDER BY DeveloperName]) {
-            ownerRules.add(new OwnerRule(record.Team__r.MasterLabel, record.Field__c, lines(record.Values__c), record.OwnerFederationId__c));
+        for (PMTOwnerRule__mdt record : [SELECT DeveloperName, Team__r.MasterLabel, Condition__c, OwnerFederationId__c
+                                         FROM PMTOwnerRule__mdt ORDER BY DeveloperName]) {
+            ownerRules.add(new OwnerRule(record.Team__r.MasterLabel, compileCondition(PMTOwnerRule__mdt.SObjectType, record.DeveloperName, record.Condition__c), record.OwnerFederationId__c));
         }
 
-        instance = new PMTMatrix(stages, teams, rules, ownerRules);
+        instance = new PMTMatrix(stages, teams, lines, ownerRules);
         return instance;
     }
 
-    // Keeps the rules of the given teams, sorted by stage then team order (same order as the former ORDER BY Order__c, OrderTeam__c).
-    private PMTMatrix(List<Stage> stages, List<Team> teams, List<FieldRule> rules, List<OwnerRule> ownerRules) {
+    // Entry point of the PMT screens' Apex controllers (LWCs): the matrix, or its configuration error as an AuraHandledException the LWC can show.
+    public static PMTMatrix getForScreen() {
+        try {
+            return get();
+        }
+        catch (PMTCondition.PMTConditionException e) {
+            AuraHandledException auraException = new AuraHandledException(e.getMessage());
+            auraException.setMessage(e.getMessage());
+            throw auraException;
+        }
+    }
+
+    // US-20194: a condition that doesn't compile stops the PMT, so its error names the record to fix (custom label PMT_InvalidCondition).
+    @TestVisible
+    private static PMTCondition compileCondition(Schema.SObjectType recordType, String developerName, String text) {
+        try {
+            return PMTCondition.compile(text);
+        }
+        catch (PMTCondition.PMTConditionException e) {
+            throw new PMTCondition.PMTConditionException(String.format(System.Label.PMT_InvalidCondition, new List<Object>{ recordType.getDescribe().getLabel(), developerName, e.getMessage() }));
+        }
+    }
+
+    // Keeps the lines of the given teams, grouped in rules sorted by stage then team order (same order as the former ORDER BY Order__c, OrderTeam__c).
+    @TestVisible
+    private PMTMatrix(List<Stage> stages, List<Team> teams, List<Line> lines, List<OwnerRule> ownerRules) {
         this.stages = stages;
         this.teams = teams;
         this.ownerRules = ownerRules;
 
+        Set<String> teamNames = new Set<String>();
+        for (Team team : teams) teamNames.add(team.name);
+
         Map<String, FieldRule> allRulesByKey = new Map<String, FieldRule>();
-        for (FieldRule rule : rules) {
-            String key = rule.team + '|' + rule.stage;
-            allRulesByKey.put(key, allRulesByKey.containsKey(key) ? allRulesByKey.get(key).mergedWith(rule) : rule);
+        for (Line line : lines) {
+            if (!teamNames.contains(line.team)) continue;
+            this.lines.add(line);
+            String key = line.team + '|' + line.stage;
+            if (!allRulesByKey.containsKey(key)) allRulesByKey.put(key, new FieldRule(line.team, line.stage, null, null, null, null));
+            allRulesByKey.get(key).add(line);
         }
 
         this.rules = new List<FieldRule>();
@@ -86,9 +137,66 @@ public without sharing class PMTMatrix {
             for (Team team : teams) {
                 if (String.isBlank(team.scope) || team.scope == scope) scopedTeams.add(team);
             }
-            matrixByScope.put(scope, new PMTMatrix(stages, scopedTeams, rules, ownerRules));
+            matrixByScope.put(scope, new PMTMatrix(stages, scopedTeams, lines, ownerRules));
         }
         return matrixByScope.get(scope);
+    }
+
+    // Matrix of a project: the teams of its Scope, without the lines whose condition is false for the project (forConditions). The project must hold Scope__c and the fields read by the conditions (getConditionFields()): a Trigger.new record or loadProjects().
+    public static PMTMatrix forProject(ProjectProduct__c project) {
+        return get().forScope(ProjectProductSetupHandlerUtilities.normalizeScope(project.Scope__c)).forConditions(project);
+    }
+
+    public static PMTMatrix forProjectId(Id projectId) {
+        ProjectProduct__c project = loadProjects(new Set<Id>{ projectId }).get(projectId);
+        return project != null ? forProject(project) : get();
+    }
+
+    // This matrix without the lines whose condition is false for the project. A line whose condition reads a share class field is kept (it may apply to one of the project's share classes, see forShareClass).
+    public PMTMatrix forConditions(ProjectProduct__c project) {
+        return filter(project, null);
+    }
+
+    // Projects with their Scope and the fields read by the conditions, and their share classes (for forShareClass): one query.
+    public static Map<Id, ProjectProduct__c> loadProjects(Set<Id> projectIds) {
+        PMTMatrix matrix = get();
+        Set<Id> ids = new Set<Id>(projectIds);
+        ids.remove(null);
+        if (ids.isEmpty()) return new Map<Id, ProjectProduct__c>();
+
+        List<ProjectProduct__c> projects = PMTCondition.queryProjects(ids, matrix.getConditionFields(), matrix.getShareClassConditionFields());
+        Map<Id, ProjectProduct__c> projectById = new Map<Id, ProjectProduct__c>(projects);
+        loadedProjectById.putAll(projectById);
+        for (ProjectProduct__c project : projectById.values()) {
+            for (ProjectShareclass__c shareClass : project.ProjectShareclasses__r) loadedShareClassById.put(shareClass.Id, shareClass);
+        }
+        return projectById;
+    }
+
+    // Matrix of one share class of a project matrix: also without the lines whose share class condition is false for it. Its project must have been read by loadProjects(); otherwise (e.g. a share class created in the same transaction) the matrix is unchanged.
+    public PMTMatrix forShareClass(Id shareClassId) {
+        ProjectShareclass__c shareClass = loadedShareClassById.get(shareClassId);
+        if (shareClass == null) return this;
+        return filter(loadedProjectById.get(shareClass.ProjectProduct__c), shareClass);
+    }
+
+    // Project level (shareClass null): evaluates the conditions that read only the project. Share class level: evaluates the conditions that read the share class. Matrices are cached by condition results, so the projects (or share classes) answering the same share one matrix.
+    private PMTMatrix filter(ProjectProduct__c project, ProjectShareclass__c shareClass) {
+        Boolean shareClassLevel = shareClass != null;
+        List<Line> applicableLines = new List<Line>();
+        String conditionResults = shareClassLevel ? 'S' : 'P';
+        for (Line line : lines) {
+            if (line.condition == null || line.condition.readsShareClass() != shareClassLevel) {
+                applicableLines.add(line);
+                continue;
+            }
+            Boolean applies = line.condition.evaluate(project, shareClass);
+            conditionResults += applies ? '1' : '0';
+            if (applies) applicableLines.add(line);
+        }
+
+        if (!matrixByConditionResults.containsKey(conditionResults)) matrixByConditionResults.put(conditionResults, new PMTMatrix(stages, teams, applicableLines, ownerRules));
+        return matrixByConditionResults.get(conditionResults);
     }
 
     public Stage getStage(String name) {
@@ -127,17 +235,17 @@ public without sharing class PMTMatrix {
         return rule != null ? rule : new FieldRule(teamName, stageName, null, null, null, null);
     }
 
-    // Owning team of each field (last rule wins). Fund lists win over Share Class lists for a field present in both.
+    // Owning team of each field (last rule wins). Fund fields win over Share Class fields of the same name.
     public Map<String, String> getTeamByField() {
         return getFieldMap(true);
     }
 
-    // Stage of each field (last rule wins). Fund lists win over Share Class lists for a field present in both.
+    // Stage of each field (last rule wins). Fund fields win over Share Class fields of the same name.
     public Map<String, String> getStageByField() {
         return getFieldMap(false);
     }
 
-    // Stage of each field owned by one team (last stage wins).
+    // Stage of each field used by one team (last stage wins).
     public Map<String, String> getStageByField(String teamName) {
         Map<String, String> stageByField = new Map<String, String>();
         for (FieldRule rule : rules) {
@@ -186,10 +294,30 @@ public without sharing class PMTMatrix {
         return teamsByStage;
     }
 
+    // ProjectProduct__c fields read by the conditions of the lines and owner rules: a project passed to forProject() must hold them, and a change of one of them changes the project's matrix.
+    public Set<String> getConditionFields() {
+        Set<String> fields = getOwnerRuleFields();
+        for (Line line : lines) {
+            if (line.condition != null) fields.addAll(line.condition.projectFields);
+        }
+        return fields;
+    }
+
+    // ProjectShareclass__c fields read by the conditions of the lines.
+    public Set<String> getShareClassConditionFields() {
+        Set<String> fields = new Set<String>();
+        for (Line line : lines) {
+            if (line.condition != null) fields.addAll(line.condition.shareClassFields);
+        }
+        return fields;
+    }
+
     // ProjectProduct__c fields read by the owner rules (to reapply them when one changes).
     public Set<String> getOwnerRuleFields() {
         Set<String> fields = new Set<String>();
-        for (OwnerRule rule : ownerRules) fields.add(rule.field);
+        for (OwnerRule rule : ownerRules) {
+            if (rule.condition != null) fields.addAll(rule.condition.projectFields);
+        }
         return fields;
     }
 
@@ -197,13 +325,12 @@ public without sharing class PMTMatrix {
     public Set<String> getOwnerRuleFields(String teamName) {
         Set<String> fields = new Set<String>();
         for (OwnerRule rule : ownerRules) {
-            if (rule.team == teamName) fields.add(rule.field);
+            if (rule.team == teamName && rule.condition != null) fields.addAll(rule.condition.projectFields);
         }
         return fields;
     }
 
-    // Owner of each team of this matrix for a project: the team's default owner, then the owner rules.
-    // The project must hold the fields read by the owner rules (getOwnerRuleFields()).
+    // Owner of each team of this matrix for a project: the team's default owner, then the owner rules. The project must hold the fields read by the owner rules (getOwnerRuleFields()).
     public Map<String, Id> getOwnerIdByTeam(ProjectProduct__c project) {
         Map<String, Id> userIds = getUserIdByFederationId();
         Map<String, Id> ownerIdByTeam = new Map<String, Id>();
@@ -225,21 +352,12 @@ public without sharing class PMTMatrix {
         return ownerIdByTeam;
     }
 
-    // Rule whose values contain the project's value, otherwise the team's fallback rule (empty values). Null when the field is empty.
+    // First rule of the team (DeveloperName order) whose condition is true for the project; an empty condition always applies. Null when none applies.
     private OwnerRule getOwnerRule(String teamName, ProjectProduct__c project) {
-        OwnerRule fallback;
         for (OwnerRule rule : ownerRules) {
-            if (rule.team != teamName) continue;
-            String value = String.valueOf(project.get(rule.field));
-            if (String.isBlank(value)) continue;
-            if (rule.values.isEmpty()) {
-                if (fallback == null) fallback = rule;
-            }
-            else if (rule.values.contains(value)) {
-                return rule;
-            }
+            if (rule.team == teamName && (rule.condition == null || rule.condition.evaluate(project, null))) return rule;
         }
-        return fallback;
+        return null;
     }
 
     // Active users of every configured owner, by lowercase FederationIdentifier (one SOQL per transaction).
@@ -274,48 +392,6 @@ public without sharing class PMTMatrix {
         return shareClassMap;
     }
 
-    // One value per line: trimmed, blanks and duplicates removed.
-    private static List<String> lines(String raw) {
-        List<String> values = new List<String>();
-        if (String.isBlank(raw)) return values;
-        for (String line : raw.split('\\r?\\n')) {
-            String value = line.trim();
-            if (String.isNotBlank(value) && !values.contains(value)) values.add(value);
-        }
-        return values;
-    }
-
-    // Test only: adds a rule, like inserting a settings row did (merged with an existing rule of the same team and stage).
-    @TestVisible
-    private static void addRuleForTest(String stageName, String teamName, List<String> requiredFund, List<String> requiredShareClass) {
-        PMTMatrix matrix = get();
-        List<Stage> stages = new List<Stage>(matrix.stages);
-        List<Team> teams = new List<Team>(matrix.teams);
-        if (matrix.getStage(stageName) == null) stages.add(new Stage(stageName, stages.size() + 1, null));
-        if (matrix.getTeam(teamName) == null) teams.add(new Team(teamName, teams.size() + 1, true, null, null));
-
-        List<FieldRule> rules = new List<FieldRule>(matrix.rules);
-        rules.add(new FieldRule(teamName, stageName, requiredFund, null, requiredShareClass, null));
-        instance = new PMTMatrix(stages, teams, rules, matrix.ownerRules);
-    }
-
-    // Test only: adds an owner rule.
-    @TestVisible
-    private static void addOwnerRuleForTest(String teamName, String field, List<String> values, String ownerFederationId) {
-        PMTMatrix matrix = get();
-        List<OwnerRule> ownerRules = new List<OwnerRule>(matrix.ownerRules);
-        ownerRules.add(new OwnerRule(teamName, field, values, ownerFederationId));
-        instance = new PMTMatrix(matrix.stages, matrix.teams, matrix.rules, ownerRules);
-        userIdByFederationId = null;
-    }
-
-    // Test only: empty matrix (no stage, team or rule).
-    @TestVisible
-    private static void clearForTest() {
-        instance = new PMTMatrix(new List<Stage>(), new List<Team>(), new List<FieldRule>(), new List<OwnerRule>());
-        userIdByFederationId = null;
-    }
-
     public class Stage {
         public String name { get; private set; }
         public Integer sortOrder { get; private set; }
@@ -347,6 +423,7 @@ public without sharing class PMTMatrix {
         }
     }
 
+    // Fields of a team at a stage, built from its applicable lines.
     public class FieldRule {
         public String team { get; private set; }
         public String stage { get; private set; }
@@ -386,30 +463,43 @@ public without sharing class PMTMatrix {
             return getAllFields().isEmpty();
         }
 
-        private FieldRule mergedWith(FieldRule other) {
-            return new FieldRule(team, stage, union(requiredFund, other.requiredFund), union(optionalFund, other.optionalFund),
-                                 union(requiredShareClass, other.requiredShareClass), union(optionalShareClass, other.optionalShareClass));
-        }
-
-        private List<String> union(List<String> first, List<String> second) {
-            List<String> values = new List<String>(first);
-            for (String value : second) {
-                if (!values.contains(value)) values.add(value);
-            }
-            return values;
+        private void add(Line line) {
+            List<String> fields = line.fund ? (line.required ? requiredFund : optionalFund) : (line.required ? requiredShareClass : optionalShareClass);
+            if (!fields.contains(line.field)) fields.add(line.field);
         }
     }
 
+    // One PMTFieldRuleLine__mdt record: a field (Fund or Share Class level) used by a team at a stage.
+    @TestVisible
+    private class Line {
+        private String team;
+        private String stage;
+        private Boolean fund;
+        private String field;
+        private Boolean required;
+        private PMTCondition condition;
+
+        @TestVisible
+        private Line(String team, String stage, Boolean fund, String field, Boolean required, PMTCondition condition) {
+            this.team = team;
+            this.stage = stage;
+            this.fund = fund;
+            this.field = field;
+            this.required = required;
+            this.condition = condition;
+        }
+    }
+
+    @TestVisible
     private class OwnerRule {
         private String team;
-        private String field;
-        private List<String> values;
+        private PMTCondition condition;
         private String ownerFederationId;
 
-        private OwnerRule(String team, String field, List<String> values, String ownerFederationId) {
+        @TestVisible
+        private OwnerRule(String team, PMTCondition condition, String ownerFederationId) {
             this.team = team;
-            this.field = field;
-            this.values = values != null ? values : new List<String>();
+            this.condition = condition;
             this.ownerFederationId = ownerFederationId;
         }
     }

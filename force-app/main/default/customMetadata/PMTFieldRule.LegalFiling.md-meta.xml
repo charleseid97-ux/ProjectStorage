@@ -3,22 +3,6 @@
     <label>Legal - Filing</label>
     <protected>false</protected>
     <values>
-        <field>OptionalFieldsFund__c</field>
-        <value xsi:type="xsd:string">RegisteredShareLocation__c</value>
-    </values>
-    <values>
-        <field>OptionalFieldsShareClass__c</field>
-        <value xsi:type="xsd:string">IsUSEligible__c</value>
-    </values>
-    <values>
-        <field>RequiredFieldsFund__c</field>
-        <value xsi:nil="true"/>
-    </values>
-    <values>
-        <field>RequiredFieldsShareClass__c</field>
-        <value xsi:type="xsd:string">ISIN__c</value>
-    </values>
-    <values>
         <field>Stage__c</field>
         <value xsi:type="xsd:string">Filing</value>
     </values>

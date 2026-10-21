@@ -2,9 +2,10 @@
  * @description Tests of the ProjectShareclass__c and ProjectShareclassChild__c triggers: share class names, the 4 Project Shareclass Children of a share class, the selection
  *                  of fields to modify on a modification project (teams left to validate on the project phases, fields goal of the children, selected fields blanked
  *                  on the children and copied back to the share class), and the Tax Transparency requests (TaxData__c created then canceled, Tax team email).
- * @covers ProjectShareclassHandler   99%   [19-10-26]
- * @covers ProjectShareclassChildHandler   92%   [19-10-26]
- * @lastModifiedBy Charles EID   [19-10-26]
+ *              US-20194: a field selected on the project first stays to validate when a share class field is selected afterwards.
+ * @covers ProjectShareclassHandler   99%   [21-10-26]
+ * @covers ProjectShareclassChildHandler   93%   [21-10-26]
+ * @lastModifiedBy Charles EID   [21-10-26]
  ────────────────────────────────────── */
 @isTest
 public class Test_ProjectShareclassTrigger {
@@ -43,19 +44,24 @@ public class Test_ProjectShareclassTrigger {
         };
         List<String> expectedNames = new List<String>{ 'A EUR Acc Hdg', 'B USD Inc', 'I GBP Acc', 'F CHF Mdis Hdg', 'X JPY Qinc', 'MyInvestor' };
 
+        // Share class created from the project screen (linked to every phase), then a Fund field selected on the project: NAVFrequency__c (Proposal)
+        ShareclassNavigatorController.createAndLinkShareclass(phaseIdByName.get('Engineering'), 'A', 'EUR', 'Accumulating', 'Annually', 'False');
+        update new ProjectProduct__c(Id = modificationId, TECH_FieldsToModify__c = 'NAVFrequency__c');
+
         Test.startTest();
 
         insert namedShareclasses;
 
-        // Share class created from the project screen (linked to every phase), then 2 fields selected for modification: DividendFrequency__c (Engineering) and LegalType__c (Proposal)
-        ShareclassNavigatorController.createAndLinkShareclass(phaseIdByName.get('Engineering'), 'A', 'EUR', 'Accumulating', 'Annually', 'False');
+        // Then 2 share class fields selected for modification: DividendFrequency__c (Engineering) and LegalType__c (Proposal)
         ProjectShareclass__c modifiedShareclass = [SELECT Id FROM ProjectShareclass__c WHERE ProjectProduct__c = :modificationId LIMIT 1];
         modifiedShareclass.TECH_FieldsToModify__c = 'DividendFrequency__c;LegalType__c';
         update modifiedShareclass;
 
         Test.stopTest();
 
-        Map<Id, ProjectShareclass__c> savedById = new Map<Id, ProjectShareclass__c>([SELECT Name__c FROM ProjectShareclass__c WHERE Id IN :namedShareclasses]);
+        Map<Id, ProjectShareclass__c> savedById = new Map<Id, ProjectShareclass__c>([SELECT Name__c
+                                                                                     FROM ProjectShareclass__c
+                                                                                     WHERE Id IN :namedShareclasses]);
         for (Integer i = 0; i < namedShareclasses.size(); i++) {
             System.assertEquals(expectedNames[i], savedById.get(namedShareclasses[i].Id).Name__c);
         }
@@ -67,19 +73,27 @@ public class Test_ProjectShareclassTrigger {
         System.assertEquals(new Set<String>{ 'Design & Proposal', 'Engineering', 'Filing', 'SetUp' }, childNames, 'One Project Shareclass Child per stage, Design and Proposal sharing one');
 
         // Teams left to validate: the team owning each selected field, on the phase of its stage only
-        String scope = ProjectProductSetupHandlerUtilities.normalizeScope([SELECT Scope__c FROM ProjectProduct__c WHERE Id = :modificationId].Scope__c);
+        String scope = ProjectProductSetupHandlerUtilities.normalizeScope([SELECT Scope__c
+                                                                           FROM ProjectProduct__c
+                                                                           WHERE Id = :modificationId].Scope__c);
         Map<String, String> teamByField = PMTMatrix.get().forScope(scope).getTeamByField();
         Map<String, Set<String>> teamsByPhase = new Map<String, Set<String>>();
-        for (ProjectProductChild__c phase : [SELECT Name, TECH_TeamValidation__c FROM ProjectProductChild__c WHERE ProjectProductParent__c = :modificationId]) {
+        for (ProjectProductChild__c phase : [SELECT Name, TECH_TeamValidation__c
+                                             FROM ProjectProductChild__c
+                                             WHERE ProjectProductParent__c = :modificationId]) {
             teamsByPhase.put(phase.Name, ProjectProductSetupHandlerUtilities.splitMultiPicklist(phase.TECH_TeamValidation__c));
         }
         System.assert(!teamsByPhase.get('Engineering').contains(teamByField.get('DividendFrequency__c').replaceAll(' ', '')), 'The team owning DividendFrequency__c validates Engineering again');
         System.assert(!teamsByPhase.get('Proposal').contains(teamByField.get('LegalType__c').replaceAll(' ', '')), 'The team owning LegalType__c validates Proposal again');
+        System.assertEquals('Proposal', PMTMatrix.get().forScope(scope).getStageByField().get('NAVFrequency__c'), 'NAVFrequency__c is a Proposal field');
+        System.assert(!teamsByPhase.get('Proposal').contains(teamByField.get('NAVFrequency__c').replaceAll(' ', '')), 'US-20194: the project field selected first still has to be validated after the share class save');
         System.assertEquals(PMTMatrix.get().getValidationTeamKeys(), teamsByPhase.get('Filing'), 'No selected field at Filing: every team stays validated');
 
         // Fields goal of the children: the selected fields required at their stage
         Map<String, List<String>> requiredByStage = PMTMatrix.get().getRequiredFieldsByStage(false);
-        for (ProjectShareclassChild__c child : [SELECT TECH_Childtype__c, NbOfFieldsGoal__c FROM ProjectShareclassChild__c WHERE ProjectShareclasses__c = :modifiedShareclass.Id]) {
+        for (ProjectShareclassChild__c child : [SELECT TECH_Childtype__c, NbOfFieldsGoal__c
+                                                FROM ProjectShareclassChild__c
+                                                WHERE ProjectShareclasses__c = :modifiedShareclass.Id]) {
             String stage = child.TECH_Childtype__c == 'DesignAndProposal' ? 'Proposal' : child.TECH_Childtype__c;
             Set<String> selected = new Set<String>{ 'DividendFrequency__c', 'LegalType__c' };
             selected.retainAll(new Set<String>(requiredByStage.get(stage)));
@@ -101,7 +115,9 @@ public class Test_ProjectShareclassTrigger {
         shareclass.TaxTransparency__c = 'AT;BE TIS';
         update shareclass;
         Integer emailInvocations = Limits.getEmailInvocations();
-        List<TaxData__c> createdTaxData = [SELECT Country__c, Type__c, Status__c, Source__c, ProjectProduct__c FROM TaxData__c WHERE ProjectShareclass__c = :shareclass.Id];
+        List<TaxData__c> createdTaxData = [SELECT Country__c, Type__c, Status__c, Source__c, ProjectProduct__c
+                                           FROM TaxData__c
+                                           WHERE ProjectShareclass__c = :shareclass.Id];
 
         // AT removed: its TaxData__c is canceled
         shareclass.TaxTransparency__c = 'BE TIS';
@@ -116,10 +132,16 @@ public class Test_ProjectShareclassTrigger {
             System.assertEquals('PMT', td.Source__c);
         }
         System.assertEquals(new Set<String>{ 'AT|Transparency|Requested', 'BE|BE TIS|Requested' }, keys);
-        System.assertEquals('Canceled', [SELECT Status__c FROM TaxData__c WHERE ProjectShareclass__c = :shareclass.Id AND Country__c = 'AT' LIMIT 1].Status__c);
-        System.assertEquals('Requested', [SELECT Status__c FROM TaxData__c WHERE ProjectShareclass__c = :shareclass.Id AND Country__c = 'BE' LIMIT 1].Status__c);
+        System.assertEquals('Canceled', [SELECT Status__c
+                                         FROM TaxData__c
+                                         WHERE ProjectShareclass__c = :shareclass.Id AND Country__c = 'AT' LIMIT 1].Status__c);
+        System.assertEquals('Requested', [SELECT Status__c
+                                          FROM TaxData__c
+                                          WHERE ProjectShareclass__c = :shareclass.Id AND Country__c = 'BE' LIMIT 1].Status__c);
 
-        Integer activeConfigCount = [SELECT COUNT() FROM TaxEmailConfiguration__mdt WHERE Country__c = 'ALL' AND Scenario__c = 'InternalTaxTransparencyNotification' AND IsActive__c = true];
+        Integer activeConfigCount = [SELECT COUNT()
+                                     FROM TaxEmailConfiguration__mdt
+                                     WHERE Country__c = 'ALL' AND Scenario__c = 'InternalTaxTransparencyNotification' AND IsActive__c = true];
         if (activeConfigCount > 0) System.assert(emailInvocations > 0, 'The Tax team is notified of the new requests');
     }
 
