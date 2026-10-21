@@ -1,5 +1,5 @@
 /**
- * @description Product Catalog controller with a combined Share Class / Product search.
+ * @description Product Catalog controller with a combined Share Class / Product search and IS Products mode.
  * @testClass ReferentialProductHomepageCtrlTest
  */
 public class ReferentialProductHomepageCtrl {
@@ -8,17 +8,17 @@ public class ReferentialProductHomepageCtrl {
 
     private static final List<String> ACTIVE_SHARE_CLASS_STATUSES = new List<String>{'Active', 'Active - Lab'};
 
-    // Retrieve all Share Class and Product fields used by the existing hierarchy helper.
+    // Retrieve the Share Class and parent Product fields used by the UAT hierarchy helper.
     private static final String SHARE_CLASS_SELECT = 'SELECT Id, Name, Fund__c, Status__c, ISIN__c, Primary_Portfolio_Share_Class__c, ' +
-                                                     'Fund__r.Id, Fund__r.Name, Fund__r.Record_Type_Name__c, Fund__r.RecordTypeId, ' +
-                                                     'Fund__r.LaunchDate__c, Fund__r.FundStrategy__c, Fund__r.AssetClass__c, Fund__r.Validity__c ' +
-                                                     'FROM Share_Class__c WHERE ';
+                                                     'Fund__r.Id, Fund__r.Name, Fund__r.ProductName__c, Fund__r.RecordTypeId, ' +
+                                                     'Fund__r.LaunchDate__c, Fund__r.FundStrategy__c, Fund__r.AssetClass__c, ' +
+                                                     'Fund__r.Validity__c, Fund__r.VehicleType__c FROM Share_Class__c WHERE ';
     private static final String SHARE_CLASS_ORDER = ' ORDER BY Primary_Portfolio_Share_Class__c desc';
 
     @AuraEnabled
     public static String getAllProducts(Boolean showSRI, Boolean showRF, Boolean showAC, String country, String assetClass, String SCType, String dividendPolicy,
-                                        String legalForm, String fundType, String selectedCurrency, String searchKey, Boolean isActiveProducts, String sfdr) {
-        CatalogFilters filters = new CatalogFilters(country, assetClass, SCType, dividendPolicy, legalForm, fundType, selectedCurrency, searchKey, isActiveProducts, sfdr);
+                                        String legalForm, String fundType, String selectedCurrency, String searchKey, Boolean isActiveProducts, Boolean isISProducts, String sfdr) {
+        CatalogFilters filters = new CatalogFilters(country, assetClass, SCType, dividendPolicy, legalForm, fundType, selectedCurrency, searchKey, isActiveProducts, isISProducts, sfdr);
         List<Share_Class__c> sharesList = queryShareClasses(filters);
         if (sharesList.isEmpty()) return null;
 
@@ -36,14 +36,18 @@ public class ReferentialProductHomepageCtrl {
         insert log;
     }
 
-    // Apply Share Class filters, Product filters and the combined search in one query.
+    // Query Share Classes and their parent Products, applying the selected Product scope.
     private static List<Share_Class__c> queryShareClasses(CatalogFilters filters) {
-        Map<String, Object> binds = new Map<String, Object>{'fundRecordTypeId' => fundRecordTypeId};
+        Map<String, Object> binds = new Map<String, Object>();
         String query = SHARE_CLASS_SELECT + shareClassFilterClause(filters, binds);
-        query += ' AND Fund__c != null';
-        query += ' AND Fund__r.Tech_NotDisplayedProductCatalog__c = false';
-        query += ' AND Fund__r.RecordTypeId = :fundRecordTypeId';
-        query += ' AND Fund__r.VehicleType__c = \'Funds\'';
+        query += ' AND Fund__c != null AND Fund__r.Tech_NotDisplayedProductCatalog__c = false';
+
+        if (filters.isIS) {
+            query += ' AND Fund__r.Scope__c = \'IS\'';
+        } else {
+            query += ' AND Fund__r.Scope__c != \'IS\' AND Fund__r.RecordTypeId = :fundRecordTypeId AND Fund__r.VehicleType__c = \'Funds\'';
+            binds.put('fundRecordTypeId', fundRecordTypeId);
+        }
         query = appendEquals(query, binds, 'Fund__r.FundStrategy__r.AssetClass__c', 'assetClass', filters.assetClass);
         query = appendEquals(query, binds, 'Fund__r.LegalForm__c', 'legalForm', filters.legalForm);
         query = appendEquals(query, binds, 'Fund__r.VehicleType__c', 'fundType', filters.fundType);
@@ -56,7 +60,7 @@ public class ReferentialProductHomepageCtrl {
         return (List<Share_Class__c>) Database.queryWithBinds(query + SHARE_CLASS_ORDER, binds, AccessLevel.SYSTEM_MODE);
     }
 
-    // Keep the existing Share Class status, currency, type, dividend and country filters.
+    // Preserve the Share Class status, currency, type, dividend and country filters.
     private static String shareClassFilterClause(CatalogFilters filters, Map<String, Object> binds) {
         binds.put('activeStatuses', ACTIVE_SHARE_CLASS_STATUSES);
         String clause = filters.isActive ? 'Status__c IN :activeStatuses' : 'Status__c NOT IN :activeStatuses';
@@ -71,7 +75,7 @@ public class ReferentialProductHomepageCtrl {
         return clause;
     }
 
-    // Every search checks the ISIN and all three Product fields, without classifying the input.
+    // Search the ISIN and Product fields together, without classifying the input.
     private static String searchClause() {
         return 'ISIN__c LIKE :searchLike OR Fund__r.InternalShortName__c LIKE :searchLike ' +
                'OR Fund__r.ProductName__c LIKE :searchLike OR Fund__r.Name LIKE :searchLike';
@@ -83,7 +87,7 @@ public class ReferentialProductHomepageCtrl {
         return query + ' AND ' + field + ' = :' + bindName;
     }
 
-    // Reuse the queried parent records instead of querying Product__c separately.
+    // Both modes reuse the queried parent records instead of querying Product__c separately.
     private static List<Product__c> fundsOf(List<Share_Class__c> sharesList) {
         Map<Id, Product__c> fundsById = new Map<Id, Product__c>();
         for (Share_Class__c share : sharesList) {
@@ -106,7 +110,7 @@ public class ReferentialProductHomepageCtrl {
                 ORDER BY Name ASC];
     }
 
-    // Preserve the existing flat Product view or grouped Strategy view.
+    // IS mode groups by Vehicle Type; standard mode keeps the flat Product or grouped Strategy view.
     private static ItemDTO buildCatalog(CatalogFilters filters, List<Product__c> filteredFunds, List<Share_Class__c> sharesList) {
         Map<Id, List<Share_Class__c>> fundToSharesMap = ProductHierarchyHelper.setFundToSharesMap(sharesList);
 
@@ -123,6 +127,36 @@ public class ReferentialProductHomepageCtrl {
         return new ItemDTO('All Strategies', null, null, null, null, null, false, true, true, true, strategyItems);
     }
 
+    // Preserve the UAT Vehicle Type grouping, ProductName labels and collapsed Product nodes.
+    private static ItemDTO buildISProductHierarchy(List<Product__c> products, Map<Id, List<Share_Class__c>> fundToSharesMap) {
+        Map<String, List<Product__c>> vehicleTypeToProducts = new Map<String, List<Product__c>>();
+
+        for (Product__c product : products) {
+            String vehicleType = String.isBlank(product.VehicleType__c) ? 'Other' : product.VehicleType__c;
+
+            if (!vehicleTypeToProducts.containsKey(vehicleType)) {
+                vehicleTypeToProducts.put(vehicleType, new List<Product__c>());
+            }
+            vehicleTypeToProducts.get(vehicleType).add(product);
+        }
+
+        List<String> vehicleTypes = new List<String>(vehicleTypeToProducts.keySet());
+        vehicleTypes.sort();
+
+        List<ItemDTO> vehicleTypeItems = new List<ItemDTO>();
+        for (String vehicleType : vehicleTypes) {
+            List<Product__c> vehicleProducts = vehicleTypeToProducts.get(vehicleType);
+            List<ItemDTO> productItems = ProductHierarchyHelper.getFundsItemsWithSharesReferential(vehicleProducts, fundToSharesMap, false);
+
+            for (Integer i = 0; i < productItems.size(); i++) {
+                if (String.isNotBlank(vehicleProducts[i].ProductName__c)) productItems[i].label = vehicleProducts[i].ProductName__c;
+            }
+            vehicleTypeItems.add(new ItemDTO(vehicleType, null, null, null, null, null, false, true, true, true, productItems));
+        }
+
+        return new ItemDTO('IS Products', null, null, null, null, null, false, true, true, true, vehicleTypeItems);
+    }
+
     private class CatalogFilters {
         public String country;
         public String assetClass;
@@ -134,9 +168,10 @@ public class ReferentialProductHomepageCtrl {
         public String searchKey;
         public String sfdr;
         public Boolean isActive;
+        public Boolean isIS;
 
         public CatalogFilters(String country, String assetClass, String SCType, String dividendPolicy, String legalForm, String fundType,
-                              String selectedCurrency, String searchKey, Boolean isActiveProducts, String sfdr) {
+                              String selectedCurrency, String searchKey, Boolean isActiveProducts, Boolean isISProducts, String sfdr) {
             this.country = country;
             this.assetClass = assetClass;
             this.scType = SCType;
@@ -146,6 +181,7 @@ public class ReferentialProductHomepageCtrl {
             this.selectedCurrency = selectedCurrency;
             this.sfdr = sfdr;
             this.isActive = isActiveProducts == true;
+            this.isIS = isISProducts == true;
             this.searchKey = String.isBlank(searchKey) ? null : searchKey.trim();
         }
 
