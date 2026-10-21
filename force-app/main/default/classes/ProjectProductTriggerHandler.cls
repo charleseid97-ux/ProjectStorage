@@ -2,9 +2,10 @@
  * @description Trigger handler of ProjectProduct__c (ProjectProductTrigger): dispatches the before/after insert and
  *                  update logic to ProjectProductSetupHandler and ProjectProductSetupHandlerUtilities.
  *              Before update, the PMT owner rules are reapplied (applyOwnerRules, FIX-20178 - replaces updateLegalOwner).
- * @lastModifiedBy Charles EID   [09-10-26]
+ *              After update, a change of a field read by the PMT conditions realigns the phases (resyncConditionalValues, US-20194).
+ * @lastModifiedBy Charles EID   [21-10-26]
  * @testClass Test_ProjectProductTrigger
- * @coverage 100%   [09-10-26]
+ * @coverage 100%   [21-10-26]
  ────────────────────────────────────── */
 public class ProjectProductTriggerHandler {
     public static Boolean isBlankingFields = false;
@@ -12,13 +13,12 @@ public class ProjectProductTriggerHandler {
     public static void handleBeforeInsert(List<ProjectProduct__c> newProjectProduct) {
         ProjectProductSetupHandler.cloneFund(newProjectProduct);
         new ProjectProductSetupHandler().getOwnersTeam(newProjectProduct);
-        
     }
-    
+
     public static void handleBeforeUpdate(Map<Id, ProjectProduct__c> newProjectProduct, Map<Id, ProjectProduct__c> oldProjectProduct) {
-        new ProjectProductSetupHandler().updateProjectProductStatus(newProjectProduct , oldProjectProduct);
+        new ProjectProductSetupHandler().updateProjectProductStatus(newProjectProduct, oldProjectProduct);
         ProjectProductSetupHandler.applyOwnerRules(newProjectProduct, oldProjectProduct);
-        new ProjectProductSetupHandler().updateProjectProductName(newProjectProduct , oldProjectProduct);
+        new ProjectProductSetupHandler().updateProjectProductName(newProjectProduct, oldProjectProduct);
     }
 
     public static void handleAfterInsert(Map<Id, ProjectProduct__c> l_project) {
@@ -29,27 +29,27 @@ public class ProjectProductTriggerHandler {
     }
 
     public static void handleAfterUpdate(Map<Id, ProjectProduct__c> newProjectProduct, Map<Id, ProjectProduct__c> oldProjectProduct) {
-        
         Map<Id, ProjectProduct__c> cleanednewProjectProduct = newProjectProduct;
         Map<Id, ProjectProduct__c> recalNbOfFields = new Map<Id, ProjectProduct__c>();
-            
-        if(ProjectProductChildTriggerHandler.isBlankingFields) return;
 
-        for(String projectId : newProjectProduct.keySet()) {
-            if(newProjectProduct.get(projectId).TECH_FieldsToModify__c != oldProjectProduct.get(projectId).TECH_FieldsToModify__c) {
-                recalNbOfFields.put(projectId, newProjectProduct.get(projectId));
-            }
+        // US-20194: before the return below, the condition fields are usually filled on a phase and copied to the project
+        ProjectProductSetupHandler.resyncConditionalValues(newProjectProduct, oldProjectProduct);
+
+        if (ProjectProductChildTriggerHandler.isBlankingFields) return;
+
+        for (String projectId : newProjectProduct.keySet()) {
+            if (newProjectProduct.get(projectId).TECH_FieldsToModify__c != oldProjectProduct.get(projectId).TECH_FieldsToModify__c) recalNbOfFields.put(projectId, newProjectProduct.get(projectId));
         }
-        
-        if(!recalNbOfFields.isEmpty()){
+
+        if (!recalNbOfFields.isEmpty()) {
             ProjectProductSetupHandler.nbOfFieldsGoal(recalNbOfFields);
             isBlankingFields = true;
-            ProjectProductSetupHandlerUtilities.validateSteps(recalNbOfFields , oldProjectProduct);            
-            ProjectProductSetupHandlerUtilities.emptyFields(recalNbOfFields , oldProjectProduct);
+            ProjectProductSetupHandlerUtilities.validateSteps(recalNbOfFields, oldProjectProduct);
+            ProjectProductSetupHandlerUtilities.emptyFields(recalNbOfFields, oldProjectProduct);
             isBlankingFields = false;
         }
 
         new ProjectProductSetupHandler().createGroupChatterForProject(cleanednewProjectProduct.values(), oldProjectProduct);
-        ProjectProductSetupHandlerUtilities.updateMilestoneGolive(cleanednewProjectProduct , oldProjectProduct);
+        ProjectProductSetupHandlerUtilities.updateMilestoneGolive(cleanednewProjectProduct, oldProjectProduct);
     }
 }

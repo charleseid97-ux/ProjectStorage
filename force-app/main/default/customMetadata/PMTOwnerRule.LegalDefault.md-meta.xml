@@ -3,8 +3,8 @@
     <label>Legal - Default</label>
     <protected>false</protected>
     <values>
-        <field>Field__c</field>
-        <value xsi:type="xsd:string">LegalForm__c</value>
+        <field>Condition__c</field>
+        <value xsi:type="xsd:string">NOT(ISBLANK(TEXT(ProjectProduct__c.LegalForm__c))) &amp;&amp; NOT(ISPICKVAL(ProjectProduct__c.LegalForm__c, &apos;FCP&apos;))</value>
     </values>
     <values>
         <field>OwnerFederationId__c</field>
@@ -13,9 +13,5 @@
     <values>
         <field>Team__c</field>
         <value xsi:type="xsd:string">Legal</value>
-    </values>
-    <values>
-        <field>Values__c</field>
-        <value xsi:nil="true"/>
     </values>
 </CustomMetadata>

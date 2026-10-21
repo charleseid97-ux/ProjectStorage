@@ -3,22 +3,6 @@
     <label>IS - Engineering</label>
     <protected>false</protected>
     <values>
-        <field>OptionalFieldsFund__c</field>
-        <value xsi:nil="true"/>
-    </values>
-    <values>
-        <field>OptionalFieldsShareClass__c</field>
-        <value xsi:type="xsd:string">InvestmentStatusInvestors__c</value>
-    </values>
-    <values>
-        <field>RequiredFieldsFund__c</field>
-        <value xsi:nil="true"/>
-    </values>
-    <values>
-        <field>RequiredFieldsShareClass__c</field>
-        <value xsi:nil="true"/>
-    </values>
-    <values>
         <field>Stage__c</field>
         <value xsi:type="xsd:string">Engineering</value>
     </values>

@@ -76,18 +76,13 @@
         <fields>MasterLabel</fields>
         <fields>DeveloperName</fields>
         <fields>Stage__c</fields>
-        <fields>RequiredFieldsFund__c</fields>
-        <fields>OptionalFieldsFund__c</fields>
-        <fields>RequiredFieldsShareClass__c</fields>
-        <fields>OptionalFieldsShareClass__c</fields>
         <relatedList>PMTFieldRule__mdt.Team__c</relatedList>
     </relatedLists>
     <relatedLists>
         <fields>MasterLabel</fields>
         <fields>DeveloperName</fields>
         <fields>OwnerFederationId__c</fields>
-        <fields>Field__c</fields>
-        <fields>Values__c</fields>
+        <fields>Condition__c</fields>
         <relatedList>PMTOwnerRule__mdt.Team__c</relatedList>
     </relatedLists>
     <showEmailCheckbox>false</showEmailCheckbox>

@@ -3,24 +3,6 @@
     <label>Investment Perf - Proposal</label>
     <protected>false</protected>
     <values>
-        <field>OptionalFieldsFund__c</field>
-        <value xsi:nil="true"/>
-    </values>
-    <values>
-        <field>OptionalFieldsShareClass__c</field>
-        <value xsi:type="xsd:string">EffectivePerfFees__c
-InvestmentPerfValidationCompleted__c</value>
-    </values>
-    <values>
-        <field>RequiredFieldsFund__c</field>
-        <value xsi:nil="true"/>
-    </values>
-    <values>
-        <field>RequiredFieldsShareClass__c</field>
-        <value xsi:type="xsd:string">TransactionCosts__c
-CCITransactionCosts__c</value>
-    </values>
-    <values>
         <field>Stage__c</field>
         <value xsi:type="xsd:string">Proposal</value>
     </values>

@@ -1,3 +1,10 @@
+/** ──────────────────────────────────────
+ * @description Tests of PageLayoutController (layoutEditableFields and projectChildTeamValidation LWCs): fields, editability and
+ *                  modification conditions of a stage and a Shareclass Child, editable fields from the PRP permission sets, and the
+ *                  required fields of the PMT matrix (US-20194: according to the conditions of the record's project).
+ * @covers PageLayoutController   94%   [21-10-26]
+ * @lastModifiedBy Charles EID   [21-10-26]
+ ────────────────────────────────────── */
 @isTest
 public class PageLayoutControllerTest {
 
@@ -22,9 +29,12 @@ public class PageLayoutControllerTest {
         update milestone;
         child.TECH_TeamValidation__c = 'ProductStrategy';
         update child;
-        ProjectShareclassChild__c scChild = [SELECT Id FROM ProjectShareclassChild__c WHERE ProjectShareclasses__r.ProjectProduct__c = :proj.Id LIMIT 1];
+        ProjectShareclassChild__c scChild = [SELECT Id, ProjectShareclasses__c
+                                             FROM ProjectShareclassChild__c
+                                             WHERE ProjectShareclasses__r.ProjectProduct__c = :proj.Id LIMIT 1];
 
         Test.startTest();
+
         PageLayoutController.getAllFieldsByRecordId(child.Id);
         PageLayoutController.getAllFieldsByRecordId(scChild.Id);
         PageLayoutController.checkEditableConidtions(child.Id, 'ProjectProductChild__c');
@@ -33,6 +43,10 @@ public class PageLayoutControllerTest {
         PageLayoutController.checkModificationConidtions(scChild.Id, 'ProjectShareclassChild__c');
         System.assert(!PageLayoutController.checkEditableConidtions(proj.Id, 'ProjectProduct__c'), 'Only stages and Shareclass Children are editable here');
         System.assertEquals(null, PageLayoutController.checkModificationConidtions(proj.Id, 'ProjectProduct__c'), 'Only stages and Shareclass Children are checked');
+
+        // US-20194: required fields according to the conditions of the record's project, and of its share class
+        System.assertEquals(PMTMatrix.get().forConditions(proj).getRequiredFields(true), PageLayoutController.getFields('ProjectProductChild__c', child.Id), 'Required Fund fields of the project');
+        System.assertEquals(PageLayoutController.getFields('ProjectShareclassChild__c', scChild.Id), PageLayoutController.getFields('ProjectShareclassChild__c', scChild.ProjectShareclasses__c), 'Same share class from its stage or its Project Shareclass');
 
         // Editable fields read from a field of the stage, or of its parent project
         PageLayoutController.getEditableFieldsFromSourceField('ISIN__c,ProjectProductParent__r.Name', 'ProjectProductChild__c', child.Id);
@@ -45,9 +59,11 @@ public class PageLayoutControllerTest {
         try {
             PageLayoutController.getAllFieldsByRecordId('zzz000000000000AAA');
             System.assert(false, 'Unknown object must be rejected');
-        } catch (AuraHandledException e) {
+        }
+        catch (AuraHandledException e) {
             // Unsupported or unknown SObject type
         }
+
         Test.stopTest();
     }
 
@@ -57,6 +73,7 @@ public class PageLayoutControllerTest {
         PMTTestFactoryData.createMatrice('Design', 'Legal', 'AssetClass__c;ISIN__c', 'IsValid__c;LegalType__c');
 
         Test.startTest();
+
         List<String> fundFields = PageLayoutController.getFields('ProjectProductChild__c', null);
         System.assert(fundFields.contains('AssetClass__c') && fundFields.contains('ISIN__c'), 'Required Fund fields of the matrix');
 
@@ -64,15 +81,17 @@ public class PageLayoutControllerTest {
         System.assert(shareClassFields.contains('IsValid__c') && shareClassFields.contains('LegalType__c'), 'Required Share Class fields of the matrix');
 
         // FIX-20178: empty PMT matrix (no field rule configured)
-        PMTMatrix.clearForTest();
+        PMTTestFactoryData.clearMatrix();
         try {
             PageLayoutController.getFields('ProjectProductChild__c', null);
             System.assert(false, 'Expected AuraHandledException');
-        } catch (AuraHandledException e) {
+        }
+        catch (AuraHandledException e) {
             // Aucun champ trouvé
         }
 
         PageLayoutController.getUserPermissionSet('PRPProductStrategy');
+
         Test.stopTest();
     }
 
@@ -103,8 +122,10 @@ public class PageLayoutControllerTest {
 
         System.runAs(u) {
             Test.startTest();
+
             System.assertNotEquals(0, PageLayoutController.getEditableFields('ProjectShareclass__c', 'PRPProductStrategy', true).size(), 'View all');
             System.assertNotEquals(0, PageLayoutController.getEditableFields('ProjectShareclass__c', 'PRPProductStrategy', false).size(), 'Without view all');
+
             Test.stopTest();
         }
     }

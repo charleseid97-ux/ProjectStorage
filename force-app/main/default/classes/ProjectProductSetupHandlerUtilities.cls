@@ -7,9 +7,10 @@
  *                  FIX-20178); validateSteps reads the PMT matrix restricted to the project's Scope.
  *              Phase completion rule (FIX-20270): isPhaseValidated - every validation team of the project's Scope has
  *                  validated the phase. splitMultiPicklist is the shared multi-select picklist split.
- * @lastModifiedBy Charles EID   [19-10-26]
+ *              US-20194: getTeamsAfterModification receives the project's matrix (PMTMatrix.forProject: Scope and conditions).
+ * @lastModifiedBy Charles EID   [21-10-26]
  * @testClass Test_ProjectProductTrigger, Test_FieldModificationController
- * @coverage 100%   [19-10-26]
+ * @coverage 100%   [21-10-26]
  ────────────────────────────────────── */
 public class ProjectProductSetupHandlerUtilities {
 
@@ -76,11 +77,9 @@ public class ProjectProductSetupHandlerUtilities {
 
         Map<Id, ProjectProductChild__c> phaseById = new Map<Id, ProjectProductChild__c>();
         Map<Id, Set<String>> fieldsByPhaseId = new Map<Id, Set<String>>();
-        for (ProjectChildJunction__c junction : [SELECT ProjectProductChild__r.Id, ProjectProductChild__r.ProjectProductParent__c, ProjectProductChild__r.ProjectProductParent__r.Scope__c,
-                                                        ProjectProductChild__r.TECH_TeamValidation__c, ProjectProductChild__r.TECH_Childtype__c, ProjectProductChild__r.Name, ProjectShareclass__r.TECH_FieldsToModify__c
+        for (ProjectChildJunction__c junction : [SELECT ProjectProductChild__r.Id, ProjectProductChild__r.ProjectProductParent__c, ProjectProductChild__r.TECH_TeamValidation__c, ProjectProductChild__r.TECH_Childtype__c, ProjectProductChild__r.Name, ProjectShareclass__r.TECH_FieldsToModify__c
                                                  FROM ProjectChildJunction__c
-                                                 WHERE ProjectProductChild__r.ProjectProductParent__c IN :changedProjectIds
-                                                 AND ProjectProductChild__r.Name != 'Design']) {
+                                                 WHERE ProjectProductChild__r.ProjectProductParent__c IN :changedProjectIds AND ProjectProductChild__r.Name != 'Design']) {
             ProjectProductChild__c child = junction.ProjectProductChild__r;
             if (!phaseById.containsKey(child.Id)) {
                 phaseById.put(child.Id, child);
@@ -90,17 +89,15 @@ public class ProjectProductSetupHandlerUtilities {
         }
 
         for (ProjectProductChild__c child : phaseById.values()) {
-            child.TECH_TeamValidation__c = getTeamsAfterModification(child, fieldsByPhaseId.get(child.Id));
+            child.TECH_TeamValidation__c = getTeamsAfterModification(child, fieldsByPhaseId.get(child.Id), PMTMatrix.forProject(newProjectProduct.get(child.ProjectProductParent__c)));
         }
         if (!phaseById.isEmpty()) update phaseById.values();
     }
 
-    // FIX-20270: TECH_TeamValidation__c of a phase once fields are modified: every validation team (Product Strategy and IS included) except the teams owning one of the fields at the phase's stage, from the PMT matrix of the project's Scope.
-    // Shared by the project and share class validateSteps. The phase must hold TECH_Childtype__c and ProjectProductParent__r.Scope__c.
-    public static String getTeamsAfterModification(ProjectProductChild__c phase, Set<String> modifiedFields) {
-        PMTMatrix scopedMatrix = PMTMatrix.get().forScope(normalizeScope(phase.ProjectProductParent__r.Scope__c));
-        Map<String, String> stageByField = scopedMatrix.getStageByField();
-        Map<String, String> teamByField = scopedMatrix.getTeamByField();
+    // FIX-20270: TECH_TeamValidation__c of a phase once fields are modified: every validation team (Product Strategy and IS included) except the teams owning one of the fields at the phase's stage, from the PMT matrix of the project (its Scope and, US-20194, its conditions: PMTMatrix.forProject). Shared by the project and share class validateSteps. The phase must hold TECH_Childtype__c.
+    public static String getTeamsAfterModification(ProjectProductChild__c phase, Set<String> modifiedFields, PMTMatrix projectMatrix) {
+        Map<String, String> stageByField = projectMatrix.getStageByField();
+        Map<String, String> teamByField = projectMatrix.getTeamByField();
 
         Set<String> remainingTeams = PMTMatrix.get().getValidationTeamKeys();
         for (String field : modifiedFields) {
@@ -123,7 +120,9 @@ public class ProjectProductSetupHandlerUtilities {
 
         Map<String, Schema.SObjectField> fieldMap = ProjectProductChild__c.SObjectType.getDescribe().fields.getMap();
         List<ProjectProductChild__c> toUpdate = new List<ProjectProductChild__c>();
-        for (ProjectProductChild__c child : [SELECT Id, ProjectProductParent__c FROM ProjectProductChild__c WHERE ProjectProductParent__c IN :changedProjectIds]) {
+        for (ProjectProductChild__c child : [SELECT Id, ProjectProductParent__c
+                                             FROM ProjectProductChild__c
+                                             WHERE ProjectProductParent__c IN :changedProjectIds]) {
             String newFieldsStr = newProjectProduct.get(child.ProjectProductParent__c)?.TECH_FieldsToModify__c;
             if (String.isBlank(newFieldsStr)) continue;
 
@@ -150,8 +149,7 @@ public class ProjectProductSetupHandlerUtilities {
     public static void updateMilestoneGolive(Map<Id, ProjectProduct__c> newProjectProduct, Map<Id, ProjectProduct__c> oldProjectProduct) {
         List<Milestone__c> launchDateMilestones = [SELECT Id, StartDate__c, Project_product__c
                                                    FROM Milestone__c
-                                                   WHERE Project_product__c IN :newProjectProduct.keySet()
-                                                   AND Name = 'Launch Date'];
+                                                   WHERE Project_product__c IN :newProjectProduct.keySet() AND Name = 'Launch Date'];
 
         if (launchDateMilestones.isEmpty()) return;
 

@@ -5,10 +5,11 @@
  *              Fields goal and step validation read the PMT matrix (PMTMatrix, FIX-20178); in validateSteps the matrix
  *                  is restricted to the project's Scope (PMTMatrix.forScope), so a field owned by Product Strategy and
  *                  IS goes to the Scope's team.
+ *              US-20194: the matrix follows the conditions of the project (and of the share class for the goal).
  *              Previous change: US-19137 (Mira EID, 26-05-26) - updated setNameWithoutProduct.
- * @lastModifiedBy Charles EID   [19-10-26]
+ * @lastModifiedBy Charles EID   [21-10-26]
  * @testClass Test_ProjectShareclassTrigger
- * @coverage 99%   [19-10-26]
+ * @coverage 99%   [21-10-26]
  ────────────────────────────────────── */
 public class ProjectShareclassHandler {
 
@@ -20,15 +21,18 @@ public class ProjectShareclassHandler {
 
     // Fields goal (NbOfFieldsGoal__c) of each Project Shareclass Child: the required Share Class fields of its stage; on a modification project, only the selected fields (TECH_FieldsToModify__c) of its stage.
     public static void nbOfFieldsGoal(Map<Id, ProjectShareclass__c> newChilds) {
-        // FIX-20178: champs Share Class requis par étape, depuis la matrice PMT
-        Map<String, List<String>> requiredFieldsByStage = PMTMatrix.get().getRequiredFieldsByStage(false);
+        List<ProjectShareclassChild__c> projectShareclassChildren = [SELECT TECH_Childtype__c, ProjectShareclasses__c, ProjectShareclasses__r.ProjectProduct__c, ProjectShareclasses__r.TECH_FieldsToModify__c, ProjectShareclasses__r.Parent_Record_Type_Id__c
+                                                                     FROM ProjectShareclassChild__c
+                                                                     WHERE ProjectShareclasses__c IN :newChilds.keySet()];
+        Set<Id> projectIds = new Set<Id>();
+        for (ProjectShareclassChild__c child : projectShareclassChildren) projectIds.add(child.ProjectShareclasses__r.ProjectProduct__c);
+        Map<Id, ProjectProduct__c> projectById = PMTMatrix.loadProjects(projectIds);
 
-        List<ProjectShareclassChild__c> projectShareclassChildren = new List<ProjectShareclassChild__c>();
-        for (ProjectShareclassChild__c child : [SELECT TECH_Childtype__c, ProjectShareclasses__r.TECH_FieldsToModify__c, ProjectShareclasses__r.Parent_Record_Type_Id__c
-                                                FROM ProjectShareclassChild__c
-                                                WHERE ProjectShareclasses__c IN :newChilds.keySet()]) {
+        for (ProjectShareclassChild__c child : projectShareclassChildren) {
+            // FIX-20178 / US-20194: champs Share Class requis de l'étape, depuis la matrice PMT selon les conditions du projet et de la share class
+            PMTMatrix matrix = PMTMatrix.get().forConditions(projectById.get(child.ProjectShareclasses__r.ProjectProduct__c)).forShareClass(child.ProjectShareclasses__c);
             String stage = child.TECH_Childtype__c == 'DesignAndProposal' ? 'Proposal' : child.TECH_Childtype__c;
-            Set<String> stageFields = requiredFieldsByStage.containsKey(stage) ? new Set<String>(requiredFieldsByStage.get(stage)) : new Set<String>();
+            Set<String> stageFields = new Set<String>(matrix.getRequiredFieldsByStage(false).get(stage) ?? new List<String>());
 
             if (child.ProjectShareclasses__r.Parent_Record_Type_Id__c == fundModificationRecordTypeId) {
                 Set<String> selectedFields = ProjectProductSetupHandlerUtilities.splitMultiPicklist(child.ProjectShareclasses__r.TECH_FieldsToModify__c);
@@ -38,7 +42,6 @@ public class ProjectShareclassHandler {
             else {
                 child.NbOfFieldsGoal__c = stageFields.size();
             }
-            projectShareclassChildren.add(child);
         }
         if (!projectShareclassChildren.isEmpty()) update projectShareclassChildren;
     }
@@ -64,9 +67,9 @@ public class ProjectShareclassHandler {
         if (!shareclassChildren.isEmpty()) insert shareclassChildren;
     }
 
-    // Phases of the modified share classes: the teams owning a field newly added on a share class are left to validate (getTeamsAfterModification).
-    // FIX-20270: one entry per phase with the fields added on all its share classes of the save (before: a share class with only removed fields stopped the whole method before the update,
-    // and a phase linked to two modified share classes was added twice to the update list - "Duplicate id in list").
+    // Phases of the share classes with newly added fields: the teams owning a field to modify at the phase's stage are left to validate (getTeamsAfterModification).
+    // FIX-20270: one entry per phase (before: a share class with only removed fields stopped the whole method before the update, and a phase linked to two modified share classes was added twice to the update list - "Duplicate id in list").
+    // US-20194: the fields of a phase are the project's fields + the fields of all its share classes, as in ProjectProductSetupHandlerUtilities.validateSteps. Before, only the fields just added on the saved share class counted, so a team that still had a project field to validate (e.g. Legal for LegalForm__c) was marked as validated.
     public static void validateSteps(Map<Id, ProjectShareclass__c> newMap, Map<Id, ProjectShareclass__c> oldMap) {
         Set<Id> modifiedShareClassIds = new Set<Id>();
         for (Id id : newMap.keySet()) {
@@ -75,29 +78,40 @@ public class ProjectShareclassHandler {
 
         if (modifiedShareClassIds.isEmpty()) return;
 
-        Map<Id, ProjectProductChild__c> phaseById = new Map<Id, ProjectProductChild__c>();
-        Map<Id, Set<String>> addedFieldsByPhaseId = new Map<Id, Set<String>>();
-        for (ProjectChildJunction__c junction : [SELECT ProjectShareclass__c, ProjectProductChild__r.Id, ProjectProductChild__r.TECH_Childtype__c, ProjectProductChild__r.ProjectProductParent__r.Scope__c
+        Set<Id> phaseIds = new Set<Id>();
+        for (ProjectChildJunction__c junction : [SELECT ProjectShareclass__c, ProjectProductChild__c
                                                  FROM ProjectChildJunction__c
-                                                 WHERE ProjectShareclass__c IN :modifiedShareClassIds
-                                                 AND ProjectProductChild__r.Name != 'Design']) {
+                                                 WHERE ProjectShareclass__c IN :modifiedShareClassIds AND ProjectProductChild__r.Name != 'Design']) {
             // Champs ajoutés sur la share class (une share class dont des champs ont seulement été retirés ne change rien)
             Set<String> added = ProjectProductSetupHandlerUtilities.splitMultiPicklist(newMap.get(junction.ProjectShareclass__c)?.TECH_FieldsToModify__c);
             added.removeAll(ProjectProductSetupHandlerUtilities.splitMultiPicklist(oldMap.get(junction.ProjectShareclass__c)?.TECH_FieldsToModify__c));
-            if (added.isEmpty()) continue;
+            if (!added.isEmpty()) phaseIds.add(junction.ProjectProductChild__c);
+        }
 
+        if (phaseIds.isEmpty()) return;
+
+        Map<Id, ProjectProductChild__c> phaseById = new Map<Id, ProjectProductChild__c>();
+        Map<Id, Set<String>> fieldsByPhaseId = new Map<Id, Set<String>>();
+        for (ProjectChildJunction__c junction : [SELECT ProjectProductChild__r.Id, ProjectProductChild__r.TECH_Childtype__c, ProjectProductChild__r.ProjectProductParent__c, ProjectProductChild__r.ProjectProductParent__r.TECH_FieldsToModify__c, ProjectShareclass__r.TECH_FieldsToModify__c
+                                                 FROM ProjectChildJunction__c
+                                                 WHERE ProjectProductChild__c IN :phaseIds]) {
             ProjectProductChild__c child = junction.ProjectProductChild__r;
             if (!phaseById.containsKey(child.Id)) {
                 phaseById.put(child.Id, child);
-                addedFieldsByPhaseId.put(child.Id, new Set<String>());
+                fieldsByPhaseId.put(child.Id, ProjectProductSetupHandlerUtilities.splitMultiPicklist(child.ProjectProductParent__r.TECH_FieldsToModify__c));
             }
-            addedFieldsByPhaseId.get(child.Id).addAll(added);
+            fieldsByPhaseId.get(child.Id).addAll(ProjectProductSetupHandlerUtilities.splitMultiPicklist(junction.ProjectShareclass__r.TECH_FieldsToModify__c));
         }
 
+        // US-20194: matrix of each project (Scope and conditions)
+        Set<Id> projectIds = new Set<Id>();
+        for (ProjectProductChild__c child : phaseById.values()) projectIds.add(child.ProjectProductParent__c);
+        Map<Id, ProjectProduct__c> projectById = PMTMatrix.loadProjects(projectIds);
+
         for (ProjectProductChild__c child : phaseById.values()) {
-            child.TECH_TeamValidation__c = ProjectProductSetupHandlerUtilities.getTeamsAfterModification(child, addedFieldsByPhaseId.get(child.Id));
+            child.TECH_TeamValidation__c = ProjectProductSetupHandlerUtilities.getTeamsAfterModification(child, fieldsByPhaseId.get(child.Id), PMTMatrix.forProject(projectById.get(child.ProjectProductParent__c)));
         }
-        if (!phaseById.isEmpty()) update phaseById.values();
+        update phaseById.values();
     }
 
     // Blanks, on the Project Shareclass Children, the fields newly added to TECH_FieldsToModify__c (checkboxes excepted).
@@ -111,7 +125,9 @@ public class ProjectShareclassHandler {
 
         Map<String, Schema.SObjectField> fieldMap = ProjectShareclassChild__c.SObjectType.getDescribe().fields.getMap();
         List<ProjectShareclassChild__c> toUpdate = new List<ProjectShareclassChild__c>();
-        for (ProjectShareclassChild__c child : [SELECT Id, ProjectShareclasses__c FROM ProjectShareclassChild__c WHERE ProjectShareclasses__c IN :changedIds]) {
+        for (ProjectShareclassChild__c child : [SELECT Id, ProjectShareclasses__c
+                                                FROM ProjectShareclassChild__c
+                                                WHERE ProjectShareclasses__c IN :changedIds]) {
             String newFieldsStr = newMap.get(child.ProjectShareclasses__c)?.TECH_FieldsToModify__c;
             if (String.isBlank(newFieldsStr)) continue;
 
@@ -195,8 +211,7 @@ public class ProjectShareclassHandler {
         if (!deleteKeys.isEmpty()) {
             for (TaxData__c td : [SELECT Id, ProjectShareclass__c, ProjectProduct__c, Country__c, Type__c
                                   FROM TaxData__c
-                                  WHERE ProjectShareclass__c IN :scIdsToProcess
-                                  AND Source__c = 'PMT']) {
+                                  WHERE ProjectShareclass__c IN :scIdsToProcess AND Source__c = 'PMT']) {
                 if (!deleteKeys.contains(td.ProjectShareclass__c + '|' + td.ProjectProduct__c + '|' + td.Country__c + '|' + td.Type__c)) continue;
 
                 td.Status__c = 'Canceled';
@@ -249,9 +264,7 @@ public class ProjectShareclassHandler {
     private static TaxEmailConfiguration__mdt getEmailConfiguration(String country, String scenario) {
         List<TaxEmailConfiguration__mdt> configs = [SELECT Country__c, Scenario__c, ToAddresses__c, CcAddresses__c, IsActive__c
                                                     FROM TaxEmailConfiguration__mdt
-                                                    WHERE Country__c = :country
-                                                    AND Scenario__c = :scenario
-                                                    LIMIT 1];
+                                                    WHERE Country__c = :country AND Scenario__c = :scenario LIMIT 1];
         return configs.isEmpty() ? null : configs[0];
     }
 

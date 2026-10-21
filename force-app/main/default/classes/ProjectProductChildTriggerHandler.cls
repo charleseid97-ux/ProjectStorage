@@ -2,12 +2,15 @@
  * @description Dispatches the ProjectProductChildTrigger events (PMT project stages) to ProjectProductChildHandler.
  *              Before update order (FIX-20270): the stage status (updatePhaseStatusWAllTeamValidation) is set before
  *                  the completion rate (updateCompletionRate), so the rate sees the status set in the same save.
- * @lastModifiedBy Charles EID   [19-10-26]
+ *              isSyncingTeamValidation (US-20194): the teams validated automatically are realigned on the PMT conditions
+ *                  (ProjectProductSetupHandler.resyncPhases) - not a team validation, so no SPC Final check, log or Tax notification.
+ * @lastModifiedBy Charles EID   [21-10-26]
  * @testClass Test_ProjectProductChildTriggerHandler
- * @coverage 100%   [19-10-26]
+ * @coverage 100%   [21-10-26]
  ────────────────────────────────────── */
 public class ProjectProductChildTriggerHandler {
     public static Boolean isBlankingFields = false;
+    public static Boolean isSyncingTeamValidation = false;
 
     public static void handleBeforeInsert(List<ProjectProductChild__c> newProjectProductChild) {
         ProjectProductChildHandler.cloneParentProject(newProjectProductChild);
@@ -16,7 +19,7 @@ public class ProjectProductChildTriggerHandler {
 
     public static void handleBeforeUpdate(Map<Id, ProjectProductChild__c> newProjectProductChild, Map<Id, ProjectProductChild__c> oldProjectProductChild) {
         ProjectProductChildHandler.lockRecordProjectProductChild(newProjectProductChild, oldProjectProductChild);
-        ProjectProductChildHandler.blockValidationBeforeSPCValidated(newProjectProductChild, oldProjectProductChild);
+        if (!isSyncingTeamValidation) ProjectProductChildHandler.blockValidationBeforeSPCValidated(newProjectProductChild, oldProjectProductChild);
         ProjectProductChildHandler.calculNbOfFields(newProjectProductChild.values());
         ProjectProductChildHandler.updatePhaseStatusWAllTeamValidation(newProjectProductChild, oldProjectProductChild);
         ProjectProductChildHandler.updateCompletionRate(newProjectProductChild, oldProjectProductChild);
@@ -37,6 +40,8 @@ public class ProjectProductChildTriggerHandler {
         isBlankingFields = true;
         ProjectProductChildHandler.updateProjectProductParent(newProjectProductChild, oldProjectProductChild);
         isBlankingFields = false;
+
+        if (isSyncingTeamValidation) return;
 
         ProjectProductChildHandler.logPhaseValidation(newProjectProductChild, oldProjectProductChild);
         ProjectProductChildHandler.sendTaxNotificationsKPMG(newProjectProductChild.values(), oldProjectProductChild);
