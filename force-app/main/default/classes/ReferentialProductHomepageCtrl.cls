@@ -1,70 +1,34 @@
-/** ──────────────────────────────────────
- * @description Lightning Web Component controller for the Product Catalog (referentialProductHomepage).
- *              Retrieves the Funds and their Share Classes according to the selected filters and the search key,
- *                  and returns them as a hierarchy (flat list when a filter is active, grouped by Strategy otherwise).
- *              Works in conjunction with ProductHierarchyHelper for building the hierarchy items.
+/**
+ * @description Product Catalog controller with a combined Share Class / Product search.
  * @testClass ReferentialProductHomepageCtrlTest
- * @coverage 96%   [13-10-26]
- * @lastModifiedBy Charles EID   [13-10-26]
- * @changes [21-09-26] [Charles EID]
- * -> Refactored for better complexity handling.
- * -> Optimized
- * -> Adapted new fields (after the removal of legacy fields)
- * -> ItemDTO moved here from productHierarchyController (obsolete, to be deleted).
- * -> IS Products mode only: product label is ProductName__c (falls back to Name) and products are collapsed (Share Class level hidden until opened).
- * -> IS Products filter (isISProducts): scope on Scope__c = 'IS' (all Vehicle Types), funds not restricted to the Share Class funds, grouped by VehicleType__c (buildISProductHierarchy).
- ────────────────────────────────────── */
+ */
 public class ReferentialProductHomepageCtrl {
 
     static final Id fundRecordTypeId = Schema.SObjectType.Product__c.getRecordTypeInfosByDeveloperName().get('Fund').getRecordTypeId();
 
-    private static final List<String> ACTIVE_SHARE_CLASS_STATUSES = new List<String>{'Active', 'Active - Lab'}; // Statuts considérés comme actifs pour remplacer TechIsActive__c.
-    private static final String ISIN_PATTERN = '^[A-Z]{2}[A-Z0-9]{3,10}$'; // 2 lettres + au moins 3 lettres ou chiffres pour ne pas confondre un Internal Short Name (ex: CC27) avec un ISIN
+    private static final List<String> ACTIVE_SHARE_CLASS_STATUSES = new List<String>{'Active', 'Active - Lab'};
 
-    // Uniquement les champs lus par ProductHierarchyHelper (getShareItemsReferential / getFundsItemsWithSharesReferential)
-    private static final String SHARE_CLASS_SELECT = 'SELECT Id, Name, Fund__c, Status__c, ISIN__c, Primary_Portfolio_Share_Class__c, Fund__r.AssetClass__c, Fund__r.LaunchDate__c' +
-                                                     ' FROM Share_Class__c WHERE ';
+    // Retrieve all Share Class and Product fields used by the existing hierarchy helper.
+    private static final String SHARE_CLASS_SELECT = 'SELECT Id, Name, Fund__c, Status__c, ISIN__c, Primary_Portfolio_Share_Class__c, ' +
+                                                     'Fund__r.Id, Fund__r.Name, Fund__r.Record_Type_Name__c, Fund__r.RecordTypeId, ' +
+                                                     'Fund__r.LaunchDate__c, Fund__r.FundStrategy__c, Fund__r.AssetClass__c, Fund__r.Validity__c ' +
+                                                     'FROM Share_Class__c WHERE ';
     private static final String SHARE_CLASS_ORDER = ' ORDER BY Primary_Portfolio_Share_Class__c desc';
 
-    private static final String FUND_SELECT = 'SELECT Id, Name, ProductName__c, RecordTypeId, LaunchDate__c, FundStrategy__c, AssetClass__c, Validity__c, VehicleType__c ' +
-                                              ' FROM Product__c ' +
-                                              ' WHERE Tech_NotDisplayedProductCatalog__c = false ';
-    private static final String FUND_STANDARD_SCOPE = ' AND RecordTypeId = :fundRecordTypeId AND VehicleType__c = \'Funds\' '; // Le catalogue standard ne retourne que les Funds de type 'Funds'
-    private static final String FUND_IS_SCOPE = ' AND Scope__c = \'IS\' '; // Le catalogue IS accepte tous les Vehicle Types
-
     @AuraEnabled
-    public static string getAllProducts(Boolean showSRI, Boolean showRF, Boolean showAC, String country, String assetClass, String SCType, String dividendPolicy,
-                                        String legalForm, String fundType, String selectedCurrency, String searchKey, Boolean isActiveProducts, Boolean isISProducts, String sfdr) {
-
-        CatalogFilters filters = new CatalogFilters(country, assetClass, SCType, dividendPolicy, legalForm, fundType, selectedCurrency, searchKey, isActiveProducts, isISProducts, sfdr);
-
-        // Step 1: Share_Class__c selon les filtres et l'ISIN. Une recherche texte est résolue directement sur les Products (step 2).
-        List<Share_Class__c> sharesList = new List<Share_Class__c>();
-        Set<Id> fundIdsFromShares = new Set<Id>();
-        if (!filters.isTextSearch()) {
-            sharesList = queryShareClasses(filters);
-            fundIdsFromShares = fundIdsOf(sharesList);
-            if (!sharesList.isEmpty() && fundIdsFromShares.isEmpty()) return null;
-        }
-
-        // Step 2: Product__c (Funds) correspondants
-        List<Product__c> filteredFunds = queryFunds(filters, fundIdsFromShares);
-        if (filteredFunds.isEmpty()) return null;
-
-        // Step 3: Recharge les Share Classes de tous les Funds trouvés par nom
-        Set<Id> fundsIds = fundRecordIdsOf(filteredFunds);
-        if ((sharesList.isEmpty() || filters.isTextSearch()) && !fundsIds.isEmpty()) {
-            sharesList = queryShareClassesByFunds(filters, fundsIds);
-        }
+    public static String getAllProducts(Boolean showSRI, Boolean showRF, Boolean showAC, String country, String assetClass, String SCType, String dividendPolicy,
+                                        String legalForm, String fundType, String selectedCurrency, String searchKey, Boolean isActiveProducts, String sfdr) {
+        CatalogFilters filters = new CatalogFilters(country, assetClass, SCType, dividendPolicy, legalForm, fundType, selectedCurrency, searchKey, isActiveProducts, sfdr);
+        List<Share_Class__c> sharesList = queryShareClasses(filters);
         if (sharesList.isEmpty()) return null;
 
-        // Step 4: Build mappings and output
+        List<Product__c> filteredFunds = fundsOf(sharesList);
         return JSON.serialize(buildCatalog(filters, filteredFunds, sharesList));
     }
 
     @AuraEnabled
     public static void logClick(String buttonType) {
-        UserInteractionLog__c  log = new UserInteractionLog__c(
+        UserInteractionLog__c log = new UserInteractionLog__c(
             User__c = UserInfo.getUserId(),
             ClickDate__c = System.now(),
             ButtonType__c = buttonType
@@ -72,52 +36,63 @@ public class ReferentialProductHomepageCtrl {
         insert log;
     }
 
-    // Share Classes filtrées, avec recherche sur l'ISIN
+    // Apply Share Class filters, Product filters and the combined search in one query.
     private static List<Share_Class__c> queryShareClasses(CatalogFilters filters) {
-        Map<String, Object> binds = new Map<String, Object>();
+        Map<String, Object> binds = new Map<String, Object>{'fundRecordTypeId' => fundRecordTypeId};
         String query = SHARE_CLASS_SELECT + shareClassFilterClause(filters, binds);
+        query += ' AND Fund__c != null';
+        query += ' AND Fund__r.Tech_NotDisplayedProductCatalog__c = false';
+        query += ' AND Fund__r.RecordTypeId = :fundRecordTypeId';
+        query += ' AND Fund__r.VehicleType__c = \'Funds\'';
+        query = appendEquals(query, binds, 'Fund__r.FundStrategy__r.AssetClass__c', 'assetClass', filters.assetClass);
+        query = appendEquals(query, binds, 'Fund__r.LegalForm__c', 'legalForm', filters.legalForm);
+        query = appendEquals(query, binds, 'Fund__r.VehicleType__c', 'fundType', filters.fundType);
+        query = appendEquals(query, binds, 'Fund__r.SFDRcategory__c', 'sfdr', filters.sfdr);
 
-        if (filters.isIsin) {
-            query += ' AND ISIN__c LIKE :searchLike';
-            binds.put('searchLike', '%' + filters.searchKey.toUpperCase() + '%');
-        }
-        return (List<Share_Class__c>) Database.queryWithBinds(query + SHARE_CLASS_ORDER, binds, AccessLevel.SYSTEM_MODE);
-    }
-
-    // Share Classes (mêmes filtres, sans la recherche) des Funds donnés
-    private static List<Share_Class__c> queryShareClassesByFunds(CatalogFilters filters, Set<Id> fundsIds) {
-        Map<String, Object> binds = new Map<String, Object>{'fundsIds' => fundsIds};
-        String query = SHARE_CLASS_SELECT + 'Fund__c IN :fundsIds AND ' + shareClassFilterClause(filters, binds);
-        return (List<Share_Class__c>) Database.queryWithBinds(query + SHARE_CLASS_ORDER, binds, AccessLevel.SYSTEM_MODE);
-    }
-
-    private static List<Product__c> queryFunds(CatalogFilters filters, Set<Id> fundIdsFromShares) {
-        Map<String, Object> binds = new Map<String, Object>();
-        String query = FUND_SELECT;
-
-        if (filters.isIS) {
-            query += FUND_IS_SCOPE;
-        } else {
-            query += FUND_STANDARD_SCOPE;
-            binds.put('fundRecordTypeId', fundRecordTypeId);
-        }
-
-        // Recherche texte : correspondance directe sur le Product. Sinon, en mode standard, limite aux fonds issus des Share Classes.
-        if (filters.isTextSearch()) {
-            query += ' AND (' + textSearchClause() + ')';
+        if (filters.hasSearch()) {
+            query += ' AND (' + searchClause() + ')';
             binds.put('searchLike', '%' + filters.searchKey + '%');
-        } else if (!filters.isIS && !fundIdsFromShares.isEmpty()) {
-            query += ' AND Id IN :fundIdsFromShares';
-            binds.put('fundIdsFromShares', fundIdsFromShares);
         }
-        query = appendEquals(query, binds, 'FundStrategy__r.AssetClass__c', 'assetClass', filters.assetClass);
-        query = appendEquals(query, binds, 'LegalForm__c', 'legalForm', filters.legalForm);
-        query = appendEquals(query, binds, 'VehicleType__c', 'fundType', filters.fundType);
-        query = appendEquals(query, binds, 'SFDRcategory__c', 'sfdr', filters.sfdr);
-
-        return (List<Product__c>) Database.queryWithBinds(query, binds, AccessLevel.SYSTEM_MODE);
+        return (List<Share_Class__c>) Database.queryWithBinds(query + SHARE_CLASS_ORDER, binds, AccessLevel.SYSTEM_MODE);
     }
 
+    // Keep the existing Share Class status, currency, type, dividend and country filters.
+    private static String shareClassFilterClause(CatalogFilters filters, Map<String, Object> binds) {
+        binds.put('activeStatuses', ACTIVE_SHARE_CLASS_STATUSES);
+        String clause = filters.isActive ? 'Status__c IN :activeStatuses' : 'Status__c NOT IN :activeStatuses';
+        clause = appendEquals(clause, binds, 'Currency__c', 'selectedCurrency', filters.selectedCurrency);
+        clause = appendEquals(clause, binds, 'Type__c', 'scType', filters.scType);
+        clause = appendEquals(clause, binds, 'DividendPolicy__c', 'dividendPolicy', filters.dividendPolicy);
+
+        if (filters.hasCountry()) {
+            clause += ' AND Id IN (SELECT ShareClass__c FROM Country__c WHERE Country__c = :country)';
+            binds.put('country', filters.country);
+        }
+        return clause;
+    }
+
+    // Every search checks the ISIN and all three Product fields, without classifying the input.
+    private static String searchClause() {
+        return 'ISIN__c LIKE :searchLike OR Fund__r.InternalShortName__c LIKE :searchLike ' +
+               'OR Fund__r.ProductName__c LIKE :searchLike OR Fund__r.Name LIKE :searchLike';
+    }
+
+    private static String appendEquals(String query, Map<String, Object> binds, String field, String bindName, String value) {
+        if (String.isBlank(value)) return query;
+        binds.put(bindName, value);
+        return query + ' AND ' + field + ' = :' + bindName;
+    }
+
+    // Reuse the queried parent records instead of querying Product__c separately.
+    private static List<Product__c> fundsOf(List<Share_Class__c> sharesList) {
+        Map<Id, Product__c> fundsById = new Map<Id, Product__c>();
+        for (Share_Class__c share : sharesList) {
+            if (!fundsById.containsKey(share.Fund__c)) fundsById.put(share.Fund__c, share.Fund__r);
+        }
+        return fundsById.values();
+    }
+
+    // Strategies are queried only for the unfiltered, grouped view.
     private static List<Strategy__c> queryStrategies(List<Product__c> funds) {
         Set<Id> strategyIds = new Set<Id>();
         for (Product__c fund : funds) {
@@ -131,51 +106,7 @@ public class ReferentialProductHomepageCtrl {
                 ORDER BY Name ASC];
     }
 
-    // Statut + filtres communs aux requêtes de Share Class
-    private static String shareClassFilterClause(CatalogFilters filters, Map<String, Object> binds) {
-        binds.put('activeStatuses', ACTIVE_SHARE_CLASS_STATUSES);
-        String clause = filters.isActive ? 'Status__c IN :activeStatuses' : 'Status__c NOT IN :activeStatuses';
-        clause = appendEquals(clause, binds, 'Currency__c', 'selectedCurrency', filters.selectedCurrency);
-        clause = appendEquals(clause, binds, 'Type__c', 'scType', filters.scType);
-        clause = appendEquals(clause, binds, 'DividendPolicy__c', 'dividendPolicy', filters.dividendPolicy);
-
-        // Ne garde que les Share Classes rattachées au pays sélectionné
-        if (filters.hasCountry()) {
-            clause += ' AND Id IN (SELECT ShareClass__c FROM Country__c WHERE Country__c = :country)';
-            binds.put('country', filters.country);
-        }
-        return clause;
-    }
-
-    // Recherche sur l'Internal Short Name, le Product Name ou le Name du Product (bind :searchLike)
-    private static String textSearchClause() {
-        return 'InternalShortName__c LIKE :searchLike OR ProductName__c LIKE :searchLike OR Name LIKE :searchLike';
-    }
-
-    // Ajoute ' AND field = :bindName' uniquement si la valeur est renseignée
-    private static String appendEquals(String query, Map<String, Object> binds, String field, String bindName, String value) {
-        if (String.isBlank(value)) return query;
-        binds.put(bindName, value);
-        return query + ' AND ' + field + ' = :' + bindName;
-    }
-
-    private static Set<Id> fundIdsOf(List<Share_Class__c> sharesList) {
-        Set<Id> fundIds = new Set<Id>();
-        for (Share_Class__c share : sharesList) {
-            if (share.Fund__c != null) fundIds.add(share.Fund__c);
-        }
-        return fundIds;
-    }
-
-    private static Set<Id> fundRecordIdsOf(List<Product__c> products) {
-        Set<Id> fundIds = new Set<Id>();
-        for (Product__c product : products) {
-            if (product.RecordTypeId == fundRecordTypeId) fundIds.add(product.Id);
-        }
-        return fundIds;
-    }
-
-    // Le mode IS regroupe les produits par Vehicle Type. Sinon, un filtre actif affiche la liste plate des produits, sinon l'arbre par Strategy
+    // Preserve the existing flat Product view or grouped Strategy view.
     private static ItemDTO buildCatalog(CatalogFilters filters, List<Product__c> filteredFunds, List<Share_Class__c> sharesList) {
         Map<Id, List<Share_Class__c>> fundToSharesMap = ProductHierarchyHelper.setFundToSharesMap(sharesList);
 
@@ -186,47 +117,12 @@ public class ReferentialProductHomepageCtrl {
             return new ItemDTO('All Products', null, null, null, null, null, false, true, true, true, fundItems);
         }
 
-        // Les Strategies ne servent qu'à la vue groupée par Strategy
         List<Strategy__c> strategies = queryStrategies(filteredFunds);
         Map<Id, List<Product__c>> strategyToFundsMap = ProductHierarchyHelper.setFundStrategyToFundsMap(filteredFunds);
         List<ItemDTO> strategyItems = ProductHierarchyHelper.getAllStrategywithFundsItems(strategyToFundsMap, strategies, fundToSharesMap);
         return new ItemDTO('All Strategies', null, null, null, null, null, false, true, true, true, strategyItems);
     }
 
-    // Construit la hiérarchie IS en regroupant les produits par Vehicle Type
-    private static ItemDTO buildISProductHierarchy(List<Product__c> products, Map<Id, List<Share_Class__c>> fundToSharesMap) {
-        Map<String, List<Product__c>> vehicleTypeToProducts = new Map<String, List<Product__c>>();
-
-        // Regroupe chaque produit IS selon son VehicleType__c
-        for (Product__c product : products) {
-            String vehicleType = String.isBlank(product.VehicleType__c) ? 'Other' : product.VehicleType__c;
-
-            if (!vehicleTypeToProducts.containsKey(vehicleType)) {
-                vehicleTypeToProducts.put(vehicleType, new List<Product__c>());
-            }
-            vehicleTypeToProducts.get(vehicleType).add(product);
-        }
-
-        List<String> vehicleTypes = new List<String>(vehicleTypeToProducts.keySet());
-        vehicleTypes.sort();
-
-        // Construit un niveau de hiérarchie pour chaque Vehicle Type
-        List<ItemDTO> vehicleTypeItems = new List<ItemDTO>();
-        for (String vehicleType : vehicleTypes) {
-            List<Product__c> vehicleProducts = vehicleTypeToProducts.get(vehicleType);
-            List<ItemDTO> productItems = ProductHierarchyHelper.getFundsItemsWithSharesReferential(vehicleProducts, fundToSharesMap, false);
-
-            for (Integer i = 0; i < productItems.size(); i++) {
-                if (String.isNotBlank(vehicleProducts[i].ProductName__c)) productItems[i].label = vehicleProducts[i].ProductName__c;
-            }
-            vehicleTypeItems.add(new ItemDTO(vehicleType, null, null, null, null, null, false, true, true, true, productItems));
-        }
-
-        // Retourne la racine spécifique au catalogue IS
-        return new ItemDTO('IS Products', null, null, null, null, null, false, true, true, true, vehicleTypeItems);
-    }
-
-    // Filtres du catalogue et dérivés de la recherche (ISIN ou texte)
     private class CatalogFilters {
         public String country;
         public String assetClass;
@@ -238,40 +134,29 @@ public class ReferentialProductHomepageCtrl {
         public String searchKey;
         public String sfdr;
         public Boolean isActive;
-        public Boolean isIS;
-        public Boolean isIsin = false;
 
-        public CatalogFilters(String country, String assetClass, String scType, String dividendPolicy, String legalForm, String fundType,
-                              String selectedCurrency, String searchKey, Boolean isActiveProducts, Boolean isISProducts, String sfdr) {
+        public CatalogFilters(String country, String assetClass, String SCType, String dividendPolicy, String legalForm, String fundType,
+                              String selectedCurrency, String searchKey, Boolean isActiveProducts, String sfdr) {
             this.country = country;
             this.assetClass = assetClass;
-            this.scType = scType;
+            this.scType = SCType;
             this.dividendPolicy = dividendPolicy;
             this.legalForm = legalForm;
             this.fundType = fundType;
             this.selectedCurrency = selectedCurrency;
             this.sfdr = sfdr;
             this.isActive = isActiveProducts == true;
-            this.isIS = isISProducts == true;
-            if (String.isNotBlank(searchKey)) {
-                this.searchKey = searchKey.trim();
-                this.isIsin = Pattern.matches(ISIN_PATTERN, this.searchKey.toUpperCase());
-            }
+            this.searchKey = String.isBlank(searchKey) ? null : searchKey.trim();
         }
 
         public Boolean hasSearch() {
             return String.isNotBlank(searchKey);
         }
 
-        public Boolean isTextSearch() {
-            return hasSearch() && !isIsin;
-        }
-
         public Boolean hasCountry() {
             return String.isNotBlank(country) && country != 'All countries';
         }
 
-        // Vrai dès qu'un filtre ou une recherche est actif (vue liste plate plutôt que par Strategy)
         public Boolean hasAnyFilter() {
             if (hasSearch() || hasCountry()) return true;
             for (String value : new List<String>{assetClass, legalForm, fundType, sfdr, scType, dividendPolicy, selectedCurrency}) {
