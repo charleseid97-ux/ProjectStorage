@@ -59,9 +59,8 @@ public class Test_ProjectShareclassTrigger {
 
         Test.stopTest();
 
-        Map<Id, ProjectShareclass__c> savedById = new Map<Id, ProjectShareclass__c>([SELECT Name__c
-                                                                                     FROM ProjectShareclass__c
-                                                                                     WHERE Id IN :namedShareclasses]);
+        List<ProjectShareclass__c> savedShareclasses = [SELECT Name__c FROM ProjectShareclass__c WHERE Id IN :namedShareclasses];
+        Map<Id, ProjectShareclass__c> savedById = new Map<Id, ProjectShareclass__c>(savedShareclasses);
         for (Integer i = 0; i < namedShareclasses.size(); i++) {
             System.assertEquals(expectedNames[i], savedById.get(namedShareclasses[i].Id).Name__c);
         }
@@ -73,10 +72,11 @@ public class Test_ProjectShareclassTrigger {
         System.assertEquals(new Set<String>{ 'Design & Proposal', 'Engineering', 'Filing', 'SetUp' }, childNames, 'One Project Shareclass Child per stage, Design and Proposal sharing one');
 
         // Teams left to validate: the team owning each selected field, on the phase of its stage only
-        String scope = ProjectProductSetupHandlerUtilities.normalizeScope([SELECT Scope__c
-                                                                           FROM ProjectProduct__c
-                                                                           WHERE Id = :modificationId].Scope__c);
-        Map<String, String> teamByField = PMTMatrix.get().forScope(scope).getTeamByField();
+        ProjectProduct__c modification = [SELECT Scope__c FROM ProjectProduct__c WHERE Id = :modificationId];
+        String scope = ProjectProductSetupHandlerUtilities.normalizeScope(modification.Scope__c);
+        PMTMatrix matrix = PMTMatrix.get();
+        PMTMatrix scopedMatrix = matrix.forScope(scope);
+        Map<String, String> teamByField = scopedMatrix.getTeamByField();
         Map<String, Set<String>> teamsByPhase = new Map<String, Set<String>>();
         for (ProjectProductChild__c phase : [SELECT Name, TECH_TeamValidation__c
                                              FROM ProjectProductChild__c
@@ -85,12 +85,12 @@ public class Test_ProjectShareclassTrigger {
         }
         System.assert(!teamsByPhase.get('Engineering').contains(teamByField.get('DividendFrequency__c').replaceAll(' ', '')), 'The team owning DividendFrequency__c validates Engineering again');
         System.assert(!teamsByPhase.get('Proposal').contains(teamByField.get('LegalType__c').replaceAll(' ', '')), 'The team owning LegalType__c validates Proposal again');
-        System.assertEquals('Proposal', PMTMatrix.get().forScope(scope).getStageByField().get('NAVFrequency__c'), 'NAVFrequency__c is a Proposal field');
+        System.assertEquals('Proposal', scopedMatrix.getStageByField().get('NAVFrequency__c'), 'NAVFrequency__c is a Proposal field');
         System.assert(!teamsByPhase.get('Proposal').contains(teamByField.get('NAVFrequency__c').replaceAll(' ', '')), 'US-20194: the project field selected first still has to be validated after the share class save');
-        System.assertEquals(PMTMatrix.get().getValidationTeamKeys(), teamsByPhase.get('Filing'), 'No selected field at Filing: every team stays validated');
+        System.assertEquals(matrix.getValidationTeamKeys(), teamsByPhase.get('Filing'), 'No selected field at Filing: every team stays validated');
 
         // Fields goal of the children: the selected fields required at their stage
-        Map<String, List<String>> requiredByStage = PMTMatrix.get().getRequiredFieldsByStage(false);
+        Map<String, List<String>> requiredByStage = matrix.getRequiredFieldsByStage(false);
         for (ProjectShareclassChild__c child : [SELECT TECH_Childtype__c, NbOfFieldsGoal__c
                                                 FROM ProjectShareclassChild__c
                                                 WHERE ProjectShareclasses__c = :modifiedShareclass.Id]) {
@@ -101,7 +101,8 @@ public class Test_ProjectShareclassTrigger {
         }
 
         // The selected fields are blanked on the children, and the blank value is copied back to the share class
-        System.assertEquals(null, [SELECT DividendFrequency__c FROM ProjectShareclass__c WHERE Id = :modifiedShareclass.Id].DividendFrequency__c);
+        ProjectShareclass__c savedModifiedShareclass = [SELECT DividendFrequency__c FROM ProjectShareclass__c WHERE Id = :modifiedShareclass.Id];
+        System.assertEquals(null, savedModifiedShareclass.DividendFrequency__c);
     }
 
     @isTest
@@ -132,12 +133,12 @@ public class Test_ProjectShareclassTrigger {
             System.assertEquals('PMT', td.Source__c);
         }
         System.assertEquals(new Set<String>{ 'AT|Transparency|Requested', 'BE|BE TIS|Requested' }, keys);
-        System.assertEquals('Canceled', [SELECT Status__c
-                                         FROM TaxData__c
-                                         WHERE ProjectShareclass__c = :shareclass.Id AND Country__c = 'AT' LIMIT 1].Status__c);
-        System.assertEquals('Requested', [SELECT Status__c
-                                          FROM TaxData__c
-                                          WHERE ProjectShareclass__c = :shareclass.Id AND Country__c = 'BE' LIMIT 1].Status__c);
+        Map<String, String> statusByCountry = new Map<String, String>();
+        for (TaxData__c td : [SELECT Country__c, Status__c FROM TaxData__c WHERE ProjectShareclass__c = :shareclass.Id]) {
+            statusByCountry.put(td.Country__c, td.Status__c);
+        }
+        System.assertEquals('Canceled', statusByCountry.get('AT'));
+        System.assertEquals('Requested', statusByCountry.get('BE'));
 
         Integer activeConfigCount = [SELECT COUNT()
                                      FROM TaxEmailConfiguration__mdt

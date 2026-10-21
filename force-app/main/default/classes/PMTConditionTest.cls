@@ -29,8 +29,10 @@ private class PMTConditionTest {
 
         Test.stopTest();
 
-        System.assert(condition === PMTCondition.compile(text), 'A condition is compiled once per transaction');
-        System.assertEquals(null, PMTCondition.compile(' '), 'An empty condition always applies (no condition)');
+        PMTCondition sameCondition = PMTCondition.compile(text);
+        PMTCondition emptyCondition = PMTCondition.compile(' ');
+        System.assert(condition === sameCondition, 'A condition is compiled once per transaction');
+        System.assertEquals(null, emptyCondition, 'An empty condition always applies (no condition)');
         System.assertEquals(new Set<String>{ 'LegalForm__c' }, condition.projectFields, 'Project fields read');
         System.assertEquals(new Set<String>{ 'HasPerfFees__c' }, condition.shareClassFields, 'Share class fields read');
         System.assert(condition.readsShareClass() && !projectCondition.readsShareClass(), 'A condition reading a share class field is evaluated per share class');
@@ -52,6 +54,7 @@ private class PMTConditionTest {
             System.assert(rejected, 'Rejected with its text: ' + invalid);
         }
 
-        System.assert(PMTCondition.queryProjects(new Set<Id>(), new Set<String>{ 'LegalForm__c', 'legalform__c', 'Scope__c' }, new Set<String>{ 'HasPerfFees__c' }).isEmpty(), 'Projects query without duplicate field');
+        List<ProjectProduct__c> noProjects = PMTCondition.queryProjects(new Set<Id>(), new Set<String>{ 'LegalForm__c', 'legalform__c', 'Scope__c' }, new Set<String>{ 'HasPerfFees__c' });
+        System.assert(noProjects.isEmpty(), 'Projects query without duplicate field');
     }
 }

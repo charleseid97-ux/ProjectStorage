@@ -8,7 +8,7 @@
 @isTest
 public class PageLayoutControllerTest {
 
-    // Fund modification project: fields, editability and modification conditions of a stage and a Shareclass Child
+    // Fund modification project: fields, editability and modification conditions of a stage and a Shareclass Child, then the required fields of a test matrix
     @isTest
     static void test_modificationProject() {
         Id rtParent = PMTTestFactoryData.getRecordTypeId('ProjectProduct__c', 'FundShareClassModification');
@@ -41,58 +41,62 @@ public class PageLayoutControllerTest {
         PageLayoutController.checkEditableConidtions(scChild.Id, 'ProjectShareclassChild__c');
         PageLayoutController.checkModificationConidtions(child.Id, 'ProjectProductChild__c');
         PageLayoutController.checkModificationConidtions(scChild.Id, 'ProjectShareclassChild__c');
-        System.assert(!PageLayoutController.checkEditableConidtions(proj.Id, 'ProjectProduct__c'), 'Only stages and Shareclass Children are editable here');
-        System.assertEquals(null, PageLayoutController.checkModificationConidtions(proj.Id, 'ProjectProduct__c'), 'Only stages and Shareclass Children are checked');
+        Boolean projectEditable = PageLayoutController.checkEditableConidtions(proj.Id, 'ProjectProduct__c');
+        SObject projectModification = PageLayoutController.checkModificationConidtions(proj.Id, 'ProjectProduct__c');
 
         // US-20194: required fields according to the conditions of the record's project, and of its share class
-        System.assertEquals(PMTMatrix.get().forConditions(proj).getRequiredFields(true), PageLayoutController.getFields('ProjectProductChild__c', child.Id), 'Required Fund fields of the project');
-        System.assertEquals(PageLayoutController.getFields('ProjectShareclassChild__c', scChild.Id), PageLayoutController.getFields('ProjectShareclassChild__c', scChild.ProjectShareclasses__c), 'Same share class from its stage or its Project Shareclass');
+        PMTMatrix projectMatrix = PMTMatrix.get().forConditions(proj);
+        List<String> expectedFundFields = projectMatrix.getRequiredFields(true);
+        List<String> stageFundFields = PageLayoutController.getFields('ProjectProductChild__c', child.Id);
+        List<String> shareClassFieldsFromStage = PageLayoutController.getFields('ProjectShareclassChild__c', scChild.Id);
+        List<String> shareClassFieldsFromShareclass = PageLayoutController.getFields('ProjectShareclassChild__c', scChild.ProjectShareclasses__c);
 
         // Editable fields read from a field of the stage, or of its parent project
         PageLayoutController.getEditableFieldsFromSourceField('ISIN__c,ProjectProductParent__r.Name', 'ProjectProductChild__c', child.Id);
-        System.assert(!PageLayoutController.getEditableFieldsFromSourceField('ProjectProductParent__r.Name', 'ProjectProductChild__c', child.Id).isEmpty(), 'Value of a parent field');
-        System.assert(!PageLayoutController.getEditableFieldsFromSourceField('Name', 'ProjectProductChild__c', child.Id).isEmpty(), 'Value of a field of the record');
-        System.assert(PageLayoutController.getEditableFieldsFromSourceField('ProjectProductParent__r.InternalShortName__c', 'ProjectProductChild__c', child.Id).isEmpty(), 'Empty parent field');
+        List<String> parentFieldValue = PageLayoutController.getEditableFieldsFromSourceField('ProjectProductParent__r.Name', 'ProjectProductChild__c', child.Id);
+        List<String> recordFieldValue = PageLayoutController.getEditableFieldsFromSourceField('Name', 'ProjectProductChild__c', child.Id);
+        List<String> emptyParentFieldValue = PageLayoutController.getEditableFieldsFromSourceField('ProjectProductParent__r.InternalShortName__c', 'ProjectProductChild__c', child.Id);
 
         PageLayoutController.getRecordTypeId('Product__c', product.Id);
-        System.assertEquals('012000000000000AAA', PageLayoutController.getRecordTypeId('Product__c', 'invalidId'), 'Master record type on error');
+        String invalidRecordTypeId = PageLayoutController.getRecordTypeId('Product__c', 'invalidId');
+        Boolean unknownObjectRejected = false;
         try {
             PageLayoutController.getAllFieldsByRecordId('zzz000000000000AAA');
-            System.assert(false, 'Unknown object must be rejected');
         }
         catch (AuraHandledException e) {
-            // Unsupported or unknown SObject type
+            unknownObjectRejected = true;
         }
 
-        Test.stopTest();
-    }
-
-    // Required fields of the PMT matrix (getFields), and an empty matrix
-    @isTest
-    static void test_getFields() {
+        // Required fields of the PMT matrix without a record (getFields), then an empty matrix
         PMTTestFactoryData.createMatrice('Design', 'Legal', 'AssetClass__c;ISIN__c', 'IsValid__c;LegalType__c');
-
-        Test.startTest();
-
         List<String> fundFields = PageLayoutController.getFields('ProjectProductChild__c', null);
-        System.assert(fundFields.contains('AssetClass__c') && fundFields.contains('ISIN__c'), 'Required Fund fields of the matrix');
-
         List<String> shareClassFields = PageLayoutController.getFields('ProjectShareclassChild__c', null);
-        System.assert(shareClassFields.contains('IsValid__c') && shareClassFields.contains('LegalType__c'), 'Required Share Class fields of the matrix');
 
         // FIX-20178: empty PMT matrix (no field rule configured)
         PMTTestFactoryData.clearMatrix();
+        Boolean emptyMatrixRejected = false;
         try {
             PageLayoutController.getFields('ProjectProductChild__c', null);
-            System.assert(false, 'Expected AuraHandledException');
         }
         catch (AuraHandledException e) {
-            // Aucun champ trouvé
+            emptyMatrixRejected = true;
         }
-
         PageLayoutController.getUserPermissionSet('PRPProductStrategy');
 
         Test.stopTest();
+
+        System.assert(!projectEditable, 'Only stages and Shareclass Children are editable here');
+        System.assertEquals(null, projectModification, 'Only stages and Shareclass Children are checked');
+        System.assertEquals(expectedFundFields, stageFundFields, 'Required Fund fields of the project');
+        System.assertEquals(shareClassFieldsFromStage, shareClassFieldsFromShareclass, 'Same share class from its stage or its Project Shareclass');
+        System.assert(!parentFieldValue.isEmpty(), 'Value of a parent field');
+        System.assert(!recordFieldValue.isEmpty(), 'Value of a field of the record');
+        System.assert(emptyParentFieldValue.isEmpty(), 'Empty parent field');
+        System.assertEquals('012000000000000AAA', invalidRecordTypeId, 'Master record type on error');
+        System.assert(unknownObjectRejected, 'Unknown object must be rejected');
+        System.assert(fundFields.contains('AssetClass__c') && fundFields.contains('ISIN__c'), 'Required Fund fields of the matrix');
+        System.assert(shareClassFields.contains('IsValid__c') && shareClassFields.contains('LegalType__c'), 'Required Share Class fields of the matrix');
+        System.assert(emptyMatrixRejected, 'No field rule configured: AuraHandledException');
     }
 
     // Editable fields from the user's PRP permission set, with and without "view all"
@@ -120,13 +124,18 @@ public class PageLayoutControllerTest {
             new PermissionSetAssignment(AssigneeId = u.Id, PermissionSetId = psPS.Id)
         };
 
+        Map<String, Boolean> viewAllFields;
+        Map<String, Boolean> editableFields;
         System.runAs(u) {
             Test.startTest();
 
-            System.assertNotEquals(0, PageLayoutController.getEditableFields('ProjectShareclass__c', 'PRPProductStrategy', true).size(), 'View all');
-            System.assertNotEquals(0, PageLayoutController.getEditableFields('ProjectShareclass__c', 'PRPProductStrategy', false).size(), 'Without view all');
+            viewAllFields = PageLayoutController.getEditableFields('ProjectShareclass__c', 'PRPProductStrategy', true);
+            editableFields = PageLayoutController.getEditableFields('ProjectShareclass__c', 'PRPProductStrategy', false);
 
             Test.stopTest();
         }
+
+        System.assertNotEquals(0, viewAllFields.size(), 'View all');
+        System.assertNotEquals(0, editableFields.size(), 'Without view all');
     }
 }

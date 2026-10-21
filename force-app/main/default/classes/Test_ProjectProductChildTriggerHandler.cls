@@ -1,9 +1,9 @@
 /** ──────────────────────────────────────
  * @description Tests of the ProjectProductChild__c trigger on a modification project: the active share classes of the fund cloned into Project Share Classes linked to
  *                  every phase, a field edited on a phase copied to the project, and the completion rate of a Completed phase of a modification project (100).
- * @covers ProjectProductChildHandler   93%   [19-10-26]
- * @covers ProjectProductChildTriggerHandler   100%   [19-10-26]
- * @lastModifiedBy Charles EID   [19-10-26]
+ * @covers ProjectProductChildHandler   93%   [21-10-26]
+ * @covers ProjectProductChildTriggerHandler   100%   [21-10-26]
+ * @lastModifiedBy Charles EID   [21-10-26]
  ────────────────────────────────────── */
 @isTest
 private class Test_ProjectProductChildTriggerHandler {
@@ -47,11 +47,16 @@ private class Test_ProjectProductChildTriggerHandler {
 
         Test.stopTest();
 
-        List<ProjectShareclass__c> projectShareclasses = [SELECT Id, Tech_ShareClass__c FROM ProjectShareclass__c WHERE ProjectProduct__c = :project.Id];
+        List<ProjectShareclass__c> projectShareclasses = [SELECT Id, Tech_ShareClass__c
+                                                          FROM ProjectShareclass__c
+                                                          WHERE ProjectProduct__c = :project.Id];
+        Integer junctionCount = [SELECT COUNT() FROM ProjectChildJunction__c WHERE ProjectShareclass__c = :projectShareclasses[0].Id];
+        ProjectProduct__c updatedProject = [SELECT InternalShortName__c FROM ProjectProduct__c WHERE Id = :project.Id];
+        ProjectProductChild__c completedPhase = [SELECT CompletionRateStep__c FROM ProjectProductChild__c WHERE Id = :engineering.Id];
         System.assertEquals(1, projectShareclasses.size(), 'The active share class of the fund is cloned');
         System.assertEquals(shareClass.Id, projectShareclasses[0].Tech_ShareClass__c);
-        System.assertEquals(phaseByName.size(), [SELECT COUNT() FROM ProjectChildJunction__c WHERE ProjectShareclass__c = :projectShareclasses[0].Id], 'The cloned share class is linked to every phase');
-        System.assertEquals('NEWNAME', [SELECT InternalShortName__c FROM ProjectProduct__c WHERE Id = :project.Id].InternalShortName__c, 'A field edited on a phase is copied to the project');
-        System.assertEquals(100, [SELECT CompletionRateStep__c FROM ProjectProductChild__c WHERE Id = :engineering.Id].CompletionRateStep__c, 'A Completed phase of a modification project is at 100');
+        System.assertEquals(phaseByName.size(), junctionCount, 'The cloned share class is linked to every phase');
+        System.assertEquals('NEWNAME', updatedProject.InternalShortName__c, 'A field edited on a phase is copied to the project');
+        System.assertEquals(100, completedPhase.CompletionRateStep__c, 'A Completed phase of a modification project is at 100');
     }
 }

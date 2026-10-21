@@ -12,7 +12,7 @@ public class Test_ProjectProductTrigger {
     private static final Id fundCreationRtId = Schema.SObjectType.ProjectProduct__c.getRecordTypeInfosByDeveloperName().get('FundCreation').getRecordTypeId();
 
     // Fund creation project: after insert (Road To Market), then before/after update (status date, Launch Date milestone, Legal owner rule, conditional PMT lines)
-    @IsTest
+    @isTest
     static void test_insertAndUpdate() {
         // FIX-20178: Legal owner of the OEIC legal form, through a PMT owner rule (owner found by FederationIdentifier)
         Profile standardUser = [SELECT Id FROM Profile WHERE Name = 'Standard User' LIMIT 1];
@@ -28,8 +28,10 @@ public class Test_ProjectProductTrigger {
         PMTTestFactoryData.createMatrixLine('Filing', 'OPS', 'Share_Class__c', 'ISIN__c', 'Required', '(ISPICKVAL(ProjectProduct__c.DomiciledIn__c, \'GB\') || ISPICKVAL(ProjectProduct__c.DomiciledIn__c, \'LU\')) && (ISPICKVAL(ProjectProduct__c.LegalForm__c, \'OEIC\') || ISPICKVAL(ProjectProduct__c.LegalForm__c, \'SICAV\'))');
 
         ProjectProduct__c proj = PMTTestFactoryData.createProjectProductWithAllFields(fundCreationRtId);
-        System.assert(![SELECT Id FROM RoadToMarket__c WHERE Parent_Project__c = :proj.Id].isEmpty(), 'RoadToMarket should be created after insert');
-        Boolean opsUsesOtherFilingFields = !PMTMatrix.get().forConditions(proj).getRule('OPS', 'Filing').isEmpty();
+        List<RoadToMarket__c> roadToMarkets = [SELECT Id FROM RoadToMarket__c WHERE Parent_Project__c = :proj.Id];
+        System.assert(!roadToMarkets.isEmpty(), 'RoadToMarket should be created after insert');
+        PMTMatrix projectMatrix = PMTMatrix.get().forConditions(proj);
+        Boolean opsUsesOtherFilingFields = !projectMatrix.getRule('OPS', 'Filing').isEmpty();
         ProjectProductChild__c filing = [SELECT TECH_TeamValidation__c
                                          FROM ProjectProductChild__c
                                          WHERE ProjectProductParent__c = :proj.Id AND Name = 'Filing'];
