@@ -2,15 +2,15 @@
  * @description Tests of the Rollback Validation panel controller (phases, teams of the project's Scope, add / remove validated teams), and of the phase status that follows
  *                  the team validation (FIX-20270): Completed once every team of the Scope has validated, back to On track when a team is removed, Design following Proposal
  *                  (in the same save, and through a separate update when Design is not in the save).
- * @covers RollbackTeamValidationController   100%   [19-10-26]
- * @covers ProjectProductChildHandlerUtilities   100%   [19-10-26]
- * @lastModifiedBy Charles EID   [19-10-26]
+ * @covers RollbackTeamValidationController   100%   [21-10-26]
+ * @covers ProjectProductChildHandlerUtilities   100%   [21-10-26]
+ * @lastModifiedBy Charles EID   [21-10-26]
  ────────────────────────────────────── */
 @isTest
 public class Test_RollbackTeamValidationController {
 
-    static final Id fundModificationRecordTypeId = Schema.SObjectType.ProjectProduct__c.getRecordTypeInfosByDeveloperName().get('FundShareClassModification').getRecordTypeId();
-    static final Id fundCreationRecordTypeId = Schema.SObjectType.ProjectProduct__c.getRecordTypeInfosByDeveloperName().get('FundCreation').getRecordTypeId();
+    private static final Id fundModificationRecordTypeId = Schema.SObjectType.ProjectProduct__c.getRecordTypeInfosByDeveloperName().get('FundShareClassModification').getRecordTypeId();
+    private static final Id fundCreationRecordTypeId = Schema.SObjectType.ProjectProduct__c.getRecordTypeInfosByDeveloperName().get('FundCreation').getRecordTypeId();
 
     @testSetup
     static void setupData() {
@@ -36,7 +36,8 @@ public class Test_RollbackTeamValidationController {
         ProjectProduct__c modificationProject = [SELECT Id FROM ProjectProduct__c WHERE RecordTypeId = :fundModificationRecordTypeId LIMIT 1];
         ProjectProduct__c creationProject = [SELECT Id, Scope__c FROM ProjectProduct__c WHERE RecordTypeId = :fundCreationRecordTypeId LIMIT 1];
         String scope = ProjectProductSetupHandlerUtilities.normalizeScope(creationProject.Scope__c);
-        List<String> scopeTeams = new List<String>(PMTMatrix.get().forScope(scope).getValidationTeamKeys());
+        PMTMatrix scopedMatrix = PMTMatrix.get().forScope(scope);
+        List<String> scopeTeams = new List<String>(scopedMatrix.getValidationTeamKeys());
         Map<String, Id> phaseIdByName = new Map<String, Id>();
         for (ProjectProductChild__c phase : [SELECT Id, Name FROM ProjectProductChild__c WHERE ProjectProductParent__c = :creationProject.Id]) {
             phaseIdByName.put(phase.Name, phase.Id);
@@ -65,7 +66,9 @@ public class Test_RollbackTeamValidationController {
 
         System.assertEquals(4, recordTypes.size(), 'DesignAndProposal, Engineering, Filing and SetUp');
         System.assert(!(teams.contains('ProductStrategy') && teams.contains('IS')), 'Product Strategy and IS are never offered together');
-        for (ProjectProductChild__c phase : [SELECT TECH_TeamValidation__c FROM ProjectProductChild__c WHERE ProjectProductParent__c = :modificationProject.Id AND Name = 'Engineering']) {
+        for (ProjectProductChild__c phase : [SELECT TECH_TeamValidation__c
+                                             FROM ProjectProductChild__c
+                                             WHERE ProjectProductParent__c = :modificationProject.Id AND Name = 'Engineering']) {
             Set<String> validatedTeams = ProjectProductSetupHandlerUtilities.splitMultiPicklist(phase.TECH_TeamValidation__c);
             System.assert(!validatedTeams.contains('Legal'), 'Legal rolled back to Draft');
             System.assert(validatedTeams.contains('Compliance'), 'Compliance validated');

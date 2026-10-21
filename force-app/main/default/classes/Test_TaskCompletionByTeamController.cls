@@ -1,14 +1,19 @@
+/** ──────────────────────────────────────
+ * @description Tests of the lwc_TaskCompletionByTeam controller on a Fund creation project: the stage x team grid of the widget, then
+ *                  the completion rates of a stage (known team computed, unknown team skipped, nothing to compute).
+ * @covers TaskCompletionByTeamController   99%   [21-10-26]
+ * @lastModifiedBy Charles EID   [21-10-26]
+ ────────────────────────────────────── */
 @isTest
 public class Test_TaskCompletionByTeamController {
 
-    // Fund creation project: stage x team grid of the widget, then the completion rates of a stage
     @isTest
     static void test_teamCompletion() {
         // FIX-20178: rules added to the PMT matrix of this transaction (in memory, so not in a @testSetup)
         PMTTestFactoryData.createMatrice('Proposal', 'Risk', 'InvestmentObjective__c;InvestmentStrategy__c', 'CurrencyIsoCode;Type__c');
         PMTTestFactoryData.createMatrice('Design', 'Risk', 'InvestmentObjective__c;InvestmentStrategy__c', 'CurrencyIsoCode;Type__c');
 
-        ProjectProduct__c proj = PMTTestFactoryData.createProjectProductWithAllFields(Schema.SObjectType.ProjectProduct__c.getRecordTypeInfosByDeveloperName().get('FundCreation').getRecordTypeId());
+        ProjectProduct__c proj = PMTTestFactoryData.createProjectProductWithAllFields(PMTTestFactoryData.getRecordTypeId('ProjectProduct__c', 'FundCreation'));
         proj.Risk__c = UserInfo.getUserId(); // A real owner on the Risk team field, so the owner name resolves to an actual User
         update proj;
 
@@ -19,16 +24,18 @@ public class Test_TaskCompletionByTeamController {
         PMTTestFactoryData.createShareclassChild(shc.Id, 'Proposal');
 
         Test.startTest();
-        System.assertNotEquals(null, TaskCompletionByTeamController.getStepWithTeams(proj.Id), 'Stages and teams of the project');
 
+        String stepsWithTeams = TaskCompletionByTeamController.getStepWithTeams(proj.Id);
         // Risk is computed, an unknown team is skipped
-        List<TaskCompletionByTeamController.TeamCompletionWrapper> results = TaskCompletionByTeamController.getCompletionRatesBulk(
-            new List<Id>{ child.Id, child.Id }, new List<String>{ 'Proposal', 'Proposal' }, new List<String>{ 'Risk', 'Unknown Team' });
-        System.assert(TaskCompletionByTeamController.getCompletionRatesBulk(new List<Id>(), new List<String>(), new List<String>()).isEmpty(), 'Nothing to compute');
+        List<TaskCompletionByTeamController.TeamCompletionWrapper> results = TaskCompletionByTeamController.getCompletionRatesBulk(new List<Id>{ child.Id, child.Id }, new List<String>{ 'Proposal', 'Proposal' }, new List<String>{ 'Risk', 'Unknown Team' });
+        List<TaskCompletionByTeamController.TeamCompletionWrapper> noResults = TaskCompletionByTeamController.getCompletionRatesBulk(new List<Id>(), new List<String>(), new List<String>());
+
         Test.stopTest();
 
+        System.assertNotEquals(null, stepsWithTeams, 'Stages and teams of the project');
         System.assertEquals(1, results.size(), 'Only the known team is computed');
         System.assertEquals(child.Id, results[0].recordId);
         System.assertEquals('Risk', results[0].teamName);
+        System.assert(noResults.isEmpty(), 'Nothing to compute');
     }
 }

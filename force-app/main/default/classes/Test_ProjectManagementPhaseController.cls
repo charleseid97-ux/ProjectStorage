@@ -1,10 +1,10 @@
 /** ──────────────────────────────────────
  * @description Tests of the "Project Management Phase" table controller (Admin interface tab): reading the phases of a project, saving the edited dates and statuses, and the
  *                  save error returned to the LWC as a readable AuraHandledException (FIX-20270).
- * @covers ProjectManagementPhaseController   100%   [19-10-26]
- * @lastModifiedBy Charles EID   [19-10-26]
+ * @covers ProjectManagementPhaseController   100%   [21-10-26]
+ * @lastModifiedBy Charles EID   [21-10-26]
  ────────────────────────────────────── */
-@IsTest
+@isTest
 public class Test_ProjectManagementPhaseController {
 
     private static final Id fundCreationRtId = Schema.SObjectType.ProjectProduct__c.getRecordTypeInfosByDeveloperName().get('FundCreation').getRecordTypeId();
@@ -12,7 +12,9 @@ public class Test_ProjectManagementPhaseController {
     @isTest
     static void test_updateProjectChildren() {
         ProjectProduct__c proj = PMTTestFactoryData.createProjectProductWithAllFields(fundCreationRtId);
-        ProjectProductChild__c engineering = [SELECT Id, StartDate__c FROM ProjectProductChild__c WHERE ProjectProductParent__c = :proj.Id AND Name = 'Engineering' LIMIT 1];
+        ProjectProductChild__c engineering = [SELECT Id, StartDate__c
+                                              FROM ProjectProductChild__c
+                                              WHERE ProjectProductParent__c = :proj.Id AND Name = 'Engineering' LIMIT 1];
         Date newStartDate = engineering.StartDate__c.addDays(1);
         String errorMessage;
 

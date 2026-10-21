@@ -13,7 +13,8 @@ private class PMTMatrixTest {
     static void test_matrix() {
         // 1. Configuration loaded from the PMT custom metadata records, once per transaction
         PMTMatrix matrix = PMTMatrix.get();
-        System.assert(matrix === PMTMatrix.get(), 'The matrix is loaded once per transaction');
+        PMTMatrix sameMatrix = PMTMatrix.get();
+        System.assert(matrix === sameMatrix, 'The matrix is loaded once per transaction');
 
         for (Integer i = 1; i < matrix.stages.size(); i++) {
             System.assert(matrix.stages[i - 1].sortOrder <= matrix.stages[i].sortOrder, 'Stages are sorted by order');
@@ -79,12 +80,16 @@ private class PMTMatrixTest {
             invalidMessage = e.getMessage();
         }
         System.assert(invalidMessage != null && invalidMessage.contains('LEGFSISIN') && invalidMessage.contains(Schema.PMTFieldRuleLine__mdt.SObjectType.getDescribe().getLabel()), 'The error names the record to fix: ' + invalidMessage);
-        System.assert(PMTMatrix.getForScreen() === matrix, 'getForScreen() returns the matrix of the transaction');
+        PMTMatrix screenMatrix = PMTMatrix.getForScreen();
+        System.assert(screenMatrix === matrix, 'getForScreen() returns the matrix of the transaction');
 
         // US-20194: ISIN__c is used by Legal (FR/IE + FCP/ICAV/FCPR/FCPE), by OPS (GB/LU + OEIC/SICAV), by nobody otherwise
-        System.assertEquals('Legal', PMTMatrix.forProject(new ProjectProduct__c(DomiciledIn__c = 'FR', LegalForm__c = 'FCP')).getTeamByField().get('ISIN__c'), 'FR FCP fund: ISIN__c is a Legal field');
-        System.assertEquals('OPS', PMTMatrix.forProject(new ProjectProduct__c(DomiciledIn__c = 'LU', LegalForm__c = 'SICAV')).getTeamByField().get('ISIN__c'), 'LU SICAV fund: ISIN__c is an OPS field');
-        System.assertEquals(null, PMTMatrix.forProject(new ProjectProduct__c(DomiciledIn__c = 'LU', LegalForm__c = 'FCP')).getTeamByField().get('ISIN__c'), 'LU FCP fund: nobody uses ISIN__c');
+        PMTMatrix frFcpMatrix = PMTMatrix.forProject(new ProjectProduct__c(DomiciledIn__c = 'FR', LegalForm__c = 'FCP'));
+        PMTMatrix luSicavMatrix = PMTMatrix.forProject(new ProjectProduct__c(DomiciledIn__c = 'LU', LegalForm__c = 'SICAV'));
+        PMTMatrix luFcpMatrix = PMTMatrix.forProject(new ProjectProduct__c(DomiciledIn__c = 'LU', LegalForm__c = 'FCP'));
+        System.assertEquals('Legal', frFcpMatrix.getTeamByField().get('ISIN__c'), 'FR FCP fund: ISIN__c is a Legal field');
+        System.assertEquals('OPS', luSicavMatrix.getTeamByField().get('ISIN__c'), 'LU SICAV fund: ISIN__c is an OPS field');
+        System.assertEquals(null, luFcpMatrix.getTeamByField().get('ISIN__c'), 'LU FCP fund: nobody uses ISIN__c');
 
         // Project with two share classes (created with the deployed matrix), read in part 3
         ProjectProduct__c project = PMTTestFactoryData.createProjectProductWithAllFields(PMTTestFactoryData.getRecordTypeId('ProjectProduct__c', 'FundCreation'));
@@ -103,7 +108,8 @@ private class PMTMatrixTest {
         }
 
         PMTTestFactoryData.clearMatrix();
-        System.assert(PMTMatrix.get().stages.isEmpty() && PMTMatrix.get().rules.isEmpty(), 'clearMatrix() empties the matrix');
+        PMTMatrix emptyMatrix = PMTMatrix.get();
+        System.assert(emptyMatrix.stages.isEmpty() && emptyMatrix.rules.isEmpty(), 'clearMatrix() empties the matrix');
 
         PMTTestFactoryData.createMatrice('Proposal', 'Legal', 'LegalForm__c', 'Type__c');
         PMTTestFactoryData.createMatrice('Proposal', 'Legal', 'DomiciledIn__c;LegalForm__c', null);
@@ -143,7 +149,8 @@ private class PMTMatrixTest {
         System.assert(sicavMatrix.getRule('Legal', 'Filing').isEmpty(), 'The condition is false for a SICAV: Legal has no field at Filing');
         System.assert(sicavMatrix.getTeamsWithoutFieldsByStage().get('Filing').contains('Legal'), 'Without field at Filing, Legal is validated automatically');
         System.assertEquals(new List<String>{ 'MaxPerfFees__c' }, sicavMatrix.getRule('Risk', 'Filing').optionalShareClass, 'A share class condition is kept at project level (it may apply to one of its share classes)');
-        System.assertEquals(new List<String>{ 'ISIN__c' }, PMTMatrix.forProject(new ProjectProduct__c(Scope__c = 'PS', LegalForm__c = 'FCP')).getRule('Legal', 'Filing').requiredShareClass, 'forProject(): Scope then conditions');
+        PMTMatrix psFcpMatrix = PMTMatrix.forProject(new ProjectProduct__c(Scope__c = 'PS', LegalForm__c = 'FCP'));
+        System.assertEquals(new List<String>{ 'ISIN__c' }, psFcpMatrix.getRule('Legal', 'Filing').requiredShareClass, 'forProject(): Scope then conditions');
 
         Test.startTest();
 
@@ -156,7 +163,8 @@ private class PMTMatrixTest {
         System.assertEquals(new List<String>{ 'MaxPerfFees__c' }, projectMatrix.forShareClass(withPerfFees.Id).getRule('Risk', 'Filing').optionalShareClass, 'Share class with performance fees: Risk uses MaxPerfFees__c');
         System.assert(projectMatrix.forShareClass(withoutPerfFees.Id).getRule('Risk', 'Filing').isEmpty(), 'Share class without performance fees: Risk has no field');
         System.assert(projectMatrix.forShareClass(project.Id) === projectMatrix, 'An unknown share class keeps the project matrix');
-        System.assert(PMTMatrix.loadProjects(new Set<Id>()).isEmpty(), 'No project to read');
+        Map<Id, ProjectProduct__c> noProjectById = PMTMatrix.loadProjects(new Set<Id>());
+        System.assert(noProjectById.isEmpty(), 'No project to read');
     }
 
     private static User newUser(String alias, String suffix) {

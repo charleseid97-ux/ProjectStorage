@@ -3,11 +3,11 @@
  *                  product with its Scope__c and PMTScope__c, share classes), fund/share class modification, share class
  *                  creation, and a project not ready for launch (skipped). The controller's error paths are tested
  *                  directly (no project enriched, project without product).
- * @lastModifiedBy Charles EID   [15-10-26]
- * @covers ProjectProductBatch   85%   [15-10-26]
- * @covers ProjectProductBatchController   94%   [15-10-26]
- * @covers ProjectProductBatchUtilities   80%   [15-10-26]
- * @covers ProjectProductBatchScheduler   100%   [15-10-26]
+ * @lastModifiedBy Charles EID   [21-10-26]
+ * @covers ProjectProductBatch   85%   [21-10-26]
+ * @covers ProjectProductBatchController   94%   [21-10-26]
+ * @covers ProjectProductBatchUtilities   80%   [21-10-26]
+ * @covers ProjectProductBatchScheduler   100%   [21-10-26]
  ────────────────────────────────────── */
 @isTest
 private class Test_ProjectProductBatch {
@@ -19,8 +19,6 @@ private class Test_ProjectProductBatch {
 
     @testSetup
     static void setupData() {
-        PMTTestFactoryData.createMatrice('Proposal', 'Risk', 'InvestmentObjective__c;InvestmentStrategy__c', 'CurrencyIsoCode;Type__c');
-
         // Single DML per object: the PMT triggers run many queries per DML
         Product__c fundToModify = new Product__c(RecordTypeId = fundRecordTypeId, Name = 'FundModCode', ProductName__c = 'Fund To Modify', Validity__c = true);
         Product__c fundForShareclass = new Product__c(RecordTypeId = fundRecordTypeId, Name = 'ShareClsProd', ProductName__c = 'Fund For Shareclass', Validity__c = true);
