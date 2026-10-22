@@ -2,6 +2,7 @@ import { api, LightningElement, track } from 'lwc';
 import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 import getStepsWithTeam  from '@salesforce/apex/TaskCompletionByTeamController.getStepWithTeams';
 import getCompletionRatesBulk  from '@salesforce/apex/TaskCompletionByTeamController.getCompletionRatesBulk';
+import getPMTConfigurationWarning from '@salesforce/apex/PageLayoutController.getPMTConfigurationWarning';
 import { NavigationMixin } from 'lightning/navigation';
 
 export default class Lwc_TaskCompletionByTeam  extends NavigationMixin(LightningElement)  {
@@ -14,7 +15,7 @@ export default class Lwc_TaskCompletionByTeam  extends NavigationMixin(Lightning
     @track isModalOpen = false; // Controls modal visibility
     wiredresultdata;
     istepactive=false;
-    stepsdata=[];
+    stepsData = [];
 
     columns = [ 
         {   label: 'Team', fieldName: 'team', type: 'text' },
@@ -60,7 +61,7 @@ export default class Lwc_TaskCompletionByTeam  extends NavigationMixin(Lightning
 
     handleSuccess() {
         this.isModalOpen = false;
-        this.dispatchEvent(new ShowToastEvent({ title: 'Success', message: 'Record updated successfully!', variant: 'success'}));
+        this.showToast('Success', 'Record updated successfully!', 'success');
       this.isLoading=true;
       this.getStepsWithTeam();
     }
@@ -77,7 +78,19 @@ export default class Lwc_TaskCompletionByTeam  extends NavigationMixin(Lightning
     }
    
     connectedCallback() {
+        this.showConfigurationWarning();
         this.getStepsWithTeam();
+    }
+
+    // US-20194 V1.2: PMT lines pointing to fields missing in this org (configuration to fix); an invalid condition is reported by the screen's own calls
+    showConfigurationWarning() {
+        getPMTConfigurationWarning()
+            .then(message => { if (message) this.showToast('Warning', message, 'warning', 'sticky'); })
+            .catch(() => {});
+    }
+
+    showToast(title, message, variant, mode = 'dismissible') {
+        this.dispatchEvent(new ShowToastEvent({ title, message, variant, mode }));
     }
 
     async getStepsWithTeam() {
@@ -136,8 +149,8 @@ export default class Lwc_TaskCompletionByTeam  extends NavigationMixin(Lightning
             this.isLoading = false;
         } 
         catch (error) {
-            console.error('❌ Error preparing data:', error);
             this.isLoading = false;
+            this.showToast('Error', error?.body?.message || 'Unable to load the completion rates', 'error');
         }
     }
 }

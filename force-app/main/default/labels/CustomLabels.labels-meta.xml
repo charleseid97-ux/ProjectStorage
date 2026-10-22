@@ -2233,4 +2233,12 @@ Il calcolo viene adattato alla data di variazione delle spese effettivamente app
         <shortDescription>PMT Invalid Condition</shortDescription>
         <value>PMT configuration error: the condition of the {0} record {1} is invalid ({2}). Please contact your Salesforce administrator to fix it in Setup &gt; Custom Metadata Types.</value>
     </labels>
+    <labels>
+        <fullName>PMT_MissingFields</fullName>
+        <categories>PMT</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PMT Missing Fields</shortDescription>
+        <value>PMT configuration error: these PMT - Field Rule Line records point to fields missing in this org and are not used: {0}. Please contact your Salesforce administrator to deploy the fields or fix the records.</value>
+    </labels>
 </CustomLabels>

@@ -3,6 +3,7 @@ import { getRecordUi } from 'lightning/uiRecordApi';
 import { getObjectInfo } from 'lightning/uiObjectInfoApi';
 import getEditableFieldsFromSourceField from '@salesforce/apex/PageLayoutController.getEditableFieldsFromSourceField';
 import getFieldStates from '@salesforce/apex/PageLayoutController.getFieldStates';
+import getPMTConfigurationWarning from '@salesforce/apex/PageLayoutController.getPMTConfigurationWarning';
 import getRecordTypeId from '@salesforce/apex/PageLayoutController.getRecordTypeId';
 import checkModificationConidtions from '@salesforce/apex/PageLayoutController.checkModificationConidtions';
 import { ShowToastEvent } from 'lightning/platformShowToastEvent';
@@ -62,6 +63,14 @@ export default class LayoutEditableFields extends NavigationMixin(LightningEleme
 
     connectedCallback() {
         this.currentObject = this.objectApiName == 'ProjectProductChild__c'? ProjectProductChildOBJ : this.objectApiName == 'ProjectShareclassChild__c'? ProjectShareclassChildOBJ : null;
+        this.showConfigurationWarning();
+    }
+
+    // US-20194 V1.2: PMT lines pointing to fields missing in this org (configuration to fix); an invalid condition is reported by the screen's own calls
+    showConfigurationWarning() {
+        getPMTConfigurationWarning()
+            .then(message => { if (message) this.showToast('Warning', message, 'warning', 'sticky'); })
+            .catch(() => {});
     }
 
     // US-20194 V1.2: the team's fields on this stage record (PMT lines and their conditions), evaluated by Apex with the unsaved values of the screen
@@ -83,8 +92,8 @@ export default class LayoutEditableFields extends NavigationMixin(LightningEleme
             });
     }
 
-    showToast(title, message, variant) {
-        this.dispatchEvent(new ShowToastEvent({ title, message, variant }));
+    showToast(title, message, variant, mode = 'dismissible') {
+        this.dispatchEvent(new ShowToastEvent({ title, message, variant, mode }));
     }
 
     @wire(getAllFieldsByRecordId, { recordId: '$recordId' })

@@ -5,8 +5,8 @@
  *                  error of an invalid condition (custom label PMT_InvalidCondition).
  *              US-20194 V1.2: Conditional lines (RequiredCondition__c), the fields of a team's screen, and the fund's real values read by the
  *                  conditions of a modification project.
- * @covers PMTMatrix   99%   [22-10-26]
- * @lastModifiedBy Charles EID   [22-10-26]
+ * @covers PMTMatrix   98%   [23-10-26]
+ * @lastModifiedBy Charles EID   [23-10-26]
  ────────────────────────────────────── */
 @isTest
 private class PMTMatrixTest {
@@ -88,6 +88,14 @@ private class PMTMatrixTest {
         System.assert(invalidMessage != null && invalidMessage.contains('LEGFSISIN') && invalidMessage.contains(Schema.PMTFieldRuleLine__mdt.SObjectType.getDescribe().getLabel()), 'The error names the record to fix: ' + invalidMessage);
         PMTMatrix screenMatrix = PMTMatrix.getForScreen();
         System.assert(screenMatrix === matrix, 'getForScreen() returns the matrix of the transaction');
+
+        // US-20194 V1.2: a line whose field is missing in the org is not used, and the PMT screens report it (custom label PMT_MissingFields)
+        String noWarning = PMTMatrix.getMissingFieldsMessage();
+        PMTMatrix.missingFieldLines = new List<String>{ 'RSKPFLiquidityManagementToolLMT (ProjectProductChild__c.LiquidityManagementToolLMT__c)' };
+        String missingFieldWarning = PMTMatrix.getMissingFieldsMessage();
+        System.assertEquals(null, noWarning, 'Every line field exists in this org: no warning');
+        System.assert(missingFieldWarning.contains('RSKPFLiquidityManagementToolLMT (ProjectProductChild__c.LiquidityManagementToolLMT__c)'), 'The warning names the line and its missing field: ' + missingFieldWarning);
+        PMTMatrix.missingFieldLines = new List<String>();
 
         // US-20194: ISIN__c is used by Legal (FR/IE + FCP/ICAV/FCPR/FCPE), by OPS (GB/LU + OEIC/SICAV), by nobody otherwise
         PMTMatrix frFcpMatrix = PMTMatrix.forProject(new ProjectProduct__c(DomiciledIn__c = 'FR', LegalForm__c = 'FCP'));
