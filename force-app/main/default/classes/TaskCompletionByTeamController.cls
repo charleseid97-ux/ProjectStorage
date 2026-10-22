@@ -6,9 +6,9 @@
  *                  percentages per step/team from the required fields of the PMT matrix (FIX-20178), according to the
  *                  conditions of each project and share class (US-20194).
  *              Works in conjunction with TaskCompletionByTeamControllerUtilities for data retrieval.
- * @lastModifiedBy Charles EID   [21-10-26]
+ * @lastModifiedBy Charles EID   [23-10-26]
  * @testClass Test_TaskCompletionByTeamController
- * @coverage 99%   [21-10-26]
+ * @coverage 99%   [23-10-26]
  ────────────────────────────────────── */
 public without sharing class TaskCompletionByTeamController {
 
@@ -111,10 +111,10 @@ public without sharing class TaskCompletionByTeamController {
         List<TeamCompletionWrapper> results = new List<TeamCompletionWrapper>();
         if (recordIds.isEmpty() || stepNames.isEmpty() || teamNames.isEmpty()) return results;
 
-        // 1. Champs requis de la matrice PMT (FIX-20178), toutes conditions confondues pour la requête
+        // 1. Champs requis de la matrice PMT (FIX-20178), toutes conditions confondues pour la requête. US-20194 V1.2.2: y compris les lignes Conditional, requises selon le projet ou la share class
         PMTMatrix matrix = PMTMatrix.getForScreen();
-        Set<String> allRequiredFields = new Set<String>(matrix.getRequiredFields(true));
-        Set<String> allRequiredFieldsShareclass = new Set<String>(matrix.getRequiredFields(false));
+        Set<String> allRequiredFields = matrix.getRequirableFields(true);
+        Set<String> allRequiredFieldsShareclass = matrix.getRequirableFields(false);
 
         // 2. Récupérer les ProjectProductChild avec les bons champs
         String fieldsQuery = 'Id, Name, RecordType.DeveloperName, ProjectProductParent__c, Status__c, CompletionRateStep__c';

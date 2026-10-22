@@ -183,6 +183,7 @@ private class PMTMatrixTest {
         PMTMatrix oeicMatrix = requirementMatrix.forConditions(new ProjectProduct__c(LegalForm__c = 'OEIC'));
         PMTMatrix fcpRequirementMatrix = requirementMatrix.forConditions(new ProjectProduct__c(LegalForm__c = 'FCP'));
         System.assert(requirementMatrix.getRule('Legal', 'Filing').optionalFund.contains('SFDRcategory__c'), 'A Conditional line not evaluated yet is optional');
+        System.assert(requirementMatrix.getRequirableFields(true).contains('SFDRcategory__c') && !requirementMatrix.getRequiredFields(true).contains('SFDRcategory__c'), 'A query built before evaluating the conditions selects the Conditional fields too');
         System.assert(fcpRequirementMatrix.getRule('Legal', 'Filing').requiredFund.contains('SFDRcategory__c'), 'Required condition true: required');
         System.assert(oeicMatrix.getRule('Legal', 'Filing').optionalFund.contains('SFDRcategory__c'), 'Required condition false: optional');
         System.assertEquals(new Map<String, Boolean>{ 'SFDRcategory__c' => true }, fcpRequirementMatrix.getTeamFieldStates('Legal', new Set<String>{ 'Filing' }, true), 'Fund fields of the Legal screen at Filing');
