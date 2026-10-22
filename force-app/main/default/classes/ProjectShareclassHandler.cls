@@ -7,9 +7,9 @@
  *                  IS goes to the Scope's team.
  *              US-20194: the matrix follows the conditions of the project (and of the share class for the goal).
  *              Previous change: US-19137 (Mira EID, 26-05-26) - updated setNameWithoutProduct.
- * @lastModifiedBy Charles EID   [21-10-26]
+ * @lastModifiedBy Charles EID   [22-10-26]
  * @testClass Test_ProjectShareclassTrigger
- * @coverage 99%   [21-10-26]
+ * @coverage 99%   [22-10-26]
  ────────────────────────────────────── */
 public class ProjectShareclassHandler {
 
@@ -30,7 +30,7 @@ public class ProjectShareclassHandler {
 
         for (ProjectShareclassChild__c child : projectShareclassChildren) {
             // FIX-20178 / US-20194: champs Share Class requis de l'étape, depuis la matrice PMT selon les conditions du projet et de la share class
-            PMTMatrix matrix = PMTMatrix.get().forConditions(projectById.get(child.ProjectShareclasses__r.ProjectProduct__c)).forShareClass(child.ProjectShareclasses__c);
+            PMTMatrix matrix = PMTMatrix.forProject(projectById.get(child.ProjectShareclasses__r.ProjectProduct__c)).forShareClass(child.ProjectShareclasses__c); // US-20194 V1.2: goal with the project's Scope
             String stage = child.TECH_Childtype__c == 'DesignAndProposal' ? 'Proposal' : child.TECH_Childtype__c;
             Set<String> stageFields = new Set<String>(matrix.getRequiredFieldsByStage(false).get(stage) ?? new List<String>());
 

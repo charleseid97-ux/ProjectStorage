@@ -2,9 +2,9 @@
  * @description Trigger logic for ProjectShareclassChild__c (Share Class stages of a PMT project): filled fields count
  *                  against the stage's required Share Class fields (PMT matrix, FIX-20178; US-20194: according to the conditions
  *                  of the project and of the share class), parent Share Class updates, record lock, cloning from the parent Share Class and tax fields.
- * @lastModifiedBy Charles EID   [21-10-26]
+ * @lastModifiedBy Charles EID   [22-10-26]
  * @testClass Test_ProjectShareclassTrigger
- * @coverage 93%   [21-10-26]
+ * @coverage 93%   [22-10-26]
  ────────────────────────────────────── */
 public class ProjectShareclassChildHandler {
 
@@ -33,8 +33,8 @@ public class ProjectShareclassChildHandler {
             String shareClassChildType = shareClass.TECH_Childtype__c;
 
             if (shareClass.TECH_Childtype__c == 'DesignAndProposal') shareClassChildType = 'Proposal';
-            // FIX-20178 / US-20194: champs Share Class requis de l'étape, depuis la matrice PMT selon les conditions du projet et de la share class
-            PMTMatrix matrix = PMTMatrix.get().forConditions(projectById.get(parentToProject.get(shareClass.ProjectShareclasses__c))).forShareClass(shareClass.ProjectShareclasses__c);
+            // FIX-20178 / US-20194: champs Share Class requis de l'étape, depuis la matrice PMT selon les conditions du projet et de la share class. US-20194 V1.2: with the project's Scope, as the validation (an IS project does not count Product Strategy's lines).
+            PMTMatrix matrix = PMTMatrix.forProject(projectById.get(parentToProject.get(shareClass.ProjectShareclasses__c))).forShareClass(shareClass.ProjectShareclasses__c);
             List<String> stageFields = matrix.getRequiredFieldsByStage(false).get(shareClassChildType);
             if (stageFields == null || stageFields.isEmpty()) continue;
 

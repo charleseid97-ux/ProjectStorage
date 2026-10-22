@@ -3,8 +3,16 @@
     <label>LiquidityManagementToolLMT (Fund)</label>
     <protected>false</protected>
     <values>
+        <field>DependentFields__c</field>
+        <value xsi:nil="true"/>
+    </values>
+    <values>
         <field>FieldApiName__c</field>
         <value xsi:type="xsd:string">LiquidityManagementToolLMT__c</value>
+    </values>
+    <values>
+        <field>IsModifiable__c</field>
+        <value xsi:type="xsd:boolean">true</value>
     </values>
     <values>
         <field>Object__c</field>

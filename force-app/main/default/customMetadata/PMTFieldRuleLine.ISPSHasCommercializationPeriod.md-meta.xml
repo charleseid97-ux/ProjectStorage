@@ -15,6 +15,10 @@
         <value xsi:type="xsd:string">SCHasCommercializationPeriod</value>
     </values>
     <values>
+        <field>RequiredCondition__c</field>
+        <value xsi:nil="true"/>
+    </values>
+    <values>
         <field>Requirement__c</field>
         <value xsi:type="xsd:string">Optional</value>
     </values>

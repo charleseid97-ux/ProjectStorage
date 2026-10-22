@@ -1,35 +1,13 @@
 /** ──────────────────────────────────────
- * @description Apex controller for the PMT LWCs layoutEditableFields and projectChildTeamValidation: editable fields
- *                  from the user's PRP permission set, editability/modification conditions of a record, its fields and
- *                  record type, and the required fields of the PMT matrix (getFields, read from PMTMatrix since FIX-20178;
- *                  US-20194: according to the conditions of the record's project and share class).
- * @lastModifiedBy Charles EID   [21-10-26]
+ * @description Apex controller for the PMT LWCs layoutEditableFields and projectChildTeamValidation: a record's fields and record
+ *                  type, its editability/modification conditions, and the fields of a team's screen (getFieldStates, US-20194 V1.2):
+ *                  the team's PMT lines at the record's stage whose condition applies, required from the line, editable with the
+ *                  team's custom permission.
+ * @lastModifiedBy Charles EID   [22-10-26]
  * @testClass PageLayoutControllerTest
- * @coverage 94%   [21-10-26]
+ * @coverage 97%   [22-10-26]
  ────────────────────────────────────── */
 public without sharing class PageLayoutController {
-
-    @AuraEnabled(cacheable=true)
-    public static Map<String, Boolean> getEditableFields(String objectApiName, String teamView, Boolean viewAll) {
-        Map<String, Boolean> fieldPermissions = new Map<String, Boolean>();
-        if (objectApiName == 'ProjectShareclass__c') objectApiName = 'ProjectShareclassChild__c';
-
-        try {
-            // View all: every field of PRPMinimumAccess (editable or not), otherwise only the fields the team can edit
-            String permissionSetName = viewAll ? 'PRPMinimumAccess' : teamView;
-            for (FieldPermissions perm : [SELECT Field, PermissionsEdit
-                                          FROM FieldPermissions
-                                          WHERE SObjectType = :objectApiName AND Parent.Name = :permissionSetName]) {
-                if (viewAll || perm.PermissionsEdit) fieldPermissions.put(perm.Field, perm.PermissionsEdit);
-            }
-            if ((teamView == 'PRPProductStrategy' || teamView == 'PRPIS') && objectApiName == 'ProjectShareclassChild__c') fieldPermissions.put('ProjectShareclassChild__c.CurrencyIsoCode', !viewAll);
-        }
-        catch (Exception e) {
-            System.debug('❌ Error retrieving field permissions: ' + e.getMessage());
-        }
-
-        return fieldPermissions;
-    }
 
     @AuraEnabled(cacheable=true)
     public static Map<String, Object> getAllFieldsByRecordId(String recordId) {
@@ -78,20 +56,6 @@ public without sharing class PageLayoutController {
             result.put(fieldsMap.get(fieldName).getDescribe().getName(), record.get(fieldName));
         }
         return result;
-    }
-
-    @AuraEnabled(cacheable=true)
-    public static Boolean getUserPermissionSet(String teamView) {
-        try {
-            List<PermissionSetAssignment> permSet = [SELECT PermissionSet.Name
-                                                     FROM PermissionSetAssignment
-                                                     WHERE AssigneeId = :UserInfo.getUserId() AND PermissionSet.Name = :teamView LIMIT 1];
-            return !permSet.isEmpty(); // Returns TRUE if user has permission set, FALSE otherwise
-        }
-        catch (Exception e) {
-            System.debug('❌ Error fetching user permission set: ' + e.getMessage());
-            return false;
-        }
     }
 
     @AuraEnabled(cacheable=true)
@@ -190,51 +154,94 @@ public without sharing class PageLayoutController {
         }
     }
 
-    @AuraEnabled(cacheable=true)
-    public static List<String> getFields(String objectVar, String recordId) {
+    // US-20194 V1.2: fields of a team's screen (c__team) on a stage record: the team's lines at the record's stage whose Condition__c applies to the project and share class, as they are with the unsaved values (draftValues, field -> value) of the screen. Visible for everyone; required from the line (Requirement__c, RequiredCondition__c); editable when the user has the team's custom permission and can edit the field. Returns {fields: {api name: {required, editable}}, conditionFields: [fields whose change can change the states]}.
+    @AuraEnabled
+    public static Map<String, Object> getFieldStates(Id recordId, String teamView, Map<String, Object> draftValues) {
         if (PMTMatrix.getForScreen().rules.isEmpty()) throw new AuraHandledException('Aucun champ trouvé pour la Permission Set.');
 
-        // FIX-20178: required fields read from the PMT matrix instead of ProductProjectSettings__c; US-20194: according to the conditions of the record's project and share class
-        PMTMatrix matrix = getRecordMatrix(recordId);
-        List<String> requiredFields = new List<String>();
-        if (objectVar == 'ProjectProductChild__c') {
-            requiredFields = matrix.getRequiredFields(true);
-        }
-        else if (objectVar == 'ProjectShareclassChild__c') {
-            requiredFields = matrix.getRequiredFields(false);
-        }
-
-        return requiredFields;
-    }
-
-    // US-20194: PMT matrix of the project of a stage record (ProjectProductChild__c, ProjectShareclassChild__c) or project share class, according to its conditions, and to the conditions of the share class for a share class record. Without a known project, the whole matrix.
-    private static PMTMatrix getRecordMatrix(String recordId) {
-        if (String.isBlank(recordId)) return PMTMatrix.get();
-
+        Schema.SObjectType recordType = recordId.getSObjectType();
+        Boolean fund = recordType == ProjectProductChild__c.SObjectType;
+        Set<String> stageNames = new Set<String>();
         Id projectId;
         Id shareClassId;
-        Schema.SObjectType recordType = Id.valueOf(recordId).getSObjectType();
-        if (recordType == ProjectProductChild__c.SObjectType) {
-            ProjectProductChild__c phase = [SELECT ProjectProductParent__c FROM ProjectProductChild__c WHERE Id = :recordId];
+        if (fund) {
+            ProjectProductChild__c phase = [SELECT ProjectProductParent__c, TECH_Childtype__c FROM ProjectProductChild__c WHERE Id = :recordId];
             projectId = phase.ProjectProductParent__c;
+            stageNames = getStageNames(phase.TECH_Childtype__c);
         }
         else if (recordType == ProjectShareclassChild__c.SObjectType) {
-            ProjectShareclassChild__c shareClassPhase = [SELECT ProjectShareclasses__c, ProjectShareclasses__r.ProjectProduct__c
+            ProjectShareclassChild__c shareClassPhase = [SELECT ProjectShareclasses__c, ProjectShareclasses__r.ProjectProduct__c, TECH_Childtype__c
                                                          FROM ProjectShareclassChild__c
                                                          WHERE Id = :recordId];
             shareClassId = shareClassPhase.ProjectShareclasses__c;
             projectId = shareClassPhase.ProjectShareclasses__r.ProjectProduct__c;
+            stageNames = getStageNames(shareClassPhase.TECH_Childtype__c);
         }
         else if (recordType == ProjectShareclass__c.SObjectType) {
+            // Not a team screen (no stage): every stage of the team, read-only
             ProjectShareclass__c shareClass = [SELECT ProjectProduct__c FROM ProjectShareclass__c WHERE Id = :recordId];
             shareClassId = shareClass.Id;
             projectId = shareClass.ProjectProduct__c;
+            for (PMTMatrix.Stage stage : PMTMatrix.get().stages) stageNames.add(stage.name);
         }
 
         Map<Id, ProjectProduct__c> projectById = PMTMatrix.loadProjects(new Set<Id>{ projectId });
-        if (!projectById.containsKey(projectId)) return PMTMatrix.get();
+        ProjectProduct__c project = projectById.get(projectId);
+        Map<String, Object> result = new Map<String, Object>{ 'fields' => new Map<String, Object>(), 'conditionFields' => new List<String>() };
+        if (project == null) return result;
 
-        PMTMatrix matrix = PMTMatrix.get().forConditions(projectById.get(projectId));
-        return shareClassId != null ? matrix.forShareClass(shareClassId) : matrix;
+        // The unsaved values of the screen count: a stage record's fields are copied to its project (Fund) or share class
+        SObject draftTarget = project;
+        if (shareClassId != null) {
+            for (ProjectShareclass__c shareClass : project.ProjectShareclasses__r) {
+                if (shareClass.Id == shareClassId) draftTarget = shareClass;
+            }
+        }
+        applyDraftValues(draftTarget, draftValues);
+
+        PMTMatrix matrix = PMTMatrix.forProject(project);
+        if (shareClassId != null) matrix = matrix.forShareClass(shareClassId);
+
+        // checkPermission fails (uncatchable) on a name that is not an API name, e.g. an empty or hand-typed c__team
+        Boolean ownsFields = recordType != ProjectShareclass__c.SObjectType && teamView != null && Pattern.matches('[A-Za-z][A-Za-z0-9_]*', teamView) && FeatureManagement.checkPermission(teamView);
+        Map<String, Schema.SObjectField> screenFields = recordType.getDescribe().fields.getMap();
+        Map<String, Object> states = (Map<String, Object>) result.get('fields');
+        String teamKey = teamView == null ? '' : teamView.removeStart('PRP');
+        Map<String, Boolean> requiredByField = matrix.getTeamFieldStates(teamKey, stageNames, fund);
+        for (String field : requiredByField.keySet()) {
+            Schema.SObjectField screenField = screenFields.get(field.toLowerCase());
+            Boolean editable = ownsFields && screenField != null && screenField.getDescribe().isUpdateable();
+            states.put(field, new Map<String, Boolean>{ 'required' => requiredByField.get(field), 'editable' => editable });
+        }
+
+        Set<String> conditionFields = PMTMatrix.get().getConditionFields();
+        conditionFields.addAll(PMTMatrix.get().getShareClassConditionFields());
+        result.put('conditionFields', new List<String>(conditionFields));
+        return result;
+    }
+
+    // PMT stages of a stage record type (TECH_Childtype__c): the DesignAndProposal record holds the Design and Proposal stages.
+    private static Set<String> getStageNames(String childType) {
+        return childType == 'DesignAndProposal' ? new Set<String>{ 'Design', 'Proposal' } : new Set<String>{ childType };
+    }
+
+    // Puts the screen's unsaved values on the in-memory record, typed like its fields; fields it doesn't have or can't take (formulas, auto numbers) are skipped.
+    private static void applyDraftValues(SObject record, Map<String, Object> draftValues) {
+        if (draftValues == null) return;
+
+        Map<String, Schema.SObjectField> fields = record.getSObjectType().getDescribe().fields.getMap();
+        for (String fieldName : draftValues.keySet()) {
+            Schema.SObjectField field = fields.get(fieldName.toLowerCase());
+            if (field == null || !field.getDescribe().isUpdateable()) continue;
+            Object value = draftValues.get(fieldName);
+            if (value instanceof List<Object>) value = String.join((List<Object>) value, ';');
+            Schema.DisplayType fieldType = field.getDescribe().getType();
+            if (value == null || value == '') record.put(field, fieldType == Schema.DisplayType.Boolean ? (Object) false : null);
+            else if (fieldType == Schema.DisplayType.Boolean) record.put(field, Boolean.valueOf(String.valueOf(value)));
+            else if (fieldType == Schema.DisplayType.Date) record.put(field, Date.valueOf(String.valueOf(value)));
+            else if (fieldType == Schema.DisplayType.Double || fieldType == Schema.DisplayType.Currency || fieldType == Schema.DisplayType.Percent) record.put(field, Decimal.valueOf(String.valueOf(value)));
+            else if (fieldType == Schema.DisplayType.Integer) record.put(field, Integer.valueOf(String.valueOf(value)));
+            else record.put(field, String.valueOf(value));
+        }
     }
 }

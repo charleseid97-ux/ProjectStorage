@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>Requirement__c</fullName>
-    <description>Required: counted in the completion goal and checked before the team validates the stage. Optional: shown to the team only.</description>
+    <description>Required: counted in the completion goal and checked before the team validates the stage. Optional: shown to the team only. Conditional: required only when RequiredCondition__c is true (evaluated only when the line applies, i.e. Condition__c empty or true).</description>
     <fieldManageability>DeveloperControlled</fieldManageability>
     <label>Requirement</label>
     <required>true</required>
@@ -18,6 +18,11 @@
                 <fullName>Optional</fullName>
                 <default>false</default>
                 <label>Optional</label>
+            </value>
+            <value>
+                <fullName>Conditional</fullName>
+                <default>false</default>
+                <label>Conditional</label>
             </value>
         </valueSetDefinition>
     </valueSet>

@@ -25,6 +25,9 @@
         <members>PMTFieldRuleLine__mdt.Field__c</members>
         <members>PMTFieldRuleLine__mdt.Requirement__c</members>
         <members>PMTFieldRuleLine__mdt.Condition__c</members>
+        <members>PMTFieldRuleLine__mdt.RequiredCondition__c</members>
+        <members>PMTField__mdt.DependentFields__c</members>
+        <members>PMTField__mdt.IsModifiable__c</members>
         <name>CustomField</name>
     </types>
     <types>
@@ -773,6 +776,21 @@
         <members>PMTFieldRuleLine.RSKPFVARMethod</members>
         <members>PMTFieldRuleLine.TAXSFFATCAClassification</members>
         <members>PMTFieldRuleLine.TAXSFGIINSponsorCode</members>
+        <members>PMTField.FundHasSwingPricing</members>
+        <members>PMTField.FundLMT</members>
+        <members>PMTField.FundRedeemCondition</members>
+        <members>PMTField.FundUseref</members>
+        <members>PMTField.SCActualManagementFees</members>
+        <members>PMTField.SCPRIIPSKIDSubscriptionFee</members>
+        <members>PMTFieldRuleLine.ISPFUseref</members>
+        <members>PMTFieldRuleLine.LEGEFLMT</members>
+        <members>PMTFieldRuleLine.LEGEFRedeemCondition</members>
+        <members>PMTFieldRuleLine.PSPFUseref</members>
+        <members>PMTFieldRuleLine.RSKEFHasSwingPricing</members>
+        <members>PMTField.FundIntendedRetailInvestor</members>
+        <members>PMTField.SCLaunchDate</members>
+        <members>PMTField.SCOngoingCostsExPost</members>
+        <members>PMTField.SCPerformanceFeesKIID</members>
         <name>CustomMetadata</name>
     </types>
     <types>
@@ -887,6 +905,8 @@
         <members>referentialProductHomepage</members>
         <members>projectManagementPhase</members>
         <members>projectProductChildDatatable</members>
+        <members>layoutEditableFields</members>
+        <members>projectChildTeamValidation</members>
         <name>LightningComponentBundle</name>
     </types>
     <types>

@@ -8,9 +8,9 @@
  *              Stage status (FIX-20270): Completed once every validation team of the project's Scope has validated
  *                  (ProjectProductSetupHandlerUtilities.isPhaseValidated), back to On track when a team is removed;
  *                  Design takes the status of Proposal.
- * @lastModifiedBy Charles EID   [21-10-26]
+ * @lastModifiedBy Charles EID   [22-10-26]
  * @testClass Test_ProjectProductChildTriggerHandler, Test_RollbackTeamValidationController
- * @coverage 93%   [21-10-26]
+ * @coverage 93%   [22-10-26]
  ────────────────────────────────────── */
 public without sharing class ProjectProductChildHandler {
 
@@ -152,8 +152,8 @@ public without sharing class ProjectProductChildHandler {
 
             String prodChildType = prod.TECH_Childtype__c;
             if (prod.TECH_Childtype__c == 'DesignAndProposal') prodChildType = 'Proposal';
-            // FIX-20178 / US-20194: champs Fund requis par étape, depuis la matrice PMT selon les conditions du projet
-            Map<String, List<String>> requiredFieldsByStage = PMTMatrix.get().forConditions(projectById.get(prod.ProjectProductParent__c)).getRequiredFieldsByStage(true);
+            // FIX-20178 / US-20194: champs Fund requis par étape, depuis la matrice PMT selon les conditions du projet. US-20194 V1.2: with the project's Scope, as the validation (an IS project does not count Product Strategy's lines).
+            Map<String, List<String>> requiredFieldsByStage = PMTMatrix.forProject(projectById.get(prod.ProjectProductParent__c)).getRequiredFieldsByStage(true);
             System.debug('Fund Stage : ' + prodChildType + ' setting: ' + requiredFieldsByStage.get(prodChildType));
 
             if (requiredFieldsByStage.get(prodChildType) != null) {

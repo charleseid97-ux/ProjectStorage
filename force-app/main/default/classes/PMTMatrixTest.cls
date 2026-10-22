@@ -3,8 +3,10 @@
  *                  stage objects, conditions compile and read only what their field level allows, ISIN__c owned by Legal or OPS),
  *                  then a test matrix (rules, owner rules by condition, conditional lines at project and share class level), and the
  *                  error of an invalid condition (custom label PMT_InvalidCondition).
- * @covers PMTMatrix   99%   [21-10-26]
- * @lastModifiedBy Charles EID   [21-10-26]
+ *              US-20194 V1.2: Conditional lines (RequiredCondition__c), the fields of a team's screen, and the fund's real values read by the
+ *                  conditions of a modification project.
+ * @covers PMTMatrix   99%   [22-10-26]
+ * @lastModifiedBy Charles EID   [22-10-26]
  ────────────────────────────────────── */
 @isTest
 private class PMTMatrixTest {
@@ -57,13 +59,17 @@ private class PMTMatrixTest {
         Map<String, Schema.SObjectField> fundFields = Schema.SObjectType.ProjectProductChild__c.fields.getMap();
         Map<String, Schema.SObjectField> shareClassFields = Schema.SObjectType.ProjectShareclassChild__c.fields.getMap();
         List<String> missingFields = new List<String>();
-        List<PMTFieldRuleLine__mdt> lines = [SELECT DeveloperName, Field__r.Object__c, Field__r.FieldApiName__c, Condition__c
+        List<PMTFieldRuleLine__mdt> lines = [SELECT DeveloperName, Field__r.Object__c, Field__r.FieldApiName__c, Condition__c, Requirement__c, RequiredCondition__c
                                              FROM PMTFieldRuleLine__mdt];
         for (PMTFieldRuleLine__mdt line : lines) {
             Boolean fund = line.Field__r.Object__c == 'Product__c';
             if (!(fund ? fundFields : shareClassFields).containsKey(line.Field__r.FieldApiName__c)) missingFields.add(line.DeveloperName + ' ' + line.Field__r.FieldApiName__c);
             PMTCondition condition = PMTCondition.compile(line.Condition__c);
             if (fund && condition != null) System.assert(!condition.readsShareClass(), line.DeveloperName + ': a Fund field condition reads only ProjectProduct__c fields');
+            // US-20194 V1.2: a Conditional line has a RequiredCondition__c, which compiles and reads only what its level allows
+            PMTCondition requiredCondition = PMTCondition.compile(line.RequiredCondition__c);
+            System.assertEquals(line.Requirement__c == 'Conditional', requiredCondition != null, line.DeveloperName + ': RequiredCondition__c is set exactly on Conditional lines');
+            if (fund && requiredCondition != null) System.assert(!requiredCondition.readsShareClass(), line.DeveloperName + ': a Fund field required condition reads only ProjectProduct__c fields');
         }
         System.assert(missingFields.isEmpty(), 'Line fields missing on the stage objects: ' + missingFields);
         for (PMTOwnerRule__mdt ownerRule : [SELECT DeveloperName, Condition__c FROM PMTOwnerRule__mdt]) {
@@ -98,6 +104,9 @@ private class PMTMatrixTest {
         withPerfFees.HasPerfFees__c = 'True';
         withoutPerfFees.HasPerfFees__c = 'False';
         update new List<ProjectShareclass__c>{ withPerfFees, withoutPerfFees };
+        Product__c liveFund = PMTTestFactoryData.getProduct(Schema.SObjectType.Product__c.getRecordTypeInfosByDeveloperName().get('Fund').getRecordTypeId(), 'LiveFund', 'Live Fund', true);
+        liveFund.LegalForm__c = 'FCP';
+        update liveFund;
 
         // 2. Test matrix: rules, validation teams and owner rules
         String suffix = String.valueOf(Crypto.getRandomInteger()).replace('-', '');
@@ -152,6 +161,25 @@ private class PMTMatrixTest {
         PMTMatrix psFcpMatrix = PMTMatrix.forProject(new ProjectProduct__c(Scope__c = 'PS', LegalForm__c = 'FCP'));
         System.assertEquals(new List<String>{ 'ISIN__c' }, psFcpMatrix.getRule('Legal', 'Filing').requiredShareClass, 'forProject(): Scope then conditions');
 
+        // US-20194 V1.2: modification project whose LegalForm__c is selected (blanked until refilled): the conditions read the fund's real value
+        Id modificationRtId = PMTTestFactoryData.getRecordTypeId('ProjectProduct__c', 'FundShareClassModification');
+        PMTMatrix modificationMatrix = conditionalMatrix.forConditions(new ProjectProduct__c(RecordTypeId = modificationRtId, Product__c = liveFund.Id, TECH_FieldsToModify__c = 'LegalForm__c'));
+        PMTMatrix blankCreationMatrix = conditionalMatrix.forConditions(new ProjectProduct__c(Product__c = liveFund.Id, TECH_FieldsToModify__c = 'LegalForm__c'));
+        System.assertEquals(new List<String>{ 'ISIN__c' }, modificationMatrix.getRule('Legal', 'Filing').requiredShareClass, 'Modification: LegalForm__c read on the live fund (FCP), Legal keeps ISIN__c');
+        System.assert(blankCreationMatrix.getRule('Legal', 'Filing').isEmpty(), 'Creation project: its own (blank) LegalForm__c is read');
+
+        // US-20194 V1.2: Conditional lines are optional until resolved, then required when their RequiredCondition__c is true (only once their Condition__c applies)
+        PMTTestFactoryData.createMatrixLine('Filing', 'Legal', 'Product__c', 'SFDRcategory__c', 'Conditional', null, 'NOT(ISPICKVAL(ProjectProduct__c.LegalForm__c, \'OEIC\'))');
+        PMTTestFactoryData.createMatrixLine('Filing', 'Risk', 'Share_Class__c', 'PerformanceFeeEPTKID__c', 'Conditional', 'ISPICKVAL(ProjectShareclass__c.HasPerfFees__c, \'True\')', 'NOT(ISPICKVAL(ProjectProduct__c.LegalForm__c, \'OEIC\'))');
+        PMTMatrix requirementMatrix = PMTMatrix.get();
+        PMTMatrix oeicMatrix = requirementMatrix.forConditions(new ProjectProduct__c(LegalForm__c = 'OEIC'));
+        PMTMatrix fcpRequirementMatrix = requirementMatrix.forConditions(new ProjectProduct__c(LegalForm__c = 'FCP'));
+        System.assert(requirementMatrix.getRule('Legal', 'Filing').optionalFund.contains('SFDRcategory__c'), 'A Conditional line not evaluated yet is optional');
+        System.assert(fcpRequirementMatrix.getRule('Legal', 'Filing').requiredFund.contains('SFDRcategory__c'), 'Required condition true: required');
+        System.assert(oeicMatrix.getRule('Legal', 'Filing').optionalFund.contains('SFDRcategory__c'), 'Required condition false: optional');
+        System.assertEquals(new Map<String, Boolean>{ 'SFDRcategory__c' => true }, fcpRequirementMatrix.getTeamFieldStates('Legal', new Set<String>{ 'Filing' }, true), 'Fund fields of the Legal screen at Filing');
+        System.assert(fcpRequirementMatrix.getTeamFieldStates('OPS', new Set<String>{ 'Filing' }, true).isEmpty(), 'A team without line has an empty screen');
+
         Test.startTest();
 
         Map<Id, ProjectProduct__c> projectById = PMTMatrix.loadProjects(new Set<Id>{ project.Id, null });
@@ -162,6 +190,11 @@ private class PMTMatrixTest {
         PMTMatrix projectMatrix = conditionalMatrix.forConditions(projectById.get(project.Id));
         System.assertEquals(new List<String>{ 'MaxPerfFees__c' }, projectMatrix.forShareClass(withPerfFees.Id).getRule('Risk', 'Filing').optionalShareClass, 'Share class with performance fees: Risk uses MaxPerfFees__c');
         System.assert(projectMatrix.forShareClass(withoutPerfFees.Id).getRule('Risk', 'Filing').isEmpty(), 'Share class without performance fees: Risk has no field');
+        PMTMatrix requirementProjectMatrix = requirementMatrix.forConditions(projectById.get(project.Id));
+        Map<String, Boolean> riskScreen = requirementProjectMatrix.forShareClass(withPerfFees.Id).getTeamFieldStates('Risk', new Set<String>{ 'Filing' }, false);
+        Map<String, Boolean> riskScreenWithoutPerfFees = requirementProjectMatrix.forShareClass(withoutPerfFees.Id).getTeamFieldStates('Risk', new Set<String>{ 'Filing' }, false);
+        System.assertEquals(new Map<String, Boolean>{ 'MaxPerfFees__c' => false, 'PerformanceFeeEPTKID__c' => true }, riskScreen, 'Share class with performance fees of a non-OEIC fund: PerformanceFeeEPTKID__c shown and required');
+        System.assert(riskScreenWithoutPerfFees.isEmpty(), 'Condition__c false: the line counts nowhere, whatever its RequiredCondition__c');
         System.assert(projectMatrix.forShareClass(project.Id) === projectMatrix, 'An unknown share class keeps the project matrix');
         Map<Id, ProjectProduct__c> noProjectById = PMTMatrix.loadProjects(new Set<Id>());
         System.assert(noProjectById.isEmpty(), 'No project to read');

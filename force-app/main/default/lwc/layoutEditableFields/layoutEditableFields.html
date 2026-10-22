@@ -35,28 +35,26 @@
                                     <div aria-hidden="false" class="slds-section__content" id={section.id}>
                                         <div class="slds-grid slds-wrap slds-p-around_medium">
                                             <template for:each={section.fields} for:item="field">
-                                                <template if:true={field.isVisibleByRule}>
-                                                    <template if:true={field.isEditable}>
-                                                        <div key={field.apiName} class={field.columnClass} style="padding: 0 2%;">
+                                                <template if:true={field.isEditable}>
+                                                    <div key={field.apiName} class={field.columnClass} style="padding: 0 2%;">
 
-                                                            <label for={field.apiName} class="slds-form-element__label">
-                                                                <template if:true={field.isRequired}>
-                                                                    <abbr class="slds-required" aria-hidden="true"
-                                                                        title="required">*</abbr>
-                                                                </template>
-                                                                {field.label} <template if:true={field.helptext}><lightning-helptext style="vertical-align: bottom;" content={field.helptext}></lightning-helptext></template>
-                                                            </label>
-                                                            <!-- <lightning-input-field field-name={field.apiName}
-                                                                class="edit-input" variant="label-hidden">
-                                                            </lightning-input-field> -->
-                                                            <lightning-input-field 
-                                                                field-name={field.apiName}
-                                                                class="edit-input"
-                                                                variant="label-hidden"
-                                                                onchange={handleFieldChange}>
-                                                            </lightning-input-field>
-                                                        </div>
-                                                    </template>
+                                                        <label for={field.apiName} class="slds-form-element__label">
+                                                            <template if:true={field.isRequired}>
+                                                                <abbr class="slds-required" aria-hidden="true"
+                                                                    title="required">*</abbr>
+                                                            </template>
+                                                            {field.label} <template if:true={field.helptext}><lightning-helptext style="vertical-align: bottom;" content={field.helptext}></lightning-helptext></template>
+                                                        </label>
+                                                        <!-- <lightning-input-field field-name={field.apiName}
+                                                            class="edit-input" variant="label-hidden">
+                                                        </lightning-input-field> -->
+                                                        <lightning-input-field 
+                                                            field-name={field.apiName}
+                                                            class="edit-input"
+                                                            variant="label-hidden"
+                                                            onchange={handleFieldChange}>
+                                                        </lightning-input-field>
+                                                    </div>
                                                 </template>
                                             </template>
                                         </div>
@@ -83,43 +81,39 @@
                                     <div aria-hidden="false" class="slds-section__content" id={section.id}>
                                         <div class="slds-grid slds-wrap slds-p-around_medium">
                                             <template for:each={section.fields} for:item="field">
-                                                <template if:true={field.isVisibleByRule}>
-                                                    <div key={field.apiName} class={field.columnClass} style="padding: 0 2%;">
-                                                        <label for={field.apiName} class="slds-form-element__label">
-                                                            <template if:true={field.isRequired}>
-                                                                <abbr class="slds-required" aria-hidden="true"
-                                                                    title="required">*</abbr>
+                                                <div key={field.apiName} class={field.columnClass} style="padding: 0 2%;">
+                                                    <label for={field.apiName} class="slds-form-element__label">
+                                                        <template if:true={field.isRequired}>
+                                                            <abbr class="slds-required" aria-hidden="true"
+                                                                title="required">*</abbr>
+                                                        </template>
+                                                        {field.label} <template if:true={field.helptext}><lightning-helptext style=" vertical-align: bottom;" content={field.helptext}></lightning-helptext></template>
+                                                    </label>
+                                                    <div class="slds-grid slds-gutters slds-form-element_readonly" style="flex-wrap: wrap;">
+                                                        <template if:true={field.isMultiPicklist}>
+                                                            <template for:each={field.value} for:item="value">
+                                                                <span key={value} class="slds-badge slds-m-right_small">{value}</span>
                                                             </template>
-                                                            {field.label} <template if:true={field.helptext}><lightning-helptext style=" vertical-align: bottom;" content={field.helptext}></lightning-helptext></template>
-                                                        </label>
-                                                        <div class="slds-grid slds-gutters slds-form-element_readonly" style="flex-wrap: wrap;">
-                                                            <template if:true={field.isMultiPicklist}>
-                                                                <template for:each={field.value} for:item="value">
-                                                                    <span key={value} class="slds-badge slds-m-right_small">{value}</span>
-                                                                </template>
-                                                            </template>
-                                                            <template if:false={field.isMultiPicklist}>
-                                                                <lightning-output-field class="slds-col slds-size_4-of-5"
-                                                                style="display: block;" field-name={field.apiName}
-                                                                variant="label-hidden">
-                                                                </lightning-output-field>
-                                                            </template>
-                                                            <template if:true={userHasEditPermission}>
-                                                                <template if:false={viewAll}>
-                                                                    <template if:false={doNotProcess}>
+                                                        </template>
+                                                        <template if:false={field.isMultiPicklist}>
+                                                            <lightning-output-field class="slds-col slds-size_4-of-5"
+                                                            style="display: block;" field-name={field.apiName}
+                                                            variant="label-hidden">
+                                                            </lightning-output-field>
+                                                        </template>
+                                                        <template if:true={userHasEditPermission}>
+                                                            <template if:false={doNotProcess}>
 
-                                                                        <lightning-button-icon icon-name="utility:edit"
-                                                                            variant="bare"
-                                                                            class="slds-col  edit-icon slds-text-align_right" 
-                                                                            onclick={enableEditMode}>
-                                                                        </lightning-button-icon>
-                                                                        <!-- slds-size_1-of-5 -->
-                                                                    </template>
-                                                                </template>
+                                                                <lightning-button-icon icon-name="utility:edit"
+                                                                    variant="bare"
+                                                                    class="slds-col  edit-icon slds-text-align_right" 
+                                                                    onclick={enableEditMode}>
+                                                                </lightning-button-icon>
+                                                                <!-- slds-size_1-of-5 -->
                                                             </template>
-                                                        </div>
+                                                        </template>
                                                     </div>
-                                                </template>
+                                                </div>
                                             </template>
                                         </div>
                                     </div>
@@ -137,12 +131,10 @@
                             </template>
                             <template if:false={isEditMode}>
                                 <template if:true={userHasEditPermission}>
-                                    <template if:false={viewAll}>
-                                        <template if:false={doNotProcess}>
+                                    <template if:false={doNotProcess}>
 
-                                            <lightning-button variant="brand" label="Edit"
-                                                onclick={enableEditMode}></lightning-button>
-                                        </template>
+                                        <lightning-button variant="brand" label="Edit"
+                                            onclick={enableEditMode}></lightning-button>
                                     </template>
                                 </template>
                             </template>

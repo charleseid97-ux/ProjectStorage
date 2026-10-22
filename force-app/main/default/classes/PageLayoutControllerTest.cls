@@ -1,14 +1,16 @@
 /** ──────────────────────────────────────
  * @description Tests of PageLayoutController (layoutEditableFields and projectChildTeamValidation LWCs): fields, editability and
- *                  modification conditions of a stage and a Shareclass Child, editable fields from the PRP permission sets, and the
- *                  required fields of the PMT matrix (US-20194: according to the conditions of the record's project).
- * @covers PageLayoutController   94%   [21-10-26]
- * @lastModifiedBy Charles EID   [21-10-26]
+ *                  modification conditions of a stage and a Shareclass Child, and the fields of a team's screen (getFieldStates,
+ *                  US-20194 V1.2): the team's lines at the record's stage whose condition applies (ISIN__c on Legal's Filing screen of
+ *                  an FCP fund, not on OPS's), required from the line or its RequiredCondition__c with the unsaved values, editable with
+ *                  the team's custom permission only.
+ * @covers PageLayoutController   97%   [22-10-26]
+ * @lastModifiedBy Charles EID   [22-10-26]
  ────────────────────────────────────── */
 @isTest
 public class PageLayoutControllerTest {
 
-    // Fund modification project: fields, editability and modification conditions of a stage and a Shareclass Child, then the required fields of a test matrix
+    // Fund modification project: fields, editability and modification conditions of a stage and a Shareclass Child, then an empty matrix
     @isTest
     static void test_modificationProject() {
         Id rtParent = PMTTestFactoryData.getRecordTypeId('ProjectProduct__c', 'FundShareClassModification');
@@ -44,13 +46,6 @@ public class PageLayoutControllerTest {
         Boolean projectEditable = PageLayoutController.checkEditableConidtions(proj.Id, 'ProjectProduct__c');
         SObject projectModification = PageLayoutController.checkModificationConidtions(proj.Id, 'ProjectProduct__c');
 
-        // US-20194: required fields according to the conditions of the record's project, and of its share class
-        PMTMatrix projectMatrix = PMTMatrix.get().forConditions(proj);
-        List<String> expectedFundFields = projectMatrix.getRequiredFields(true);
-        List<String> stageFundFields = PageLayoutController.getFields('ProjectProductChild__c', child.Id);
-        List<String> shareClassFieldsFromStage = PageLayoutController.getFields('ProjectShareclassChild__c', scChild.Id);
-        List<String> shareClassFieldsFromShareclass = PageLayoutController.getFields('ProjectShareclassChild__c', scChild.ProjectShareclasses__c);
-
         // Editable fields read from a field of the stage, or of its parent project
         PageLayoutController.getEditableFieldsFromSourceField('ISIN__c,ProjectProductParent__r.Name', 'ProjectProductChild__c', child.Id);
         List<String> parentFieldValue = PageLayoutController.getEditableFieldsFromSourceField('ProjectProductParent__r.Name', 'ProjectProductChild__c', child.Id);
@@ -67,75 +62,117 @@ public class PageLayoutControllerTest {
             unknownObjectRejected = true;
         }
 
-        // Required fields of the PMT matrix without a record (getFields), then an empty matrix
-        PMTTestFactoryData.createMatrice('Design', 'Legal', 'AssetClass__c;ISIN__c', 'IsValid__c;LegalType__c');
-        List<String> fundFields = PageLayoutController.getFields('ProjectProductChild__c', null);
-        List<String> shareClassFields = PageLayoutController.getFields('ProjectShareclassChild__c', null);
-
         // FIX-20178: empty PMT matrix (no field rule configured)
         PMTTestFactoryData.clearMatrix();
         Boolean emptyMatrixRejected = false;
         try {
-            PageLayoutController.getFields('ProjectProductChild__c', null);
+            PageLayoutController.getFieldStates(child.Id, 'PRPProductStrategy', null);
         }
         catch (AuraHandledException e) {
             emptyMatrixRejected = true;
         }
-        PageLayoutController.getUserPermissionSet('PRPProductStrategy');
 
         Test.stopTest();
 
         System.assert(!projectEditable, 'Only stages and Shareclass Children are editable here');
         System.assertEquals(null, projectModification, 'Only stages and Shareclass Children are checked');
-        System.assertEquals(expectedFundFields, stageFundFields, 'Required Fund fields of the project');
-        System.assertEquals(shareClassFieldsFromStage, shareClassFieldsFromShareclass, 'Same share class from its stage or its Project Shareclass');
         System.assert(!parentFieldValue.isEmpty(), 'Value of a parent field');
         System.assert(!recordFieldValue.isEmpty(), 'Value of a field of the record');
         System.assert(emptyParentFieldValue.isEmpty(), 'Empty parent field');
         System.assertEquals('012000000000000AAA', invalidRecordTypeId, 'Master record type on error');
         System.assert(unknownObjectRejected, 'Unknown object must be rejected');
-        System.assert(fundFields.contains('AssetClass__c') && fundFields.contains('ISIN__c'), 'Required Fund fields of the matrix');
-        System.assert(shareClassFields.contains('IsValid__c') && shareClassFields.contains('LegalType__c'), 'Required Share Class fields of the matrix');
         System.assert(emptyMatrixRejected, 'No field rule configured: AuraHandledException');
     }
 
-    // Editable fields from the user's PRP permission set, with and without "view all"
+    // US-20194 V1.2: team screens of the Filing share class of an FR FCP fund: what each team sees, what is required (also with unsaved values), who can edit
     @isTest
-    static void test_getEditableFields() {
-        Profile p = [SELECT Id FROM Profile WHERE Name = 'Standard User' LIMIT 1];
-        User u = new User(
-            FirstName = 'Test',
-            LastName = 'User',
-            Email = 'testuser@test.com',
-            Username = 'testuser@test.com.' + System.currentTimeMillis(),
-            Alias = 'test',
-            TimeZoneSidKey = 'Europe/Paris',
-            LocaleSidKey = 'fr_FR',
-            EmailEncodingKey = 'UTF-8',
-            LanguageLocaleKey = 'fr',
-            ProfileId = p.Id
-        );
-        insert u;
+    static void test_getFieldStates() {
+        ProjectProduct__c project = PMTTestFactoryData.createProjectProductWithAllFields(PMTTestFactoryData.getRecordTypeId('ProjectProduct__c', 'FundCreation'));
+        project.LegalForm__c = 'FCP';
+        update project;
+        ProjectShareclass__c shareClass = PMTTestFactoryData.createProjectShareclass(project.Id, null);
+        ProjectShareclassChild__c filing = [SELECT Id
+                                            FROM ProjectShareclassChild__c
+                                            WHERE ProjectShareclasses__c = :shareClass.Id AND TECH_Childtype__c = 'Filing' LIMIT 1];
+        ProjectProductChild__c fundFiling = [SELECT Id
+                                             FROM ProjectProductChild__c
+                                             WHERE ProjectProductParent__c = :project.Id AND TECH_Childtype__c = 'Filing' LIMIT 1];
 
-        PermissionSet psMin = [SELECT Id FROM PermissionSet WHERE Name = 'PRPMinimumAccess'];
-        PermissionSet psPS = [SELECT Id FROM PermissionSet WHERE Name = 'PRPProductStrategy'];
-        insert new List<PermissionSetAssignment>{
-            new PermissionSetAssignment(AssigneeId = u.Id, PermissionSetId = psMin.Id),
-            new PermissionSetAssignment(AssigneeId = u.Id, PermissionSetId = psPS.Id)
-        };
-
-        Map<String, Boolean> viewAllFields;
-        Map<String, Boolean> editableFields;
-        System.runAs(u) {
-            Test.startTest();
-
-            viewAllFields = PageLayoutController.getEditableFields('ProjectShareclass__c', 'PRPProductStrategy', true);
-            editableFields = PageLayoutController.getEditableFields('ProjectShareclass__c', 'PRPProductStrategy', false);
-
-            Test.stopTest();
+        // Owner of Legal's fields (custom permission PRPLegal) and a viewer without it, both able to edit the fields
+        Profile admin = [SELECT Id FROM Profile WHERE Name = 'System Administrator' LIMIT 1];
+        String suffix = String.valueOf(Crypto.getRandomInteger()).replace('-', '');
+        User legalUser = newUser('pmtleg', suffix, admin.Id);
+        User otherUser = newUser('pmtoth', suffix, admin.Id);
+        CustomPermission legalPermission = [SELECT Id FROM CustomPermission WHERE DeveloperName = 'PRPLegal' LIMIT 1];
+        System.runAs(new User(Id = UserInfo.getUserId())) {
+            insert new List<User>{ legalUser, otherUser }; // Setup objects: inserted apart from the project DML (mixed DML)
+            PermissionSet legalPermissionSet = new PermissionSet(Name = 'PMTLegalTest' + suffix, Label = 'PMT Legal Test ' + suffix);
+            PermissionSet fieldAccess = new PermissionSet(Name = 'PMTFieldTest' + suffix, Label = 'PMT Field Test ' + suffix);
+            insert new List<PermissionSet>{ legalPermissionSet, fieldAccess };
+            insert new SetupEntityAccess(ParentId = legalPermissionSet.Id, SetupEntityId = legalPermission.Id);
+            insert new FieldPermissions(ParentId = fieldAccess.Id, SobjectType = 'ProjectShareclassChild__c', Field = 'ProjectShareclassChild__c.ISIN__c', PermissionsRead = true, PermissionsEdit = true);
+            insert new List<PermissionSetAssignment>{
+                new PermissionSetAssignment(AssigneeId = legalUser.Id, PermissionSetId = legalPermissionSet.Id),
+                new PermissionSetAssignment(AssigneeId = legalUser.Id, PermissionSetId = fieldAccess.Id),
+                new PermissionSetAssignment(AssigneeId = otherUser.Id, PermissionSetId = fieldAccess.Id)
+            };
         }
 
-        System.assertNotEquals(0, viewAllFields.size(), 'View all');
-        System.assertNotEquals(0, editableFields.size(), 'Without view all');
+        // Test matrix: ISIN__c Legal (FCP) or OPS (SICAV); MaxPerfFees__c Risk with performance fees, required when not OEIC; ProductName__c Legal on the fund
+        PMTTestFactoryData.clearMatrix();
+        PMTTestFactoryData.createMatrixLine('Filing', 'Legal', 'Share_Class__c', 'ISIN__c', 'Required', 'ISPICKVAL(ProjectProduct__c.LegalForm__c, \'FCP\')');
+        PMTTestFactoryData.createMatrixLine('Filing', 'OPS', 'Share_Class__c', 'ISIN__c', 'Required', 'ISPICKVAL(ProjectProduct__c.LegalForm__c, \'SICAV\')');
+        PMTTestFactoryData.createMatrixLine('Filing', 'Risk', 'Share_Class__c', 'MaxPerfFees__c', 'Conditional', 'ISPICKVAL(ProjectShareclass__c.HasPerfFees__c, \'True\')', 'NOT(ISPICKVAL(ProjectProduct__c.LegalForm__c, \'OEIC\'))');
+        PMTTestFactoryData.createMatrixLine('Filing', 'Legal', 'Product__c', 'ProductName__c', 'Optional', null);
+
+        Map<String, Object> legalScreen;
+        Map<String, Object> legalScreenForOther;
+        Map<String, Object> opsScreen;
+        Map<String, Object> riskScreen;
+        Map<String, Object> riskScreenWithPerfFees;
+        Map<String, Object> fundScreen;
+        Map<String, Object> parentScreen;
+        Map<String, Object> blankTeamScreen;
+        Map<String, Object> invalidTeamScreen;
+
+        Test.startTest();
+
+        System.runAs(legalUser) {
+            legalScreen = PageLayoutController.getFieldStates(filing.Id, 'PRPLegal', null);
+            fundScreen = PageLayoutController.getFieldStates(fundFiling.Id, 'PRPLegal', null);
+            parentScreen = PageLayoutController.getFieldStates(shareClass.Id, 'PRPLegal', null);
+        }
+        System.runAs(otherUser) {
+            legalScreenForOther = PageLayoutController.getFieldStates(filing.Id, 'PRPLegal', null);
+            opsScreen = PageLayoutController.getFieldStates(filing.Id, 'PRPOPS', null);
+            riskScreen = PageLayoutController.getFieldStates(filing.Id, 'PRPRisk', new Map<String, Object>{ 'HasPerfFees__c' => 'False' });
+            riskScreenWithPerfFees = PageLayoutController.getFieldStates(filing.Id, 'PRPRisk', new Map<String, Object>{ 'HasPerfFees__c' => 'True', 'Name' => null });
+            blankTeamScreen = PageLayoutController.getFieldStates(filing.Id, '', null);
+            invalidTeamScreen = PageLayoutController.getFieldStates(filing.Id, 'PRP Legal', null);
+        }
+
+        Test.stopTest();
+
+        Map<String, Object> legalFields = (Map<String, Object>) legalScreen.get('fields');
+        Map<String, Object> legalFieldsForOther = (Map<String, Object>) legalScreenForOther.get('fields');
+        Map<String, Object> riskFields = (Map<String, Object>) riskScreenWithPerfFees.get('fields');
+        Map<String, Object> parentFields = (Map<String, Object>) parentScreen.get('fields');
+        Map<String, Boolean> legalIsin = (Map<String, Boolean>) legalFields.get('ISIN__c');
+        System.assertEquals(new Set<String>{ 'ISIN__c' }, legalFields.keySet(), 'FCP fund: Legal\'s Filing screen shows ISIN__c (Share Class fields only on a share class stage)');
+        System.assert(legalIsin.get('required') && legalIsin.get('editable'), 'Required, and editable by the owner of Legal\'s fields');
+        System.assert(!((Map<String, Boolean>) legalFieldsForOther.get('ISIN__c')).get('editable'), 'Seen by everyone, editable only with the PRPLegal custom permission');
+        System.assert(((Map<String, Object>) opsScreen.get('fields')).isEmpty(), 'FCP fund: the OPS line condition is false, ISIN__c is not on OPS\'s screen');
+        System.assert(((Map<String, Object>) riskScreen.get('fields')).isEmpty(), 'Without performance fees (unsaved value): no MaxPerfFees__c');
+        System.assert(((Map<String, Boolean>) riskFields.get('MaxPerfFees__c')).get('required'), 'With performance fees (unsaved value) on a non-OEIC fund: MaxPerfFees__c required');
+        System.assert(((List<String>) riskScreenWithPerfFees.get('conditionFields')).contains('HasPerfFees__c'), 'A change of HasPerfFees__c re-evaluates the screen');
+        System.assert(((Map<String, Object>) fundScreen.get('fields')).containsKey('ProductName__c'), 'Fund stage: Legal\'s Fund fields');
+        System.assert(!((Map<String, Boolean>) parentFields.get('ISIN__c')).get('editable'), 'Project share class page: every stage of the team, read-only');
+        System.assert(((Map<String, Object>) blankTeamScreen.get('fields')).isEmpty() && ((Map<String, Object>) invalidTeamScreen.get('fields')).isEmpty(), 'No or invalid c__team: empty screen, no error');
+    }
+
+    private static User newUser(String alias, String suffix, Id profileId) {
+        String username = alias + suffix + '@pagelayout.test';
+        return new User(Alias = alias, Email = username, Username = username, LastName = 'PageLayout', ProfileId = profileId,
+                        EmailEncodingKey = 'UTF-8', LanguageLocaleKey = 'en_US', LocaleSidKey = 'en_US', TimeZoneSidKey = 'Europe/Paris');
     }
 }

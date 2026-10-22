@@ -7,9 +7,9 @@
  *                  restricted to the project's Scope where PS and IS are mutually exclusive.
  *              US-20194: the matrix follows the project's conditions (PMTMatrix.forConditions / forProject); resyncConditionalValues
  *                  realigns (asynchronously) the goals and the automatically validated teams when a field read by a condition changes.
- * @lastModifiedBy Charles EID   [21-10-26]
+ * @lastModifiedBy Charles EID   [22-10-26]
  * @testClass Test_ProjectProductTrigger
- * @coverage 94%   [21-10-26]
+ * @coverage 95%   [22-10-26]
  ────────────────────────────────────── */
 public without sharing class ProjectProductSetupHandler {
 
@@ -60,8 +60,8 @@ public without sharing class ProjectProductSetupHandler {
             String tmp = proj.Tech_Childtype__c;
             if (proj.Tech_Childtype__c == 'DesignAndProposal') tmp = 'Proposal';
 
-            // FIX-20178 / US-20194: champs Fund requis de l'étape, depuis la matrice PMT selon les conditions du projet
-            List<String> stageFields = PMTMatrix.get().forConditions(newProjectProducts.get(proj.ProjectProductParent__c)).getRequiredFieldsByStage(true).get(tmp);
+            // FIX-20178 / US-20194: champs Fund requis de l'étape, depuis la matrice PMT selon les conditions du projet. US-20194 V1.2: with the project's Scope, as the validation (an IS project does not count Product Strategy's lines).
+            List<String> stageFields = PMTMatrix.forProject(newProjectProducts.get(proj.ProjectProductParent__c)).getRequiredFieldsByStage(true).get(tmp);
             nbOfFields = stageFields != null ? stageFields.size() : 0;
 
             if (proj.Parent_Record_Type_Id__c == fundModificationRecordTypeId) {
@@ -136,7 +136,7 @@ public without sharing class ProjectProductSetupHandler {
             }
 
             String teamValidation = String.join(new List<String>(validatedTeams), ';');
-            Integer nbOfFields = newMatrix.getRequiredFieldsByStage(true).get(phase.Name)?.size() ?? 0;
+            Integer nbOfFields = PMTMatrix.forProject(newProjectProducts.get(oldProject.Id)).getRequiredFieldsByStage(true).get(phase.Name)?.size() ?? 0; // US-20194 V1.2: goal with the project's Scope
             if (teamValidation == (phase.TECH_TeamValidation__c ?? '') && nbOfFields == phase.fundNbOfFields__c) continue;
 
             phase.TECH_TeamValidation__c = teamValidation;
@@ -285,7 +285,7 @@ public without sharing class ProjectProductSetupHandler {
         PMTMatrix matrix = PMTMatrix.get().forConditions(projectProduct);
 
         Integer nbOfFields = 0;
-        Map<String, List<String>> fieldListByStage = matrix.getRequiredFieldsByStage(true);
+        Map<String, List<String>> fieldListByStage = PMTMatrix.forProject(projectProduct).getRequiredFieldsByStage(true); // US-20194 V1.2: goal with the project's Scope
 
         // Every validation team (Product Strategy and IS included), validated upfront on modification projects
         String allTeamsValidated = String.join(matrix.getValidationTeamKeys(), ';');
