@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>SourceType__c</fullName>
+    <description>Normalized source type used by Apex and Engagement_Signal__c.</description>
+    <fieldManageability>DeveloperControlled</fieldManageability>
+    <label>Source Type</label>
+    <length>80</length>
+    <type>Text</type>
+</CustomField>

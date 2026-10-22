@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>ExternalKey__c</fullName>
+    <caseSensitive>true</caseSensitive>
+    <description>Deterministic unique key: Contact|SourceObject|SourceId|SourceType|Strategy.</description>
+    <externalId>true</externalId>
+    <label>External Key</label>
+    <length>255</length>
+    <required>true</required>
+    <type>Text</type>
+    <unique>true</unique>
+</CustomField>
