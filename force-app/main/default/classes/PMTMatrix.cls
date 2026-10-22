@@ -13,9 +13,9 @@
  *              US-20194 V1.2: a Conditional line is required when its RequiredCondition__c is true, evaluated only once its Condition__c applies;
  *                  on a modification project the conditions read the fund's real values (withLiveValues); getTeamFieldStates() feeds the team screens.
  * @author Charles EID
- * @lastModifiedBy Charles EID   [22-10-26]
+ * @lastModifiedBy Charles EID   [23-10-26]
  * @testClass PMTMatrixTest
- * @coverage 99%   [22-10-26]
+ * @coverage 98%   [23-10-26]
  ────────────────────────────────────── */
 public without sharing class PMTMatrix {
 
@@ -32,6 +32,8 @@ public without sharing class PMTMatrix {
     private static Map<Id, ProjectProduct__c> loadedProjectById = new Map<Id, ProjectProduct__c>();
     private static Map<Id, ProjectShareclass__c> loadedShareClassById = new Map<Id, ProjectShareclass__c>();
     private static Map<Id, SObject> liveRecordById = new Map<Id, SObject>();
+    @TestVisible
+    private static List<String> missingFieldLines = new List<String>();
 
     public List<Stage> stages { get; private set; }
     public List<Team> teams { get; private set; }
@@ -64,11 +66,20 @@ public without sharing class PMTMatrix {
             ruleByDeveloperName.put(record.DeveloperName, record);
         }
 
+        // US-20194 V1.2: a line whose field is missing on its stage object in this org (e.g. a sandbox behind the source) is not used, so no query selects it; getMissingFieldsMessage() reports it on the PMT screens
+        Map<String, Schema.SObjectField> fundStageFields = Schema.SObjectType.ProjectProductChild__c.fields.getMap();
+        Map<String, Schema.SObjectField> shareClassStageFields = Schema.SObjectType.ProjectShareclassChild__c.fields.getMap();
+        missingFieldLines = new List<String>();
         List<Line> lines = new List<Line>();
         for (PMTFieldRuleLine__mdt record : [SELECT DeveloperName, FieldRule__r.DeveloperName, Field__r.Object__c, Field__r.FieldApiName__c, Requirement__c, Condition__c, RequiredCondition__c
                                              FROM PMTFieldRuleLine__mdt ORDER BY DeveloperName]) {
+            Boolean fund = record.Field__r.Object__c == FUND_OBJECT;
+            if (!(fund ? fundStageFields : shareClassStageFields).containsKey(record.Field__r.FieldApiName__c)) {
+                missingFieldLines.add(record.DeveloperName + ' (' + (fund ? 'ProjectProductChild__c.' : 'ProjectShareclassChild__c.') + record.Field__r.FieldApiName__c + ')');
+                continue;
+            }
             PMTFieldRule__mdt rule = ruleByDeveloperName.get(record.FieldRule__r.DeveloperName);
-            Line line = new Line(rule.Team__r.MasterLabel, rule.Stage__r.MasterLabel, record.Field__r.Object__c == FUND_OBJECT, record.Field__r.FieldApiName__c,
+            Line line = new Line(rule.Team__r.MasterLabel, rule.Stage__r.MasterLabel, fund, record.Field__r.FieldApiName__c,
                                  record.Requirement__c == REQUIRED, compileCondition(PMTFieldRuleLine__mdt.SObjectType, record.DeveloperName, record.Condition__c));
             if (record.Requirement__c == CONDITIONAL) line.requiredCondition = compileCondition(PMTFieldRuleLine__mdt.SObjectType, record.DeveloperName, record.RequiredCondition__c);
             lines.add(line);
@@ -94,6 +105,12 @@ public without sharing class PMTMatrix {
             auraException.setMessage(e.getMessage());
             throw auraException;
         }
+    }
+
+    // US-20194 V1.2: configuration error shown by the PMT screens when lines point to fields missing in this org (null when none): custom label PMT_MissingFields.
+    public static String getMissingFieldsMessage() {
+        getForScreen();
+        return missingFieldLines.isEmpty() ? null : String.format(System.Label.PMT_MissingFields, new List<Object>{ String.join(missingFieldLines, ', ') });
     }
 
     // US-20194: a condition that doesn't compile stops the PMT, so its error names the record to fix (custom label PMT_InvalidCondition).

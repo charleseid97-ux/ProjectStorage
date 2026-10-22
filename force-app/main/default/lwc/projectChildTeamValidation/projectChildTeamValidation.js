@@ -16,6 +16,7 @@ import getMetadataFields from '@salesforce/apex/ProjectChildTeamValidationContro
 import { refreshApex } from '@salesforce/apex';
 import { NavigationMixin } from 'lightning/navigation';
 import getAllFieldsByRecordId from '@salesforce/apex/PageLayoutController.getAllFieldsByRecordId';
+import getPMTConfigurationWarning from '@salesforce/apex/PageLayoutController.getPMTConfigurationWarning';
 import getFundMatrix from '@salesforce/apex/ProjectChildTeamValidationController.getFundMatrix';
 import getShareClassesMatrix from '@salesforce/apex/ProjectChildTeamValidationController.getShareClassesMatrix';
 
@@ -75,7 +76,7 @@ export default class ProjectChildTeamValidation extends NavigationMixin(Lightnin
     }
 
     connectedCallback() {
-        console.log('connectedCallback called');
+        this.showConfigurationWarning();
         // Charger les règles dynamiques pour le champ Product
         const objectsToFetch = ['ProjectProductChild__c', 'ProjectShareclassChild__c'];
 
@@ -433,8 +434,15 @@ export default class ProjectChildTeamValidation extends NavigationMixin(Lightnin
 
     }
 
+    // US-20194 V1.2: PMT lines pointing to fields missing in this org (configuration to fix); an invalid condition is reported by the screen's own calls
+    showConfigurationWarning() {
+        getPMTConfigurationWarning()
+            .then(message => { if (message) this.showToast('Warning', message, 'warning', 'sticky'); })
+            .catch(() => {});
+    }
+
     // Afficher une notification toast
-    showToast(title, message, variant) {
-        this.dispatchEvent(new ShowToastEvent({ title, message, variant }));
+    showToast(title, message, variant, mode = 'dismissible') {
+        this.dispatchEvent(new ShowToastEvent({ title, message, variant, mode }));
     }
 }
