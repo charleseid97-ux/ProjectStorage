@@ -3,9 +3,9 @@
  *                  of fields to modify on a modification project (teams left to validate on the project phases, fields goal of the children, selected fields blanked
  *                  on the children and copied back to the share class), and the Tax Transparency requests (TaxData__c created then canceled, Tax team email).
  *              US-20194: a field selected on the project first stays to validate when a share class field is selected afterwards.
- * @covers ProjectShareclassHandler   99%   [21-10-26]
- * @covers ProjectShareclassChildHandler   93%   [21-10-26]
- * @lastModifiedBy Charles EID   [21-10-26]
+ * @covers ProjectShareclassHandler   99%   [22-10-26]
+ * @covers ProjectShareclassChildHandler   93%   [22-10-26]
+ * @lastModifiedBy Charles EID   [22-10-26]
  ────────────────────────────────────── */
 @isTest
 public class Test_ProjectShareclassTrigger {
@@ -89,8 +89,10 @@ public class Test_ProjectShareclassTrigger {
         System.assert(!teamsByPhase.get('Proposal').contains(teamByField.get('NAVFrequency__c').replaceAll(' ', '')), 'US-20194: the project field selected first still has to be validated after the share class save');
         System.assertEquals(matrix.getValidationTeamKeys(), teamsByPhase.get('Filing'), 'No selected field at Filing: every team stays validated');
 
-        // Fields goal of the children: the selected fields required at their stage
-        Map<String, List<String>> requiredByStage = matrix.getRequiredFieldsByStage(false);
+        // Fields goal of the children: the selected fields required at their stage for this share class (US-20194 V1.2: a field whose condition is false for it counts nowhere)
+        Map<Id, ProjectProduct__c> loadedProjectById = PMTMatrix.loadProjects(new Set<Id>{ modificationId });
+        PMTMatrix shareClassMatrix = matrix.forConditions(loadedProjectById.get(modificationId)).forShareClass(modifiedShareclass.Id);
+        Map<String, List<String>> requiredByStage = shareClassMatrix.getRequiredFieldsByStage(false);
         for (ProjectShareclassChild__c child : [SELECT TECH_Childtype__c, NbOfFieldsGoal__c
                                                 FROM ProjectShareclassChild__c
                                                 WHERE ProjectShareclasses__c = :modifiedShareclass.Id]) {

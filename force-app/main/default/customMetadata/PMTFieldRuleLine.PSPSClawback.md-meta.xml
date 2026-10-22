@@ -4,7 +4,7 @@
     <protected>false</protected>
     <values>
         <field>Condition__c</field>
-        <value xsi:nil="true"/>
+        <value xsi:type="xsd:string">INCLUDES(ProjectShareclass__c.PerformanceFeeMethod__c, &apos;HighWaterMark&apos;) &amp;&amp; NOT(INCLUDES(ProjectShareclass__c.PerformanceFeeMethod__c, &apos;Clawback&apos;)) &amp;&amp; NOT(INCLUDES(ProjectShareclass__c.PerformanceFeeMethod__c, &apos;Hurdle&apos;))</value>
     </values>
     <values>
         <field>FieldRule__c</field>
@@ -15,7 +15,11 @@
         <value xsi:type="xsd:string">SCClawback</value>
     </values>
     <values>
+        <field>RequiredCondition__c</field>
+        <value xsi:nil="true"/>
+    </values>
+    <values>
         <field>Requirement__c</field>
-        <value xsi:type="xsd:string">Optional</value>
+        <value xsi:type="xsd:string">Required</value>
     </values>
 </CustomMetadata>

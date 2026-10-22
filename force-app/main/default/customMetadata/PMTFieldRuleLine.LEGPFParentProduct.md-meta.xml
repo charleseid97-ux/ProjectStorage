@@ -15,7 +15,11 @@
         <value xsi:type="xsd:string">FundParentProduct</value>
     </values>
     <values>
+        <field>RequiredCondition__c</field>
+        <value xsi:type="xsd:string">NOT(ISBLANK(TEXT(ProjectProduct__c.LegalForm__c))) &amp;&amp; NOT(ISPICKVAL(ProjectProduct__c.LegalForm__c, &apos;FCP&apos;))</value>
+    </values>
+    <values>
         <field>Requirement__c</field>
-        <value xsi:type="xsd:string">Optional</value>
+        <value xsi:type="xsd:string">Conditional</value>
     </values>
 </CustomMetadata>

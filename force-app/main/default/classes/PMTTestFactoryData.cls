@@ -2,7 +2,7 @@
  * @description Test data factory of the PMT: projects, stages, share classes, junctions, milestones, users, and the PMT matrix of the
  *                  running test (createMatrice, createMatrixLine, createOwnerRule, clearMatrix): custom metadata records cannot be
  *                  inserted in a test, so these replace the matrix of the transaction (PMTMatrix internals visible to tests only).
- * @lastModifiedBy Charles EID   [21-10-26]
+ * @lastModifiedBy Charles EID   [22-10-26]
  ────────────────────────────────────── */
 @isTest
 public class PMTTestFactoryData {
@@ -106,7 +106,14 @@ public class PMTTestFactoryData {
 
     // US-20194: adds one line to the PMT matrix of the running test (object Product__c or Share_Class__c, Required or Optional, optional condition).
     public static void createMatrixLine(String stage, String team, String objectName, String field, String requirement, String condition) {
-        addMatrixLines(stage, team, new List<PMTMatrix.Line>{ new PMTMatrix.Line(team, stage, objectName == 'Product__c', field, requirement == 'Required', PMTCondition.compile(condition)) });
+        createMatrixLine(stage, team, objectName, field, requirement, condition, null);
+    }
+
+    // US-20194 V1.2: same, with the RequiredCondition__c of a Conditional line.
+    public static void createMatrixLine(String stage, String team, String objectName, String field, String requirement, String condition, String requiredCondition) {
+        PMTMatrix.Line line = new PMTMatrix.Line(team, stage, objectName == 'Product__c', field, requirement == 'Required', PMTCondition.compile(condition));
+        if (requirement == 'Conditional') line.requiredCondition = PMTCondition.compile(requiredCondition);
+        addMatrixLines(stage, team, new List<PMTMatrix.Line>{ line });
     }
 
     // US-20194: adds an owner rule to the PMT matrix of the running test, evaluated before the configured ones (it wins when its condition is true).

@@ -15,7 +15,11 @@
         <value xsi:type="xsd:string">FundSFDRcategory</value>
     </values>
     <values>
+        <field>RequiredCondition__c</field>
+        <value xsi:type="xsd:string">NOT(ISPICKVAL(ProjectProduct__c.LegalForm__c, &apos;OEIC&apos;))</value>
+    </values>
+    <values>
         <field>Requirement__c</field>
-        <value xsi:type="xsd:string">Optional</value>
+        <value xsi:type="xsd:string">Conditional</value>
     </values>
 </CustomMetadata>

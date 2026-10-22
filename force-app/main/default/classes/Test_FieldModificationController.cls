@@ -1,8 +1,8 @@
 /** ──────────────────────────────────────
  * @description Tests of the fieldsModificationList LWC controller: fields to modify of an IS modification project (Product and Share
  *                  Classes) owned by the team of its Scope, the phase validations that follow, and the 3 update entry points of the LWC.
- * @covers FieldModificationController   100%   [21-10-26]
- * @lastModifiedBy Charles EID   [21-10-26]
+ * @covers FieldModificationController   100%   [22-10-26]
+ * @lastModifiedBy Charles EID   [22-10-26]
  ────────────────────────────────────── */
 @isTest
 public class Test_FieldModificationController {
@@ -40,11 +40,12 @@ public class Test_FieldModificationController {
         }
         insert junctionsToInsert;
 
-        Test.startTest();
-
         // Saving the selected fields again once the junctions exist runs both validateSteps (project and share class)
         proj.TECH_FieldsToModify__c = 'NAVFrequency__c;ForeseenEUCategory__c;PricingMethod__c;RecommendedHoldingPeriod__c';
         update proj;
+
+        Test.startTest();
+
         shareClass.TECH_FieldsToModify__c = 'DividendFrequency__c;Type__c;InvestmentStatusInvestors__c;DividendPolicy__c';
         update shareClass;
         List<Map<String, String>> productsList = FieldModificationController.getFieldsToModify(proj.Id, 'Product__c');

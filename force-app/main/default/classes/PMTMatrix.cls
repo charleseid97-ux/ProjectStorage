@@ -10,15 +10,19 @@
  *                  + forConditions, and forShareClass(id) then drops the lines whose share class condition is false for one share class.
  *                  loadProjects(ids) reads the projects with the fields their conditions read (callers holding only Ids).
  *              A team and stage without an applicable line has no fields there: getRule() then returns an empty rule, never null.
+ *              US-20194 V1.2: a Conditional line is required when its RequiredCondition__c is true, evaluated only once its Condition__c applies;
+ *                  on a modification project the conditions read the fund's real values (withLiveValues); getTeamFieldStates() feeds the team screens.
  * @author Charles EID
- * @lastModifiedBy Charles EID   [21-10-26]
+ * @lastModifiedBy Charles EID   [22-10-26]
  * @testClass PMTMatrixTest
- * @coverage 99%   [21-10-26]
+ * @coverage 99%   [22-10-26]
  ────────────────────────────────────── */
 public without sharing class PMTMatrix {
 
     private static final String FUND_OBJECT = 'Product__c';
     private static final String REQUIRED = 'Required';
+    private static final String CONDITIONAL = 'Conditional';
+    private static final Id FUND_MODIFICATION_RT_ID = Schema.SObjectType.ProjectProduct__c.getRecordTypeInfosByDeveloperName().get('FundShareClassModification').getRecordTypeId();
 
     // Test classes (PMTTestFactoryData) replace the matrix of the transaction: custom metadata records cannot be inserted in a test
     @TestVisible
@@ -27,6 +31,7 @@ public without sharing class PMTMatrix {
     private static Map<String, Id> userIdByFederationId;
     private static Map<Id, ProjectProduct__c> loadedProjectById = new Map<Id, ProjectProduct__c>();
     private static Map<Id, ProjectShareclass__c> loadedShareClassById = new Map<Id, ProjectShareclass__c>();
+    private static Map<Id, SObject> liveRecordById = new Map<Id, SObject>();
 
     public List<Stage> stages { get; private set; }
     public List<Team> teams { get; private set; }
@@ -60,11 +65,13 @@ public without sharing class PMTMatrix {
         }
 
         List<Line> lines = new List<Line>();
-        for (PMTFieldRuleLine__mdt record : [SELECT DeveloperName, FieldRule__r.DeveloperName, Field__r.Object__c, Field__r.FieldApiName__c, Requirement__c, Condition__c
+        for (PMTFieldRuleLine__mdt record : [SELECT DeveloperName, FieldRule__r.DeveloperName, Field__r.Object__c, Field__r.FieldApiName__c, Requirement__c, Condition__c, RequiredCondition__c
                                              FROM PMTFieldRuleLine__mdt ORDER BY DeveloperName]) {
             PMTFieldRule__mdt rule = ruleByDeveloperName.get(record.FieldRule__r.DeveloperName);
-            lines.add(new Line(rule.Team__r.MasterLabel, rule.Stage__r.MasterLabel, record.Field__r.Object__c == FUND_OBJECT, record.Field__r.FieldApiName__c,
-                               record.Requirement__c == REQUIRED, compileCondition(PMTFieldRuleLine__mdt.SObjectType, record.DeveloperName, record.Condition__c)));
+            Line line = new Line(rule.Team__r.MasterLabel, rule.Stage__r.MasterLabel, record.Field__r.Object__c == FUND_OBJECT, record.Field__r.FieldApiName__c,
+                                 record.Requirement__c == REQUIRED, compileCondition(PMTFieldRuleLine__mdt.SObjectType, record.DeveloperName, record.Condition__c));
+            if (record.Requirement__c == CONDITIONAL) line.requiredCondition = compileCondition(PMTFieldRuleLine__mdt.SObjectType, record.DeveloperName, record.RequiredCondition__c);
+            lines.add(line);
         }
 
         List<OwnerRule> ownerRules = new List<OwnerRule>();
@@ -154,7 +161,7 @@ public without sharing class PMTMatrix {
 
     // This matrix without the lines whose condition is false for the project. A line whose condition reads a share class field is kept (it may apply to one of the project's share classes, see forShareClass).
     public PMTMatrix forConditions(ProjectProduct__c project) {
-        return filter(project, null);
+        return filter((ProjectProduct__c) withLiveValues(project, 'Product__c'), null);
     }
 
     // Projects with their Scope and the fields read by the conditions, and their share classes (for forShareClass): one query.
@@ -164,7 +171,12 @@ public without sharing class PMTMatrix {
         ids.remove(null);
         if (ids.isEmpty()) return new Map<Id, ProjectProduct__c>();
 
-        List<ProjectProduct__c> projects = PMTCondition.queryProjects(ids, matrix.getConditionFields(), matrix.getShareClassConditionFields());
+        // US-20194 V1.2: with what withLiveValues() needs on a modification project
+        Set<String> projectFields = matrix.getConditionFields();
+        projectFields.addAll(new List<String>{ 'RecordTypeId', 'Product__c', 'TECH_FieldsToModify__c' });
+        Set<String> shareClassFields = matrix.getShareClassConditionFields();
+        shareClassFields.addAll(new List<String>{ 'Tech_ShareClass__c', 'TECH_FieldsToModify__c' });
+        List<ProjectProduct__c> projects = PMTCondition.queryProjects(ids, projectFields, shareClassFields);
         Map<Id, ProjectProduct__c> projectById = new Map<Id, ProjectProduct__c>(projects);
         loadedProjectById.putAll(projectById);
         for (ProjectProduct__c project : projectById.values()) {
@@ -177,22 +189,75 @@ public without sharing class PMTMatrix {
     public PMTMatrix forShareClass(Id shareClassId) {
         ProjectShareclass__c shareClass = loadedShareClassById.get(shareClassId);
         if (shareClass == null) return this;
-        return filter(loadedProjectById.get(shareClass.ProjectProduct__c), shareClass);
+        ProjectProduct__c project = loadedProjectById.get(shareClass.ProjectProduct__c);
+        Boolean modification = project != null && project.getPopulatedFieldsAsMap().get('RecordTypeId') == FUND_MODIFICATION_RT_ID;
+        if (!modification) return filter(project, shareClass);
+        return filter((ProjectProduct__c) withLiveValues(project, 'Product__c'), (ProjectShareclass__c) withLiveValues(shareClass, 'Tech_ShareClass__c'));
+    }
+
+    // US-20194 V1.2: on a modification project, the conditions read the fund's real values. The selected fields (TECH_FieldsToModify__c) are blanked on the project until refilled, so the ones read by a condition are taken from the live Product__c / Share_Class__c (lookup liveIdField, same API names). Fields absent from the live object keep the project value. A record without these fields (not queried) is returned as is.
+    private static SObject withLiveValues(SObject record, String liveIdField) {
+        Map<String, Object> populated = record.getPopulatedFieldsAsMap();
+        Id liveRecordId = (Id) populated.get(liveIdField);
+        String selectedFields = (String) populated.get('TECH_FieldsToModify__c');
+        if (liveRecordId == null || String.isBlank(selectedFields)) return record;
+        if (record instanceof ProjectProduct__c && populated.get('RecordTypeId') != FUND_MODIFICATION_RT_ID) return record;
+
+        Schema.DescribeSObjectResult liveObject = liveRecordId.getSObjectType().getDescribe();
+        Map<String, Schema.SObjectField> liveFields = liveObject.fields.getMap();
+        Set<String> conditionFields = record instanceof ProjectProduct__c ? get().getConditionFields() : get().getShareClassConditionFields();
+        Set<String> fields = new Set<String>();
+        for (String field : ProjectProductSetupHandlerUtilities.splitMultiPicklist(selectedFields)) {
+            if (liveFields.containsKey(field.toLowerCase()) && containsIgnoreCase(conditionFields, field)) fields.add(field);
+        }
+        if (fields.isEmpty()) return record;
+
+        SObject live = liveRecordById.get(liveRecordId);
+        if (live == null || !hasFields(live, fields)) {
+            List<SObject> liveRecords = Database.query('SELECT ' + String.join(new List<String>(fields), ', ') + ' FROM ' + liveObject.getName() + ' WHERE Id = :liveRecordId');
+            if (liveRecords.isEmpty()) return record;
+            live = liveRecords[0];
+            liveRecordById.put(liveRecordId, live);
+        }
+        SObject context = record.clone(true, true, true, true);
+        for (String field : fields) context.put(field, live.get(field));
+        return context;
+    }
+
+    private static Boolean containsIgnoreCase(Set<String> values, String value) {
+        for (String candidate : values) {
+            if (candidate.equalsIgnoreCase(value)) return true;
+        }
+        return false;
+    }
+
+    private static Boolean hasFields(SObject record, Set<String> fields) {
+        Map<String, Object> populated = record.getPopulatedFieldsAsMap();
+        for (String field : fields) {
+            if (!populated.containsKey(field)) return false;
+        }
+        return true;
     }
 
     // Project level (shareClass null): evaluates the conditions that read only the project. Share class level: evaluates the conditions that read the share class. Matrices are cached by condition results, so the projects (or share classes) answering the same share one matrix.
+    // US-20194 V1.2: Condition__c first; only a line that applies resolves its RequiredCondition__c (Conditional line), at the level of the fields it reads (share class level: every remaining one).
     private PMTMatrix filter(ProjectProduct__c project, ProjectShareclass__c shareClass) {
         Boolean shareClassLevel = shareClass != null;
         List<Line> applicableLines = new List<Line>();
         String conditionResults = shareClassLevel ? 'S' : 'P';
         for (Line line : lines) {
-            if (line.condition == null || line.condition.readsShareClass() != shareClassLevel) {
-                applicableLines.add(line);
-                continue;
+            Boolean evaluated = line.condition != null && line.condition.readsShareClass() == shareClassLevel;
+            if (evaluated) {
+                Boolean applies = line.condition.evaluate(project, shareClass);
+                conditionResults += applies ? '1' : '0';
+                if (!applies) continue;
             }
-            Boolean applies = line.condition.evaluate(project, shareClass);
-            conditionResults += applies ? '1' : '0';
-            if (applies) applicableLines.add(line);
+            if (line.requiredCondition != null && (shareClassLevel || !line.requiredCondition.readsShareClass())) {
+                Boolean required = line.requiredCondition.evaluate(project, shareClass);
+                conditionResults += required ? 'R' : 'O';
+                line = line.resolve(required);
+            }
+            applicableLines.add(line);
         }
 
         if (!matrixByConditionResults.containsKey(conditionResults)) matrixByConditionResults.put(conditionResults, new PMTMatrix(stages, teams, applicableLines, ownerRules));
@@ -299,6 +364,7 @@ public without sharing class PMTMatrix {
         Set<String> fields = getOwnerRuleFields();
         for (Line line : lines) {
             if (line.condition != null) fields.addAll(line.condition.projectFields);
+            if (line.requiredCondition != null) fields.addAll(line.requiredCondition.projectFields);
         }
         return fields;
     }
@@ -308,8 +374,22 @@ public without sharing class PMTMatrix {
         Set<String> fields = new Set<String>();
         for (Line line : lines) {
             if (line.condition != null) fields.addAll(line.condition.shareClassFields);
+            if (line.requiredCondition != null) fields.addAll(line.requiredCondition.shareClassFields);
         }
         return fields;
+    }
+
+    // US-20194 V1.2: fields of one team's screen at the given stages (Fund or Share Class), with whether each is required (required at one of the stages wins). Empty when the team has no line there.
+    public Map<String, Boolean> getTeamFieldStates(String teamKey, Set<String> stageNames, Boolean fund) {
+        Map<String, Boolean> requiredByField = new Map<String, Boolean>();
+        for (FieldRule rule : rules) {
+            if (rule.team.replaceAll('\\s', '') != teamKey || !stageNames.contains(rule.stage)) continue;
+            for (String field : fund ? rule.optionalFund : rule.optionalShareClass) {
+                if (!requiredByField.containsKey(field)) requiredByField.put(field, false);
+            }
+            for (String field : fund ? rule.requiredFund : rule.requiredShareClass) requiredByField.put(field, true);
+        }
+        return requiredByField;
     }
 
     // ProjectProduct__c fields read by the owner rules (to reapply them when one changes).
@@ -469,7 +549,7 @@ public without sharing class PMTMatrix {
         }
     }
 
-    // One PMTFieldRuleLine__mdt record: a field (Fund or Share Class level) used by a team at a stage.
+    // One PMTFieldRuleLine__mdt record: a field (Fund or Share Class level) used by a team at a stage. A Conditional line has a requiredCondition and counts as optional until it is resolved (filter).
     @TestVisible
     private class Line {
         private String team;
@@ -478,6 +558,8 @@ public without sharing class PMTMatrix {
         private String field;
         private Boolean required;
         private PMTCondition condition;
+        @TestVisible
+        private PMTCondition requiredCondition;
 
         @TestVisible
         private Line(String team, String stage, Boolean fund, String field, Boolean required, PMTCondition condition) {
@@ -487,6 +569,11 @@ public without sharing class PMTMatrix {
             this.field = field;
             this.required = required;
             this.condition = condition;
+        }
+
+        // Copy of a Conditional line once its RequiredCondition__c is evaluated: Required or Optional.
+        private Line resolve(Boolean isRequired) {
+            return new Line(team, stage, fund, field, isRequired, condition);
         }
     }
 
