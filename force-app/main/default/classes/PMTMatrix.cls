@@ -337,6 +337,15 @@ public without sharing class PMTMatrix {
         return stageByField;
     }
 
+    // US-20194 V1.2.2: fields a line can make required (Required, or Conditional not evaluated yet), Fund or Share Class, without duplicates: what a query built before evaluating the conditions must select.
+    public Set<String> getRequirableFields(Boolean fund) {
+        Set<String> fields = new Set<String>();
+        for (Line line : lines) {
+            if (line.fund == fund && (line.required || line.requiredCondition != null)) fields.add(line.field);
+        }
+        return fields;
+    }
+
     // Required fields of every rule (Fund or Share Class), without duplicates.
     public List<String> getRequiredFields(Boolean fund) {
         List<String> requiredFields = new List<String>();
