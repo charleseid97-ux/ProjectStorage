@@ -862,6 +862,8 @@
         <members>Test_RegistrationCountryDatatableCTRL</members>
         <members>Test_ShareClassViewAllController</members>
         <members>VFC16_SequantisGenerateDraftTest</members>
+        <members>PMTMatrixExplorerController</members>
+        <members>PMTMatrixExplorerControllerTest</members>
         <name>ApexClass</name>
     </types>
     <types>
@@ -886,6 +888,7 @@
         <members>ShareclassCreation</members>
         <members>ProjectShareclassChild_Design_Proposal</members>
         <members>Road_To_Market_Record_Page_1</members>
+        <members>PMT_Matrix_Explorer</members>
         <name>FlexiPage</name>
     </types>
     <types>
@@ -908,6 +911,7 @@
         <members>projectProductChildDatatable</members>
         <members>layoutEditableFields</members>
         <members>projectChildTeamValidation</members>
+        <members>pmtMatrixExplorer</members>
         <name>LightningComponentBundle</name>
     </types>
     <types>
@@ -936,6 +940,10 @@
         <members>PMTField__mdt.All</members>
         <members>PMTFieldRuleLine__mdt.All</members>
         <name>ListView</name>
+    </types>
+    <types>
+        <members>PMT_Matrix_Explorer</members>
+        <name>CustomTab</name>
     </types>
     <version>64.0</version>
 </Package>
