@@ -12,6 +12,12 @@
             <lightning-spinner alternative-text="Loading..." size="medium"></lightning-spinner>
         </template>
 
+        <template if:true={hasFields}>
+            <div class="state-legend">
+                <span class="legend-item legend-required">Required, to fill</span>
+                <span class="legend-item legend-optional">Optional, empty</span>
+            </div>
+        </template>
         <template if:true={sections}>
             <lightning-accordion allow-multiple-sections-open active-section-name={allSectionIds}
                 class="custom-accordion">
@@ -29,6 +35,9 @@
                                             <lightning-icon icon-name="utility:switch" size="x-small"
                                                 class="slds-section-title-action-icon slds-buttonicon slds-button__icon_left"></lightning-icon>
                                             <span class="slds-truncate" title={section.label}>{section.label}</span>
+                                            <template if:true={section.requiredMissingLabel}>
+                                                <span class="slds-badge slds-m-left_small required-missing-badge">{section.requiredMissingLabel}</span>
+                                            </template>
                                         </button>
                                     </h3>
 
@@ -38,7 +47,7 @@
                                                 <template if:true={field.isEditable}>
                                                     <div key={field.apiName} class={field.columnClass} style="padding: 0 2%;">
 
-                                                        <label for={field.apiName} class="slds-form-element__label">
+                                                        <label for={field.apiName} class={field.labelClass}>
                                                             <template if:true={field.isRequired}>
                                                                 <abbr class="slds-required" aria-hidden="true"
                                                                     title="required">*</abbr>
@@ -75,6 +84,9 @@
                                             <lightning-icon icon-name="utility:switch" size="x-small"
                                                 class="slds-section-title-action-icon slds-buttonicon slds-button__icon_left"></lightning-icon>
                                             <span class="slds-truncate" title={section.label}>{section.label}</span>
+                                            <template if:true={section.requiredMissingLabel}>
+                                                <span class="slds-badge slds-m-left_small required-missing-badge">{section.requiredMissingLabel}</span>
+                                            </template>
                                         </button>
                                     </h3>
 
@@ -82,7 +94,7 @@
                                         <div class="slds-grid slds-wrap slds-p-around_medium">
                                             <template for:each={section.fields} for:item="field">
                                                 <div key={field.apiName} class={field.columnClass} style="padding: 0 2%;">
-                                                    <label for={field.apiName} class="slds-form-element__label">
+                                                    <label for={field.apiName} class={field.labelClass}>
                                                         <template if:true={field.isRequired}>
                                                             <abbr class="slds-required" aria-hidden="true"
                                                                 title="required">*</abbr>
