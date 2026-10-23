@@ -42,10 +42,10 @@
                                     </h3>
 
                                     <div aria-hidden="false" class="slds-section__content" id={section.id}>
-                                        <div class="slds-grid slds-wrap slds-p-around_medium">
+                                        <div class="field-grid slds-p-around_medium">
                                             <template for:each={section.fields} for:item="field">
                                                 <template if:true={field.isEditable}>
-                                                    <div key={field.apiName} class={field.columnClass} style="padding: 0 2%;">
+                                                    <div key={field.apiName} class={field.columnClass}>
                                                         <div class="field-background">
                                                             <label for={field.apiName} class={field.labelClass}>
                                                                 <template if:true={field.isRequired}>
@@ -90,9 +90,9 @@
                                     </h3>
 
                                     <div aria-hidden="false" class="slds-section__content" id={section.id}>
-                                        <div class="slds-grid slds-wrap slds-p-around_medium">
+                                        <div class="field-grid slds-p-around_medium">
                                             <template for:each={section.fields} for:item="field">
-                                                <div key={field.apiName} class={field.columnClass} style="padding: 0 1%;">
+                                                <div key={field.apiName} class={field.columnClass}>
                                                     <div class="field-background">
                                                         <label for={field.apiName} class={field.labelClass}>
                                                             <template if:true={field.isRequired}>
