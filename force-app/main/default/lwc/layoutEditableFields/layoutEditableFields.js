@@ -134,13 +134,6 @@ export default class LayoutEditableFields extends NavigationMixin(LightningEleme
 
     }
 
-    getColumnClass(field) {
-        return field.isMultiPicklist
-        ? 'slds-col slds-size_3-of-3 slds-p-right_medium slds-p-bottom_medium'
-        : 'slds-col slds-size_1-of-3 slds-p-right_medium slds-p-bottom_medium';
-
-    }
-
     renderedCallback() {
         const style = document.createElement('style');
         style.innerText = ".edit-input div.slds-form-element__icon { display: none; }";
@@ -378,7 +371,7 @@ export default class LayoutEditableFields extends NavigationMixin(LightningEleme
                                     const isRichTextArea = this.fieldMetadata?.[fieldApiName]?.dataType === 'TextArea';
                                     const currentValue = Object.prototype.hasOwnProperty.call(this.draftValues, fieldApiName) ? this.draftValues[fieldApiName] : fieldsValues[fieldApiName]?.value;
                                     const stateClass = this.getFieldStateClass(state.required, currentValue);
-                                    const width = isMultiPicklist || isRichTextArea ? 'slds-size_3-of-3' : 'slds-size_1-of-3';
+                                    const fullRow = isMultiPicklist || isRichTextArea ? 'field-cell-full-row' : '';
                                     fields.push({
                                         apiName: fieldApiName,
                                         label: item.label,
@@ -390,7 +383,7 @@ export default class LayoutEditableFields extends NavigationMixin(LightningEleme
                                         isRequiredEmpty: stateClass === REQUIRED_EMPTY_CLASS,
                                         labelClass: stateClass === REQUIRED_EMPTY_CLASS ? 'slds-form-element__label field-label-required-empty' : 'slds-form-element__label',
                                         value: isMultiPicklist ? fieldsValues[fieldApiName]?.value?.split(';') : fieldsValues[fieldApiName]?.value,
-                                        columnClass: `slds-col ${width} slds-p-right_medium slds-p-bottom_medium ${stateClass}`.trim()
+                                        columnClass: `field-cell ${fullRow} ${stateClass}`.replace(/\s+/g, ' ').trim()
                                     });
                                 }
                             }
