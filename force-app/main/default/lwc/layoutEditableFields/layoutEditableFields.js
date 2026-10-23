@@ -16,6 +16,10 @@ import ProjectShareclassChildOBJ from '@salesforce/schema/ProjectShareclassChild
 import getAllFieldsByRecordId from '@salesforce/apex/PageLayoutController.getAllFieldsByRecordId';
 import LightningConfirm from 'lightning/confirm';
 
+// US-20194 V1.3: color states of an empty field (PRIIPs/KID style)
+const REQUIRED_EMPTY_CLASS = 'field-state-required-empty';
+const OPTIONAL_EMPTY_CLASS = 'field-state-optional-empty';
+
 export default class LayoutEditableFields extends NavigationMixin(LightningElement) {
 
     @api recordId;
@@ -51,6 +55,10 @@ export default class LayoutEditableFields extends NavigationMixin(LightningEleme
     get tabClass() { 
         return this.isEditMode ? 'edit-content' : '';
     }    
+    get hasFields() {
+        return this.sections && this.sections.length > 0;
+    }
+
     get filteredSections() {
         if (!this.sections) return [];
 
@@ -368,6 +376,9 @@ export default class LayoutEditableFields extends NavigationMixin(LightningEleme
                                 if (state) {
                                     const isMultiPicklist = this.fieldMetadata?.[fieldApiName]?.dataType === 'MultiPicklist';
                                     const isRichTextArea = this.fieldMetadata?.[fieldApiName]?.dataType === 'TextArea';
+                                    const currentValue = Object.prototype.hasOwnProperty.call(this.draftValues, fieldApiName) ? this.draftValues[fieldApiName] : fieldsValues[fieldApiName]?.value;
+                                    const stateClass = this.getFieldStateClass(state.required, currentValue);
+                                    const width = isMultiPicklist || isRichTextArea ? 'slds-size_3-of-3' : 'slds-size_1-of-3';
                                     fields.push({
                                         apiName: fieldApiName,
                                         label: item.label,
@@ -376,10 +387,10 @@ export default class LayoutEditableFields extends NavigationMixin(LightningEleme
                                         isRichTextArea: isRichTextArea,
                                         helptext : this.fieldMetadata?.[fieldApiName]?.helptext,
                                         isRequired: state.required,
+                                        isRequiredEmpty: stateClass === REQUIRED_EMPTY_CLASS,
+                                        labelClass: stateClass === REQUIRED_EMPTY_CLASS ? 'slds-form-element__label field-label-required-empty' : 'slds-form-element__label',
                                         value: isMultiPicklist ? fieldsValues[fieldApiName]?.value?.split(';') : fieldsValues[fieldApiName]?.value,
-                                        columnClass: isMultiPicklist
-                                        ? 'slds-col slds-size_3-of-3 slds-p-right_medium slds-p-bottom_medium'
-                                        : isRichTextArea? 'slds-col slds-size_3-of-3 slds-p-right_medium slds-p-bottom_medium' :'slds-col slds-size_1-of-3 slds-p-right_medium slds-p-bottom_medium'
+                                        columnClass: `slds-col ${width} slds-p-right_medium slds-p-bottom_medium ${stateClass}`.trim()
                                     });
                                 }
                             }
@@ -388,10 +399,12 @@ export default class LayoutEditableFields extends NavigationMixin(LightningEleme
                 });
 
                 if (fields.length > 0) {
+                    const requiredMissing = fields.filter(field => field.isRequiredEmpty).length;
                     sections.push({
                         id: section.id,
                         label: section.heading,
-                        fields: fields
+                        fields: fields,
+                        requiredMissingLabel: requiredMissing > 0 ? `${requiredMissing} required missing` : null
                     });
                     sectionIds.push(section.id);
                 }
@@ -401,6 +414,13 @@ export default class LayoutEditableFields extends NavigationMixin(LightningEleme
         this.allSectionIds = sectionIds;
 
         return sections;
+    }
+
+    // US-20194 V1.3: only an empty field is colored, red when required, orange when optional. A checkbox is never empty (false is a value), as in countFilledFields.
+    getFieldStateClass(required, value) {
+        const isEmpty = value === null || value === undefined || value === '' || (Array.isArray(value) && value.length === 0);
+        if (!isEmpty) return '';
+        return required ? REQUIRED_EMPTY_CLASS : OPTIONAL_EMPTY_CLASS;
     }
 
     enableEditMode() {
