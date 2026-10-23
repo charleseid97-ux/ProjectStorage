@@ -15,6 +15,10 @@
         <value xsi:type="xsd:string">SCSRRI</value>
     </values>
     <values>
+        <field>IsActive__c</field>
+        <value xsi:type="xsd:boolean">true</value>
+    </values>
+    <values>
         <field>RequiredCondition__c</field>
         <value xsi:type="xsd:string">INCLUDES(ProjectShareclass__c.CountryRegNeededInstitutional__c, &apos;United Kingdom&apos;) || INCLUDES(ProjectShareclass__c.CountryRegNeededRetail__c, &apos;United Kingdom&apos;) || INCLUDES(ProjectShareclass__c.CountryRegNeededSemipro__c, &apos;United Kingdom&apos;)</value>
     </values>

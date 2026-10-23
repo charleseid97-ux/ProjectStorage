@@ -15,6 +15,10 @@
         <value xsi:type="xsd:string">SCMorningstarCode</value>
     </values>
     <values>
+        <field>IsActive__c</field>
+        <value xsi:type="xsd:boolean">true</value>
+    </values>
+    <values>
         <field>RequiredCondition__c</field>
         <value xsi:nil="true"/>
     </values>

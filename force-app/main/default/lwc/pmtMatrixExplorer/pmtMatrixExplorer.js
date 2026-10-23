@@ -77,6 +77,7 @@ export default class PmtMatrixExplorer extends LightningElement {
             { key: 'modifiable', label: 'Modifiable fields', value: this.fields.filter(field => field.isModifiable).length },
             { key: 'lines', label: 'Rule lines', value: lines.length },
             { key: 'conditional', label: 'Conditional lines', value: lines.filter(line => line.isConditional).length },
+            { key: 'inactive', label: 'Inactive lines', value: lines.filter(line => !line.isActive).length },
             { key: 'conditions', label: 'Conditions', value: lines.filter(line => line.condition).length },
             { key: 'errors', label: 'Invalid conditions', value: errorCount, className: errorCount ? 'summary-item summary-item_error' : 'summary-item' }
         ].map(item => ({ className: 'summary-item', ...item }));
@@ -246,7 +247,7 @@ export default class PmtMatrixExplorer extends LightningElement {
     }
 
     buildDetailLine(line) {
-        return { ...line, key: line.id, setupUrl: SETUP_URL + line.id };
+        return { ...line, key: line.id, setupUrl: SETUP_URL + line.id, isInactive: !line.isActive };
     }
 
     buildGroupRow(field, line, teamGroups) {
@@ -263,6 +264,7 @@ export default class PmtMatrixExplorer extends LightningElement {
             requiredCondition: line.requiredCondition,
             requiredConditionError: line.requiredConditionError,
             setupUrl: SETUP_URL + line.id,
+            isInactive: !line.isActive,
             status: this.buildStatus(field.sharingStatus),
             otherLines: field.lines.filter(other => other.id !== line.id).map(other => this.buildChip(field, other, teamGroups ? `${other.team} · ${other.stage}` : other.team))
         };

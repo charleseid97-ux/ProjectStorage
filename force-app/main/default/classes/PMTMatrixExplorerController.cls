@@ -9,6 +9,7 @@
  *                  on its line instead of breaking the view.
  *              Fields are described on the stage objects (ProjectProductChild__c, ProjectShareclassChild__c), like PMTMatrix: a field missing
  *                  there is flagged, since PMTMatrix skips its lines. They also show IsModifiable__c and their DependentFields__c (fieldSelector).
+ *              US-20194 V1.5: inactive lines (IsActive__c unticked) are shown and flagged, and left out of the sharing status.
  * @author Charles EID
  * @testClass PMTMatrixExplorerControllerTest
  * @coverage 99%   [23-10-26]
@@ -79,7 +80,7 @@ public with sharing class PMTMatrixExplorerController {
         for (PMTFieldRule__mdt record : [SELECT DeveloperName, Team__r.MasterLabel, Stage__r.MasterLabel FROM PMTFieldRule__mdt]) {
             ruleByDeveloperName.put(record.DeveloperName, record);
         }
-        for (PMTFieldRuleLine__mdt record : [SELECT Id, DeveloperName, FieldRule__r.DeveloperName, Field__r.DeveloperName, Requirement__c, Condition__c, RequiredCondition__c
+        for (PMTFieldRuleLine__mdt record : [SELECT Id, DeveloperName, FieldRule__r.DeveloperName, Field__r.DeveloperName, Requirement__c, Condition__c, RequiredCondition__c, IsActive__c
                                              FROM PMTFieldRuleLine__mdt ORDER BY DeveloperName]) {
             PMTFieldRule__mdt rule = ruleByDeveloperName.get(record.FieldRule__r.DeveloperName);
             Field field = fieldByDeveloperName.get(record.Field__r.DeveloperName);
@@ -96,6 +97,7 @@ public with sharing class PMTMatrixExplorerController {
     private static String getSharingStatus(List<Line> lines, Map<String, Team> teamByName) {
         Map<String, Boolean> allConditionalByTeam = new Map<String, Boolean>();
         for (Line line : lines) {
+            if (!line.isActive) continue; // US-20194 V1.5: an inactive line is not used by the PMT
             Boolean allConditional = !allConditionalByTeam.containsKey(line.team) || allConditionalByTeam.get(line.team);
             allConditionalByTeam.put(line.team, allConditional && String.isNotBlank(line.condition));
         }
@@ -263,6 +265,7 @@ public with sharing class PMTMatrixExplorerController {
         @AuraEnabled public String conditionError;
         @AuraEnabled public String requiredCondition;
         @AuraEnabled public String requiredConditionError;
+        @AuraEnabled public Boolean isActive;
 
         public Line(PMTFieldRuleLine__mdt record, String team, String stage, Boolean isFund) {
             id = record.Id;
@@ -276,6 +279,7 @@ public with sharing class PMTMatrixExplorerController {
             conditionError = getConditionError(record.Condition__c, isFund);
             requiredCondition = record.RequiredCondition__c;
             requiredConditionError = getRequiredConditionError(record, isFund);
+            isActive = record.IsActive__c;
         }
     }
 }
