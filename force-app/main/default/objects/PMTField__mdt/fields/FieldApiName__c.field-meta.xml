@@ -3,6 +3,7 @@
     <fullName>FieldApiName__c</fullName>
     <description>API name of the field (with __c), identical on the catalog object and the PMT project objects.</description>
     <fieldManageability>DeveloperControlled</fieldManageability>
+    <inlineHelpText>API name of the field (with __c), the same on the catalog object and on the PMT project objects.</inlineHelpText>
     <label>Field API Name</label>
     <externalId>false</externalId>
     <length>80</length>

@@ -3,6 +3,7 @@
     <fullName>Requirement__c</fullName>
     <description>Required: counted in the completion goal and checked before the team validates the stage. Optional: shown to the team only. Conditional: required only when RequiredCondition__c is true (evaluated only when the line applies, i.e. Condition__c empty or true).</description>
     <fieldManageability>DeveloperControlled</fieldManageability>
+    <inlineHelpText>Required: counted in the completion goal and checked before the team validates the stage. Optional: shown to the team only. Conditional: required only when its Required Condition is true.</inlineHelpText>
     <label>Requirement</label>
     <required>true</required>
     <valueSet>

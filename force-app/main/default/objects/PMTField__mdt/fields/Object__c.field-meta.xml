@@ -3,6 +3,7 @@
     <fullName>Object__c</fullName>
     <description>Level of the field: Product__c (Fund: Product__c, ProjectProduct__c, ProjectProductChild__c) or Share_Class__c (Share_Class__c, ProjectShareclass__c, ProjectShareclassChild__c). A Fund field condition may only read ProjectProduct__c fields.</description>
     <fieldManageability>DeveloperControlled</fieldManageability>
+    <inlineHelpText>Fund: the field is on the fund (Product__c, ProjectProduct__c, ProjectProductChild__c). Share Class: on each share class (Share_Class__c, ProjectShareclass__c, ProjectShareclassChild__c).</inlineHelpText>
     <label>Object</label>
     <required>true</required>
     <valueSet>

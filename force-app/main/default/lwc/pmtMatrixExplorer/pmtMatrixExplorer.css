@@ -1,3 +1,23 @@
+/* US-20194 V1.6: create button, deployment in progress and edit pencils */
+.actions {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.deploying {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.25rem;
+    font-size: 0.75rem;
+    color: #0176d3;
+    --slds-c-icon-color-foreground-default: #0176d3;
+}
+
+.col-action {
+    width: 2.5rem;
+}
+
 .summary {
     display: flex;
     flex-wrap: wrap;
@@ -30,7 +50,6 @@
     color: #747474;
 }
 
-.legend,
 .filters,
 .toolbar {
     display: flex;
@@ -48,12 +67,6 @@
     color: #747474;
 }
 
-.legend-separator {
-    width: 1px;
-    height: 1.25rem;
-    background: #c9c9c9;
-}
-
 .filters {
     align-items: flex-end;
 }
@@ -66,13 +79,56 @@
     min-width: 16rem;
 }
 
-.filter_checkbox {
+.filter_button {
     min-width: auto;
-    padding-bottom: 0.25rem;
 }
 
 .toolbar {
     justify-content: space-between;
+}
+
+/* View switcher and Legend button side by side, the legend pop-up opening under its button */
+.view-tools {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.legend-anchor {
+    position: relative;
+}
+
+.legend-popover {
+    position: absolute;
+    top: calc(100% + 0.75rem);
+    left: 0;
+    z-index: 10;
+    width: 44rem;
+    max-width: 90vw;
+}
+
+.legend-columns {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.25rem;
+    padding: 0.75rem 1rem 1rem;
+}
+
+.legend-item {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-top: 0.5rem;
+}
+
+.legend-item > span:first-child {
+    flex: none;
+    min-width: 7.5rem;
+}
+
+.legend-description {
+    font-size: 0.75rem;
+    color: #5c5c5c;
 }
 
 /* Sharing status colours, shared by the status pills, the chips and the matrix rows */
@@ -121,15 +177,6 @@
     font-size: 0.75rem;
     font-weight: 600;
     white-space: nowrap;
-}
-
-button.status {
-    cursor: pointer;
-}
-
-.status_selected {
-    background: var(--pmt-color);
-    color: #ffffff;
 }
 
 .chip {
@@ -183,6 +230,15 @@ button.status {
 .group-row th {
     background: #e5e5e5;
     font-weight: 700;
+}
+
+/* The whole field row opens its rule lines */
+.row {
+    cursor: pointer;
+}
+
+.row:hover td {
+    filter: brightness(0.97);
 }
 
 .row td:first-child {
@@ -289,13 +345,84 @@ button.status {
     margin-top: 0.25rem;
 }
 
-.subgroup {
-    margin-bottom: 1rem;
+/* By team / By stage: one bordered box per team or stage, holding one box per inner table (same pattern as gridValidationPage) */
+.groups {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.group-item,
+.subgroup-item {
+    border: 1px solid #d8dde6;
+    border-radius: 6px;
+    overflow: hidden;
+}
+
+.group-header,
+.subgroup-header {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    border: none;
+    cursor: pointer;
+    text-align: left;
+}
+
+.group-header {
+    padding: 0.5rem 0.75rem;
+    background: #f3f2f2;
+}
+
+.subgroup-header {
+    padding: 0.375rem 0.75rem;
+    background: #fafaf9;
+}
+
+.group-header:hover,
+.subgroup-header:hover {
+    filter: brightness(0.97);
+}
+
+.group-toggle {
+    --slds-c-icon-color-foreground-default: #3e3e3c;
+}
+
+.group-title {
+    font-size: 1.05rem;
+    font-weight: 600;
 }
 
 .subgroup-title {
-    margin-bottom: 0.25rem;
-    font-weight: 700;
+    font-weight: 600;
+}
+
+.group-counts {
+    font-size: 0.8rem;
+    color: #3e3e3c;
+}
+
+.group-body {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    padding: 0.75rem;
+}
+
+.group-body .info,
+.group-body .owner-rules {
+    margin-bottom: 0;
+}
+
+/* Inside its box, a table only separates its rows: no outer border doubling the box */
+.group-table thead th {
+    background: #fafaf9;
+    border-top: 1px solid #d8dde6;
+}
+
+.group-table tbody td {
+    border-top: 1px solid #ecebea;
 }
 
 .empty {

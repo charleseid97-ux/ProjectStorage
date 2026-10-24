@@ -4,6 +4,7 @@
     <defaultValue>false</defaultValue>
     <description>The field can be selected in a modification project (fieldSelector). Replaces Sensitive_field__mdt (US-20194).</description>
     <fieldManageability>DeveloperControlled</fieldManageability>
+    <inlineHelpText>Ticked: the field can be selected in a modification project.</inlineHelpText>
     <label>Is Modifiable</label>
     <type>Checkbox</type>
 </CustomField>

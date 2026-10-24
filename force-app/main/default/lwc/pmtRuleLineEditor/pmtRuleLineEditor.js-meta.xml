@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<LightningComponentBundle xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>64.0</apiVersion>
+    <masterLabel>PMT Rule Line Editor</masterLabel>
+    <description>Pop-up of the PMT Matrix Explorer creating or editing a PMT rule line, with its PMTField and PMTFieldRule (US-20194 V1.6).</description>
+    <isExposed>false</isExposed>
+</LightningComponentBundle>

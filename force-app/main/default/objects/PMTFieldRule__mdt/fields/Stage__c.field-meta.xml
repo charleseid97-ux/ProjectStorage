@@ -3,6 +3,7 @@
     <fullName>Stage__c</fullName>
     <description>Stage at which the team fills the fields of this rule.</description>
     <fieldManageability>DeveloperControlled</fieldManageability>
+    <inlineHelpText>Stage at which the team fills the fields of this rule.</inlineHelpText>
     <label>Stage</label>
     <referenceTo>PMTStage__mdt</referenceTo>
     <relationshipLabel>PMT - Field Rules</relationshipLabel>
