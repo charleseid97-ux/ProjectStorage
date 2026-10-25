@@ -88,14 +88,14 @@ private class PMTMatrixExplorerControllerTest {
         System.assertEquals(null, legalConditionalLine.conditionError, 'A valid condition has no error');
         System.assertEquals(null, isLine.conditionError, 'An empty condition has no error');
         System.assertNotEquals(null, buildLine('OPS', 'Optional', 'NOT_A_FUNCTION(', null).conditionError, 'A condition that does not compile shows its error');
-        System.assertEquals(PMTMatrixExplorerController.PROJECT_ONLY_ERROR, buildLine('OPS', 'Optional', SHARE_CLASS_CONDITION, null).conditionError, 'A Fund line condition reads only ProjectProduct__c fields');
+        System.assertEquals(PMTMatrix.PROJECT_ONLY_ERROR, buildLine('OPS', 'Optional', SHARE_CLASS_CONDITION, null).conditionError, 'A Fund line condition reads only ProjectProduct__c fields');
 
         // 3. RequiredCondition__c: set exactly on the Conditional lines, then checked like a condition
         PMTMatrixExplorerController.Line conditionalLine = buildLine('Legal', 'Conditional', null, PROJECT_CONDITION);
         System.assert(conditionalLine.isConditional && !conditionalLine.isRequired && conditionalLine.requiredConditionError == null, 'A Conditional line with a valid RequiredCondition__c has no error');
-        System.assertEquals(PMTMatrixExplorerController.MISSING_REQUIRED_CONDITION_ERROR, buildLine('Legal', 'Conditional', null, null).requiredConditionError, 'A Conditional line needs a RequiredCondition__c');
-        System.assertEquals(PMTMatrixExplorerController.IGNORED_REQUIRED_CONDITION_ERROR, buildLine('Legal', 'Required', null, PROJECT_CONDITION).requiredConditionError, 'RequiredCondition__c is ignored on a line that is not Conditional');
-        System.assertEquals(PMTMatrixExplorerController.PROJECT_ONLY_ERROR, buildLine('Legal', 'Conditional', null, SHARE_CLASS_CONDITION).requiredConditionError, 'A Fund line RequiredCondition__c reads only ProjectProduct__c fields');
+        System.assertEquals(PMTMatrix.MISSING_REQUIRED_CONDITION_ERROR, buildLine('Legal', 'Conditional', null, null).requiredConditionError, 'A Conditional line needs a RequiredCondition__c');
+        System.assertEquals(PMTMatrix.IGNORED_REQUIRED_CONDITION_ERROR, buildLine('Legal', 'Required', null, PROJECT_CONDITION).requiredConditionError, 'RequiredCondition__c is ignored on a line that is not Conditional');
+        System.assertEquals(PMTMatrix.PROJECT_ONLY_ERROR, buildLine('Legal', 'Conditional', null, SHARE_CLASS_CONDITION).requiredConditionError, 'A Fund line RequiredCondition__c reads only ProjectProduct__c fields');
 
         // 4. US-20194 V1.6: "Check condition" button: the fields read by a valid condition, or its error
         PMTMatrixExplorerController.ConditionCheck projectCheck = PMTMatrixExplorerController.checkCondition(PROJECT_CONDITION, FUND_OBJECT, false);
@@ -104,8 +104,8 @@ private class PMTMatrixExplorerControllerTest {
         System.assert(projectCheck.error == null && String.join(projectCheck.projectFields, ',').containsIgnoreCase('LegalForm__c') && projectCheck.shareClassFields.isEmpty(), 'A project condition reads ProjectProduct__c fields');
         System.assert(shareClassCheck.error == null && String.join(shareClassCheck.shareClassFields, ',').containsIgnoreCase('HasPerfFees__c'), 'A share class condition reads ProjectShareclass__c fields');
         System.assert(emptyCheck.error == null && emptyCheck.projectFields.isEmpty(), 'An empty condition always applies');
-        System.assertEquals(PMTMatrixExplorerController.PROJECT_ONLY_ERROR, PMTMatrixExplorerController.checkCondition(SHARE_CLASS_CONDITION, FUND_OBJECT, false).error, 'A Fund line condition reads only ProjectProduct__c fields');
-        System.assertEquals(PMTMatrixExplorerController.MISSING_REQUIRED_CONDITION_ERROR, PMTMatrixExplorerController.checkCondition(null, FUND_OBJECT, true).error, 'The Required when condition of a Conditional line cannot be empty');
+        System.assertEquals(PMTMatrix.PROJECT_ONLY_ERROR, PMTMatrixExplorerController.checkCondition(SHARE_CLASS_CONDITION, FUND_OBJECT, false).error, 'A Fund line condition reads only ProjectProduct__c fields');
+        System.assertEquals(PMTMatrix.MISSING_REQUIRED_CONDITION_ERROR, PMTMatrixExplorerController.checkCondition(null, FUND_OBJECT, true).error, 'The Required when condition of a Conditional line cannot be empty');
         System.assertNotEquals(null, PMTMatrixExplorerController.checkCondition('NOT_A_FUNCTION(', FUND_OBJECT, false).error, 'A condition that does not compile shows its error');
 
         // 5. US-20194 V1.6: generated DeveloperNames: letters and digits only, 40 characters at most, a number when taken
@@ -162,7 +162,7 @@ private class PMTMatrixExplorerControllerTest {
         System.assertEquals(null, invalidPreview.fieldDeveloperName, 'A field missing from the dictionary would be created');
         String invalidErrors = String.join(invalidPreview.errors, '\n');
         System.assert(invalidErrors.contains('NotAPMTField__c') && invalidErrors.contains('NotADependentField__c'), 'The field and the dependent fields must exist on the stage object: ' + invalidErrors);
-        System.assert(invalidErrors.contains('Condition: ') && invalidErrors.contains('Required when: ' + PMTMatrixExplorerController.MISSING_REQUIRED_CONDITION_ERROR), 'Both conditions are checked: ' + invalidErrors);
+        System.assert(invalidErrors.contains('Condition: ') && invalidErrors.contains('Required condition: ' + PMTMatrix.MISSING_REQUIRED_CONDITION_ERROR), 'Both conditions are checked: ' + invalidErrors);
         System.assertEquals(new List<String>{ PMTMatrixExplorerController.INVALID_VALUE_ERROR }, unknownTeamPreview.errors, 'The team must be a PMTTeam record');
         System.assertEquals(new List<String>{ PMTMatrixExplorerController.INCOMPLETE_LINE_ERROR }, incompletePreview.errors, 'Team, stage, level, field and requirement are required');
     }

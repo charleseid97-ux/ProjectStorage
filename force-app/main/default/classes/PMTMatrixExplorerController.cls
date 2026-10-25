@@ -5,8 +5,8 @@
  *              Each field gets a sharing status telling whether its teams can fill it on the same project: SINGLE (one team), SCOPE_SPLIT
  *                  (teams of different PMTTeam__mdt.Scope__c, only one applies per project), CONDITION_SPLIT (every line of the teams has a
  *                  condition, to check that they exclude each other), SHARED (several teams on the same project), UNUSED (no line).
- *              Each condition (Condition__c, and RequiredCondition__c of a Conditional line) is compiled with PMTCondition: its error is shown
- *                  on its line instead of breaking the view.
+ *              Each line and owner rule is checked with the PMT's own rules (PMTMatrix.getLineErrors, getConditionError, US-20194 V1.6): its
+ *                  errors are shown on it instead of breaking the view, and a line breaking them cannot be saved.
  *              Fields are described on the stage objects (ProjectProductChild__c, ProjectShareclassChild__c), like PMTMatrix: a field missing
  *                  there is flagged, since PMTMatrix skips its lines. They also show IsModifiable__c and their DependentFields__c (fieldSelector).
  *              US-20194 V1.5: inactive lines (IsActive__c unticked) are shown and flagged, and left out of the sharing status.
@@ -34,19 +34,11 @@ public with sharing class PMTMatrixExplorerController {
     private static final Integer LINE_NAME_BASE_MAX_LENGTH = 37;
     private static final Integer DEPENDENT_FIELDS_MAX_LENGTH = 255;
     @TestVisible
-    private static final String PROJECT_ONLY_ERROR = 'This condition can only read ProjectProduct__c fields';
-    @TestVisible
-    private static final String MISSING_REQUIRED_CONDITION_ERROR = 'A Conditional line needs a RequiredCondition__c';
-    @TestVisible
-    private static final String IGNORED_REQUIRED_CONDITION_ERROR = 'RequiredCondition__c is ignored unless Requirement is Conditional';
-    @TestVisible
     private static final String NO_EDIT_ACCESS_ERROR = 'You need the Customize Application permission to change the PMT configuration';
     @TestVisible
     private static final String INCOMPLETE_LINE_ERROR = 'Team, stage, level, field and requirement are required';
     @TestVisible
     private static final String INVALID_VALUE_ERROR = 'Unknown team, stage, level or requirement';
-    @TestVisible
-    private static final String MISSING_FIELD_ERROR = '{0} is not a field of {1}';
     @TestVisible
     private static final String DEPENDENT_FIELDS_TOO_LONG_ERROR = 'The dependent fields exceed 255 characters';
     @TestVisible
@@ -92,7 +84,7 @@ public with sharing class PMTMatrixExplorerController {
             teamByName.put(team.name, team);
         }
         for (PMTOwnerRule__mdt record : ownerRuleRecords) {
-            model.ownerRules.add(new OwnerRule(record, userNameByFederationId.get(record.OwnerFederationId__c), getConditionError(record.Condition__c, true)));
+            model.ownerRules.add(new OwnerRule(record, userNameByFederationId.get(record.OwnerFederationId__c), PMTMatrix.getConditionError(record.Condition__c, true)));
         }
         model.fields = getFields(teamByName);
 
@@ -117,7 +109,8 @@ public with sharing class PMTMatrixExplorerController {
     @AuraEnabled
     public static ConditionCheck checkCondition(String condition, String objectName, Boolean isRequired) {
         ConditionCheck check = new ConditionCheck();
-        check.error = isRequired == true && String.isBlank(condition) ? MISSING_REQUIRED_CONDITION_ERROR : getConditionError(condition, objectName == FUND_OBJECT);
+        Boolean isFund = objectName == FUND_OBJECT;
+        check.error = isRequired == true ? PMTMatrix.getRequiredConditionError(CONDITIONAL, condition, isFund) : PMTMatrix.getConditionError(condition, isFund);
         if (check.error == null && String.isNotBlank(condition)) {
             PMTCondition compiled = PMTCondition.compile(condition);
             check.projectFields = new List<String>(compiled.projectFields);
@@ -199,30 +192,7 @@ public with sharing class PMTMatrixExplorerController {
         return SHARING_STATUSES[statusIndex];
     }
 
-    // Null for a valid or empty condition; otherwise its compilation error, or the error of a project-level condition (Fund field, owner rule) reading a share class field
-    @TestVisible
-    private static String getConditionError(String condition, Boolean projectOnly) {
-        try {
-            PMTCondition compiled = PMTCondition.compile(condition);
-            if (projectOnly && compiled != null && compiled.readsShareClass()) return PROJECT_ONLY_ERROR;
-            return null;
-        }
-        catch (PMTCondition.PMTConditionException e) {
-            return e.getMessage();
-        }
-    }
-
-    // Null when valid: RequiredCondition__c is set exactly on the Conditional lines (as PMTMatrixTest checks), then checked like a condition of the line's level
-    @TestVisible
-    private static String getRequiredConditionError(String requirement, String requiredCondition, Boolean isFund) {
-        Boolean conditional = requirement == CONDITIONAL;
-        Boolean hasRequiredCondition = String.isNotBlank(requiredCondition);
-        if (conditional && !hasRequiredCondition) return MISSING_REQUIRED_CONDITION_ERROR;
-        if (!conditional && hasRequiredCondition) return IGNORED_REQUIRED_CONDITION_ERROR;
-        return getConditionError(requiredCondition, isFund);
-    }
-
-    // US-20194 V1.6: rule 1 (one PMTField per Object + FieldApiName) and rule 2 (one PMTFieldRule per Team + Stage) find the records to reuse, rule 3 (one line per Rule + Field) the line the request would duplicate; then the fields and conditions are checked
+    // US-20194 V1.6: rule 1 (one PMTField per Object + FieldApiName) and rule 2 (one PMTFieldRule per Team + Stage) find the records to reuse, rule 3 (one line per Rule + Field) the line the request would duplicate; the line itself is checked by PMTMatrix.getLineErrors, like the PMT does at runtime
     private static LineContext getLineContext(LineRequest request) {
         LineContext context = new LineContext();
         if (String.isBlank(request.team) || String.isBlank(request.stage) || String.isBlank(request.objectName) || String.isBlank(request.fieldApiName) || String.isBlank(request.requirement)) {
@@ -241,14 +211,13 @@ public with sharing class PMTMatrixExplorerController {
         context.team = teams[0];
         context.stage = stages[0];
 
-        Schema.DescribeSObjectResult stageObject = getStageObject(context.isFund);
-        Map<String, Schema.SObjectField> stageFields = stageObject.fields.getMap();
+        Map<String, Schema.SObjectField> stageFields = getStageObject(context.isFund).fields.getMap();
         context.stageField = stageFields.get(request.fieldApiName);
-        if (context.stageField == null) context.errors.add(String.format(MISSING_FIELD_ERROR, new List<Object>{ request.fieldApiName, stageObject.getName() }));
+        context.errors.addAll(PMTMatrix.getLineErrors(context.isFund, request.fieldApiName, request.requirement, request.condition, request.requiredCondition));
         for (String dependentField : request.dependentFields != null ? request.dependentFields : new List<String>()) {
             Schema.SObjectField stageDependentField = stageFields.get(dependentField);
             if (stageDependentField == null) {
-                context.errors.add(String.format(MISSING_FIELD_ERROR, new List<Object>{ dependentField, stageObject.getName() }));
+                context.errors.add(PMTMatrix.getFieldError(context.isFund, dependentField));
             }
             else {
                 context.dependentFields.add(stageDependentField.getDescribe().getName());
@@ -271,11 +240,6 @@ public with sharing class PMTMatrixExplorerController {
         if (context.conflictLineId != null) context.errors.add(DUPLICATE_LINE_ERROR);
         // An existing line can move to another team or stage (another or a new PMTFieldRule), never to another field
         if (request.lineId != null && (context.line == null || context.line.Field__r.DeveloperName != context.field?.DeveloperName)) context.errors.add(IDENTITY_LOCKED_ERROR);
-
-        String conditionError = getConditionError(request.condition, context.isFund);
-        if (conditionError != null) context.errors.add('Condition: ' + conditionError);
-        String requiredConditionError = getRequiredConditionError(request.requirement, request.requiredCondition, context.isFund);
-        if (requiredConditionError != null) context.errors.add('Required when: ' + requiredConditionError);
         return context;
     }
 
@@ -587,9 +551,9 @@ public with sharing class PMTMatrixExplorerController {
             isRequired = record.Requirement__c == REQUIRED;
             isConditional = record.Requirement__c == CONDITIONAL;
             condition = record.Condition__c;
-            conditionError = getConditionError(record.Condition__c, isFund);
+            conditionError = PMTMatrix.getConditionError(record.Condition__c, isFund);
             requiredCondition = record.RequiredCondition__c;
-            requiredConditionError = getRequiredConditionError(record.Requirement__c, record.RequiredCondition__c, isFund);
+            requiredConditionError = PMTMatrix.getRequiredConditionError(record.Requirement__c, record.RequiredCondition__c, isFund);
             isActive = record.IsActive__c;
         }
     }
