@@ -795,6 +795,11 @@
         <members>PMTField.SCLaunchDate</members>
         <members>PMTField.SCOngoingCostsExPost</members>
         <members>PMTField.SCPerformanceFeesKIID</members>
+        <members>PMTField.FundLEICode</members>
+        <members>PMTField.FundBenchmarkESG</members>
+        <members>PMTField.FundCCIInvestmentObjective</members>
+        <members>PMTFieldRuleLine.FUND_LEICode_1</members>
+        <members>PMTFieldRuleLine.FUND_BenchmarkESG_1</members>
         <name>CustomMetadata</name>
     </types>
     <types>
