@@ -6,6 +6,7 @@
     <inlineHelpText>Fund: the field is on the fund (Product__c, ProjectProduct__c, ProjectProductChild__c). Share Class: on each share class (Share_Class__c, ProjectShareclass__c, ProjectShareclassChild__c).</inlineHelpText>
     <label>Object</label>
     <required>true</required>
+    <type>Picklist</type>
     <valueSet>
         <restricted>true</restricted>
         <valueSetDefinition>
@@ -22,5 +23,4 @@
             </value>
         </valueSetDefinition>
     </valueSet>
-    <type>Picklist</type>
 </CustomField>

@@ -795,6 +795,11 @@
         <members>PMTField.SCLaunchDate</members>
         <members>PMTField.SCOngoingCostsExPost</members>
         <members>PMTField.SCPerformanceFeesKIID</members>
+        <members>PMTField.FundLEICode</members>
+        <members>PMTField.FundBenchmarkESG</members>
+        <members>PMTField.FundCCIInvestmentObjective</members>
+        <members>PMTFieldRuleLine.FUND_LEICode_1</members>
+        <members>PMTFieldRuleLine.FUND_BenchmarkESG_1</members>
         <name>CustomMetadata</name>
     </types>
     <types>
@@ -903,6 +908,8 @@
         <members>PMTTeam__mdt-PMT - Team Layout</members>
         <members>PMTField__mdt-PMT - Field Layout</members>
         <members>PMTFieldRuleLine__mdt-PMT - Field Rule Line Layout</members>
+        <members>FieldDisplayRule__mdt-Field Display Rule Layout</members>
+        <members>Sensitive_field__mdt-Sensitive field Layout</members>
         <name>Layout</name>
     </types>
     <types>

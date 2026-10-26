@@ -14,12 +14,12 @@
                 <behavior>Required</behavior>
                 <field>DeveloperName</field>
             </layoutItems>
+        </layoutColumns>
+        <layoutColumns>
             <layoutItems>
                 <behavior>Required</behavior>
                 <field>Team__c</field>
             </layoutItems>
-        </layoutColumns>
-        <layoutColumns>
             <layoutItems>
                 <behavior>Required</behavior>
                 <field>OwnerFederationId__c</field>

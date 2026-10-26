@@ -6,6 +6,6 @@
     <inlineHelpText>Salesforce formula returning true or false. Prefix every field with its object: ProjectProduct__c.LegalForm__c, ProjectShareclass__c.HasPerfFees__c (Share Class fields only). Picklists: ISPICKVAL() or TEXT(). Empty = always.</inlineHelpText>
     <label>Condition</label>
     <length>32768</length>
-    <visibleLines>3</visibleLines>
     <type>LongTextArea</type>
+    <visibleLines>3</visibleLines>
 </CustomField>

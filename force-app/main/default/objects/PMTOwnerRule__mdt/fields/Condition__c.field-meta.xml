@@ -6,6 +6,6 @@
     <inlineHelpText>Salesforce formula returning true or false on the project: ProjectProduct__c.LegalForm__c, ISPICKVAL() or TEXT() for picklists. Empty = always.</inlineHelpText>
     <label>Condition</label>
     <length>32768</length>
-    <visibleLines>3</visibleLines>
     <type>LongTextArea</type>
+    <visibleLines>3</visibleLines>
 </CustomField>

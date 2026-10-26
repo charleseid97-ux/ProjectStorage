@@ -63,7 +63,7 @@
             <targetReference>Update_Benchmark</targetReference>
         </connector>
         <filterFormula>AND(
-    ISPICKVAL({!$Record.Scope__c}, 'IS'),
+    ISPICKVAL({!$Record.Scope__c}, &apos;IS&apos;),
     {!$Record.PMTScope__c} = FALSE,
     NOT(ISBLANK({!$Record.Benchmark__c})),
     OR(
