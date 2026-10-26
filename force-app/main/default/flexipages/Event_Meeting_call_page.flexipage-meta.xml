@@ -50,55 +50,6 @@
                         </valueListItems>
                         <valueListItems>
                             <value>Event.ShareWith</value>
-                            <visibilityRule>
-                                <booleanFilter>1 OR 2 OR 3 OR 4</booleanFilter>
-                                <criteria>
-                                    <leftValue>{!$User.Profile.Name}</leftValue>
-                                    <operator>CONTAINS</operator>
-                                    <rightValue>Administrator</rightValue>
-                                </criteria>
-                                <criteria>
-                                    <leftValue>{!$User.Profile.Name}</leftValue>
-                                    <operator>CONTAINS</operator>
-                                    <rightValue>Carmignac - Business Developer</rightValue>
-                                </criteria>
-                                <criteria>
-                                    <leftValue>{!$User.Profile.Name}</leftValue>
-                                    <operator>CONTAINS</operator>
-                                    <rightValue>Carmignac - CRM</rightValue>
-                                </criteria>
-                                <criteria>
-                                    <leftValue>{!$User.UserRole.Name}</leftValue>
-                                    <operator>CONTAINS</operator>
-                                    <rightValue>Product Specialist</rightValue>
-                                </criteria>
-                            </visibilityRule>
-                        </valueListItems>
-                        <valueListItems>
-                            <value>Event.New_Task</value>
-                            <visibilityRule>
-                                <booleanFilter>1 OR 2 OR 3 OR 4</booleanFilter>
-                                <criteria>
-                                    <leftValue>{!$User.Profile.Name}</leftValue>
-                                    <operator>CONTAINS</operator>
-                                    <rightValue>Administrator</rightValue>
-                                </criteria>
-                                <criteria>
-                                    <leftValue>{!$User.Profile.Name}</leftValue>
-                                    <operator>EQUAL</operator>
-                                    <rightValue>Carmignac - Business Developer</rightValue>
-                                </criteria>
-                                <criteria>
-                                    <leftValue>{!$User.Profile.Name}</leftValue>
-                                    <operator>EQUAL</operator>
-                                    <rightValue>Carmignac - CRM</rightValue>
-                                </criteria>
-                                <criteria>
-                                    <leftValue>{!$User.UserRole.Name}</leftValue>
-                                    <operator>EQUAL</operator>
-                                    <rightValue>Product Specialist</rightValue>
-                                </criteria>
-                            </visibilityRule>
                         </valueListItems>
                     </valueList>
                 </componentInstanceProperties>
@@ -120,7 +71,7 @@
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>numVisibleActions</name>
-                    <value>4</value>
+                    <value>3</value>
                 </componentInstanceProperties>
                 <componentName>force:highlightsPanel</componentName>
                 <identifier>force_highlightsPanel</identifier>
@@ -231,18 +182,23 @@
         <itemInstances>
             <componentInstance>
                 <componentInstanceProperties>
-                    <name>creationComponentName</name>
+                    <name>parentFieldApiName</name>
+                    <value>Event.Meeting_Note__c</value>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
-                    <name>customIcon</name>
-                    <value>standard:task</value>
+                    <name>relatedListApiName</name>
+                    <value>OpenActivities</value>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
-                    <name>fieldSetName</name>
-                    <value>Description__c,OwnerId,ActivityDate</value>
+                    <name>relatedListComponentOverride</name>
+                    <value>NONE</value>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
-                    <name>hasDelete</name>
+                    <name>rowsToDisplay</name>
+                    <value>10</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>showActionBar</name>
                     <value>true</value>
                 </componentInstanceProperties>
                 <componentInstanceProperties>

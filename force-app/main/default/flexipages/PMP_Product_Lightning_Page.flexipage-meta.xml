@@ -1588,6 +1588,16 @@
                 </visibilityRule>
             </fieldInstance>
         </itemInstances>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>none</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.BenchmarkESG__c</fieldItem>
+                <identifier>RecordBenchmarkESG_cField</identifier>
+            </fieldInstance>
+        </itemInstances>
         <name>Facet-ef072671-8c75-4ec9-9356-a06ff66a4d4d</name>
         <type>Facet</type>
     </flexiPageRegions>

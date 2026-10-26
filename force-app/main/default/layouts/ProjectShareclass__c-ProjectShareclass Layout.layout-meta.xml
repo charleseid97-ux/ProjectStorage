@@ -45,11 +45,15 @@
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
-                <field>InvestorType__c</field>
+                <field>IsPayingTrailerFees__c</field>
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
                 <field>DividendPolicy__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>DividendFrequency__c</field>
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
@@ -99,15 +103,7 @@
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
-                <field>InvestorSubType__c</field>
-            </layoutItems>
-            <layoutItems>
-                <behavior>Edit</behavior>
-                <field>DividendFrequency__c</field>
-            </layoutItems>
-            <layoutItems>
-                <behavior>Edit</behavior>
-                <field>IsPayingTrailerFees__c</field>
+                <field>InvestorType__c</field>
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
@@ -198,7 +194,7 @@
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
-                <field>MaxRedemptionFeesManCo__c</field>
+                <field>MaxRedemptionFeesSubfund__c</field>
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
@@ -413,10 +409,6 @@
             <layoutItems>
                 <behavior>Edit</behavior>
                 <field>Dissemination__c</field>
-            </layoutItems>
-            <layoutItems>
-                <behavior>Edit</behavior>
-                <field>DisseminationRecipient__c</field>
             </layoutItems>
         </layoutColumns>
         <layoutColumns/>

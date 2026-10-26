@@ -2195,4 +2195,56 @@ Il calcolo viene adattato alla data di variazione delle spese effettivamente app
         <shortDescription>BooklyCampaignKPI_Delay</shortDescription>
         <value>2</value>
     </labels>
+    <labels>
+        <fullName>DCR_Website_Teams_Email</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>DCR &amp; Website Teams Email</shortDescription>
+        <value>mira.eid.external@carmignac.com; meid@carmignac.com</value>
+    </labels>
+    <labels>
+        <fullName>DZ</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>DZ</shortDescription>
+        <value>mira.eid.external@carmignac.com,mira.eid.external@carmignac.com</value>
+    </labels>
+    <labels>
+        <fullName>MasterRecordTypeId</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Master Record Type Id</shortDescription>
+        <value>012000000000000AAA</value>
+    </labels>
+    <labels>
+        <fullName>ze_team</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ze team</shortDescription>
+        <value>&quot;mira.eid.external@carmignac.com&quot;,&quot;mira.eid.external@carmignac.com&quot;</value>
+    </labels>
+    <labels>
+        <fullName>PMT_SPCFinalNoticeRequired</fullName>
+        <categories>PMT</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PMT SPC Final Notice Required</shortDescription>
+        <value>SPC Final cannot be completed until the Legal team has assessed whether a Notice to Shareholders is required and recorded the decision (Yes / No) on the project.</value>
+    </labels>
+    <labels>
+        <fullName>PMT_PhaseAlreadyValidated</fullName>
+        <categories>PMT</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PMT Phase Already Validated</shortDescription>
+        <value>You have validated this phase. You can no longer edit or contribute to this phase. If you need to make changes, please contact the project owner to request a rollback to draft status.</value>
+    </labels>
+    <labels>
+        <fullName>PMT_InvalidRecords</fullName>
+        <categories>PMT</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PMT Invalid Records</shortDescription>
+        <value>PMT configuration error: these PMT records are invalid and are not used: {0}. Please contact your Salesforce administrator to fix them in Setup &gt; Custom Metadata Types or in the PMT Matrix Explorer.</value>
+    </labels>
 </CustomLabels>

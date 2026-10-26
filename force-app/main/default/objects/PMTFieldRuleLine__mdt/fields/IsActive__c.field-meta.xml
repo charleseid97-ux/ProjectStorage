@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>IsActive__c</fullName>
+    <defaultValue>true</defaultValue>
+    <description>Unticked: the line is not used by the PMT (not shown, required or counted anywhere), without deleting it or losing its condition. US-20194 V1.5.</description>
+    <fieldManageability>DeveloperControlled</fieldManageability>
+    <inlineHelpText>Untick to switch the line off without deleting it: the team no longer uses this field at this stage.</inlineHelpText>
+    <label>Is Active</label>
+    <type>Checkbox</type>
+</CustomField>

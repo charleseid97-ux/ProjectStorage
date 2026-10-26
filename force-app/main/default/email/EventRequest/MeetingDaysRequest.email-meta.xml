@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <encodingKey>ISO-8859-1</encodingKey>
+    <name>Meeting day(s) request</name>
+    <style>none</style>
+    <subject>Meeting day(s) request</subject>
+    <textOnly>Approval request — {!Event__c.title__c}
+
+Carmignac — Event team approval
+Approval requested
+Approval request — {!Event__c.title__c}
+
+A decision is requested for this Event. Review the details below and click Open approval to complete the decision in Salesforce.
+
+Event title  {!Event__c.title__c}
+Period   {!Event__c.startDate__c} {!Event__c.startTime__c} — {!Event__c.endDate__c} {!Event__c.endTime__c}
+Company / Host  {!Event__c.Company__r.Name}
+Sales team  {!Event__c.salesTeam__c}
+Meeting background  {!Event__c.meetingBackground__c}
+Meeting goal  {!Event__c.meetingGoal__c}
+Meeting note  {!Event__c.MeetingNote__r.Note__c}
+Speakers / Products    {!SpeakersSummary}
+Attendees    {!AttendeesSummary}
+Open approval   Open approval in Salesforce
+
+Open approval
+This message was sent by the Event Management system — Carmignac.
+Please do not reply to this notification; approvals must be completed in Salesforce.</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

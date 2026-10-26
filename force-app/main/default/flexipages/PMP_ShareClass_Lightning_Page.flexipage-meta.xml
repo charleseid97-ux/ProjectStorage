@@ -330,22 +330,6 @@
         </itemInstances>
         <itemInstances>
             <fieldInstance>
-                <fieldItem>Record.Fund__r.LegalForm__c</fieldItem>
-                <identifier>RecordFund_rLegalForm_cField</identifier>
-            </fieldInstance>
-        </itemInstances>
-        <itemInstances>
-            <fieldInstance>
-                <fieldInstanceProperties>
-                    <name>uiBehavior</name>
-                    <value>none</value>
-                </fieldInstanceProperties>
-                <fieldItem>Record.LaunchPrice__c</fieldItem>
-                <identifier>RecordLaunchPrice_cField2</identifier>
-            </fieldInstance>
-        </itemInstances>
-        <itemInstances>
-            <fieldInstance>
                 <fieldInstanceProperties>
                     <name>uiBehavior</name>
                     <value>none</value>
@@ -429,16 +413,6 @@
                 <identifier>RecordEFAMAEFCClassificationType_cField</identifier>
             </fieldInstance>
         </itemInstances>
-        <itemInstances>
-            <fieldInstance>
-                <fieldInstanceProperties>
-                    <name>uiBehavior</name>
-                    <value>none</value>
-                </fieldInstanceProperties>
-                <fieldItem>Record.LegalType__c</fieldItem>
-                <identifier>RecordLegalType_cField</identifier>
-            </fieldInstance>
-        </itemInstances>
         <name>Facet-0a113fd5-c73b-4886-ab5d-ba3973bc0e13</name>
         <type>Facet</type>
     </flexiPageRegions>
@@ -459,8 +433,8 @@
                     <name>uiBehavior</name>
                     <value>none</value>
                 </fieldInstanceProperties>
-                <fieldItem>Record.InvestorSubType__c</fieldItem>
-                <identifier>RecordInvestorSubType_cField</identifier>
+                <fieldItem>Record.IsUSEligible__c</fieldItem>
+                <identifier>RecordIsUSEligible_cField2</identifier>
             </fieldInstance>
         </itemInstances>
         <itemInstances>
@@ -469,8 +443,8 @@
                     <name>uiBehavior</name>
                     <value>none</value>
                 </fieldInstanceProperties>
-                <fieldItem>Record.IsUSEligible__c</fieldItem>
-                <identifier>RecordIsUSEligible_cField2</identifier>
+                <fieldItem>Record.LegalType__c</fieldItem>
+                <identifier>RecordLegalType_cField</identifier>
             </fieldInstance>
         </itemInstances>
         <name>Facet-98c46bdd-c0f3-4f4a-8e47-2f33004115fa</name>
@@ -515,21 +489,15 @@
             <fieldInstance>
                 <fieldInstanceProperties>
                     <name>uiBehavior</name>
-                    <value>required</value>
+                    <value>none</value>
                 </fieldInstanceProperties>
                 <fieldItem>Record.DividendFrequency__c</fieldItem>
                 <identifier>RecordDividendFrequency_cField</identifier>
                 <visibilityRule>
-                    <booleanFilter>1 OR 2</booleanFilter>
                     <criteria>
                         <leftValue>{!Record.DividendPolicy__c}</leftValue>
                         <operator>EQUAL</operator>
                         <rightValue>Distributing</rightValue>
-                    </criteria>
-                    <criteria>
-                        <leftValue>{!Record.DividendPolicy__c}</leftValue>
-                        <operator>EQUAL</operator>
-                        <rightValue>Income</rightValue>
                     </criteria>
                 </visibilityRule>
             </fieldInstance>
@@ -1022,8 +990,25 @@
                     <name>uiBehavior</name>
                     <value>none</value>
                 </fieldInstanceProperties>
-                <fieldItem>Record.MaxRedemptionFeesManCo__c</fieldItem>
-                <identifier>RecordMaxRedemptionFeesManCo_cField</identifier>
+                <fieldItem>Record.MaxRedemptionFee__c</fieldItem>
+                <identifier>RecordMaxRedemptionFee_cField</identifier>
+            </fieldInstance>
+        </itemInstances>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>none</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.MaxRedemptionFeesSubfund__c</fieldItem>
+                <identifier>RecordMaxRedemptionFeesSubfund_cField</identifier>
+                <visibilityRule>
+                    <criteria>
+                        <leftValue>{!Record.MaxRedemptionFeesSubfund__c}</leftValue>
+                        <operator>GT</operator>
+                        <rightValue>0</rightValue>
+                    </criteria>
+                </visibilityRule>
             </fieldInstance>
         </itemInstances>
         <itemInstances>
@@ -1098,6 +1083,16 @@
                 </fieldInstanceProperties>
                 <fieldItem>Record.MaxIndirectFees__c</fieldItem>
                 <identifier>RecordMaxIndirectFees_cField</identifier>
+            </fieldInstance>
+        </itemInstances>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>none</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.OngoingCostsExante__c</fieldItem>
+                <identifier>RecordOngoingCostsExante_cField</identifier>
             </fieldInstance>
         </itemInstances>
         <name>Facet-78085cea-ee73-4eb8-a7bc-9ce39b370dfc</name>
@@ -2148,16 +2143,6 @@
                         <rightValue>7</rightValue>
                     </criteria>
                 </visibilityRule>
-            </fieldInstance>
-        </itemInstances>
-        <itemInstances>
-            <fieldInstance>
-                <fieldInstanceProperties>
-                    <name>uiBehavior</name>
-                    <value>none</value>
-                </fieldInstanceProperties>
-                <fieldItem>Record.SRRIDate__c</fieldItem>
-                <identifier>RecordSRRIDate_cField</identifier>
             </fieldInstance>
         </itemInstances>
         <name>Facet-90d94f43-ec25-416f-b07e-a2e87205ce70</name>

@@ -37,7 +37,7 @@ export default class RollbackTeamValidation extends LightningElement {
     }
  
     loadTeams() {
-        getTeamPicklistValues()
+        getTeamPicklistValues({ recordId: this.recordId })
             .then(data => {
                 this.teamOptions = data.map(team => ({
                     label: team,

@@ -1,9 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <PermissionSet xmlns="http://soap.sforce.com/2006/04/metadata">
-    <classAccesses>
-        <apexClass>VFC16_SequantisGenerateDraft</apexClass>
-        <enabled>true</enabled>
-    </classAccesses>
     <hasActivationRequired>false</hasActivationRequired>
     <label>Accès_Product Catalog</label>
     <objectPermissions>
@@ -36,10 +32,6 @@
         <viewAllFields>false</viewAllFields>
         <viewAllRecords>false</viewAllRecords>
     </objectPermissions>
-    <pageAccesses>
-        <apexPage>VFP16_SequantisDraftProjectShareClass</apexPage>
-        <enabled>true</enabled>
-    </pageAccesses>
     <tabSettings>
         <tab>Home_Product_Catalog</tab>
         <visibility>Visible</visibility>

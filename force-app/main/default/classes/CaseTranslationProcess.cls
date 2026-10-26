@@ -170,7 +170,7 @@ public class CaseTranslationProcess {
             update filteredChildCases;
         }
     }
-    
+
         public static void resetStatus(Map<Id,Case> newCases,Map<Id,Case> oldCases) {
         for(Case wtp : newCases.values()){
             if(oldCases.get(wtp.Id).Status =='Closed' 

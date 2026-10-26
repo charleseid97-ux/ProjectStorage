@@ -4,7 +4,6 @@
         <enabled>true</enabled>
         <name>See_Share_Classes_X_et_Z</name>
     </customPermissions>
-    <description>Grants visibility to restricted X and Z share classes in ProSpace and allows users to manage client subscriptions related to these share classes. Users without this permission set cannot view or manage X and Z share classes.</description>
     <hasActivationRequired>false</hasActivationRequired>
-    <label>ProSpace – XZ Share Class Access &amp; Subscription Management</label>
+    <label>Admin – Share Classes XZ</label>
 </PermissionSet>

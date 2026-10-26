@@ -3,7 +3,7 @@
     <actionSubtype>ScreenAction</actionSubtype>
     <description>to create a new Client Call</description>
     <label>New Call Note</label>
-    <lightningWebComponent>meetingNoteAI</lightningWebComponent>
+    <lightningWebComponent>meetingNote</lightningWebComponent>
     <optionsCreateFeedItem>false</optionsCreateFeedItem>
     <type>LightningWebComponent</type>
 </QuickAction>

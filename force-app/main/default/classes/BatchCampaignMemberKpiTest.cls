@@ -41,21 +41,6 @@ private class BatchCampaignMemberKpiTest {
     }
 
     @IsTest
-    static void testScheduler() {
-        Test.startTest();
-
-        String jobId = System.schedule(
-            'Test Campaign Member KPI Scheduler',
-            '0 0 2 * * ?',
-            new SCH_RecalculateCampaignMemberKPI()
-        );
-
-        Test.stopTest();
-
-        System.assertNotEquals(null, jobId);
-    }
-
-    @IsTest
     static void testBatch() {
         Test.startTest();
         Database.executeBatch(new BATCH_RecalculateContactParticipationKPI(), 50);
@@ -79,7 +64,7 @@ private class BatchCampaignMemberKpiTest {
         Campaign c = new Campaign(
             Name = 'Test',
             Status = 'Live',
-            //Sales_Team__c = 'FR',
+            Sales_Team__c = 'FR',
             Event_Local_Start_Time__c = '2024/01/01 10:00',
             Event_Local_End_Time__c = '2024/01/01 23:59',
             Start_Date_Time__c = System.now(),

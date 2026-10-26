@@ -6,6 +6,7 @@ import FORM_FACTOR from '@salesforce/client/formFactor';
 import getContacts from '@salesforce/apex/CTL_MeetingNotes.getNeededContacts';
 import getClientContacts from '@salesforce/apex/CTL_MeetingNotes.getClientContacts';
 import createRelatedObjects from '@salesforce/apex/CTL_MeetingNotes.createRelatedObjects';
+import getEventIdByMeetingNote from '@salesforce/apex/CTL_MeetingNotes.getEventIdByMeetingNote';
 import { NavigationMixin } from 'lightning/navigation';
 import USER_ID from '@salesforce/user/Id';
 
@@ -237,17 +238,15 @@ export default class AiMeetingNote extends NavigationMixin(LightningElement) {
       };
 
       const attendees = [...this.allSelectedClients.slice(1), ...this.selectedInternals];
-
-      const res = await createRelatedObjects({
+      await createRelatedObjects({
         evt: evtSalesforce,
         participants: attendees,
         prodInterest: [],
         tasks: this.taskObjects
       });
 
-      const eventId = res?.eventId;
-      console.log('===Related records created successfully', res);
-      console.log('===Event ID:', eventId);
+      const eventId = await getEventIdByMeetingNote({ meetingNoteId: meetingId });
+
       this.dispatchEvent(
         new ShowToastEvent({
           title: 'Meeting Note Created',
@@ -265,10 +264,9 @@ export default class AiMeetingNote extends NavigationMixin(LightningElement) {
             actionName: 'view'
           }
         });
-      } else {
-        this.dispatchEvent(new CloseActionScreenEvent());
       }
 
+      this.dispatchEvent(new CloseActionScreenEvent());
       this.isLoading = false;
     } catch (error) {
       console.error('Error creating related records', error);
@@ -282,7 +280,6 @@ export default class AiMeetingNote extends NavigationMixin(LightningElement) {
       this.isLoading = false;
     }
   }
-
 
   handleError(e) {
     this.isLoading = false;

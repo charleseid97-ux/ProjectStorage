@@ -203,7 +203,7 @@ IF(ISBLANK({!GETPMT.Technology__r.Email}), &apos;&apos;, {!GETPMT.Technology__r.
         </scheduledPaths>
         <triggerType>RecordAfterSave</triggerType>
     </start>
-    <status>Active</status>
+    <status>Obsolete</status>
     <textTemplates>
         <name>emailsTeamsTEST</name>
         <isViewedAsPlainText>true</isViewedAsPlainText>

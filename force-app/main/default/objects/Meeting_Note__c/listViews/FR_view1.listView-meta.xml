@@ -6,17 +6,16 @@
     <columns>NAME</columns>
     <columns>Meeting_Type__c</columns>
     <columns>Note__c</columns>
-    <columns>RelationshipManagement__c</columns>
     <filterScope>Everything</filterScope>
     <filters>
-        <field>RelationshipManagement__c</field>
+        <field>CREATEDBY_USER</field>
         <operation>equals</operation>
-        <value>1</value>
+        <value>Frank RUETTENAUER</value>
     </filters>
     <filters>
-        <field>CREATED_DATE</field>
+        <field>Date__c</field>
         <operation>greaterThan</operation>
-        <value>1/1/2025 12:00 AM</value>
+        <value>1/1/2019</value>
     </filters>
     <label>FR view</label>
 </ListView>

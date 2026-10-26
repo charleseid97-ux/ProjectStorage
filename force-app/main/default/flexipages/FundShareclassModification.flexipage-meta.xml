@@ -197,16 +197,16 @@
                 <fieldItem>Record.Name</fieldItem>
                 <identifier>RecordNameField2</identifier>
                 <visibilityRule>
-                    <booleanFilter>1 AND 2 AND 3 AND 4 AND 5</booleanFilter>
+                    <booleanFilter>(1 AND 2) OR (3 AND 4)</booleanFilter>
                     <criteria>
                         <leftValue>{!$Permission.CustomPermission.PRPProductStrategy}</leftValue>
                         <operator>EQUAL</operator>
                         <rightValue>true</rightValue>
                     </criteria>
                     <criteria>
-                        <leftValue>{!Record.VehicleType__c}</leftValue>
+                        <leftValue>{!Record.Scope__c}</leftValue>
                         <operator>EQUAL</operator>
-                        <rightValue>Funds</rightValue>
+                        <rightValue>PS</rightValue>
                     </criteria>
                     <criteria>
                         <leftValue>{!$Permission.CustomPermission.PRPIS}</leftValue>
@@ -214,14 +214,9 @@
                         <rightValue>true</rightValue>
                     </criteria>
                     <criteria>
-                        <leftValue>{!Record.VehicleType__c}</leftValue>
+                        <leftValue>{!Record.Scope__c}</leftValue>
                         <operator>EQUAL</operator>
-                        <rightValue>Mandate</rightValue>
-                    </criteria>
-                    <criteria>
-                        <leftValue>{!Record.VehicleType__c}</leftValue>
-                        <operator>EQUAL</operator>
-                        <rightValue>Dedicated</rightValue>
+                        <rightValue>IS</rightValue>
                     </criteria>
                 </visibilityRule>
             </fieldInstance>
@@ -235,16 +230,16 @@
                 <fieldItem>Record.ProductDescription__c</fieldItem>
                 <identifier>RecordDescription_cField3</identifier>
                 <visibilityRule>
-                    <booleanFilter>1 AND 2 AND 3 AND 4 AND 5</booleanFilter>
+                    <booleanFilter>(1 AND 2) OR (3 AND 4)</booleanFilter>
                     <criteria>
                         <leftValue>{!$Permission.CustomPermission.PRPProductStrategy}</leftValue>
                         <operator>EQUAL</operator>
                         <rightValue>true</rightValue>
                     </criteria>
                     <criteria>
-                        <leftValue>{!Record.VehicleType__c}</leftValue>
+                        <leftValue>{!Record.Scope__c}</leftValue>
                         <operator>EQUAL</operator>
-                        <rightValue>Funds</rightValue>
+                        <rightValue>PS</rightValue>
                     </criteria>
                     <criteria>
                         <leftValue>{!$Permission.CustomPermission.PRPIS}</leftValue>
@@ -252,14 +247,9 @@
                         <rightValue>true</rightValue>
                     </criteria>
                     <criteria>
-                        <leftValue>{!Record.VehicleType__c}</leftValue>
+                        <leftValue>{!Record.Scope__c}</leftValue>
                         <operator>EQUAL</operator>
-                        <rightValue>Mandate</rightValue>
-                    </criteria>
-                    <criteria>
-                        <leftValue>{!Record.VehicleType__c}</leftValue>
-                        <operator>EQUAL</operator>
-                        <rightValue>Dedicated</rightValue>
+                        <rightValue>IS</rightValue>
                     </criteria>
                 </visibilityRule>
             </fieldInstance>
@@ -2762,6 +2752,13 @@
                 </fieldInstanceProperties>
                 <fieldItem>Record.ProductStrategy__c</fieldItem>
                 <identifier>RecordProductStrategy_cField</identifier>
+                <visibilityRule>
+                    <criteria>
+                        <leftValue>{!Record.Scope__c}</leftValue>
+                        <operator>NE</operator>
+                        <rightValue>IS</rightValue>
+                    </criteria>
+                </visibilityRule>
             </fieldInstance>
         </itemInstances>
         <itemInstances>
@@ -2782,6 +2779,13 @@
                 </fieldInstanceProperties>
                 <fieldItem>Record.IS__c</fieldItem>
                 <identifier>RecordIS_cField</identifier>
+                <visibilityRule>
+                    <criteria>
+                        <leftValue>{!Record.Scope__c}</leftValue>
+                        <operator>EQUAL</operator>
+                        <rightValue>IS</rightValue>
+                    </criteria>
+                </visibilityRule>
             </fieldInstance>
         </itemInstances>
         <itemInstances>
@@ -3365,6 +3369,10 @@
         <type>Facet</type>
     </flexiPageRegions>
     <flexiPageRegions>
+        <name>Facet-bfa5d6e0-b44e-42ed-b629-5bef02991f2f</name>
+        <type>Facet</type>
+    </flexiPageRegions>
+    <flexiPageRegions>
         <itemInstances>
             <componentInstance>
                 <componentInstanceProperties>
@@ -3478,16 +3486,16 @@
                 <componentName>flexipage:tab</componentName>
                 <identifier>flexipage_tab5</identifier>
                 <visibilityRule>
-                    <booleanFilter>(1 AND 2) OR (3 AND (4 OR 5))</booleanFilter>
+                    <booleanFilter>(1 AND 2) OR (3 AND 4)</booleanFilter>
                     <criteria>
                         <leftValue>{!$Permission.CustomPermission.PRPProductStrategy}</leftValue>
                         <operator>EQUAL</operator>
                         <rightValue>true</rightValue>
                     </criteria>
                     <criteria>
-                        <leftValue>{!Record.VehicleType__c}</leftValue>
+                        <leftValue>{!Record.Scope__c}</leftValue>
                         <operator>EQUAL</operator>
-                        <rightValue>Funds</rightValue>
+                        <rightValue>PS</rightValue>
                     </criteria>
                     <criteria>
                         <leftValue>{!$Permission.CustomPermission.PRPIS}</leftValue>
@@ -3495,16 +3503,25 @@
                         <rightValue>true</rightValue>
                     </criteria>
                     <criteria>
-                        <leftValue>{!Record.VehicleType__c}</leftValue>
+                        <leftValue>{!Record.Scope__c}</leftValue>
                         <operator>EQUAL</operator>
-                        <rightValue>Mandate</rightValue>
-                    </criteria>
-                    <criteria>
-                        <leftValue>{!Record.VehicleType__c}</leftValue>
-                        <operator>EQUAL</operator>
-                        <rightValue>Dedicated</rightValue>
+                        <rightValue>IS</rightValue>
                     </criteria>
                 </visibilityRule>
+            </componentInstance>
+        </itemInstances>
+        <itemInstances>
+            <componentInstance>
+                <componentInstanceProperties>
+                    <name>body</name>
+                    <value>Facet-bfa5d6e0-b44e-42ed-b629-5bef02991f2f</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>title</name>
+                    <value>PRIIPS</value>
+                </componentInstanceProperties>
+                <componentName>flexipage:tab</componentName>
+                <identifier>flexipage_tab18</identifier>
             </componentInstance>
         </itemInstances>
         <name>Facet-46ff0ed3-8ecb-4ec5-90ef-bba65f163f4a</name>
@@ -3661,6 +3678,10 @@
         <type>Region</type>
     </flexiPageRegions>
     <flexiPageRegions>
+        <name>Facet-71cf8bc0-6ef5-441d-8d5b-508356f457eb</name>
+        <type>Facet</type>
+    </flexiPageRegions>
+    <flexiPageRegions>
         <itemInstances>
             <componentInstance>
                 <componentInstanceProperties>
@@ -3771,6 +3792,20 @@
         <itemInstances>
             <componentInstance>
                 <componentInstanceProperties>
+                    <name>body</name>
+                    <value>Facet-71cf8bc0-6ef5-441d-8d5b-508356f457eb</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>title</name>
+                    <value>PRIIPS/KIDS</value>
+                </componentInstanceProperties>
+                <componentName>flexipage:tab</componentName>
+                <identifier>flexipage_tab19</identifier>
+            </componentInstance>
+        </itemInstances>
+        <itemInstances>
+            <componentInstance>
+                <componentInstanceProperties>
                     <name>active</name>
                     <value>true</value>
                 </componentInstanceProperties>
@@ -3840,16 +3875,16 @@
                 <componentName>flexipage:tab</componentName>
                 <identifier>flexipage_tab8</identifier>
                 <visibilityRule>
-                    <booleanFilter>(1 AND 2) OR (3 AND (4 OR 5))</booleanFilter>
+                    <booleanFilter>(1 AND 2) OR (3 AND 4)</booleanFilter>
                     <criteria>
                         <leftValue>{!$Permission.CustomPermission.PRPProductStrategy}</leftValue>
                         <operator>EQUAL</operator>
                         <rightValue>true</rightValue>
                     </criteria>
                     <criteria>
-                        <leftValue>{!Record.VehicleType__c}</leftValue>
+                        <leftValue>{!Record.Scope__c}</leftValue>
                         <operator>EQUAL</operator>
-                        <rightValue>Funds</rightValue>
+                        <rightValue>PS</rightValue>
                     </criteria>
                     <criteria>
                         <leftValue>{!$Permission.CustomPermission.PRPIS}</leftValue>
@@ -3857,14 +3892,9 @@
                         <rightValue>true</rightValue>
                     </criteria>
                     <criteria>
-                        <leftValue>{!Record.VehicleType__c}</leftValue>
+                        <leftValue>{!Record.Scope__c}</leftValue>
                         <operator>EQUAL</operator>
-                        <rightValue>Mandate</rightValue>
-                    </criteria>
-                    <criteria>
-                        <leftValue>{!Record.VehicleType__c}</leftValue>
-                        <operator>EQUAL</operator>
-                        <rightValue>Dedicated</rightValue>
+                        <rightValue>IS</rightValue>
                     </criteria>
                 </visibilityRule>
             </componentInstance>

@@ -49,14 +49,6 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
-        <apexClass>ProjectFeederController</apexClass>
-        <enabled>true</enabled>
-    </classAccesses>
-    <classAccesses>
-        <apexClass>ProjectFeederFlowAction</apexClass>
-        <enabled>true</enabled>
-    </classAccesses>
-    <classAccesses>
         <apexClass>ProjectGlobalCompletionController</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -691,6 +683,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
+        <field>Product__c.Domicile__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
         <field>Product__c.DomiciledIn__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -887,6 +884,11 @@
     <fieldPermissions>
         <editable>false</editable>
         <field>Product__c.InvestmentStrategy__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Product__c.InvestmentStyle__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -1126,6 +1128,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
+        <field>Product__c.Registration_Mapping__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
         <field>Product__c.Regulator__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -1137,6 +1144,11 @@
     <fieldPermissions>
         <editable>false</editable>
         <field>Product__c.RegulatoryNumber__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Product__c.ReviewByThrisdParty__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
