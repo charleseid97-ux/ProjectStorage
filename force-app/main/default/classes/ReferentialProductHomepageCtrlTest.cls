@@ -26,6 +26,7 @@ public class ReferentialProductHomepageCtrlTest {
 
         Share_Class__c sc0 = new Share_Class__c(Name='ShareClass0 A USD', Currency__c='USD', Type__c='A', Fund_Code__c='P0', ISIN__c='FR0000000001', Fund__c=p0.Id, Status__c='Active');
         Share_Class__c sc1 = new Share_Class__c(Name='ShareClass1 A USD', Currency__c='USD', Type__c='A', Fund_Code__c='P1', ISIN__c='LU0000000002', Fund__c=p1.Id, Status__c='Active');
+
         insert sc0;
         insert sc1;
 
