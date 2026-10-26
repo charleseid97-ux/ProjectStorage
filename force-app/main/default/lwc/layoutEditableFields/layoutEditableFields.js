@@ -260,7 +260,7 @@ export default class LayoutEditableFields extends NavigationMixin(LightningEleme
                 const newValues = this.normalizeMultiPicklistValues(fieldValue);
                 const countryRegValues = this.normalizeMultiPicklistValues(this.allData?.CountryRegNeeded__c);
 
-                const signature = JSON.stringify(newValues.slice().sort());
+                const signature = JSON.stringify(newValues.slice().sort((a, b) => a.localeCompare(b)));
                 if (this.lastTaxTransparencySignature === signature) {
                     return;
                 }
@@ -395,6 +395,8 @@ export default class LayoutEditableFields extends NavigationMixin(LightningEleme
                     const requiredMissing = fields.filter(field => field.isRequiredEmpty).length;
                     sections.push({
                         id: section.id,
+                        // Id of the section in edit mode: view and edit modes never render together, but each keeps its own id
+                        editId: `${section.id}-edit`,
                         label: section.heading,
                         fields: fields,
                         requiredMissingLabel: requiredMissing > 0 ? `${requiredMissing} required missing` : null
