@@ -1,0 +1,322 @@
+<template>
+    <lightning-card title="PMT Matrix Explorer" icon-name="standard:hierarchy">
+        <div slot="actions" class="actions">
+            <template lwc:if={isDeploying}>
+                <span class="deploying"><lightning-icon icon-name="utility:sync" size="x-small"></lightning-icon> Deploying…</span>
+            </template>
+            <template lwc:if={canEdit}>
+                <lightning-button variant="brand" label="New rule line" icon-name="utility:add" onclick={handleNewLine}></lightning-button>
+            </template>
+        </div>
+        <template lwc:if={isLoading}>
+            <lightning-spinner alternative-text="Loading" size="medium"></lightning-spinner>
+        </template>
+        <template lwc:elseif={error}>
+            <p class="slds-p-around_medium slds-text-color_error">{error}</p>
+        </template>
+        <template lwc:else>
+            <div class="slds-p-horizontal_medium">
+                <div class="summary">
+                    <template for:each={summary} for:item="item">
+                        <div key={item.key} class={item.className}>
+                            <span class="summary-value">{item.value}</span>
+                            <span class="summary-label">{item.label}</span>
+                        </div>
+                    </template>
+                </div>
+
+                <div class="filters">
+                    <lightning-input class="filter filter_search" type="search" label="Field" placeholder="Label or API name" value={searchText} data-filter="searchText" onchange={handleFilterChange}></lightning-input>
+                    <lightning-combobox class="filter" label="Team" options={teamOptions} value={teamFilter} data-filter="teamFilter" onchange={handleFilterChange}></lightning-combobox>
+                    <lightning-combobox class="filter" label="Stage" options={stageOptions} value={stageFilter} data-filter="stageFilter" onchange={handleFilterChange}></lightning-combobox>
+                    <lightning-combobox class="filter" label="Object" options={levelOptions} value={levelFilter} data-filter="levelFilter" onchange={handleFilterChange}></lightning-combobox>
+                    <lightning-combobox class="filter" label="Requirement" options={requirementOptions} value={requirementFilter} data-filter="requirementFilter" onchange={handleFilterChange}></lightning-combobox>
+                    <lightning-combobox class="filter" label="Sharing" options={statusOptions} value={statusFilter} data-filter="statusFilter" onchange={handleFilterChange}></lightning-combobox>
+                    <lightning-combobox class="filter" label="Modifiable" options={modifiableOptions} value={modifiableFilter} data-filter="modifiableFilter" onchange={handleFilterChange}></lightning-combobox>
+                    <lightning-combobox class="filter" label="Active" options={activeOptions} value={activeFilter} data-filter="activeFilter" onchange={handleFilterChange}></lightning-combobox>
+                    <lightning-button class="filter filter_button" label="Reset" icon-name="utility:refresh" onclick={handleReset}></lightning-button>
+                </div>
+
+                <div class="toolbar">
+                    <div class="view-tools">
+                        <lightning-radio-group type="button" variant="label-hidden" label="View" name="view" options={viewOptions} value={view} onchange={handleViewChange}></lightning-radio-group>
+                        <div class="legend-anchor">
+                            <lightning-button label="Legend" icon-name="utility:info" variant={legendButtonVariant} onclick={handleLegendToggle}></lightning-button>
+                            <template lwc:if={isLegendOpen}>
+                                <section class="legend-popover slds-popover slds-nubbin_top-left" role="dialog" aria-label="Legend" onclick={handleLegendClick}>
+                                    <div class="slds-popover__body legend-columns">
+                                        <div>
+                                            <p class="legend-title">Sharing (row and chip colour)</p>
+                                            <template for:each={statusLegend} for:item="status">
+                                                <div key={status.key} class="legend-item">
+                                                    <span class={status.className}>{status.label}</span>
+                                                    <span class="legend-description">{status.description}</span>
+                                                </div>
+                                            </template>
+                                        </div>
+                                        <div>
+                                            <p class="legend-title">Rule lines (chips)</p>
+                                            <template for:each={chipLegend} for:item="item">
+                                                <div key={item.key} class="legend-item">
+                                                    <span class={item.className}>
+                                                        {item.label}
+                                                        <template lwc:if={item.icon}><lightning-icon icon-name={item.icon} size="xx-small"></lightning-icon></template>
+                                                    </span>
+                                                    <span class="legend-description">{item.description}</span>
+                                                </div>
+                                            </template>
+                                        </div>
+                                    </div>
+                                </section>
+                            </template>
+                        </div>
+                    </div>
+                    <span class="slds-text-color_weak">{fieldCountLabel}</span>
+                </div>
+
+                <template lwc:if={isMatrixView}>
+                    <template lwc:if={hasMatrixRows}>
+                        <div class="matrix">
+                            <table class="slds-table slds-table_bordered slds-table_cell-buffer">
+                                <thead>
+                                    <tr class="slds-line-height_reset">
+                                        <th scope="col" class="col-field">Field</th>
+                                        <template for:each={usedStages} for:item="stage">
+                                            <th key={stage.id} scope="col">{stage.name}</th>
+                                        </template>
+                                        <th scope="col" class="col-status">Sharing</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <template for:each={matrixGroups} for:item="group">
+                                        <tr key={group.key} class="group-row">
+                                            <th colspan={matrixColspan} scope="colgroup">{group.label}</th>
+                                        </tr>
+                                        <template for:each={group.rows} for:item="row">
+                                            <tr key={row.key} class={row.rowClass} data-id={row.key} onclick={handleToggleField}>
+                                                <td class="col-field">
+                                                    <div class="field-cell">
+                                                        <lightning-button-icon icon-name={row.expandIcon} variant="bare" alternative-text="Show the rule lines"></lightning-button-icon>
+                                                        <div class="slds-truncate">
+                                                            <div class="field-label slds-truncate" title={row.label}>{row.label}</div>
+                                                            <div class="field-api slds-truncate" title={row.apiName}>{row.apiName}</div>
+                                                        </div>
+                                                        <template lwc:if={row.isMissing}>
+                                                            <lightning-icon icon-name="utility:warning" size="x-small" variant="warning" title="Not on the stage object in this org (or not visible to you): the PMT skips its lines"></lightning-icon>
+                                                        </template>
+                                                    </div>
+                                                </td>
+                                                <template for:each={row.cells} for:item="cell">
+                                                    <td key={cell.key}>
+                                                        <template for:each={cell.chips} for:item="chip">
+                                                            <span key={chip.key} class={chip.className} title={chip.title}>
+                                                                {chip.label}
+                                                                <template lwc:if={chip.hasCondition}><lightning-icon icon-name="utility:filterList" size="xx-small"></lightning-icon></template>
+                                                                <template lwc:if={chip.hasError}><lightning-icon icon-name="utility:error" size="xx-small"></lightning-icon></template>
+                                                            </span>
+                                                        </template>
+                                                    </td>
+                                                </template>
+                                                <td class="col-status">
+                                                    <span class={row.status.className} title={row.status.description}>{row.status.label}</span>
+                                                </td>
+                                            </tr>
+                                            <template lwc:if={row.expanded}>
+                                                <tr key={row.detailKey} class="detail-row">
+                                                    <td colspan={matrixColspan}>
+                                                        <div class="info">
+                                                            <div class="info-item">
+                                                                <span class="info-label">Field record</span>
+                                                                <a href={row.setupUrl} target="_blank">{row.developerName}</a>
+                                                            </div>
+                                                            <div class="info-item">
+                                                                <span class="info-label">Modifiable</span>
+                                                                <span>{row.modifiableLabel}</span>
+                                                            </div>
+                                                            <div class="info-item">
+                                                                <span class="info-label">Dependent fields</span>
+                                                                <span>
+                                                                    <template for:each={row.dependentFields} for:item="dependent">
+                                                                        <span key={dependent.key} class="chip chip_single chip_optional" title={dependent.apiName}>
+                                                                            {dependent.label}
+                                                                            <template lwc:if={dependent.isMissing}><lightning-icon icon-name="utility:warning" size="xx-small" title="Not on the stage object in this org"></lightning-icon></template>
+                                                                        </span>
+                                                                    </template>
+                                                                    <template lwc:if={row.noDependentFields}><span class="slds-text-color_weak">None</span></template>
+                                                                </span>
+                                                            </div>
+                                                        </div>
+                                                        <table class="slds-table slds-table_bordered slds-table_cell-buffer detail-table">
+                                                            <thead>
+                                                                <tr class="slds-line-height_reset">
+                                                                    <th scope="col">Rule line</th>
+                                                                    <th scope="col">Team</th>
+                                                                    <th scope="col">Stage</th>
+                                                                    <th scope="col">Requirement</th>
+                                                                    <th scope="col">Condition</th>
+                                                                    <th scope="col">Required when</th>
+                                                                    <template lwc:if={canEdit}><th scope="col" class="col-action"></th></template>
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                                <template for:each={row.details} for:item="line">
+                                                                    <tr key={line.key}>
+                                                                        <td>
+                                                                            <a href={line.setupUrl} target="_blank">{line.developerName}</a>
+                                                                            <template lwc:if={line.isInactive}><span class="slds-badge slds-m-left_x-small inactive-badge">Inactive</span></template>
+                                                                        </td>
+                                                                        <td>{line.team}</td>
+                                                                        <td>{line.stage}</td>
+                                                                        <td>{line.requirement}</td>
+                                                                        <td class="condition-cell">
+                                                                            <template lwc:if={line.condition}><code class="condition">{line.condition}</code></template>
+                                                                            <template lwc:else><span class="slds-text-color_weak">Always</span></template>
+                                                                            <template lwc:if={line.conditionError}><p class="slds-text-color_error">{line.conditionError}</p></template>
+                                                                        </td>
+                                                                        <td class="condition-cell">
+                                                                            <template lwc:if={line.requiredCondition}><code class="condition">{line.requiredCondition}</code></template>
+                                                                            <template lwc:if={line.requiredConditionError}><p class="slds-text-color_error">{line.requiredConditionError}</p></template>
+                                                                        </td>
+                                                                        <template lwc:if={canEdit}>
+                                                                            <td class="col-action">
+                                                                                <lightning-button-icon icon-name="utility:edit" variant="bare" alternative-text="Edit the rule line" title="Edit the rule line" data-id={line.key} onclick={handleEditLine}></lightning-button-icon>
+                                                                            </td>
+                                                                        </template>
+                                                                    </tr>
+                                                                </template>
+                                                            </tbody>
+                                                        </table>
+                                                    </td>
+                                                </tr>
+                                            </template>
+                                        </template>
+                                    </template>
+                                </tbody>
+                            </table>
+                        </div>
+                    </template>
+                    <template lwc:else>
+                        <p class="empty slds-text-color_weak">No field matches the filters.</p>
+                    </template>
+                </template>
+
+                <template lwc:else>
+                    <template lwc:if={hasGroups}>
+                        <div class="groups">
+                            <template for:each={groups} for:item="group">
+                                <div key={group.key} class="group-item">
+                                    <button type="button" class="group-header" data-key={group.key} data-kind="group" aria-expanded={group.ariaExpanded} onclick={handleToggleGroup}>
+                                        <lightning-icon class="group-toggle" icon-name={group.toggleIcon} size="x-small"></lightning-icon>
+                                        <span class="group-title">{group.title}</span>
+                                        <span class="group-counts">{group.counts}</span>
+                                    </button>
+                                    <template lwc:if={group.isOpen}>
+                                        <div class="group-body">
+                                            <div class="info">
+                                                <template for:each={group.info.items} for:item="item">
+                                                    <div key={item.key} class="info-item">
+                                                        <span class="info-label">{item.label}</span>
+                                                        <span class="info-value">{item.value}</span>
+                                                    </div>
+                                                </template>
+                                                <a class="info-link" href={group.info.setupUrl} target="_blank">Open the record</a>
+                                            </div>
+                                            <template lwc:if={group.info.hasOwnerRules}>
+                                                <div class="owner-rules">
+                                                    <span class="info-label">Owner rules</span>
+                                                    <template for:each={group.info.ownerRules} for:item="rule">
+                                                        <div key={rule.key} class="owner-rule">
+                                                            <a href={rule.setupUrl} target="_blank">{rule.owner}</a>
+                                                            <span class="slds-text-color_weak"> when </span>
+                                                            <code class="condition">{rule.condition}</code>
+                                                            <template lwc:if={rule.conditionError}><p class="slds-text-color_error">{rule.conditionError}</p></template>
+                                                        </div>
+                                                    </template>
+                                                </div>
+                                            </template>
+                                            <template lwc:if={group.isEmpty}>
+                                                <p class="slds-text-color_weak">No field.</p>
+                                            </template>
+                                            <template for:each={group.subgroups} for:item="subgroup">
+                                                <div key={subgroup.key} class="subgroup-item">
+                                                    <button type="button" class="subgroup-header" data-key={subgroup.key} data-kind="subgroup" aria-expanded={subgroup.ariaExpanded} onclick={handleToggleGroup}>
+                                                        <lightning-icon class="group-toggle" icon-name={subgroup.toggleIcon} size="x-small"></lightning-icon>
+                                                        <span class="subgroup-title">{subgroup.title}</span>
+                                                        <span class="group-counts">{subgroup.counts}</span>
+                                                    </button>
+                                                    <template lwc:if={subgroup.isOpen}>
+                                                        <table class="slds-table slds-table_cell-buffer group-table">
+                                                            <thead>
+                                                                <tr class="slds-line-height_reset">
+                                                                    <th scope="col" class="col-field">Field</th>
+                                                                    <th scope="col">Object</th>
+                                                                    <th scope="col">Requirement</th>
+                                                                    <th scope="col">Condition</th>
+                                                                    <th scope="col">Also used by</th>
+                                                                    <th scope="col" class="col-status">Sharing</th>
+                                                                    <template lwc:if={canEdit}><th scope="col" class="col-action"></th></template>
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                                <template for:each={subgroup.rows} for:item="row">
+                                                                    <tr key={row.key}>
+                                                                        <td class="col-field">
+                                                                            <div class="field-label slds-truncate" title={row.label}>
+                                                                                <a href={row.setupUrl} target="_blank">{row.label}</a>
+                                                                                <template lwc:if={row.isModifiable}><lightning-icon class="modifiable-icon" icon-name="utility:edit" size="xx-small" title="Modifiable in a modification project"></lightning-icon></template>
+                                                                            </div>
+                                                                            <div class="field-api slds-truncate" title={row.apiName}>{row.apiName}</div>
+                                                                        </td>
+                                                                        <td>{row.level}</td>
+                                                                        <td class="condition-cell">
+                                                                            <span class={row.requirementClass}>{row.requirement}</span>
+                                                                            <template lwc:if={row.isInactive}><span class="slds-badge slds-m-left_x-small inactive-badge">Inactive</span></template>
+                                                                            <template lwc:if={row.requiredCondition}>
+                                                                                <p class="slds-text-color_weak">Required when</p>
+                                                                                <code class="condition">{row.requiredCondition}</code>
+                                                                            </template>
+                                                                            <template lwc:if={row.requiredConditionError}><p class="slds-text-color_error">{row.requiredConditionError}</p></template>
+                                                                        </td>
+                                                                        <td class="condition-cell">
+                                                                            <template lwc:if={row.condition}><code class="condition">{row.condition}</code></template>
+                                                                            <template lwc:else><span class="slds-text-color_weak">Always</span></template>
+                                                                            <template lwc:if={row.conditionError}><p class="slds-text-color_error">{row.conditionError}</p></template>
+                                                                        </td>
+                                                                        <td>
+                                                                            <template for:each={row.otherLines} for:item="chip">
+                                                                                <span key={chip.key} class={chip.className} title={chip.title}>
+                                                                                    {chip.label}
+                                                                                    <template lwc:if={chip.hasCondition}><lightning-icon icon-name="utility:filterList" size="xx-small"></lightning-icon></template>
+                                                                                    <template lwc:if={chip.hasError}><lightning-icon icon-name="utility:error" size="xx-small"></lightning-icon></template>
+                                                                                </span>
+                                                                            </template>
+                                                                        </td>
+                                                                        <td class="col-status">
+                                                                            <span class={row.status.className} title={row.status.description}>{row.status.label}</span>
+                                                                        </td>
+                                                                        <template lwc:if={canEdit}>
+                                                                            <td class="col-action">
+                                                                                <lightning-button-icon icon-name="utility:edit" variant="bare" alternative-text="Edit the rule line" title="Edit the rule line" data-id={row.key} onclick={handleEditLine}></lightning-button-icon>
+                                                                            </td>
+                                                                        </template>
+                                                                    </tr>
+                                                                </template>
+                                                            </tbody>
+                                                        </table>
+                                                    </template>
+                                                </div>
+                                            </template>
+                                        </div>
+                                    </template>
+                                </div>
+                            </template>
+                        </div>
+                    </template>
+                    <template lwc:else>
+                        <p class="empty slds-text-color_weak">No field matches the filters.</p>
+                    </template>
+                </template>
+            </div>
+        </template>
+    </lightning-card>
+</template>

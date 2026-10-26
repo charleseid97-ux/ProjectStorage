@@ -1,3 +1,81 @@
+/* US-20194 V1.3: fields on a 3-column grid; the gaps are taken out before the columns are sized, so 3 fields always fit on a row */
+.field-grid {
+    display: grid;
+    gap: 0.75rem 1rem;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.field-cell {
+    min-width: 0;
+    padding: 0.25rem 0.5rem;
+}
+
+/* Multi-select picklists and long text take the whole row */
+.field-cell-full-row {
+    grid-column: 1 / -1;
+}
+
+/* Narrow screens: one field per row */
+@media (max-width: 48em) {
+    .field-grid {
+        grid-template-columns: minmax(0, 1fr);
+    }
+}
+
+/* US-20194 V1.3: color states of an empty field, same colors as the PRIIPs/KID panel (priipsKid) */
+.field-background {
+    margin: 0 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.field-state-required-empty {
+    background: #fef1f1;
+    border-radius: 0.25rem;
+    box-shadow: inset 3px 0 0 #ba0517;
+}
+
+.field-state-optional-empty {
+    background: #fff3e0;
+    border-radius: 0.25rem;
+    box-shadow: inset 3px 0 0 #fe9339;
+}
+
+.field-label-required-empty {
+    color: #ba0517;
+}
+
+.required-missing-badge {
+    background: #ba0517;
+    color: #ffffff;
+    height: 20px;
+}
+
+.state-legend {
+    display: flex;
+    font-size: 0.75rem;
+    gap: 1rem;
+    padding: 0.25rem 1rem 0.5rem;
+}
+
+.legend-item {
+    border-radius: 0.25rem;
+    padding: 0.125rem 0.5rem;
+}
+
+.legend-required {
+    background: #fef1f1;
+    box-shadow: inset 3px 0 0 #ba0517;
+    color: #ba0517;
+}
+
+.legend-optional {
+    background: #fff3e0;
+    box-shadow: inset 3px 0 0 #fe9339;
+    color: #8a4b00;
+}
+
 /* Fixes the accordion header background color */
 .custom-accordion lightning-accordion-section {
     --slds-c-accordion-section-color-background: #f3f3f3;

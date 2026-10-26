@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Team__c</fullName>
+    <description>Team whose owner this rule sets.</description>
+    <fieldManageability>DeveloperControlled</fieldManageability>
+    <label>Team</label>
+    <referenceTo>PMTTeam__mdt</referenceTo>
+    <relationshipLabel>PMT - Owner Rules</relationshipLabel>
+    <relationshipName>PMTOwnerRules</relationshipName>
+    <required>true</required>
+    <type>MetadataRelationship</type>
+    <unique>false</unique>
+</CustomField>

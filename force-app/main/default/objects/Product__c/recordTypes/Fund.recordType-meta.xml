@@ -571,25 +571,6 @@
         </values>
     </picklistValues>
     <picklistValues>
-        <picklist>Investment_Style__c</picklist>
-        <values>
-            <fullName>BOUP</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>QUVE</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>TOUP</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>TOWN</fullName>
-            <default>false</default>
-        </values>
-    </picklistValues>
-    <picklistValues>
         <picklist>IsFeeder__c</picklist>
         <values>
             <fullName>False</fullName>
@@ -672,6 +653,29 @@
         </values>
         <values>
             <fullName>SICAV</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>LiquidityManagementToolLMT__c</picklist>
+        <values>
+            <fullName>Extension Notice Period</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Gates</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Redemption Fees</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Redemptions in Kind</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Swing Pricing</fullName>
             <default>false</default>
         </values>
     </picklistValues>

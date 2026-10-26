@@ -1,66 +1,79 @@
-import { LightningElement, api, wire, track } from 'lwc';
-import{ refreshApex } from '@salesforce/apex';
+import { LightningElement, api, wire } from 'lwc';
+import { getObjectInfo, getPicklistValues } from 'lightning/uiObjectInfoApi';
+import { ShowToastEvent } from 'lightning/platformShowToastEvent';
+import PROJECT_PRODUCT_CHILD_OBJECT from '@salesforce/schema/ProjectProductChild__c';
+import STATUS_FIELD from '@salesforce/schema/ProjectProductChild__c.Status__c';
 import getChildren from '@salesforce/apex/ProjectManagementPhaseController.getProjectChildren';
 import updateChildren from '@salesforce/apex/ProjectManagementPhaseController.updateProjectChildren';
- 
-const COLUMNS = [
-    { label: 'Project Product Child Name', fieldName: 'Name', type: 'text'},
-    { label: 'Start Date', fieldName: 'StartDate__c', type: 'date-local', editable: true },
-    { label: 'End Date', fieldName: 'EndDate__c', type: 'date-local', editable: true },
-    { label: 'Completion Rate by Step', fieldName: 'CompletionRateStep__c', type: 'number' },
-    { label: 'Status', fieldName: 'Status__c', type: 'text', editable: true },
-    {
-        label: 'Phase Status Indicator',
-        fieldName: 'RAG__c',
-        type: 'text'
-    }
-];
 
+// FIX-20270: "Project Management Phase" table of the Admin interface tab. Status is edited with the generic datatablePicklist (customPicklist type).
 export default class ProjectManagementPhase extends LightningElement {
     @api recordId;
-    @track records = [];
-    @track draftValues = [];
-    columns = COLUMNS;
-    @api isLoading = false;
- 
-    @wire(getChildren, { parentId: '$recordId' })
-    wiredChildren({ error, data }) {
+    records = [];
+    draftValues = [];
+    columns = this.buildColumns([]);
+    isLoading = false;
+
+    @wire(getObjectInfo, { objectApiName: PROJECT_PRODUCT_CHILD_OBJECT })
+    objectInfo;
+
+    // Active Status values, read from the platform. Columns are built once here (not in a getter): a new columns array on each render would reset the table's draft values after a failed save
+    @wire(getPicklistValues, { recordTypeId: '$objectInfo.data.defaultRecordTypeId', fieldApiName: STATUS_FIELD })
+    wiredStatusValues({ data, error }) {
         if (data) {
-            this.records = data.map(rec => ({
-                ...rec,
-                PhaseStatusIcon: this.getIconFromFormula(rec.RAG__c)
-            }));
-        } else if (error) {
-            console.error(error);
+            this.columns = this.buildColumns(data.values.map(({ label, value }) => ({ label, value })));
+        }
+        else if (error) {
+            this.showToast('Error', this.getErrorMessage(error), 'error');
         }
     }
 
-    refreshData(){
-        return refreshApex(this.freshData);
+    @wire(getChildren, { parentId: '$recordId' })
+    wiredChildren({ data, error }) {
+        if (data) {
+            this.records = this.toRows(data);
+        }
+        else if (error) {
+            this.showToast('Error', this.getErrorMessage(error), 'error');
+        }
     }
 
-    getIconFromFormula(indicator) {
-        if (indicator === '✅') return 'utility:check';
-        if (indicator === '⚠️') return 'utility:warning';
-        if (indicator === '🚨') return 'utility:error';
-        return 'utility:dot';
+    buildColumns(statusOptions) {
+        return [
+            { label: 'Project Product Child Name', fieldName: 'Name', type: 'text' },
+            { label: 'Start Date', fieldName: 'StartDate__c', type: 'date-local', editable: true },
+            { label: 'End Date', fieldName: 'EndDate__c', type: 'date-local', editable: true },
+            { label: 'Completion Rate by Step', fieldName: 'completionRate', type: 'percent', typeAttributes: { maximumFractionDigits: 2 } },
+            { label: 'Status', fieldName: 'Status__c', type: 'customPicklist', editable: true, typeAttributes: { options: statusOptions, value: { fieldName: 'Status__c' }, label: 'Status', placeholder: 'Select status', context: { fieldName: 'Id' } } },
+            { label: 'Phase Status Indicator', fieldName: 'RAG__c', type: 'text' }
+        ];
     }
- handleSave(event) {
-    this.isLoading = true;
-    const updates = event.detail.draftValues;
- 
-    updateChildren({ updatedRecords: updates, parentId: this.recordId })
-        .then((data) => {
-            this.records = data.map(rec => ({
-                ...rec,
-                PhaseStatusIcon: this.getIconFromFormula(rec.RAG__c)
-            }));
-            this.draftValues = [];
-            this.isLoading = false;
-        })
-        .catch(error => {
-            console.error('Error updating validation:', error);
-            this.isLoading = false;
-        });
-}
+
+    handleSave(event) {
+        this.isLoading = true;
+        updateChildren({ updatedRecords: event.detail.draftValues, parentId: this.recordId })
+            .then((data) => {
+                this.records = this.toRows(data);
+                this.draftValues = [];
+            })
+            .catch((error) => {
+                this.showToast('Error', this.getErrorMessage(error), 'error');
+            })
+            .finally(() => {
+                this.isLoading = false;
+            });
+    }
+
+    // CompletionRateStep__c is stored from 0 to 100, the percent column expects 0 to 1
+    toRows(data) {
+        return data.map((record) => ({ ...record, completionRate: (record.CompletionRateStep__c ?? 0) / 100 }));
+    }
+
+    getErrorMessage(error) {
+        return error?.body?.message ?? 'Unexpected error';
+    }
+
+    showToast(title, message, variant) {
+        this.dispatchEvent(new ShowToastEvent({ title, message, variant }));
+    }
 }

@@ -1,22 +1,24 @@
 import { LightningElement, api, wire, track } from 'lwc';
 import { getRecordUi } from 'lightning/uiRecordApi';
 import { getObjectInfo } from 'lightning/uiObjectInfoApi';
-import getEditableFields from '@salesforce/apex/PageLayoutController.getEditableFields';
 import getEditableFieldsFromSourceField from '@salesforce/apex/PageLayoutController.getEditableFieldsFromSourceField';
-import getFields from '@salesforce/apex/PageLayoutController.getFields';
-import getUserPermissionSet from '@salesforce/apex/PageLayoutController.getUserPermissionSet';
+import getFieldStates from '@salesforce/apex/PageLayoutController.getFieldStates';
+import getPMTConfigurationWarning from '@salesforce/apex/PageLayoutController.getPMTConfigurationWarning';
 import getRecordTypeId from '@salesforce/apex/PageLayoutController.getRecordTypeId';
-// import checkEditableConidtions from '@salesforce/apex/PageLayoutController.checkEditableConidtions';
 import checkModificationConidtions from '@salesforce/apex/PageLayoutController.checkModificationConidtions';
 import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 import { CurrentPageReference } from 'lightning/navigation';
 import BEFORE_UNLOAD_HANDLER from '@salesforce/resourceUrl/handleBeforeUnload';
 import { loadScript } from 'lightning/platformResourceLoader';
 import { NavigationMixin } from 'lightning/navigation';
-import getFieldRules from '@salesforce/apex/FieldDisplayRuleService.getRulesForObject';
 import ProjectProductChildOBJ from '@salesforce/schema/ProjectProductChild__c';
 import ProjectShareclassChildOBJ from '@salesforce/schema/ProjectShareclassChild__c';
 import getAllFieldsByRecordId from '@salesforce/apex/PageLayoutController.getAllFieldsByRecordId';
+import LightningConfirm from 'lightning/confirm';
+
+// US-20194 V1.3: color states of an empty field (PRIIPs/KID style)
+const REQUIRED_EMPTY_CLASS = 'field-state-required-empty';
+const OPTIONAL_EMPTY_CLASS = 'field-state-optional-empty';
 
 export default class LayoutEditableFields extends NavigationMixin(LightningElement) {
 
@@ -24,7 +26,6 @@ export default class LayoutEditableFields extends NavigationMixin(LightningEleme
     @api objectApiName;
     @track sections = [];
     @track isEditMode = false;
-    @api viewAll = false;
     @api editableFields;
     @track fieldsInfo;
     @track currentObject ;
@@ -37,21 +38,27 @@ export default class LayoutEditableFields extends NavigationMixin(LightningEleme
     teamParam;
     noEdit = false;
     allSectionIds = [];
-    requiredFields = new Set();
     allData;
     editableFieldList = [];
     checkModificationConidtions ;
-    fieldPermissions = null;
+    // US-20194 V1.2: fields of the team's screen {apiName (lowercase): {required, editable}} and the fields whose change re-evaluates them (getFieldStates)
+    fieldStates = null;
+    conditionFields = new Set();
+    draftValues = {};
     recordUiData = null;
     recordTypeId = null;
     userHasEditPermission = false;
-    // checkEditableConidtions = false;
-    dynamicRules = [];
+    isHandlingTaxTransparencyChange = false;
+    lastTaxTransparencySignature = null;
     
 
     get tabClass() { 
         return this.isEditMode ? 'edit-content' : '';
     }    
+    get hasFields() {
+        return this.sections && this.sections.length > 0;
+    }
+
     get filteredSections() {
         if (!this.sections) return [];
 
@@ -64,33 +71,41 @@ export default class LayoutEditableFields extends NavigationMixin(LightningEleme
 
     connectedCallback() {
         this.currentObject = this.objectApiName == 'ProjectProductChild__c'? ProjectProductChildOBJ : this.objectApiName == 'ProjectShareclassChild__c'? ProjectShareclassChildOBJ : null;
-
-        getFieldRules({ objectApiName: this.objectApiName })
-        .then((rules) => {
-            this.dynamicRules = rules;
-            console.log('✅ Règles dynamiques chargées :', this.dynamicRules);
-            this.updateSections();
-
-        })
-        .catch(error => {
-            console.error('❌ Erreur chargement règles dynamiques :', error);
-        });
+        this.showConfigurationWarning();
     }
-    
-    @wire(getFieldRules, { objectApiName: '$objectApiName' })
-    wiredFieldRules({ error, data }) {
-        console.log('getFieldRules',this.objectApiName, data, error);
-        if (data) {
-            this.dynamicRules = data;
-            console.log('✅ Règles dynamiques chargées wire :', this.dynamicRules);
-            this.updateSections();
-        } else if (error) {
-            console.error('❌ Erreur chargement règles dynamiques :', error);
-        }
+
+    // US-20194 V1.2: PMT lines pointing to fields missing in this org (configuration to fix); an invalid condition is reported by the screen's own calls
+    showConfigurationWarning() {
+        getPMTConfigurationWarning()
+            .then(message => { if (message) this.showToast('Warning', message, 'warning', 'sticky'); })
+            .catch(() => {});
     }
-    
+
+    // US-20194 V1.2: the team's fields on this stage record (PMT lines and their conditions), evaluated by Apex with the unsaved values of the screen
+    loadFieldStates() {
+        if (!this.recordId) return;
+        getFieldStates({ recordId: this.recordId, teamView: this.teamParam, draftValues: this.draftValues })
+            .then(data => {
+                const states = {};
+                Object.entries(data.fields).forEach(([apiName, state]) => { states[apiName.toLowerCase()] = state; });
+                this.fieldStates = states;
+                this.conditionFields = new Set(data.conditionFields.map(field => field.toLowerCase()));
+                this.userHasEditPermission = Object.values(states).some(state => state.editable);
+                this.noEdit = !this.userHasEditPermission;
+                this.updateSections();
+            })
+            .catch(error => {
+                this.isLoading = false;
+                this.showToast('Error', error?.body?.message || 'Unable to load the fields of this stage', 'error');
+            });
+    }
+
+    showToast(title, message, variant, mode = 'dismissible') {
+        this.dispatchEvent(new ShowToastEvent({ title, message, variant, mode }));
+    }
+
     @wire(getAllFieldsByRecordId, { recordId: '$recordId' })
-    wiredFieldRules({ error, data }) {
+    wiredAllFields({ error, data }) {
         if (data) {
             console.log('getAllFieldsByRecordId',data);
             this.allData = data;
@@ -116,13 +131,6 @@ export default class LayoutEditableFields extends NavigationMixin(LightningEleme
         } else if (error) {
             console.error('Error fetching object info:', error);
         }
-
-    }
-
-    getColumnClass(field) {
-        return field.isMultiPicklist
-        ? 'slds-col slds-size_3-of-3 slds-p-right_medium slds-p-bottom_medium'
-        : 'slds-col slds-size_1-of-3 slds-p-right_medium slds-p-bottom_medium';
 
     }
 
@@ -173,6 +181,7 @@ export default class LayoutEditableFields extends NavigationMixin(LightningEleme
     getStateParameters(currentPageReference) {
         if (currentPageReference) {
             this.teamParam = currentPageReference.state?.c__team || null;
+            this.loadFieldStates();
 
         }
     }
@@ -201,37 +210,6 @@ export default class LayoutEditableFields extends NavigationMixin(LightningEleme
             console.error('Error fetching Record Type Id:', error);
         }
     }
-    
-    @wire(getRecordTypeId, { objectApiName: '$objectApiName', recordId: '$recordId' })
-    wiredRecordType({ error, data }) {
-        if (data) {
-            this.recordTypeId = data;
-        } else if (error) {
-            console.error('Error fetching Record Type Id:', error);
-        }
-    }
-
-    @wire(getEditableFields, { objectApiName: '$objectApiName', teamView: '$teamParam', viewAll: '$viewAll' })
-    wiredFieldPermissions({ error, data }) {
-        if (data) {
-            this.fieldPermissions = data;
-            console.log('fieldPermissions',this.fieldPermissions);
-            this.updateSections();
-        } else {
-            console.error('❌ Error fetching editable fields:', error);
-        }
-    }
-
-    @wire(getUserPermissionSet, { teamView: '$teamParam' })
-    wiredUserPermissions({ error, data }) {
-        if (data) {
-            this.userHasEditPermission = data;
-            this.noEdit = !this.userHasEditPermission && !this.viewAll;
-        } else {
-            this.noEdit = !this.viewAll;
-            console.error('❌ Error fetching user permission set:', error);
-        }
-    }
 
     @wire(getRecordUi, { layoutTypes: ['Full'], modes: ['View'], recordIds: '$recordId' })
     wiredRecordUi({ error, data }) {
@@ -246,7 +224,7 @@ export default class LayoutEditableFields extends NavigationMixin(LightningEleme
 
     updateSections() {
 
-        if (this.recordTypeId && this.fieldPermissions && this.recordUiData && this.requiredFields && this.allData && this.dynamicRules) {
+        if (this.recordTypeId && this.fieldStates && this.recordUiData && this.allData) {
             this.sections = this.extractSections(this.recordUiData);
             if(this.sections.length <= 0) {
                 this.displayEmptyMessage = true;
@@ -257,33 +235,115 @@ export default class LayoutEditableFields extends NavigationMixin(LightningEleme
         }
     }
 
-    // Fetch required fields from Apex
-    @wire(getFields, { objectVar: '$objectApiName', recordId: '$recordId' })
-    wiredRequiredFields({ error, data }) {
-        if (data) {
-            this.requiredFields = new Set(data);
-            this.updateSections();
-        } else if (error) {
-            console.error('❌ Error fetching required fields:', error);
-        }
-    }
-    
-    handleFieldChange(event) {
+    async handleFieldChange(event) {
         const fieldName = event.target.fieldName;
-        const fieldValue = event.target.value;
-    
+        let fieldValue = event.target.value;
+
         console.log('🟡 Field changed:', fieldName, '➡️', fieldValue);
-    
-        // Skip if metadata is not loaded
+
         if (!this.fieldMetadata || !fieldName) {
             console.warn('⚠️ Missing metadata or field name');
             return;
         }
-    
+
+        if (fieldName === 'TaxTransparency__c' && this.isHandlingTaxTransparencyChange) {
+            return;
+        }
+
         let clonedAllData = { ...this.allData };
+
+        if (fieldName === 'TaxTransparency__c') {
+            this.isHandlingTaxTransparencyChange = true;
+
+            try {
+                const oldValues = this.normalizeMultiPicklistValues(this.allData?.TaxTransparency__c);
+                const newValues = this.normalizeMultiPicklistValues(fieldValue);
+                const countryRegValues = this.normalizeMultiPicklistValues(this.allData?.CountryRegNeeded__c);
+
+                const signature = JSON.stringify(newValues.slice().sort((a, b) => a.localeCompare(b)));
+                if (this.lastTaxTransparencySignature === signature) {
+                    return;
+                }
+
+                const addedValues = newValues.filter(v => !oldValues.includes(v));
+
+                let invalidAddedValues = [];
+                let missingCountries = [];
+
+                for (const addedValue of addedValues) {
+                    const requiredCountry = this.getRequiredCountryForTaxTransparency(addedValue);
+
+                    if (!requiredCountry) {
+                        continue;
+                    }
+
+                    const isRegistered = countryRegValues.includes(requiredCountry);
+
+                    if (!isRegistered) {
+                        invalidAddedValues.push(addedValue);
+                        if (!missingCountries.includes(requiredCountry)) {
+                            missingCountries.push(requiredCountry);
+                        }
+                    }
+                }
+
+                if (invalidAddedValues.length > 0) {
+                    await LightningConfirm.open({
+                        label: 'Confirmation required',
+                        theme: 'warning',
+                        message:
+                            `This fund/share class is not registered in ${missingCountries.join(', ')}. ` +
+                            `Please review Country Reg Needed if you still want to keep: ${invalidAddedValues.join(', ')}.`
+                    });
+                }
+
+                this.lastTaxTransparencySignature = signature;
+            } finally {
+                this.isHandlingTaxTransparencyChange = false;
+            }
+        }
+
         clonedAllData[fieldName] = fieldValue;
         this.allData = clonedAllData;
-        this.sections = this.extractSections(this.recordUiData);
+        this.draftValues = { ...this.draftValues, [fieldName]: fieldValue };
+        if (this.conditionFields.has(fieldName.toLowerCase())) this.loadFieldStates();
+        else this.sections = this.extractSections(this.recordUiData);
+    }
+
+    normalizeMultiPicklistValues(value) {
+        if (!value) {
+            return [];
+        }
+
+        if (Array.isArray(value)) {
+            return value.filter(v => !!v);
+        }
+
+        if (typeof value === 'string') {
+            return value
+                .split(';')
+                .map(v => v.trim())
+                .filter(v => !!v);
+        }
+
+        return [];
+    }
+
+    getRequiredCountryForTaxTransparency(taxValue) {
+        if (!taxValue) {
+            return null;
+        }
+
+        
+
+        // Règle générique basée sur le préfixe
+        if (taxValue.startsWith('BE') || taxValue.startsWith('Belgium')) return 'Belgium';
+        if (taxValue.startsWith('CH')) return 'Switzerland';
+        if (taxValue.startsWith('UK')) return 'United Kingdom';
+        if (taxValue.startsWith('IT')) return 'Italy';
+        if (taxValue.startsWith('AT')) return 'Austria';
+
+        return null;
     }
 
     extractSections(data) {
@@ -295,22 +355,6 @@ export default class LayoutEditableFields extends NavigationMixin(LightningEleme
         }
         const recordLayout = data.layouts[this.objectApiName][this.recordTypeId]?.Full?.View
 
-        // let tmprecordFields = this.newRecordUiData?.records[this.recordId].fields;
-        // let record = {};
-     
-        // console.log(`tmprecordFields: ${JSON.stringify(tmprecordFields)}`);
-        // Prépare les données de l’enregistrement pour l’évaluation JS
-        // if(tmprecordFields) {
-        //     for (let key in tmprecordFields) {
-        //         record[key] = tmprecordFields[key].value;
-
-        //     }
-        // } else {
-        let record = this.allData;
-        // }
-        console.log('record:', record );
-        console.log('recordLayout:', recordLayout );
-        
         const fieldsValues  = data.records[this.recordId]?.fields;
         if (recordLayout?.sections) {
             recordLayout.sections.forEach(section => {
@@ -321,33 +365,25 @@ export default class LayoutEditableFields extends NavigationMixin(LightningEleme
                         if (item.layoutComponents && item.layoutComponents.length > 0) {
                             let fieldApiName = item.layoutComponents[0].apiName;
                             if (fieldApiName) {
-                                let fullApiName = this.objectApiName + '.' + fieldApiName;
-                                
-                                const rule = this.dynamicRules?.find(r => r.fieldApiName.toLowerCase() === fieldApiName.toLowerCase());
-                                console.log('rule',rule);
-
-                                const isVisibleByRule = this.evaluateRuleCondition(rule, record);
-                                const isMandatoryByRule = this.evaluateMandatoryRuleCondition(rule, record);
-                                console.log('fieldApiName',fieldApiName);
-                                console.log('isMandatoryByRule',isMandatoryByRule);
-                                console.log('isVisibleByRule',isVisibleByRule);
-                                if ((this.fieldPermissions[fullApiName] || this.viewAll)) {
-
+                                const state = this.fieldStates[fieldApiName.toLowerCase()];
+                                if (state) {
                                     const isMultiPicklist = this.fieldMetadata?.[fieldApiName]?.dataType === 'MultiPicklist';
                                     const isRichTextArea = this.fieldMetadata?.[fieldApiName]?.dataType === 'TextArea';
+                                    const currentValue = Object.prototype.hasOwnProperty.call(this.draftValues, fieldApiName) ? this.draftValues[fieldApiName] : fieldsValues[fieldApiName]?.value;
+                                    const stateClass = this.getFieldStateClass(state.required, currentValue);
+                                    const fullRow = isMultiPicklist || isRichTextArea ? 'field-cell-full-row' : '';
                                     fields.push({
                                         apiName: fieldApiName,
                                         label: item.label,
-                                        isVisibleByRule: isVisibleByRule,
-                                        isEditable: this.userHasEditPermission? this.parentRecordType == 'FundCreation' || this.parentRecordType == 'ShareclassCreation' ? true : this.editableFieldList.includes(fieldApiName)? true : false : false,
+                                        isEditable: state.editable && (this.parentRecordType == 'FundCreation' || this.parentRecordType == 'ShareclassCreation' || this.editableFieldList.includes(fieldApiName)),
                                         isMultiPicklist: isMultiPicklist,
                                         isRichTextArea: isRichTextArea,
                                         helptext : this.fieldMetadata?.[fieldApiName]?.helptext,
-                                        isRequired: this.requiredFields.has(fieldApiName) || isMandatoryByRule ,
-                                        value: isMultiPicklist? fieldsValues[fieldApiName]?.value?.split(';') : fieldsValues[fieldApiName]?.value,
-                                        columnClass: isMultiPicklist
-                                        ? 'slds-col slds-size_3-of-3 slds-p-right_medium slds-p-bottom_medium'
-                                        : isRichTextArea? 'slds-col slds-size_3-of-3 slds-p-right_medium slds-p-bottom_medium' :'slds-col slds-size_1-of-3 slds-p-right_medium slds-p-bottom_medium'
+                                        isRequired: state.required,
+                                        isRequiredEmpty: stateClass === REQUIRED_EMPTY_CLASS,
+                                        labelClass: stateClass === REQUIRED_EMPTY_CLASS ? 'slds-form-element__label field-label-required-empty' : 'slds-form-element__label',
+                                        value: isMultiPicklist ? fieldsValues[fieldApiName]?.value?.split(';') : fieldsValues[fieldApiName]?.value,
+                                        columnClass: `field-cell ${fullRow} ${stateClass}`.replace(/\s+/g, ' ').trim()
                                     });
                                 }
                             }
@@ -356,10 +392,14 @@ export default class LayoutEditableFields extends NavigationMixin(LightningEleme
                 });
 
                 if (fields.length > 0) {
+                    const requiredMissing = fields.filter(field => field.isRequiredEmpty).length;
                     sections.push({
                         id: section.id,
+                        // Id of the section in edit mode: view and edit modes never render together, but each keeps its own id
+                        editId: `${section.id}-edit`,
                         label: section.heading,
-                        fields: fields
+                        fields: fields,
+                        requiredMissingLabel: requiredMissing > 0 ? `${requiredMissing} required missing` : null
                     });
                     sectionIds.push(section.id);
                 }
@@ -371,45 +411,13 @@ export default class LayoutEditableFields extends NavigationMixin(LightningEleme
         return sections;
     }
 
-    evaluateRuleCondition(rule, record) {
-        console.log('evaluateRuleCondition',rule, record);
-
-        if (!rule || !rule.displayCondition) {
-            console.log(`📌 Aucune règle trouvée pour le champ ${rule?.fieldApiName}, on affiche le champ.`);
-            return true;
-        }
-     
-        try {
-
-            const condition = rule.displayCondition.trim().replaceAll("'",'"');
-            console.log(`🔍 Évaluation de la condition pour ${rule.fieldApiName} :`, condition);
-            const evaluator = new Function('record', `return (${condition});`);
-            const result = evaluator(record);
-            return result;
-        } catch (error) {
-            console.error(`❌ Erreur d’évaluation pour ${rule.fieldApiName} :`, error);
-            return false; // on masque le champ si erreur
-        }
+    // US-20194 V1.3: only an empty field is colored, red when required, orange when optional. A checkbox is never empty (false is a value), as in countFilledFields.
+    getFieldStateClass(required, value) {
+        const isEmpty = value === null || value === undefined || value === '' || (Array.isArray(value) && value.length === 0);
+        if (!isEmpty) return '';
+        return required ? REQUIRED_EMPTY_CLASS : OPTIONAL_EMPTY_CLASS;
     }
 
-    evaluateMandatoryRuleCondition(rule, record) {
-        console.log('evaluateMandatoryRuleCondition',rule, record);
-        if (!rule || !rule.mandatoryCondition) {
-            return false;
-        }
-     
-        try {
-            const condition = rule.mandatoryCondition.trim().replaceAll("'",'"');
-            console.log(`🔍 Évaluation de la condition pour ${rule.fieldApiName} :`, condition);
-            const evaluator = new Function('record', `return (${condition});`);
-            const result = evaluator(record);
-     
-            return result;
-        } catch (error) {
-            console.error(`❌ Erreur d’évaluation pour ${rule.fieldApiName} :`, error);
-            return false; // on masque le champ si erreur
-        }
-    }
     enableEditMode() {
         this.isEditMode = true;
         loadScript(this, BEFORE_UNLOAD_HANDLER)
@@ -427,6 +435,8 @@ export default class LayoutEditableFields extends NavigationMixin(LightningEleme
     disableEditMode() {
         this.isEditMode = false;
         window.preventNavigationHandlers.setUnsavedChanges(false);
+        this.draftValues = {};
+        this.loadFieldStates();
     }
 
     handleSuccess(event) {
@@ -446,16 +456,8 @@ export default class LayoutEditableFields extends NavigationMixin(LightningEleme
             })
         );
 
-        getFieldRules({ objectApiName: this.objectApiName })
-        .then((rules) => {
-            this.dynamicRules = rules;
-            console.log('✅ Règles dynamiques chargées :', this.dynamicRules);
-            this.updateSections();
-
-        })
-        .catch(error => {
-            console.error('❌ Erreur chargement règles dynamiques :', error);
-        });
+        this.draftValues = {};
+        this.loadFieldStates();
     }
 
     handleSubmit() {

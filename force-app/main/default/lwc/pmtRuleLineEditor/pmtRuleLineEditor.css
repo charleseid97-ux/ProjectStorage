@@ -1,0 +1,84 @@
+/* The saving spinner covers the form only */
+.editor-body {
+    position: relative;
+}
+
+.saving {
+    font-size: 0.75rem;
+    color: #0176d3;
+}
+
+.section-title {
+    margin: 1rem 0 0.5rem;
+    padding-bottom: 0.25rem;
+    border-bottom: 1px solid #e5e5e5;
+    font-size: 0.875rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    color: #5c5c5c;
+}
+
+.section-title:first-child {
+    margin-top: 0;
+}
+
+.status {
+    margin-top: 0.25rem;
+    font-size: 0.75rem;
+    color: #0176d3;
+}
+
+.formula {
+    --slds-c-textarea-text-font-family: monospace;
+}
+
+/* Space between a condition and its "Check condition" button, result next to the button */
+.check-row {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.75rem;
+    margin-top: 0.5rem;
+}
+
+.check {
+    font-size: 0.75rem;
+}
+
+/* Checkbox in the second column of a row, aligned with the input of the first column like a standard record form */
+.checkbox-field {
+    display: block;
+    padding-top: 1.5rem;
+}
+
+.label-help {
+    margin-left: 0.25rem;
+}
+
+/* Search and lists read as one block */
+.dependent-fields {
+    padding: 0.5rem 0.75rem 0.75rem;
+    border: 1px solid #e5e5e5;
+    border-radius: 0.25rem;
+    background: #fafaf9;
+}
+
+.field-input:disabled {
+    background: #f3f3f3;
+}
+
+.check_valid {
+    color: #2e844a;
+}
+
+.check_error,
+.errors {
+    color: #ba0517;
+}
+
+.errors {
+    padding: 0.75rem;
+    border: 1px solid #ba0517;
+    border-radius: 0.25rem;
+    background: #fef1ee;
+}

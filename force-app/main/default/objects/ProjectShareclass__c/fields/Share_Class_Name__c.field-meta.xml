@@ -2,12 +2,10 @@
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>Share_Class_Name__c</fullName>
     <externalId>false</externalId>
-    <formula>/* =Champ de référence pour le naming ShareClass (logique métier). Toute évolution doit être répliquée dans l&apos;apex ShareClassHandler (Product Catalog) pour éviter des incohérences sur les règles de nommage */
-IF(
+    <formula>IF(
 				ProjectProduct__r.RecordType.DeveloperName != &quot;FundShareClassModification&quot;,
 				IF(
 								LegalForm__c = &quot;OEIC&quot;,
-
 								/* ================= OEIC CASE ================= */
 
 								IF(
@@ -30,7 +28,7 @@ IF(
 												IF(
 																TEXT(DividendPolicy__c) = &quot;Income&quot;,
 
-																/* ---- OEIC + Income ---- */
+																/* ---- OEIC + DISTRIBUTING ---- */
 																IF(
 																				ISBLANK(ProjectProduct__r.ProductName__c),
 																				ProjectProduct__r.Product__r.ProductName__c &amp; &quot; &quot;,

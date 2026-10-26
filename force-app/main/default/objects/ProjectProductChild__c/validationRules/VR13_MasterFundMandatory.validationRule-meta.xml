@@ -5,7 +5,7 @@
     <description>Display ONLY if IsFeeder=&quot;True&quot;</description>
     <errorConditionFormula>AND(
 NOT($User.BypassValidationRules__c),
-$Permission.PRPProductStrategy ,
+OR($Permission.PRPProductStrategy, $Permission.PRPIS),
 RecordType.DeveloperName = &apos;DesignAndProposal&apos;,
 ISPICKVAL(IsFeeder__c, &apos;True&apos;),
 ISBLANK(MasterFund__c)
