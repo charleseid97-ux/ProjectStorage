@@ -13,10 +13,14 @@
  *              US-20194 V1.2: a Conditional line is required when its RequiredCondition__c is true, evaluated only once its Condition__c applies;
  *                  on a modification project the conditions read the fund's real values (withLiveValues); getTeamFieldStates() feeds the team screens.
  *              US-20194 V1.5: an inactive line (IsActive__c unticked) is not read, so it is used nowhere.
+ *              US-20194 V1.6: single source of the rules of a line and of an owner rule (getLineErrors, getOwnerRuleErrors), shared with the PMT Matrix
+ *                  Explorer and PMTMatrixTest: the field exists on the stage object, the conditions compile, a project-level condition (Fund line,
+ *                  owner rule) reads only ProjectProduct__c, RequiredCondition__c is set exactly on the Conditional lines. An invalid record is
+ *                  skipped and reported by getConfigurationWarning() (custom label PMT_InvalidRecords) instead of stopping the PMT.
  * @author Charles EID
- * @lastModifiedBy Charles EID   [23-10-26]
+ * @lastModifiedBy Charles EID   [24-10-26]
  * @testClass PMTMatrixTest
- * @coverage 98%   [23-10-26]
+ * @coverage 100%   [24-10-26]
  ────────────────────────────────────── */
 public without sharing class PMTMatrix {
 
@@ -24,6 +28,10 @@ public without sharing class PMTMatrix {
     private static final String REQUIRED = 'Required';
     private static final String CONDITIONAL = 'Conditional';
     private static final Id FUND_MODIFICATION_RT_ID = Schema.SObjectType.ProjectProduct__c.getRecordTypeInfosByDeveloperName().get('FundShareClassModification').getRecordTypeId();
+    public static final String PROJECT_ONLY_ERROR = 'This condition can only read ProjectProduct__c fields';
+    public static final String MISSING_REQUIRED_CONDITION_ERROR = 'A Conditional line needs a RequiredCondition__c';
+    public static final String IGNORED_REQUIRED_CONDITION_ERROR = 'RequiredCondition__c is ignored unless Requirement is Conditional';
+    public static final String MISSING_FIELD_ERROR = '{0} is not a field of {1}';
 
     // Test classes (PMTTestFactoryData) replace the matrix of the transaction: custom metadata records cannot be inserted in a test
     @TestVisible
@@ -33,8 +41,10 @@ public without sharing class PMTMatrix {
     private static Map<Id, ProjectProduct__c> loadedProjectById = new Map<Id, ProjectProduct__c>();
     private static Map<Id, ProjectShareclass__c> loadedShareClassById = new Map<Id, ProjectShareclass__c>();
     private static Map<Id, SObject> liveRecordById = new Map<Id, SObject>();
+    // US-20194 V1.6: lines and owner rules skipped because invalid, reported by getConfigurationWarning()
     @TestVisible
-    private static List<String> missingFieldLines = new List<String>();
+    private static List<String> invalidRecords = new List<String>();
+    private static Map<Boolean, Map<String, Schema.SObjectField>> stageFieldsByFund = new Map<Boolean, Map<String, Schema.SObjectField>>();
 
     public List<Stage> stages { get; private set; }
     public List<Team> teams { get; private set; }
@@ -67,64 +77,96 @@ public without sharing class PMTMatrix {
             ruleByDeveloperName.put(record.DeveloperName, record);
         }
 
-        // US-20194 V1.2: a line whose field is missing on its stage object in this org (e.g. a sandbox behind the source) is not used, so no query selects it; getMissingFieldsMessage() reports it on the PMT screens
-        Map<String, Schema.SObjectField> fundStageFields = Schema.SObjectType.ProjectProductChild__c.fields.getMap();
-        Map<String, Schema.SObjectField> shareClassStageFields = Schema.SObjectType.ProjectShareclassChild__c.fields.getMap();
-        missingFieldLines = new List<String>();
+        // US-20194 V1.6: an invalid line (e.g. a field missing in a sandbox behind the source, so no query selects it) or owner rule is not used, and getConfigurationWarning() reports it on the PMT screens
+        invalidRecords = new List<String>();
         List<Line> lines = new List<Line>();
         for (PMTFieldRuleLine__mdt record : [SELECT DeveloperName, FieldRule__r.DeveloperName, Field__r.Object__c, Field__r.FieldApiName__c, Requirement__c, Condition__c, RequiredCondition__c
                                              FROM PMTFieldRuleLine__mdt
                                              WHERE IsActive__c = true
                                              ORDER BY DeveloperName]) {
             Boolean fund = record.Field__r.Object__c == FUND_OBJECT;
-            if (!(fund ? fundStageFields : shareClassStageFields).containsKey(record.Field__r.FieldApiName__c)) {
-                missingFieldLines.add(record.DeveloperName + ' (' + (fund ? 'ProjectProductChild__c.' : 'ProjectShareclassChild__c.') + record.Field__r.FieldApiName__c + ')');
-                continue;
-            }
+            List<String> errors = getLineErrors(fund, record.Field__r.FieldApiName__c, record.Requirement__c, record.Condition__c, record.RequiredCondition__c);
+            if (!isUsable(PMTFieldRuleLine__mdt.SObjectType, record.DeveloperName, errors)) continue;
             PMTFieldRule__mdt rule = ruleByDeveloperName.get(record.FieldRule__r.DeveloperName);
-            Line line = new Line(rule.Team__r.MasterLabel, rule.Stage__r.MasterLabel, fund, record.Field__r.FieldApiName__c,
-                                 record.Requirement__c == REQUIRED, compileCondition(PMTFieldRuleLine__mdt.SObjectType, record.DeveloperName, record.Condition__c));
-            if (record.Requirement__c == CONDITIONAL) line.requiredCondition = compileCondition(PMTFieldRuleLine__mdt.SObjectType, record.DeveloperName, record.RequiredCondition__c);
+            Line line = new Line(rule.Team__r.MasterLabel, rule.Stage__r.MasterLabel, fund, record.Field__r.FieldApiName__c, record.Requirement__c == REQUIRED, PMTCondition.compile(record.Condition__c));
+            if (record.Requirement__c == CONDITIONAL) line.requiredCondition = PMTCondition.compile(record.RequiredCondition__c);
             lines.add(line);
         }
 
         List<OwnerRule> ownerRules = new List<OwnerRule>();
         for (PMTOwnerRule__mdt record : [SELECT DeveloperName, Team__r.MasterLabel, Condition__c, OwnerFederationId__c
                                          FROM PMTOwnerRule__mdt ORDER BY DeveloperName]) {
-            ownerRules.add(new OwnerRule(record.Team__r.MasterLabel, compileCondition(PMTOwnerRule__mdt.SObjectType, record.DeveloperName, record.Condition__c), record.OwnerFederationId__c));
+            List<String> errors = getOwnerRuleErrors(record.Condition__c);
+            if (isUsable(PMTOwnerRule__mdt.SObjectType, record.DeveloperName, errors)) ownerRules.add(new OwnerRule(record.Team__r.MasterLabel, PMTCondition.compile(record.Condition__c), record.OwnerFederationId__c));
         }
 
         instance = new PMTMatrix(stages, teams, lines, ownerRules);
         return instance;
     }
 
-    // Entry point of the PMT screens' Apex controllers (LWCs): the matrix, or its configuration error as an AuraHandledException the LWC can show.
+    // Entry point of the PMT screens' Apex controllers (LWCs). US-20194 V1.6: get() no longer throws on an invalid record (skipped and reported by getConfigurationWarning), so this is the matrix itself.
     public static PMTMatrix getForScreen() {
+        return get();
+    }
+
+    // US-20194 V1.6: warning of the PMT screens naming the invalid lines and owner rules, which are not used (null when none): custom label PMT_InvalidRecords.
+    public static String getConfigurationWarning() {
+        get();
+        return invalidRecords.isEmpty() ? null : String.format(System.Label.PMT_InvalidRecords, new List<Object>{ String.join(invalidRecords, ', ') });
+    }
+
+    // US-20194 V1.6: errors of one rule line, empty when valid: its field exists on the stage object of its level, its conditions compile, a Fund line reads only ProjectProduct__c, RequiredCondition__c is set exactly on the Conditional lines
+    public static List<String> getLineErrors(Boolean fund, String fieldApiName, String requirement, String condition, String requiredCondition) {
+        List<String> errors = new List<String>();
+        String fieldError = getFieldError(fund, fieldApiName);
+        String conditionError = getConditionError(condition, fund);
+        String requiredConditionError = getRequiredConditionError(requirement, requiredCondition, fund);
+        if (fieldError != null) errors.add(fieldError);
+        if (conditionError != null) errors.add('Condition: ' + conditionError);
+        if (requiredConditionError != null) errors.add('Required condition: ' + requiredConditionError);
+        return errors;
+    }
+
+    // US-20194 V1.6: errors of one owner rule, empty when valid: its condition compiles and reads only ProjectProduct__c (an owner is set per project)
+    public static List<String> getOwnerRuleErrors(String condition) {
+        String conditionError = getConditionError(condition, true);
+        return conditionError == null ? new List<String>() : new List<String>{ 'Condition: ' + conditionError };
+    }
+
+    // The field of a line must exist on the stage object of its level, where the PMT reads and writes it
+    public static String getFieldError(Boolean fund, String fieldApiName) {
+        if (!stageFieldsByFund.containsKey(fund)) stageFieldsByFund.put(fund, (fund ? Schema.SObjectType.ProjectProductChild__c : Schema.SObjectType.ProjectShareclassChild__c).fields.getMap());
+        if (String.isNotBlank(fieldApiName) && stageFieldsByFund.get(fund).containsKey(fieldApiName)) return null;
+        return String.format(MISSING_FIELD_ERROR, new List<Object>{ fieldApiName, fund ? 'ProjectProductChild__c' : 'ProjectShareclassChild__c' });
+    }
+
+    // Null for a valid or empty condition; otherwise its compilation error, or the error of a project-level condition (Fund line, owner rule) reading a share class field
+    public static String getConditionError(String condition, Boolean projectOnly) {
         try {
-            return get();
+            PMTCondition compiled = PMTCondition.compile(condition);
+            if (projectOnly && compiled != null && compiled.readsShareClass()) return PROJECT_ONLY_ERROR;
+            return null;
         }
         catch (PMTCondition.PMTConditionException e) {
-            AuraHandledException auraException = new AuraHandledException(e.getMessage());
-            auraException.setMessage(e.getMessage());
-            throw auraException;
+            return e.getMessage();
         }
     }
 
-    // US-20194 V1.2: configuration error shown by the PMT screens when lines point to fields missing in this org (null when none): custom label PMT_MissingFields.
-    public static String getMissingFieldsMessage() {
-        getForScreen();
-        return missingFieldLines.isEmpty() ? null : String.format(System.Label.PMT_MissingFields, new List<Object>{ String.join(missingFieldLines, ', ') });
+    // Null when valid: RequiredCondition__c is set exactly on the Conditional lines, then checked like a condition of the line's level
+    public static String getRequiredConditionError(String requirement, String requiredCondition, Boolean fund) {
+        Boolean conditional = requirement == CONDITIONAL;
+        Boolean hasRequiredCondition = String.isNotBlank(requiredCondition);
+        if (conditional && !hasRequiredCondition) return MISSING_REQUIRED_CONDITION_ERROR;
+        if (!conditional && hasRequiredCondition) return IGNORED_REQUIRED_CONDITION_ERROR;
+        return getConditionError(requiredCondition, fund);
     }
 
-    // US-20194: a condition that doesn't compile stops the PMT, so its error names the record to fix (custom label PMT_InvalidCondition).
+    // True when the record has no error; otherwise it is recorded for getConfigurationWarning() as "PMT - Field Rule Line SC_ISIN_1 (errors)"
     @TestVisible
-    private static PMTCondition compileCondition(Schema.SObjectType recordType, String developerName, String text) {
-        try {
-            return PMTCondition.compile(text);
-        }
-        catch (PMTCondition.PMTConditionException e) {
-            throw new PMTCondition.PMTConditionException(String.format(System.Label.PMT_InvalidCondition, new List<Object>{ recordType.getDescribe().getLabel(), developerName, e.getMessage() }));
-        }
+    private static Boolean isUsable(Schema.SObjectType recordType, String developerName, List<String> errors) {
+        if (errors.isEmpty()) return true;
+        invalidRecords.add(recordType.getDescribe().getLabel() + ' ' + developerName + ' (' + String.join(errors, '; ') + ')');
+        return false;
     }
 
     // Keeps the lines of the given teams, grouped in rules sorted by stage then team order (same order as the former ORDER BY Order__c, OrderTeam__c).

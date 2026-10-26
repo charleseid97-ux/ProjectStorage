@@ -3,9 +3,9 @@
  *                  type, its editability/modification conditions, and the fields of a team's screen (getFieldStates, US-20194 V1.2):
  *                  the team's PMT lines at the record's stage whose condition applies, required from the line, editable with the
  *                  team's custom permission.
- * @lastModifiedBy Charles EID   [23-10-26]
+ * @lastModifiedBy Charles EID   [24-10-26]
  * @testClass PageLayoutControllerTest
- * @coverage 97%   [23-10-26]
+ * @coverage 97%   [24-10-26]
  ────────────────────────────────────── */
 public without sharing class PageLayoutController {
 
@@ -154,10 +154,10 @@ public without sharing class PageLayoutController {
         }
     }
 
-    // US-20194 V1.2: warning of the PMT screens when PMT lines point to fields missing in this org (null when none).
+    // US-20194 V1.6: warning of the PMT screens naming the invalid PMT lines and owner rules, which are not used (null when none).
     @AuraEnabled(cacheable=true)
     public static String getPMTConfigurationWarning() {
-        return PMTMatrix.getMissingFieldsMessage();
+        return PMTMatrix.getConfigurationWarning();
     }
 
     // US-20194 V1.2: fields of a team's screen (c__team) on a stage record: the team's lines at the record's stage whose Condition__c applies to the project and share class, as they are with the unsaved values (draftValues, field -> value) of the screen. Visible for everyone; required from the line (Requirement__c, RequiredCondition__c); editable when the user has the team's custom permission and can edit the field. Returns {fields: {api name: {required, editable}}, conditionFields: [fields whose change can change the states]}.

@@ -3,6 +3,7 @@
     <fullName>DependentFields__c</fullName>
     <description>Fields (API names separated by ;) selected together with this field in a modification project (fieldSelector). Replaces FieldDisplayRule__mdt.DependentFields__c (US-20194).</description>
     <fieldManageability>DeveloperControlled</fieldManageability>
+    <inlineHelpText>Fields selected together with this field in a modification project (API names separated by ;).</inlineHelpText>
     <label>Dependent Fields</label>
     <externalId>false</externalId>
     <length>255</length>

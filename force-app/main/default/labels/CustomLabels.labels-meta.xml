@@ -2226,19 +2226,11 @@ Il calcolo viene adattato alla data di variazione delle spese effettivamente app
         <value>You have validated this phase. You can no longer edit or contribute to this phase. If you need to make changes, please contact the project owner to request a rollback to draft status.</value>
     </labels>
     <labels>
-        <fullName>PMT_InvalidCondition</fullName>
+        <fullName>PMT_InvalidRecords</fullName>
         <categories>PMT</categories>
         <language>en_US</language>
         <protected>false</protected>
-        <shortDescription>PMT Invalid Condition</shortDescription>
-        <value>PMT configuration error: the condition of the {0} record {1} is invalid ({2}). Please contact your Salesforce administrator to fix it in Setup &gt; Custom Metadata Types.</value>
-    </labels>
-    <labels>
-        <fullName>PMT_MissingFields</fullName>
-        <categories>PMT</categories>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>PMT Missing Fields</shortDescription>
-        <value>PMT configuration error: these PMT - Field Rule Line records point to fields missing in this org and are not used: {0}. Please contact your Salesforce administrator to deploy the fields or fix the records.</value>
+        <shortDescription>PMT Invalid Records</shortDescription>
+        <value>PMT configuration error: these PMT records are invalid and are not used: {0}. Please contact your Salesforce administrator to fix them in Setup &gt; Custom Metadata Types or in the PMT Matrix Explorer.</value>
     </labels>
 </CustomLabels>

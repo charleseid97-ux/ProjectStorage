@@ -1,12 +1,13 @@
 /** ──────────────────────────────────────
  * @description Tests of the PMT matrix: invariants of the deployed configuration (sort order, every line field exists on the
  *                  stage objects, conditions compile and read only what their field level allows, ISIN__c owned by Legal or OPS),
- *                  then a test matrix (rules, owner rules by condition, conditional lines at project and share class level), and the
- *                  error of an invalid condition (custom label PMT_InvalidCondition).
+ *                  then a test matrix (rules, owner rules by condition, conditional lines at project and share class level).
  *              US-20194 V1.2: Conditional lines (RequiredCondition__c), the fields of a team's screen, and the fund's real values read by the
  *                  conditions of a modification project.
- * @covers PMTMatrix   98%   [23-10-26]
- * @lastModifiedBy Charles EID   [23-10-26]
+ *              US-20194 V1.6: the line and owner rule rules (getLineErrors, getOwnerRuleErrors) on every deployed record, then each rule broken,
+ *                  and an invalid record skipped and reported by the warning of the PMT screens (custom label PMT_InvalidRecords).
+ * @covers PMTMatrix   100%   [24-10-26]
+ * @lastModifiedBy Charles EID   [24-10-26]
  ────────────────────────────────────── */
 @isTest
 private class PMTMatrixTest {
@@ -55,50 +56,42 @@ private class PMTMatrixTest {
             System.assertNotEquals(null, isMatrix.getTeam(rule.team), 'forScope() keeps only the rules of its teams');
         }
 
-        // US-20194: every field of a line exists on the stage object of its level, every condition reads only what its level allows
-        Map<String, Schema.SObjectField> fundFields = Schema.SObjectType.ProjectProductChild__c.fields.getMap();
-        Map<String, Schema.SObjectField> shareClassFields = Schema.SObjectType.ProjectShareclassChild__c.fields.getMap();
-        List<String> missingFields = new List<String>();
-        List<PMTFieldRuleLine__mdt> lines = [SELECT DeveloperName, Field__r.Object__c, Field__r.FieldApiName__c, Condition__c, Requirement__c, RequiredCondition__c
-                                             FROM PMTFieldRuleLine__mdt];
-        for (PMTFieldRuleLine__mdt line : lines) {
-            Boolean fund = line.Field__r.Object__c == 'Product__c';
-            if (!(fund ? fundFields : shareClassFields).containsKey(line.Field__r.FieldApiName__c)) missingFields.add(line.DeveloperName + ' ' + line.Field__r.FieldApiName__c);
-            PMTCondition condition = PMTCondition.compile(line.Condition__c);
-            if (fund && condition != null) System.assert(!condition.readsShareClass(), line.DeveloperName + ': a Fund field condition reads only ProjectProduct__c fields');
-            // US-20194 V1.2: a Conditional line has a RequiredCondition__c, which compiles and reads only what its level allows
-            PMTCondition requiredCondition = PMTCondition.compile(line.RequiredCondition__c);
-            System.assertEquals(line.Requirement__c == 'Conditional', requiredCondition != null, line.DeveloperName + ': RequiredCondition__c is set exactly on Conditional lines');
-            if (fund && requiredCondition != null) System.assert(!requiredCondition.readsShareClass(), line.DeveloperName + ': a Fund field required condition reads only ProjectProduct__c fields');
+        // US-20194 V1.6: every active line and every owner rule follows the PMT rules (PMTMatrix.getLineErrors, getOwnerRuleErrors), so the matrix uses them all
+        List<String> invalidRecords = new List<String>();
+        List<PMTFieldRuleLine__mdt> activeLines = [SELECT DeveloperName, Field__r.Object__c, Field__r.FieldApiName__c, Condition__c, Requirement__c, RequiredCondition__c
+                                                   FROM PMTFieldRuleLine__mdt
+                                                   WHERE IsActive__c = true];
+        for (PMTFieldRuleLine__mdt line : activeLines) {
+            List<String> errors = PMTMatrix.getLineErrors(line.Field__r.Object__c == 'Product__c', line.Field__r.FieldApiName__c, line.Requirement__c, line.Condition__c, line.RequiredCondition__c);
+            if (!errors.isEmpty()) invalidRecords.add(line.DeveloperName + ' ' + errors);
         }
-        System.assert(missingFields.isEmpty(), 'Line fields missing on the stage objects: ' + missingFields);
-        // US-20194 V1.5: an inactive line (IsActive__c unticked) is not part of the matrix
-        List<PMTFieldRuleLine__mdt> activeLines = [SELECT Id FROM PMTFieldRuleLine__mdt WHERE IsActive__c = true];
-        System.assertEquals(activeLines.size(), matrix.lines.size() + PMTMatrix.missingFieldLines.size(), 'The matrix holds the active lines (except those whose field is missing in the org)');
         for (PMTOwnerRule__mdt ownerRule : [SELECT DeveloperName, Condition__c FROM PMTOwnerRule__mdt]) {
-            PMTCondition condition = PMTCondition.compile(ownerRule.Condition__c);
-            if (condition != null) System.assert(!condition.readsShareClass(), ownerRule.DeveloperName + ': an owner rule condition reads only ProjectProduct__c fields');
+            List<String> errors = PMTMatrix.getOwnerRuleErrors(ownerRule.Condition__c);
+            if (!errors.isEmpty()) invalidRecords.add(ownerRule.DeveloperName + ' ' + errors);
         }
+        System.assert(invalidRecords.isEmpty(), 'Invalid PMT records: ' + invalidRecords);
+        // US-20194 V1.5: an inactive line (IsActive__c unticked) is not part of the matrix
+        System.assertEquals(activeLines.size(), matrix.lines.size(), 'The matrix holds every active line');
 
-        // US-20194: an invalid condition stops the PMT with a message naming its record (custom label PMT_InvalidCondition); the screens get the matrix through getForScreen()
-        String invalidMessage;
-        try {
-            PMTMatrix.compileCondition(PMTFieldRuleLine__mdt.SObjectType, 'LEGFSISIN', 'ISPICKVAL(ProjectProduct__c.UnknownField__c, \'FCP\')');
-        }
-        catch (PMTCondition.PMTConditionException e) {
-            invalidMessage = e.getMessage();
-        }
-        System.assert(invalidMessage != null && invalidMessage.contains('LEGFSISIN') && invalidMessage.contains(Schema.PMTFieldRuleLine__mdt.SObjectType.getDescribe().getLabel()), 'The error names the record to fix: ' + invalidMessage);
+        // US-20194 V1.6: each rule a line or owner rule breaks is named, and an invalid record is skipped and reported by the warning of the PMT screens (custom label PMT_InvalidRecords)
+        String projectCondition = 'ISPICKVAL(ProjectProduct__c.LegalForm__c, \'FCP\')';
+        List<String> lineErrors = PMTMatrix.getLineErrors(true, 'NotAPMTField__c', 'Conditional', 'ISPICKVAL(ProjectShareclass__c.HasPerfFees__c, \'True\')', null);
+        List<String> expectedErrors = new List<String>{ String.format(PMTMatrix.MISSING_FIELD_ERROR, new List<Object>{ 'NotAPMTField__c', 'ProjectProductChild__c' }),
+                                                        'Condition: ' + PMTMatrix.PROJECT_ONLY_ERROR, 'Required condition: ' + PMTMatrix.MISSING_REQUIRED_CONDITION_ERROR };
+        System.assertEquals(expectedErrors, lineErrors, 'Missing field, share class field read by a Fund line, Conditional line without RequiredCondition__c');
+        System.assertEquals(new List<String>{ 'Required condition: ' + PMTMatrix.IGNORED_REQUIRED_CONDITION_ERROR }, PMTMatrix.getLineErrors(true, 'LegalForm__c', 'Required', projectCondition, projectCondition), 'RequiredCondition__c only on Conditional lines');
+        System.assert(PMTMatrix.getLineErrors(true, 'LegalForm__c', 'Conditional', projectCondition, projectCondition).isEmpty(), 'A valid Conditional line has no error');
+        System.assertEquals(1, PMTMatrix.getOwnerRuleErrors('NOT_A_FUNCTION(').size(), 'An owner rule condition must compile');
+        String noWarning = PMTMatrix.getConfigurationWarning();
+        Boolean invalidLineUsed = PMTMatrix.isUsable(PMTFieldRuleLine__mdt.SObjectType, 'SC_Test_1', lineErrors);
+        Boolean validRuleUsed = PMTMatrix.isUsable(PMTOwnerRule__mdt.SObjectType, 'LegalDefault', new List<String>());
+        String warning = PMTMatrix.getConfigurationWarning();
+        System.assertEquals(null, noWarning, 'Every deployed record is valid: no warning');
+        System.assert(!invalidLineUsed && validRuleUsed, 'Only a record without errors is used');
+        System.assert(warning.contains(Schema.PMTFieldRuleLine__mdt.SObjectType.getDescribe().getLabel() + ' SC_Test_1 (') && warning.contains(PMTMatrix.PROJECT_ONLY_ERROR), 'The warning names the record and its errors: ' + warning);
+        PMTMatrix.invalidRecords = new List<String>();
         PMTMatrix screenMatrix = PMTMatrix.getForScreen();
         System.assert(screenMatrix === matrix, 'getForScreen() returns the matrix of the transaction');
-
-        // US-20194 V1.2: a line whose field is missing in the org is not used, and the PMT screens report it (custom label PMT_MissingFields)
-        String noWarning = PMTMatrix.getMissingFieldsMessage();
-        PMTMatrix.missingFieldLines = new List<String>{ 'RSKPFLiquidityManagementToolLMT (ProjectProductChild__c.LiquidityManagementToolLMT__c)' };
-        String missingFieldWarning = PMTMatrix.getMissingFieldsMessage();
-        System.assertEquals(null, noWarning, 'Every line field exists in this org: no warning');
-        System.assert(missingFieldWarning.contains('RSKPFLiquidityManagementToolLMT (ProjectProductChild__c.LiquidityManagementToolLMT__c)'), 'The warning names the line and its missing field: ' + missingFieldWarning);
-        PMTMatrix.missingFieldLines = new List<String>();
 
         // US-20194: ISIN__c is used by Legal (FR/IE + FCP/ICAV/FCPR/FCPE), by OPS (GB/LU + OEIC/SICAV), by nobody otherwise
         PMTMatrix frFcpMatrix = PMTMatrix.forProject(new ProjectProduct__c(DomiciledIn__c = 'FR', LegalForm__c = 'FCP'));
