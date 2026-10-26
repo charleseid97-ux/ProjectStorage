@@ -21,6 +21,22 @@ public class ProjectProductBatchUtilities {
             newNarrative.add(investmentObjectiveNarrative);
         }
         
+        // Initialise la narrative CCI à partir du projet PMT.
+        if (String.isNotBlank(projectProduct.CCIInvestmentObjective__c)) {
+            Narrative__c cciInvestmentObjectiveNarrative = new Narrative__c(
+                Name = 'Investment Objective CCI',
+                RecordTypeId = recordTypeId,
+                Narrative_Scope__c = scope,
+                Type__c = 'Investment Objective',
+                SubType__c = 'CCI',
+                Language__c = language,
+                Product__c = productId,
+                Content__c = projectProduct.CCIInvestmentObjective__c,
+                StartDate__c = System.today()
+            );
+            newNarrative.add(cciInvestmentObjectiveNarrative);
+        }
+
         if (investmentStrategy != '') {
             Narrative__c investmentStrategyNarrative = new Narrative__c(Name = 'Investment Strategy Description', RecordTypeId = recordTypeId, Narrative_Scope__c = scope,
                                                                         Type__c = 'Investment Strategy', SubType__c = 'Description', Language__c = language, 

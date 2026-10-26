@@ -260,6 +260,7 @@ public class ProjectProductBatchController {
             }
 
             Map<Id, String> mapInvObj = new Map<Id, String>();
+            Map<Id, String> mapCCIInvObj = new Map<Id, String>();
             Map<Id, String> mapRisk = new Map<Id, String>();
             Map<Id, String> mapIntendedRetail = new Map<Id, String>();
             Map<Id, String> mapReasonForRHP = new Map<Id, String>();
@@ -280,6 +281,7 @@ public class ProjectProductBatchController {
                     productsToUpdate,
                     shareclassesToUpdate,
                     mapInvObj,
+                    mapCCIInvObj,
                     mapRisk,
                     mapIntendedRetail,
                     mapReasonForRHP,
@@ -315,6 +317,7 @@ public class ProjectProductBatchController {
 
             upsertProductNarratives(
                 mapInvObj,
+                mapCCIInvObj,
                 mapRisk,
                 mapIntendedRetail,
                 mapReasonForRHP,
@@ -537,6 +540,7 @@ public class ProjectProductBatchController {
         List<Product__c> productsToUpdate,
         List<Share_Class__c> shareclassesToUpdate,
         Map<Id, String> mapInvObj,
+        Map<Id, String> mapCCIInvObj,
         Map<Id, String> mapRisk,
         Map<Id, String> mapIntendedRetail,
         Map<Id, String> mapReasonForRHP,
@@ -562,6 +566,7 @@ public class ProjectProductBatchController {
             prodId,
             fieldsToModify,
             mapInvObj,
+            mapCCIInvObj,
             mapRisk,
             mapIntendedRetail,
             mapReasonForRHP
@@ -610,12 +615,18 @@ public class ProjectProductBatchController {
         Id prodId,
         List<String> fieldsToModify,
         Map<Id, String> mapInvObj,
+        Map<Id, String> mapCCIInvObj,
         Map<Id, String> mapRisk,
         Map<Id, String> mapIntendedRetail,
         Map<Id, String> mapReasonForRHP
     ) {
         if (fieldsToModify.contains('InvestmentObjective__c')) {
             mapInvObj.put(prodId, ProjectProductBatchUtilities.getContentForField(pp, 'InvestmentObjective__c'));
+        }
+
+        // Prépare le contenu de la narrative CCI lorsque le champ est modifié.
+        if (fieldsToModify.contains('CCIInvestmentObjective__c')) {
+            mapCCIInvObj.put(prodId, ProjectProductBatchUtilities.getContentForField(pp, 'CCIInvestmentObjective__c'));
         }
 
         if (fieldsToModify.contains('RiskAssociated__c')) {
@@ -831,6 +842,7 @@ public class ProjectProductBatchController {
 
     private static void upsertProductNarratives(
         Map<Id, String> mapInvObj,
+        Map<Id, String> mapCCIInvObj,
         Map<Id, String> mapRisk,
         Map<Id, String> mapIntendedRetail,
         Map<Id, String> mapReasonForRHP,
@@ -839,6 +851,7 @@ public class ProjectProductBatchController {
     ) {
         Set<Id> prodIdsForNarratives = new Set<Id>();
         prodIdsForNarratives.addAll(mapInvObj.keySet());
+        prodIdsForNarratives.addAll(mapCCIInvObj.keySet());
         prodIdsForNarratives.addAll(mapRisk.keySet());
         prodIdsForNarratives.addAll(mapIntendedRetail.keySet());
         prodIdsForNarratives.addAll(mapReasonForRHP.keySet());
@@ -858,6 +871,7 @@ public class ProjectProductBatchController {
             WHERE Product__c IN :prodIdsForNarratives
             AND (
                    (Type__c = 'Investment Objective' AND SubType__c = 'PRIIPS')
+                OR (Type__c = 'Investment Objective' AND SubType__c = 'CCI')
                 OR (Type__c = 'Risk' AND SubType__c = 'Main Risk of the Fund')
                 OR (Type__c = :TYPE_PRIIPS AND SubType__c = 'INTENDED_RETAIL_INVESTOR')
                 OR (Type__c = :TYPE_PRIIPS AND SubType__c = 'REASON_FOR_PHP')
@@ -881,6 +895,18 @@ public class ProjectProductBatchController {
             'Investment Objective',
             'PRIIPS',
             'Investment Objective PRIIPS',
+            narrativeRecordTypeId,
+            debugInformation
+        ));
+
+        // Crée ou met à jour la narrative CCI sans créer de doublon.
+        narrativesToUpsert.addAll(ProjectProductBatchUtilities.buildNarrativesForField(
+            mapCCIInvObj,
+            languageByProductId,
+            existingByKey,
+            'Investment Objective',
+            'CCI',
+            'Investment Objective CCI',
             narrativeRecordTypeId,
             debugInformation
         ));
