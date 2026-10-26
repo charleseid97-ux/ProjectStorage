@@ -286,6 +286,14 @@ public with sharing class VFC16_SequantisGenerateDraft {
                 continue;
             }
 
+            // Ignore le mapping si le champ configuré n'existe pas sur l'objet source.
+            Map<String, Schema.SObjectField> sourceFields =
+                sourceRecord.getSObjectType().getDescribe().fields.getMap();
+
+            if (!sourceFields.containsKey(mapping.SourceField__c)) {
+                continue;
+            }
+
             Object value = sourceRecord.get(mapping.SourceField__c);
 
             value = transformMappingValue(value, mapping.Transformation__c);
