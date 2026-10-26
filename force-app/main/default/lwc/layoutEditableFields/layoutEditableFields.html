@@ -29,7 +29,7 @@
                             <template for:each={filteredSections} for:item="section">
                                 <div key={section.id} class="slds-section slds-is-open">
                                     <h3 class="slds-section__title slds-theme_shade">
-                                        <button aria-controls={section.id} aria-expanded="true"
+                                        <button aria-controls={section.editId} aria-expanded="true"
                                             class="slds-button slds-section__title-action" onclick={handleSectionToggle}
                                             data-section-id={section.id}>
                                             <lightning-icon icon-name="utility:switch" size="x-small"
@@ -41,7 +41,7 @@
                                         </button>
                                     </h3>
 
-                                    <div aria-hidden="false" class="slds-section__content" id={section.id}>
+                                    <div aria-hidden="false" class="slds-section__content" id={section.editId}>
                                         <div class="field-grid slds-p-around_medium">
                                             <template for:each={section.fields} for:item="field">
                                                 <template if:true={field.isEditable}>

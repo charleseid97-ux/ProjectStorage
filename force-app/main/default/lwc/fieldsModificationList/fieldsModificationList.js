@@ -222,7 +222,7 @@ export default class FieldModificationList extends NavigationMixin(LightningElem
     
         const recordId = this.selectedRow.childRecordId;
         const fieldApiName = this.selectedRow.fieldApiName;
-        var newValue = fields[fieldApiName];
+        const newValue = fields[fieldApiName];
         const objectApiName = this.objectApiName; // 'ProjectProductChild__c' ou 'ProjectShareclassChild__c'
         if (newValue.includes('%')) {
             newValue.replace('%', '');

@@ -3,9 +3,9 @@
  *                  type, its editability/modification conditions, and the fields of a team's screen (getFieldStates, US-20194 V1.2):
  *                  the team's PMT lines at the record's stage whose condition applies, required from the line, editable with the
  *                  team's custom permission.
- * @lastModifiedBy Charles EID   [24-10-26]
+ * @lastModifiedBy Charles EID   [26-10-26]
  * @testClass PageLayoutControllerTest
- * @coverage 97%   [24-10-26]
+ * @coverage 97%   [26-10-26]
  ────────────────────────────────────── */
 public without sharing class PageLayoutController {
 
@@ -149,8 +149,8 @@ public without sharing class PageLayoutController {
             return recordTypeId;
         }
         catch (Exception e) {
-            System.debug('❌ Error fetching user permission set: ' + e.getMessage());
-            return '012000000000000AAA'; // If the record has no RecordTypeId, get the Master Record Type Id
+            System.debug('❌ Error fetching the record type: ' + e.getMessage());
+            return System.Label.MasterRecordTypeId; // If the record has no RecordTypeId, get the Master Record Type Id (the same in every org)
         }
     }
 
