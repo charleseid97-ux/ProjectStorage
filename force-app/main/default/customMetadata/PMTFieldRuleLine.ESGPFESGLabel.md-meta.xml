@@ -15,6 +15,10 @@
         <value xsi:type="xsd:string">FundESGLabel</value>
     </values>
     <values>
+        <field>IsActive__c</field>
+        <value xsi:type="xsd:boolean">true</value>
+    </values>
+    <values>
         <field>RequiredCondition__c</field>
         <value xsi:type="xsd:string">(ISPICKVAL(ProjectProduct__c.SFDRcategory__c, &apos;8&apos;) || ISPICKVAL(ProjectProduct__c.SFDRcategory__c, &apos;9&apos;)) &amp;&amp; ISPICKVAL(ProjectProduct__c.ESGLabelForeseen__c, &apos;True&apos;)</value>
     </values>

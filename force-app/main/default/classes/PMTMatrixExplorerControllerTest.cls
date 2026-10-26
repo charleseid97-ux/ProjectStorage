@@ -60,6 +60,10 @@ private class PMTMatrixExplorerControllerTest {
         System.assertEquals(PMTMatrixExplorerController.CONDITION_SPLIT, PMTMatrixExplorerController.getSharingStatus(new List<PMTMatrixExplorerController.Line>{ legalConditionalLine, opsConditionalLine }, teamByName), 'Every line has a condition: condition split');
         System.assertEquals(PMTMatrixExplorerController.SHARED, PMTMatrixExplorerController.getSharingStatus(new List<PMTMatrixExplorerController.Line>{ legalConditionalLine, opsLine }, teamByName), 'OPS always uses the field: shared');
         System.assertEquals(PMTMatrixExplorerController.SHARED, PMTMatrixExplorerController.getSharingStatus(new List<PMTMatrixExplorerController.Line>{ isLine, psLine, opsLine }, teamByName), 'The most constraining pair of teams wins');
+        PMTMatrixExplorerController.Line inactiveOpsLine = buildLine('OPS', 'Optional', null, null);
+        inactiveOpsLine.isActive = false;
+        System.assertEquals(PMTMatrixExplorerController.SINGLE, PMTMatrixExplorerController.getSharingStatus(new List<PMTMatrixExplorerController.Line>{ legalConditionalLine, inactiveOpsLine }, teamByName), 'US-20194 V1.5: an inactive line is left out of the sharing status');
+        System.assertEquals(PMTMatrixExplorerController.UNUSED, PMTMatrixExplorerController.getSharingStatus(new List<PMTMatrixExplorerController.Line>{ inactiveOpsLine }, teamByName), 'Only inactive lines: unused');
 
         // 2. Condition__c errors on a Fund line: compilation error, share class field read at project level
         System.assertEquals(null, legalConditionalLine.conditionError, 'A valid condition has no error');
@@ -77,7 +81,7 @@ private class PMTMatrixExplorerControllerTest {
 
     // Fund line of a team at the Proposal stage, from an in-memory PMTFieldRuleLine__mdt record
     private static PMTMatrixExplorerController.Line buildLine(String team, String requirement, String condition, String requiredCondition) {
-        PMTFieldRuleLine__mdt record = new PMTFieldRuleLine__mdt(DeveloperName = team + requirement, Requirement__c = requirement, Condition__c = condition, RequiredCondition__c = requiredCondition);
+        PMTFieldRuleLine__mdt record = new PMTFieldRuleLine__mdt(DeveloperName = team + requirement, Requirement__c = requirement, Condition__c = condition, RequiredCondition__c = requiredCondition, IsActive__c = true);
         return new PMTMatrixExplorerController.Line(record, team, 'Proposal', true);
     }
 }

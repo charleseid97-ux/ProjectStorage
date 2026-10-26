@@ -247,6 +247,12 @@ button.status {
     color: #5c5c5c;
 }
 
+/* US-20194 V1.5: line switched off (IsActive__c unticked) */
+.inactive-badge {
+    background: #c9c9c9;
+    color: #3e3e3c;
+}
+
 .requirement_required {
     font-weight: 700;
     color: #181818;

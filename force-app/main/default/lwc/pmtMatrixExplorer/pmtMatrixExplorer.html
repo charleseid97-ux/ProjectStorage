@@ -134,7 +134,10 @@
                                                             <tbody>
                                                                 <template for:each={row.details} for:item="line">
                                                                     <tr key={line.key}>
-                                                                        <td><a href={line.setupUrl} target="_blank">{line.developerName}</a></td>
+                                                                        <td>
+                                                                            <a href={line.setupUrl} target="_blank">{line.developerName}</a>
+                                                                            <template lwc:if={line.isInactive}><span class="slds-badge slds-m-left_x-small inactive-badge">Inactive</span></template>
+                                                                        </td>
                                                                         <td>{line.team}</td>
                                                                         <td>{line.stage}</td>
                                                                         <td>{line.requirement}</td>
@@ -222,6 +225,7 @@
                                                             <td>{row.level}</td>
                                                             <td class="condition-cell">
                                                                 <span class={row.requirementClass}>{row.requirement}</span>
+                                                                <template lwc:if={row.isInactive}><span class="slds-badge slds-m-left_x-small inactive-badge">Inactive</span></template>
                                                                 <template lwc:if={row.requiredCondition}>
                                                                     <p class="slds-text-color_weak">Required when</p>
                                                                     <code class="condition">{row.requiredCondition}</code>

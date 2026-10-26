@@ -15,6 +15,10 @@
         <value xsi:type="xsd:string">SCPerformanceFeeEPTKID</value>
     </values>
     <values>
+        <field>IsActive__c</field>
+        <value xsi:type="xsd:boolean">true</value>
+    </values>
+    <values>
         <field>RequiredCondition__c</field>
         <value xsi:type="xsd:string">NOT(ISPICKVAL(ProjectProduct__c.LegalForm__c, &apos;OEIC&apos;)) &amp;&amp; ISPICKVAL(ProjectShareclass__c.HasPerfFees__c, &apos;True&apos;)</value>
     </values>

@@ -72,6 +72,9 @@ private class PMTMatrixTest {
             if (fund && requiredCondition != null) System.assert(!requiredCondition.readsShareClass(), line.DeveloperName + ': a Fund field required condition reads only ProjectProduct__c fields');
         }
         System.assert(missingFields.isEmpty(), 'Line fields missing on the stage objects: ' + missingFields);
+        // US-20194 V1.5: an inactive line (IsActive__c unticked) is not part of the matrix
+        List<PMTFieldRuleLine__mdt> activeLines = [SELECT Id FROM PMTFieldRuleLine__mdt WHERE IsActive__c = true];
+        System.assertEquals(activeLines.size(), matrix.lines.size() + PMTMatrix.missingFieldLines.size(), 'The matrix holds the active lines (except those whose field is missing in the org)');
         for (PMTOwnerRule__mdt ownerRule : [SELECT DeveloperName, Condition__c FROM PMTOwnerRule__mdt]) {
             PMTCondition condition = PMTCondition.compile(ownerRule.Condition__c);
             if (condition != null) System.assert(!condition.readsShareClass(), ownerRule.DeveloperName + ': an owner rule condition reads only ProjectProduct__c fields');

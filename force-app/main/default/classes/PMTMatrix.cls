@@ -12,6 +12,7 @@
  *              A team and stage without an applicable line has no fields there: getRule() then returns an empty rule, never null.
  *              US-20194 V1.2: a Conditional line is required when its RequiredCondition__c is true, evaluated only once its Condition__c applies;
  *                  on a modification project the conditions read the fund's real values (withLiveValues); getTeamFieldStates() feeds the team screens.
+ *              US-20194 V1.5: an inactive line (IsActive__c unticked) is not read, so it is used nowhere.
  * @author Charles EID
  * @lastModifiedBy Charles EID   [23-10-26]
  * @testClass PMTMatrixTest
@@ -72,7 +73,9 @@ public without sharing class PMTMatrix {
         missingFieldLines = new List<String>();
         List<Line> lines = new List<Line>();
         for (PMTFieldRuleLine__mdt record : [SELECT DeveloperName, FieldRule__r.DeveloperName, Field__r.Object__c, Field__r.FieldApiName__c, Requirement__c, Condition__c, RequiredCondition__c
-                                             FROM PMTFieldRuleLine__mdt ORDER BY DeveloperName]) {
+                                             FROM PMTFieldRuleLine__mdt
+                                             WHERE IsActive__c = true
+                                             ORDER BY DeveloperName]) {
             Boolean fund = record.Field__r.Object__c == FUND_OBJECT;
             if (!(fund ? fundStageFields : shareClassStageFields).containsKey(record.Field__r.FieldApiName__c)) {
                 missingFieldLines.add(record.DeveloperName + ' (' + (fund ? 'ProjectProductChild__c.' : 'ProjectShareclassChild__c.') + record.Field__r.FieldApiName__c + ')');
