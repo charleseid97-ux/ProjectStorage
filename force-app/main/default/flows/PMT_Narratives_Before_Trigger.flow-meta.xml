@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>67.0</apiVersion>
+    <areMetricsLoggedToDataCloud>false</areMetricsLoggedToDataCloud>
+    <environments>Default</environments>
+    <interviewLabel>PMT - Narratives Before Trigger {!$Flow.CurrentDateTime}</interviewLabel>
+    <label>PMT - Narratives Before Trigger</label>
+    <processMetadataValues>
+        <name>BuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>CanvasMode</name>
+        <value>
+            <stringValue>AUTO_LAYOUT_CANVAS</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>OriginBuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processType>AutoLaunchedFlow</processType>
+    <recordUpdates>
+        <name>Update_Scope</name>
+        <label>Update Scope</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <inputAssignments>
+            <field>Narrative_Scope__c</field>
+            <value>
+                <stringValue>Product</stringValue>
+            </value>
+        </inputAssignments>
+        <inputReference>$Record</inputReference>
+    </recordUpdates>
+    <start>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <connector>
+            <targetReference>Update_Scope</targetReference>
+        </connector>
+        <filterLogic>1 OR (2 AND NOT (3 OR 4 OR 5 OR 6 OR 7))</filterLogic>
+        <filters>
+            <field>Type__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <stringValue>Marketing</stringValue>
+            </value>
+        </filters>
+        <filters>
+            <field>Type__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <stringValue>ESG</stringValue>
+            </value>
+        </filters>
+        <filters>
+            <field>SubType__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <stringValue>United Nations Sustainable Development Goals (sdgs)</stringValue>
+            </value>
+        </filters>
+        <filters>
+            <field>SubType__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <stringValue>Green, Social, Sustainable and Sustainability-Linked-Bonds</stringValue>
+            </value>
+        </filters>
+        <filters>
+            <field>SubType__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <stringValue>ESG Sovereign Score</stringValue>
+            </value>
+        </filters>
+        <filters>
+            <field>SubType__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <stringValue>Carbon Emissions Figures</stringValue>
+            </value>
+        </filters>
+        <filters>
+            <field>SubType__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <stringValue>Customer and Employee Satisfaction Model</stringValue>
+            </value>
+        </filters>
+        <object>Narrative__c</object>
+        <recordTriggerType>CreateAndUpdate</recordTriggerType>
+        <triggerType>RecordBeforeSave</triggerType>
+    </start>
+    <status>Active</status>
+</Flow>
