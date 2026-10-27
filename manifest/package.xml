@@ -2,6 +2,7 @@
 <Package xmlns="http://soap.sforce.com/2006/04/metadata">
     <types>
         <members>ContactTH</members>
+        <members>EmailService</members>
         <members>LyytiDeletionAlertService</members>
         <members>LyytiDeletionAlertServiceTest</members>
         <members>SM016_CampaignMemberTriggerHandler</members>
