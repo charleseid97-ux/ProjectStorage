@@ -20,8 +20,8 @@ public class SM017_LeadTriggerHandler implements ITriggerHandler {
 
     public void BeforeInsert(List<SObject> newItems) {
         if (PAD.canTrigger('LeadBeforeInsert')) {
-            boolean isWebsiteUser = UserInfo.getUserId() == Label.WebsiteProspaceId;
-            if (!Pad.SKIP_STRIGGER_MAP.containsKey('initializeNewLeadFromWebSite') && isWebsiteUser) SM026_Lead_Website.initializeNewLeadFromWebSite((List<Lead>) newItems);
+            //boolean isWebsiteUser = UserInfo.getUserId() == Label.WebsiteProspaceId;
+            //if (!Pad.SKIP_STRIGGER_MAP.containsKey('initializeNewLeadFromWebSite') && isWebsiteUser) SM026_Lead_Website.initializeNewLeadFromWebSite((List<Lead>) newItems);
             if (!Pad.SKIP_STRIGGER_MAP.containsKey('updateTechnicalId')) updateTechnicalId((List<Lead>) newItems);
             UtilitiesSObject.initPreferenceCenter(newItems);
         }
@@ -29,9 +29,9 @@ public class SM017_LeadTriggerHandler implements ITriggerHandler {
 
     public void BeforeUpdate(Map<Id, SObject> newItems, Map<Id, SObject> oldItems) {
         if (PAD.canTrigger('LeadBeforeUpdate')) {
-            boolean isWebsiteUser = UserInfo.getUserId() == Label.WebsiteProspaceId;
-            if (!Pad.SKIP_STRIGGER_MAP.containsKey('updateLeadOwner') && !isWebsiteUser) SM026_Lead_Website.updateLeadOwner((Map<Id, Lead>) newItems, (Map<Id, Lead>) oldItems);
-            if (!Pad.SKIP_STRIGGER_MAP.containsKey('initializeExistingLeadFromWebSite') && isWebsiteUser) SM026_Lead_Website.initializeExistingLeadFromWebSite((Map<Id, Lead>) newItems, (Map<Id, Lead>) oldItems);
+            // Boolean isWebsiteUser = UserInfo.getUserId() == Label.WebsiteProspaceId;
+            // if (!Pad.SKIP_STRIGGER_MAP.containsKey('updateLeadOwner') && !isWebsiteUser) SM026_Lead_Website.updateLeadOwner((Map<Id, Lead>) newItems, (Map<Id, Lead>) oldItems);
+            // if (!Pad.SKIP_STRIGGER_MAP.containsKey('initializeExistingLeadFromWebSite') && isWebsiteUser) SM026_Lead_Website.initializeExistingLeadFromWebSite((Map<Id, Lead>) newItems, (Map<Id, Lead>) oldItems);
 
             //Check the preference center and hasoptoutofemail fiels
             //Some fields may be checked or unchecked based on other fields changes
@@ -45,11 +45,11 @@ public class SM017_LeadTriggerHandler implements ITriggerHandler {
 
     public void AfterUpdate(Map<Id, SObject> newItems, Map<Id, SObject> oldItems) {
         if (PAD.canTrigger('LeadAfterUpdate')) {
-            boolean isNotWebsiteUser = UserInfo.getUserId() != Label.WebsiteProspaceId;
-            if (!Pad.SKIP_STRIGGER_MAP.containsKey('sendAsyncWebsiteLead') && isNotWebsiteUser) SM026_Lead_Website.sendAsyncWebsiteLead((Map<Id, Lead>) newItems, (Map<Id, Lead>) oldItems);
-            if (!Pad.SKIP_STRIGGER_MAP.containsKey('processConvertedLead')) SM026_Lead_Website.processConvertedLead((Map<Id, Lead>) newItems, (Map<Id, Lead>) oldItems);
-            //if (!Pad.SKIP_STRIGGER_MAP.containsKey('updateCampaignMembersForLead')) updateCampaignMembersForLead((List<Lead>) newItems.values());
-            if (!Pad.SKIP_STRIGGER_MAP.containsKey('deactivateLeadAlerts')) SM026_Lead_Website.deactivateLeadAlerts((List<Lead>) newItems.values(), (Map<Id, Lead>) oldItems);
+            // Boolean isNotWebsiteUser = UserInfo.getUserId() != Label.WebsiteProspaceId;
+            // if (!Pad.SKIP_STRIGGER_MAP.containsKey('sendAsyncWebsiteLead') && isNotWebsiteUser) SM026_Lead_Website.sendAsyncWebsiteLead((Map<Id, Lead>) newItems, (Map<Id, Lead>) oldItems);
+            // if (!Pad.SKIP_STRIGGER_MAP.containsKey('processConvertedLead')) SM026_Lead_Website.processConvertedLead((Map<Id, Lead>) newItems, (Map<Id, Lead>) oldItems);
+            // if (!Pad.SKIP_STRIGGER_MAP.containsKey('updateCampaignMembersForLead')) updateCampaignMembersForLead((List<Lead>) newItems.values());
+            // if (!Pad.SKIP_STRIGGER_MAP.containsKey('deactivateLeadAlerts')) SM026_Lead_Website.deactivateLeadAlerts((List<Lead>) newItems.values(), (Map<Id, Lead>) oldItems);
         }
     }
 

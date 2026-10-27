@@ -71,6 +71,7 @@ export default class SearchSubscriptionProduct extends LightningElement {
   countryCode = "";
   techContactId = "";
   refreshRequired = null;
+  websiteIdsWithoutShareClass = ['100', '101'];
   @track mapFundCodeName;
   @track initGroupedData = [];
   @track selectedProducts = {}; //to save only new selected products
@@ -78,7 +79,8 @@ export default class SearchSubscriptionProduct extends LightningElement {
   @track existingSubscriptions = {};
   @track newSubscriptions = [];
   @track results; //product tree Strat/Fund/shareClass
-  @track mapAlertTypes = {};
+  @track mapAlertTypeMetadataRecords = {};
+  @track mapAlertTypeRecords = {};
   @track errors;
   @track wiredResult = [];
   @track resultsFunds = [];
@@ -163,14 +165,24 @@ export default class SearchSubscriptionProduct extends LightningElement {
   alertsMeta({ data, error }) {
     if (data) {
       let mapal = {};
-      data.forEach((alert) => {
+      let mapRecords = {};
+
+      data.metadataRecords.forEach((alert) => {
         mapal[alert.LWCLabel__c.toLowerCase()] = {
           label: alert.MasterLabel,
           id: alert.DeveloperName,
           webId: alert.WebsiteId__c
         };
       });
-      this.mapAlertTypes = mapal;
+
+      data.alertTypeRecords.forEach((alert) => {
+        if (alert.TECH_WebSiteID__c) {
+          mapRecords[alert.TECH_WebSiteID__c] = alert.Id;
+        }
+      });
+
+      this.mapAlertTypeMetadataRecords = mapal;
+      this.mapAlertTypeRecords = mapRecords;
     } else if (error) {
       console.log(error);
     }
@@ -246,11 +258,7 @@ export default class SearchSubscriptionProduct extends LightningElement {
         if (o.WebCommunications__r) {
           o.WebCommunications__r.forEach((alert) => {
             //check existing daily nav sub
-            if (
-              (regD.test(alert.AlertType__c) ||
-                regD.test(alert.AlertTypeRecord__r?.Name)) &&
-              !isDaily
-            ) {
+            if ((regD.test(alert.AlertTypeRecord__r.TECH_WebSiteID__c) || regD.test(alert.AlertTypeRecord__r?.Name)) && !isDaily) {
               ischecked = alert.IsActive__c || ischecked;
               alerts[o.Id].daily = {
                 label: "Daily",
@@ -260,11 +268,7 @@ export default class SearchSubscriptionProduct extends LightningElement {
               };
               isDaily = true;
             }
-            if (
-              (regW.test(alert.AlertType__c) ||
-                regW.test(alert.AlertTypeRecord__r?.Name)) &&
-              !isWeekly
-            ) {
+            if ((regW.test(alert.AlertTypeRecord__r.TECH_WebSiteID__c) || regW.test(alert.AlertTypeRecord__r?.Name)) && !isWeekly) {
               ischecked = alert.IsActive__c || ischecked;
               console.log("ischecked", ischecked);
               console.log("isWeekly", isWeekly);
@@ -276,11 +280,7 @@ export default class SearchSubscriptionProduct extends LightningElement {
               };
               isWeekly = true;
             }
-            if (
-              (regM.test(alert.AlertType__c) ||
-                regM.test(alert.AlertTypeRecord__r?.Name)) &&
-              !isMonthly
-            ) {
+            if ((regM.test(alert.AlertTypeRecord__r.TECH_WebSiteID__c) || regM.test(alert.AlertTypeRecord__r?.Name)) && !isMonthly) {
               ischecked = alert.IsActive__c || ischecked;
               alerts[o.Id].monthly = {
                 label: "Monthly",
@@ -290,11 +290,7 @@ export default class SearchSubscriptionProduct extends LightningElement {
               };
               isMonthly = true;
             }
-            if (
-              (regPerf.test(alert.AlertType__c) ||
-              regPerf.test(alert.AlertTypeRecord__r?.Name)) &&
-              !isPerf
-            ) {
+            if ((regPerf.test(alert.AlertTypeRecord__r.TECH_WebSiteID__c) || regPerf.test(alert.AlertTypeRecord__r?.Name)) && !isPerf) {
               ischecked = alert.IsActive__c || ischecked;
               alerts[o.Id].performance = {
                 label: "Performance",
@@ -304,11 +300,7 @@ export default class SearchSubscriptionProduct extends LightningElement {
               };
               isPerf = true;
             }
-            if (
-              (regKid.test(alert.AlertType__c) ||
-              regKid.test(alert.AlertTypeRecord__r?.Name)) &&
-              !isKidSubsc
-            ) {
+            if ((regKid.test(alert.AlertTypeRecord__r.TECH_WebSiteID__c) ||  regKid.test(alert.AlertTypeRecord__r?.Name)) && !isKidSubsc) {
               ischecked = alert.IsActive__c || ischecked;
               alerts[o.Id].kid = {
                 label: "KID",
@@ -419,11 +411,7 @@ export default class SearchSubscriptionProduct extends LightningElement {
         if (o.WebCommunications__r) {
           o.WebCommunications__r.forEach((alert) => {
             //check existing Fund Manager's Letter
-            if (
-              (regF.test(alert.AlertType__c) ||
-              regF.test(alert.AlertTypeRecord__r?.Name)) &&
-              !isF
-            ) {
+            if ((regF.test(alert.AlertTypeRecord__r.TECH_WebSiteID__c) || regF.test(alert.AlertTypeRecord__r?.Name)) && !isF) {
               console.log('fund')
               ischecked = alert.IsActive__c || ischecked;
               alerts[o.Id].fund = {
@@ -434,11 +422,7 @@ export default class SearchSubscriptionProduct extends LightningElement {
               };
               isF = true;
             }
-            if (
-              (regH.test(alert.AlertType__c) ||
-              regH.test(alert.AlertTypeRecord__r?.Name)) &&
-              !isH
-            ) {
+            if ((regH.test(alert.AlertTypeRecord__r.TECH_WebSiteID__c) || regH.test(alert.AlertTypeRecord__r?.Name)) && !isH) {
               console.log('holdings :'+alert.IsActive__c)
               ischecked = alert.IsActive__c || ischecked;
               alerts[o.Id].holdings = {
@@ -611,40 +595,33 @@ export default class SearchSubscriptionProduct extends LightningElement {
   }
 
   createProspaceAlert(prod) {
-    console.log('here')
     let prospaceAlerts = [];
     let alerts = prod.alertType;
     for (let key in alerts) {
       if (alerts[key] && alerts[key].checked !== alerts[key].active) {
-        console.log('alerts[key]:'+alerts[key].checked)
+        const webId = this.mapAlertTypeMetadataRecords[key].webId;
+        const excludeShareClass = this.websiteIdsWithoutShareClass.includes(webId);
+
         if (alerts[key].prospId !== "") {
-          console.log('prospId not null :'+alerts[key].prospId)
-          console.log('prod.shareClass :'+prod.shareClass)
           prospaceAlerts.push({
-            ShareClass__c: prod.shareClass,
+            ...(!excludeShareClass && { ShareClass__c: prod.shareClass }),
             Fund__c: prod.fund,
             Contact__c: this.recordId,
-            AlertType__c: this.mapAlertTypes[key].webId,
+            AlertTypeRecord__c: this.mapAlertTypeRecords[webId],
             IsActive__c: alerts[key].checked,
             Id: alerts[key].prospId
           });
         } else {
-          console.log('prospId null :'+alerts[key].prospId)
-          console.log('prod.shareClass :'+prod.shareClass)
-          console.log('prod.Fund__c :'+prod.fund)
-          console.log('alert type :'+this.mapAlertTypes[key].webId)
-          console.log('checked :'+alerts[key].checked)
           prospaceAlerts.push({
-            ShareClass__c: prod.shareClass,
+            ...(!excludeShareClass && { ShareClass__c: prod.shareClass }),
             Fund__c: prod.fund,
             Contact__c: this.recordId,
-            AlertType__c: this.mapAlertTypes[key].webId,
+            AlertTypeRecord__c: this.mapAlertTypeRecords[webId],
             IsActive__c: alerts[key].checked
           });
         }
       }
     }
-    console.log('here 1:'+prospaceAlerts)
     return prospaceAlerts;
   }
 

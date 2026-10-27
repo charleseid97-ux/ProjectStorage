@@ -19,12 +19,12 @@ private class BATCH025_DataRecoveryProspaceTest {
 
         List<Web_Communication__c> webComList = new List<Web_Communication__c>();
         Web_Communication__c webOne = new Web_Communication__c(
-            AlertType__c = '1',
+            //AlertType__c = '1',
             isActive__c = true
         );
         webComList.add(webOne);
         Web_Communication__c webTwo = new Web_Communication__c(
-            AlertType__c = 'daily_nav',
+            //AlertType__c = 'daily_nav',
             isActive__c = true
         );
         webComList.add(webTwo);
