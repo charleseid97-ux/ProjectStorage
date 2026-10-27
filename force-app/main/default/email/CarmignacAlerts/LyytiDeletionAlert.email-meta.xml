@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <description>Alert listing the Lyyti participants deleted in Salesforce (LyytiDeletionAlertService). Use {_Datatable_} to inject the HTML table of deleted members.</description>
+    <encodingKey>UTF-8</encodingKey>
+    <letterhead>Carmignac</letterhead>
+    <name>Lyyti Deletion Alert</name>
+    <style>freeForm</style>
+    <subject>A campaign member has been deleted. Please remove them in Lyyti</subject>
+    <textOnly>Campaign members with a Lyyti Id have been deleted in Salesforce. Please view this email in HTML format to see the list, and remove them in Lyyti.</textOnly>
+    <type>html</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>
