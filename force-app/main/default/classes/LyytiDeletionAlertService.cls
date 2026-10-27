@@ -9,11 +9,13 @@
  *                    instead of deleting them, so it sends nothing.
  *              Routing: active LyytiDeletionAlert__mdt records by Campaign.Sales_Team__c (SalesTeam__c codes); the record
  *                  with a blank SalesTeam__c is the fallback for every other Sales Team and for campaigns without one.
- *                  One email per record, with its EmailTemplate__c, to its RecipientQueues__c members and RecipientEmails__c.
+ *                  One email per record, with its EmailTemplate__c, to its RecipientQueues__c members and RecipientEmails__c,
+ *                  sent from the default "No Reply" org-wide address (EmailService.resolveOrgWideEmailAddressId).
  *              Names come from Contact / Lead: a deleted CampaignMember's own FirstName, LastName, Email and CompanyOrAccount are empty.
  * @author Charles EID
  * @testClass LyytiDeletionAlertServiceTest
- * @coverage 98%   [26-10-26]
+ * @coverage TBD
+ * @lastModifiedBy Charles EID   [27-10-26]
  ────────────────────────────────────── */
 public without sharing class LyytiDeletionAlertService {
 
@@ -79,6 +81,7 @@ public without sharing class LyytiDeletionAlertService {
             templatesByName.put(template.DeveloperName, template);
         }
 
+        Id orgWideEmailAddressId = EmailService.resolveOrgWideEmailAddressId();
         List<Messaging.SingleEmailMessage> emails = new List<Messaging.SingleEmailMessage>();
         for (LyytiDeletionAlert__mdt alert : alertsByName.values()) {
             Set<String> toAddresses = splitValues(alert.RecipientEmails__c);
@@ -93,6 +96,7 @@ public without sharing class LyytiDeletionAlertService {
             mail.setSubject((template != null && String.isNotBlank(template.Subject)) ? template.Subject : DEFAULT_SUBJECT);
             mail.setToAddresses(new List<String>(toAddresses));
             mail.setHtmlBody(templateHtml.replace(DATATABLE, buildTableHtml(membersByAlert.get(alert.DeveloperName))));
+            if (orgWideEmailAddressId != null) mail.setOrgWideEmailAddressId(orgWideEmailAddressId);
             emails.add(mail);
         }
         if (emails.isEmpty()) return;
