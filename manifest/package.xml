@@ -2,108 +2,41 @@
 <Package xmlns="http://soap.sforce.com/2006/04/metadata">
 
     <types>
-        <members>EngagementScoreCalculator</members>
-        <members>EngagementScoringCoreTest</members>
-        <members>EngagementFundStrategyResolver</members>
-        <members>EngagementMeetingSignalBatch</members>
-        <members>EngagementNewsletterSignalBatch</members>
-        <members>EngagementScoringRuleService</members>
-        <members>EngagementSignalBatchLogService</members>
-        <members>EngagementSignalIngestionTest</members>
-        <members>EngagementSignalKeyService</members>
-        <members>EngagementSignalProvider</members>
-        <members>EngagementSignalReconciliationBatch</members>
-        <members>EngagementSignalRefreshService</members>
-        <members>EngagementSignalService</members>
-        <members>EngagementSubscriptionSignalBatch</members>
-        <members>EngagementWebinarSignalBatch</members>
-        <members>EngagementWebsiteSignalBatch</members>
-
-        <!-- Visualforce Controller -->
-        <members>EngagementHotLeadVFCtrl</members>
-
+        <members>ContactTH</members>
+        <members>LyytiDeletionAlertService</members>
+        <members>LyytiDeletionAlertServiceTest</members>
+        <members>SM016_CampaignMemberTriggerHandler</members>
+        <members>SM017_LeadTriggerHandler</members>
         <name>ApexClass</name>
     </types>
-
-    <!-- Visualforce -->
     <types>
-        <members>EngagementHotLeads</members>
-        <name>ApexPage</name>
-    </types>
-
-    <!-- Engagement Signal Rules -->
-    <types>
-        <members>EngagementSignalRule.WEB_VISIT</members>
-        <members>EngagementSignalRule.NEWSLETTER_CLICK</members>
-        <members>EngagementSignalRule.PROSPACE_SUBSCRIPTION</members>
-        <members>EngagementSignalRule.WEBINAR_ATTENDANCE</members>
-        <members>EngagementSignalRule.MEETING_PRODUCT_INTEREST</members>
-
-        <!-- Recency Rules -->
-        <members>EngagementRecencyRule.DAYS_0_10</members>
-        <members>EngagementRecencyRule.DAYS_11_30</members>
-        <members>EngagementRecencyRule.DAYS_31_60</members>
-        <members>EngagementRecencyRule.DAYS_61_90</members>
-        <members>EngagementRecencyRule.DAYS_91_180</members>
-
+        <members>LyytiDeletionAlert.BeneluxNordics</members>
+        <members>LyytiDeletionAlert.France</members>
+        <members>LyytiDeletionAlert.Other</members>
+        <members>LyytiDeletionAlert.SouthernEurope</members>
+        <members>LyytiDeletionAlert.SwitzerlandLiechtenstein</members>
+        <members>LyytiDeletionAlert.UKGermanyAustria</members>
         <name>CustomMetadata</name>
     </types>
-
-    <!-- Objects -->
     <types>
-        <members>Engagement_Signal__c</members>
-        <members>EngagementSignalRule__mdt</members>
-        <members>EngagementRecencyRule__mdt</members>
-        <name>CustomObject</name>
-    </types>
-
-    <!-- Engagement Signal Fields -->
-    <types>
-        <members>Engagement_Signal__c.BaseWeight__c</members>
-        <members>Engagement_Signal__c.Contact__c</members>
-        <members>Engagement_Signal__c.ExternalKey__c</members>
-        <members>Engagement_Signal__c.InteractionDate__c</members>
-        <members>Engagement_Signal__c.IsActive__c</members>
-        <members>Engagement_Signal__c.LastSeenRunId__c</members>
-        <members>Engagement_Signal__c.ObsoleteReason__c</members>
-        <members>Engagement_Signal__c.QualityValue__c</members>
-        <members>Engagement_Signal__c.RuleVersion__c</members>
-        <members>Engagement_Signal__c.SourceId__c</members>
-        <members>Engagement_Signal__c.SourceObject__c</members>
-        <members>Engagement_Signal__c.SourceType__c</members>
-        <members>Engagement_Signal__c.Strategy__c</members>
-
-        <!-- Signal Rule Metadata Fields -->
-        <members>EngagementSignalRule__mdt.Active__c</members>
-        <members>EngagementSignalRule__mdt.BaseWeight__c</members>
-        <members>EngagementSignalRule__mdt.CapPeriodDays__c</members>
-        <members>EngagementSignalRule__mdt.HighQualityBaseWeight__c</members>
-        <members>EngagementSignalRule__mdt.HighQualityThreshold__c</members>
-        <members>EngagementSignalRule__mdt.LookbackDays__c</members>
-        <members>EngagementSignalRule__mdt.MaxContributionPerPeriod__c</members>
-        <members>EngagementSignalRule__mdt.MinAttendanceRate__c</members>
-        <members>EngagementSignalRule__mdt.MinInterest__c</members>
-        <members>EngagementSignalRule__mdt.MinTimeSpentSeconds__c</members>
-        <members>EngagementSignalRule__mdt.RequireActiveSubscription__c</members>
-        <members>EngagementSignalRule__mdt.RequireContact__c</members>
-        <members>EngagementSignalRule__mdt.RequireStrategy__c</members>
-        <members>EngagementSignalRule__mdt.RuleVersion__c</members>
-        <members>EngagementSignalRule__mdt.SourceType__c</members>
-
-        <!-- Recency Rule Metadata Fields -->
-        <members>EngagementRecencyRule__mdt.Coefficient__c</members>
-        <members>EngagementRecencyRule__mdt.MaxDays__c</members>
-        <members>EngagementRecencyRule__mdt.MinDays__c</members>
-
+        <members>LyytiDeletionAlert__mdt.IsActive__c</members>
+        <members>LyytiDeletionAlert__mdt.EmailTemplate__c</members>
+        <members>LyytiDeletionAlert__mdt.RecipientEmails__c</members>
+        <members>LyytiDeletionAlert__mdt.RecipientQueues__c</members>
+        <members>LyytiDeletionAlert__mdt.SalesTeam__c</members>
         <name>CustomField</name>
     </types>
-
-    <!-- Permissions -->
     <types>
-        <members>Engagement_Scoring_Admin</members>
-        <name>PermissionSet</name>
+        <members>LyytiDeletionAlert__mdt</members>
+        <name>CustomObject</name>
     </types>
-
-    <version>65.0</version>
-
+    <types>
+        <members>CarmignacAlerts/LyytiDeletionAlert</members>
+        <name>EmailTemplate</name>
+    </types>
+    <types>
+        <members>LyytiUsers</members>
+        <name>Queue</name>
+    </types>
+    <version>64.0</version>
 </Package>
