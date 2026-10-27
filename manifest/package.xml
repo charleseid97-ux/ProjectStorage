@@ -3,6 +3,7 @@
 
     <types>
         <members>ContactTH</members>
+        <members>EmailService</members>
         <members>LyytiDeletionAlertService</members>
         <members>LyytiDeletionAlertServiceTest</members>
         <members>SM016_CampaignMemberTriggerHandler</members>
@@ -29,6 +30,10 @@
     <types>
         <members>LyytiDeletionAlert__mdt</members>
         <name>CustomObject</name>
+    </types>
+    <types>
+        <members>LyytiDeletionAlert__mdt-Lyyti Deletion Alert Layout</members>
+        <name>Layout</name>
     </types>
     <types>
         <members>CarmignacAlerts/LyytiDeletionAlert</members>
