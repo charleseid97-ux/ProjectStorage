@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>ObsoleteReason__c</fullName>
+    <description>Reason the signal was deactivated during reconciliation.</description>
+    <label>Obsolete Reason</label>
+    <length>255</length>
+    <type>Text</type>
+</CustomField>

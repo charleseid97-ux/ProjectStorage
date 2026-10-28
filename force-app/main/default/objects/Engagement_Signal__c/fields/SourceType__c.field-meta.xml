@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>SourceType__c</fullName>
+    <description>Normalized scoring source type, for example WEB_VISIT or WEBINAR_ATTENDANCE.</description>
+    <label>Source Type</label>
+    <length>80</length>
+    <type>Text</type>
+</CustomField>

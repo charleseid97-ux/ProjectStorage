@@ -1,0 +1,268 @@
+<apex:page controller="EngagementHotLeadVFCtrl"
+           showHeader="true"
+           sidebar="false"
+           standardStylesheets="false"
+           lightningStylesheets="true"
+           docType="html-5.0"
+           applyHtmlTag="true"
+           applyBodyTag="true">
+    <style>
+        :root {
+            --navy: #09244c;
+            --blue: #0b74de;
+            --blue-soft: #eaf4ff;
+            --text: #17324d;
+            --muted: #61758a;
+            --border: #dfe7ef;
+            --panel: #ffffff;
+            --surface: #f5f8fb;
+            --green: #1f9d72;
+            --orange: #ef9d30;
+            --purple: #7c55c7;
+            --gray: #8192a5;
+        }
+        body { margin: 0; background: #f4f7fa; color: var(--text); font-family: Arial, Helvetica, sans-serif; }
+        * { box-sizing: border-box; }
+        .hot-page { padding: 24px; max-width: 1600px; margin: 0 auto; }
+        .page-title { display: flex; justify-content: space-between; gap: 24px; align-items: flex-end; margin-bottom: 18px; }
+        .page-title h1 { color: var(--navy); font-size: 30px; line-height: 1.1; margin: 0 0 6px; font-weight: 750; }
+        .page-title p { color: var(--muted); font-size: 15px; margin: 0; }
+        .period-chip { background: #fff; border: 1px solid var(--border); border-radius: 10px; padding: 10px 14px; color: var(--text); white-space: nowrap; }
+        .layout { display: grid; grid-template-columns: minmax(430px, 42%) minmax(0, 58%); gap: 16px; align-items: start; }
+        .card { background: var(--panel); border: 1px solid var(--border); border-radius: 14px; overflow: hidden; }
+        .card-header { padding: 17px 18px; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; }
+        .card-header h2 { margin: 0; color: var(--navy); font-size: 18px; }
+        .ranking-table, .signal-table { width: 100%; border-collapse: collapse; }
+        .ranking-table th, .ranking-table td { padding: 11px 10px; border-bottom: 1px solid #e9eef3; text-align: left; vertical-align: middle; }
+        .ranking-table th { color: #4d6176; font-size: 12px; font-weight: 700; background: #fbfcfd; }
+        .ranking-table td { font-size: 13px; }
+        .ranking-table tr.selected td { background: #eaf4ff; }
+        .rank { width: 34px; text-align: center !important; color: var(--muted); }
+        .contact-cell { display: flex; gap: 9px; align-items: center; min-width: 150px; }
+        .avatar { width: 34px; height: 34px; border-radius: 50%; background: #e9f3ff; border: 1px solid #cfe4fb; color: var(--blue); display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 12px; flex: 0 0 auto; }
+        .contact-name { color: var(--navy); font-weight: 650; text-decoration: none; }
+        .contact-name:hover { text-decoration: underline; }
+        .small { color: var(--muted); font-size: 11px; margin-top: 2px; }
+        .score-pill { display: inline-block; min-width: 46px; padding: 6px 8px; border-radius: 9px; background: #dcebfb; color: #0967c8; font-size: 16px; font-weight: 800; text-align: center; }
+        .select-link { text-decoration: none; display: block; color: inherit; }
+        .detail { padding: 18px; }
+        .identity { display: grid; grid-template-columns: 72px minmax(0, 1fr) 130px; gap: 15px; align-items: center; padding-bottom: 16px; border-bottom: 1px solid var(--border); }
+        .avatar-large { width: 64px; height: 64px; border-radius: 50%; background: #e9f3ff; border: 1px solid #cfe4fb; color: var(--blue); display: flex; align-items: center; justify-content: center; font-size: 20px; font-weight: 800; }
+        .identity h2 { margin: 0 0 5px; color: var(--navy); font-size: 24px; }
+        .identity-line { margin: 3px 0; color: var(--text); }
+        .identity-links { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 10px; }
+        .identity-links a { color: var(--blue); text-decoration: none; font-size: 13px; }
+        .score-card { background: #f8fbff; border: 1px solid var(--border); border-radius: 12px; padding: 13px; text-align: center; }
+        .score-card .label { color: var(--muted); font-size: 12px; }
+        .score-card .value { color: #0967d5; font-size: 38px; line-height: 1; font-weight: 800; margin: 5px 0; }
+        .hot-badge { display: inline-block; background: #e6f7f0; color: #14845d; border-radius: 20px; padding: 4px 8px; font-size: 11px; font-weight: 700; }
+        .strategy-panel { margin-top: 16px; background: #f7f9fc; border-radius: 12px; padding: 15px; display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 14px; align-items: center; }
+        .strategy-label { color: var(--muted); font-size: 11px; }
+        .strategy-name { color: var(--navy); font-size: 19px; font-weight: 750; margin-top: 3px; }
+        .strategy-link { color: var(--blue); text-decoration: none; font-size: 13px; }
+        .stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 9px; margin-top: 14px; }
+        .stat { border: 1px solid var(--border); border-radius: 10px; padding: 11px; }
+        .stat-label { color: var(--muted); font-size: 11px; }
+        .stat-value { color: var(--navy); font-size: 18px; font-weight: 750; margin-top: 4px; }
+        .section-title { display: flex; justify-content: space-between; gap: 12px; align-items: center; margin: 22px 0 10px; }
+        .section-title h3 { margin: 0; color: var(--navy); font-size: 17px; }
+        .total-score { color: var(--text); font-size: 14px; }
+        .stack { display: flex; width: 100%; min-height: 36px; border-radius: 8px; overflow: hidden; background: #eef2f6; }
+        .stack-part { min-width: 2px; display: flex; justify-content: center; align-items: center; color: white; font-size: 11px; font-weight: 700; }
+        .source-web { background: #328ee6; }
+        .source-newsletter { background: #1ca57c; }
+        .source-webinar { background: #ec9b30; }
+        .source-meeting { background: #7955c8; }
+        .source-subscription { background: #8797a8; }
+        .source-other { background: #596b7c; }
+        .legend { display: flex; flex-wrap: wrap; gap: 12px 18px; margin-top: 9px; }
+        .legend-item { display: flex; gap: 6px; align-items: center; font-size: 12px; color: var(--text); }
+        .legend-dot { width: 10px; height: 10px; border-radius: 3px; }
+        .signal-table { border: 1px solid var(--border); border-radius: 10px; overflow: hidden; }
+        .signal-table th, .signal-table td { padding: 9px 10px; border-bottom: 1px solid #e8eef4; font-size: 12px; text-align: left; }
+        .signal-table th { background: #f7f9fb; color: #52667b; font-weight: 700; }
+        .signal-table tr:last-child td { border-bottom: 0; }
+        .source-cell { display: flex; gap: 7px; align-items: center; }
+        .source-icon { width: 24px; height: 24px; border-radius: 50%; background: #eef4fa; display: inline-flex; align-items: center; justify-content: center; color: #42617f; font-size: 11px; }
+        .points { color: #139769; font-weight: 750; white-space: nowrap; }
+        .source-record { color: var(--blue); text-decoration: none; }
+        .empty { padding: 50px 20px; text-align: center; color: var(--muted); }
+        @media (max-width: 1000px) {
+            .layout { grid-template-columns: 1fr; }
+            .identity { grid-template-columns: 60px minmax(0,1fr) 120px; }
+        }
+        @media (max-width: 650px) {
+            .hot-page { padding: 12px; }
+            .page-title { align-items: flex-start; flex-direction: column; }
+            .ranking-table .hide-small { display: none; }
+            .identity { grid-template-columns: 54px minmax(0,1fr); }
+            .score-card { grid-column: 1 / -1; }
+            .stats { grid-template-columns: 1fr; }
+            .signal-table .hide-small { display: none; }
+        }
+    </style>
+
+    <apex:form id="hotLeadForm">
+        <apex:outputPanel id="dashboard" layout="block" styleClass="hot-page">
+            <div class="page-title">
+                <div>
+                    <h1>Hot Leads – Contacts par Strategy</h1>
+                    <p>Top 15 des contacts les plus chauds · Hot Lead = au moins 4 signaux sur 60 jours et 2 sources distinctes</p>
+                </div>
+                <div class="period-chip">Scoring : 180 derniers jours</div>
+            </div>
+
+            <apex:outputPanel rendered="{!NOT(ISNULL(selectedLead))}" layout="block" styleClass="layout">
+                <div class="card">
+                    <div class="card-header">
+                        <h2>Top 15 – Contacts par Strategy</h2>
+                        <span class="small">Trié par score ↓</span>
+                    </div>
+                    <table class="ranking-table">
+                        <thead>
+                            <tr>
+                                <th class="rank">#</th>
+                                <th>Contact</th>
+                                <th class="hide-small">Entreprise</th>
+                                <th>Strategy</th>
+                                <th>Score</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <apex:repeat value="{!hotLeads}" var="lead">
+                                <tr class="{!IF(lead.key = selectedKey, 'selected', '')}">
+                                    <td class="rank">{!lead.rank}</td>
+                                    <td>
+                                        <apex:commandLink action="{!selectLead}" rerender="dashboard" styleClass="select-link">
+                                            <apex:param name="selectedKey" value="{!lead.key}" assignTo="{!selectedKey}" />
+                                            <div class="contact-cell">
+                                                <span class="avatar">{!lead.initials}</span>
+                                                <span>
+                                                    <span class="contact-name">{!lead.contactName}</span>
+                                                    <span class="small">{!lead.recentCount60} signaux / 60j</span>
+                                                </span>
+                                            </div>
+                                        </apex:commandLink>
+                                    </td>
+                                    <td class="hide-small">{!lead.accountName}</td>
+                                    <td>{!lead.strategyName}</td>
+                                    <td><span class="score-pill">{!lead.scoreDisplay}</span></td>
+                                </tr>
+                            </apex:repeat>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="card">
+                    <div class="detail">
+                        <div class="identity">
+                            <div class="avatar-large">{!selectedLead.initials}</div>
+                            <div>
+                                <h2>{!selectedLead.contactName}</h2>
+                                <div class="identity-line">{!selectedLead.accountName}</div>
+                                <apex:outputText value="{!selectedLead.title}" rendered="{!NOT(ISBLANK(selectedLead.title))}" styleClass="small" />
+                                <div class="identity-links">
+                                    <apex:outputLink value="/{!selectedLead.contactId}">Voir le Contact</apex:outputLink>
+                                    <apex:outputLink value="mailto:{!selectedLead.email}" rendered="{!NOT(ISBLANK(selectedLead.email))}">{!selectedLead.email}</apex:outputLink>
+                                    <apex:outputText value="{!selectedLead.phone}" rendered="{!NOT(ISBLANK(selectedLead.phone))}" />
+                                </div>
+                            </div>
+                            <div class="score-card">
+                                <div class="label">Hot Lead Score</div>
+                                <div class="value">{!selectedLead.scoreDisplay}</div>
+                                <span class="hot-badge">HOT LEAD</span>
+                            </div>
+                        </div>
+
+                        <div class="strategy-panel">
+                            <div>
+                                <div class="strategy-label">Strategy</div>
+                                <div class="strategy-name">{!selectedLead.strategyName}</div>
+                            </div>
+                            <apex:outputLink value="/{!selectedLead.strategyId}" styleClass="strategy-link">Voir la Strategy →</apex:outputLink>
+                        </div>
+
+                        <div class="stats">
+                            <div class="stat">
+                                <div class="stat-label">Signaux Valuable · 60 jours</div>
+                                <div class="stat-value">{!selectedLead.recentCount60}</div>
+                            </div>
+                            <div class="stat">
+                                <div class="stat-label">Sources distinctes · 60 jours</div>
+                                <div class="stat-value">{!selectedLead.distinctSources60}</div>
+                            </div>
+                            <div class="stat">
+                                <div class="stat-label">Signaux scorés · 180 jours</div>
+                                <div class="stat-value">{!selectedLead.signalCount180}</div>
+                            </div>
+                        </div>
+
+                        <div class="section-title">
+                            <h3>Répartition du score par source</h3>
+                            <div class="total-score">Total : <strong>{!selectedLead.scoreDisplay} points</strong></div>
+                        </div>
+                        <div class="stack">
+                            <apex:repeat value="{!sourceBreakdown}" var="source">
+                                <div class="stack-part {!source.cssClass}" style="width:{!source.percent}%" title="{!source.label}: {!source.scoreDisplay}">
+                                    <apex:outputText value="{!source.scoreDisplay}" rendered="{!source.percent >= 8}" />
+                                </div>
+                            </apex:repeat>
+                        </div>
+                        <div class="legend">
+                            <apex:repeat value="{!sourceBreakdown}" var="source">
+                                <div class="legend-item">
+                                    <span class="legend-dot {!source.cssClass}"></span>
+                                    <span>{!source.label} · {!source.scoreDisplay}</span>
+                                </div>
+                            </apex:repeat>
+                        </div>
+
+                        <div class="section-title">
+                            <h3>Pourquoi ce contact est Hot ?</h3>
+                            <div class="small">Interactions Valuable des 180 derniers jours</div>
+                        </div>
+                        <table class="signal-table">
+                            <thead>
+                                <tr>
+                                    <th>Date</th>
+                                    <th>Source</th>
+                                    <th class="hide-small">Qualité</th>
+                                    <th class="hide-small">Record source</th>
+                                    <th>Points</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <apex:repeat value="{!selectedSignals}" var="signal">
+                                    <tr>
+                                        <td>
+                                            <apex:outputText value="{0,date,dd/MM/yyyy}">
+                                                <apex:param value="{!signal.interactionDate}" />
+                                            </apex:outputText>
+                                        </td>
+                                        <td>
+                                            <div class="source-cell">
+                                                <span class="source-icon">{!signal.icon}</span>
+                                                <span>{!signal.sourceLabel}</span>
+                                            </div>
+                                        </td>
+                                        <td class="hide-small">{!signal.qualityDisplay}</td>
+                                        <td class="hide-small">
+                                            <apex:outputLink value="{!signal.sourceUrl}" rendered="{!NOT(ISBLANK(signal.sourceUrl))}" styleClass="source-record">
+                                                {!signal.sourceObject} →
+                                            </apex:outputLink>
+                                        </td>
+                                        <td class="points">+{!signal.contributionDisplay}</td>
+                                    </tr>
+                                </apex:repeat>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </apex:outputPanel>
+
+            <apex:outputPanel rendered="{!ISNULL(selectedLead)}" layout="block" styleClass="card empty">
+                Aucun Hot Lead ne correspond actuellement aux critères : 4 signaux Valuable sur 60 jours et 2 sources distinctes.
+            </apex:outputPanel>
+        </apex:outputPanel>
+    </apex:form>
+</apex:page>

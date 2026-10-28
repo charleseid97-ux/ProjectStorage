@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PermissionSet xmlns="http://soap.sforce.com/2006/04/metadata">
+    <description>Manage and inspect Engagement Signal scoring data.</description>
+    <classAccesses>
+        <apexClass>EngagementHotLeadVFCtrl</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <fieldPermissions><editable>true</editable><field>Engagement_Signal__c.BaseWeight__c</field><readable>true</readable></fieldPermissions>
+    <fieldPermissions><editable>true</editable><field>Engagement_Signal__c.Contact__c</field><readable>true</readable></fieldPermissions>
+    <fieldPermissions><editable>true</editable><field>Engagement_Signal__c.InteractionDate__c</field><readable>true</readable></fieldPermissions>
+    <fieldPermissions><editable>true</editable><field>Engagement_Signal__c.IsActive__c</field><readable>true</readable></fieldPermissions>
+    <fieldPermissions><editable>true</editable><field>Engagement_Signal__c.LastSeenRunId__c</field><readable>true</readable></fieldPermissions>
+    <fieldPermissions><editable>true</editable><field>Engagement_Signal__c.ObsoleteReason__c</field><readable>true</readable></fieldPermissions>
+    <fieldPermissions><editable>true</editable><field>Engagement_Signal__c.QualityValue__c</field><readable>true</readable></fieldPermissions>
+    <fieldPermissions><editable>true</editable><field>Engagement_Signal__c.RuleVersion__c</field><readable>true</readable></fieldPermissions>
+    <fieldPermissions><editable>true</editable><field>Engagement_Signal__c.SourceId__c</field><readable>true</readable></fieldPermissions>
+    <fieldPermissions><editable>true</editable><field>Engagement_Signal__c.SourceObject__c</field><readable>true</readable></fieldPermissions>
+    <fieldPermissions><editable>true</editable><field>Engagement_Signal__c.SourceType__c</field><readable>true</readable></fieldPermissions>
+    <fieldPermissions><editable>true</editable><field>Engagement_Signal__c.Strategy__c</field><readable>true</readable></fieldPermissions>
+    <objectPermissions>
+        <allowCreate>true</allowCreate>
+        <allowDelete>true</allowDelete>
+        <allowEdit>true</allowEdit>
+        <allowRead>true</allowRead>
+        <modifyAllRecords>true</modifyAllRecords>
+        <object>Engagement_Signal__c</object>
+        <viewAllRecords>true</viewAllRecords>
+    </objectPermissions>
+    <pageAccesses>
+        <apexPage>EngagementHotLeads</apexPage>
+        <enabled>true</enabled>
+    </pageAccesses>
+    <hasActivationRequired>false</hasActivationRequired>
+    <label>Engagement Scoring Admin</label>
+</PermissionSet>

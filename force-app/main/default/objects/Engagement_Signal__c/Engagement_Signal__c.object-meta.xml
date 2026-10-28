@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObject xmlns="http://soap.sforce.com/2006/04/metadata">
+    <deploymentStatus>Deployed</deploymentStatus>
+    <description>Atomic, traceable and idempotent engagement signal used for Contact x Strategy scoring.</description>
+    <label>Engagement Signal</label>
+    <nameField>
+        <displayFormat>ES-{00000000}</displayFormat>
+        <label>Engagement Signal Number</label>
+        <type>AutoNumber</type>
+    </nameField>
+    <pluralLabel>Engagement Signals</pluralLabel>
+    <sharingModel>ReadWrite</sharingModel>
+</CustomObject>
