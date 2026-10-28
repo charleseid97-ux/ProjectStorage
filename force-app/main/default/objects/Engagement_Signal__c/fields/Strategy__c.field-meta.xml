@@ -7,5 +7,7 @@
     <referenceTo>Strategy__c</referenceTo>
     <relationshipLabel>Engagement Signals</relationshipLabel>
     <relationshipName>EngagementSignals</relationshipName>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
     <type>Lookup</type>
 </CustomField>

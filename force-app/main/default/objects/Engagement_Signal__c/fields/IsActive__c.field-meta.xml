@@ -4,5 +4,6 @@
     <defaultValue>true</defaultValue>
     <description>Indicates whether this signal is still eligible under the current scoring rule.</description>
     <label>Active</label>
+    <trackTrending>false</trackTrending>
     <type>Checkbox</type>
 </CustomField>

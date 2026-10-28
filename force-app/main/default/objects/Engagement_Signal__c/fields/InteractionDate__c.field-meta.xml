@@ -2,6 +2,9 @@
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>InteractionDate__c</fullName>
     <description>Business date/time of the interaction. For subscriptions this is Web_Communication__c.CreatedDate.</description>
+    <encryptionScheme>None</encryptionScheme>
     <label>Interaction Date</label>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
     <type>DateTime</type>
 </CustomField>

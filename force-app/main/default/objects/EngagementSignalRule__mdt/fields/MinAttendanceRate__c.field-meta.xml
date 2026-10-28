@@ -2,9 +2,12 @@
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>MinAttendanceRate__c</fullName>
     <description>Minimum webinar attendance percentage.</description>
+    <externalId>false</externalId>
     <fieldManageability>DeveloperControlled</fieldManageability>
     <label>Min Attendance Rate</label>
     <precision>5</precision>
+    <required>false</required>
     <scale>2</scale>
     <type>Number</type>
+    <unique>false</unique>
 </CustomField>

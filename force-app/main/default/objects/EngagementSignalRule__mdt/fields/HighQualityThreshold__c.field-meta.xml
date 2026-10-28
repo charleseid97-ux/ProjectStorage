@@ -2,9 +2,12 @@
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>HighQualityThreshold__c</fullName>
     <description>Optional quality threshold above which HighQualityBaseWeight is used.</description>
+    <externalId>false</externalId>
     <fieldManageability>DeveloperControlled</fieldManageability>
     <label>High Quality Threshold</label>
     <precision>18</precision>
+    <required>false</required>
     <scale>2</scale>
     <type>Number</type>
+    <unique>false</unique>
 </CustomField>

@@ -2,9 +2,12 @@
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>MaxContributionPerPeriod__c</fullName>
     <description>Optional cap applied to one SourceType contribution within CapPeriodDays.</description>
+    <externalId>false</externalId>
     <fieldManageability>DeveloperControlled</fieldManageability>
     <label>Max Contribution Per Period</label>
     <precision>8</precision>
+    <required>false</required>
     <scale>2</scale>
     <type>Number</type>
+    <unique>false</unique>
 </CustomField>
