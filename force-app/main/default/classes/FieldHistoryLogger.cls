@@ -6,7 +6,13 @@
  *              logPhaseValidation() — logs newly validated teams on ProjectProductChild__c.
  *              When SendAlert__c is enabled on the config record, sends an email alert after logging,
  *              with changes rendered as an inline HTML table or a CSV attachment depending on MaxTableRows__c.
+ *              The lookup of each object comes from LookupFieldAPIName__c on its config record.
+ *              Applicability__c and the single open period per record and field (unique OpenPeriodKey__c) are enforced by FundFieldApplicabilityHistoryTrigger:
+ *                  a new period rejected there never fails the parent save, log() reports it in OperationLog__c.
  * @editor Charles Eid — 2026-04-02
+ * @testClass Test_FieldHistoryLogger
+ * @coverage 90%   [28-10-26]
+ * @lastModifiedBy Charles EID   [28-10-26]
  */
 public without sharing class FieldHistoryLogger {
 
@@ -20,14 +26,14 @@ public without sharing class FieldHistoryLogger {
             recordIds.add(newObj.Id);
         }
         String lookupField = getLookupFieldName(objectApiName);
-        String query = 'SELECT Id, FieldAPIName__c, End_Date__c, ' + lookupField +
+        String query = 'SELECT Id, FieldAPIName__c, Old_Value__c, New_Value__c, Start_Date__c, End_Date__c, ' + lookupField +
                        ' FROM Fund_Field_ApplicabilityHistory__c' +
                        ' WHERE Applicability__c = true' +
                        ' AND End_Date__c = NULL' +
                        ' AND ' + lookupField + ' IN :recordIds';
         Map<String, Fund_Field_ApplicabilityHistory__c> activeLogsMap = new Map<String, Fund_Field_ApplicabilityHistory__c>();
         for (Fund_Field_ApplicabilityHistory__c existingLog : Database.query(query)) {
-            String key = getRefId(existingLog, objectApiName) + ':' + existingLog.FieldAPIName__c;
+            String key = getRefId(existingLog, objectApiName) + ':' + existingLog.FieldAPIName__c?.toLowerCase();
             activeLogsMap.put(key, existingLog);
         }
 
@@ -48,7 +54,7 @@ public without sharing class FieldHistoryLogger {
                 Object newVal = newObj.get(field);
                 Boolean changed = (oldObj == null)? (newVal != null) : (oldVal != newVal && (oldVal == null || !oldVal.equals(newVal)));
                 if (changed) {
-                    String logKey = recordId + ':' + field;
+                    String logKey = recordId + ':' + field.toLowerCase();
                     Fund_Field_ApplicabilityHistory__c oldLog = activeLogsMap.get(logKey);
                     if (oldLog != null) {
                         oldLog.End_Date__c = System.Today().addDays(-1);
@@ -58,18 +64,35 @@ public without sharing class FieldHistoryLogger {
                     // Les enregistrements initialisés depuis PMT deviennent applicables à la Launch Date.
                     Boolean isPmtInitialization = oldObj == null && ((objectApiName == 'Product__c' && newObj.get('ParentProject__c') != null) || (objectApiName == 'Share_Class__c' && newObj.get('ProjectShareclass__c') != null));
                     newLog.Start_Date__c = isPmtInitialization && newObj.get('LaunchDate__c') != null ? (Date) newObj.get('LaunchDate__c') : System.Today();
-                    newLog.Applicability__c = true;
                     logsToInsert.add(newLog);
                 }
             }
         }
 
-        if (!logsToUpdate.isEmpty()) update logsToUpdate;
-        if (!logsToInsert.isEmpty()) insert logsToInsert;
+        savePeriods(logsToUpdate, objectApiName, false);
+        List<Fund_Field_ApplicabilityHistory__c> insertedLogs = savePeriods(logsToInsert, objectApiName, true);
 
-        if (config.SendAlert__c && String.isNotBlank(config.AlertRecipients__c) && String.isNotBlank(config.AlertEmailTemplate__c) && !logsToInsert.isEmpty()) {
-            sendFieldChangeAlert(config, objectApiName, logsToInsert, fieldMap);
+        if (config.SendAlert__c && String.isNotBlank(config.AlertRecipients__c) && String.isNotBlank(config.AlertEmailTemplate__c) && !insertedLogs.isEmpty()) {
+            sendFieldChangeAlert(config, objectApiName, insertedLogs, fieldMap);
         }
+    }
+
+    // Inserts the new periods / closes the old ones without failing the parent save (external jobs, PMT): a period rejected (e.g. by FundFieldApplicabilityHistoryTrigger) is reported in OperationLog__c with its values. Returns the periods saved
+    private static List<Fund_Field_ApplicabilityHistory__c> savePeriods(List<Fund_Field_ApplicabilityHistory__c> periods, String objectApiName, Boolean isInsert) {
+        List<Fund_Field_ApplicabilityHistory__c> savedPeriods = new List<Fund_Field_ApplicabilityHistory__c>();
+        List<Database.SaveResult> results = isInsert ? Database.insert(periods, false) : Database.update(periods, false);
+        for (Integer i = 0; i < results.size(); i++) {
+            Fund_Field_ApplicabilityHistory__c l = periods[i];
+            if (results[i].isSuccess()) {
+                savedPeriods.add(l);
+            }
+            else {
+                Map<String, Object> context = new Map<String, Object>{'periodId' => l.Id, 'field' => l.FieldAPIName__c, 'oldValue' => l.Old_Value__c, 'newValue' => l.New_Value__c, 'startDate' => l.Start_Date__c, 'endDate' => l.End_Date__c};
+                OperationLogService.logWithContext(OperationLogService.Level.ERROR, getRefId(l, objectApiName), isInsert ? 'Field history period insert' : 'Field history period close', results[i].getErrors()[0].getMessage(), context, 'FieldHistoryLogger', 'log');
+            }
+        }
+        OperationLogService.flush();
+        return savedPeriods;
     }
 
     public static void logAllFields(List<SObject> newList, Map<Id, SObject> oldMap, String objectApiName) {
@@ -170,9 +193,11 @@ public without sharing class FieldHistoryLogger {
         return (Id) l.get(getLookupFieldName(objectApiName));
     }
 
+    // LookupFieldAPIName__c of the object's Field_History_Config__mdt (getAll() is enough here: short text field, no SOQL)
     private static String getLookupFieldName(String objectApiName) {
-        if (objectApiName == 'Product__c')     return 'Product_Reference__c';
-        if (objectApiName == 'Share_Class__c') return 'Share_Class_Reference__c';
+        for (Field_History_Config__mdt config : Field_History_Config__mdt.getAll().values()) {
+            if (config.Object_API_Name__c == objectApiName && String.isNotBlank(config.LookupFieldAPIName__c)) return config.LookupFieldAPIName__c;
+        }
         throw new IllegalArgumentException('FieldHistoryLogger: no lookup field registered for object: ' + objectApiName);
     }
 
