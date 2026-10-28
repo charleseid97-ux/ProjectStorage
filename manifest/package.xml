@@ -1,46 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Package xmlns="http://soap.sforce.com/2006/04/metadata">
     <types>
-        <members>ContactTH</members>
-        <members>EmailService</members>
-        <members>LyytiDeletionAlertService</members>
-        <members>LyytiDeletionAlertServiceTest</members>
-        <members>SM016_CampaignMemberTriggerHandler</members>
-        <members>SM017_LeadTriggerHandler</members>
-        <name>ApexClass</name>
-    </types>
-    <types>
-        <members>LyytiDeletionAlert.BeneluxNordics</members>
-        <members>LyytiDeletionAlert.France</members>
-        <members>LyytiDeletionAlert.Other</members>
-        <members>LyytiDeletionAlert.SouthernEurope</members>
-        <members>LyytiDeletionAlert.SwitzerlandLiechtenstein</members>
-        <members>LyytiDeletionAlert.UKGermanyAustria</members>
-        <name>CustomMetadata</name>
-    </types>
-    <types>
-        <members>LyytiDeletionAlert__mdt.IsActive__c</members>
-        <members>LyytiDeletionAlert__mdt.EmailTemplate__c</members>
-        <members>LyytiDeletionAlert__mdt.RecipientEmails__c</members>
-        <members>LyytiDeletionAlert__mdt.RecipientQueues__c</members>
-        <members>LyytiDeletionAlert__mdt.SalesTeam__c</members>
-        <name>CustomField</name>
-    </types>
-    <types>
-        <members>LyytiDeletionAlert__mdt</members>
-        <name>CustomObject</name>
-    </types>
-    <types>
-        <members>LyytiDeletionAlert__mdt-Lyyti Deletion Alert Layout</members>
-        <name>Layout</name>
-    </types>
-    <types>
-        <members>CarmignacAlerts/LyytiDeletionAlert</members>
-        <name>EmailTemplate</name>
-    </types>
-    <types>
-        <members>LyytiUsers</members>
-        <name>Queue</name>
+        <members>AI_Agent_Activation_Notification</members>
+        <name>Flow</name>
     </types>
     <version>64.0</version>
 </Package>
