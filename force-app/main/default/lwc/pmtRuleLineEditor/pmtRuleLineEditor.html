@@ -26,7 +26,7 @@
                     <lightning-radio-group label="Object" variant="label-hidden" type="button" required options={editorModel.levelOptions} value={objectName} data-name="objectName" disabled={isEdit} onchange={handleIdentityChange}></lightning-radio-group>
                 </div>
                 <div class="slds-col slds-size_1-of-2">
-                    <lightning-input class="checkbox-field" type="checkbox" label="Modifiable" field-level-help={help.isModifiable} checked={isModifiable} data-name="isModifiable" onchange={handleCheckboxChange}></lightning-input>
+                    <lightning-input class="checkbox-field" type="checkbox" label="Sensitive" field-level-help={help.isSensitive} checked={isSensitive} data-name="isSensitive" onchange={handleCheckboxChange}></lightning-input>
                 </div>
             </div>
     

@@ -32,7 +32,7 @@
                     <lightning-combobox class="filter" label="Object" options={levelOptions} value={levelFilter} data-filter="levelFilter" onchange={handleFilterChange}></lightning-combobox>
                     <lightning-combobox class="filter" label="Requirement" options={requirementOptions} value={requirementFilter} data-filter="requirementFilter" onchange={handleFilterChange}></lightning-combobox>
                     <lightning-combobox class="filter" label="Sharing" options={statusOptions} value={statusFilter} data-filter="statusFilter" onchange={handleFilterChange}></lightning-combobox>
-                    <lightning-combobox class="filter" label="Modifiable" options={modifiableOptions} value={modifiableFilter} data-filter="modifiableFilter" onchange={handleFilterChange}></lightning-combobox>
+                    <lightning-combobox class="filter" label="Sensitive" options={sensitiveOptions} value={sensitiveFilter} data-filter="sensitiveFilter" onchange={handleFilterChange}></lightning-combobox>
                     <lightning-combobox class="filter" label="Active" options={activeOptions} value={activeFilter} data-filter="activeFilter" onchange={handleFilterChange}></lightning-combobox>
                     <lightning-button class="filter filter_button" label="Reset" icon-name="utility:refresh" onclick={handleReset}></lightning-button>
                 </div>
@@ -130,8 +130,8 @@
                                                                 <a href={row.setupUrl} target="_blank">{row.developerName}</a>
                                                             </div>
                                                             <div class="info-item">
-                                                                <span class="info-label">Modifiable</span>
-                                                                <span>{row.modifiableLabel}</span>
+                                                                <span class="info-label">Sensitive</span>
+                                                                <span>{row.sensitiveLabel}</span>
                                                             </div>
                                                             <div class="info-item">
                                                                 <span class="info-label">Dependent fields</span>
@@ -263,7 +263,7 @@
                                                                         <td class="col-field">
                                                                             <div class="field-label slds-truncate" title={row.label}>
                                                                                 <a href={row.setupUrl} target="_blank">{row.label}</a>
-                                                                                <template lwc:if={row.isModifiable}><lightning-icon class="modifiable-icon" icon-name="utility:edit" size="xx-small" title="Modifiable in a modification project"></lightning-icon></template>
+                                                                                <template lwc:if={row.isSensitive}><lightning-icon class="sensitive-icon" icon-name="utility:edit" size="xx-small" title="Sensitive: selectable in a modification project"></lightning-icon></template>
                                                                             </div>
                                                                             <div class="field-api slds-truncate" title={row.apiName}>{row.apiName}</div>
                                                                         </td>

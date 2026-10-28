@@ -1,6 +1,6 @@
 /** ──────────────────────────────────────
  * @description Tests of the fieldSelector LWC controller: reading the selectable, dependent and selected fields (Project Product, Project Share Class, Share Class child), saving the selection, and the save error returned to the LWC.
- * @covers FieldSelectorController   100%   [23-10-26]
+ * @covers FieldSelectorController   100%   [28-10-26]
  * @lastModifiedBy Charles EID   [21-10-26]
  ────────────────────────────────────── */
 @isTest

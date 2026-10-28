@@ -1,14 +1,14 @@
 /** ──────────────────────────────────────
  * @description Tests of the PMT Matrix Explorer controller: the model read from the deployed PMT custom metadata (every stage, team,
- *                  owner rule, field and line, a sharing status per field, the modifiable fields, the editor choices), then the rules on
+ *                  owner rule, field and line, a sharing status per field, the sensitive fields, the editor choices), then the rules on
  *                  in-memory records: sharing status of a field by team scope and conditions, the errors of Condition__c and RequiredCondition__c,
  *                  the "Check condition" button and the generated DeveloperNames.
  *              US-20194 V1.6: the rule line editor on the deployed records: previewLine (reused or created PMTField and PMTFieldRule, duplicate
  *                  line, field locked but team and stage movable, missing fields, invalid conditions), saveLine (records deployed, a line moved
  *                  to a new rule, refusals) and the deployment event; the {FUND|SC}_{field}_{index} line names.
  * @author Charles EID
- * @lastModifiedBy Charles EID   [24-10-26]
- * @covers PMTMatrixExplorerController   99%   [24-10-26]
+ * @lastModifiedBy Charles EID   [28-10-26]
+ * @covers PMTMatrixExplorerController   99%   [28-10-26]
  ────────────────────────────────────── */
 @isTest
 private class PMTMatrixExplorerControllerTest {
@@ -33,11 +33,11 @@ private class PMTMatrixExplorerControllerTest {
         System.assertEquals(PMTField__mdt.getAll().size(), model.fields.size(), 'Every field is read, with or without lines');
 
         Integer lineCount = 0;
-        Integer modifiableCount = 0;
+        Integer sensitiveCount = 0;
         for (PMTMatrixExplorerController.Field field : model.fields) {
             System.assertNotEquals(null, field.sharingStatus, field.developerName + ': every field has a sharing status');
             lineCount += field.lines.size();
-            if (field.isModifiable) modifiableCount++;
+            if (field.isSensitive) sensitiveCount++;
             Boolean hasActiveLine = false;
             for (PMTMatrixExplorerController.Line line : field.lines) {
                 if (line.isActive) hasActiveLine = true;
@@ -45,12 +45,12 @@ private class PMTMatrixExplorerControllerTest {
             }
             System.assertEquals(!hasActiveLine, field.sharingStatus == PMTMatrixExplorerController.UNUSED, field.developerName + ': only a field without active lines is unused');
         }
-        Integer expectedModifiableCount = 0;
+        Integer expectedSensitiveCount = 0;
         for (PMTField__mdt record : PMTField__mdt.getAll().values()) {
-            if (record.IsModifiable__c) expectedModifiableCount++;
+            if (record.IsSensitive__c) expectedSensitiveCount++;
         }
         System.assertEquals(PMTFieldRuleLine__mdt.getAll().size(), lineCount, 'Every line is read under its field');
-        System.assertEquals(expectedModifiableCount, modifiableCount, 'IsModifiable__c is read on every field');
+        System.assertEquals(expectedSensitiveCount, sensitiveCount, 'IsSensitive__c is read on every field');
 
         // US-20194 V1.6: what the editor offers to an admin
         System.assert(model.canEdit, 'The running admin can customize the application, so can edit');
@@ -174,7 +174,7 @@ private class PMTMatrixExplorerControllerTest {
         PMTMatrixExplorerController.LineRequest newRequest = new PMTMatrixExplorerController.LineRequest();
         newRequest.objectName = FUND_OBJECT;
         newRequest.fieldApiName = fieldsOutsideDictionary[0];
-        newRequest.isModifiable = true;
+        newRequest.isSensitive = true;
         newRequest.dependentFields = new List<String>{ fieldsOutsideDictionary[1] };
         newRequest.requirement = 'Conditional';
         newRequest.requiredCondition = PROJECT_CONDITION;
@@ -242,7 +242,7 @@ private class PMTMatrixExplorerControllerTest {
         Metadata.CustomMetadata newLine = (Metadata.CustomMetadata) newRecords[2];
         String fieldDeveloperName = newField.fullName.substringAfter('.');
         String ruleDeveloperName = newRule.fullName.substringAfter('.');
-        System.assert(newField.fullName.startsWith('PMTField.Fund') && getValue(newField, 'IsModifiable__c') == true, 'The PMTField follows the Fund naming and keeps its values: ' + newField.fullName);
+        System.assert(newField.fullName.startsWith('PMTField.Fund') && getValue(newField, 'IsSensitive__c') == true, 'The PMTField follows the Fund naming and keeps its values: ' + newField.fullName);
         System.assertEquals(fieldsOutsideDictionary[1], getValue(newField, 'DependentFields__c'), 'The dependent fields are saved on the PMTField');
         System.assertEquals(newRequest.team, getValue(newRule, 'Team__c'), 'The PMTFieldRule points to the chosen team');
         System.assertEquals('PMTFieldRuleLine.' + ('FUND_' + newRequest.fieldApiName.removeEndIgnoreCase('__c')).left(37).removeEnd('_') + '_1', newLine.fullName, 'The line is named after its field only');
@@ -274,7 +274,7 @@ private class PMTMatrixExplorerControllerTest {
         for (PMTFieldRule__mdt rule : [SELECT DeveloperName, Team__r.DeveloperName, Stage__r.DeveloperName FROM PMTFieldRule__mdt]) {
             ruleByDeveloperName.put(rule.DeveloperName, rule);
         }
-        for (PMTFieldRuleLine__mdt line : [SELECT Id, FieldRule__r.DeveloperName, Field__r.Object__c, Field__r.FieldApiName__c, Field__r.IsModifiable__c, Field__r.DependentFields__c,
+        for (PMTFieldRuleLine__mdt line : [SELECT Id, FieldRule__r.DeveloperName, Field__r.Object__c, Field__r.FieldApiName__c, Field__r.IsSensitive__c, Field__r.DependentFields__c,
                                                   Requirement__c, Condition__c, RequiredCondition__c, IsActive__c
                                            FROM PMTFieldRuleLine__mdt
                                            ORDER BY DeveloperName]) {
@@ -288,7 +288,7 @@ private class PMTMatrixExplorerControllerTest {
             request.stage = rule.Stage__r.DeveloperName;
             request.objectName = line.Field__r.Object__c;
             request.fieldApiName = line.Field__r.FieldApiName__c;
-            request.isModifiable = line.Field__r.IsModifiable__c;
+            request.isSensitive = line.Field__r.IsSensitive__c;
             request.dependentFields = new List<String>();
             request.requirement = line.Requirement__c;
             request.condition = line.Condition__c;

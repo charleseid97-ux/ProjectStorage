@@ -1,12 +1,12 @@
 /** ──────────────────────────────────────
  * @description Controller of the fieldSelector LWC (PMT modification projects).
- *              Lists the selectable fields and their dependent fields (PMTField__mdt.IsModifiable__c and DependentFields__c, US-20194 V1.2,
+ *              Lists the selectable fields and their dependent fields (PMTField__mdt.IsSensitive__c and DependentFields__c, US-20194 V1.2,
  *              formerly Sensitive_field__mdt and FieldDisplayRule__mdt), and saves the selection in TECH_FieldsToModify__c on the
  *              Project Product or Project Share Class.
  *              Save errors (e.g. phase already validated) are returned to the LWC as an AuraHandledException.
  * @testClass Test_FieldSelectorController
- * @coverage 100%   [23-10-26]
- * @lastModifiedBy Charles EID   [23-10-26]
+ * @coverage 100%   [28-10-26]
+ * @lastModifiedBy Charles EID   [28-10-26]
  ────────────────────────────────────── */
 public without sharing class FieldSelectorController {
     private static final String VALIDATION_ERROR_PREFIX = 'FIELD_CUSTOM_VALIDATION_EXCEPTION, ';
@@ -33,7 +33,7 @@ public without sharing class FieldSelectorController {
         Map<String, Schema.SObjectField> fieldMap = Schema.getGlobalDescribe().get(catalogObject).getDescribe().fields.getMap();
         for (PMTField__mdt field : [SELECT FieldApiName__c
                                     FROM PMTField__mdt
-                                    WHERE Object__c = :catalogObject AND IsModifiable__c = true ORDER BY DeveloperName]) {
+                                    WHERE Object__c = :catalogObject AND IsSensitive__c = true ORDER BY DeveloperName]) {
             if (!fieldMap.containsKey(field.FieldApiName__c)) continue;
             Schema.DescribeFieldResult fieldDesc = fieldMap.get(field.FieldApiName__c).getDescribe();
             fieldList.add(new Map<String, String>{

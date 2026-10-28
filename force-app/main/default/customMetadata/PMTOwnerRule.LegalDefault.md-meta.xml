@@ -4,7 +4,7 @@
     <protected>false</protected>
     <values>
         <field>Condition__c</field>
-        <value xsi:type="xsd:string">NOT(ISPICKVAL(ProjectProduct__c.LegalForm__c, &apos;FCP&apos;))</value>
+        <value xsi:type="xsd:string">NOT(CONTAINS(TEXT(ProjectProduct__c.LegalForm__c), &apos;FCP&apos;))</value>
     </values>
     <values>
         <field>OwnerFederationId__c</field>

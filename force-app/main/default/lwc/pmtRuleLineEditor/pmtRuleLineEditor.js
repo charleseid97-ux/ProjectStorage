@@ -5,14 +5,14 @@ import checkCondition from '@salesforce/apex/PMTMatrixExplorerController.checkCo
 import saveLine from '@salesforce/apex/PMTMatrixExplorerController.saveLine';
 
 // US-20194 V1.6: pop-up of the PMT Matrix Explorer creating or editing one rule line; PMTMatrixExplorerController reuses or creates its PMTField and PMTFieldRule
-const FORM_FIELDS = ['team', 'stage', 'objectName', 'fieldApiName', 'isModifiable', 'dependentFields', 'requirement', 'condition', 'requiredCondition', 'isActive'];
+const FORM_FIELDS = ['team', 'stage', 'objectName', 'fieldApiName', 'isSensitive', 'dependentFields', 'requirement', 'condition', 'requiredCondition', 'isActive'];
 // Custom metadata field behind each input, whose inline help is the input's tooltip
 const HELP_FIELDS = {
     team: 'PMTFieldRule__mdt.Team__c',
     stage: 'PMTFieldRule__mdt.Stage__c',
     objectName: 'PMTField__mdt.Object__c',
     fieldApiName: 'PMTField__mdt.FieldApiName__c',
-    isModifiable: 'PMTField__mdt.IsModifiable__c',
+    isSensitive: 'PMTField__mdt.IsSensitive__c',
     dependentFields: 'PMTField__mdt.DependentFields__c',
     requirement: 'PMTFieldRuleLine__mdt.Requirement__c',
     condition: 'PMTFieldRuleLine__mdt.Condition__c',
@@ -35,7 +35,7 @@ export default class PmtRuleLineEditor extends LightningModal {
     stage;
     objectName;
     fieldApiName;
-    isModifiable = false;
+    isSensitive = false;
     dependentFields = [];
     requirement;
     condition = '';
@@ -149,7 +149,7 @@ export default class PmtRuleLineEditor extends LightningModal {
     get fieldStatus() {
         if (!this.preview) return null;
         if (!this.preview.fieldDeveloperName) return 'New field: it will be added to the PMT field dictionary';
-        return `Existing field ${this.preview.fieldDeveloperName}, used by ${this.preview.fieldLineCount} line(s): Modifiable and Dependent fields apply to all of them`;
+        return `Existing field ${this.preview.fieldDeveloperName}, used by ${this.preview.fieldLineCount} line(s): Sensitive and Dependent fields apply to all of them`;
     }
 
     get errorMessages() {
@@ -302,7 +302,7 @@ export default class PmtRuleLineEditor extends LightningModal {
         try {
             const preview = await previewLine({ requestJson: JSON.stringify(this.request) });
             if (this.fieldKey !== this.previewedFieldKey) {
-                this.isModifiable = preview.fieldIsModifiable;
+                this.isSensitive = preview.fieldIsSensitive;
                 this.dependentFields = preview.fieldDependentFields;
                 this.previewedFieldKey = this.fieldKey;
             }
