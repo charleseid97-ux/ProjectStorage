@@ -9,7 +9,7 @@ private class EngagementScoringCoreTest {
         Id contactId = '003000000000001';
         Id strategyId = 'a3q000000000001';
 
-        String key = EngagementSignalKeyService.buildExternalKey(
+        String actualKey = EngagementSignalKeyService.buildExternalKey(
             contactId,
             'ClientInterest__c',
             'a01000000000001',
@@ -17,10 +17,14 @@ private class EngagementScoringCoreTest {
             strategyId
         );
 
-        System.assertEquals(
-            '003000000000001|ClientInterest__c|a01000000000001|MEETING_PRODUCT_INTEREST|a3q000000000001',
-            key
-        );
+        String expectedKey =
+            String.valueOf(contactId) +
+            '|ClientInterest__c|' +
+            'a01000000000001' +
+            '|MEETING_PRODUCT_INTEREST|' +
+            String.valueOf(strategyId);
+
+        System.assertEquals(expectedKey, actualKey);
     }
 
     /**
