@@ -1,14 +1,65 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<CustomMetadata xmlns="http://soap.sforce.com/2006/04/metadata">
+<CustomMetadata xmlns="http://soap.sforce.com/2006/04/metadata" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
     <label>Web Visit</label>
     <protected>false</protected>
-    <values><field>SourceType__c</field><value xsi:type="xsd:string" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">WEB_VISIT</value></values>
-    <values><field>Active__c</field><value xsi:type="xsd:boolean" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">true</value></values>
-    <values><field>RuleVersion__c</field><value xsi:type="xsd:string" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">V1</value></values>
-    <values><field>BaseWeight__c</field><value xsi:type="xsd:double" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">2</value></values>
-    <values><field>LookbackDays__c</field><value xsi:type="xsd:double" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">180</value></values>
-    <values><field>RequireContact__c</field><value xsi:type="xsd:boolean" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">true</value></values>
-    <values><field>RequireStrategy__c</field><value xsi:type="xsd:boolean" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">true</value></values>
-    <values><field>MinTimeSpentSeconds__c</field><value xsi:type="xsd:double" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">240</value></values>
-    <values><field>RequireActiveSubscription__c</field><value xsi:type="xsd:boolean" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">false</value></values>
+    <values>
+        <field>Active__c</field>
+        <value xsi:type="xsd:boolean">true</value>
+    </values>
+    <values>
+        <field>BaseWeight__c</field>
+        <value xsi:type="xsd:double">2.0</value>
+    </values>
+    <values>
+        <field>CapPeriodDays__c</field>
+        <value xsi:nil="true"/>
+    </values>
+    <values>
+        <field>HighQualityBaseWeight__c</field>
+        <value xsi:nil="true"/>
+    </values>
+    <values>
+        <field>HighQualityThreshold__c</field>
+        <value xsi:nil="true"/>
+    </values>
+    <values>
+        <field>LookbackDays__c</field>
+        <value xsi:type="xsd:double">180.0</value>
+    </values>
+    <values>
+        <field>MaxContributionPerPeriod__c</field>
+        <value xsi:nil="true"/>
+    </values>
+    <values>
+        <field>MinAttendanceRate__c</field>
+        <value xsi:nil="true"/>
+    </values>
+    <values>
+        <field>MinInterest__c</field>
+        <value xsi:nil="true"/>
+    </values>
+    <values>
+        <field>MinTimeSpentSeconds__c</field>
+        <value xsi:type="xsd:double">240.0</value>
+    </values>
+    <values>
+        <field>RequireActiveSubscription__c</field>
+        <value xsi:type="xsd:boolean">false</value>
+    </values>
+    <values>
+        <field>RequireContact__c</field>
+        <value xsi:type="xsd:boolean">true</value>
+    </values>
+    <values>
+        <field>RequireStrategy__c</field>
+        <value xsi:type="xsd:boolean">true</value>
+    </values>
+    <values>
+        <field>RuleVersion__c</field>
+        <value xsi:type="xsd:string">V1</value>
+    </values>
+    <values>
+        <field>SourceType__c</field>
+        <value xsi:type="xsd:string">WEB_VISIT</value>
+    </values>
 </CustomMetadata>

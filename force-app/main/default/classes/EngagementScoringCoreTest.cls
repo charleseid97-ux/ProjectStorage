@@ -17,6 +17,10 @@ private class EngagementScoringCoreTest {
             strategyId
         );
 
+        System.assertEquals(
+            '003000000000001|ClientInterest__c|a01000000000001|MEETING_PRODUCT_INTEREST|a3q000000000001',
+            key
+        );
     }
 
     /**

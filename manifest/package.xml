@@ -1,34 +1,63 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Package xmlns="http://soap.sforce.com/2006/04/metadata">
+
     <types>
         <members>EngagementScoreCalculator</members>
         <members>EngagementScoringCoreTest</members>
+        <members>EngagementFundStrategyResolver</members>
+        <members>EngagementMeetingSignalBatch</members>
+        <members>EngagementNewsletterSignalBatch</members>
         <members>EngagementScoringRuleService</members>
+        <members>EngagementSignalBatchLogService</members>
+        <members>EngagementSignalIngestionTest</members>
         <members>EngagementSignalKeyService</members>
         <members>EngagementSignalProvider</members>
         <members>EngagementSignalReconciliationBatch</members>
+        <members>EngagementSignalRefreshService</members>
         <members>EngagementSignalService</members>
+        <members>EngagementSubscriptionSignalBatch</members>
+        <members>EngagementWebinarSignalBatch</members>
+        <members>EngagementWebsiteSignalBatch</members>
+
+        <!-- Visualforce Controller -->
+        <members>EngagementHotLeadVFCtrl</members>
+
         <name>ApexClass</name>
     </types>
+
+    <!-- Visualforce -->
+    <types>
+        <members>EngagementHotLeads</members>
+        <name>ApexPage</name>
+    </types>
+
+    <!-- Engagement Signal Rules -->
     <types>
         <members>EngagementSignalRule.WEB_VISIT</members>
         <members>EngagementSignalRule.NEWSLETTER_CLICK</members>
         <members>EngagementSignalRule.PROSPACE_SUBSCRIPTION</members>
         <members>EngagementSignalRule.WEBINAR_ATTENDANCE</members>
         <members>EngagementSignalRule.MEETING_PRODUCT_INTEREST</members>
+
+        <!-- Recency Rules -->
         <members>EngagementRecencyRule.DAYS_0_10</members>
         <members>EngagementRecencyRule.DAYS_11_30</members>
         <members>EngagementRecencyRule.DAYS_31_60</members>
         <members>EngagementRecencyRule.DAYS_61_90</members>
         <members>EngagementRecencyRule.DAYS_91_180</members>
+
         <name>CustomMetadata</name>
     </types>
+
+    <!-- Objects -->
     <types>
         <members>Engagement_Signal__c</members>
         <members>EngagementSignalRule__mdt</members>
         <members>EngagementRecencyRule__mdt</members>
         <name>CustomObject</name>
     </types>
+
+    <!-- Engagement Signal Fields -->
     <types>
         <members>Engagement_Signal__c.BaseWeight__c</members>
         <members>Engagement_Signal__c.Contact__c</members>
@@ -43,6 +72,8 @@
         <members>Engagement_Signal__c.SourceObject__c</members>
         <members>Engagement_Signal__c.SourceType__c</members>
         <members>Engagement_Signal__c.Strategy__c</members>
+
+        <!-- Signal Rule Metadata Fields -->
         <members>EngagementSignalRule__mdt.Active__c</members>
         <members>EngagementSignalRule__mdt.BaseWeight__c</members>
         <members>EngagementSignalRule__mdt.CapPeriodDays__c</members>
@@ -58,14 +89,21 @@
         <members>EngagementSignalRule__mdt.RequireStrategy__c</members>
         <members>EngagementSignalRule__mdt.RuleVersion__c</members>
         <members>EngagementSignalRule__mdt.SourceType__c</members>
+
+        <!-- Recency Rule Metadata Fields -->
         <members>EngagementRecencyRule__mdt.Coefficient__c</members>
         <members>EngagementRecencyRule__mdt.MaxDays__c</members>
         <members>EngagementRecencyRule__mdt.MinDays__c</members>
+
         <name>CustomField</name>
     </types>
+
+    <!-- Permissions -->
     <types>
         <members>Engagement_Scoring_Admin</members>
         <name>PermissionSet</name>
     </types>
+
     <version>65.0</version>
+
 </Package>

@@ -3,10 +3,12 @@
     <fullName>ExternalKey__c</fullName>
     <caseSensitive>true</caseSensitive>
     <description>Deterministic unique key: Contact|SourceObject|SourceId|SourceType|Strategy.</description>
+    <encryptionScheme>None</encryptionScheme>
     <externalId>true</externalId>
     <label>External Key</label>
     <length>255</length>
     <required>true</required>
+    <trackTrending>false</trackTrending>
     <type>Text</type>
     <unique>true</unique>
 </CustomField>

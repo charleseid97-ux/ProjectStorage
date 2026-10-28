@@ -2,9 +2,12 @@
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>MinInterest__c</fullName>
     <description>Minimum Meeting Note product interest rating.</description>
+    <externalId>false</externalId>
     <fieldManageability>DeveloperControlled</fieldManageability>
     <label>Min Interest</label>
     <precision>3</precision>
+    <required>false</required>
     <scale>0</scale>
     <type>Number</type>
+    <unique>false</unique>
 </CustomField>
