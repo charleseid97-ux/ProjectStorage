@@ -4,7 +4,7 @@
     <protected>false</protected>
     <values>
         <field>Condition__c</field>
-        <value xsi:type="xsd:string">(ISPICKVAL(ProjectProduct__c.LegalForm__c, &apos;FCP&apos;) || ISPICKVAL(ProjectProduct__c.LegalForm__c, &apos;SICAV&apos;) || ISPICKVAL(ProjectProduct__c.LegalForm__c, &apos;OEIC&apos;)) &amp;&amp; (ISPICKVAL(ProjectProduct__c.GlobalRiskMethod__c, &apos;Absolute VaR&apos;) || ISPICKVAL(ProjectProduct__c.GlobalRiskMethod__c, &apos;Relative VaR&apos;))</value>
+        <value xsi:type="xsd:string">(CONTAINS(TEXT(ProjectProduct__c.LegalForm__c), &apos;FCP&apos;) || ISPICKVAL(ProjectProduct__c.LegalForm__c, &apos;SICAV&apos;) || ISPICKVAL(ProjectProduct__c.LegalForm__c, &apos;OEIC&apos;)) &amp;&amp; (ISPICKVAL(ProjectProduct__c.GlobalRiskMethod__c, &apos;Absolute VaR&apos;) || ISPICKVAL(ProjectProduct__c.GlobalRiskMethod__c, &apos;Relative VaR&apos;))</value>
     </values>
     <values>
         <field>FieldRule__c</field>

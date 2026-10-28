@@ -8,7 +8,7 @@
  *              Each line and owner rule is checked with the PMT's own rules (PMTMatrix.getLineErrors, getConditionError, US-20194 V1.6): its
  *                  errors are shown on it instead of breaking the view, and a line breaking them cannot be saved.
  *              Fields are described on the stage objects (ProjectProductChild__c, ProjectShareclassChild__c), like PMTMatrix: a field missing
- *                  there is flagged, since PMTMatrix skips its lines. They also show IsModifiable__c and their DependentFields__c (fieldSelector).
+ *                  there is flagged, since PMTMatrix skips its lines. They also show IsSensitive__c and their DependentFields__c (fieldSelector).
  *              US-20194 V1.5: inactive lines (IsActive__c unticked) are shown and flagged, and left out of the sharing status.
  *              US-20194 V1.6: creates and edits rule lines (pmtRuleLineEditor: previewLine, checkCondition, saveLine). A line reuses the PMTField of
  *                  its Object + FieldApiName and the PMTFieldRule of its Team + Stage, or creates them; a Rule + Field already used by another line
@@ -17,9 +17,9 @@
  *                  A line is named {FUND|SC}_{field}_{index} (e.g. SC_ISIN_2), after its field only, so its name stays true when it moves; its
  *                  label "Team - Stage - Field" is rewritten on every save.
  * @author Charles EID
- * @lastModifiedBy Charles EID   [24-10-26]
+ * @lastModifiedBy Charles EID   [28-10-26]
  * @testClass PMTMatrixExplorerControllerTest
- * @coverage 99%   [24-10-26]
+ * @coverage 99%   [28-10-26]
  ────────────────────────────────────── */
 public with sharing class PMTMatrixExplorerController {
 
@@ -137,7 +137,7 @@ public with sharing class PMTMatrixExplorerController {
         Map<String, Schema.SObjectField> fundStageFields = getStageObject(true).fields.getMap();
         Map<String, Schema.SObjectField> shareClassStageFields = getStageObject(false).fields.getMap();
         Map<String, Field> fieldByDeveloperName = new Map<String, Field>();
-        for (PMTField__mdt record : [SELECT Id, DeveloperName, Object__c, FieldApiName__c, IsModifiable__c, DependentFields__c FROM PMTField__mdt ORDER BY FieldApiName__c]) {
+        for (PMTField__mdt record : [SELECT Id, DeveloperName, Object__c, FieldApiName__c, IsSensitive__c, DependentFields__c FROM PMTField__mdt ORDER BY FieldApiName__c]) {
             Boolean isFund = record.Object__c == FUND_OBJECT;
             fieldByDeveloperName.put(record.DeveloperName, new Field(record, isFund, isFund ? fundStageFields : shareClassStageFields));
         }
@@ -225,7 +225,7 @@ public with sharing class PMTMatrixExplorerController {
         }
         if (String.join(context.dependentFields, ';').length() > DEPENDENT_FIELDS_MAX_LENGTH) context.errors.add(DEPENDENT_FIELDS_TOO_LONG_ERROR);
 
-        for (PMTField__mdt record : [SELECT DeveloperName, MasterLabel, FieldApiName__c, IsModifiable__c, DependentFields__c FROM PMTField__mdt WHERE Object__c = :request.objectName]) {
+        for (PMTField__mdt record : [SELECT DeveloperName, MasterLabel, FieldApiName__c, IsSensitive__c, DependentFields__c FROM PMTField__mdt WHERE Object__c = :request.objectName]) {
             if (record.FieldApiName__c.equalsIgnoreCase(request.fieldApiName)) context.field = record;
         }
         for (PMTFieldRule__mdt record : [SELECT DeveloperName, Team__r.DeveloperName, Stage__r.DeveloperName FROM PMTFieldRule__mdt]) {
@@ -249,16 +249,16 @@ public with sharing class PMTMatrixExplorerController {
         String fieldApiName = context.field != null ? context.field.FieldApiName__c : context.stageField.getDescribe().getName();
         String fieldName = fieldApiName.removeEndIgnoreCase('__c');
         String dependentFields = context.dependentFields.isEmpty() ? null : String.join(context.dependentFields, ';');
-        Boolean isModifiable = request.isModifiable == true;
+        Boolean isSensitive = request.isSensitive == true;
         String fieldDeveloperName = context.field?.DeveloperName;
-        if (context.field == null || context.field.IsModifiable__c != isModifiable || context.field.DependentFields__c != dependentFields) {
+        if (context.field == null || context.field.IsSensitive__c != isSensitive || context.field.DependentFields__c != dependentFields) {
             String levelSuffix = context.isFund ? 'Fund' : 'SC';
             if (fieldDeveloperName == null) fieldDeveloperName = getUniqueName(levelSuffix + fieldName, PMTField__mdt.getAll().keySet());
             String fieldLabel = context.field != null ? context.field.MasterLabel : (fieldName + ' (' + levelSuffix + ')').left(NAME_MAX_LENGTH);
             container.addMetadata(buildRecord('PMTField', fieldDeveloperName, fieldLabel, new Map<String, Object>{
                 'Object__c' => request.objectName,
                 'FieldApiName__c' => fieldApiName,
-                'IsModifiable__c' => isModifiable,
+                'IsSensitive__c' => isSensitive,
                 'DependentFields__c' => dependentFields
             }));
         }
@@ -507,7 +507,7 @@ public with sharing class PMTMatrixExplorerController {
         @AuraEnabled public String objectName;
         @AuraEnabled public Boolean isFund;
         @AuraEnabled public String level;
-        @AuraEnabled public Boolean isModifiable;
+        @AuraEnabled public Boolean isSensitive;
         @AuraEnabled public List<DescribedField> dependentFields = new List<DescribedField>();
         @AuraEnabled public String sharingStatus;
         @AuraEnabled public List<Line> lines = new List<Line>();
@@ -519,7 +519,7 @@ public with sharing class PMTMatrixExplorerController {
             objectName = record.Object__c;
             this.isFund = isFund;
             level = isFund ? FUND_LEVEL : SHARE_CLASS_LEVEL;
-            isModifiable = record.IsModifiable__c == true;
+            isSensitive = record.IsSensitive__c == true;
             for (String dependentField : splitFieldNames(record.DependentFields__c)) {
                 dependentFields.add(new DescribedField(dependentField, stageFields));
             }
@@ -565,7 +565,7 @@ public with sharing class PMTMatrixExplorerController {
         public String stage;
         public String objectName;
         public String fieldApiName;
-        public Boolean isModifiable;
+        public Boolean isSensitive;
         public List<String> dependentFields;
         public String requirement;
         public String condition;
@@ -591,7 +591,7 @@ public with sharing class PMTMatrixExplorerController {
     public class LinePreview {
         @AuraEnabled public String fieldDeveloperName;
         @AuraEnabled public Integer fieldLineCount;
-        @AuraEnabled public Boolean fieldIsModifiable;
+        @AuraEnabled public Boolean fieldIsSensitive;
         @AuraEnabled public List<String> fieldDependentFields;
         @AuraEnabled public String ruleDeveloperName;
         @AuraEnabled public Id conflictLineId;
@@ -600,7 +600,7 @@ public with sharing class PMTMatrixExplorerController {
         private LinePreview(LineContext context) {
             fieldDeveloperName = context.field?.DeveloperName;
             fieldLineCount = context.fieldLineCount;
-            fieldIsModifiable = context.field?.IsModifiable__c == true;
+            fieldIsSensitive = context.field?.IsSensitive__c == true;
             fieldDependentFields = splitFieldNames(context.field?.DependentFields__c);
             ruleDeveloperName = context.rule?.DeveloperName;
             conflictLineId = context.conflictLineId;
