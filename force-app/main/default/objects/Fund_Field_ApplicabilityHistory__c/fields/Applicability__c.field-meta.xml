@@ -2,6 +2,8 @@
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>Applicability__c</fullName>
     <defaultValue>false</defaultValue>
+    <description>Set automatically on every insert and update by FundFieldApplicabilityHistoryTrigger (FundFieldApplicabilityHistoryHandler): true when FieldAPIName__c is listed in Tracked_Fields__c of the Field_History_Config__mdt record of the referenced object (validity period with Start/End Date, at most one open per record and field); false for the one-off audit lines of FieldHistoryLogger.logAllFields.</description>
+    <inlineHelpText>Checked: validity period of a tracked field (start/end date). Unchecked: one-off audit entry. Set automatically from the field history configuration; a manual value is overwritten.</inlineHelpText>
     <label>Applicability</label>
     <trackTrending>false</trackTrending>
     <type>Checkbox</type>

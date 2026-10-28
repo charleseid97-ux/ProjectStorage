@@ -1,93 +1,31 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Package xmlns="http://soap.sforce.com/2006/04/metadata">
     <types>
-        <members>EngagementScoreCalculator</members>
-        <members>EngagementScoringCoreTest</members>
-        <members>EngagementFundStrategyResolver</members>
-        <members>EngagementMeetingSignalBatch</members>
-        <members>EngagementNewsletterSignalBatch</members>
-        <members>EngagementScoringRuleService</members>
-        <members>EngagementSignalBatchLogService</members>
-        <members>EngagementSignalIngestionTest</members>
-        <members>EngagementSignalKeyService</members>
-        <members>EngagementSignalProvider</members>
-        <members>EngagementSignalReconciliationBatch</members>
-        <members>EngagementSignalRefreshService</members>
-        <members>EngagementSignalService</members>
-        <members>EngagementSubscriptionSignalBatch</members>
-        <members>EngagementWebinarSignalBatch</members>
-        <members>EngagementWebsiteSignalBatch</members>
-        <members>EngagementHotLeadVFCtrl</members>
+        <members>FieldHistoryLogger</members>
+        <members>FundFieldApplicabilityHistoryHandler</members>
+        <members>Test_FieldHistoryLogger</members>
         <name>ApexClass</name>
     </types>
-
     <types>
-        <members>EngagementHotLeads</members>
-        <name>ApexPage</name>
+        <members>FundFieldApplicabilityHistoryTrigger</members>
+        <name>ApexTrigger</name>
     </types>
-
     <types>
-        <members>EngagementSignalRule.WEB_VISIT</members>
-        <members>EngagementSignalRule.NEWSLETTER_CLICK</members>
-        <members>EngagementSignalRule.PROSPACE_SUBSCRIPTION</members>
-        <members>EngagementSignalRule.WEBINAR_ATTENDANCE</members>
-        <members>EngagementSignalRule.MEETING_PRODUCT_INTEREST</members>
-        <members>EngagementRecencyRule.DAYS_0_10</members>
-        <members>EngagementRecencyRule.DAYS_11_30</members>
-        <members>EngagementRecencyRule.DAYS_31_60</members>
-        <members>EngagementRecencyRule.DAYS_61_90</members>
-        <members>EngagementRecencyRule.DAYS_91_180</members>
-        <name>CustomMetadata</name>
-    </types>
-
-    <types>
-        <members>Engagement_Signal__c</members>
-        <members>EngagementSignalRule__mdt</members>
-        <members>EngagementRecencyRule__mdt</members>
-        <name>CustomObject</name>
-    </types>
-
-    <types>
-        <members>Engagement_Signal__c.BaseWeight__c</members>
-        <members>Engagement_Signal__c.Contact__c</members>
-        <members>Engagement_Signal__c.ExternalKey__c</members>
-        <members>Engagement_Signal__c.InteractionDate__c</members>
-        <members>Engagement_Signal__c.IsActive__c</members>
-        <members>Engagement_Signal__c.LastSeenRunId__c</members>
-        <members>Engagement_Signal__c.ObsoleteReason__c</members>
-        <members>Engagement_Signal__c.QualityValue__c</members>
-        <members>Engagement_Signal__c.RuleVersion__c</members>
-        <members>Engagement_Signal__c.SourceId__c</members>
-        <members>Engagement_Signal__c.SourceObject__c</members>
-        <members>Engagement_Signal__c.SourceType__c</members>
-        <members>Engagement_Signal__c.Strategy__c</members>
-
-        <members>EngagementSignalRule__mdt.Active__c</members>
-        <members>EngagementSignalRule__mdt.BaseWeight__c</members>
-        <members>EngagementSignalRule__mdt.CapPeriodDays__c</members>
-        <members>EngagementSignalRule__mdt.HighQualityBaseWeight__c</members>
-        <members>EngagementSignalRule__mdt.HighQualityThreshold__c</members>
-        <members>EngagementSignalRule__mdt.LookbackDays__c</members>
-        <members>EngagementSignalRule__mdt.MaxContributionPerPeriod__c</members>
-        <members>EngagementSignalRule__mdt.MinAttendanceRate__c</members>
-        <members>EngagementSignalRule__mdt.MinInterest__c</members>
-        <members>EngagementSignalRule__mdt.MinTimeSpentSeconds__c</members>
-        <members>EngagementSignalRule__mdt.RequireActiveSubscription__c</members>
-        <members>EngagementSignalRule__mdt.RequireContact__c</members>
-        <members>EngagementSignalRule__mdt.RequireStrategy__c</members>
-        <members>EngagementSignalRule__mdt.RuleVersion__c</members>
-        <members>EngagementSignalRule__mdt.SourceType__c</members>
-
-        <members>EngagementRecencyRule__mdt.Coefficient__c</members>
-        <members>EngagementRecencyRule__mdt.MaxDays__c</members>
-        <members>EngagementRecencyRule__mdt.MinDays__c</members>
+        <members>Field_History_Config__mdt.LookupFieldAPIName__c</members>
+        <members>Fund_Field_ApplicabilityHistory__c.Applicability__c</members>
+        <members>Fund_Field_ApplicabilityHistory__c.OpenPeriodKey__c</members>
         <name>CustomField</name>
     </types>
-
     <types>
-        <members>Engagement_Scoring_Admin</members>
-        <name>PermissionSet</name>
+        <members>Field_History_Config.Benchmark_Tracked_Fields</members>
+        <members>Field_History_Config.Fund_Manager_Tracked_Fields</members>
+        <members>Field_History_Config.Product_Tracked_Fields</members>
+        <members>Field_History_Config.ShareClass_Tracked_Fields</members>
+        <name>CustomMetadata</name>
     </types>
-
-    <version>65.0</version>
+    <types>
+        <members>Field_History_Config__mdt-Field History Config Layout</members>
+        <name>Layout</name>
+    </types>
+    <version>64.0</version>
 </Package>
