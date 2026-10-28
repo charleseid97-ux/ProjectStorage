@@ -3,6 +3,7 @@
  *              Coverage: 89%
  *              Also covers the FundFieldApplicabilityHistoryTrigger rules: Applicability__c set from the config, a single open period per record and field.
  * @editor     Charles Eid — 2026-04-02
+ *              One test method: the Share Class updates also send the field change alert, as an HTML table (2 changes) then as a CSV attachment (6 changes, above the 5-row test limit).
  * @covers FieldHistoryLogger   90%   [28-10-26]
  * @covers FundFieldApplicabilityHistoryHandler   100%   [28-10-26]
  * @lastModifiedBy Charles EID   [28-10-26]
@@ -40,8 +41,14 @@ public class Test_FieldHistoryLogger {
         update products;
 
         sc0.Name__c = 'old Name';
+        sc0.MaxManagementFees__c = 1.5;
         update sc0;
         sc0.Name__c = 'new Name';
+        sc0.MaxManagementFees__c = 1.0;
+        sc0.EffectiveManagementFees__c = 0.5;
+        sc0.MaxServiceFees__c = 0.3;
+        sc0.EffectiveServiceFees__c = 0.2;
+        sc0.EffectivePerfFees__c = 0.1;
         update sc0;
 
         Test.stopTest();
@@ -72,31 +79,4 @@ public class Test_FieldHistoryLogger {
         update auditLine;
         System.assertEquals(false, [SELECT Applicability__c FROM Fund_Field_ApplicabilityHistory__c WHERE Id = :auditLine.Id].Applicability__c, 'A manual Applicability__c on a non-tracked field is overwritten');
     }
-
-    @isTest
-    static void sendAlert_htmlTable_Test() {
-        Share_Class__c sc = [SELECT Id, Name__c, MaxManagementFees__c FROM Share_Class__c WHERE Validity__c = true LIMIT 1];
-
-        Test.startTest();
-        sc.Name__c = 'Alert Test';
-        sc.MaxManagementFees__c = 1.5;
-        update sc;
-        Test.stopTest();
-    }
-
-    @isTest
-    static void sendAlert_csvAttachment_Test() {
-        Share_Class__c sc = [SELECT Id, Name__c, MaxManagementFees__c, EffectiveManagementFees__c, MaxServiceFees__c, EffectiveServiceFees__c, EffectivePerfFees__c FROM Share_Class__c WHERE Validity__c = true LIMIT 1];
-
-        Test.startTest();
-        sc.Name__c                    = 'CSV Test';
-        sc.MaxManagementFees__c       = 1.0;
-        sc.EffectiveManagementFees__c = 0.5;
-        sc.MaxServiceFees__c          = 0.3;
-        sc.EffectiveServiceFees__c    = 0.2;
-        sc.EffectivePerfFees__c       = 0.1;
-        update sc;
-        Test.stopTest();
-    }
-
 }
