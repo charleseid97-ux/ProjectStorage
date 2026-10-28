@@ -1,9 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Package xmlns="http://soap.sforce.com/2006/04/metadata">
     <types>
-        <members>PMT_Narratives_Before_Trigger</members>
-        <members>PMT_NarrativeName</members>
-        <members>PMT_Narratives_Duplicates</members>
+        <members>AI_Agent_Activation_Notification</members>
         <name>Flow</name>
     </types>
     <version>64.0</version>
