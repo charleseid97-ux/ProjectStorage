@@ -56,13 +56,8 @@ public without sharing class FieldHistoryLogger {
                     }
                     Fund_Field_ApplicabilityHistory__c newLog = buildLog(objectApiName, recordId, field, fieldLabel, oldVal, newVal, source);
                     // Les enregistrements initialisés depuis PMT deviennent applicables à la Launch Date.
-                    Boolean isPmtInitialization = oldObj == null
-                        && ((objectApiName == 'Product__c' && newObj.get('ParentProject__c') != null)
-                        || (objectApiName == 'Share_Class__c' && newObj.get('ProjectShareclass__c') != null));
-
-                    newLog.Start_Date__c = isPmtInitialization && newObj.get('LaunchDate__c') != null
-                        ? (Date) newObj.get('LaunchDate__c')
-                        : System.Today();
+                    Boolean isPmtInitialization = oldObj == null && ((objectApiName == 'Product__c' && newObj.get('ParentProject__c') != null) || (objectApiName == 'Share_Class__c' && newObj.get('ProjectShareclass__c') != null));
+                    newLog.Start_Date__c = isPmtInitialization && newObj.get('LaunchDate__c') != null ? (Date) newObj.get('LaunchDate__c') : System.Today();
                     newLog.Applicability__c = true;
                     logsToInsert.add(newLog);
                 }
