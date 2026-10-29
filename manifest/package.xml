@@ -1,31 +1,47 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Package xmlns="http://soap.sforce.com/2006/04/metadata">
     <types>
-        <members>FieldHistoryLogger</members>
-        <members>FundFieldApplicabilityHistoryHandler</members>
-        <members>Test_FieldHistoryLogger</members>
+        <members>ContactTH</members>
+        <members>EmailService</members>
+        <members>LyytiDeletionAlertService</members>
+        <members>LyytiDeletionAlertServiceTest</members>
+        <members>SM016_CampaignMemberTriggerHandler</members>
+        <members>SM016_CampaignMemberTriggerHandlerTest</members>
+        <members>SM017_LeadTriggerHandler</members>
         <name>ApexClass</name>
     </types>
     <types>
-        <members>FundFieldApplicabilityHistoryTrigger</members>
-        <name>ApexTrigger</name>
-    </types>
-    <types>
-        <members>Field_History_Config__mdt.LookupFieldAPIName__c</members>
-        <members>Fund_Field_ApplicabilityHistory__c.Applicability__c</members>
-        <members>Fund_Field_ApplicabilityHistory__c.OpenPeriodKey__c</members>
-        <name>CustomField</name>
-    </types>
-    <types>
-        <members>Field_History_Config.Benchmark_Tracked_Fields</members>
-        <members>Field_History_Config.Fund_Manager_Tracked_Fields</members>
-        <members>Field_History_Config.Product_Tracked_Fields</members>
-        <members>Field_History_Config.ShareClass_Tracked_Fields</members>
+        <members>LyytiDeletionAlert.BeneluxNordics</members>
+        <members>LyytiDeletionAlert.France</members>
+        <members>LyytiDeletionAlert.Other</members>
+        <members>LyytiDeletionAlert.SouthernEurope</members>
+        <members>LyytiDeletionAlert.SwitzerlandLiechtenstein</members>
+        <members>LyytiDeletionAlert.UKGermanyAustria</members>
         <name>CustomMetadata</name>
     </types>
     <types>
-        <members>Field_History_Config__mdt-Field History Config Layout</members>
+        <members>LyytiDeletionAlert__mdt.IsActive__c</members>
+        <members>LyytiDeletionAlert__mdt.EmailTemplate__c</members>
+        <members>LyytiDeletionAlert__mdt.RecipientEmails__c</members>
+        <members>LyytiDeletionAlert__mdt.RecipientQueues__c</members>
+        <members>LyytiDeletionAlert__mdt.SalesTeam__c</members>
+        <name>CustomField</name>
+    </types>
+    <types>
+        <members>LyytiDeletionAlert__mdt</members>
+        <name>CustomObject</name>
+    </types>
+    <types>
+        <members>LyytiDeletionAlert__mdt-Lyyti Deletion Alert Layout</members>
         <name>Layout</name>
+    </types>
+    <types>
+        <members>CarmignacAlerts/LyytiDeletionAlert</members>
+        <name>EmailTemplate</name>
+    </types>
+    <types>
+        <members>LyytiUsers</members>
+        <name>Queue</name>
     </types>
     <version>64.0</version>
 </Package>
