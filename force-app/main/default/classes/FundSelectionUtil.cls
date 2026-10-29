@@ -23,8 +23,8 @@ global with sharing class FundSelectionUtil {
 
     @AuraEnabled 
     public static Product__c[] getStrategyListForReport() {
-        Id strategyRecordTypeId = Schema.SObjectType.Product__c.getRecordTypeInfosByDeveloperName().get('Strategy').getRecordTypeId();
-        return [SELECT Name, ProductName__c FROM Product__c WHERE RecordTypeId =: strategyRecordTypeId AND Validity__c = true]; //AND Dedicated_Fund__c = false];
+        // Id strategyRecordTypeId = Schema.SObjectType.Product__c.getRecordTypeInfosByDeveloperName().get('Strategy').getRecordTypeId();
+        return [SELECT Name, ProductName__c FROM Product__c WHERE Validity__c = true]; //AND RecordTypeId =: strategyRecordTypeId AND AND Dedicated_Fund__c = false];
     }
 
     @AuraEnabled

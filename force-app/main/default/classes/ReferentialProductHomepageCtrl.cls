@@ -11,7 +11,7 @@ public class ReferentialProductHomepageCtrl {
     // Retrieve all Share Class and Product fields used by the existing hierarchy helper.
     private static final String SHARE_CLASS_SELECT = 'SELECT Id, Name, Fund__c, Status__c, ISIN__c, Primary_Portfolio_Share_Class__c, ' +
                                                      'Fund__r.Id, Fund__r.Name, Fund__r.Record_Type_Name__c, Fund__r.RecordTypeId, ' +
-                                                     'Fund__r.LaunchDate__c, Fund__r.FundStrategy__c, Fund__r.AssetClass__c, Fund__r.Validity__c ' +
+                                                     'Fund__r.LaunchDate__c, Fund__r.FundStrategy__c, Fund__r.Validity__c ' +
                                                      'FROM Share_Class__c WHERE ';
     private static final String SHARE_CLASS_ORDER = ' ORDER BY Primary_Portfolio_Share_Class__c desc';
 

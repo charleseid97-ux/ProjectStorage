@@ -4,9 +4,10 @@
         if (strategies) {
             console.log('Strategies retrieved from custom cache');
             component.set("v.strategies", strategies);
-        } else {
-	    	helper.loadStrategies(component);    
-        }
+        } 
+        // else {
+	    // 	helper.loadStrategies(component);    
+        // }
 	},
     
     strategyChangeHandler : function(component, event, helper) {
