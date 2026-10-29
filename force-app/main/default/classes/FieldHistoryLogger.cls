@@ -17,6 +17,8 @@
  */
 public without sharing class FieldHistoryLogger {
 
+    private static Map<String, Field_History_Config__mdt> configByObject = new Map<String, Field_History_Config__mdt>();
+
     public static void log(List<SObject> newList, Map<Id, SObject> oldMap, String objectApiName) {
         if (newList == null || newList.isEmpty()) return;
         Field_History_Config__mdt config = getFieldHistoryConfigMdt(objectApiName);
@@ -163,13 +165,15 @@ public without sharing class FieldHistoryLogger {
         if (!logsToInsert.isEmpty()) insert logsToInsert;
     }
 
+    // Loaded once per object and transaction: reading long text areas makes this custom metadata query count toward the SOQL limit, and log() / logAllFields() run on every Product / Share Class save
     private static Field_History_Config__mdt getFieldHistoryConfigMdt(String objectApiName) {
+        if (configByObject.containsKey(objectApiName)) return configByObject.get(objectApiName);
         List<Field_History_Config__mdt> configs = [SELECT Tracked_Fields__c, ExcludedFields__c, SendAlert__c, AlertRecipients__c, AlertEmailTemplate__c, ContextFields__c, MaxTableRows__c
                                                    FROM Field_History_Config__mdt
                                                    WHERE Object_API_Name__c = :objectApiName
                                                    LIMIT 1];
-        if (configs.isEmpty() || String.isBlank(configs[0].Tracked_Fields__c)) return null;
-        return configs[0];
+        configByObject.put(objectApiName, configs.isEmpty() || String.isBlank(configs[0].Tracked_Fields__c) ? null : configs[0]);
+        return configByObject.get(objectApiName);
     }
 
     private static Fund_Field_ApplicabilityHistory__c buildLog(String objectApiName, Id recordId, String fieldApiName, String fieldLabel, Object oldVal, Object newVal, String source) {
