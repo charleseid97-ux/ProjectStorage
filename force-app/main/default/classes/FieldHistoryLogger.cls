@@ -9,10 +9,11 @@
  *              The lookup of each object comes from LookupFieldAPIName__c on its config record.
  *              Applicability__c and the single open period per record and field (unique OpenPeriodKey__c) are enforced by FundFieldApplicabilityHistoryTrigger:
  *                  a new period rejected there never fails the parent save, log() reports it in OperationLog__c.
+ *              The alert never fails the parent save either: no email when deliverability is "No Access", other send failures go to OperationLog__c.
  * @editor Charles Eid — 2026-04-02
  * @testClass Test_FieldHistoryLogger
- * @coverage 90%   [28-10-26]
- * @lastModifiedBy Charles EID   [28-10-26]
+ * @coverage 88%   [29-10-26]
+ * @lastModifiedBy Charles EID   [29-10-26]
  */
 public without sharing class FieldHistoryLogger {
 
@@ -310,7 +311,17 @@ public without sharing class FieldHistoryLogger {
             if (useAttachment) msg.setFileAttachments(new Messaging.EmailFileAttachment[]{ att });
             emails.add(msg);
         }
-        if (!Test.isRunningTest() && !emails.isEmpty()) Messaging.sendEmail(emails);
+        if (Test.isRunningTest() || emails.isEmpty()) return;
+
+        // The alert never blocks the parent save: no email when deliverability is "No Access" (NO_SINGLE_MAIL_PERMISSION), any other send failure is reported in OperationLog__c
+        try {
+            Messaging.sendEmail(emails);
+        }
+        catch (EmailException e) {
+            if (e.getDmlType(0) == StatusCode.NO_SINGLE_MAIL_PERMISSION) return;
+            OperationLogService.logWithContext(OperationLogService.Level.ERROR, (Id) null, 'Field history alert', 'Field change alert emails could not be sent.', null, e, 'FieldHistoryLogger', 'sendFieldChangeAlert');
+            OperationLogService.flush();
+        }
     }
 
     // Builds a deterministic signature for a list of logs based on sorted field API names
