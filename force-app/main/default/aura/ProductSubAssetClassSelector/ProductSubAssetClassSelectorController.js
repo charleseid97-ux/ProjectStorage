@@ -4,9 +4,10 @@
         if (subAssetClasses) {
             console.log('Sub Asset classes retrieved from custom cache');
             component.set("v.subAssetClasses", subAssetClasses);
-        } else {
-	    	helper.loadSubAssetClasses(component);    
-        }
+        } 
+        // else {
+	    // 	helper.loadSubAssetClasses(component);    
+        // }
 	},
     
     subAssetClassChangeHandler : function(component, event, helper) {

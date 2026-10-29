@@ -74,7 +74,7 @@ public with sharing class ProductHierarchyHelper {
             Boolean hasShares = fundSharesList != null;
 
             ReferentialProductHomepageCtrl.ItemDTO fundItem = new ReferentialProductHomepageCtrl.ItemDTO(fund.Name, null, fund.Name, recordUrl(fund.Id), null, null, false, fund.Validity__c, true, hasShares && expanded, hasShares ? getShareItemsReferential(fundSharesList) : null);
-            fundItem.assetclass = fund.AssetClass__c;
+            fundItem.assetclass = fund.FundStrategy__r.AssetClass__c;
             fundItem.regionalfocus = String.valueOf(fund.LaunchDate__c);
             fundItems.add(fundItem);
         }
@@ -85,7 +85,7 @@ public with sharing class ProductHierarchyHelper {
         List<ReferentialProductHomepageCtrl.ItemDTO> shareItems = new List<ReferentialProductHomepageCtrl.ItemDTO>();
         for (Share_Class__c share : fundSharesList) {
             ReferentialProductHomepageCtrl.ItemDTO shareItem = new ReferentialProductHomepageCtrl.ItemDTO(share.Name, null, share.Name, recordUrl(share.Id), null, share.ISIN__c, false, isActiveShareClass(share), false, false, null);
-            shareItem.assetclass = share.Fund__r.AssetClass__c;
+            shareItem.assetclass = share.Fund__r.FundStrategy__r.AssetClass__c;
             shareItem.regionalfocus = String.valueOf(share.Fund__r.LaunchDate__c);
             shareItems.add(shareItem);
         }

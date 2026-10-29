@@ -1,32 +1,27 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Package xmlns="http://soap.sforce.com/2006/04/metadata">
     <types>
-        <members>FieldHistoryLogger</members>
-        <members>FundFieldApplicabilityHistoryHandler</members>
-        <members>Test_FieldHistoryLogger</members>
+        <members>ProductAssetClassSelector</members>
+        <members>ProductFilter</members>
+        <members>ProductSubAssetClassSelector</members>
+        <members>ProductStrategySelector</members>
+        <members>ProductTile</members>
+        <members>ProductTileListWTP</members>
+        <members>GlobalBuyListManager</members>
+        <members>IndependantBuyListManager</members>
+        <name>AuraDefinitionBundle</name>
+    </types>
+    <types>
+        <members>FundSelectionProcessTest</members>
+        <members>FundSelectionUtil</members>
+        <members>ProductSelectionCtrl</members>
+        <members>ProductSelectionCtrlTest</members>
+        <members>ProductTriggerTest</members>
+        <members>TestDataFactory</members>
+        <members>WTPSelectorControllerTest</members>
+        <members>ReferentialProductHomepageCtrl</members>
+        <members>DigitalInteractionTest</members>
         <name>ApexClass</name>
     </types>
-    <types>
-        <members>FundFieldApplicabilityHistoryTrigger</members>
-        <name>ApexTrigger</name>
-    </types>
-    <types>
-        <members>Field_History_Config__mdt.LookupFieldAPIName__c</members>
-        <members>Fund_Field_ApplicabilityHistory__c.Applicability__c</members>
-        <members>Fund_Field_ApplicabilityHistory__c.OpenPeriodKey__c</members>
-        <name>CustomField</name>
-    </types>
-    <types>
-        <members>Field_History_Config.Benchmark_Tracked_Fields</members>
-        <members>Field_History_Config.Fund_Manager_Tracked_Fields</members>
-        <members>Field_History_Config.Product_Tracked_Fields</members>
-        <members>Field_History_Config.ShareClass_Tracked_Fields</members>
-        <name>CustomMetadata</name>
-    </types>
-    <types>
-        <members>Field_History_Config__mdt-Field History Config Layout</members>
-        <name>Layout</name>
-    </types>
-    <!-- FLAG: ON -->
     <version>64.0</version>
 </Package>

@@ -8,11 +8,10 @@ public class ReferentialProductHomepageCtrl {
 
     private static final List<String> ACTIVE_SHARE_CLASS_STATUSES = new List<String>{'Active', 'Active - Lab'};
 
-    // Retrieve the Share Class and parent Product fields used by the UAT hierarchy helper.
-    private static final String SHARE_CLASS_SELECT = 'SELECT Id, Name, Fund__c, Status__c, ISIN__c, Primary_Portfolio_Share_Class__c, ' +
-                                                     'Fund__r.Id, Fund__r.Name, Fund__r.ProductName__c, Fund__r.RecordTypeId, ' +
-                                                     'Fund__r.LaunchDate__c, Fund__r.FundStrategy__c, Fund__r.AssetClass__c, ' +
-                                                     'Fund__r.Validity__c, Fund__r.VehicleType__c FROM Share_Class__c WHERE ';
+    // Retrieve all Share Class and Product fields used by the existing hierarchy helper.
+    private static final String SHARE_CLASS_SELECT = 'SELECT Id, Name, Fund__c, Status__c, ISIN__c, Primary_Portfolio_Share_Class__c, Fund__r.Id, Fund__r.Name, Fund__r.RecordTypeId, ' +
+                                                     'Fund__r.LaunchDate__c, Fund__r.FundStrategy__c, Fund__r.Validity__c, Fund__r.FundStrategy__r.AssetClass__c, Fund__r.LegalForm__c, ' +
+                                                     'Fund__r.VehicleType__c, Fund__r.SFDRcategory__c, Fund__r.ProductName__c FROM Share_Class__c WHERE ';
     private static final String SHARE_CLASS_ORDER = ' ORDER BY Primary_Portfolio_Share_Class__c desc';
 
     @AuraEnabled

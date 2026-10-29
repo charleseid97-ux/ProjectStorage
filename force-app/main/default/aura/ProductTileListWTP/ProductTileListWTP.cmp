@@ -9,8 +9,8 @@
     
     <aura:attribute name="products" type="Product__c[]"/>
     <aura:attribute name="selectedProductId" type="String"/>
-    <aura:attribute name="asset_classes" type="Product__c[]"/>
-    <aura:attribute name="sub_asset_classes" type="Product__c[]"/>
+    <!-- <aura:attribute name="asset_classes" type="Product__c[]"/> -->
+    <!-- <aura:attribute name="sub_asset_classes" type="Product__c[]"/> -->
     <aura:attribute name="strategies" type="Product__c[]"/> 
     <aura:attribute name="filterObject" type="Object" />
     <aura:attribute name="pageSize" type="integer" default="18"/>
@@ -31,8 +31,8 @@
     
     <aura:handler event="c:ProductSelectorPassSObjectNameEvt" action="{!c.setSObjectName}"/>
     
-    <aura:handler name="change" value="{!v.asset_classes}" action="{!c.onAssetClassFilterChange}"/>
-    <aura:handler name="change" value="{!v.sub_asset_classes}" action="{!c.onSubAssetClassFilterChange}"/>
+    <!-- <aura:handler name="change" value="{!v.asset_classes}" action="{!c.onAssetClassFilterChange}"/> -->
+    <!-- <aura:handler name="change" value="{!v.sub_asset_classes}" action="{!c.onSubAssetClassFilterChange}"/> -->
     <!--aura:handler name="change" value="{!v.strategies}" action="{!c.onStrategyFilterChange}"/-->
     <aura:handler name="change" value="{!v.openModalTrue}" action="{!c.onModalInitialization}"/>
     <aura:handler event="force:refreshView" action="{!c.onModalInitialization}" /> 
