@@ -164,7 +164,7 @@ private class Test_ProjectProductBatch {
 
     // Same values as PMTTestFactoryData.createProjectProductWithAllFields, without the insert (projects are inserted in one DML)
     private static ProjectProduct__c buildProject(Id recordTypeId) {
-        return new ProjectProduct__c(Name = 'Test Project', RecordTypeId = recordTypeId, VehicleType__c = 'Funds', ProjectStartDate__c = Date.today() - 20, EndDate__c = Date.today(), RiskAssociated__c = 'Equity;Interest rates;Credit;Currency', InvestmentObjective__c = 'Sample Objective', InvestmentStrategy__c = 'Sample Strategy', DomiciledIn__c = 'FR', ProjectStatus__c = 'Closed', ProductName__c = 'toto', SFDRCategory__c = '0', LegalForm__c = 'Other', LettreRequise__c = 'No');
+        return new ProjectProduct__c(Name = 'Test Project', RecordTypeId = recordTypeId, VehicleType__c = 'Funds', ProjectStartDate__c = Date.today() - 20, EndDate__c = Date.today(), RiskAssociated__c = 'Equity;Interest rate;Credit;Currency', InvestmentObjective__c = 'Sample Objective', InvestmentStrategy__c = 'Sample Strategy', DomiciledIn__c = 'FR', ProjectStatus__c = 'Closed', ProductName__c = 'toto', SFDRCategory__c = '0', LegalForm__c = 'Other', LettreRequise__c = 'No');
     }
 
     // Same values as PMTTestFactoryData.createProjectShareclass, without the insert

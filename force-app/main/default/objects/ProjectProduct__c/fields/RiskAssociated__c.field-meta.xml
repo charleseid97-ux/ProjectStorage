@@ -18,9 +18,9 @@
                 <label>Equity</label>
             </value>
             <value>
-                <fullName>Interest rates</fullName>
+                <fullName>Interest rate</fullName>
                 <default>false</default>
-                <label>Interest rates</label>
+                <label>Interest rate</label>
             </value>
             <value>
                 <fullName>Credit</fullName>
@@ -33,10 +33,10 @@
                 <label>Currency</label>
             </value>
             <value>
-                <fullName>Equity|Interest rates|Credit|Currency</fullName>
+                <fullName>Equity|Interest rate|Credit|Currency</fullName>
                 <default>false</default>
                 <isActive>false</isActive>
-                <label>Equity|Interest rates|Credit|Currency</label>
+                <label>Equity|Interest rate|Credit|Currency</label>
             </value>
         </valueSetDefinition>
     </valueSet>

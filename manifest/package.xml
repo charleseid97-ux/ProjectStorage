@@ -1,27 +1,37 @@
+
 <?xml version="1.0" encoding="UTF-8"?>
 <Package xmlns="http://soap.sforce.com/2006/04/metadata">
     <types>
-        <members>ProductAssetClassSelector</members>
-        <members>ProductFilter</members>
-        <members>ProductSubAssetClassSelector</members>
-        <members>ProductStrategySelector</members>
-        <members>ProductTile</members>
-        <members>ProductTileListWTP</members>
-        <members>GlobalBuyListManager</members>
-        <members>IndependantBuyListManager</members>
-        <name>AuraDefinitionBundle</name>
+        <members>PMTTestFactoryData</members>
+        <members>ProjectProductBatchUtilities</members>
+        <members>Test_ProjectProductBatch</members>
+        <members>Test_ProjectProductChildTriggerHandler</members>
+        <members>Test_ProjectShareclassTrigger</members>
+        <name>ApexClass</name>
     </types>
     <types>
-        <members>FundSelectionProcessTest</members>
-        <members>FundSelectionUtil</members>
-        <members>ProductSelectionCtrl</members>
-        <members>ProductSelectionCtrlTest</members>
-        <members>ProductTriggerTest</members>
-        <members>TestDataFactory</members>
-        <members>WTPSelectorControllerTest</members>
-        <members>ReferentialProductHomepageCtrl</members>
-        <members>DigitalInteractionTest</members>
-        <name>ApexClass</name>
+        <members>Product__c.RiskAssociated__c</members>
+        <members>ProjectProduct__c.RiskAssociated__c</members>
+        <members>ProjectProductChild__c.RiskAssociated__c</members>
+        <name>CustomField</name>
+    </types>
+    <types>
+        <members>Product__c.Fund</members>
+        <members>ProjectProduct__c.FundCreation</members>
+        <members>ProjectProduct__c.FundShareClassModification</members>
+        <members>ProjectProduct__c.ShareclassCreation</members>
+        <members>ProjectProductChild__c.DesignAndProposal</members>
+        <members>ProjectProductChild__c.Engineering</members>
+        <members>ProjectProductChild__c.Filing</members>
+        <members>ProjectProductChild__c.SetUp</members>
+        <name>RecordType</name>
+    </types>
+    <types>
+        <members>Product__c-en_US</members>
+        <members>Product__c-fr</members>
+        <members>ProjectProduct__c-en_US</members>
+        <members>ProjectProductChild__c-en_US</members>
+        <name>CustomObjectTranslation</name>
     </types>
     <version>64.0</version>
 </Package>
