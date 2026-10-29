@@ -402,7 +402,7 @@ public class ProjectProductBatchController {
 
         Set<String> scFieldsToModify = new Set<String>(getFieldsToModify(sc.TECH_FieldsToModify__c));
         fillShareclassNarrativeMaps(sc, scId, scFieldsToModify, context);
-        scToUpdate.ESMAApplicationStartDate__c = pp.EndDate__c;
+        // scToUpdate.ESMAApplicationStartDate__c = pp.EndDate__c;
         applyShareclassFieldUpdates(scToUpdate, sc, scFieldsToModify, errorMessages, recordsFailed);
         context.shareclassesToUpdate.add(scToUpdate);
     }

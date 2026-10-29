@@ -122,8 +122,8 @@ private class Test_ProjectProductBatch {
         System.assertEquals(1, createdProducts[0].Share_Classes__r.size(), 'The project share class should be created under the new product');
 
         // Modification: the existing share class gets the launch date as ESMA application start date
-        Share_Class__c modifiedShareclass = [SELECT ESMAApplicationStartDate__c FROM Share_Class__c WHERE Name = 'SC To Modify'];
-        System.assertEquals(Date.today(), modifiedShareclass.ESMAApplicationStartDate__c);
+        //Share_Class__c modifiedShareclass = [SELECT ESMAApplicationStartDate__c FROM Share_Class__c WHERE Name = 'SC To Modify'];
+        //System.assertEquals(Date.today(), modifiedShareclass.ESMAApplicationStartDate__c);
 
         // Share class creation: the new share class is active and its tax data is linked to it
         List<Share_Class__c> createdShareclasses = [SELECT Id, Status__c FROM Share_Class__c WHERE Fund__r.Name = 'ShareClsProd'];
