@@ -17,7 +17,8 @@ public with sharing class ProspaceAlertsController {
 
     private static Map<String, Boolean> getProspaceAlertActives(String recordId) {
         Map<String, Boolean> prospaceAlertActives = new Map<String, Boolean>();
-        String soqlAlertType = 'SELECT id, AlertType__c,AlertTypeRecord__c, AlertTypeRecord__r.Name, isActive__c FROM Web_Communication__c WHERE ';
+        String soqlAlertType = 'SELECT Id, AlertTypeRecord__c, AlertTypeRecord__r.Name, isActive__c' + //, AlertType__c '+
+                              ' FROM Web_Communication__c WHERE ';
         soqlAlertType += Id.valueOf(recordId).getSObjectType().getDescribe().getName() + '__c = \'' + recordId + '\'';
         
         for (Web_Communication__c prospaceAlert : Database.query(soqlAlertType)) {
@@ -86,19 +87,29 @@ public with sharing class ProspaceAlertsController {
 
     @AuraEnabled
     public static Boolean subscriptionAlertPublication(String recordId, String alertType, Boolean checked) {
-        List<Web_Communication__c> prospaceAlertList = [SELECT id, isActive__c FROM Web_Communication__c WHERE Contact__c =: Id.valueOf(recordId) and AlertType__c =: alertType ORDER BY CreatedDate DESC LIMIT 1];
+        List<Web_Communication__c> prospaceAlertList = [SELECT Id, isActive__c 
+                                                        FROM Web_Communication__c 
+                                                        WHERE Contact__c =: Id.valueOf(recordId) 
+                                                        //AND AlertType__c =: alertType
+                                                        AND AlertTypeRecord__r.TECH_WebSiteID__c = :alertType
+                                                        ORDER BY CreatedDate DESC LIMIT 1];
         if (prospaceAlertList.size() > 0) {
             Web_Communication__c prospaceAlert = prospaceAlertList[0];
             prospaceAlert.isActive__c = checked;
             return Database.update(prospaceAlert, false).isSuccess();
         }
         else {
-            Web_Communication__c prospaceAlert = new Web_Communication__c(
-                Contact__c = recordId,
-                AlertType__c = alertType,
-                isActive__c = checked
-            );
-            return Database.insert(prospaceAlert, false).isSuccess();
+            List<AlertType__c> alertTypeList = [SELECT Id FROM AlertType__c WHERE TECH_WebSiteID__c = :alertType LIMIT 1];
+            if (!alertTypeList.isEmpty()) {
+                Web_Communication__c prospaceAlert = new Web_Communication__c(
+                    Contact__c = recordId,
+                    //AlertType__c = alertType,
+                    AlertTypeRecord__c = alertTypeList[0].Id,
+                    isActive__c = checked
+                );
+                return Database.insert(prospaceAlert, false).isSuccess();
+            }
+            return false;
         }
     }
 
@@ -111,7 +122,12 @@ public with sharing class ProspaceAlertsController {
             alertTypeSet.add(item.trim());
         }
         
-        for (Web_Communication__c prospaceAlert : [SELECT id, isActive__c FROM Web_Communication__c WHERE Contact__c =: Id.valueOf(recordId) AND AlertType__c IN: alertTypeSet and isActive__c =: true]) {
+        for (Web_Communication__c prospaceAlert : [SELECT Id, isActive__c 
+                                                   FROM Web_Communication__c 
+                                                   WHERE Contact__c = :Id.valueOf(recordId) 
+                                                   //AND AlertType__c IN :alertTypeSet
+                                                   AND AlertTypeRecord__r.TECH_WebSiteID__c IN :alertTypeSet 
+                                                   AND isActive__c = true]) {
             prospaceAlert.isActive__c = false;
             prospaceAlertList.add(prospaceAlert);
         }

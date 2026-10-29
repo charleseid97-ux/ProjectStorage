@@ -6,6 +6,8 @@
  *              lines match the previous grid's detail lines. Only applies when the Agreement
  *              is currently Signed - any other status is left untouched.
  * @author Charles EID
+ * @testClass GridAmendmentAgreementStatusActionTest
+ * @coverage 97%   [29-09-26]
  ────────────────────────────────────── */
 public without sharing class GridAmendmentAgreementStatusAction implements IApprovalAction {
 
@@ -15,8 +17,9 @@ public without sharing class GridAmendmentAgreementStatusAction implements IAppr
     private static final String STATUS_CHANGE_RENEWAL   = 'Change Renewal';
 
     public void execute(Id targetRecordId, Id currentUserId, Map<String, Object> context) {
-        List<Grid__c> grids = [SELECT Id, Agreement__c FROM Grid__c WHERE Id = :targetRecordId LIMIT 1];
+        List<Grid__c> grids = [SELECT Id, Agreement__c, RecordType.DeveloperName FROM Grid__c WHERE Id = :targetRecordId LIMIT 1];
         if (grids.isEmpty() || grids[0].Agreement__c == null) return;
+        Boolean isOtherFeesGrid = grids[0].RecordType.DeveloperName == GridBuilderHelper.RT_OTHER_FEES_GRID;
 
         List<Convention__c> agreements = [SELECT Id, Grid__c, Status__c FROM Convention__c WHERE Id = :grids[0].Agreement__c LIMIT 1];
         if (agreements.isEmpty()) return;
@@ -35,7 +38,7 @@ public without sharing class GridAmendmentAgreementStatusAction implements IAppr
         if (previousGrids[0].EndDate__c == null) {
             newStatus = STATUS_CHANGE_REQUESTED;
         } else {
-            newStatus = haveSameGridDetails(previousGridId, targetRecordId) ? STATUS_PENDING_RENEWAL : STATUS_CHANGE_RENEWAL;
+            newStatus = (isOtherFeesGrid || haveSameGridDetails(previousGridId, targetRecordId)) ? STATUS_PENDING_RENEWAL : STATUS_CHANGE_RENEWAL;
         }
 
         update new Convention__c(Id = agreement.Id, Status__c = newStatus);

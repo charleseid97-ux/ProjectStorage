@@ -1,0 +1,122 @@
+<template>
+    <lightning-modal-header label={title}></lightning-modal-header>
+    <lightning-modal-body>
+        <div class="editor-body">
+            <template lwc:if={isSaving}>
+                <lightning-spinner alternative-text="Sending the deployment" size="medium"></lightning-spinner>
+            </template>
+            <h3 class="section-title">Team &amp; stage</h3>
+            <div class="slds-grid slds-gutters slds-wrap">
+                <div class="slds-col slds-size_1-of-2">
+                    <lightning-combobox label="Team" required field-level-help={help.team} options={editorModel.teamOptions} value={team} data-name="team" onchange={handleIdentityChange}></lightning-combobox>
+                </div>
+                <div class="slds-col slds-size_1-of-2">
+                    <lightning-combobox label="Stage" required field-level-help={help.stage} options={editorModel.stageOptions} value={stage} data-name="stage" onchange={handleIdentityChange}></lightning-combobox>
+                </div>
+            </div>
+            <template lwc:if={ruleStatus}><p class="status">{ruleStatus}</p></template>
+    
+            <h3 class="section-title">Field</h3>
+            <div class="slds-grid slds-gutters slds-wrap">
+                <div class="slds-col slds-size_1-of-2">
+                    <span class="slds-form-element__label">
+                        <abbr class="slds-required" title="required">*</abbr>Object
+                        <template lwc:if={help.objectName}><lightning-helptext class="label-help" content={help.objectName}></lightning-helptext></template>
+                    </span>
+                    <lightning-radio-group label="Object" variant="label-hidden" type="button" required options={editorModel.levelOptions} value={objectName} data-name="objectName" disabled={isEdit} onchange={handleIdentityChange}></lightning-radio-group>
+                </div>
+                <div class="slds-col slds-size_1-of-2">
+                    <lightning-input class="checkbox-field" type="checkbox" label="Modifiable" field-level-help={help.isModifiable} checked={isModifiable} data-name="isModifiable" onchange={handleCheckboxChange}></lightning-input>
+                </div>
+            </div>
+    
+            <div class="slds-form-element slds-m-top_small">
+                <label class="slds-form-element__label" for="field-input">
+                    <abbr class="slds-required" title="required">*</abbr>Field
+                    <template lwc:if={help.fieldApiName}><lightning-helptext class="label-help" content={help.fieldApiName}></lightning-helptext></template>
+                </label>
+                <div class="slds-form-element__control">
+                    <div class="slds-combobox_container">
+                        <div class={fieldComboboxClass}>
+                            <div class="slds-combobox__form-element slds-input-has-icon slds-input-has-icon_right">
+                                <input id="field-input" class="field-input slds-input slds-combobox__input" type="text" role="combobox" autocomplete="off" aria-autocomplete="list" aria-controls="field-listbox" aria-expanded={fieldListExpanded} placeholder={fieldPlaceholder} value={fieldInputValue} disabled={isFieldDisabled} onfocus={handleFieldFocus} oninput={handleFieldInput} onblur={handleFieldBlur} />
+                                <span class="slds-input__icon slds-input__icon_right">
+                                    <lightning-icon icon-name="utility:search" size="x-small"></lightning-icon>
+                                </span>
+                            </div>
+                            <div id="field-listbox" class="slds-dropdown slds-dropdown_length-7 slds-dropdown_fluid" role="listbox">
+                                <ul class="slds-listbox slds-listbox_vertical" role="presentation">
+                                    <template for:each={fieldMatches} for:item="option">
+                                        <li key={option.value} class="slds-listbox__item" role="presentation">
+                                            <div class={option.className} role="option" tabindex="-1" aria-selected={option.ariaSelected} data-value={option.value} onmousedown={handleFieldPick}>
+                                                <span class="slds-media__body"><span class="slds-truncate" title={option.label}>{option.label}</span></span>
+                                            </div>
+                                        </li>
+                                    </template>
+                                    <template lwc:if={hasNoFieldMatch}>
+                                        <li class="slds-listbox__item slds-p-around_x-small slds-text-color_weak" role="presentation">No field matches this search</li>
+                                    </template>
+                                    <template lwc:if={fieldMatchesNote}>
+                                        <li class="slds-listbox__item slds-p-around_x-small slds-text-color_weak" role="presentation">{fieldMatchesNote}</li>
+                                    </template>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <template lwc:if={fieldStatus}><p class="status">{fieldStatus}</p></template>
+    
+            <div class="slds-form-element slds-m-top_small dependent-fields">
+                <span class="slds-form-element__label">
+                    Dependent fields
+                    <template lwc:if={help.dependentFields}><lightning-helptext class="label-help" content={help.dependentFields}></lightning-helptext></template>
+                </span>
+                <lightning-input type="search" variant="label-hidden" label="Search the available fields" placeholder="Search the available fields" value={dependentFilter} disabled={isLevelMissing} onchange={handleDependentFilterChange}></lightning-input>
+                <lightning-dual-listbox class="slds-m-top_x-small" label="Dependent fields" variant="label-hidden" source-label="Available" selected-label="Dependent" options={dependentFieldOptions} value={dependentFields} data-name="dependentFields" disabled={isLevelMissing} size="5" onchange={handleValueChange}></lightning-dual-listbox>
+            </div>
+    
+            <h3 class="section-title">Rule line</h3>
+            <div class="slds-grid slds-gutters slds-wrap">
+                <div class="slds-col slds-size_1-of-2">
+                    <span class="slds-form-element__label">
+                        <abbr class="slds-required" title="required">*</abbr>Requirement
+                        <template lwc:if={help.requirement}><lightning-helptext class="label-help" content={help.requirement}></lightning-helptext></template>
+                    </span>
+                    <lightning-radio-group label="Requirement" variant="label-hidden" type="button" required options={editorModel.requirementOptions} value={requirement} onchange={handleRequirementChange}></lightning-radio-group>
+                </div>
+                <div class="slds-col slds-size_1-of-2">
+                    <lightning-input class="checkbox-field" type="checkbox" label="Active" field-level-help={help.isActive} checked={isActive} data-name="isActive" onchange={handleCheckboxChange}></lightning-input>
+                </div>
+            </div>
+            <template lwc:if={isConditional}>
+                <lightning-textarea class="formula slds-m-top_small" label="Required when" required field-level-help={help.requiredCondition} value={requiredCondition} data-name="requiredCondition" onchange={handleConditionChange}></lightning-textarea>
+                <div class="check-row">
+                    <lightning-button label="Check condition" icon-name="utility:check" data-name="requiredCondition" disabled={isLevelMissing} onclick={handleCheckCondition}></lightning-button>
+                    <template lwc:if={requiredConditionCheck}><p class={requiredConditionCheck.className}>{requiredConditionCheck.text}</p></template>
+                </div>
+            </template>
+            <lightning-textarea class="formula slds-m-top_small" label="Condition" field-level-help={help.condition} value={condition} data-name="condition" onchange={handleConditionChange}></lightning-textarea>
+            <div class="check-row">
+                <lightning-button label="Check condition" icon-name="utility:check" data-name="condition" disabled={isLevelMissing} onclick={handleCheckCondition}></lightning-button>
+                <template lwc:if={conditionCheck}><p class={conditionCheck.className}>{conditionCheck.text}</p></template>
+            </div>
+    
+            <template lwc:if={hasErrors}>
+                <div class="errors slds-m-top_medium">
+                    <template for:each={errorMessages} for:item="error">
+                        <p key={error.key}>{error.message}</p>
+                    </template>
+                    <template lwc:if={hasConflict}>
+                        <lightning-button class="slds-m-top_x-small" label="Edit the existing line" icon-name="utility:edit" onclick={handleEditConflict}></lightning-button>
+                    </template>
+                </div>
+            </template>
+        </div>
+    </lightning-modal-body>
+    <lightning-modal-footer>
+        <template lwc:if={isSaving}><span class="saving slds-m-right_small">Checking the line and sending the deployment…</span></template>
+        <lightning-button label="Cancel" disabled={isSaving} onclick={handleCancel}></lightning-button>
+        <lightning-button class="slds-m-left_x-small" variant="brand" label={saveLabel} disabled={isSaveDisabled} onclick={handleSave}></lightning-button>
+    </lightning-modal-footer>
+</template>

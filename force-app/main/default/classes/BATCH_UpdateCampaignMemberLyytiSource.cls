@@ -15,6 +15,10 @@ public class BATCH_UpdateCampaignMemberLyytiSource implements Database.Batchable
     @TestVisible
     private static Integer maxMembersPerCampaignPerRun = 9000;
 
+    public void execute(SchedulableContext SC) {
+        Database.executeBatch(new BATCH_UpdateCampaignMemberLyytiSource(), 1);
+    }
+
     public Database.QueryLocator start(Database.BatchableContext BC) {
         Datetime threeMonthsAgo = System.now().addMonths(-3);
         Datetime nowDt = System.now();
@@ -62,18 +66,12 @@ public class BATCH_UpdateCampaignMemberLyytiSource implements Database.Batchable
             WS_LyytiGetParticipantTypes typeSender = new WS_LyytiGetParticipantTypes(campaign);
             typeSender.sendInDataToExternalService();
 
-            if (!typeSender.success) {
-                OperationLogService.error(campaign.Id, 'WS_LyytiGetParticipantTypes', 'Failed to retrieve participant types for campaign ' + campaign.Id);
-                continue;
-            }
+            if (!typeSender.success) continue;
 
             WS_GetEventParticipants participantsSender = new WS_GetEventParticipants(campaign, 15000, 0, typeSender.participantTypeNameById);
             participantsSender.sendInDataToExternalService();
 
-            if (!participantsSender.success) {
-                OperationLogService.error(campaign.Id, 'WS_GetEventParticipants', 'Failed to retrieve participants for campaign ' + campaign.Id);
-                continue;
-            }
+            if (!participantsSender.success) continue;
 
             for (CampaignMember cm : members) {
                 // Lyyti's "uid" field on a participant *is* the value stored verbatim in CampaignMember.LyytiId__c
@@ -105,7 +103,4 @@ public class BATCH_UpdateCampaignMemberLyytiSource implements Database.Batchable
 
     public void finish(Database.BatchableContext BC) { }
 
-    public void execute(SchedulableContext SC) {
-        Database.executeBatch(new BATCH_UpdateCampaignMemberLyytiSource(), 1);
-    }
 }

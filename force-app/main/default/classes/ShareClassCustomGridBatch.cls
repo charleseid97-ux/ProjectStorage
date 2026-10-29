@@ -13,13 +13,14 @@
  *
  * @author Charles EID
  * @testClass ShareClassGridBatchTest
+ * @coverage 86%   [17-09-26]
  ────────────────────────────────────── */
 public class ShareClassCustomGridBatch implements Database.Batchable<SObject> {
 
     private static final String GRID_BUILDER_SETTING = 'CustomGridBuilderSetting';
 
     public Database.QueryLocator start(Database.BatchableContext bc) {
-        return Database.getQueryLocator([SELECT Id, AutomaticGridUpdate__c, Agreement__r.Countries_of_Distribution__c
+        return Database.getQueryLocator([SELECT Id, AutomaticGridUpdate__c, Agreement__r.Countries_of_Distribution__c, StartDate__c
                                          FROM Grid__c
                                          WHERE RecordType.DeveloperName = 'CustomGrid']);
     }
@@ -36,6 +37,9 @@ public class ShareClassCustomGridBatch implements Database.Batchable<SObject> {
 
     private void processAutomaticGrid(Grid__c grid) {
         String countriesOfDistribution = grid.Agreement__r?.Countries_of_Distribution__c;
+        GridBuilderHelper.GridContext gridContext = new GridBuilderHelper.GridContext();
+        gridContext.startDate = grid.StartDate__c;
+        String gridContextJson = JSON.serialize(gridContext);
 
         // ── 1. Query GridCriteria and their details ───────────────────────────────────────
         List<GridCriteria__c> criteriaList = [SELECT Id, Grid__c, StandardGrid__c, FilterLogic__c, FilterLogicExpression__c, SelectedShareTypes__c
@@ -64,7 +68,7 @@ public class ShareClassCustomGridBatch implements Database.Batchable<SObject> {
                                  FROM GridDetail__c
                                  WHERE GridCriteria__c IN :criteriaIds
                                  AND Grid__r.RecordTypeId = :customRtId
-                                 AND EndDate__c = null]) {
+                                 AND StandardGridDetail__r.TECH_EffMgtFeesAuditHistory__c = null]) {
             if (!existingScIdsByCriteria.containsKey(gd.GridCriteria__c)) {
                 existingScIdsByCriteria.put(gd.GridCriteria__c, new Set<Id>());
             }
@@ -86,13 +90,15 @@ public class ShareClassCustomGridBatch implements Database.Batchable<SObject> {
             // availableGridIds = [StandardGrid__c] → getGridDetailShareClassCondition filters to SCs
             // that already have an active StandardGridDetail in that grid, so isSelected=true means
             // the SC matches the criteria AND has a StandardGridDetail ready to link to.
-            GridBuilderHelper.ProductSelectionResult result = GridBuilderController.getProductsAndShareClasses(GRID_BUILDER_SETTING, countriesOfDistribution, JSON.serialize(gc), JSON.serialize(details), true, new List<String>{ String.valueOf(gc.StandardGrid__c) });
+            GridBuilderHelper.ProductSelectionResult result = GridBuilderController.getProductsAndShareClasses(GRID_BUILDER_SETTING, countriesOfDistribution, JSON.serialize(gc), JSON.serialize(details), true, new List<String>{ String.valueOf(gc.StandardGrid__c) }, gridContextJson);
 
             Set<Id> alreadyExists = existingScIdsByCriteria.get(gc.Id);
             List<Id> missingScIds = new List<Id>();
+            String gridManualUpdate;
             for (GridBuilderHelper.ProductWrapper pw : result.products) {
                 for (GridBuilderHelper.ShareClassWrapper scw : pw.shareClasses) {
-                    if (scw.isSelected && scw.recordResults.get('Fund__r.GridManualUpdate__c') == 'No' && (alreadyExists == null || !alreadyExists.contains(scw.shareClassId))) {
+                    gridManualUpdate = (String)scw.recordResults.get('Fund__r.GridManualUpdate__c');
+                    if (scw.isSelected && (gridManualUpdate == 'No' || gridManualUpdate == null) && (alreadyExists == null || !alreadyExists.contains(scw.shareClassId))) {
                         missingScIds.add(scw.shareClassId);
                         shareClassGridIdMap.put(String.valueOf(scw.shareClassId), String.valueOf(gc.StandardGrid__c));
                     }

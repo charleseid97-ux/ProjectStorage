@@ -16,8 +16,14 @@
                 <label>Absolute</label>
             </value>
             <value>
+                <fullName>Relative</fullName>
+                <default>false</default>
+                <label>Relative</label>
+            </value>
+            <value>
                 <fullName>Benchmark</fullName>
                 <default>false</default>
+                <isActive>false</isActive>
                 <label>Benchmark</label>
             </value>
         </valueSetDefinition>

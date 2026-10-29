@@ -5,7 +5,7 @@
  *              which fires the Agreement trigger → handleTimelineTransitions Branches A/B/C.
  * @author Charles EID
  * @testClass GridLifecycleTest
- * @coverage 90%   [19-03-26]
+ * @coverage 91%   [29-09-26]
 ────────────────────────────────────── */
 public without sharing class GridTriggerHandler implements ITriggerHandler {
 
@@ -91,11 +91,11 @@ public without sharing class GridTriggerHandler implements ITriggerHandler {
     }
 
     private static void syncAgreementInformation(List<Grid__c> newGrids, Map<Id, Grid__c> oldGrids) {
-        Id customGridRtId = Schema.SObjectType.Grid__c.getRecordTypeInfosByDeveloperName().get(GridBuilderHelper.RT_CUSTOM_GRID).getRecordTypeId();
+        Set<Id> eligibleGridRtIds = GridBuilderHelper.getEligibleGridRtIds();
 
         Set<Id> agreementIds = new Set<Id>();
         for (Grid__c grid : newGrids) {
-            if (grid.RecordTypeId == customGridRtId && grid.Agreement__c != null) {
+            if (eligibleGridRtIds.contains(grid.RecordTypeId) && grid.Agreement__c != null) {
                 agreementIds.add(grid.Agreement__c);
             }
         }
@@ -106,7 +106,7 @@ public without sharing class GridTriggerHandler implements ITriggerHandler {
                                                                             WHERE Id IN :agreementIds]);
 
         for (Grid__c grid : newGrids) {
-            if (grid.RecordTypeId != customGridRtId || grid.Agreement__c == null) continue;
+            if (!eligibleGridRtIds.contains(grid.RecordTypeId) || grid.Agreement__c == null) continue;
             Convention__c agr = agreementsById.get(grid.Agreement__c);
             if (agr == null) continue;
             grid.TECH_BusinessRegion__c              = agr.TECH_Business_Region__c;

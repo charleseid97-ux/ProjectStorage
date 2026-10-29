@@ -1,17 +1,22 @@
+/** ──────────────────────────────────────
+ * @description Tests of ExportProjectDataController.getProjectDataToExport: export data of a Fund creation project with a share class.
+ * @covers ExportProjectDataController   95%   [21-10-26]
+ * @lastModifiedBy Charles EID   [21-10-26]
+ ────────────────────────────────────── */
 @isTest
 public class Test_ExportProjectDataController {
-    
-	private static final Id fundCreationRtId = Schema.SObjectType.ProjectProduct__c
-        .getRecordTypeInfosByDeveloperName().get('FundCreation').getRecordTypeId();
- 
-    @IsTest
-    static void test_getProjectDataToExport() {
 
-        ProjectProduct__c proj = PMTTestFactoryData.createProjectProductWithAllFields(fundCreationRtId);
-        ProjectShareclass__c shareClass = PMTTestFactoryData.createProjectShareclass(proj.Id, 'DividendFrequency__c;Type__c;DividendPolicy__c;InvestmentStatusInvestors__c');
+    @isTest
+    static void test_getProjectDataToExport() {
+        ProjectProduct__c proj = PMTTestFactoryData.createProjectProductWithAllFields(PMTTestFactoryData.getRecordTypeId('ProjectProduct__c', 'FundCreation'));
+        PMTTestFactoryData.createProjectShareclass(proj.Id, 'DividendFrequency__c;Type__c;DividendPolicy__c;InvestmentStatusInvestors__c');
+
         Test.startTest();
+
         List<Map<String, String>> data = ExportProjectDataController.getProjectDataToExport(proj.Id);
+
         Test.stopTest();
-        system.assertNotEquals(0, data.size());
+
+        System.assertNotEquals(0, data.size(), 'Data of the project to export');
     }
 }

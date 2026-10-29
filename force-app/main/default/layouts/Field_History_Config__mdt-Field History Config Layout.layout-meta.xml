@@ -17,7 +17,8 @@
         </layoutColumns>
         <layoutColumns>
             <layoutItems>
-                <emptySpace>true</emptySpace>
+                <behavior>Edit</behavior>
+                <field>LookupFieldAPIName__c</field>
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>

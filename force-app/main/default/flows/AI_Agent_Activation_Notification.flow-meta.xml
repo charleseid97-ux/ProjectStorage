@@ -1,0 +1,251 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <actionCalls>
+        <name>Notify_Legal_SSI_and_Dust_Admins</name>
+        <label>Notify Legal SSI and Dust Admins</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <actionName>emailSimple</actionName>
+        <actionType>emailSimple</actionType>
+        <flowTransactionModel>CurrentTransaction</flowTransactionModel>
+        <inputParameters>
+            <name>recipientAddresses</name>
+            <value>
+                <collectionElements>
+                    <stringValue>dust@carmignac.com</stringValue>
+                </collectionElements>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>composeEmailContent</name>
+            <value>
+                <stringValue>True</stringValue>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>emailSubject</name>
+            <value>
+                <elementReference>ActivationEmailSubject</elementReference>
+                <inputConfiguratorMode>Resource</inputConfiguratorMode>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>emailBody</name>
+            <value>
+                <inputConfiguratorMode>Custom</inputConfiguratorMode>
+                <stringValue>{!AgentActivated}</stringValue>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>sendRichBody</name>
+            <value>
+                <booleanValue>true</booleanValue>
+                <inputConfiguratorMode>Resource</inputConfiguratorMode>
+            </value>
+        </inputParameters>
+        <nameSegment>emailSimple</nameSegment>
+        <offset>0</offset>
+        <versionString>3.0.1</versionString>
+    </actionCalls>
+    <apiVersion>68.0</apiVersion>
+    <areMetricsLoggedToDataCloud>false</areMetricsLoggedToDataCloud>
+    <description>Notifies SSI and Legal when an AI Agent is activated and applies additional notification rules for critical agents.</description>
+    <environments>Default</environments>
+    <formulas>
+        <name>ActivationEmailSubject</name>
+        <dataType>String</dataType>
+        <expression>&quot;AI Agent Activated - &quot; &amp; {!$Record.Name}</expression>
+    </formulas>
+    <formulas>
+        <name>RecordLink</name>
+        <dataType>String</dataType>
+        <expression>&quot;https://carmignac-crm--uatmycrm.sandbox.lightning.force.com/lightning/r/Work_Together_Process__c/&quot;
+&amp;
+{!$Record.Id}
+&amp;
+&quot;/view&quot;</expression>
+    </formulas>
+    <interviewLabel>AI Agent - Activation Notification {!$Flow.CurrentDateTime}</interviewLabel>
+    <label>AI Agent - Activation Notification</label>
+    <processMetadataValues>
+        <name>BuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>CanvasMode</name>
+        <value>
+            <stringValue>AUTO_LAYOUT_CANVAS</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>OriginBuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processType>AutoLaunchedFlow</processType>
+    <start>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <connector>
+            <targetReference>Notify_Legal_SSI_and_Dust_Admins</targetReference>
+        </connector>
+        <doesRequireRecordChangedToMeetCriteria>true</doesRequireRecordChangedToMeetCriteria>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>Status__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <stringValue>Active</stringValue>
+            </value>
+        </filters>
+        <object>AI_Agent__c</object>
+        <recordTriggerType>Update</recordTriggerType>
+        <triggerType>RecordAfterSave</triggerType>
+    </start>
+    <status>Active</status>
+    <textTemplates>
+        <name>AgentActivated</name>
+        <isViewedAsPlainText>false</isViewedAsPlainText>
+        <text>&lt;table role=&quot;presentation&quot; width=&quot;100%&quot; cellspacing=&quot;0&quot; cellpadding=&quot;0&quot; border=&quot;0&quot; style=&quot;font-family:Arial,Helvetica,sans-serif;background-color:#f5f7f5;padding:24px;&quot;&gt;
+  &lt;tr&gt;
+    &lt;td align=&quot;center&quot;&gt;
+
+      &lt;table role=&quot;presentation&quot; width=&quot;620&quot; cellspacing=&quot;0&quot; cellpadding=&quot;0&quot; border=&quot;0&quot; style=&quot;width:620px;max-width:100%;background-color:#ffffff;border:1px solid #e2e6e2;&quot;&gt;
+
+        &lt;!-- HEADER --&gt;
+        &lt;tr&gt;
+          &lt;td bgcolor=&quot;#2f4233&quot; style=&quot;background-color:#2f4233;padding:22px 28px;&quot;&gt;
+            &lt;div style=&quot;font-size:12px;letter-spacing:1px;color:#cbd8ce;font-weight:bold;&quot;&gt;
+              AI AGENT GOVERNANCE
+            &lt;/div&gt;
+            &lt;div style=&quot;font-size:22px;line-height:28px;color:#ffffff;font-weight:bold;padding-top:4px;&quot;&gt;
+              AI Agent Activated
+            &lt;/div&gt;
+          &lt;/td&gt;
+        &lt;/tr&gt;
+
+        &lt;!-- INTRO --&gt;
+        &lt;tr&gt;
+          &lt;td style=&quot;padding:26px 28px 14px 28px;color:#242424;font-size:14px;line-height:21px;&quot;&gt;
+            Hello,
+            &lt;br&gt;&lt;br&gt;
+            The AI Agent &lt;strong&gt;{!$Record.Name}&lt;/strong&gt; has been activated and is now available for use.
+            &lt;br&gt;&lt;br&gt;
+            This notification is sent as part of the Carmignac AI Agent Governance process.
+          &lt;/td&gt;
+        &lt;/tr&gt;
+
+        &lt;!-- DETAILS --&gt;
+        &lt;tr&gt;
+          &lt;td style=&quot;padding:6px 28px 22px 28px;&quot;&gt;
+
+            &lt;table role=&quot;presentation&quot; width=&quot;100%&quot; cellspacing=&quot;0&quot; cellpadding=&quot;0&quot; border=&quot;0&quot; style=&quot;font-size:14px;color:#242424;&quot;&gt;
+
+              &lt;tr&gt;
+                &lt;td width=&quot;180&quot; style=&quot;padding:10px 0;border-bottom:1px solid #eeeeee;color:#6b746d;font-weight:bold;&quot;&gt;
+                  Agent
+                &lt;/td&gt;
+                &lt;td style=&quot;padding:10px 0;border-bottom:1px solid #eeeeee;&quot;&gt;
+                  {!$Record.Name}
+                &lt;/td&gt;
+              &lt;/tr&gt;
+
+              &lt;tr&gt;
+                &lt;td style=&quot;padding:10px 0;border-bottom:1px solid #eeeeee;color:#6b746d;font-weight:bold;&quot;&gt;
+                  Business Criticality
+                &lt;/td&gt;
+                &lt;td style=&quot;padding:10px 0;border-bottom:1px solid #eeeeee;&quot;&gt;
+                  {!$Record.Business_Criticality__c}
+                &lt;/td&gt;
+              &lt;/tr&gt;
+
+              &lt;tr&gt;
+                &lt;td style=&quot;padding:10px 0;border-bottom:1px solid #eeeeee;color:#6b746d;font-weight:bold;&quot;&gt;
+                  Data Sensitivity
+                &lt;/td&gt;
+                &lt;td style=&quot;padding:10px 0;border-bottom:1px solid #eeeeee;&quot;&gt;
+                  {!$Record.DataSensitivity__c}
+                &lt;/td&gt;
+              &lt;/tr&gt;
+
+              &lt;tr&gt;
+                &lt;td style=&quot;padding:10px 0;border-bottom:1px solid #eeeeee;color:#6b746d;font-weight:bold;&quot;&gt;
+                  Client Impact
+                &lt;/td&gt;
+                &lt;td style=&quot;padding:10px 0;border-bottom:1px solid #eeeeee;&quot;&gt;
+                  {!$Record.ClientImpact__c}
+                &lt;/td&gt;
+              &lt;/tr&gt;
+
+              &lt;tr&gt;
+                &lt;td style=&quot;padding:10px 0;border-bottom:1px solid #eeeeee;color:#6b746d;font-weight:bold;&quot;&gt;
+                  Current Risk Level
+                &lt;/td&gt;
+                &lt;td style=&quot;padding:10px 0;border-bottom:1px solid #eeeeee;&quot;&gt;
+                  &lt;strong&gt;{!$Record.CurrentRiskLevel__c}&lt;/strong&gt;
+                &lt;/td&gt;
+              &lt;/tr&gt;
+
+              &lt;tr&gt;
+                &lt;td style=&quot;padding:10px 0;color:#6b746d;font-weight:bold;&quot;&gt;
+                  Shared With
+                &lt;/td&gt;
+                &lt;td style=&quot;padding:10px 0;&quot;&gt;
+                  {!$Record.Team__c}
+                &lt;/td&gt;
+              &lt;/tr&gt;
+
+            &lt;/table&gt;
+
+          &lt;/td&gt;
+        &lt;/tr&gt;
+
+        &lt;!-- GOVERNANCE --&gt;
+        &lt;tr&gt;
+          &lt;td bgcolor=&quot;#f1f5f2&quot; style=&quot;background-color:#f1f5f2;padding:20px 28px;color:#242424;font-size:14px;line-height:21px;&quot;&gt;
+            &lt;strong style=&quot;color:#2f4233;&quot;&gt;Governance information&lt;/strong&gt;
+            &lt;br&gt;&lt;br&gt;
+            The agent has been registered in Salesforce and is subject to the Carmignac AI Agent Governance framework.
+            Its risk level and review frequency are determined based on its configuration, data sensitivity and business impact.
+          &lt;/td&gt;
+        &lt;/tr&gt;
+
+        &lt;!-- CTA --&gt;
+        &lt;tr&gt;
+          &lt;td style=&quot;padding:24px 28px 28px 28px;&quot;&gt;
+
+            &lt;table role=&quot;presentation&quot; cellspacing=&quot;0&quot; cellpadding=&quot;0&quot; border=&quot;0&quot;&gt;
+              &lt;tr&gt;
+                &lt;td bgcolor=&quot;#2f4233&quot; style=&quot;background-color:#2f4233;padding:12px 20px;&quot;&gt;
+                  &lt;a href=&quot;{!RecordLink}&quot; style=&quot;color:#ffffff;text-decoration:none;font-size:14px;font-weight:bold;&quot;&gt;
+                    Open AI Agent
+                  &lt;/a&gt;
+                &lt;/td&gt;
+              &lt;/tr&gt;
+            &lt;/table&gt;
+
+          &lt;/td&gt;
+        &lt;/tr&gt;
+
+        &lt;!-- FOOTER --&gt;
+        &lt;tr&gt;
+          &lt;td style=&quot;border-top:1px solid #eeeeee;padding:16px 28px;color:#777777;font-size:12px;line-height:18px;&quot;&gt;
+            This is an automated governance notification.
+            &lt;br&gt;&lt;br&gt;
+            For any questions, contact &lt;strong&gt;dust@carmignac.com&lt;/strong&gt;.
+            &lt;br&gt;&lt;br&gt;
+            Dust Admin Team&lt;br&gt;
+            Carmignac AI Agent Governance
+          &lt;/td&gt;
+        &lt;/tr&gt;
+
+      &lt;/table&gt;
+
+    &lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/table&gt;</text>
+    </textTemplates>
+</Flow>

@@ -432,7 +432,7 @@ public without sharing class sessionSpeakerProductService {
         }
 
         List<SessionSpeakerProduct__c> sspsToUpdate = [
-            SELECT Id, PresentationStatus__c
+            SELECT Id, PresentationStatus__c, speakerLanguage__c
             FROM SessionSpeakerProduct__c
             WHERE Session__c IN :eventIdsToProcess
             AND PresentationStatus__c = :PRES_REQUIRED_STATUS
@@ -461,7 +461,7 @@ public without sharing class sessionSpeakerProductService {
         if (eventIds.isEmpty()) return;
 
         List<Event__c> events = [
-            SELECT Id, Name, startDate__c, SalesTeam__c, Title__c
+            SELECT Id, Name, SpeakersHTML__c, startDate__c, SalesTeam__c, Title__c
             FROM Event__c
             WHERE Id IN :eventIds
         ];
@@ -490,15 +490,38 @@ public without sharing class sessionSpeakerProductService {
     }
 
         Map<Id, String> oldNames = new Map<Id, String>();
+        Map<Id, String> oldSpeakersHtml = new Map<Id, String>();
+
+        // Conserve les valeurs avant le recalcul.
         for (Event__c e : events) {
             oldNames.put(e.Id, e.Name);
+            oldSpeakersHtml.put(e.Id, e.SpeakersHTML__c);
         }
 
         customEventService.setEventName(events, false);
 
-        List<Event__c> toUpdate = new List<Event__c>();
+        // Reconstruit le HTML avec les dernières données SSP présentes en base.
         for (Event__c e : events) {
-            if (oldNames.get(e.Id) != e.Name) {
+            List<SessionSpeakerProduct__c> eventSpeakers =
+                eventToSpeakers.containsKey(e.Id)
+                    ? eventToSpeakers.get(e.Id)
+                    : new List<SessionSpeakerProduct__c>();
+
+            e.SpeakersHTML__c =
+                customEventSpeakerApprovalService.buildSpeakersHtmlSingleSection(
+                    'Speakers',
+                    eventSpeakers
+                );
+        }
+
+        List<Event__c> toUpdate = new List<Event__c>();
+
+        // Met à jour l'Event si son nom ou son HTML speakers a changé.
+        for (Event__c e : events) {
+            if (
+                oldNames.get(e.Id) != e.Name ||
+                oldSpeakersHtml.get(e.Id) != e.SpeakersHTML__c
+            ) {
                 toUpdate.add(e);
             }
         }

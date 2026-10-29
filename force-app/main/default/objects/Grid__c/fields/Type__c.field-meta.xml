@@ -20,6 +20,16 @@
                 <default>false</default>
                 <label>MULTI RULE</label>
             </value>
+            <value>
+                <fullName>Courtage Assurance et Capi</fullName>
+                <default>false</default>
+                <label>Courtage Assurance et Capi</label>
+            </value>
+            <value>
+                <fullName>Performance Fees</fullName>
+                <default>false</default>
+                <label>Performance Fees</label>
+            </value>
         </valueSetDefinition>
     </valueSet>
 </CustomField>

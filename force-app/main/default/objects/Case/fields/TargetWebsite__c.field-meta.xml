@@ -118,6 +118,11 @@
                 <label>UK (EN)​</label>
             </value>
             <value>
+                <fullName>United Arab Emirates (AE)</fullName>
+                <default>false</default>
+                <label>United Arab Emirates (AE)</label>
+            </value>
+            <value>
                 <fullName>United Kingdom (EN)</fullName>
                 <default>false</default>
                 <label>United Kingdom (EN)</label>
@@ -202,6 +207,11 @@
             <controllingFieldValue>English</controllingFieldValue>
             <controllingFieldValue>Parent Case</controllingFieldValue>
             <valueName>Switzerland (EN)</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>English</controllingFieldValue>
+            <controllingFieldValue>Parent Case</controllingFieldValue>
+            <valueName>United Arab Emirates (AE)</valueName>
         </valueSettings>
         <valueSettings>
             <controllingFieldValue>English</controllingFieldValue>

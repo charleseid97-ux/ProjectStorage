@@ -7,7 +7,7 @@
  *              for complex filter logic (AND/OR/parentheses).
  * @author Charles EID
  * @testClass GridDetailBuilderTest
- * @coverage 85%   [19-03-26]
+ * @coverage 79%   [17-09-26]
 ────────────────────────────────────── */
 public with sharing class GridDetailBuilder {
     private static final String RULE_PERCENTAGE = 'Percentage of Fees';
@@ -100,11 +100,13 @@ public with sharing class GridDetailBuilder {
     }
 
     private static BuildResult build(List<GridRule__c> gridRules, Map<String, Id> gridIdByName, BuildResult result) {
+        ShareClassData shareData = loadShareClasses();
+        closeStandardGridDetailsForClosedShareClasses(new Set<Id>(gridIdByName.values()), shareData.closedShareClassCloseDate, result);
+
         if (gridRules == null || gridRules.isEmpty()) { return result; }
 
         ensureOtherGridIds(gridRules, gridIdByName);
         Map<Id, List<GridCriteriaDetail__c>> detailsByCriteriaId = loadCriteriaDetails(gridRules);
-        ShareClassData shareData = loadShareClasses();
         List<GridRuleContext> contexts = buildGridRuleContexts(gridRules, detailsByCriteriaId, result);
         if (contexts.isEmpty()) { return result; }
 
@@ -154,17 +156,68 @@ public with sharing class GridDetailBuilder {
 
     private static ShareClassData loadShareClasses() {
         ShareClassData data = new ShareClassData();
-        data.shareClasses = [SELECT Id, Type__c, ISIN__c, EffectiveManagementFees__c, Fund__c, Fund__r.LegalForm__c, Fund__r.InternalShortName__c
-                             FROM Share_Class__c
-                             WHERE EffectiveManagementFees__c != null
-                             AND Type__c != null
-                             AND Currency__c != 'JPY'
-                             AND Id IN (SELECT ShareClass__c FROM Country__c WHERE (RegistrationStatus__c = 'REG' OR RegistrationStatus__c = 'INSTITUTIONAL_ONLY'))
-                             AND Status__c IN ('Active', 'Inactive')];
+        List<String> allowedRegStatuses = GridBuilderHelper.stringToList(loadAllowedCountryRegistrationStatus(), '\n');
+
+        // SOQL doesn't allow a semi-join sub-select nested inside an OR grouping, so the Country__c
+        // eligibility is resolved into a plain Id set first — this stays a single query against
+        // Share_Class__c, just with one small preliminary query against a different object.
+        Set<Id> countryEligibleShareClassIds = new Set<Id>();
+        for (Country__c c : [SELECT ShareClass__c FROM Country__c WHERE RegistrationStatus__c IN :allowedRegStatuses AND ShareClass__c != null]) {
+            countryEligibleShareClassIds.add(c.ShareClass__c);
+        }
+
+        for (Share_Class__c sc : [SELECT Id, Type__c, ISIN__c, EffectiveManagementFees__c, Fund__c, Fund__r.LegalForm__c, Fund__r.InternalShortName__c, Status__c, CloseDate__c
+                                  FROM Share_Class__c
+                                  WHERE EffectiveManagementFees__c != null
+                                  AND Type__c != null
+                                  AND Currency__c != 'JPY'
+                                  AND ((Status__c IN ('Active', 'Inactive') AND Id IN :countryEligibleShareClassIds)
+                                   OR  (Status__c NOT IN ('Active', 'Inactive') AND CloseDate__c != null))]) {
+            if (sc.Status__c == 'Active' || sc.Status__c == 'Inactive') {
+                data.shareClasses.add(sc);
+            } else {
+                data.closedShareClassCloseDate.put(sc.Id, sc.CloseDate__c);
+            }
+        }
         data.shareClassById = new Map<Id, Share_Class__c>(data.shareClasses);
         data.allShareClassIds = new Set<Id>(data.shareClassById.keySet());
         data.indexByField = buildShareClassIndex(data.shareClasses);
         return data;
+    }
+
+    // Sources the allowed Country__c registration statuses from the same metadata record the manual Grid Builder UI uses (GridBuilderHelper)
+    private static String loadAllowedCountryRegistrationStatus() {
+        List<GridBuilderSetting__mdt> settings = [SELECT AllowedCountryRegistrationStatus__c FROM GridBuilderSetting__mdt WHERE DeveloperName = 'CustomGridBuilderSetting' LIMIT 1];
+        return (!settings.isEmpty() && String.isNotBlank(settings[0].AllowedCountryRegistrationStatus__c)) ? settings[0].AllowedCountryRegistrationStatus__c : GridBuilderHelper.defaultAllowedCountryRegistrationStatus;
+    }
+
+    // Closes Standard Grid Detail rows for Share Classes that have transitioned to a closed Status__c (see loadShareClasses), setting EndDate__c = CloseDate__c.
+    private static void closeStandardGridDetailsForClosedShareClasses(Set<Id> gridIds, Map<Id, Date> closedShareClassCloseDate, BuildResult result) {
+        if (closedShareClassCloseDate == null || closedShareClassCloseDate.isEmpty()) { return; }
+
+        Id standardRtId = Schema.SObjectType.GridDetail__c.getRecordTypeInfosByDeveloperName().get(GridBuilderHelper.RT_STANDARD_GRID_DETAIL).getRecordTypeId();
+        List<GridDetail__c> toUpdate = new List<GridDetail__c>();
+        for (GridDetail__c gd : [SELECT Id, ShareClass__c, EndDate__c
+                                 FROM GridDetail__c
+                                 WHERE Grid__c IN :gridIds
+                                 AND ShareClass__c IN :closedShareClassCloseDate.keySet()
+                                 AND RecordTypeId = :standardRtId
+                                 AND TECH_EffMgtFeesAuditHistory__c = null]) {
+            Date closeDate = closedShareClassCloseDate.get(gd.ShareClass__c);
+            if (gd.EndDate__c == null || gd.EndDate__c > closeDate) {
+                toUpdate.add(new GridDetail__c(Id = gd.Id, EndDate__c = closeDate));
+            }
+        }
+        if (toUpdate.isEmpty()) { return; }
+
+        Database.SaveResult[] saveResults = Database.update(toUpdate, false);
+        for (Integer i = 0; i < saveResults.size(); i++) {
+            if (saveResults[i].isSuccess()) {
+                result.gridDetailsUpdated++;
+            } else {
+                result.errors.add(new BuildError(null, 'Failed to close GridDetail__c ' + toUpdate[i].Id + ' for Share Class closure: ' + saveResults[i].getErrors()[0].getMessage()));
+            }
+        }
     }
 
     private static List<GridRuleContext> buildGridRuleContexts(List<GridRule__c> gridRules, Map<Id, List<GridCriteriaDetail__c>> detailsByCriteriaId, BuildResult result) {
@@ -1225,6 +1278,7 @@ public with sharing class GridDetailBuilder {
         public Map<Id, Share_Class__c> shareClassById = new Map<Id, Share_Class__c>();
         public Set<Id> allShareClassIds = new Set<Id>();
         public Map<String, Map<String, Set<Id>>> indexByField = new Map<String, Map<String, Set<Id>>>();
+        public Map<Id, Date> closedShareClassCloseDate = new Map<Id, Date>();
     }
 
     private class AssignmentBuildResult {

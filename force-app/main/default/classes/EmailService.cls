@@ -5,7 +5,8 @@
  *              submitted-by references, record owners, and additional addressee lists.
  * @author Charles EID
  * @testClass EmailServiceTest
- * @coverage 96%   [15-09-26]
+ * @coverage TBD
+ * @lastModifiedBy Charles EID   [27-10-26]
 ────────────────────────────────────── */
 public without sharing class EmailService {
 
@@ -103,7 +104,8 @@ public without sharing class EmailService {
         return templates.isEmpty() ? null : templates[0].Id;
     }
 
-    private static Id resolveOrgWideEmailAddressId() {
+    // Default "No Reply" sender (label EmailService_DefaultOrgWideAddress), also used by LyytiDeletionAlertService
+    public static Id resolveOrgWideEmailAddressId() {
         List<OrgWideEmailAddress> owea = [SELECT Id FROM OrgWideEmailAddress WHERE Address = :DEFAULT_ORG_WIDE_ADDRESS];
         return owea.isEmpty() ? null : owea[0].Id;
     }

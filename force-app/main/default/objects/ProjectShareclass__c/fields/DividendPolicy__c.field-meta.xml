@@ -20,6 +20,11 @@
                 <default>false</default>
                 <label>Distributing</label>
             </value>
+            <value>
+                <fullName>Income</fullName>
+                <default>false</default>
+                <label>Income</label>
+            </value>
         </valueSetDefinition>
     </valueSet>
 </CustomField>

@@ -107,6 +107,11 @@
                 <default>false</default>
                 <label>Video subtitles &amp; Inserts</label>
             </value>
+            <value>
+                <fullName>Pitchbook</fullName>
+                <default>false</default>
+                <label>Pitchbook</label>
+            </value>
         </valueSetDefinition>
         <valueSettings>
             <controllingFieldValue>Publication and Translation</controllingFieldValue>
@@ -217,6 +222,10 @@
         <valueSettings>
             <controllingFieldValue>Translation Only</controllingFieldValue>
             <valueName>IS Monthly Comments</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Translation Only</controllingFieldValue>
+            <valueName>Pitchbook</valueName>
         </valueSettings>
     </valueSet>
 </CustomField>

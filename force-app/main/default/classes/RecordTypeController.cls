@@ -14,12 +14,24 @@ public with sharing class RecordTypeController {
                              FROM RecordType 
                              WHERE SObjectType = 'Case' 
                              AND IsActive = true AND Name != 'Master' AND DeveloperName !='Sub_Publication_Request' AND DeveloperName !='Sub_Translation_Request']) {
+
+            // Do not expose record types that are unavailable to the current user.
+            Schema.RecordTypeInfo recordTypeInfo = Schema.SObjectType.Case
+                .getRecordTypeInfosById()
+                .get(rt.Id);
+
+            if (recordTypeInfo == null || !recordTypeInfo.isAvailable()) {
+                continue;
+            }
+
             if(rt.DeveloperName == 'TranslationRequest'){
                 recordTypes.add(new RecordTypeWrapper(rt.Id, rt.Name, rt.Description, '/lightning/n/TranslationRequests'));
             }else if(rt.DeveloperName == 'Content_Feedback'){
                 recordTypes.add(new RecordTypeWrapper(rt.Id, rt.Name, rt.Description, '/lightning/n/Content_Feedback'));
             }else if(rt.DeveloperName == 'ESG'){
                 recordTypes.add(new RecordTypeWrapper(rt.Id, rt.Name, rt.Description, '/lightning/n/ESG_Requests'));
+            }else if(rt.DeveloperName == 'AIAgentGovernance'){
+                recordTypes.add(new RecordTypeWrapper(rt.Id, rt.Name, rt.Description, '/lightning/n/AIAgentRequest'));
             } else {
                 recordTypes.add(new RecordTypeWrapper(rt.Id, rt.Name, rt.Description, '/lightning/o/Case/new?backgroundContext=lightning/o/Case/list?filterName=__Recent&recordTypeId='+rt.Id));
             }   

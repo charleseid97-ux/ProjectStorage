@@ -72,7 +72,7 @@ export default class lwc_TimelineV3 extends LightningElement {
         getUserPermissionSets()
         .then(result => {
             console.log('PS result : '+result);
-            if(result.includes('PRPProductStrategy')  ){
+            if(result.includes('PRPProductStrategy') || result.includes('PRPIS')){ // FIX-20178: IS updates the stage status like Product Strategy
                 console.log('user have PS productStrategy');
                 this.isModalOpen = true;
             }

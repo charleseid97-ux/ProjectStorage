@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>ExternalID__c</fullName>
+    <description>Generic External ID from &quot;Before Insert&quot; trigger</description>
     <encryptionScheme>None</encryptionScheme>
     <externalId>true</externalId>
     <label>External ID</label>

@@ -137,6 +137,7 @@
         <offset>0</offset>
     </actionCalls>
     <apiVersion>63.0</apiVersion>
+    <areMetricsLoggedToDataCloud>false</areMetricsLoggedToDataCloud>
     <decisions>
         <name>Check_if_Benchmark_Name_has_changed_since_last_Email</name>
         <label>Check if Benchmark Name has changed since last Email</label>
@@ -328,7 +329,7 @@ The objective is to prompt the Investment Performance team to create and/or asso
         <recordTriggerType>Update</recordTriggerType>
         <triggerType>RecordAfterSave</triggerType>
     </start>
-    <status>Active</status>
+    <status>Obsolete</status>
     <textTemplates>
         <name>EmailBody</name>
         <isViewedAsPlainText>false</isViewedAsPlainText>

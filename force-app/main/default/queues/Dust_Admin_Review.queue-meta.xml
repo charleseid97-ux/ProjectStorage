@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Queue xmlns="http://soap.sforce.com/2006/04/metadata">
+    <doesIncludeBosses>false</doesIncludeBosses>
+    <doesSendEmailToMembers>false</doesSendEmailToMembers>
+    <email>dust@carmignac.com</email>
+    <name>Dust Admin Review</name>
+    <queueMembers>
+        <users>
+            <user>laurent.danino-crm@carmignac.com</user>
+            <user>ted.bamezon-crm@carmignac.com</user>
+            <user>coullon.thomas-crm@carmignac.com</user>
+        </users>
+    </queueMembers>
+    <queueSobject>
+        <sobjectType>Case</sobjectType>
+    </queueSobject>
+</Queue>

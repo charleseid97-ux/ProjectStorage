@@ -202,6 +202,7 @@
         <offset>0</offset>
     </actionCalls>
     <apiVersion>62.0</apiVersion>
+    <areMetricsLoggedToDataCloud>false</areMetricsLoggedToDataCloud>
     <assignments>
         <name>Assign_Feeder_HTML</name>
         <label>Assign Feeder HTML</label>
@@ -523,7 +524,7 @@ Support Salesforce &gt; sf_pmt@carmignac.com</description>
         <recordTriggerType>Update</recordTriggerType>
         <triggerType>RecordAfterSave</triggerType>
     </start>
-    <status>Active</status>
+    <status>Obsolete</status>
     <textTemplates>
         <name>ActivationEmailBody</name>
         <isViewedAsPlainText>false</isViewedAsPlainText>

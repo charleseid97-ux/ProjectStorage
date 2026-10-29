@@ -11,7 +11,7 @@ private class WS_WTPWorldclassSchedulerTest {
     private class PhraseFlexibleMock implements HttpCalloutMock {
         Boolean loginOk          = true;        // 200 vs 401
         Boolean statusEndpointOk = true;        // 200 vs 500
-        String  jobStatus        = 'COMPLETED'; // COMPLETED / DELIVERED / IN_PROGRESS / etc.
+        String  jobStatus        = 'DELIVERED'; // DELIVERED déclenche la récupération du fichier final
         Boolean downloadOk       = true;        // 200 vs 400
 
         public HTTPResponse respond(HTTPRequest req) {
@@ -34,8 +34,8 @@ private class WS_WTPWorldclassSchedulerTest {
                 return res;
             }
 
-            // JOB STATUS (exclude /targetFile)
-            if (ep.contains('/web/api2/v1/projects/') && ep.contains('/jobs/') && !ep.endsWith('/targetFile')) {
+            // JOB STATUS (exclude /fileHandovers)
+            if (ep.contains('/web/api2/v1/projects/') && ep.contains('/jobs/') && !ep.endsWith('/fileHandovers')) {
                 if (statusEndpointOk) {
                     res.setStatusCode(200);
                     res.setBody('{"uid":"JOBUID","status":"' + jobStatus + '"}');
@@ -47,7 +47,7 @@ private class WS_WTPWorldclassSchedulerTest {
             }
 
             // DOWNLOAD
-            if (ep.endsWith('/targetFile')) {
+            if (ep.endsWith('/fileHandovers')) {
                 if (downloadOk) {
                     res.setStatusCode(200);
                     res.setHeader('Content-Type','application/octet-stream');
@@ -100,7 +100,7 @@ private class WS_WTPWorldclassSchedulerTest {
 
         // Mock
         PhraseFlexibleMock mock = new PhraseFlexibleMock();
-        mock.jobStatus  = 'COMPLETED';
+        mock.jobStatus  = 'DELIVERED';
         mock.downloadOk = true;
         Test.setMock(HttpCalloutMock.class, mock);
 
@@ -200,7 +200,7 @@ private class WS_WTPWorldclassSchedulerTest {
         WorldclassJob__c job = mkJob(c.Id, 'NEW');
 
         PhraseFlexibleMock mock = new PhraseFlexibleMock();
-        mock.jobStatus  = 'COMPLETED';
+        mock.jobStatus  = 'DELIVERED';
         mock.downloadOk = false; // download fails
         Test.setMock(HttpCalloutMock.class, mock);
 

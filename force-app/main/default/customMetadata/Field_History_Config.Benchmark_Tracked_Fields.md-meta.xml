@@ -19,6 +19,10 @@
         <value xsi:nil="true"/>
     </values>
     <values>
+        <field>LookupFieldAPIName__c</field>
+        <value xsi:type="xsd:string">Benchmark_Reference__c</value>
+    </values>
+    <values>
         <field>MaxTableRows__c</field>
         <value xsi:nil="true"/>
     </values>

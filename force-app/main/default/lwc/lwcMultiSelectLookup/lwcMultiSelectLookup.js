@@ -11,6 +11,7 @@ export default class LwcMultiSelectLookup extends LightningElement {
     @api fieldApiNames; // = 'Id,Name';
     @api filterFieldApiName;    // = 'Name';
     @api iconName;  // = 'standard:contact';
+    @api additionalWhereClause;    // optional default filter applied to every search, e.g. "RecordType.DeveloperName = 'Fund'"
     //end---->
     @track items = []; //holds all records retrieving from database
     @track selectedItems = []; //holds only selected checkbox items that is being displayed based on search
@@ -32,7 +33,8 @@ export default class LwcMultiSelectLookup extends LightningElement {
             retrieveRecords({objectName: this.objectApiName,
                             fieldAPINames: this.fieldApiNames,
                             filterFieldAPIName: this.filterFieldApiName,
-                            strInput: this.searchInput
+                            strInput: this.searchInput,
+                            additionalWhereClause: this.additionalWhereClause
                             })
             .then(result=>{ 
                 this.items = []; //initialize the array before assigning values coming from apex

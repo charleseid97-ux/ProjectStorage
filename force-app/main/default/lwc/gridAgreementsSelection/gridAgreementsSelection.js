@@ -4,10 +4,18 @@ import getGridPicklistOptions from '@salesforce/apex/GridBuilderController.getGr
 import getAvailableGrids from '@salesforce/apex/GridBuilderController.getAvailableGrids';
 import getCurrentUserProfile from '@salesforce/apex/GridBuilderController.getCurrentUserProfile';
 
+const KIND_OTHER_FEES = 'OTHER FEES'; // matches Grid__c.Kind__c's actual picklist value (all caps)
+// Grid__c RecordType DeveloperNames — the Type__c values available under each one are admin-configurable
+// via GridBuilderSetting__mdt.AvailableTypesPerRecordType__c (passed down from customGridBuilder via
+// availableTypesPerRecordType, sourced from AgreementSelectionPageSettings), not hard-coded here.
+const RECORD_TYPE_OTHER_FEES = 'OtherFeesGrid';
+const RECORD_TYPE_DEFAULT    = 'CustomGrid';
+
 export default class GridAgreementsSelection extends LightningElement {
     @api hasTeamSelection = false;
     @api multiAgreementSelection = false;
     @api agreementSelectionMode;
+    @api availableTypesPerRecordType = {}; // RecordType DeveloperName -> allowed Type__c values (raw), see filteredTypeOptions
 
     @api availableTeams = [];
     @api primaryTeam;
@@ -177,6 +185,14 @@ export default class GridAgreementsSelection extends LightningElement {
         return this.effectiveHasTeamSelection && (this.availableTeams || []).length > 1;
     }
 
+    get isOtherFeesKind() { return this.agKind === KIND_OTHER_FEES; }
+
+    get filteredTypeOptions() {
+        const recordType = this.isOtherFeesKind ? RECORD_TYPE_OTHER_FEES : RECORD_TYPE_DEFAULT;
+        const allowedValues = (this.availableTypesPerRecordType || {})[recordType] || [];
+        return (this.typeOptions || []).filter(opt => allowedValues.includes(opt.value));
+    }
+
     get isSingleRule()             { return this.agType === 'SINGLE RULE'; }
     get isSingleRuleGridDisabled() { return !(this.selectedValues || []).length; }
     get isSingleRuleGridRequired() { return this.isSingleRule; }
@@ -189,8 +205,11 @@ export default class GridAgreementsSelection extends LightningElement {
         const agCode      = opt?.name       ?? '…';
         const kind        = this.agKind || '…';
         const typeSegment = this.isSingleRule ? (this.selectedSingleRuleGrid?.label || '…') : (this.agType || '…');
-        const update      = this.isAutoGridUpdate ? 'AUTOMATIC' : 'MANUAL';
         const date        = this.agStartDate || '…';
+        if (this.isOtherFeesKind) {
+            return kind + ' – ' + region + ' – ' + agCode + ' – ' + typeSegment + ' – ' + date;
+        }
+        const update = this.isAutoGridUpdate ? 'AUTOMATIC' : 'MANUAL';
         return kind + ' – ' + region + ' – ' + agCode + ' – ' + typeSegment + ' – ' + update + ' – ' + date;
     }
 
@@ -214,7 +233,7 @@ export default class GridAgreementsSelection extends LightningElement {
         return !(hasAgreements && hasDate && hasTeam && hasMeta && hasThreshCcy && hasSingleRuleGrid && hasBusinessBackground) || this.isEndDateBeforeStartDate || isStartDateOutOfRange;
     }
 
-    get showLoadPreviousToggle()    { return !this.hasDraftGrid && this.hasExistingGrid; }
+    get showLoadPreviousToggle()    { return !this.hasDraftGrid && this.hasExistingGrid && !this.isOtherFeesKind; }
     get loadPreviousToggleLabel()   { return this.loadPreviousGrid ? this.labels.UI_On : this.labels.UI_Off; }
 
     get isKindDisabled()         { return this.hasExistingGrid && !!this._existingGridInfo.kind; }
@@ -422,7 +441,29 @@ export default class GridAgreementsSelection extends LightningElement {
     }
 
     // ── AG field handlers ──
-    handleAgKind(e) { this.agKind = e.detail.value; this.notifyValidity(); }
+    handleAgKind(e) {
+        const wasOtherFees = this.isOtherFeesKind;
+        this.agKind = e.detail.value;
+        const isOtherFeesNow = this.isOtherFeesKind;
+
+        if (wasOtherFees !== isOtherFeesNow) {
+            // The allowed Type values differ between Other Fees and every other Kind — reset it
+            this.agType = '';
+            this.selectedSingleRuleGrid = null;
+            this.singleRuleGridOptions = [];
+        }
+        if (isOtherFeesNow) {
+            this.isAutoGridUpdate = false;
+            this.agOtherFees = false;
+            if (this.loadPreviousGrid) {
+                this.loadPreviousGrid = false;
+                this.dispatchEvent(new CustomEvent('loadpreviouschange', { detail: { value: false } }));
+            }
+        }
+
+        this.dispatchEvent(new CustomEvent('kindchange', { detail: { kind: this.agKind, isOtherFees: isOtherFeesNow } }));
+        this.notifyValidity();
+    }
     handleAgType(e) {
         this.agType = e.detail.value;
         if (this.agType === 'MULTI RULE') {

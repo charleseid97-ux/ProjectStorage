@@ -21,6 +21,10 @@ YTD_Net_Flows__c
 Last_AUM_Available__c</value>
     </values>
     <values>
+        <field>LookupFieldAPIName__c</field>
+        <value xsi:type="xsd:string">Product_Reference__c</value>
+    </values>
+    <values>
         <field>MaxTableRows__c</field>
         <value xsi:nil="true"/>
     </values>

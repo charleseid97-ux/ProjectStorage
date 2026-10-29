@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>EmailTemplate__c</fullName>
+    <description>Developer name of the EmailTemplate used for this record&apos;s emails, by LyytiDeletionAlertService on CampaignMember, Contact and Lead deletes. The template must contain {_Datatable_} where the table of deleted members is injected; its Subject is the email subject.</description>
+    <externalId>false</externalId>
+    <fieldManageability>SubscriberControlled</fieldManageability>
+    <inlineHelpText>Enter the DeveloperName of the EmailTemplate (e.g. LyytiDeletionAlert). It must include {_Datatable_} where the table of deleted members should appear.</inlineHelpText>
+    <label>Email Template</label>
+    <length>80</length>
+    <required>false</required>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

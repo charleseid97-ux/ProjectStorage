@@ -505,7 +505,7 @@ export default class CustomReportMatrix extends LightningElement {
             // Column headers at this depth
             let cur = leftColCount;
             (levelCells[hr] || []).forEach(cell => {
-                row.push(cell.label);
+                row[cur] = cell.label; // FIX-20258: Write at the absolute column index: push() would ignore the merged corner / colspans and shift labels left
                 for (let c = 0; c < cell.colspan; c++) { styles[`${hr},${cur + c}`] = rowStyle; }
                 if (cell.colspan > 1) { merges.push({ s: { r: hr, c: cur }, e: { r: hr, c: cur + cell.colspan - 1 } }); }
                 cur += cell.colspan;

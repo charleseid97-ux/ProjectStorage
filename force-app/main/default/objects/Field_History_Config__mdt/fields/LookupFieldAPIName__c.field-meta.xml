@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>LookupFieldAPIName__c</fullName>
+    <description>API name of the lookup of Fund_Field_ApplicabilityHistory__c pointing to this object (e.g. Share_Class_Reference__c). Used by FieldHistoryLogger to link the history lines and by FundFieldApplicabilityHistoryHandler to find their record: tracking a new object only needs its lookup field and this config record.</description>
+    <externalId>false</externalId>
+    <fieldManageability>DeveloperControlled</fieldManageability>
+    <inlineHelpText>API name of the lookup field on Fund Field Applicability History that points to this object.</inlineHelpText>
+    <label>Lookup Field API Name</label>
+    <length>80</length>
+    <required>false</required>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

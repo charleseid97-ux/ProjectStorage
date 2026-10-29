@@ -24,11 +24,12 @@ public with sharing class LookupController {
      */
     //This method retrieves the data from database table. It search input is '*', then retrieve all records
     @AuraEnabled (cacheable=true)
-    public static List<SObjectQueryResult> retrieveRecords(String objectName, 
+    public static List<SObjectQueryResult> retrieveRecords(String objectName,
                                                     String fieldAPINames,
                                                     String filterFieldAPIName,
-                                                    String strInput){
-        
+                                                    String strInput,
+                                                    String additionalWhereClause){
+
         List<SObjectQueryResult> lstReturnResult = new List<SObjectQueryResult>();
         if(strInput.equals('*')){
             strInput = '';
@@ -45,13 +46,19 @@ public with sharing class LookupController {
             strQueryField = fieldAPINames;
         }
 
-        String strQuery = 'SELECT ' + String.escapeSingleQuotes(strQueryField) 
-                        + ' FROM ' 
-                        + String.escapeSingleQuotes(objectName) 
-                        + ' WHERE ' + filterFieldAPIName + '  LIKE \'' + str + '%\''
-                        + ' ORDER BY ' + filterFieldAPIName
+        String strQuery = 'SELECT ' + String.escapeSingleQuotes(strQueryField)
+                        + ' FROM '
+                        + String.escapeSingleQuotes(objectName)
+                        + ' WHERE ' + filterFieldAPIName + '  LIKE \'' + str + '%\'';
+
+        //optional caller-defined default filter (e.g. record type scoping), set by the consuming component markup, not by user input
+        if(String.isNotBlank(additionalWhereClause)){
+            strQuery += ' AND (' + additionalWhereClause + ')';
+        }
+
+        strQuery += ' ORDER BY ' + filterFieldAPIName
                         + ' LIMIT 50';
-                        
+
         System.debug('strQuery=' + strQuery);
 
         List<SObject> lstResult = database.query(strQuery);

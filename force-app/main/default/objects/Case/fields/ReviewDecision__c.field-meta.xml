@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>ReviewDecision__c</fullName>
+    <inlineHelpText>Final outcome of the agent review. Choose whether the agent is approved, requires changes, is not approved, or needs additional security review.</inlineHelpText>
+    <label>Review Decision</label>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Approved</fullName>
+                <default>false</default>
+                <label>Approved</label>
+            </value>
+            <value>
+                <fullName>Not Approved</fullName>
+                <default>false</default>
+                <label>Not Approved</label>
+            </value>
+            <value>
+                <fullName>Changes Required</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Changes Required</label>
+            </value>
+            <value>
+                <fullName>Security Review Required</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Security Review Required</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

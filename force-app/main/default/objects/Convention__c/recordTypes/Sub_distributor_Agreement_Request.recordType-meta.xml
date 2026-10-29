@@ -116,6 +116,17 @@
         </values>
     </picklistValues>
     <picklistValues>
+        <picklist>AssetAge__c</picklist>
+        <values>
+            <fullName>Legacy Asset</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>New Asset</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
         <picklist>CalculationFrequencyBasis__c</picklist>
         <values>
             <fullName>Liabilities - daily average</fullName>

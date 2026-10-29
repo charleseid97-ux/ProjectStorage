@@ -11,11 +11,6 @@
             <value>True</value>
         </filterItems>
         <filterItems>
-            <field>$Source.AlertType__c</field>
-            <operation>notEqual</operation>
-            <value>Carmignac, Video, Letter, Flash, Report</value>
-        </filterItems>
-        <filterItems>
             <field>Product__c.Record_Type_Name__c</field>
             <operation>equals</operation>
             <value>Fund</value>

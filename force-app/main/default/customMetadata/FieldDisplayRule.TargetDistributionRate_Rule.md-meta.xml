@@ -8,7 +8,7 @@
     </values>
     <values>
         <field>DisplayCondition__c</field>
-        <value xsi:type="xsd:string">(record.DividendPolicy__c=== &quot;Distributing&quot;)</value>
+        <value xsi:type="xsd:string">record.DividendPolicy__c=== &quot;Income&quot;</value>
     </values>
     <values>
         <field>FieldApiName__c</field>
@@ -16,7 +16,7 @@
     </values>
     <values>
         <field>Mandatory_Rule__c</field>
-        <value xsi:nil="true"/>
+        <value xsi:type="xsd:string">record.DividendPolicy__c=== &quot;Income&quot;</value>
     </values>
     <values>
         <field>ObjectApiName__c</field>

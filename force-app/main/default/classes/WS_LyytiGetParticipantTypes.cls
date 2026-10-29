@@ -91,9 +91,17 @@ public class WS_LyytiGetParticipantTypes extends RestCallout {
     public void sendInDataToExternalService() {
         try {
             callEndPoint(setHeaderAndEndpoint());
-        } 
+        }
         catch (Exception e) {
             System.debug('WS_LyytiGetParticipantTypes callout error: ' + e.getMessage());
         }
+    }
+
+    public override String getSourceRecordId() {
+        return recordToTreat != null ? recordToTreat.Id : null;
+    }
+
+    public override String getSourceObjectApiName() {
+        return 'Campaign';
     }
 }

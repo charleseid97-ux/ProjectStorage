@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>RecipientEmails__c</fullName>
+    <description>Email addresses receiving the alert email (the event managers of the Sales Teams), separated by commas or semicolons.</description>
+    <externalId>false</externalId>
+    <fieldManageability>SubscriberControlled</fieldManageability>
+    <inlineHelpText>Email addresses of the recipients, separated by commas or semicolons.</inlineHelpText>
+    <label>Recipient Emails</label>
+    <length>255</length>
+    <required>false</required>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

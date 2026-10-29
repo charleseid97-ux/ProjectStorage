@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>OpenPeriodKey__c</fullName>
+    <caseSensitive>false</caseSensitive>
+    <description>Set automatically by FundFieldApplicabilityHistoryTrigger (FundFieldApplicabilityHistoryHandler): record Id + ':' + lowercase FieldAPIName__c while the line is an open period (Applicability__c true, End_Date__c empty), empty otherwise. Unique, so the database rejects a second open period for the same record and field (DUPLICATE_VALUE), including from simultaneous transactions.</description>
+    <encryptionScheme>None</encryptionScheme>
+    <externalId>false</externalId>
+    <inlineHelpText>Technical key that allows a single open period per record and field. Set automatically.</inlineHelpText>
+    <label>Open Period Key</label>
+    <length>255</length>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Text</type>
+    <unique>true</unique>
+</CustomField>

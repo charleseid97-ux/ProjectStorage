@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>RequiredCondition__c</fullName>
+    <description>When a Conditional line is required. Formula evaluated by PMTCondition only when the line applies (Condition__c empty or true): Condition__c supersedes it. Same syntax and prefix rule as Condition__c. Ignored unless Requirement__c = Conditional.</description>
+    <fieldManageability>DeveloperControlled</fieldManageability>
+    <inlineHelpText>Salesforce formula returning true or false, read only when Requirement = Conditional. Prefix every field with its object: ProjectProduct__c.LegalForm__c, ProjectShareclass__c.HasPerfFees__c (Share Class fields only). Picklists: ISPICKVAL() or TEXT().</inlineHelpText>
+    <label>Required Condition</label>
+    <length>32768</length>
+    <type>LongTextArea</type>
+    <visibleLines>3</visibleLines>
+</CustomField>

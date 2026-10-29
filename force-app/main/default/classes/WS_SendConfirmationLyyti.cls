@@ -65,6 +65,14 @@ public class WS_SendConfirmationLyyti extends RestCallout {
             System.debug('***call API' + e.getMessage());
             System.debug('*** ' + e.getCause());
             System.debug('**** ' + e.getTypeName());
-        } 
+        }
+    }
+
+    public override String getSourceRecordId() {
+        return this.lyytiId;
+    }
+
+    public override String getSourceObjectApiName() {
+        return 'CampaignMember';
     }
 }

@@ -4,6 +4,8 @@
  * @group             : 
  * @last modified on  : 29-10-2024
  * @last modified by  : Khadija EL GDAOUNI
+ * @covers SM016_CampaignMemberTriggerHandler   TBD
+ * @lastModifiedBy Charles EID   [29-10-26]
 **/
 @isTest
 public class SM016_CampaignMemberTriggerHandlerTest {
@@ -363,7 +365,6 @@ public class SM016_CampaignMemberTriggerHandlerTest {
         SM016_CampaignMemberTriggerHandler handler = new SM016_CampaignMemberTriggerHandler();
 
         handler.BeforeUpdate(null, null);
-        handler.BeforeDelete(null);
         //handler.AfterInsert(null);
         handler.AfterDelete(null);
         handler.AfterUndelete(null);

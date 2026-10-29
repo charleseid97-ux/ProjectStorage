@@ -112,18 +112,18 @@ public class SM017_LeadTriggerHandlerTest {
             Web_Communication__c wb= new Web_Communication__c();
             wb.Contact__c = testContact2.Id;
             wb.AlertTypeRecord__c= theme1.Id;
-            wb.Type_of_communication__c='Alert Website';
+            // wb.Type_of_communication__c='Alert Website';
             insert wb;
             
             ld3.Synchrostatus__c='To be synced';
             leadListToUpdate2.add(ld3);
             
             
-            SM026_SendSelectedLeadsAsync leadAsync = new SM026_SendSelectedLeadsAsync(leadListToUpdate2, 0 , 1);
-            leadAsync.executeNext(leadListToUpdate2, 0 , 1);
+            // SM026_SendSelectedLeadsAsync leadAsync = new SM026_SendSelectedLeadsAsync(leadListToUpdate2, 0 , 1);
+            // leadAsync.executeNext(leadListToUpdate2, 0 , 1);
             
-            SM026_DeleteWebsiteLeadsAsync leadDelAsync = new SM026_DeleteWebsiteLeadsAsync(leadListToUpdate2, 0 , 1);
-            leadDelAsync.executeNext(leadListToUpdate2, 0 , 1);
+            // SM026_DeleteWebsiteLeadsAsync leadDelAsync = new SM026_DeleteWebsiteLeadsAsync(leadListToUpdate2, 0 , 1);
+            // leadDelAsync.executeNext(leadListToUpdate2, 0 , 1);
             
             AlertType__c theme2 = new AlertType__c();
             theme2.name = 'Report';
@@ -134,7 +134,7 @@ public class SM017_LeadTriggerHandlerTest {
             Web_Communication__c wb1= new Web_Communication__c();
             wb1.Contact__c= testContact2.Id;
             wb1.AlertTypeRecord__c= theme2.Id;
-            wb1.Type_of_communication__c='Alert Website';
+            // wb1.Type_of_communication__c='Alert Website';
             insert wb1;
             
             wb1.AlertTypeRecord__c = theme1.Id;

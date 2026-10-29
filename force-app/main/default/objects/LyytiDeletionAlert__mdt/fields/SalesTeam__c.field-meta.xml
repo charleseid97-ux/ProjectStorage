@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>SalesTeam__c</fullName>
+    <description>Semicolon-separated API values of Campaign.Sales_Team__c handled by this record (e.g. IT;ES;PT;AD). Leave blank on exactly one record to make it the fallback: it receives every Sales Team not listed on another active record, and campaigns with no Sales Team.</description>
+    <externalId>false</externalId>
+    <fieldManageability>SubscriberControlled</fieldManageability>
+    <inlineHelpText>Semicolon-separated Campaign Sales Team codes (e.g. IT;ES;PT;AD). Blank = fallback for all other Sales Teams.</inlineHelpText>
+    <label>Sales Team</label>
+    <length>255</length>
+    <required>false</required>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

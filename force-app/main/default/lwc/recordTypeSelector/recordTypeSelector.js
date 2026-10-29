@@ -38,6 +38,22 @@ export default class RecordTypeSelector extends NavigationMixin(
 
     accountIdFromUrl;
     accountIdFromCase;
+    showAiAgentFlow = false;
+
+
+    /*
+     * Provide the Account context to the AI Agent Flow.
+     */
+    get flowInputVariables() {
+
+        return this.effectiveAccountId
+            ? [{
+                name: 'accountId',
+                type: 'String',
+                value: this.effectiveAccountId
+            }]
+            : [];
+    }
 
 
     /*
@@ -227,10 +243,26 @@ export default class RecordTypeSelector extends NavigationMixin(
 
 
         /*
+         * AI Agent Governance
+         *
+         * Display NewAIAgentWTP Flow in the current page.
+         */
+        if (
+            this.urlRT.includes(
+                '/lightning/n/AIAgentRequest'
+            )
+        ) {
+
+            this.showAiAgentFlow = true;
+
+            return;
+        }
+
+
+        /*
          * Other Record Types
          */
         let targetUrl = this.urlRT;
-
 
         /*
          * If launched from Account,

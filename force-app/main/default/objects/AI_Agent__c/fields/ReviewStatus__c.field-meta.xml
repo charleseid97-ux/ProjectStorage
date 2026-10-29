@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>ReviewStatus__c</fullName>
+    <externalId>false</externalId>
+    <formula>IF(
+    ISBLANK(NextReviewDate__c),
+    &quot;Review Required&quot;,
+
+    IF(
+        NextReviewDate__c &lt; TODAY(),
+        &quot;Overdue&quot;,
+
+        IF(
+            NextReviewDate__c = TODAY(),
+            &quot;Review Required&quot;,
+
+            IF(
+                NextReviewDate__c &lt;= TODAY() + 60,
+                &quot;Due Soon&quot;,
+                &quot;Up to date&quot;
+            )
+        )
+    )
+)</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <inlineHelpText>Automatically indicates the governance review status based on the next scheduled review date.</inlineHelpText>
+    <label>Review Status</label>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

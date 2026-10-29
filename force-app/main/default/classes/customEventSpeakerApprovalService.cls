@@ -160,6 +160,26 @@ public without sharing class customEventSpeakerApprovalService {
             }
         }
 
+        Set<Id> organizerApprovedEventIds = new Set<Id>();
+        for (Event__c newEvent : newEvents.values()) {
+            if (isOrganizerDecisionApproved(newEvent, oldEvents)) {
+                organizerApprovedEventIds.add(newEvent.Id);
+            }
+        }
+
+        // La dernière décision Organizer doit libérer l'Event si les SSP sont déjà traités.
+        if (!organizerApprovedEventIds.isEmpty()) {
+            Map<Id, String> statusesByEvent =
+                calculateEventStatusFromApprovals(organizerApprovedEventIds);
+
+            for (Id eventId : organizerApprovedEventIds) {
+                String status = statusesByEvent.get(eventId);
+                if (status != null) {
+                    newEvents.get(eventId).Status__c = status;
+                }
+            }
+        }
+
         // Pas de persist ici : les changements sur newEvents seront sauvegardés par le trigger BEFORE
         System.debug(LoggingLevel.INFO, 'markEventFullyApprovedIfNoSSP: processing finished');
     }
@@ -213,8 +233,32 @@ public without sharing class customEventSpeakerApprovalService {
             gr.bestSSPByKey
         );
         deleteOrphanApprovals(eventIdsToProcess, speakerContactIds);
-
         upsertApprovals(approvals);
+
+        // Recalcule immédiatement le statut après la synchronisation des approvals.
+        Map<Id, String> calculatedStatuses =
+            calculateEventStatusFromApprovals(eventIdsToProcess);
+
+        List<Event__c> eventsToUpdate = new List<Event__c>();
+
+        // Évite de laisser l'Event bloqué sans nouvelle approval à traiter.
+        for (Id eventId : calculatedStatuses.keySet()) {
+            String calculatedStatus = calculatedStatuses.get(eventId);
+
+            if (
+                calculatedStatus != null &&
+                calculatedStatus != customEventConstants.STATUS_WAITING_FOR_SPEAKER_APPROVALS
+            ) {
+                eventsToUpdate.add(new Event__c(
+                    Id = eventId,
+                    Status__c = calculatedStatus
+                ));
+            }
+        }
+
+        if (!eventsToUpdate.isEmpty()) {
+            update eventsToUpdate;
+        }
     }
 
     // -------------------------
@@ -458,8 +502,14 @@ public without sharing class customEventSpeakerApprovalService {
             (best != null && best.Session__r != null ? best.Session__r.RecordType.Name : '') + ' - ' +
             (best != null ? best.Language__c : '');
 
+        // EventSpeakerApprovals__c.Name is limited to 80 characters.
+        String safeName =
+            nameValue.length() > 80
+                ? nameValue.substring(0, 80)
+                : nameValue;
+
         EventSpeakerApprovals__c rec = new EventSpeakerApprovals__c(
-            Name            = nameValue,
+            Name            = safeName,
             Key__c          = fullKey,
             Event__c        = eventId,
             Speaker__c      = speakerId,
@@ -479,12 +529,9 @@ public without sharing class customEventSpeakerApprovalService {
         return rec;
     }
 
-   /**
-     * Supprime les EventSpeakerApprovals__c orphelines :
-     * - pour les events donnés
-     * - si le Speaker__c n'est plus présent dans les SSP de l'event
-     *
-     * NB : les approvals déjà "Approved" ne sont jamais supprimées.
+    /**
+     * Supprime toutes les approvals d'un speaker lorsqu'il n'a plus
+     * aucun SessionSpeakerProduct__c lié à l'Event.
      */
     private static void deleteOrphanApprovals(
         Set<Id> eventIds,
@@ -494,27 +541,38 @@ public without sharing class customEventSpeakerApprovalService {
 
         List<EventSpeakerApprovals__c> toDelete = new List<EventSpeakerApprovals__c>();
 
+        // Charge toutes les approvals liées aux Events concernés.
         for (EventSpeakerApprovals__c ex : [
             SELECT Id, Speaker__c, Status__c,Event__c
             FROM EventSpeakerApprovals__c
             WHERE Event__c IN :eventIds
         ]) {
-            if (ex.Speaker__c != null && speakerContactIds != null && speakerContactIds.contains(ex.Speaker__c)) {
-                continue;
-            }
-
-            // Ne jamais supprimer une approval déjà approuvée.
+            // Conserve les approvals si le speaker possède encore au moins un SSP.
             if (
-                isTerminalApprovalStatus(ex.Status__c)
+                ex.Speaker__c != null &&
+                speakerContactIds != null &&
+                speakerContactIds.contains(ex.Speaker__c)
             ) {
                 continue;
             }
-            system.debug(LoggingLevel.INFO, 'ESA: marking approval for deletion, event=' + ex.Event__c + ', speaker=' + ex.Speaker__c + ', status=' + ex.Status__c);
+
+            // Supprime aussi les approvals déjà validées devenues orphelines.
+            system.debug(
+                LoggingLevel.INFO,
+                'ESA: marking approval for deletion, event=' + ex.Event__c +
+                ', speaker=' + ex.Speaker__c +
+                ', status=' + ex.Status__c
+            );
             toDelete.add(ex);
         }
 
         if (toDelete.isEmpty()) return;
-        system.debug(LoggingLevel.INFO, 'ESA: deleting orphan approvals count=' + toDelete.size());
+
+        // La prochaine réintégration du speaker recréera de nouvelles approvals.
+        system.debug(
+            LoggingLevel.INFO,
+            'ESA: deleting orphan approvals count=' + toDelete.size()
+        );
         delete toDelete;
     }
 
@@ -561,6 +619,11 @@ public without sharing class customEventSpeakerApprovalService {
                 // terminal approved -> do not upsert
                 skipped++;
                 continue;
+            }
+
+            // Une première notification Speaker ou HOP ne doit jamais reprendre un titre Event.
+            if (existing == null) {
+                a.NotificationTitle__c = NotificationTitleGenerator.getNewApprovalTitle();
             }
 
             // New or existing non-approved -> keep status from builder and queue for upsert
@@ -636,6 +699,21 @@ public without sharing class customEventSpeakerApprovalService {
 
         Map<Id, Map<String, Integer>> countsByEventAndStatus = queryApprovalCounts(eventIds);
 
+        Set<Id> eventsWithPendingOrganizerApproval = new Set<Id>();
+
+        // Identifie les Events ayant encore une approbation Organizer active
+        for (ProcessInstance processInstance : [
+            SELECT TargetObjectId
+            FROM ProcessInstance
+            WHERE TargetObjectId IN :eventIds
+            AND Status = 'Pending'
+            AND ProcessDefinition.DeveloperName = 'OrganizerApprovalProcess'
+        ]) {
+            eventsWithPendingOrganizerApproval.add(
+                processInstance.TargetObjectId
+            );
+        }
+
         List<Event__c> toUpdate = new List<Event__c>();
 
         for (Id evtId : countsByEventAndStatus.keySet()) {
@@ -672,10 +750,17 @@ public without sharing class customEventSpeakerApprovalService {
             }
 
             String newStatus;
-            if (recalled > 0) {
-                newStatus = customEventConstants.STATUS_WAITING_FOR_SPEAKER_APPROVALS;
+
+            // Une approbation Organizer active bloque le passage à FullyApproved
+            if (
+                recalled > 0 ||
+                eventsWithPendingOrganizerApproval.contains(evtId)
+            ) {
+                newStatus =
+                    customEventConstants.STATUS_WAITING_FOR_SPEAKER_APPROVALS;
             } else {
-                newStatus = shouldMarkFullyApproved(total, approved, rejected);
+                newStatus =
+                    shouldMarkFullyApproved(total, approved, rejected);
             }
 
             System.debug(LoggingLevel.INFO,
@@ -1048,104 +1133,137 @@ public without sharing class customEventSpeakerApprovalService {
         public Set<String> products = new Set<String>();
     }
 
-    /**
-     * Groupe les SessionSpeakerProduct__c par SpeakerContact__c.
-     * Pour un même speaker, les produits strategy__r.Name sont fusionnés.
-     */
-    private static List<SpeakerHtmlRow> groupSpeakersForHtml(List<SessionSpeakerProduct__c> speakers) {
-        system.debug('==============groupSpeakersForHtml====speakers='+speakers);
-        Map<Id, SpeakerHtmlRow> rowsBySpeakerId = new Map<Id, SpeakerHtmlRow>();
-        List<SpeakerHtmlRow> rowsWithoutSpeakerId = new List<SpeakerHtmlRow>();
+/**
+ * Groupe les SessionSpeakerProduct__c par speaker et speaking slot.
+ * Pour un même slot, les produits strategy__r.Name sont fusionnés.
+ */
+private static List<SpeakerHtmlRow> groupSpeakersForHtml(List<SessionSpeakerProduct__c> speakers) {
+    system.debug('==============groupSpeakersForHtml====speakers=' + speakers);
 
-        if (speakers == null) return new List<SpeakerHtmlRow>();
+    Map<String, SpeakerHtmlRow> rowsBySpeakerSlot =
+        new Map<String, SpeakerHtmlRow>();
 
-        for (SessionSpeakerProduct__c s : speakers) {
-            if (s == null) continue;
+    List<SpeakerHtmlRow> rowsWithoutSpeakerId =
+        new List<SpeakerHtmlRow>();
 
-            // Cas nominal : speaker renseigné => groupement par SpeakerContact__c
-            if (s.SpeakerContact__c != null) {
-                SpeakerHtmlRow row = rowsBySpeakerId.get(s.SpeakerContact__c);
+    if (speakers == null) return new List<SpeakerHtmlRow>();
 
-                if (row == null) {
-                    row = new SpeakerHtmlRow();
-                    row.startTime = s.startTime__c;
-                    row.endTime = s.endTime__c;
-                    row.speakerId = s.SpeakerContact__c;
-                    row.speakerName = (s.SpeakerContact__r != null && String.isNotBlank(s.SpeakerContact__r.Name))
+    for (SessionSpeakerProduct__c s : speakers) {
+        if (s == null) continue;
+
+        // Cas nominal : un speaker peut avoir plusieurs speaking slots.
+        if (s.SpeakerContact__c != null) {
+            String slotKey =
+                String.valueOf(s.SpeakerContact__c) + '|' +
+                String.valueOf(s.Date__c) + '|' +
+                String.valueOf(s.startTime__c) + '|' +
+                String.valueOf(s.endTime__c);
+
+            SpeakerHtmlRow row = rowsBySpeakerSlot.get(slotKey);
+
+            if (row == null) {
+                row = new SpeakerHtmlRow();
+
+                row.startTime = s.startTime__c;
+                row.endTime = s.endTime__c;
+                row.speakerId = s.SpeakerContact__c;
+
+                row.speakerName =
+                    (s.SpeakerContact__r != null && String.isNotBlank(s.SpeakerContact__r.Name))
                         ? s.SpeakerContact__r.Name
                         : 'Unknown';
-                    row.accountName = (s.SpeakerContact__r != null && s.SpeakerContact__r.Account != null)
+
+                row.accountName =
+                    (s.SpeakerContact__r != null && s.SpeakerContact__r.Account != null)
                         ? s.SpeakerContact__r.Account.Name
                         : '';
-                    row.language = s.Language__c;
-                    row.speakerLanguage = s.speakerLanguage__c;
-                    row.presentationStatus = s.PresentationStatus__c;
-                    row.sessionDate = s.Date__c;
 
-                    rowsBySpeakerId.put(s.SpeakerContact__c, row);
-                }
-
-                if (String.isBlank(row.language) && String.isNotBlank(s.Language__c)) {
-                    row.language = s.Language__c;
-                }
-                if (String.isBlank(row.speakerLanguage) && String.isNotBlank(s.speakerLanguage__c)) {
-                    row.speakerLanguage = s.speakerLanguage__c;
-                }
-                if (String.isBlank(row.presentationStatus) && String.isNotBlank(s.PresentationStatus__c)) {
-                    row.presentationStatus = s.PresentationStatus__c;
-                }
-                if (row.sessionDate == null && s.Date__c != null) {
-                    row.sessionDate = s.Date__c;
-                }
-                if (row.startTime == null && s.startTime__c != null) {
-                    row.startTime = s.startTime__c;
-                }
-                if (row.endTime == null && s.endTime__c != null) {
-                    row.endTime = s.endTime__c;
-                }
-                system.debug('==============groupSpeakersForHtml====s.strategy__r='+s.strategy__r);
-                if (s.strategy__r != null && String.isNotBlank(s.strategy__r.Name)) {
-                    system.debug('==============groupSpeakersForHtml====s.strategy__r.Name='+s.strategy__r.Name);
-
-                    row.products.add(s.strategy__r.Name);
-                }
-            } else {
-                // Fallback rare : pas de speaker => une ligne isolée
-                SpeakerHtmlRow row = new SpeakerHtmlRow();
-                row.speakerName = 'Unknown';
-                row.accountName = '';
                 row.language = s.Language__c;
                 row.speakerLanguage = s.speakerLanguage__c;
                 row.presentationStatus = s.PresentationStatus__c;
                 row.sessionDate = s.Date__c;
-                row.startTime = s.startTime__c;
-                row.endTime = s.endTime__c;
 
-                if (s.strategy__r != null && String.isNotBlank(s.strategy__r.Name)) {
-                    row.products.add(s.strategy__r.Name);
-                }
-                rowsWithoutSpeakerId.add(row);
+                rowsBySpeakerSlot.put(slotKey, row);
             }
+
+            // Complète les données si elles étaient absentes.
+            if (String.isBlank(row.language) && String.isNotBlank(s.Language__c)) {
+                row.language = s.Language__c;
+            }
+
+            if (
+                String.isBlank(row.speakerLanguage) &&
+                String.isNotBlank(s.speakerLanguage__c)
+            ) {
+                row.speakerLanguage = s.speakerLanguage__c;
+            }
+
+            if (
+                String.isBlank(row.presentationStatus) &&
+                String.isNotBlank(s.PresentationStatus__c)
+            ) {
+                row.presentationStatus = s.PresentationStatus__c;
+            }
+
+            // Fusionne les produits uniquement pour le même speaking slot.
+            if (s.strategy__r != null && String.isNotBlank(s.strategy__r.Name)) {
+                row.products.add(s.strategy__r.Name);
+            }
+
+        } else {
+            // Fallback rare : pas de speaker => une ligne isolée.
+            SpeakerHtmlRow row = new SpeakerHtmlRow();
+
+            row.speakerName = 'Unknown';
+            row.accountName = '';
+            row.language = s.Language__c;
+            row.speakerLanguage = s.speakerLanguage__c;
+            row.presentationStatus = s.PresentationStatus__c;
+            row.sessionDate = s.Date__c;
+            row.startTime = s.startTime__c;
+            row.endTime = s.endTime__c;
+
+            if (s.strategy__r != null && String.isNotBlank(s.strategy__r.Name)) {
+                row.products.add(s.strategy__r.Name);
+            }
+
+            rowsWithoutSpeakerId.add(row);
         }
-
-        List<SpeakerHtmlRow> result = new List<SpeakerHtmlRow>();
-        result.addAll(rowsBySpeakerId.values());
-        result.addAll(rowsWithoutSpeakerId);
-
-        result.sort(new SpeakerHtmlRowSorter());
-        return result;
     }
 
+    List<SpeakerHtmlRow> result = new List<SpeakerHtmlRow>();
+
+    result.addAll(rowsBySpeakerSlot.values());
+    result.addAll(rowsWithoutSpeakerId);
+
+    result.sort(new SpeakerHtmlRowSorter());
+
+    return result;
+}
+
     /**
-     * Tri simple pour stabiliser l'affichage par nom de speaker.
+     * Sorts speakers chronologically by date and start time.
      */
     private class SpeakerHtmlRowSorter implements System.Comparator<SpeakerHtmlRow> {
         public Integer compare(SpeakerHtmlRow left, SpeakerHtmlRow right) {
-            String ln = (left == null || left.speakerName == null) ? '' : left.speakerName.toLowerCase();
-            String rn = (right == null || right.speakerName == null) ? '' : right.speakerName.toLowerCase();
+            if (left.sessionDate != right.sessionDate) {
+                if (left.sessionDate == null) return 1;
+                if (right.sessionDate == null) return -1;
+                return left.sessionDate < right.sessionDate ? -1 : 1;
+            }
 
-            if (ln == rn) return 0;
-            return ln < rn ? -1 : 1;
+            // For the same date, sort speakers by their intervention start time.
+            if (left.startTime != right.startTime) {
+                if (left.startTime == null) return 1;
+                if (right.startTime == null) return -1;
+                return left.startTime < right.startTime ? -1 : 1;
+            }
+
+            String leftName = left.speakerName == null ? '' : left.speakerName.toLowerCase();
+            String rightName = right.speakerName == null ? '' : right.speakerName.toLowerCase();
+
+            if (leftName == rightName) return 0;
+            return leftName < rightName ? -1 : 1;
         }
     }
 
@@ -1194,6 +1312,107 @@ public without sharing class customEventSpeakerApprovalService {
         refreshApprovalsFromSessions(sessionIds);
     }
     
+        // Restarts every existing Speaker Assistant approval after a location change.
+    public static void restartSpeakerApprovalsForLocationChange(
+        List<Event__c> newEvents,
+        Map<Id, Event__c> oldEvents
+    ) {
+        if (newEvents == null || newEvents.isEmpty() || oldEvents == null) return;
+
+        Set<Id> eventIds = new Set<Id>();
+
+        // Only approved or speaker-approval Events are concerned.
+        for (Event__c newEvent : newEvents) {
+            Event__c oldEvent = oldEvents.get(newEvent.Id);
+            if (oldEvent == null) continue;
+
+            Boolean locationChanged =
+                newEvent.City__c != oldEvent.City__c ||
+                newEvent.Country__c != oldEvent.Country__c;
+
+            if (
+                locationChanged &&
+                (
+                    oldEvent.Status__c == customEventConstants.STATUS_FULLY_APPROVED ||
+                    oldEvent.Status__c == customEventConstants.STATUS_WAITING_FOR_SPEAKER_APPROVALS
+                )
+            ) {
+                eventIds.add(newEvent.Id);
+            }
+        }
+
+        if (eventIds.isEmpty()) return;
+
+        List<EventSpeakerApprovals__c> approvals = [
+            SELECT Id, Event__c, ApproverUser__c
+            FROM EventSpeakerApprovals__c
+            WHERE Event__c IN :eventIds
+            AND approvalType__c = 'Speaker'
+            AND ApproverUser__c != null
+        ];
+
+        if (approvals.isEmpty()) return;
+
+        Set<Id> approvalIds = new Map<Id, EventSpeakerApprovals__c>(approvals).keySet();
+        List<Approval.ProcessWorkitemRequest> removalRequests =
+            new List<Approval.ProcessWorkitemRequest>();
+
+        // Close pending Speaker approvals before restarting them.
+        for (ProcessInstanceWorkitem workitem : [
+            SELECT Id
+            FROM ProcessInstanceWorkitem
+            WHERE ProcessInstance.TargetObjectId IN :approvalIds
+            AND ProcessInstance.ProcessDefinition.DeveloperName = 'SpeakerApproval'
+        ]) {
+            Approval.ProcessWorkitemRequest removalRequest =
+                new Approval.ProcessWorkitemRequest();
+
+            removalRequest.setWorkitemId(workitem.Id);
+            removalRequest.setAction('Removed');
+            removalRequest.setComments(
+                'Location changed. Speaker approval restarted.'
+            );
+
+            removalRequests.add(removalRequest);
+        }
+
+        // Release approvals currently waiting for a Speaker Assistant.
+        if (!removalRequests.isEmpty()) {
+            Approval.process(removalRequests);
+        }
+
+        // Reset approved and pending Speaker approvals with the new notification.
+        for (EventSpeakerApprovals__c approvalRecord : approvals) {
+            approvalRecord.Status__c =
+                customEventConstants.APPROVAL_STATUS_SUBMITTED;
+            approvalRecord.NotificationTitle__c =
+                NotificationTitleGenerator.getUpdatedApprovalTitle();
+            approvalRecord.NotificationDetails__c =
+                'The location has changed';
+        }
+
+        update approvals;
+
+        List<Approval.ProcessRequest> submissionRequests =
+            new List<Approval.ProcessRequest>();
+
+        // Resubmit every existing Speaker Assistant approval.
+        for (EventSpeakerApprovals__c approvalRecord : approvals) {
+            Approval.ProcessSubmitRequest submissionRequest =
+                new Approval.ProcessSubmitRequest();
+
+            submissionRequest.setObjectId(approvalRecord.Id);
+            submissionRequest.setProcessDefinitionNameOrId('SpeakerApproval');
+            submissionRequest.setSkipEntryCriteria(true);
+
+            submissionRequests.add(submissionRequest);
+        }
+
+        if (!submissionRequests.isEmpty()) {
+            Approval.process(submissionRequests);
+        }
+    }    
+
     /**
      * Recharge les SSP d’une ou plusieurs sessions et synchronise les approvals.
      * Les approvals ne sont recalculées que pour les events en

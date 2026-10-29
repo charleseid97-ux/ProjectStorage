@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObject xmlns="http://soap.sforce.com/2006/04/metadata">
+    <description>Routing records for the Lyyti Deletion Alert (LyytiDeletionAlertService, called on CampaignMember, Contact and Lead deletes). Each record lists campaign Sales Teams, the email template, and who receives the email of the Lyyti participants deleted in Salesforce for those teams.</description>
+    <label>Lyyti Deletion Alert</label>
+    <pluralLabel>Lyyti Deletion Alerts</pluralLabel>
+    <visibility>Public</visibility>
+</CustomObject>

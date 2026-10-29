@@ -85,6 +85,7 @@ import Grid_ImportFailed from '@salesforce/label/c.Grid_ImportFailed';
 import Grid_ImportedFilePrefix from '@salesforce/label/c.Grid_ImportedFilePrefix';
 import Grid_IncludedInGrid from '@salesforce/label/c.Grid_IncludedInGrid';
 import Grid_IncludedProducts from '@salesforce/label/c.Grid_IncludedProducts';
+import Grid_KindSwitchDiscardsChildrenWarning from '@salesforce/label/c.Grid_KindSwitchDiscardsChildrenWarning';
 import Grid_Label from '@salesforce/label/c.Grid_Label';
 import Grid_LogicLabel from '@salesforce/label/c.Grid_LogicLabel';
 import Grid_MissingShareClass from '@salesforce/label/c.Grid_MissingShareClass';
@@ -189,7 +190,7 @@ export const LABELS = {
     Grid_ErrorSavingGrid, Grid_ErrorValidatingProducts, Grid_ExcelImportTitle, Grid_ExcludedProducts,
     Grid_FailedToLoadSheetJS, Grid_FilterNumber, Grid_FixValidationErrors, Grid_GridDetailsCreated, Grid_GridDetailsUpdated, Grid_HistGridDetailsInserted, Grid_HistGridDetailsUpdated, Grid_GridName,
     Grid_ImportCompleted, Grid_ImportCompletedWithErrors, Grid_ImportFailed, Grid_ImportedFilePrefix,
-    Grid_IncludedInGrid, Grid_IncludedProducts, Grid_Label, Grid_LogicLabel,
+    Grid_IncludedInGrid, Grid_IncludedProducts, Grid_KindSwitchDiscardsChildrenWarning, Grid_Label, Grid_LogicLabel,
     Grid_MissingShareClass, Grid_MissingShareClasses, Grid_NoActiveGridAssigned, Grid_NoDetailsFound, Grid_NoExcludedProducts,
     Grid_NoGridAvailable, Grid_NoGridSelectionFound, Grid_NoNewShareClassesAdded, Grid_NoProducts,
     Grid_NoProductsFound, Grid_NoProductsFoundValidation, Grid_NoProductsMatched, Grid_NoProductsSelected,

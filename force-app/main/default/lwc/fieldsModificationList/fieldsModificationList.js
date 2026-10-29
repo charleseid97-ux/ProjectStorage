@@ -10,6 +10,7 @@ import TECH_FIELDS_CHANNEL from '@salesforce/messageChannel/techFieldsMessageCha
 import { NavigationMixin } from 'lightning/navigation';
 import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 import hasEdit from '@salesforce/customPermission/PRPProductStrategy';
+import hasISEdit from '@salesforce/customPermission/PRPIS'; // FIX-20178: IS edits like Product Strategy (IS-scoped projects)
 
 const COMMON_ACTIONS = [
     {
@@ -69,7 +70,7 @@ export default class FieldModificationList extends NavigationMixin(LightningElem
     @track selectedRow = {};
     @track objectApiName='';
     @track isSaving = false; 
-    @track canEdit = hasEdit;
+    @track canEdit = hasEdit || hasISEdit;
 
     @api recordId;
     @api objectName = 'Product__c';
@@ -221,7 +222,7 @@ export default class FieldModificationList extends NavigationMixin(LightningElem
     
         const recordId = this.selectedRow.childRecordId;
         const fieldApiName = this.selectedRow.fieldApiName;
-        var newValue = fields[fieldApiName];
+        const newValue = fields[fieldApiName];
         const objectApiName = this.objectApiName; // 'ProjectProductChild__c' ou 'ProjectShareclassChild__c'
         if (newValue.includes('%')) {
             newValue.replace('%', '');

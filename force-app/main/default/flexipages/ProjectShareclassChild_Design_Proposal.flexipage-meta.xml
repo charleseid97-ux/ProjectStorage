@@ -133,7 +133,7 @@
                 <componentName>flexipage:tab</componentName>
                 <identifier>flexipage_tab2</identifier>
                 <visibilityRule>
-                    <booleanFilter>1 AND 2</booleanFilter>
+                    <booleanFilter>1 AND (2 OR 3)</booleanFilter>
                     <criteria>
                         <leftValue>{!Record.ProjectShareclasses__r.ProjectProduct__r.RecordType.DeveloperName}</leftValue>
                         <operator>CONTAINS</operator>
@@ -141,6 +141,11 @@
                     </criteria>
                     <criteria>
                         <leftValue>{!$Permission.CustomPermission.PRPProductStrategy}</leftValue>
+                        <operator>EQUAL</operator>
+                        <rightValue>true</rightValue>
+                    </criteria>
+                    <criteria>
+                        <leftValue>{!$Permission.CustomPermission.PRPIS}</leftValue>
                         <operator>EQUAL</operator>
                         <rightValue>true</rightValue>
                     </criteria>
