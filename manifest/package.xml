@@ -1,4 +1,3 @@
-
 <?xml version="1.0" encoding="UTF-8"?>
 <Package xmlns="http://soap.sforce.com/2006/04/metadata">
     <types>
@@ -26,12 +25,6 @@
         <members>ProjectProductChild__c.SetUp</members>
         <name>RecordType</name>
     </types>
-    <types>
-        <members>Product__c-en_US</members>
-        <members>Product__c-fr</members>
-        <members>ProjectProduct__c-en_US</members>
-        <members>ProjectProductChild__c-en_US</members>
-        <name>CustomObjectTranslation</name>
-    </types>
+    
     <version>64.0</version>
 </Package>
