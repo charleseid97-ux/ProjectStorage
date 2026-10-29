@@ -1,12 +1,27 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Package xmlns="http://soap.sforce.com/2006/04/metadata">
     <types>
+<<<<<<< HEAD
         <members>PMTTestFactoryData</members>
         <members>ProjectProductBatchUtilities</members>
         <members>Test_ProjectProductBatch</members>
         <members>Test_ProjectProductChildTriggerHandler</members>
         <members>Test_ProjectShareclassTrigger</members>
         <name>ApexClass</name>
+=======
+        <members>ProjectProductBatchController</members>
+        <members>Test_ProjectProductBatch</members>
+        <name>ApexClass</name>
+    </types>
+    <types>
+        <members>PMTExclusionsField.ProjectShareclass</members>
+        <name>CustomMetadata</name>
+    </types>
+    <types>
+        <members>Project_Shareclass</members>
+        <members>PMP_ShareClass_Lightning_Page</members>
+        <name>FlexiPage</name>
+>>>>>>> bc9187d11 ([US-19797] [V1.7] - Deletion of ESMAApplicationStartDate__c field on Share_Class__c, ProjectShareClass__c and ProjectShareClassChild__c)
     </types>
     <types>
         <members>Product__c.RiskAssociated__c</members>

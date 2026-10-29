@@ -621,23 +621,6 @@
                     <name>uiBehavior</name>
                     <value>none</value>
                 </fieldInstanceProperties>
-                <fieldItem>Record.ESMAApplicationStartDate__c</fieldItem>
-                <identifier>RecordESMAApplicationStartDate_cField</identifier>
-                <visibilityRule>
-                    <criteria>
-                        <leftValue>{!Record.IsESMAPerfFeesGuidelines__c}</leftValue>
-                        <operator>EQUAL</operator>
-                        <rightValue>True</rightValue>
-                    </criteria>
-                </visibilityRule>
-            </fieldInstance>
-        </itemInstances>
-        <itemInstances>
-            <fieldInstance>
-                <fieldInstanceProperties>
-                    <name>uiBehavior</name>
-                    <value>none</value>
-                </fieldInstanceProperties>
                 <fieldItem>Record.MinInitialSub__c</fieldItem>
                 <identifier>RecordMinInitialSub_cField</identifier>
             </fieldInstance>
