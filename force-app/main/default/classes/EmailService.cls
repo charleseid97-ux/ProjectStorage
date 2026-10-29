@@ -5,8 +5,8 @@
  *              submitted-by references, record owners, and additional addressee lists.
  * @author Charles EID
  * @testClass EmailServiceTest
- * @coverage TBD
- * @lastModifiedBy Charles EID   [27-10-26]
+ * @coverage 96%
+ * @lastModifiedBy Charles EID   [29-10-26]
 ────────────────────────────────────── */
 public without sharing class EmailService {
 
