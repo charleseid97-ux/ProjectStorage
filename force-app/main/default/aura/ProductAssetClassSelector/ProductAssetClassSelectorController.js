@@ -4,9 +4,10 @@
         if (assetClasses) {
             console.log('Asset classes retrieved from custom cache');
             component.set("v.assetClasses", assetClasses);
-        } else {
-	    	helper.loadAssetClasses(component);    
-        }
+        } 
+        // else {
+	    // 	helper.loadAssetClasses(component);    
+        // }
 	},
     
     assetClassChangeHandler : function(component, event, helper) {

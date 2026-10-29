@@ -3,8 +3,8 @@
         
         var filterObject = {
             searchKey: '',
-            assetClass: '',
-            subAssetClass: '',
+            // assetClass: '',
+            // subAssetClass: '',
             strategy: ''
         }
         
@@ -53,47 +53,47 @@
         if (event.getParam("searchKey") !== undefined) {
             filterObject.searchKey = event.getParam("searchKey");
         }
-        if (event.getParam("assetClass") !== undefined) {
-            filterObject.assetClass = event.getParam("assetClass");
-        }
-        if (event.getParam("subAssetClass") !== undefined) {
-            var subAssetClass = event.getParam("subAssetClass");
-            filterObject.subAssetClass = event.getParam("subAssetClass");
-        }
+        // if (event.getParam("assetClass") !== undefined) {
+        //     filterObject.assetClass = event.getParam("assetClass");
+        // }
+        // if (event.getParam("subAssetClass") !== undefined) {
+        //     var subAssetClass = event.getParam("subAssetClass");
+        //     filterObject.subAssetClass = event.getParam("subAssetClass");
+        // }
         if (event.getParam("strategy") !== undefined) {
             var strategy = event.getParam("strategy");
             filterObject.strategy = event.getParam("strategy");
         }
-        if (event.getParam("sri") !== undefined) {
-            filterObject.sri = event.getParam("sri");
-        }
+        // if (event.getParam("sri") !== undefined) {
+        //     filterObject.sri = event.getParam("sri");
+        // }
         
-        if (event.getParam("oeic") !== undefined) {
-            filterObject.oeic = event.getParam("oeic");
-        }
+        // if (event.getParam("oeic") !== undefined) {
+        //     filterObject.oeic = event.getParam("oeic");
+        // }
         
         console.log(filterObject);
         helper.loadProducts(component);
     },
     
-    onAssetClassFilterChange: function(component, event, helper){             
+    // onAssetClassFilterChange: function(component, event, helper){             
         
-        var acOptionChange = $A.get("e.c:ProductSelectorAssetClassFilterEvent");     
-        var resultingACs = component.get("v.asset_classes");     
-        var acOptionChangesValues = acOptionChange.getParam("assetClassTypes");
-        acOptionChange.setParams({"assetClassTypes" : resultingACs});
-        acOptionChange.fire(); 
+    //     var acOptionChange = $A.get("e.c:ProductSelectorAssetClassFilterEvent");     
+    //     var resultingACs = component.get("v.asset_classes");     
+    //     var acOptionChangesValues = acOptionChange.getParam("assetClassTypes");
+    //     acOptionChange.setParams({"assetClassTypes" : resultingACs});
+    //     acOptionChange.fire(); 
         
-    },
+    // },
     
-    onSubAssetClassFilterChange: function(component, event, helper){               
+    // onSubAssetClassFilterChange: function(component, event, helper){               
         
-        var sacOptionChange = $A.get("e.c:ProductSelectorSubAssetClassFilterEvent");     
-        var resultingSACs = component.get("v.sub_asset_classes");
-        var sacOptionChangesValues = sacOptionChange.getParam("subAssetClassTypes");
-        sacOptionChange.setParams({"subAssetClassTypes" : resultingSACs});            
-        sacOptionChange.fire(); 
-    },
+    //     var sacOptionChange = $A.get("e.c:ProductSelectorSubAssetClassFilterEvent");     
+    //     var resultingSACs = component.get("v.sub_asset_classes");
+    //     var sacOptionChangesValues = sacOptionChange.getParam("subAssetClassTypes");
+    //     sacOptionChange.setParams({"subAssetClassTypes" : resultingSACs});            
+    //     sacOptionChange.fire(); 
+    // },
     
     /*onStrategyFilterChange: function(component, event, helper){  
         var stratOptionChange = $A.get("e.c:ProductSelectorStrategyFilterEvent");

@@ -7,7 +7,7 @@
 @isTest
 public class TestDataFactory {
     /** Final Static Variables */
-    public final static Id PRODUCT_STRATEDY_RECID = Schema.SObjectType.Product__c.getRecordTypeInfosByDeveloperName().get('Strategy').getRecordTypeId();
+    // public final static Id PRODUCT_STRATEDY_RECID = Schema.SObjectType.Product__c.getRecordTypeInfosByDeveloperName().get('Strategy').getRecordTypeId();
     public final static Id PRODUCT_FUND_RECID = Schema.SObjectType.Product__c.getRecordTypeInfosByDeveloperName().get('Fund').getRecordTypeId();
     public final static Id CONTACT_DISTRIBUTION_RECID = Schema.SObjectType.Contact.getRecordTypeInfosByDeveloperName().get('Contact_DistributionContact').getRecordTypeId();
     public final static Id CONTACT_INTERNAL_RECID = Schema.SObjectType.Contact.getRecordTypeInfosByDeveloperName().get('Internal_Carmignac_Contact').getRecordTypeId();

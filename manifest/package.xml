@@ -1,8 +1,27 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Package xmlns="http://soap.sforce.com/2006/04/metadata">
     <types>
-        <members>Opportunity.InvestmentSolutionProduct__c</members>
-        <name>CustomField</name>
+        <members>ProductAssetClassSelector</members>
+        <members>ProductFilter</members>
+        <members>ProductSubAssetClassSelector</members>
+        <members>ProductStrategySelector</members>
+        <members>ProductTile</members>
+        <members>ProductTileListWTP</members>
+        <members>GlobalBuyListManager</members>
+        <members>IndependantBuyListManager</members>
+        <name>AuraDefinitionBundle</name>
+    </types>
+    <types>
+        <members>FundSelectionProcessTest</members>
+        <members>FundSelectionUtil</members>
+        <members>ProductSelectionCtrl</members>
+        <members>ProductSelectionCtrlTest</members>
+        <members>ProductTriggerTest</members>
+        <members>TestDataFactory</members>
+        <members>WTPSelectorControllerTest</members>
+        <members>ReferentialProductHomepageCtrl</members>
+        <members>DigitalInteractionTest</members>
+        <name>ApexClass</name>
     </types>
     <version>61.0</version>
 </Package>
