@@ -21,7 +21,7 @@ public class PMTTestFactoryData {
             VehicleType__c = 'Funds',
             ProjectStartDate__c = Date.today() - 20,
             EndDate__c = Date.today(),
-            RiskAssociated__c = 'Equity;Interest rate;Credit;Currency',
+            RiskAssociated__c = 'Equity;Interest rates;Credit;Currency',
             InvestmentObjective__c = 'Sample Objective',
             InvestmentStrategy__c = 'Sample Strategy',
             DomiciledIn__c = 'FR',
@@ -43,7 +43,7 @@ public class PMTTestFactoryData {
             EndDate__c = Date.today(),
             VehicleType__c = 'Funds', // requis pour le trigger
             ProjectStartDate__c = Date.today(),// ✅ Ajout nécessaire pour éviter l'erreur
-            RiskAssociated__c = 'Equity;Interest rate;Credit;Currency',
+            RiskAssociated__c = 'Equity;Interest rates;Credit;Currency',
             RecordTypeId = recordTypeId
         );
         insert p;

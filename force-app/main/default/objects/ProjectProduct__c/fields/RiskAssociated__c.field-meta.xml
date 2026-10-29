@@ -4,6 +4,7 @@
     <description>Risks associated to the portfolio</description>
     <label>Risk Associated</label>
     <required>false</required>
+    <securityClassification>Confidential</securityClassification>
     <trackFeedHistory>false</trackFeedHistory>
     <trackHistory>false</trackHistory>
     <trackTrending>false</trackTrending>
@@ -33,10 +34,60 @@
                 <label>Currency</label>
             </value>
             <value>
-                <fullName>Equity|Interest rate|Credit|Currency</fullName>
+                <fullName>Emerging markets</fullName>
+                <default>false</default>
+                <label>Emerging markets</label>
+            </value>
+            <value>
+                <fullName>Risk associated with the Long/Short strategy</fullName>
+                <default>false</default>
+                <label>Risk associated with the Long/Short strategy</label>
+            </value>
+            <value>
+                <fullName>Liquidity</fullName>
+                <default>false</default>
+                <label>Liquidity</label>
+            </value>
+            <value>
+                <fullName>Discretionary management</fullName>
+                <default>false</default>
+                <label>Discretionary management</label>
+            </value>
+            <value>
+                <fullName>Securitization</fullName>
+                <default>false</default>
+                <label>Securitization</label>
+            </value>
+            <value>
+                <fullName>Arbitrage risk</fullName>
+                <default>false</default>
+                <label>Arbitrage risk</label>
+            </value>
+            <value>
+                <fullName>Valuation</fullName>
+                <default>false</default>
+                <label>Valuation</label>
+            </value>
+            <value>
+                <fullName>Risk of capital loss</fullName>
+                <default>false</default>
+                <label>Risk of capital loss</label>
+            </value>
+            <value>
+                <fullName>Liquidity Risk</fullName>
+                <default>false</default>
+                <label>Liquidity Risk</label>
+            </value>
+            <value>
+                <fullName>Limited control over secondary investments</fullName>
+                <default>false</default>
+                <label>Limited control over secondary investments</label>
+            </value>
+            <value>
+                <fullName>Equity|Interest rates|Credit|Currency</fullName>
                 <default>false</default>
                 <isActive>false</isActive>
-                <label>Equity|Interest rate|Credit|Currency</label>
+                <label>Equity|Interest rates|Credit|Currency</label>
             </value>
         </valueSetDefinition>
     </valueSet>

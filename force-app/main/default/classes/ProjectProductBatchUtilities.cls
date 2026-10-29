@@ -16,14 +16,14 @@ public class ProjectProductBatchUtilities {
 
         if (investmentObjective != '') {
             Narrative__c investmentObjectiveNarrative = new Narrative__c(Name = 'Investment Objective PRIIPS', RecordTypeId = recordTypeId, Narrative_Scope__c = scope,
-                                                                        Type__c = 'Investment Objective', SubType__c = 'PRIIPS', Language__c = language, 
+                                                                        Type__c = 'Investment Objective', SubType__c = 'PRIIPS', LanguageNew__c = language, 
                                                                         Product__c = productId, Content__c = investmentObjective, StartDate__c = System.today());
             newNarrative.add(investmentObjectiveNarrative);
         }
         
         if (investmentStrategy != '') {
             Narrative__c investmentStrategyNarrative = new Narrative__c(Name = 'Investment Strategy Description', RecordTypeId = recordTypeId, Narrative_Scope__c = scope,
-                                                                        Type__c = 'Investment Strategy', SubType__c = 'Description', Language__c = language, 
+                                                                        Type__c = 'Investment Strategy', SubType__c = 'Description', LanguageNew__c = language, 
                                                                         Product__c = productId, Content__c = investmentStrategy, StartDate__c = System.today());
             newNarrative.add(investmentStrategyNarrative);
         }
@@ -31,7 +31,7 @@ public class ProjectProductBatchUtilities {
         if (riskAssociatedMultiPicklist != '') {
             String content = getRiskNarrativeContent(riskAssociatedMultiPicklist);
             Narrative__c riskAssociatedMultiPicklistNarrative = new Narrative__c(Name = 'Risk Main Risk of the Fund', RecordTypeId = recordTypeId, Narrative_Scope__c = scope, 
-                                                                        Type__c = 'Risk', SubType__c = 'Main Risk of the Fund', Language__c = language, 
+                                                                        Type__c = 'Risk', SubType__c = 'Main Risk of the Fund', LanguageNew__c = language, 
                                                                         Product__c = productId, Content__c = content, StartDate__c = System.today());
             newNarrative.add(riskAssociatedMultiPicklistNarrative);
         }
@@ -39,35 +39,35 @@ public class ProjectProductBatchUtilities {
         /*if (riskNotConsideredPicklist != '') {
             String content = getRiskNotConsideredContent(riskNotConsideredPicklist);
             Narrative__c riskNotConsideredPicklistNarrative = new Narrative__c(Name = 'Risk Main Risk of the Fund', RecordTypeId = recordTypeId, Narrative_Scope__c = scope, 
-                                                                        Type__c = 'Risk', SubType__c = 'Main Risk of the Fund', Language__c = language, 
+                                                                        Type__c = 'Risk', SubType__c = 'Main Risk of the Fund', LanguageNew__c = language, 
                                                                         Product__c = productId, Content__c = content, StartDate__c = System.today());
             newNarrative.add(riskNotConsideredPicklistNarrative);
         }*/
 
         if (intendedRetail != '') {
             Narrative__c intendedRetailNarrative = new Narrative__c(Name = 'PRIIPs Intended Retail Investor', RecordTypeId = recordTypeId, Narrative_Scope__c = scope, 
-                                                                        Type__c = 'PRIIPs', SubType__c = 'INTENDED_RETAIL_INVESTOR', Language__c = language, 
+                                                                        Type__c = 'PRIIPs', SubType__c = 'INTENDED_RETAIL_INVESTOR', LanguageNew__c = language, 
                                                                         Product__c = productId, Content__c = intendedRetail, StartDate__c = System.today());
             newNarrative.add(intendedRetailNarrative);
         }
 
         if (reasonForRHP != '') {
             Narrative__c reasonForRHPNarrative = new Narrative__c(Name = 'PRIIPs Reason For PHP', RecordTypeId = recordTypeId, Narrative_Scope__c = scope, 
-                                                                        Type__c = 'PRIIPs', SubType__c = 'REASON_FOR_PHP', Language__c = language, 
+                                                                        Type__c = 'PRIIPs', SubType__c = 'REASON_FOR_PHP', LanguageNew__c = language, 
                                                                         Product__c = productId, Content__c = reasonForRHP, StartDate__c = System.today());
             newNarrative.add(reasonForRHPNarrative);
         }
 
         /*if (redeemCondition != '') {
             Narrative__c redeemConditionNarrative = new Narrative__c(Name = 'PRIIPs Redeem Condition', RecordTypeId = recordTypeId, 
-                                                                        Type__c = 'PRIIPs', SubType__c = 'REDEEM_CONDITION', Language__c = language, 
+                                                                        Type__c = 'PRIIPs', SubType__c = 'REDEEM_CONDITION', LanguageNew__c = language, 
                                                                         Product__c = productId, Content__c = redeemCondition, StartDate__c = System.today());
             newNarrative.add(redeemConditionNarrative);
         }
 
         if (lmt != '') {
             Narrative__c lmtNarrative = new Narrative__c(Name = 'PRIIPs LMT', RecordTypeId = recordTypeId, 
-                                                                        Type__c = 'PRIIPs', SubType__c = 'LMT', Language__c = language, 
+                                                                        Type__c = 'PRIIPs', SubType__c = 'LMT', LanguageNew__c = language, 
                                                                         Product__c = productId, Content__c = lmt, StartDate__c = System.today());
             newNarrative.add(lmtNarrative);
         }*/
@@ -309,8 +309,8 @@ public class ProjectProductBatchUtilities {
             if (risk == 'Equity') {
                 content += 'EQUITY: The Fund may be affected by stock price variations, the scale of which is dependent on external factors, stock trading volumes or market capitalization.\n';
             }
-            if (risk == 'Interest rate') {
-                content += 'INTEREST RATE: Interest rate risk results in a decline in the net asset value in the event of changes in Interest rate.\n';
+            if (risk == 'Interest rates') {
+                content += 'INTEREST RATE: Interest rate risk results in a decline in the net asset value in the event of changes in interest rates.\n';
             }
             if (risk == 'Credit') {
                 content += 'CREDIT: Credit risk is the risk that the issuer may default.\n';
@@ -338,7 +338,7 @@ public class ProjectProductBatchUtilities {
                 content += 'EQUITY: The Fund may be affected by stock price variations, the scale of which is dependent on external factors, stock trading volumes or market capitalization.\n';
             }
             if (riskNotConsideredPicklist == 'Credit risk') {
-                content += 'INTEREST RATE: Interest rate risk results in a decline in the net asset value in the event of changes in Interest rate.\n';
+                content += 'INTEREST RATE: Interest rate risk results in a decline in the net asset value in the event of changes in interest rates.\n';
             }
             if (riskNotConsideredPicklist == 'Liquidity risk') {
                 content += 'CREDIT: Credit risk is the risk that the issuer may default.\n';
@@ -425,7 +425,7 @@ public class ProjectProductBatchUtilities {
                 n.Name = nameVal;
                 n.Type__c = typeVal;
                 n.SubType__c = subTypeVal;
-                n.Language__c = lang;
+                n.LanguageNew__c = lang;
                 n.Product__c = prodId;
                 n.Content__c = content;
                 n.StartDate__c = System.today();
@@ -484,7 +484,7 @@ public class ProjectProductBatchUtilities {
                 n.Name          = nameVal;
                 n.Type__c       = typeVal;
                 n.SubType__c    = subTypeVal;
-                n.Language__c   = lang;
+                n.LanguageNew__c   = lang;
                 n.ShareClass__c = scId;
                 //n.Product__c    = productByShareClassId.get(scId); // reporting
                 n.Content__c    = content;

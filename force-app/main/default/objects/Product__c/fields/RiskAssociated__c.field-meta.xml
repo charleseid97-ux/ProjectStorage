@@ -3,6 +3,7 @@
     <fullName>RiskAssociated__c</fullName>
     <label>Risk Associated</label>
     <required>false</required>
+    <securityClassification>Public</securityClassification>
     <trackHistory>false</trackHistory>
     <trackTrending>false</trackTrending>
     <type>MultiselectPicklist</type>
@@ -29,6 +30,56 @@
                 <fullName>Currency</fullName>
                 <default>false</default>
                 <label>Currency</label>
+            </value>
+            <value>
+                <fullName>Emerging markets</fullName>
+                <default>false</default>
+                <label>Emerging markets</label>
+            </value>
+            <value>
+                <fullName>Risk associated with the Long/Short strategy</fullName>
+                <default>false</default>
+                <label>Risk associated with the Long/Short strategy</label>
+            </value>
+            <value>
+                <fullName>Liquidity</fullName>
+                <default>false</default>
+                <label>Liquidity</label>
+            </value>
+            <value>
+                <fullName>Discretionary management</fullName>
+                <default>false</default>
+                <label>Discretionary management</label>
+            </value>
+            <value>
+                <fullName>Securitization</fullName>
+                <default>false</default>
+                <label>Securitization</label>
+            </value>
+            <value>
+                <fullName>Arbitrage risk</fullName>
+                <default>false</default>
+                <label>Arbitrage risk</label>
+            </value>
+            <value>
+                <fullName>Valuation</fullName>
+                <default>false</default>
+                <label>Valuation</label>
+            </value>
+            <value>
+                <fullName>Risk of capital loss</fullName>
+                <default>false</default>
+                <label>Risk of capital loss</label>
+            </value>
+            <value>
+                <fullName>Liquidity Risk</fullName>
+                <default>false</default>
+                <label>Liquidity Risk</label>
+            </value>
+            <value>
+                <fullName>Limited control over secondary investments</fullName>
+                <default>false</default>
+                <label>Limited control over secondary investments</label>
             </value>
         </valueSetDefinition>
     </valueSet>
