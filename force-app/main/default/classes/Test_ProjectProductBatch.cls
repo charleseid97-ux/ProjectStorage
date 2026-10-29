@@ -111,7 +111,7 @@ private class Test_ProjectProductBatch {
         proj.EndDate__c = Date.today();
         proj.Product__c = product.Id;
         proj.InvestmentObjective__c = 'Test Content';
-        proj.RiskAssociated__c = 'Equity;Interest rates;Credit;Currency';
+        proj.RiskAssociated__c = 'Equity;Interest rate;Credit;Currency';
         proj.IntentedRetailInvestor__c = 'Test Retail';
         proj.ReasonForRHP__c = 'Test Reason';
         proj.TECH_FieldsToModify__c = 'InvestmentObjective__c;RiskAssociated__c;IntentedRetailInvestor__c;ReasonForRHP__c';

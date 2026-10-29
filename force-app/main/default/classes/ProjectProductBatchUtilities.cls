@@ -325,8 +325,8 @@ public class ProjectProductBatchUtilities {
             if (risk == 'Equity') {
                 content += 'EQUITY: The Fund may be affected by stock price variations, the scale of which is dependent on external factors, stock trading volumes or market capitalization.\n';
             }
-            if (risk == 'Interest rates') {
-                content += 'INTEREST RATE: Interest rate risk results in a decline in the net asset value in the event of changes in interest rates.\n';
+            if (risk == 'Interest rate') {
+                content += 'INTEREST RATE: Interest rate risk results in a decline in the net asset value in the event of changes in Interest rate.\n';
             }
             if (risk == 'Credit') {
                 content += 'CREDIT: Credit risk is the risk that the issuer may default.\n';
@@ -354,7 +354,7 @@ public class ProjectProductBatchUtilities {
                 content += 'EQUITY: The Fund may be affected by stock price variations, the scale of which is dependent on external factors, stock trading volumes or market capitalization.\n';
             }
             if (riskNotConsideredPicklist == 'Credit risk') {
-                content += 'INTEREST RATE: Interest rate risk results in a decline in the net asset value in the event of changes in interest rates.\n';
+                content += 'INTEREST RATE: Interest rate risk results in a decline in the net asset value in the event of changes in Interest rate.\n';
             }
             if (riskNotConsideredPicklist == 'Liquidity risk') {
                 content += 'CREDIT: Credit risk is the risk that the issuer may default.\n';
