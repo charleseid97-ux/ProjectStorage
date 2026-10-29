@@ -1,27 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Package xmlns="http://soap.sforce.com/2006/04/metadata">
     <types>
-        <members>ProductAssetClassSelector</members>
-        <members>ProductFilter</members>
-        <members>ProductSubAssetClassSelector</members>
-        <members>ProductStrategySelector</members>
-        <members>ProductTile</members>
-        <members>ProductTileListWTP</members>
-        <members>GlobalBuyListManager</members>
-        <members>IndependantBuyListManager</members>
-        <name>AuraDefinitionBundle</name>
+        <members>ProjectProductBatchController</members>
+        <members>Test_ProjectProductBatch</members>
+        <name>ApexClass</name>
     </types>
     <types>
-        <members>FundSelectionProcessTest</members>
-        <members>FundSelectionUtil</members>
-        <members>ProductSelectionCtrl</members>
-        <members>ProductSelectionCtrlTest</members>
-        <members>ProductTriggerTest</members>
-        <members>TestDataFactory</members>
-        <members>WTPSelectorControllerTest</members>
-        <members>ReferentialProductHomepageCtrl</members>
-        <members>DigitalInteractionTest</members>
-        <name>ApexClass</name>
+        <members>PMTExclusionsField.ProjectShareclass</members>
+        <name>CustomMetadata</name>
+    </types>
+    <types>
+        <members>Project_Shareclass</members>
+        <members>PMP_ShareClass_Lightning_Page</members>
+        <name>FlexiPage</name>
     </types>
     <version>64.0</version>
 </Package>
