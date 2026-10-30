@@ -72,63 +72,63 @@
     },
 
 
-    addAllProspaceAlerts : function (component, event, helper, contactId, selectedAlertTypes) {
-        console.log('addAllProspaceAlerts' + selectedAlertTypes);
-        var action = component.get("c.addAllProspaceAlerts");
-        action.setParams({
-            "aContactId": contactId,
-            "selectedAlertTypes":selectedAlertTypes
-        });
+    // addAllProspaceAlerts : function (component, event, helper, contactId, selectedAlertTypes) {
+    //     console.log('addAllProspaceAlerts' + selectedAlertTypes);
+    //     var action = component.get("c.addAllProspaceAlerts");
+    //     action.setParams({
+    //         "aContactId": contactId,
+    //         "selectedAlertTypes":selectedAlertTypes
+    //     });
         
-        var elementselection = document.getElementsByClassName("selection");
-        elementselection[0].style.display = 'none';
+    //     var elementselection = document.getElementsByClassName("selection");
+    //     elementselection[0].style.display = 'none';
         
-        var elements = document.getElementsByClassName("loading");
-        elements[0].style.display = 'block';
+    //     var elements = document.getElementsByClassName("loading");
+    //     elements[0].style.display = 'block';
         
-        action.setCallback(this, function(response){
-            var state = response.getState();
-            console.log('response ' + JSON.stringify(response));
-            if (state === "SUCCESS") {
-                var elements = document.getElementsByClassName("loading");
-                elements[0].style.display = 'none';
+    //     action.setCallback(this, function(response){
+    //         var state = response.getState();
+    //         console.log('response ' + JSON.stringify(response));
+    //         if (state === "SUCCESS") {
+    //             var elements = document.getElementsByClassName("loading");
+    //             elements[0].style.display = 'none';
 
-                var elements = document.getElementsByClassName("loadcomplete");
-                elements[0].style.display = 'block';
+    //             var elements = document.getElementsByClassName("loadcomplete");
+    //             elements[0].style.display = 'block';
 
-                //var toggleText = component.find("loadmsg");
-                //$A.util.toggleClass(toggleText, "toggle");
+    //             //var toggleText = component.find("loadmsg");
+    //             //$A.util.toggleClass(toggleText, "toggle");
 
-                window.setTimeout(
-                    $A.getCallback(function() {
-                        sforce.one.navigateToSObject(contactId);
-                    }), 5500
-                );
+    //             window.setTimeout(
+    //                 $A.getCallback(function() {
+    //                     sforce.one.navigateToSObject(contactId);
+    //                 }), 5500
+    //             );
 
-            //location.reload(sforce.one.navigateToSObject(contactId));
-            //var elements = document.getElementsByClassName("test");
-            //elements[0].style.display = 'none';
-            //sforce.one.navigateToSObject(contactId);
-            }else if(state === "ERROR"){
+    //         //location.reload(sforce.one.navigateToSObject(contactId));
+    //         //var elements = document.getElementsByClassName("test");
+    //         //elements[0].style.display = 'none';
+    //         //sforce.one.navigateToSObject(contactId);
+    //         }else if(state === "ERROR"){
                 
-                var elements = document.getElementsByClassName("loading");
-                elements[0].style.display = 'none';
+    //             var elements = document.getElementsByClassName("loading");
+    //             elements[0].style.display = 'none';
 
-                var elements = document.getElementsByClassName("loadcomplete");
-                elements[0].style.display = 'none';
+    //             var elements = document.getElementsByClassName("loadcomplete");
+    //             elements[0].style.display = 'none';
                 
-                var elements = document.getElementsByClassName("errorMessage");
-                elements[0].style.display = 'block';
+    //             var elements = document.getElementsByClassName("errorMessage");
+    //             elements[0].style.display = 'block';
                 
-                window.setTimeout(
-                    $A.getCallback(function() {
-                        sforce.one.navigateToSObject(contactId);
-                    }), 5500
-                );
+    //             window.setTimeout(
+    //                 $A.getCallback(function() {
+    //                     sforce.one.navigateToSObject(contactId);
+    //                 }), 5500
+    //             );
 
-            }
-    });
-    $A.enqueueAction(action);
+    //         }
+    // });
+    // $A.enqueueAction(action);
 
-    }
+    // }
 })

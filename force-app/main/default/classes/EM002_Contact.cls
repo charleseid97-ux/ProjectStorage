@@ -72,16 +72,16 @@ public class EM002_Contact {
      * @param : Set<String> ContactWebSiteIds This parameter is a list of unique identifiers of contact.
      * @return : List<Contact> The returned item is a list of Contacts
      */  
-    public static List<Contact> getListByTechWebSiteIds(Set<String> ContactWebSiteIds){
+    // public static List<Contact> getListByTechWebSiteIds(Set<String> ContactWebSiteIds){
         
-        String methodName = 'getListByWebSiteIds';    
-        ObjectUtil.debugLogBegin(CLASS_NAME, methodName, '[ContactWebSiteIds] :' + ContactWebSiteIds);
+    //     String methodName = 'getListByWebSiteIds';    
+    //     ObjectUtil.debugLogBegin(CLASS_NAME, methodName, '[ContactWebSiteIds] :' + ContactWebSiteIds);
         
-        List<Contact> listContacts = DM002_Contact.getListByTechWebSiteIds(ContactWebSiteIds);
+    //     List<Contact> listContacts = DM002_Contact.getListByTechWebSiteIds(ContactWebSiteIds);
         
-        ObjectUtil.debugLogEnd(CLASS_NAME, methodName, '[RESULTS] :' + listContacts);
-        return listContacts; 
-    }
+    //     ObjectUtil.debugLogEnd(CLASS_NAME, methodName, '[RESULTS] :' + listContacts);
+    //     return listContacts; 
+    // }
     
     
     

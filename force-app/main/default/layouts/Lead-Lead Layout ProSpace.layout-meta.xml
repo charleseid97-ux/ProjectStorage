@@ -372,16 +372,6 @@
             <actionType>QuickAction</actionType>
             <sortOrder>6</sortOrder>
         </platformActionListItems>
-        <platformActionListItems>
-            <actionName>Lead.Sync_Website_Lead</actionName>
-            <actionType>QuickAction</actionType>
-            <sortOrder>7</sortOrder>
-        </platformActionListItems>
-        <platformActionListItems>
-            <actionName>Lead.Reset_Website_Password</actionName>
-            <actionType>QuickAction</actionType>
-            <sortOrder>8</sortOrder>
-        </platformActionListItems>
     </platformActionList>
     <relatedContent>
         <relatedContentItems>
@@ -397,17 +387,6 @@
         <fields>CM.STATUS</fields>
         <fields>CM.LAST_UPDATE</fields>
         <relatedList>RelatedCampaignList</relatedList>
-    </relatedLists>
-    <relatedLists>
-        <customButtons>Add_all</customButtons>
-        <customButtons>Delete_all</customButtons>
-        <fields>AlertTypeRecord__c</fields>
-        <fields>Fund__c</fields>
-        <fields>ShareClass__c</fields>
-        <fields>Synchro_Status__c</fields>
-        <fields>CREATEDBY_USER</fields>
-        <fields>CREATED_DATE</fields>
-        <relatedList>Web_Communication__c.Lead__c</relatedList>
     </relatedLists>
     <relatedLists>
         <fields>TASK.SUBJECT</fields>
