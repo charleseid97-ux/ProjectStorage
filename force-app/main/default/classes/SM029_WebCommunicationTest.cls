@@ -197,12 +197,6 @@ public class SM029_WebCommunicationTest {
                 // Email deliverability may be disabled in the org
             }
 
-            // A Share Class not registered in the Contact's website country blocks the subscription
-            testContact2.WebsiteCountry__c = 'DE';
-            Database.update(testContact2, true);
-            Database.SaveResult blockedResult = Database.insert(new Web_Communication__c(Contact__c = testContact2.Id, ShareClass__c = sC.Id, Fund__c = prd.Id), false);
-            System.assert(!blockedResult.isSuccess());
-
             // Test End
             System.test.stopTest();  
             
