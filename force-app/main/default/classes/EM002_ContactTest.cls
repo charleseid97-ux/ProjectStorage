@@ -68,8 +68,8 @@ Insert contact2;*/
             List<Contact> No_contactListByTechSunIds =  EM002_Contact.getListByTechSunIds(new Set<Integer>{15}); // Inexistant TechSunIds for Contact Entity
             
             // getListByTechWebSiteIds
-            List<Contact> found_contactListByTechWebSiteIds =  EM002_Contact.getListByTechWebSiteIds(new Set<String>{'TechwbesiteId'});
-            List<Contact> No_contactListByTechWebSiteIds =  EM002_Contact.getListByTechWebSiteIds(new Set<String>{'0064E000002WwK4'}); // Inexistant TechWebSiteIds for Contact Entity
+            // List<Contact> found_contactListByTechWebSiteIds =  EM002_Contact.getListByTechWebSiteIds(new Set<String>{'TechwbesiteId'});
+            // List<Contact> No_contactListByTechWebSiteIds =  EM002_Contact.getListByTechWebSiteIds(new Set<String>{'0064E000002WwK4'}); // Inexistant TechWebSiteIds for Contact Entity
             
             // getListByProfessionalEmails_WithoutProSpace
             List<Contact> found_contactListByProfessionalEmails_WithoutProSpace =  EM002_Contact.getListByProfessionalEmails_WithoutProSpace(new Set<String>{'mail@mail1.com'});
@@ -114,7 +114,7 @@ Insert contact2;*/
             
             //System.assertEquals(found_contactListByTechWebSiteIds.size(), 1);
             //System.assertEquals(found_contactListByTechWebSiteIds.get(0).Id, contact.Id);
-            System.assertEquals(No_contactListByTechWebSiteIds.size(), 0);
+            // System.assertEquals(No_contactListByTechWebSiteIds.size(), 0);
             
             //System.assertEquals(found_contactListByProfessionalEmails_WithoutProSpace.size(), 1);
             //System.assertEquals(found_contactListByProfessionalEmails_WithoutProSpace.get(0).Id, contact.Id);

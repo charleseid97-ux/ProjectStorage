@@ -7,13 +7,13 @@
 
     },
     
-    delAllAlerts : function(component, event, helper) {
-        var contactId = component.get("v.recordId");
-        var selectedAlertTypes = component.get("v.value");
-        selectedAlertTypes.push.apply(selectedAlertTypes, component.get("v.valuePub"));
+    // delAllAlerts : function(component, event, helper) {
+    //     var contactId = component.get("v.recordId");
+    //     var selectedAlertTypes = component.get("v.value");
+    //     selectedAlertTypes.push.apply(selectedAlertTypes, component.get("v.valuePub"));
         
-        helper.delAllProspaceAlerts(component, event, helper, contactId, selectedAlertTypes);
-    },
+    //     helper.delAllProspaceAlerts(component, event, helper, contactId, selectedAlertTypes);
+    // },
     
     handleChange: function (component, event) {
         var button = component.find("buttonAdd");

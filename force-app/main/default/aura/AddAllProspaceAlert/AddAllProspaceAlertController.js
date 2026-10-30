@@ -6,13 +6,13 @@
 
     },
     
-    allAllAlerts : function(component, event, helper) {
-        var contactId = component.get("v.recordId");
-        var selectedAlertTypes = component.get("v.value");
-        selectedAlertTypes.push.apply(selectedAlertTypes, component.get("v.valuePub"));
+    // allAllAlerts : function(component, event, helper) {
+    //     var contactId = component.get("v.recordId");
+    //     var selectedAlertTypes = component.get("v.value");
+    //     selectedAlertTypes.push.apply(selectedAlertTypes, component.get("v.valuePub"));
         
-        helper.addAllProspaceAlerts(component, event, helper, contactId, selectedAlertTypes);
-    },
+    //     helper.addAllProspaceAlerts(component, event, helper, contactId, selectedAlertTypes);
+    // },
     
     handleChange: function (component, event) {
         var button = component.find("buttonAdd");

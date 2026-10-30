@@ -47,6 +47,10 @@
                 <behavior>Edit</behavior>
                 <field>Doc_Link__c</field>
             </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>ExcludeWebAlert__c</field>
+            </layoutItems>
         </layoutColumns>
         <layoutColumns>
             <layoutItems>
@@ -740,34 +744,24 @@
             <sortOrder>8</sortOrder>
         </platformActionListItems>
         <platformActionListItems>
-            <actionName>Contact.Sync_Website_Contact</actionName>
+            <actionName>Contact.CreateUpdateWebsiteAccount</actionName>
             <actionType>QuickAction</actionType>
             <sortOrder>9</sortOrder>
         </platformActionListItems>
         <platformActionListItems>
-            <actionName>Contact.CreateUpdateWebsiteAccount</actionName>
+            <actionName>Contact.New_Call_Meeting</actionName>
             <actionType>QuickAction</actionType>
             <sortOrder>10</sortOrder>
         </platformActionListItems>
         <platformActionListItems>
-            <actionName>Contact.Reset_Website_Password</actionName>
+            <actionName>NewTask</actionName>
             <actionType>QuickAction</actionType>
             <sortOrder>11</sortOrder>
         </platformActionListItems>
         <platformActionListItems>
-            <actionName>Contact.New_Call_Meeting</actionName>
-            <actionType>QuickAction</actionType>
-            <sortOrder>12</sortOrder>
-        </platformActionListItems>
-        <platformActionListItems>
-            <actionName>NewTask</actionName>
-            <actionType>QuickAction</actionType>
-            <sortOrder>13</sortOrder>
-        </platformActionListItems>
-        <platformActionListItems>
             <actionName>SendEmail</actionName>
             <actionType>QuickAction</actionType>
-            <sortOrder>14</sortOrder>
+            <sortOrder>12</sortOrder>
         </platformActionListItems>
     </platformActionList>
     <quickActionList>
@@ -834,8 +828,6 @@
         <fields>AlertTypeRecord__c</fields>
         <fields>Fund__c</fields>
         <fields>ShareClass__c</fields>
-        <fields>Synchro_Status__c</fields>
-        <fields>Website_Response__c</fields>
         <fields>CREATED_DATE</fields>
         <fields>OBJECT_ID</fields>
         <relatedList>Web_Communication__c.Contact__c</relatedList>

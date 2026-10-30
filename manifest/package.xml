@@ -5,12 +5,47 @@
         <members>EM002_Contact</members>
         <members>EM002_ContactTest</members>
         <members>DM002_Contact</members>
+        <members>LookUpFilterCriteriaController_TEST</members>
+        <members>SM007_ContactTriggerHandler</members>
         <members>SM004_ContactTriggerHandlerTest</members>
+        <members>SM026_SendSelectedContactsAsync</members>
+        <members>SM026_Contact_Website</members>
+        <members>SM026_DeleteWebsiteContactsAsync</members>
+        <members>SM017_LeadTriggerHandlerTest</members>
+        <members>SM026_ResetProSpacePasswordLTController</members>
+        <members>SM026_SyncWebsiteContactLTController</members>
+        <members>SM026_Lead_Website</members>
+        <members>SM007_ContactTriggerHandlerTest</members>
+        <members>SM029_AddAllAlertsLTController</members>
+        <members>SM029_DeleteAllAlertsLTController</members>
+        <members>SM029_WebCommunication</members>
+        <members>SM029_WebCommunicationTest</members>
+        <members>SM029_WebComResponseParser_Test</members>
+        <members>SM029_WebCommunicationResponseParser</members>
+        <members>TestFactory</members>
         <name>ApexClass</name>
     </types>
     <types>
         <members>searchSubscriptionProduct</members>
+        <members>prospaceAlerts</members>
         <name>LightningComponentBundle</name>
+    </types>
+    <types>
+        <members>Contact-Contact - Distribution Contact Layout</members>
+        <members>Contact-Contact - Internal Carmignac Contact Layout</members>
+        <members>Contact-Contact Page Layout 2023</members>
+        <members>Lead-Lead Layout ProSpace</members>
+        <name>Layout</name>
+    </types>
+    <types>
+        <members>Contact_Page_2023_Version</members>
+        <members>Contact_Record_Page</members>
+        <name>FlexiPage</name>
+    </types>
+    <types>
+        <members>DeleteAllProspaceAlert</members>
+        <members>AddAllProspaceAlert</members>
+        <name>AuraDefinitionBundle</name>
     </types>
     <version>64.0</version>
 </Package>
