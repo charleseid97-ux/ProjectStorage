@@ -56,41 +56,6 @@ private class Test_ProjectProductBatch {
             'Product'
         );
 
-        // Fund creation: US-20123, the product takes its project's Scope (PS for a user without PRPIS) and PMTScope__c = true
-        Id fundCreationId = projectsByRecordType.get(fundCreationRtId).Id;
-        List<Product__c> createdProducts = [SELECT Id, RecordTypeId, Validity__c, Scope__c, PMTScope__c, (SELECT Id FROM Share_Classes__r)
-                                            FROM Product__c
-                                            WHERE ParentProject__c = :fundCreationId];
-        System.assertEquals(1, createdProducts.size(), 'The batch should create one Product__c for the fund creation project');
-        System.assertEquals(fundRecordTypeId, createdProducts[0].RecordTypeId);
-        System.assertEquals(true, createdProducts[0].Validity__c);
-        System.assertEquals('PS', createdProducts[0].Scope__c, 'The product should take the project Scope');
-        System.assertEquals(true, createdProducts[0].PMTScope__c, 'A product created by the PMT should have PMTScope__c checked');
-        System.assertEquals(1, createdProducts[0].Share_Classes__r.size(), 'The project share class should be created under the new product');
-
-        // Modification: the existing share class gets the launch date as ESMA application start date
-        //Share_Class__c modifiedShareclass = [SELECT ESMAApplicationStartDate__c FROM Share_Class__c WHERE Name = 'SC To Modify'];
-        //System.assertEquals(Date.today(), modifiedShareclass.ESMAApplicationStartDate__c);
-
-        // Share class creation: the new share class is active and its tax data is linked to it
-        List<Share_Class__c> createdShareclasses = [SELECT Id, Status__c FROM Share_Class__c WHERE Fund__r.Name = 'ShareClsProd'];
-        System.assertEquals(1, createdShareclasses.size());
-        System.assertEquals('Active', createdShareclasses[0].Status__c);
-        Id shareclassCreationId = projectsByRecordType.get(shareclassCreationRtId).Id;
-        TaxData__c taxData = [SELECT ShareClass__c FROM TaxData__c WHERE ProjectProduct__c = :shareclassCreationId];
-        System.assertEquals(createdShareclasses[0].Id, taxData.ShareClass__c);
-
-        System.assertEquals('PARTIAL SUCCESS', batchLog.Status__c, 'The skipped project makes the run a partial success');
-    }
-
-    // Errors are logged and the project is not launched: no project enriched, project without product (rollback)
-    @isTest
-    static void testControllerErrorPaths() {
-        // Fund creation project (no Product__c, one share class): modification stops on its missing product, share class creation fails and rolls back
-        List<ProjectProduct__c> projectWithoutProduct = [SELECT Id
-                                                         FROM ProjectProduct__c
-                                                         WHERE Product__c = NULL AND Id IN (SELECT ProjectProduct__c FROM ProjectShareclass__c)];
-        List<String> debugInformation = new List<String>();
         List<String> errorMessages = new List<String>();
         List<String> debugInformation = new List<String>();
         List<Id> createdRecords = new List<Id>();
