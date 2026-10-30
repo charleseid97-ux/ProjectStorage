@@ -39,7 +39,7 @@ public class DM002_ContactTest {
         
         List<Contact> listContactTest = DM002_Contact.getListByIds(setcontactId);
         List<Contact> listContactTechID = DM002_Contact.getListByTechSunIds(setcontactTechSunId);
-        List<Contact> listContactwabsiteID = DM002_Contact.getListByTechWebSiteIds(setContactWebSiteIds);
+        //List<Contact> listContactwabsiteID = DM002_Contact.getListByTechWebSiteIds(setContactWebSiteIds);
         List<Contact> listContactProfessionalEmail = DM002_Contact.getListByProfessionalEmails_WithoutProSpace(setContactProfessionalEmails);
         List<Contact> listContactPersonnalEmail = DM002_Contact.getListByPersonalEmails_WithoutProSpace(setContactProfessionalEmails);
         List<Contact> listContactTeamEmailEmail = DM002_Contact.getListByTeamEmails_WithoutProSpace(setContactProfessionalEmails);

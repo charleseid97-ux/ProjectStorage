@@ -6,31 +6,31 @@
  ────────────────────────────────────── */
 public class SM029_DeleteAllAlertsLTController {
 
-    @AuraEnabled
-    public static void deleteAllProspaceAlerts(Id aContactId, List<String> selectedAlertTypes) {
+    // @AuraEnabled
+    // public static void deleteAllProspaceAlerts(Id aContactId, List<String> selectedAlertTypes) {
         
-        Contact contactRec;
-        Lead leadRec;
+    //     Contact contactRec;
+    //     Lead leadRec;
         
-        System.debug('object is '+ aContactId.getsobjecttype());
+    //     System.debug('object is '+ aContactId.getsobjecttype());
         
-        String objectType = aContactId.getSObjectType().getDescribe().getName();
+    //     String objectType = aContactId.getSObjectType().getDescribe().getName();
         
-        if(objectType == 'Contact'){
-            contactRec = [SELECT Id, WebsiteCountry__c, Prospace_Status__c, TECH_WebSiteID__c FROM Contact WHERE Id = :aContactId];
-        }else{
-            leadRec = [SELECT Id, WebsiteCountry__c, Prospace_Status__c, TECH_WebSiteID__c FROM Lead WHERE Id = :aContactId];
-        }
+    //     if(objectType == 'Contact'){
+    //         contactRec = [SELECT Id, WebsiteCountry__c, Prospace_Status__c, TECH_WebSiteID__c FROM Contact WHERE Id = :aContactId];
+    //     }else{
+    //         leadRec = [SELECT Id, WebsiteCountry__c, Prospace_Status__c, TECH_WebSiteID__c FROM Lead WHERE Id = :aContactId];
+    //     }
         
-        if(objectType == 'Contact'){
-            if(!String.isBlank(contactRec.TECH_WebSiteID__c)){
-                SM029_WebCommunication.deleteAllProspaceAlerts(contactRec, selectedAlertTypes);
-            }
-        }else if(!String.isBlank(leadRec.TECH_WebSiteID__c)){
-            SM029_WebCommunication.deleteAllProspaceAlerts(leadRec, selectedAlertTypes);
-        } 
+    //     if(objectType == 'Contact'){
+    //         if(!String.isBlank(contactRec.TECH_WebSiteID__c)){
+    //             SM029_WebCommunication.deleteAllProspaceAlerts(contactRec, selectedAlertTypes);
+    //         }
+    //     }else if(!String.isBlank(leadRec.TECH_WebSiteID__c)){
+    //         SM029_WebCommunication.deleteAllProspaceAlerts(leadRec, selectedAlertTypes);
+    //     } 
         
-    }
+    // }
     
    /*
 	*  Get alert type from object

@@ -134,9 +134,6 @@
                             <value>Contact.Change_Owner</value>
                         </valueListItems>
                         <valueListItems>
-                            <value>Contact.Reset_Website_Password</value>
-                        </valueListItems>
-                        <valueListItems>
                             <value>Contact.CloneContact</value>
                             <visibilityRule>
                                 <booleanFilter>1 OR 2 OR 3</booleanFilter>
@@ -809,29 +806,6 @@
                         <leftValue>{!$User.Profile.Name}</leftValue>
                         <operator>CONTAINS</operator>
                         <rightValue>CRM</rightValue>
-                    </criteria>
-                </visibilityRule>
-            </fieldInstance>
-        </itemInstances>
-        <itemInstances>
-            <fieldInstance>
-                <fieldInstanceProperties>
-                    <name>uiBehavior</name>
-                    <value>readonly</value>
-                </fieldInstanceProperties>
-                <fieldItem>Record.TECH_WebSiteID__c</fieldItem>
-                <identifier>RecordTECH_WebSiteID_cField</identifier>
-                <visibilityRule>
-                    <booleanFilter>1 OR 2</booleanFilter>
-                    <criteria>
-                        <leftValue>{!$User.Profile.Name}</leftValue>
-                        <operator>CONTAINS</operator>
-                        <rightValue>Carmignac - System Administrator</rightValue>
-                    </criteria>
-                    <criteria>
-                        <leftValue>{!$User.LastName}</leftValue>
-                        <operator>EQUAL</operator>
-                        <rightValue>RABAIX</rightValue>
                     </criteria>
                 </visibilityRule>
             </fieldInstance>

@@ -23,8 +23,8 @@ public class SM007_ContactTriggerHandlerTest {
                                Language__c='French',
                                Source__c='DOOR',
                                Phone='+33111111111',
-                               Email='test@example.com',
-                               TECH_WebSiteID__c='A');
+                               Email='test@example.com');
+                               //TECH_WebSiteID__c='A');
         insert c;
         
         List<Contact> contactList = new List<Contact>{c};
@@ -63,8 +63,8 @@ public class SM007_ContactTriggerHandlerTest {
                                Language__c='French',
                                Source__c='DOOR',
                                Phone='+331111113111',
-                               Email='testB@exam3ple.com',
-                               TECH_WebSiteID__c='AB');
+                               Email='testB@exam3ple.com');
+                               //TECH_WebSiteID__c='AB');
 
         insert b;
         b.pi__pardot_hard_bounced__c = true;
@@ -89,8 +89,8 @@ public class SM007_ContactTriggerHandlerTest {
                                 HasOptedOutOfEmail= true,
                                Source__c='DOOR',
                                Phone='+3311111131112',
-                               Email='testB@exam33ple.com',
-                               TECH_WebSiteID__c='AB');
+                               Email='testB@exam33ple.com');
+                               //TECH_WebSiteID__c='AB');
 
         insert b;
         b.HardBounced_Mandrill__c = true;

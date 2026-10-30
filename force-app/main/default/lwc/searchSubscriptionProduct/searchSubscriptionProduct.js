@@ -15,10 +15,7 @@ import getFundsWithSub from "@salesforce/apex/CTL_SearchSubscriptionProduct.getF
 import { getRecord } from "lightning/uiRecordApi";
 import { ShowToastEvent } from "lightning/platformShowToastEvent";
 
-const CONTACT_FIELDS = [
-  "Contact.WebsiteCountry__c",
-  "Contact.TECH_WebSiteID__c"
-];
+const CONTACT_FIELDS = ["Contact.WebsiteCountry__c"];
 export default class SearchSubscriptionProduct extends LightningElement {
   @api alertType = "";
   @api recordId;
@@ -69,7 +66,7 @@ export default class SearchSubscriptionProduct extends LightningElement {
   selectionDisabled = true;
   searchKey = "";
   countryCode = "";
-  techContactId = "";
+  // techContactId = "";
   refreshRequired = null;
   websiteIdsWithoutShareClass = ['100', '101'];
   @track mapFundCodeName;
@@ -192,7 +189,7 @@ export default class SearchSubscriptionProduct extends LightningElement {
   contactInfo({ data, error }) {
     if (data && data.fields) {
       this.countryCode = data.fields.WebsiteCountry__c?.value;
-      this.techContactId = data.fields.TECH_WebSiteID__c?.value;
+      //this.techContactId = data.fields.TECH_WebSiteID__c?.value;
     } else if (error) {
       console.log(error);
     }
