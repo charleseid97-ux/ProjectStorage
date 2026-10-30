@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Sender__c</fullName>
+    <description>Who the email is sent from. The values are the EmailService.Sender enum names: NO_REPLY (org-wide address of label EmailService_DefaultOrgWideAddress), CURRENT_USER (the running user) or ORG_WIDE (the Org-Wide Address field).</description>
+    <fieldManageability>SubscriberControlled</fieldManageability>
+    <inlineHelpText>No Reply = the Salesforce no-reply address. Current User = the user running the Flow (Automated Process for scheduled Flows). Org-Wide Address = the address set in Org-Wide Address.</inlineHelpText>
+    <label>Sender</label>
+    <required>true</required>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>NO_REPLY</fullName>
+                <default>true</default>
+                <label>No Reply</label>
+            </value>
+            <value>
+                <fullName>CURRENT_USER</fullName>
+                <default>false</default>
+                <label>Current User</label>
+            </value>
+            <value>
+                <fullName>ORG_WIDE</fullName>
+                <default>false</default>
+                <label>Org-Wide Address</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>LogFailures__c</fullName>
+    <defaultValue>true</defaultValue>
+    <description>When checked, an email that Salesforce refuses to send is logged as an ERROR in OperationLog__c on the Record Id given by the caller. A send failure never stops the Flow.</description>
+    <fieldManageability>SubscriberControlled</fieldManageability>
+    <inlineHelpText>Check to log the emails that could not be sent in Operation Logs, on the record given by the Flow.</inlineHelpText>
+    <label>Log Failures</label>
+    <type>Checkbox</type>
+</CustomField>
