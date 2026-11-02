@@ -60,7 +60,7 @@ private class NarrativeTemplateServiceTest {
         System.assertEquals(template.MasterLabel, narrative.Name);
         System.assertEquals(template.Type__c, narrative.Type__c);
         System.assertEquals(template.Subtype__c, narrative.SubType__c);
-        System.assertEquals('English', narrative.LanguageNew__c);
+        System.assertEquals('English', narrative.Language__c);
         System.assertEquals(template.Content__c, narrative.Content__c);
         System.assertEquals('Product', narrative.Narrative_Scope__c);
         System.assertEquals(Date.today(), narrative.StartDate__c);
@@ -110,7 +110,7 @@ private class NarrativeTemplateServiceTest {
             Product__c = product.Id,
             Type__c = 'PRIIPS',
             SubType__c = template.Subtype__c,
-            LanguageNew__c = 'English',
+            Language__c = 'English',
             Content__c = 'Old content',
             Narrative_Scope__c = 'Product',
             StartDate__c = Date.today()
