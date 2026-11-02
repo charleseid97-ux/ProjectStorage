@@ -15,10 +15,12 @@
  *                  throw EmailServiceException before anything is sent. Send failures never throw: they are logged in
  *                  OperationLog__c (logFailures). The engine never flushes OperationLogService: the entry point flushes,
  *                  and send() must come after any callout of the transaction (sendEmail is pending work).
+ *              Invalid addresses (e.g. masked sandbox addresses "x@y.com.invalid") never block the others: a message
+ *                  Salesforce rejects for them is resent once without them (WARN log).
  * @author Charles EID
  * @testClass EmailServiceTest
  * @coverage TBD
- * @lastModifiedBy Charles EID   [30-10-26]
+ * @lastModifiedBy Charles EID   [02-11-26]
 ────────────────────────────────────── */
 public without sharing class EmailService {
 
@@ -26,6 +28,7 @@ public without sharing class EmailService {
     private static final String DEFAULT_LOG_OPERATION = 'Email send';
     private static final Integer MAX_TO_ADDRESSES = 100;
     private static final Integer MAX_CC_BCC_ADDRESSES = 25;
+    private static final Set<String> ADDRESS_FIELDS = new Set<String>{ 'toAddresses', 'ccAddresses', 'bccAddresses' };
 
     // Loaded once per alert per transaction: a bulk Flow builds one request per record with the same alert
     private static Map<String, CustomEmailAlert__mdt> alertsByName = new Map<String, CustomEmailAlert__mdt>();
@@ -42,16 +45,13 @@ public without sharing class EmailService {
         if (emails.isEmpty()) return;
 
         try {
-            List<Messaging.SendEmailResult> results = Messaging.sendEmail(emails, false);
-            for (Integer i = 0; i < results.size(); i++) {
-                if (!results[i].isSuccess()) logFailure(requestByEmail[i], emails[i], results[i].getErrors()[0].getMessage(), null);
-            }
+            sendEmails(emails, requestByEmail, true);
         }
         catch (EmailException e) {
             // Deliverability "No Access" / "System email only" is an org setting, not a failure
             if (e.getDmlType(0) == StatusCode.NO_SINGLE_MAIL_PERMISSION) return;
             for (EmailRequest request : requests) {
-                if (request.isActive) logFailure(request, null, 'The emails could not be sent.', e);
+                if (request.isActive) logFailure(OperationLogService.Level.ERROR, request, null, 'The emails could not be sent.', e);
             }
         }
     }
@@ -297,6 +297,73 @@ public without sharing class EmailService {
         return emails;
     }
 
+    // Sends the messages and logs their failures. Salesforce rejects a whole message for one invalid address (e.g. a masked sandbox address "x@y.com.invalid"): such a message is resent once without the rejected addresses
+    private static void sendEmails(List<Messaging.SingleEmailMessage> emails, List<EmailRequest> requestByEmail, Boolean retryInvalidAddresses) {
+        List<Messaging.SingleEmailMessage> retryEmails = new List<Messaging.SingleEmailMessage>();
+        List<EmailRequest> retryRequestByEmail = new List<EmailRequest>();
+        List<Messaging.SendEmailResult> results = Messaging.sendEmail(emails, false);
+        for (Integer i = 0; i < results.size(); i++) {
+            if (results[i].isSuccess()) continue;
+
+            List<Messaging.SendEmailError> errors = results[i].getErrors();
+            // Deliverability "No Access" / "System email only" also comes back as a failed result: an org setting, not a failure
+            if (errors[0].getStatusCode() == StatusCode.NO_SINGLE_MAIL_PERMISSION) return;
+
+            Set<String> invalidAddresses = getInvalidAddresses(errors);
+            if (!retryInvalidAddresses || invalidAddresses.isEmpty()) {
+                logFailure(OperationLogService.Level.ERROR, requestByEmail[i], emails[i], joinMessages(errors), null);
+                continue;
+            }
+            Boolean hasRecipient = removeAddresses(emails[i], invalidAddresses);
+            logFailure(OperationLogService.Level.WARN, requestByEmail[i], emails[i], 'Invalid email address(es) removed: ' + String.join(new List<String>(invalidAddresses), ', ') + (hasRecipient ? '. Email resent to the other recipients.' : '. No recipient left, email not sent.'), null);
+            if (hasRecipient) {
+                retryEmails.add(emails[i]);
+                retryRequestByEmail.add(requestByEmail[i]);
+            }
+        }
+        if (!retryEmails.isEmpty()) sendEmails(retryEmails, retryRequestByEmail, false);
+    }
+
+    // Addresses Salesforce rejected: one INVALID_EMAIL_ADDRESS error per address, its fields = the list name + the address. Empty when another error is mixed in (a resend would fail anyway)
+    private static Set<String> getInvalidAddresses(List<Messaging.SendEmailError> errors) {
+        Set<String> invalidAddresses = new Set<String>();
+        for (Messaging.SendEmailError error : errors) {
+            if (error.getStatusCode() != StatusCode.INVALID_EMAIL_ADDRESS) return new Set<String>();
+            for (String field : error.getFields()) {
+                if (!ADDRESS_FIELDS.contains(field)) invalidAddresses.add(field.toLowerCase());
+            }
+        }
+        return invalidAddresses;
+    }
+
+    // Salesforce returns one error per problem (e.g. one per invalid To, Cc and Bcc address): all of them go in the log
+    private static String joinMessages(List<Messaging.SendEmailError> errors) {
+        List<String> messages = new List<String>();
+        for (Messaging.SendEmailError error : errors) messages.add(error.getMessage());
+        return String.join(messages, ' | ');
+    }
+
+    // Removes the addresses from the message's To / Cc / Bcc; true when the message still has a recipient
+    private static Boolean removeAddresses(Messaging.SingleEmailMessage email, Set<String> addresses) {
+        List<String> toAddresses = keepAddresses(email.getToAddresses(), addresses);
+        List<String> ccAddresses = keepAddresses(email.getCcAddresses(), addresses);
+        List<String> bccAddresses = keepAddresses(email.getBccAddresses(), addresses);
+        email.setToAddresses(toAddresses);
+        email.setCcAddresses(ccAddresses);
+        email.setBccAddresses(bccAddresses);
+        return !toAddresses.isEmpty() || !ccAddresses.isEmpty() || !bccAddresses.isEmpty() || email.getTargetObjectId() != null;
+    }
+
+    private static List<String> keepAddresses(List<String> addresses, Set<String> removedAddresses) {
+        List<String> kept = new List<String>();
+        if (addresses == null) return kept;
+
+        for (String address : addresses) {
+            if (!removedAddresses.contains(address.toLowerCase())) kept.add(address);
+        }
+        return kept;
+    }
+
     // Static cache per alert name; SOQL rather than getInstance(), which cuts long text areas to 255 characters
     private static CustomEmailAlert__mdt getAlert(String customAlertName) {
         if (!alertsByName.containsKey(customAlertName)) {
@@ -408,12 +475,12 @@ public without sharing class EmailService {
         return values;
     }
 
-    // Logs a send failure on the request's record, when the request asks for it (logFailures); never flushes
-    private static void logFailure(EmailRequest request, Messaging.SingleEmailMessage email, String errorMessage, Exception e) {
+    // Logs a send failure (ERROR) or a removed invalid address (WARN) on the request's record, when the request asks for it (logFailures); never flushes
+    private static void logFailure(OperationLogService.Level level, EmailRequest request, Messaging.SingleEmailMessage email, String errorMessage, Exception e) {
         if (request.logFailures != true) return;
 
         Map<String, Object> context = new Map<String, Object>{ 'customAlertName' => request.customAlertName, 'template' => request.templateDeveloperName, 'subject' => email?.getSubject(), 'toAddresses' => email?.getToAddresses(), 'targetObjectId' => email?.getTargetObjectId() };
-        OperationLogService.logWithContext(OperationLogService.Level.ERROR, request.whatId, String.isNotBlank(request.logOperation) ? request.logOperation : DEFAULT_LOG_OPERATION, errorMessage, context, e, 'EmailService', 'send');
+        OperationLogService.logWithContext(level, request.whatId, String.isNotBlank(request.logOperation) ? request.logOperation : DEFAULT_LOG_OPERATION, errorMessage, context, e, 'EmailService', 'send');
     }
 
     private static String describe(EmailRequest request) {
