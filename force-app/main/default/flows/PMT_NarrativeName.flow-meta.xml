@@ -292,7 +292,7 @@ CASE(
   TEXT($Record.SubType__c)
 )
 &amp; &quot; – &quot; &amp;
-$Record.Product__r.Name
+{!$Record.ShareClass__r.Fund__r.InternalShortName__c}
 &amp; &quot; – &quot; &amp;
 $Record.ShareClass__r.ISIN__c
 &amp; &quot; – &quot; &amp;
