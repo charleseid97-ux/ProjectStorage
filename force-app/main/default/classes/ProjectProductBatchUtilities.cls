@@ -36,7 +36,7 @@ public class ProjectProductBatchUtilities {
             );
             newNarrative.add(cciInvestmentObjectiveNarrative);
         }
-        
+
         if (investmentStrategy != '') {
             Narrative__c investmentStrategyNarrative = new Narrative__c(Name = 'Investment Strategy Description', RecordTypeId = recordTypeId, Narrative_Scope__c = scope,
                                                                         Type__c = 'Investment Strategy', SubType__c = 'Description', LanguageNew__c = language, 
@@ -55,7 +55,7 @@ public class ProjectProductBatchUtilities {
         /*if (riskNotConsideredPicklist != '') {
             String content = getRiskNotConsideredContent(riskNotConsideredPicklist);
             Narrative__c riskNotConsideredPicklistNarrative = new Narrative__c(Name = 'Risk Main Risk of the Fund', RecordTypeId = recordTypeId, Narrative_Scope__c = scope, 
-                                                                        Type__c = 'Risk', SubType__c = 'Main Risk of the Fund', LanguageNew__c = language, 
+                                                                        Type__c = 'Risk', SubType__c = 'Main Risk of the Fund', LanguageNew__c = language,
                                                                         Product__c = productId, Content__c = content, StartDate__c = System.today());
             newNarrative.add(riskNotConsideredPicklistNarrative);
         }*/
@@ -76,14 +76,14 @@ public class ProjectProductBatchUtilities {
 
         /*if (redeemCondition != '') {
             Narrative__c redeemConditionNarrative = new Narrative__c(Name = 'PRIIPs Redeem Condition', RecordTypeId = recordTypeId, 
-                                                                        Type__c = 'PRIIPs', SubType__c = 'REDEEM_CONDITION', LanguageNew__c = language, 
+                                                                        Type__c = 'PRIIPs', SubType__c = 'REDEEM_CONDITION', Language__c = language, 
                                                                         Product__c = productId, Content__c = redeemCondition, StartDate__c = System.today());
             newNarrative.add(redeemConditionNarrative);
         }
 
         if (lmt != '') {
             Narrative__c lmtNarrative = new Narrative__c(Name = 'PRIIPs LMT', RecordTypeId = recordTypeId, 
-                                                                        Type__c = 'PRIIPs', SubType__c = 'LMT', LanguageNew__c = language, 
+                                                                        Type__c = 'PRIIPs', SubType__c = 'LMT', Language__c = language, 
                                                                         Product__c = productId, Content__c = lmt, StartDate__c = System.today());
             newNarrative.add(lmtNarrative);
         }*/
@@ -325,8 +325,8 @@ public class ProjectProductBatchUtilities {
             if (risk == 'Equity') {
                 content += 'EQUITY: The Fund may be affected by stock price variations, the scale of which is dependent on external factors, stock trading volumes or market capitalization.\n';
             }
-            if (risk == 'Interest rates') {
-                content += 'INTEREST RATE: Interest rate risk results in a decline in the net asset value in the event of changes in interest rates.\n';
+            if (risk == 'Interest rate') {
+                content += 'INTEREST RATE: Interest rate risk results in a decline in the net asset value in the event of changes in Interest rate.\n';
             }
             if (risk == 'Credit') {
                 content += 'CREDIT: Credit risk is the risk that the issuer may default.\n';
@@ -354,7 +354,7 @@ public class ProjectProductBatchUtilities {
                 content += 'EQUITY: The Fund may be affected by stock price variations, the scale of which is dependent on external factors, stock trading volumes or market capitalization.\n';
             }
             if (riskNotConsideredPicklist == 'Credit risk') {
-                content += 'INTEREST RATE: Interest rate risk results in a decline in the net asset value in the event of changes in interest rates.\n';
+                content += 'INTEREST RATE: Interest rate risk results in a decline in the net asset value in the event of changes in Interest rate.\n';
             }
             if (riskNotConsideredPicklist == 'Liquidity risk') {
                 content += 'CREDIT: Credit risk is the risk that the issuer may default.\n';
