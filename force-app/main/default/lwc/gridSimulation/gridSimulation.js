@@ -305,7 +305,15 @@ export default class GridSimulation extends LightningElement {
             netChgAbsFmt:     fmtAmt(t.simNet     - t.curNet)     ?? '—'
         };
     }
+    // Returns the label of the Grid used as reference for the simulation.
+    get currentGridLabel() {
+        return this.hasCurrentGrid ? 'LATEST SIGNED GRID' : 'CURRENT';
+    }
 
+    // Returns the comparison label matching the reference Grid label.
+    get simulationChangeLabel() {
+        return `${this.currentGridLabel} & SIMULATED CHANGE`;
+    }
     get hasRows()      { return this.rows.length > 0 || this.customRows.length > 0; }
     get hasError()     { return !!this.error; }
     get isRecordPage() { return !!this.recordId; }
