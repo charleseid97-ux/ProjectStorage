@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>OrgWideAddress__c</fullName>
+    <description>Sender address when Sender is ORG_WIDE. Must be a verified Organization-Wide Address allowed for the sending users' profiles.</description>
+    <externalId>false</externalId>
+    <fieldManageability>SubscriberControlled</fieldManageability>
+    <inlineHelpText>Only with Sender = Org-Wide Address: a verified address from Setup &gt; Organization-Wide Addresses.</inlineHelpText>
+    <label>Org-Wide Address</label>
+    <required>false</required>
+    <type>Email</type>
+    <unique>false</unique>
+</CustomField>

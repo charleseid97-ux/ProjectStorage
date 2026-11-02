@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>OrgWideAddressRequired</fullName>
+    <active>true</active>
+    <description>An alert sent from an Org-Wide Address needs that address.</description>
+    <errorConditionFormula>ISPICKVAL(Sender__c, &quot;ORG_WIDE&quot;) &amp;&amp; ISBLANK(OrgWideAddress__c)</errorConditionFormula>
+    <errorDisplayField>OrgWideAddress__c</errorDisplayField>
+    <errorMessage>Enter the Org-Wide Address when the Sender is Org-Wide Address.</errorMessage>
+</ValidationRule>
