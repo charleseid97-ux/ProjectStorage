@@ -271,7 +271,7 @@ IF(
     <formulas>
         <name>isAgent</name>
         <dataType>Boolean</dataType>
-        <expression>BEGINS({!recordId}, &quot;a4F&quot;)</expression>
+        <expression>BEGINS({!recordId}, &quot;a4E&quot;)</expression>
     </formulas>
     <interviewLabel>NewAIAgentWTP {!$Flow.CurrentDateTime}</interviewLabel>
     <label>AI Agent - Create / Change Request</label>

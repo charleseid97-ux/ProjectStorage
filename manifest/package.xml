@@ -5,6 +5,7 @@
         <members>NarrativeTemplateServiceTest</members>
         <members>ProjectProductBatchController</members>
         <members>ProjectProductBatchUtilities</members>
+        <members>RecordTypeController</members>      
         <name>ApexClass</name>
     </types>
     <types>
@@ -12,7 +13,7 @@
         <members>PMT_NarrativeName</members>
         <members>PMT_Narratives_After_Trigger</members>
         <members>PMT_Narratives_Duplicates_Biography</members>
+        <members>NewAIAgentWTP</members>
         <name>Flow</name>
     </types>
     <version>65.0</version>
-</Package>
