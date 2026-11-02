@@ -12,6 +12,7 @@ global class ProjectProductBatch implements Database.Batchable<SObject>, Databas
     public Datetime startTime;
     public Integer[] recordsFailedWrapper = new Integer[] { 0 };
     
+    // Sélectionne les projets arrivés à leur Launch Date ou explicitement forcés vers le Product Catalog.
     global Database.QueryLocator start(Database.BatchableContext BC) {
         startTime = Datetime.now();
         return Database.getQueryLocator([
@@ -19,9 +20,8 @@ global class ProjectProductBatch implements Database.Batchable<SObject>, Databas
             (SELECT Id, Name, Status__c FROM Milestones__r WHERE Name = 'Launch Date' LIMIT 1),
             (SELECT Id, Status__c FROM Project_Product_Childs__r WHERE Status__c != 'Completed' AND Name != 'Design')
             FROM ProjectProduct__c 
-          //  WHERE (EndDate__c = TODAY OR ForceProductCatalogPush__c = true)
-            //AND LaunchedDate__c = NULL
-            where id='a3lbd000001pN8TAAU'
+            WHERE (EndDate__c = TODAY OR ForceProductCatalogPush__c = true)
+            AND LaunchedDate__c = NULL
         ]);
     }
 
@@ -84,13 +84,14 @@ global class ProjectProductBatch implements Database.Batchable<SObject>, Databas
             debugInformation.add(e.getStackTraceString());
         }
 
-        // Enregistre la date réelle de lancement uniquement pour les projets traités avec succès.
+        // Enregistre le lancement et réinitialise le force push uniquement après un traitement réussi.
         if (!launchedProjectProductIds.isEmpty()) {
             List<ProjectProduct__c> launchedProjects = new List<ProjectProduct__c>();
             for (Id projectProductId : launchedProjectProductIds) {
                 launchedProjects.add(new ProjectProduct__c(
                     Id = projectProductId,
-                    LaunchedDate__c = Date.today()
+                    LaunchedDate__c = Date.today(),
+                    ForceProductCatalogPush__c = false
                 ));
             }
             update launchedProjects;
