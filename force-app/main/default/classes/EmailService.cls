@@ -29,6 +29,7 @@ public without sharing class EmailService {
     private static final Integer MAX_TO_ADDRESSES = 100;
     private static final Integer MAX_CC_BCC_ADDRESSES = 25;
     private static final Set<String> ADDRESS_FIELDS = new Set<String>{ 'toAddresses', 'ccAddresses', 'bccAddresses' };
+    private static final Set<Schema.SObjectType> RECIPIENT_TYPES = new Set<Schema.SObjectType>{ Contact.SObjectType, Lead.SObjectType, User.SObjectType };
 
     // Loaded once per alert per transaction: a bulk Flow builds one request per record with the same alert
     private static Map<String, CustomEmailAlert__mdt> alertsByName = new Map<String, CustomEmailAlert__mdt>();
@@ -212,7 +213,7 @@ public without sharing class EmailService {
         return emailList;
     }
 
-    // Resolves templates, queues, users and senders in bulk, renders, applies the replacements and splits the recipients; requestByEmail receives the request of each message
+    // Resolves templates, queues, users and senders in bulk, checks each request, then builds its content (buildContent) and its messages (splitMessages); requestByEmail receives the request of each message
     private static List<Messaging.SingleEmailMessage> buildEmails(List<EmailRequest> requests, List<EmailRequest> requestByEmail) {
         List<EmailRequest> activeRequests = new List<EmailRequest>();
         Set<String> templateNames = new Set<String>();
@@ -240,59 +241,72 @@ public without sharing class EmailService {
         Map<Id, Set<String>> emailsByUserOrGroupId = getUserOrGroupEmails(userOrGroupIds);
         loadOrgWideAddresses(orgWideAddresses);
 
-        // Each render costs 1 SOQL query: identical template / recipient / record are rendered once
         Map<String, Messaging.SingleEmailMessage> renderedByKey = new Map<String, Messaging.SingleEmailMessage>();
         for (EmailRequest request : activeRequests) {
             Schema.SObjectType recipientType = request.recipientId?.getSObjectType();
-            if (recipientType != null && recipientType != Contact.SObjectType && recipientType != Lead.SObjectType && recipientType != User.SObjectType) throw new EmailServiceException(describe(request) + ': the recipient must be a Contact, Lead or User, not a ' + recipientType + '.');
+            if (recipientType != null && !RECIPIENT_TYPES.contains(recipientType)) throw new EmailServiceException(describe(request) + ': the recipient must be a Contact, Lead or User, not a ' + recipientType + '.');
 
-            String subject = request.subject;
-            String htmlBody = request.htmlBody;
-            String textBody;
-            if (String.isNotBlank(request.templateDeveloperName)) {
-                Id templateId = templateIdsByName.get(request.templateDeveloperName);
-                String renderKey = templateId + '|' + request.recipientId + '|' + request.whatId;
-                if (!renderedByKey.containsKey(renderKey)) renderedByKey.put(renderKey, Messaging.renderStoredEmailTemplate(templateId, request.recipientId, request.whatId));
-                Messaging.SingleEmailMessage rendered = renderedByKey.get(renderKey);
-                subject = String.isNotBlank(request.subject) ? request.subject : rendered.getSubject();
-                htmlBody = rendered.getHtmlBody();
-                textBody = rendered.getPlainTextBody();
-            }
-            else if (String.isBlank(request.subject) || String.isBlank(request.htmlBody)) {
-                throw new EmailServiceException(describe(request) + ' has no template, so it needs a subject and an HTML body.');
-            }
-            subject = applyReplacements(subject, request.replacements);
-            htmlBody = applyReplacements(htmlBody, request.replacements);
-            textBody = applyReplacements(textBody, request.replacements);
-
+            Messaging.SingleEmailMessage content = buildContent(request, templateIdsByName, renderedByKey);
             List<String> toAddresses = resolveAddresses(request.to, emailsByQueue, emailsByUserOrGroupId);
             List<String> ccAddresses = resolveAddresses(request.cc, emailsByQueue, emailsByUserOrGroupId);
             List<String> bccAddresses = resolveAddresses(request.bcc, emailsByQueue, emailsByUserOrGroupId);
             if (toAddresses.isEmpty() && request.recipientId == null) throw new EmailServiceException(describe(request) + ' has no To recipient (no To address, no member in its To queues and no recipient record).');
 
-            String senderAddress = getSenderAddress(request);
-            Id orgWideId = senderAddress != null ? orgWideIdsByAddress.get(senderAddress) : null;
-
-            // A message takes at most 100 To / 25 Cc / 25 Bcc: above that, identical messages share the addresses out, each address in exactly one of them
-            Integer messageCount = Math.max(1, Math.max(countChunks(toAddresses.size(), MAX_TO_ADDRESSES), Math.max(countChunks(ccAddresses.size(), MAX_CC_BCC_ADDRESSES), countChunks(bccAddresses.size(), MAX_CC_BCC_ADDRESSES))));
-            for (Integer i = 0; i < messageCount; i++) {
-                List<String> toChunk = slice(toAddresses, i, MAX_TO_ADDRESSES);
-                List<String> ccChunk = slice(ccAddresses, i, MAX_CC_BCC_ADDRESSES);
-                List<String> bccChunk = slice(bccAddresses, i, MAX_CC_BCC_ADDRESSES);
-
-                Messaging.SingleEmailMessage email = new Messaging.SingleEmailMessage();
-                if (!toChunk.isEmpty()) email.setToAddresses(toChunk);
-                if (!ccChunk.isEmpty()) email.setCcAddresses(ccChunk);
-                if (!bccChunk.isEmpty()) email.setBccAddresses(bccChunk);
-                if (i == 0 && request.recipientId != null) email.setTargetObjectId(request.recipientId);
-                email.setSubject(subject);
-                if (String.isNotBlank(htmlBody)) email.setHtmlBody(htmlBody);
-                if (String.isNotBlank(textBody)) email.setPlainTextBody(textBody);
-                if (orgWideId != null) email.setOrgWideEmailAddressId(orgWideId);
-                email.setSaveAsActivity(false);
+            for (Messaging.SingleEmailMessage email : splitMessages(request, content, toAddresses, ccAddresses, bccAddresses)) {
                 emails.add(email);
                 requestByEmail.add(request);
             }
+        }
+        return emails;
+    }
+
+    // Subject and bodies of a request, replacements applied: rendered from its template (its subject can override the rendered one), otherwise its own subject and HTML body
+    // Each render costs 1 SOQL query: identical template / recipient / record are rendered once per build (renderedByKey)
+    private static Messaging.SingleEmailMessage buildContent(EmailRequest request, Map<String, Id> templateIdsByName, Map<String, Messaging.SingleEmailMessage> renderedByKey) {
+        String subject = request.subject;
+        String htmlBody = request.htmlBody;
+        String textBody;
+        if (String.isNotBlank(request.templateDeveloperName)) {
+            Id templateId = templateIdsByName.get(request.templateDeveloperName);
+            String renderKey = templateId + '|' + request.recipientId + '|' + request.whatId;
+            if (!renderedByKey.containsKey(renderKey)) renderedByKey.put(renderKey, Messaging.renderStoredEmailTemplate(templateId, request.recipientId, request.whatId));
+            Messaging.SingleEmailMessage rendered = renderedByKey.get(renderKey);
+            subject = String.isNotBlank(request.subject) ? request.subject : rendered.getSubject();
+            htmlBody = rendered.getHtmlBody();
+            textBody = rendered.getPlainTextBody();
+        }
+        else if (String.isBlank(request.subject) || String.isBlank(request.htmlBody)) {
+            throw new EmailServiceException(describe(request) + ' has no template, so it needs a subject and an HTML body.');
+        }
+        Messaging.SingleEmailMessage content = new Messaging.SingleEmailMessage();
+        content.setSubject(applyReplacements(subject, request.replacements));
+        content.setHtmlBody(applyReplacements(htmlBody, request.replacements));
+        content.setPlainTextBody(applyReplacements(textBody, request.replacements));
+        return content;
+    }
+
+    // A message takes at most 100 To / 25 Cc / 25 Bcc: above that, identical messages share the addresses out, each address in exactly one of them; the recipient record is on the first one
+    private static List<Messaging.SingleEmailMessage> splitMessages(EmailRequest request, Messaging.SingleEmailMessage content, List<String> toAddresses, List<String> ccAddresses, List<String> bccAddresses) {
+        String senderAddress = getSenderAddress(request);
+        Id orgWideId = senderAddress != null ? orgWideIdsByAddress.get(senderAddress) : null;
+        List<Messaging.SingleEmailMessage> emails = new List<Messaging.SingleEmailMessage>();
+        Integer messageCount = Math.max(1, Math.max(countChunks(toAddresses.size(), MAX_TO_ADDRESSES), Math.max(countChunks(ccAddresses.size(), MAX_CC_BCC_ADDRESSES), countChunks(bccAddresses.size(), MAX_CC_BCC_ADDRESSES))));
+        for (Integer i = 0; i < messageCount; i++) {
+            List<String> toChunk = slice(toAddresses, i, MAX_TO_ADDRESSES);
+            List<String> ccChunk = slice(ccAddresses, i, MAX_CC_BCC_ADDRESSES);
+            List<String> bccChunk = slice(bccAddresses, i, MAX_CC_BCC_ADDRESSES);
+
+            Messaging.SingleEmailMessage email = new Messaging.SingleEmailMessage();
+            if (!toChunk.isEmpty()) email.setToAddresses(toChunk);
+            if (!ccChunk.isEmpty()) email.setCcAddresses(ccChunk);
+            if (!bccChunk.isEmpty()) email.setBccAddresses(bccChunk);
+            if (i == 0 && request.recipientId != null) email.setTargetObjectId(request.recipientId);
+            email.setSubject(content.getSubject());
+            if (String.isNotBlank(content.getHtmlBody())) email.setHtmlBody(content.getHtmlBody());
+            if (String.isNotBlank(content.getPlainTextBody())) email.setPlainTextBody(content.getPlainTextBody());
+            if (orgWideId != null) email.setOrgWideEmailAddressId(orgWideId);
+            email.setSaveAsActivity(false);
+            emails.add(email);
         }
         return emails;
     }
