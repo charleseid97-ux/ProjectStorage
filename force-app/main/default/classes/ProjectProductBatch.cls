@@ -19,8 +19,9 @@ global class ProjectProductBatch implements Database.Batchable<SObject>, Databas
             (SELECT Id, Name, Status__c FROM Milestones__r WHERE Name = 'Launch Date' LIMIT 1),
             (SELECT Id, Status__c FROM Project_Product_Childs__r WHERE Status__c != 'Completed' AND Name != 'Design')
             FROM ProjectProduct__c 
-            WHERE (EndDate__c = TODAY OR ForceProductCatalogPush__c = true)
-            AND LaunchedDate__c = NULL
+          //  WHERE (EndDate__c = TODAY OR ForceProductCatalogPush__c = true)
+            //AND LaunchedDate__c = NULL
+            where id='a3lbd000001pN8TAAU'
         ]);
     }
 
