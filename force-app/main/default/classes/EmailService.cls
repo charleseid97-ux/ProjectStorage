@@ -8,10 +8,11 @@
  *              To / Cc / Bcc = addresses + queue members + users of userOrGroupIds, split into several identical messages above 100 To / 25 Cc / 25 Bcc, all sent in a single Messaging.sendEmail.
  *              Configuration errors (unknown alert, template, queue or org-wide address, invalid recipient, no To recipient) throw EmailServiceException before anything is sent. Send failures never throw: they are logged in
  *                  OperationLog__c (logFailures). The engine never flushes OperationLogService: the entry point flushes, and send() must come after any callout of the transaction (sendEmail is pending work).
+ *              Invalid addresses (e.g. masked sandbox addresses "x@y.com.invalid") never block the others: a message Salesforce rejects for them is resent once without them (WARN log).
  * @author Charles EID
  * @testClass EmailServiceTest
  * @coverage TBD
- * @lastModifiedBy Charles EID   [30-10-26]
+ * @lastModifiedBy Charles EID   [02-11-26]
 ────────────────────────────────────── */
 public without sharing class EmailService {
 
@@ -19,6 +20,8 @@ public without sharing class EmailService {
     private static final String DEFAULT_LOG_OPERATION = 'Email send';
     private static final Integer MAX_TO_ADDRESSES = 100;
     private static final Integer MAX_CC_BCC_ADDRESSES = 25;
+    private static final Set<String> ADDRESS_FIELDS = new Set<String>{ 'toAddresses', 'ccAddresses', 'bccAddresses' };
+    private static final Set<Schema.SObjectType> RECIPIENT_TYPES = new Set<Schema.SObjectType>{ Contact.SObjectType, Lead.SObjectType, User.SObjectType };
 
     // Loaded once per alert per transaction: a bulk Flow builds one request per record with the same alert
     private static Map<String, CustomEmailAlert__mdt> alertsByName = new Map<String, CustomEmailAlert__mdt>();
@@ -35,16 +38,13 @@ public without sharing class EmailService {
         if (emails.isEmpty()) return;
 
         try {
-            List<Messaging.SendEmailResult> results = Messaging.sendEmail(emails, false);
-            for (Integer i = 0; i < results.size(); i++) {
-                if (!results[i].isSuccess()) logFailure(requestByEmail[i], emails[i], results[i].getErrors()[0].getMessage(), null);
-            }
+            sendEmails(emails, requestByEmail, true);
         }
         catch (EmailException e) {
             // Deliverability "No Access" / "System email only" is an org setting, not a failure
             if (e.getDmlType(0) == StatusCode.NO_SINGLE_MAIL_PERMISSION) return;
             for (EmailRequest request : requests) {
-                if (request.isActive) logFailure(request, null, 'The emails could not be sent.', e);
+                if (request.isActive) logFailure(OperationLogService.Level.ERROR, request, null, 'The emails could not be sent.', e);
             }
         }
     }
@@ -205,7 +205,7 @@ public without sharing class EmailService {
         return emailList;
     }
 
-    // Resolves templates, queues, users and senders in bulk, renders, applies the replacements and splits the recipients; requestByEmail receives the request of each message
+    // Resolves templates, queues, users and senders in bulk, checks each request, then builds its content (buildContent) and its messages (splitMessages); requestByEmail receives the request of each message
     private static List<Messaging.SingleEmailMessage> buildEmails(List<EmailRequest> requests, List<EmailRequest> requestByEmail) {
         List<EmailRequest> activeRequests = new List<EmailRequest>();
         Set<String> templateNames = new Set<String>();
@@ -233,61 +233,141 @@ public without sharing class EmailService {
         Map<Id, Set<String>> emailsByUserOrGroupId = getUserOrGroupEmails(userOrGroupIds);
         loadOrgWideAddresses(orgWideAddresses);
 
-        // Each render costs 1 SOQL query: identical template / recipient / record are rendered once
         Map<String, Messaging.SingleEmailMessage> renderedByKey = new Map<String, Messaging.SingleEmailMessage>();
         for (EmailRequest request : activeRequests) {
             Schema.SObjectType recipientType = request.recipientId?.getSObjectType();
-            if (recipientType != null && recipientType != Contact.SObjectType && recipientType != Lead.SObjectType && recipientType != User.SObjectType) throw new EmailServiceException(describe(request) + ': the recipient must be a Contact, Lead or User, not a ' + recipientType + '.');
+            if (recipientType != null && !RECIPIENT_TYPES.contains(recipientType)) throw new EmailServiceException(describe(request) + ': the recipient must be a Contact, Lead or User, not a ' + recipientType + '.');
 
-            String subject = request.subject;
-            String htmlBody = request.htmlBody;
-            String textBody;
-            if (String.isNotBlank(request.templateDeveloperName)) {
-                Id templateId = templateIdsByName.get(request.templateDeveloperName);
-                String renderKey = templateId + '|' + request.recipientId + '|' + request.whatId;
-                if (!renderedByKey.containsKey(renderKey)) renderedByKey.put(renderKey, Messaging.renderStoredEmailTemplate(templateId, request.recipientId, request.whatId));
-                Messaging.SingleEmailMessage rendered = renderedByKey.get(renderKey);
-                subject = String.isNotBlank(request.subject) ? request.subject : rendered.getSubject();
-                htmlBody = rendered.getHtmlBody();
-                textBody = rendered.getPlainTextBody();
-            }
-            else if (String.isBlank(request.subject) || String.isBlank(request.htmlBody)) {
-                throw new EmailServiceException(describe(request) + ' has no template, so it needs a subject and an HTML body.');
-            }
-            subject = applyReplacements(subject, request.replacements);
-            htmlBody = applyReplacements(htmlBody, request.replacements);
-            textBody = applyReplacements(textBody, request.replacements);
-
+            Messaging.SingleEmailMessage content = buildContent(request, templateIdsByName, renderedByKey);
             List<String> toAddresses = resolveAddresses(request.to, emailsByQueue, emailsByUserOrGroupId);
             List<String> ccAddresses = resolveAddresses(request.cc, emailsByQueue, emailsByUserOrGroupId);
             List<String> bccAddresses = resolveAddresses(request.bcc, emailsByQueue, emailsByUserOrGroupId);
             if (toAddresses.isEmpty() && request.recipientId == null) throw new EmailServiceException(describe(request) + ' has no To recipient (no To address, no member in its To queues and no recipient record).');
 
-            String senderAddress = getSenderAddress(request);
-            Id orgWideId = senderAddress != null ? orgWideIdsByAddress.get(senderAddress) : null;
-
-            // A message takes at most 100 To / 25 Cc / 25 Bcc: above that, identical messages share the addresses out, each address in exactly one of them
-            Integer messageCount = Math.max(1, Math.max(countChunks(toAddresses.size(), MAX_TO_ADDRESSES), Math.max(countChunks(ccAddresses.size(), MAX_CC_BCC_ADDRESSES), countChunks(bccAddresses.size(), MAX_CC_BCC_ADDRESSES))));
-            for (Integer i = 0; i < messageCount; i++) {
-                List<String> toChunk = slice(toAddresses, i, MAX_TO_ADDRESSES);
-                List<String> ccChunk = slice(ccAddresses, i, MAX_CC_BCC_ADDRESSES);
-                List<String> bccChunk = slice(bccAddresses, i, MAX_CC_BCC_ADDRESSES);
-
-                Messaging.SingleEmailMessage email = new Messaging.SingleEmailMessage();
-                if (!toChunk.isEmpty()) email.setToAddresses(toChunk);
-                if (!ccChunk.isEmpty()) email.setCcAddresses(ccChunk);
-                if (!bccChunk.isEmpty()) email.setBccAddresses(bccChunk);
-                if (i == 0 && request.recipientId != null) email.setTargetObjectId(request.recipientId);
-                email.setSubject(subject);
-                if (String.isNotBlank(htmlBody)) email.setHtmlBody(htmlBody);
-                if (String.isNotBlank(textBody)) email.setPlainTextBody(textBody);
-                if (orgWideId != null) email.setOrgWideEmailAddressId(orgWideId);
-                email.setSaveAsActivity(false);
+            for (Messaging.SingleEmailMessage email : splitMessages(request, content, toAddresses, ccAddresses, bccAddresses)) {
                 emails.add(email);
                 requestByEmail.add(request);
             }
         }
         return emails;
+    }
+
+    // Subject and bodies of a request, replacements applied: rendered from its template (its subject can override the rendered one), otherwise its own subject and HTML body
+    // Each render costs 1 SOQL query: identical template / recipient / record are rendered once per build (renderedByKey)
+    private static Messaging.SingleEmailMessage buildContent(EmailRequest request, Map<String, Id> templateIdsByName, Map<String, Messaging.SingleEmailMessage> renderedByKey) {
+        String subject = request.subject;
+        String htmlBody = request.htmlBody;
+        String textBody;
+        if (String.isNotBlank(request.templateDeveloperName)) {
+            Id templateId = templateIdsByName.get(request.templateDeveloperName);
+            String renderKey = templateId + '|' + request.recipientId + '|' + request.whatId;
+            if (!renderedByKey.containsKey(renderKey)) renderedByKey.put(renderKey, Messaging.renderStoredEmailTemplate(templateId, request.recipientId, request.whatId));
+            Messaging.SingleEmailMessage rendered = renderedByKey.get(renderKey);
+            subject = String.isNotBlank(request.subject) ? request.subject : rendered.getSubject();
+            htmlBody = rendered.getHtmlBody();
+            textBody = rendered.getPlainTextBody();
+        }
+        else if (String.isBlank(request.subject) || String.isBlank(request.htmlBody)) {
+            throw new EmailServiceException(describe(request) + ' has no template, so it needs a subject and an HTML body.');
+        }
+        Messaging.SingleEmailMessage content = new Messaging.SingleEmailMessage();
+        content.setSubject(applyReplacements(subject, request.replacements));
+        content.setHtmlBody(applyReplacements(htmlBody, request.replacements));
+        content.setPlainTextBody(applyReplacements(textBody, request.replacements));
+        return content;
+    }
+
+    // A message takes at most 100 To / 25 Cc / 25 Bcc: above that, identical messages share the addresses out, each address in exactly one of them; the recipient record is on the first one
+    private static List<Messaging.SingleEmailMessage> splitMessages(EmailRequest request, Messaging.SingleEmailMessage content, List<String> toAddresses, List<String> ccAddresses, List<String> bccAddresses) {
+        String senderAddress = getSenderAddress(request);
+        Id orgWideId = senderAddress != null ? orgWideIdsByAddress.get(senderAddress) : null;
+        List<Messaging.SingleEmailMessage> emails = new List<Messaging.SingleEmailMessage>();
+        Integer messageCount = Math.max(1, Math.max(countChunks(toAddresses.size(), MAX_TO_ADDRESSES), Math.max(countChunks(ccAddresses.size(), MAX_CC_BCC_ADDRESSES), countChunks(bccAddresses.size(), MAX_CC_BCC_ADDRESSES))));
+        for (Integer i = 0; i < messageCount; i++) {
+            List<String> toChunk = slice(toAddresses, i, MAX_TO_ADDRESSES);
+            List<String> ccChunk = slice(ccAddresses, i, MAX_CC_BCC_ADDRESSES);
+            List<String> bccChunk = slice(bccAddresses, i, MAX_CC_BCC_ADDRESSES);
+
+            Messaging.SingleEmailMessage email = new Messaging.SingleEmailMessage();
+            if (!toChunk.isEmpty()) email.setToAddresses(toChunk);
+            if (!ccChunk.isEmpty()) email.setCcAddresses(ccChunk);
+            if (!bccChunk.isEmpty()) email.setBccAddresses(bccChunk);
+            if (i == 0 && request.recipientId != null) email.setTargetObjectId(request.recipientId);
+            email.setSubject(content.getSubject());
+            if (String.isNotBlank(content.getHtmlBody())) email.setHtmlBody(content.getHtmlBody());
+            if (String.isNotBlank(content.getPlainTextBody())) email.setPlainTextBody(content.getPlainTextBody());
+            if (orgWideId != null) email.setOrgWideEmailAddressId(orgWideId);
+            email.setSaveAsActivity(false);
+            emails.add(email);
+        }
+        return emails;
+    }
+
+    // Sends the messages and logs their failures. Salesforce rejects a whole message for one invalid address (e.g. a masked sandbox address "x@y.com.invalid"): such a message is resent once without the rejected addresses
+    private static void sendEmails(List<Messaging.SingleEmailMessage> emails, List<EmailRequest> requestByEmail, Boolean retryInvalidAddresses) {
+        List<Messaging.SingleEmailMessage> retryEmails = new List<Messaging.SingleEmailMessage>();
+        List<EmailRequest> retryRequestByEmail = new List<EmailRequest>();
+        List<Messaging.SendEmailResult> results = Messaging.sendEmail(emails, false);
+        for (Integer i = 0; i < results.size(); i++) {
+            if (results[i].isSuccess()) continue;
+
+            List<Messaging.SendEmailError> errors = results[i].getErrors();
+            // Deliverability "No Access" / "System email only" also comes back as a failed result: an org setting, not a failure
+            if (errors[0].getStatusCode() == StatusCode.NO_SINGLE_MAIL_PERMISSION) return;
+
+            Set<String> invalidAddresses = getInvalidAddresses(errors);
+            if (!retryInvalidAddresses || invalidAddresses.isEmpty()) {
+                logFailure(OperationLogService.Level.ERROR, requestByEmail[i], emails[i], joinMessages(errors), null);
+                continue;
+            }
+            Boolean hasRecipient = removeAddresses(emails[i], invalidAddresses);
+            logFailure(OperationLogService.Level.WARN, requestByEmail[i], emails[i], 'Invalid email address(es) removed: ' + String.join(new List<String>(invalidAddresses), ', ') + (hasRecipient ? '. Email resent to the other recipients.' : '. No recipient left, email not sent.'), null);
+            if (hasRecipient) {
+                retryEmails.add(emails[i]);
+                retryRequestByEmail.add(requestByEmail[i]);
+            }
+        }
+        if (!retryEmails.isEmpty()) sendEmails(retryEmails, retryRequestByEmail, false);
+    }
+
+    // Addresses Salesforce rejected: one INVALID_EMAIL_ADDRESS error per address, its fields = the list name + the address. Empty when another error is mixed in (a resend would fail anyway)
+    private static Set<String> getInvalidAddresses(List<Messaging.SendEmailError> errors) {
+        Set<String> invalidAddresses = new Set<String>();
+        for (Messaging.SendEmailError error : errors) {
+            if (error.getStatusCode() != StatusCode.INVALID_EMAIL_ADDRESS) return new Set<String>();
+            for (String field : error.getFields()) {
+                if (!ADDRESS_FIELDS.contains(field)) invalidAddresses.add(field.toLowerCase());
+            }
+        }
+        return invalidAddresses;
+    }
+
+    // Salesforce returns one error per problem (e.g. one per invalid To, Cc and Bcc address): all of them go in the log
+    private static String joinMessages(List<Messaging.SendEmailError> errors) {
+        List<String> messages = new List<String>();
+        for (Messaging.SendEmailError error : errors) messages.add(error.getMessage());
+        return String.join(messages, ' | ');
+    }
+
+    // Removes the addresses from the message's To / Cc / Bcc; true when the message still has a recipient
+    private static Boolean removeAddresses(Messaging.SingleEmailMessage email, Set<String> addresses) {
+        List<String> toAddresses = keepAddresses(email.getToAddresses(), addresses);
+        List<String> ccAddresses = keepAddresses(email.getCcAddresses(), addresses);
+        List<String> bccAddresses = keepAddresses(email.getBccAddresses(), addresses);
+        email.setToAddresses(toAddresses);
+        email.setCcAddresses(ccAddresses);
+        email.setBccAddresses(bccAddresses);
+        return !toAddresses.isEmpty() || !ccAddresses.isEmpty() || !bccAddresses.isEmpty() || email.getTargetObjectId() != null;
+    }
+
+    private static List<String> keepAddresses(List<String> addresses, Set<String> removedAddresses) {
+        List<String> kept = new List<String>();
+        if (addresses == null) return kept;
+
+        for (String address : addresses) {
+            if (!removedAddresses.contains(address.toLowerCase())) kept.add(address);
+        }
+        return kept;
     }
 
     // Static cache per alert name; SOQL rather than getInstance(), which cuts long text areas to 255 characters
@@ -401,12 +481,12 @@ public without sharing class EmailService {
         return values;
     }
 
-    // Logs a send failure on the request's record, when the request asks for it (logFailures); never flushes
-    private static void logFailure(EmailRequest request, Messaging.SingleEmailMessage email, String errorMessage, Exception e) {
+    // Logs a send failure (ERROR) or a removed invalid address (WARN) on the request's record, when the request asks for it (logFailures); never flushes
+    private static void logFailure(OperationLogService.Level level, EmailRequest request, Messaging.SingleEmailMessage email, String errorMessage, Exception e) {
         if (request.logFailures != true) return;
 
         Map<String, Object> context = new Map<String, Object>{ 'customAlertName' => request.customAlertName, 'template' => request.templateDeveloperName, 'subject' => email?.getSubject(), 'toAddresses' => email?.getToAddresses(), 'targetObjectId' => email?.getTargetObjectId() };
-        OperationLogService.logWithContext(OperationLogService.Level.ERROR, request.whatId, String.isNotBlank(request.logOperation) ? request.logOperation : DEFAULT_LOG_OPERATION, errorMessage, context, e, 'EmailService', 'send');
+        OperationLogService.logWithContext(level, request.whatId, String.isNotBlank(request.logOperation) ? request.logOperation : DEFAULT_LOG_OPERATION, errorMessage, context, e, 'EmailService', 'send');
     }
 
     private static String describe(EmailRequest request) {
