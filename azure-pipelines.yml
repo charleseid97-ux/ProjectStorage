@@ -385,7 +385,6 @@ stages:
 
                   sf deploy metadata \
                     --metadata-dir "$USE_DIR" \
-                    ${USE_MANIFEST} \
                     --target-org uat \
                     --test-level NoTestRun \
                     --wait 120 \
@@ -525,10 +524,8 @@ stages:
                       --root-dir force-app \
                       --output-dir "$MDAPI_FALLBACK_DIR"
                     echo "USE_DIR=$MDAPI_FALLBACK_DIR" > use_dir.env
-                    echo "USE_MANIFEST=--manifest $MANIFEST_PATH" >> use_dir.env
                   else
                     echo "USE_DIR=$MDAPI_DIR" > use_dir.env
-                    echo "USE_MANIFEST=" >> use_dir.env
                   fi
                 displayName: 'Convert to MDAPI (manifest-first with fallback)'
 
@@ -938,15 +935,19 @@ stages:
                   CONVERT1_EXIT=$?
                   set -e
 
+                  if [[ $CONVERT1_EXIT -ne 0 ]]; then
+                    echo "=== Erreur conversion avec manifest ==="
+                    cat convert1.err
+                    cat convert1.out
+                  fi
+
                   if [[ $CONVERT1_EXIT -ne 0 || ! -d "$MDAPI_DIR" || -z "$(ls -A "$MDAPI_DIR" 2>/dev/null || true)" ]]; then
                     sf project convert source \
                       --root-dir force-app \
                       --output-dir "$MDAPI_FALLBACK_DIR"
                     echo "USE_DIR=$MDAPI_FALLBACK_DIR" > use_dir.env
-                    echo "USE_MANIFEST=--manifest $MANIFEST_PATH" >> use_dir.env
                   else
                     echo "USE_DIR=$MDAPI_DIR" > use_dir.env
-                    echo "USE_MANIFEST=" >> use_dir.env
                   fi
                 displayName: 'Convert to MDAPI (manifest-first with fallback)'
 
@@ -956,7 +957,6 @@ stages:
                   source use_dir.env
 
                   sf project deploy validate \
-                    ${USE_MANIFEST} \
                     --metadata-dir "$USE_DIR" \
                     --target-org uat \
                     --test-level "$(TEST_LEVEL_UAT_NIGHTLY)" \
