@@ -373,10 +373,8 @@ stages:
                       --root-dir force-app \
                       --output-dir "$MDAPI_FALLBACK_DIR"
                     echo "USE_DIR=$MDAPI_FALLBACK_DIR" > use_dir.env
-                    echo "USE_MANIFEST=--manifest $MANIFEST_PATH" >> use_dir.env
                   else
                     echo "USE_DIR=$MDAPI_DIR" > use_dir.env
-                    echo "USE_MANIFEST=" >> use_dir.env
                   fi
                 displayName: 'Convert to MDAPI (manifest-first with fallback)'
 
@@ -542,7 +540,6 @@ stages:
 
                   sf project deploy validate \
                     --metadata-dir "$USE_DIR" \
-                    ${USE_MANIFEST} \
                     --target-org prod \
                     --test-level "$(TEST_LEVEL_PROD)" \
                     --wait 180 \
