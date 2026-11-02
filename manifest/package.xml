@@ -1,31 +1,36 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Package xmlns="http://soap.sforce.com/2006/04/metadata">
     <types>
-        <members>FieldHistoryLogger</members>
-        <members>FundFieldApplicabilityHistoryHandler</members>
-        <members>Test_FieldHistoryLogger</members>
+        <members>CustomEmailAlertFlowAction</members>
+        <members>EmailService</members>
         <name>ApexClass</name>
     </types>
     <types>
-        <members>FundFieldApplicabilityHistoryTrigger</members>
-        <name>ApexTrigger</name>
-    </types>
-    <types>
-        <members>Field_History_Config__mdt.LookupFieldAPIName__c</members>
-        <members>Fund_Field_ApplicabilityHistory__c.Applicability__c</members>
-        <members>Fund_Field_ApplicabilityHistory__c.OpenPeriodKey__c</members>
+        <members>CustomEmailAlert__mdt.BccAddresses__c</members>
+        <members>CustomEmailAlert__mdt.BccQueues__c</members>
+        <members>CustomEmailAlert__mdt.CcAddresses__c</members>
+        <members>CustomEmailAlert__mdt.CcQueues__c</members>
+        <members>CustomEmailAlert__mdt.Description__c</members>
+        <members>CustomEmailAlert__mdt.EmailTemplate__c</members>
+        <members>CustomEmailAlert__mdt.IsActive__c</members>
+        <members>CustomEmailAlert__mdt.LogFailures__c</members>
+        <members>CustomEmailAlert__mdt.OrgWideAddress__c</members>
+        <members>CustomEmailAlert__mdt.Sender__c</members>
+        <members>CustomEmailAlert__mdt.ToAddresses__c</members>
+        <members>CustomEmailAlert__mdt.ToQueues__c</members>
         <name>CustomField</name>
     </types>
     <types>
-        <members>Field_History_Config.Benchmark_Tracked_Fields</members>
-        <members>Field_History_Config.Fund_Manager_Tracked_Fields</members>
-        <members>Field_History_Config.Product_Tracked_Fields</members>
-        <members>Field_History_Config.ShareClass_Tracked_Fields</members>
-        <name>CustomMetadata</name>
+        <members>CustomEmailAlert__mdt</members>
+        <name>CustomObject</name>
     </types>
     <types>
-        <members>Field_History_Config__mdt-Field History Config Layout</members>
+        <members>CustomEmailAlert__mdt-Custom Email Alert Layout</members>
         <name>Layout</name>
+    </types>
+    <types>
+        <members>CustomEmailAlert__mdt.OrgWideAddressRequired</members>
+        <name>ValidationRule</name>
     </types>
     <!-- FLAG: ON -->
     <version>64.0</version>

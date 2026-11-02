@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>BccQueues__c</fullName>
+    <description>Queue DeveloperNames, one per line. Their active members (direct, public groups and roles, resolved by QueueMemberService) receive the email in Bcc.</description>
+    <fieldManageability>SubscriberControlled</fieldManageability>
+    <inlineHelpText>One queue API name (DeveloperName) per line. Its active members receive the email in Bcc.</inlineHelpText>
+    <label>Bcc Queues</label>
+    <length>32768</length>
+    <type>LongTextArea</type>
+    <visibleLines>5</visibleLines>
+</CustomField>
