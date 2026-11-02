@@ -7,7 +7,8 @@
 **/
 import { LightningElement, api, track, wire } from 'lwc';
 import getAllProductHierarchy from '@salesforce/apex/ReferentialProductHomepageCtrl.getAllProducts';
-import logClick from '@salesforce/apex/ReferentialProductHomepageCtrl.logClick';
+
+import getExportRows from '@salesforce/apex/ReferentialProductExportCtrl.getExportRows';
 import { getPicklistValues } from 'lightning/uiObjectInfoApi';
 import { getObjectInfo } from 'lightning/uiObjectInfoApi';
 import { NavigationMixin } from 'lightning/navigation';
@@ -476,5 +477,132 @@ export default class ReferentialProductHomepage extends NavigationMixin(Lightnin
             attributes: { apiName: 'Tax_Transparency_Matrix' },
             state: { c__searchKey: this.searchKey }
         }, false);
+    }
+        // Exports the Share Classes matching the currently selected Product Catalog filters.
+    async handleExportSheet() {
+        try {
+            const rows = await getExportRows({
+                country: this.selectedCountry,
+                assetClass: this.selectedAssetClass,
+                scType: this.selectedSCType,
+                dividendPolicy: this.selectedDividendP,
+                legalForm: this.selectedLegalForm,
+                fundType: this.selectedFundType,
+                selectedCurrency: this.selectedCurrency,
+                searchKey: this.searchKey,
+                isActiveProducts: this.isActiveProducts,
+                sfdr: this.selectedSFDR
+            });
+
+            // Keep the Excel structure stable regardless of the user's field permissions.
+            const columns = [
+                ['Fund', 'fund'],
+                ['Internal Short Name', 'internalShortName'],
+                ['Legal Form', 'legalForm'],
+                ['Asset Class', 'assetClass'],
+                ['Sub Asset Class', 'subAssetClass'],
+                ['Strategy', 'strategy'],
+                ['ISIN', 'isin'],
+                ['Share Class Name', 'shareClassName'],
+                ['Shareclass Type', 'shareClassType'],
+                ['Investor Type', 'investorType'],
+                ['Currency', 'currencyValue'],
+                ['SRI', 'sri'],
+                ['SRRI', 'srri'],
+                ['Fund Inception Date', 'fundInceptionDate'],
+                ['Share Class Inception Date', 'shareClassInceptionDate'],
+                ['Cut Off Time', 'cutOffTime'],
+                ['Bloomberg Code', 'bloombergCode'],
+                ['WKN Code', 'wknCode'],
+                ['CUSIP Code', 'cusipCode'],
+                ['CITI Code', 'citiCode'],
+                ['Valoren Code', 'valorenCode'],
+                ['SEDOL Code', 'sedolCode'],
+                ['Morningstar Code', 'morningstarCode'],
+                ['SFDR Category', 'sfdrCategory'],
+                ['Share Class Lifecycle Status', 'lifecycleStatus']
+            ];
+
+            const table = this.buildExportTable(rows, columns);
+            this.downloadExportFile(table);
+        } catch (error) {
+            console.error('Error exporting Product Catalog:', error);
+        }
+    }
+
+    // Builds the Excel table grouped by Fund, matching the Product Catalog hierarchy.
+    buildExportTable(rows, columns) {
+        const headers = columns.map(column => `<th>${column[0]}</th>`).join('');
+        const groupedRows = this.groupExportRowsByFund(rows);
+        let body = '';
+
+        groupedRows.forEach(group => {
+            group.rows.forEach((row, index) => {
+                let cells = '';
+
+                columns.forEach(column => {
+                    if (column[1] === 'fund' || column[1] === 'internalShortName') {
+                        if (index === 0) {
+                            cells += `<td rowspan="${group.rows.length}">${this.escapeExportValue(row[column[1]])}</td>`;
+                        }
+                        return;
+                    }
+
+                    cells += `<td>${this.escapeExportValue(row[column[1]])}</td>`;
+                });
+
+                body += `<tr>${cells}</tr>`;
+            });
+        });
+
+        return `<table><thead><tr>${headers}</tr></thead><tbody>${body}</tbody></table>`;
+    }
+
+    // Groups Share Classes by Fund while preserving their current export order.
+    groupExportRowsByFund(rows) {
+        const groups = [];
+        const groupsByFund = new Map();
+
+        rows.forEach(row => {
+            const key = `${row.fund || ''}|${row.internalShortName || ''}`;
+
+            if (!groupsByFund.has(key)) {
+                const group = { rows: [] };
+                groupsByFund.set(key, group);
+                groups.push(group);
+            }
+
+            groupsByFund.get(key).rows.push(row);
+        });
+
+        return groups;
+    }
+
+    // Prevents exported Salesforce values from being interpreted as HTML.
+    escapeExportValue(value) {
+        if (value === null || value === undefined) {
+            return '';
+        }
+
+        return String(value)
+            .replaceAll('&', '&amp;')
+            .replaceAll('<', '&lt;')
+            .replaceAll('>', '&gt;')
+            .replaceAll('"', '&quot;')
+            .replaceAll("'", '&#39;');
+    }
+
+    // Downloads the generated table as an Excel-compatible file.
+    downloadExportFile(table) {
+        const content = `\uFEFF<html><head><meta charset="UTF-8"></head><body>${table}</body></html>`;
+        const blob = new Blob([content], { type: 'application/octet-stream' });
+        const url = URL.createObjectURL(blob);
+        const link = document.createElement('a');
+
+        link.href = url;
+        link.download = 'Product_Catalog_Export.xls';
+        link.click();
+
+        URL.revokeObjectURL(url);
     }
 }
