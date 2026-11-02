@@ -210,6 +210,7 @@ CASE(
   {!LanguageCodeText},
   &quot;Dutch&quot;, &quot;NL&quot;,
   &quot;English&quot;, &quot;EN&quot;,
+  &quot;Norwegian&quot;, &quot;NO&quot;,
   &quot;French&quot;, &quot;FR&quot;,
   &quot;German&quot;, &quot;DE&quot;,
   &quot;Italian&quot;, &quot;IT&quot;,
@@ -231,6 +232,7 @@ CASE(
     {!LanguageCodeText},
     &quot;Dutch&quot;, &quot;NL&quot;,
     &quot;English&quot;, &quot;EN&quot;,
+  &quot;Norwegian&quot;, &quot;NO&quot;,
     &quot;French&quot;, &quot;FR&quot;,
     &quot;German&quot;, &quot;DE&quot;,
     &quot;Italian&quot;, &quot;IT&quot;,
@@ -261,6 +263,7 @@ CASE(
   {!LanguageCodeText},
   &quot;Dutch&quot;, &quot;NL&quot;,
   &quot;English&quot;, &quot;EN&quot;,
+  &quot;Norwegian&quot;, &quot;NO&quot;,
   &quot;French&quot;, &quot;FR&quot;,
   &quot;German&quot;, &quot;DE&quot;,
   &quot;Italian&quot;, &quot;IT&quot;,
@@ -289,7 +292,7 @@ CASE(
   TEXT($Record.SubType__c)
 )
 &amp; &quot; – &quot; &amp;
-$Record.ShareClass__r.Fund__r.Name
+$Record.Product__r.Name
 &amp; &quot; – &quot; &amp;
 $Record.ShareClass__r.ISIN__c
 &amp; &quot; – &quot; &amp;
@@ -297,6 +300,7 @@ CASE(
   {!LanguageCodeText},
   &quot;Dutch&quot;, &quot;NL&quot;,
   &quot;English&quot;, &quot;EN&quot;,
+  &quot;Norwegian&quot;, &quot;NO&quot;,
   &quot;French&quot;, &quot;FR&quot;,
   &quot;German&quot;, &quot;DE&quot;,
   &quot;Italian&quot;, &quot;IT&quot;,
@@ -310,7 +314,7 @@ CASE(
     <formulas>
         <name>LanguageCodeText</name>
         <dataType>String</dataType>
-        <expression>TEXT($Record.Language__c)</expression>
+        <expression>TEXT($Record.LanguageNew__c)</expression>
     </formulas>
     <interviewLabel>PMT_NarrativeName {!$Flow.CurrentDateTime}</interviewLabel>
     <label>PMT - AutoName Narratives</label>

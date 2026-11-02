@@ -828,7 +828,7 @@ public class ProjectProductBatchController {
         n.Name = nameValue;
         n.Type__c = typeVal;
         n.SubType__c = subtypeVal;
-        n.Language__c = language;
+        n.LanguageNew__c = language;
         n.ShareClass__c = shareClassId;
         n.Content__c = richText;
         n.Narrative_Scope__c = scope;
@@ -863,7 +863,7 @@ public class ProjectProductBatchController {
             .getRecordTypeId();
 
         List<Narrative__c> existingNarratives = [
-            SELECT Id, Product__c, Language__c, Type__c, SubType__c, Content__c
+            SELECT Id, Product__c, LanguageNew__c, Type__c, SubType__c, Content__c
             FROM Narrative__c
             WHERE Product__c IN :prodIdsForNarratives
             AND (
@@ -878,7 +878,7 @@ public class ProjectProductBatchController {
         Map<String, Narrative__c> existingByKey = new Map<String, Narrative__c>();
         for (Narrative__c n : existingNarratives) {
             existingByKey.put(
-                ProjectProductBatchUtilities.narrativeKey(n.Product__c, n.Language__c, n.Type__c, n.SubType__c),
+                ProjectProductBatchUtilities.narrativeKey(n.Product__c, n.LanguageNew__c, n.Type__c, n.SubType__c),
                 n
             );
         }
@@ -970,7 +970,7 @@ public class ProjectProductBatchController {
             .getRecordTypeId();
 
         List<Narrative__c> existingSCNarratives = [
-            SELECT Id, ShareClass__c, Language__c, Type__c, SubType__c, Content__c, Product__c
+            SELECT Id, ShareClass__c, LanguageNew__c, Type__c, SubType__c, Content__c, Product__c
             FROM Narrative__c
             WHERE ShareClass__c IN :scIdsForNarratives
             AND Type__c = :TYPE_PRIIPS
@@ -980,7 +980,7 @@ public class ProjectProductBatchController {
         Map<String, Narrative__c> existingByKey = new Map<String, Narrative__c>();
         for (Narrative__c n : existingSCNarratives) {
             existingByKey.put(
-                ProjectProductBatchUtilities.scNarrativeKey(n.ShareClass__c, n.Language__c, n.Type__c, n.SubType__c),
+                ProjectProductBatchUtilities.scNarrativeKey(n.ShareClass__c, n.LanguageNew__c, n.Type__c, n.SubType__c),
                 n
             );
         }

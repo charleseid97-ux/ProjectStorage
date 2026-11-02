@@ -69,7 +69,7 @@ public without sharing class NarrativeTemplateService {
                 narrative.Name = template.MasterLabel;
                 narrative.Type__c = template.Type__c;
                 narrative.SubType__c = template.Subtype__c;
-                narrative.Language__c = NARRATIVE_LANGUAGE_EN;
+                narrative.LanguageNew__c = NARRATIVE_LANGUAGE_EN;
                 narrative.Content__c = template.Content__c;
                 narrative.Narrative_Scope__c = NARRATIVE_SCOPE_PRODUCT;
 

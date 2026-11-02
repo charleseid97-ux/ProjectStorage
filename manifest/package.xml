@@ -3,31 +3,16 @@
     <types>
         <members>NarrativeTemplateService</members>
         <members>NarrativeTemplateServiceTest</members>
-        <members>ProjectProductBatch</members>
         <members>ProjectProductBatchController</members>
+        <members>ProjectProductBatchUtilities</members>
         <name>ApexClass</name>
     </types>
     <types>
-        <members>Product__c.RiskNotConsideredinIndicator__c</members>
-        <name>CustomField</name>
-    </types>
-    <types>
-        <members>NarrativeTemplate.PRIIPSFCPCounterpartyRisk</members>
-        <members>NarrativeTemplate.PRIIPSFCPCreditRisk</members>
-        <members>NarrativeTemplate.PRIIPSFCPLiquidityRisk</members>
-        <members>NarrativeTemplate.PRIIPSFCPPooledSecondariesRisk</members>
-        <members>NarrativeTemplate.PRIIPSFCPRisksChina</members>
-        <members>NarrativeTemplate.PRIIPSSICAVICAVCounterpartyRisk</members>
-        <members>NarrativeTemplate.PRIIPSSICAVICAVCreditRisk</members>
-        <members>NarrativeTemplate.PRIIPSSICAVICAVLiquidityRisk</members>
-        <members>NarrativeTemplate.PRIIPSSICAVICAVPooledSecondariesRisk</members>
-        <members>NarrativeTemplate.PRIIPSSICAVICAVRisksChina</members>
-        <members>NarrativeTemplate.PRIIPSFCPCapitalLoss</members>
-        <members>NarrativeTemplate.PRIIPSFCPPECapitalLoss</members>
-        <members>NarrativeTemplate.PRIIPSFCPRCapitalLoss</members>
-        <members>NarrativeTemplate.PRIIPSSICAVICAVCapitalLoss</members>
-        <members>NarrativeTemplate.PRIIPSUCI2CapitalLoss</members>
-        <name>CustomMetadata</name>
+        <members>NewThirdPartyRole</members>
+        <members>PMT_NarrativeName</members>
+        <members>PMT_Narratives_After_Trigger</members>
+        <members>PMT_Narratives_Duplicates_Biography</members>
+        <name>Flow</name>
     </types>
     <version>65.0</version>
 </Package>
