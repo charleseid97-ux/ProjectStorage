@@ -9,14 +9,21 @@
  *              Configuration errors (unknown alert, template, queue or org-wide address, invalid recipient, no To recipient) throw EmailServiceException before anything is sent. Send failures never throw: they are logged in
  *                  OperationLog__c (logFailures). The engine never flushes OperationLogService: the entry point flushes, and send() must come after any callout of the transaction (sendEmail is pending work).
  *              Invalid addresses (e.g. masked sandbox addresses "x@y.com.invalid") never block the others: a message Salesforce rejects for them is resent once without them (WARN log).
+ *              Dry run (dryRun, DryRun__c on the alert, or forced for the org / a profile / a user by EmailServiceSettings__c.ForceDryRun__c): the email is built and checked as configured, but sent only to the dry-run addresses
+ *                  (EmailServiceSettings__c.DryRunAddresses__c), its subject prefixed with "DRY RUN - " and the real recipients listed at the top of its body.
  * @author Charles EID
  * @testClass EmailServiceTest
- * @coverage TBD
- * @lastModifiedBy Charles EID   [02-11-26]
+ * @coverage 98%   [03-11-26]
+ * @lastModifiedBy Charles EID   [03-11-26]
 ────────────────────────────────────── */
 public without sharing class EmailService {
 
     private static final String DEFAULT_ORG_WIDE_ADDRESS = Label.EmailService_DefaultOrgWideAddress;
+    private static final String DRY_RUN_SUBJECT_PREFIX = 'DRY RUN - ';
+    // Running user's effective values (org default, overridden per profile / user)
+    private static final EmailServiceSettings__c SETTINGS = EmailServiceSettings__c.getInstance();
+    private static final Boolean FORCE_DRY_RUN = SETTINGS.ForceDryRun__c == true;
+    private static final List<String> DRY_RUN_ADDRESSES = new List<String>(splitValues(SETTINGS.DryRunAddresses__c));
     private static final String DEFAULT_LOG_OPERATION = 'Email send';
     private static final Integer MAX_TO_ADDRESSES = 100;
     private static final Integer MAX_CC_BCC_ADDRESSES = 25;
@@ -271,14 +278,24 @@ public without sharing class EmailService {
             throw new EmailServiceException(describe(request) + ' has no template, so it needs a subject and an HTML body.');
         }
         Messaging.SingleEmailMessage content = new Messaging.SingleEmailMessage();
-        content.setSubject(applyReplacements(subject, request.replacements));
+        content.setSubject((isDryRun(request) ? DRY_RUN_SUBJECT_PREFIX : '') + applyReplacements(subject, request.replacements));
         content.setHtmlBody(applyReplacements(htmlBody, request.replacements));
         content.setPlainTextBody(applyReplacements(textBody, request.replacements));
         return content;
     }
 
     // A message takes at most 100 To / 25 Cc / 25 Bcc: above that, identical messages share the addresses out, each address in exactly one of them; the recipient record is on the first one
+    // A dry run (its recipients already checked by buildEmails) goes to the dry-run addresses only: no To / Cc / Bcc, no recipient record (it still fills the Recipient merge fields), the real recipients listed at the top of the body
     private static List<Messaging.SingleEmailMessage> splitMessages(EmailRequest request, Messaging.SingleEmailMessage content, List<String> toAddresses, List<String> ccAddresses, List<String> bccAddresses) {
+        Boolean dryRun = isDryRun(request);
+        if (dryRun) {
+            if (DRY_RUN_ADDRESSES.isEmpty()) throw new EmailServiceException(describe(request) + ' is a dry run but no dry-run address is set (Custom Setting Email Service Settings, Dry Run Addresses).');
+            addDryRunBanner(content, request, toAddresses, ccAddresses, bccAddresses);
+            toAddresses = DRY_RUN_ADDRESSES;
+            ccAddresses = new List<String>();
+            bccAddresses = new List<String>();
+        }
+        Id targetObjectId = dryRun ? null : request.recipientId;
         String senderAddress = getSenderAddress(request);
         Id orgWideId = senderAddress != null ? orgWideIdsByAddress.get(senderAddress) : null;
         List<Messaging.SingleEmailMessage> emails = new List<Messaging.SingleEmailMessage>();
@@ -292,7 +309,7 @@ public without sharing class EmailService {
             if (!toChunk.isEmpty()) email.setToAddresses(toChunk);
             if (!ccChunk.isEmpty()) email.setCcAddresses(ccChunk);
             if (!bccChunk.isEmpty()) email.setBccAddresses(bccChunk);
-            if (i == 0 && request.recipientId != null) email.setTargetObjectId(request.recipientId);
+            if (i == 0 && targetObjectId != null) email.setTargetObjectId(targetObjectId);
             email.setSubject(content.getSubject());
             if (String.isNotBlank(content.getHtmlBody())) email.setHtmlBody(content.getHtmlBody());
             if (String.isNotBlank(content.getPlainTextBody())) email.setPlainTextBody(content.getPlainTextBody());
@@ -301,6 +318,17 @@ public without sharing class EmailService {
             emails.add(email);
         }
         return emails;
+    }
+
+    // Dry run: the recipients the email would have reached, at the top of its HTML and text bodies
+    private static void addDryRunBanner(Messaging.SingleEmailMessage content, EmailRequest request, List<String> toAddresses, List<String> ccAddresses, List<String> bccAddresses) {
+        List<String> lines = new List<String>{ 'DRY RUN - this email was not sent to its real recipients:', 'To: ' + String.join(toAddresses, ', ') };
+        if (!ccAddresses.isEmpty()) lines.add('Cc: ' + String.join(ccAddresses, ', '));
+        if (!bccAddresses.isEmpty()) lines.add('Bcc: ' + String.join(bccAddresses, ', '));
+        if (request.recipientId != null) lines.add('Recipient record: ' + request.recipientId);
+        String banner = String.join(lines, '\n');
+        if (String.isNotBlank(content.getHtmlBody())) content.setHtmlBody('<div style="border:2px solid #c23934;padding:8px;margin-bottom:16px;font-family:Arial,sans-serif;font-size:12px;">' + banner.escapeHtml4().replace('\n', '<br/>') + '</div>' + content.getHtmlBody());
+        if (String.isNotBlank(content.getPlainTextBody())) content.setPlainTextBody(banner + '\n\n' + content.getPlainTextBody());
     }
 
     // Sends the messages and logs their failures. Salesforce rejects a whole message for one invalid address (e.g. a masked sandbox address "x@y.com.invalid"): such a message is resent once without the rejected addresses
@@ -373,7 +401,7 @@ public without sharing class EmailService {
     // Static cache per alert name; SOQL rather than getInstance(), which cuts long text areas to 255 characters
     private static CustomEmailAlert__mdt getAlert(String customAlertName) {
         if (!alertsByName.containsKey(customAlertName)) {
-            List<CustomEmailAlert__mdt> alerts = [SELECT DeveloperName, IsActive__c, EmailTemplate__c, ToAddresses__c, CcAddresses__c, BccAddresses__c, ToQueues__c, CcQueues__c, BccQueues__c, Sender__c, OrgWideAddress__c, LogFailures__c
+            List<CustomEmailAlert__mdt> alerts = [SELECT DeveloperName, IsActive__c, DryRun__c, EmailTemplate__c, ToAddresses__c, CcAddresses__c, BccAddresses__c, ToQueues__c, CcQueues__c, BccQueues__c, Sender__c, OrgWideAddress__c, LogFailures__c
                                                   FROM CustomEmailAlert__mdt
                                                   WHERE DeveloperName = :customAlertName];
             if (alerts.isEmpty()) throw new EmailServiceException('Custom Email Alert "' + customAlertName + '" not found.');
@@ -485,8 +513,13 @@ public without sharing class EmailService {
     private static void logFailure(OperationLogService.Level level, EmailRequest request, Messaging.SingleEmailMessage email, String errorMessage, Exception e) {
         if (request.logFailures != true) return;
 
-        Map<String, Object> context = new Map<String, Object>{ 'customAlertName' => request.customAlertName, 'template' => request.templateDeveloperName, 'subject' => email?.getSubject(), 'toAddresses' => email?.getToAddresses(), 'targetObjectId' => email?.getTargetObjectId() };
+        Map<String, Object> context = new Map<String, Object>{ 'customAlertName' => request.customAlertName, 'template' => request.templateDeveloperName, 'subject' => email?.getSubject(), 'toAddresses' => email?.getToAddresses(), 'targetObjectId' => email?.getTargetObjectId(), 'dryRun' => isDryRun(request) };
         OperationLogService.logWithContext(level, request.whatId, String.isNotBlank(request.logOperation) ? request.logOperation : DEFAULT_LOG_OPERATION, errorMessage, context, e, 'EmailService', 'send');
+    }
+
+    // A dry run when the request asks for it (DryRun__c, dryRun) or when the org forces it for the running user (EmailServiceSettings__c.ForceDryRun__c, e.g. in a sandbox)
+    private static Boolean isDryRun(EmailRequest request) {
+        return request.dryRun == true || FORCE_DRY_RUN;
     }
 
     private static String describe(EmailRequest request) {
@@ -517,6 +550,7 @@ public without sharing class EmailService {
         public String logOperation;
         public String customAlertName;
         public Boolean isActive = true;
+        public Boolean dryRun = false;
 
         public EmailRequest() {}
 
@@ -524,6 +558,7 @@ public without sharing class EmailService {
             CustomEmailAlert__mdt alert = getAlert(customAlertName);
             this.customAlertName = alert.DeveloperName;
             this.isActive = alert.IsActive__c;
+            this.dryRun = alert.DryRun__c;
             this.templateDeveloperName = alert.EmailTemplate__c;
             this.whatId = recordId;
             this.to.addresses.addAll(splitValues(alert.ToAddresses__c));

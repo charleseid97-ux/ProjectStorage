@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>DryRunAddresses__c</fullName>
+    <description>Addresses that receive the dry runs of EmailService (alert DryRun__c, EmailRequest.dryRun, Flow input Dry Run, ForceDryRun__c), one per line. Set on the org default (e.g. salesforcesupport@carmignac.com) and copied to the sandboxes on refresh; a profile or user value overrides it (e.g. a developer receiving his own dry runs). Empty: a dry run fails with a configuration error.</description>
+    <inlineHelpText>Addresses that receive the dry-run emails, one per line (e.g. salesforcesupport@carmignac.com). A user or profile value replaces the org default for that user's emails.</inlineHelpText>
+    <label>Dry Run Addresses</label>
+    <trackTrending>false</trackTrending>
+    <type>TextArea</type>
+</CustomField>

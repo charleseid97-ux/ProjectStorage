@@ -1,24 +1,42 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Package xmlns="http://soap.sforce.com/2006/04/metadata">
     <types>
-        <members>AIAgentEmailTemplates</members>
-        <name>EmailTemplateFolder</name>
+        <members>CustomEmailAlertFlowAction</members>
+        <members>EmailService</members>
+        <members>EmailServiceTest</members>
+        <name>ApexClass</name>
     </types>
     <types>
-        <members>AIAgentEmailTemplates/AIAgentRequestReminder</members>
-        <members>AIAgentEmailTemplates/AIAgentGovernanceDPOAssessment</members>
-        <members>AIAgentEmailTemplates/AIAgentGovernanceRSSIAssessment</members>
-        <members>AIAgentEmailTemplates/AIAgentGovernancePendingImplementation</members>
-        <members>AIAgentEmailTemplates/AIAgentActivationRGPD</members>
-        <name>EmailTemplate</name>
+        <members>CustomEmailAlert__mdt.BccAddresses__c</members>
+        <members>CustomEmailAlert__mdt.BccQueues__c</members>
+        <members>CustomEmailAlert__mdt.CcAddresses__c</members>
+        <members>CustomEmailAlert__mdt.CcQueues__c</members>
+        <members>CustomEmailAlert__mdt.Description__c</members>
+        <members>CustomEmailAlert__mdt.DryRun__c</members>
+        <members>CustomEmailAlert__mdt.EmailTemplate__c</members>
+        <members>CustomEmailAlert__mdt.IsActive__c</members>
+        <members>CustomEmailAlert__mdt.LogFailures__c</members>
+        <members>CustomEmailAlert__mdt.OrgWideAddress__c</members>
+        <members>CustomEmailAlert__mdt.Sender__c</members>
+        <members>CustomEmailAlert__mdt.ToAddresses__c</members>
+        <members>CustomEmailAlert__mdt.ToQueues__c</members>
+        <members>EmailServiceSettings__c.DryRunAddresses__c</members>
+        <members>EmailServiceSettings__c.ForceDryRun__c</members>
+        <name>CustomField</name>
     </types>
     <types>
-        <members>CustomEmailAlert.AIAgentRequestReminder</members>
-        <members>CustomEmailAlert.AIAgentGovernanceDPOAssessment</members>
-        <members>CustomEmailAlert.AIAgentGovernanceRSSIAssessment</members>
-        <members>CustomEmailAlert.AIAgentGovernancePendingImplementation</members>
-        <members>CustomEmailAlert.AIAgentActivationRGPD</members>
-        <name>CustomMetadata</name>
+        <members>CustomEmailAlert__mdt</members>
+        <members>EmailServiceSettings__c</members>
+        <name>CustomObject</name>
     </types>
+    <types>
+        <members>CustomEmailAlert__mdt-Custom Email Alert Layout</members>
+        <name>Layout</name>
+    </types>
+    <types>
+        <members>CustomEmailAlert__mdt.OrgWideAddressRequired</members>
+        <name>ValidationRule</name>
+    </types>
+    <!-- FLAG: ON -->
     <version>64.0</version>
 </Package>
