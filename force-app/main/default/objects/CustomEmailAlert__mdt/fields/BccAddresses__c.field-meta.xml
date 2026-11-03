@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>BccAddresses__c</fullName>
+    <description>Email addresses that receive the email in Bcc, one per line.</description>
+    <fieldManageability>SubscriberControlled</fieldManageability>
+    <inlineHelpText>One email address per line. They receive the email in Bcc.</inlineHelpText>
+    <label>Bcc Addresses</label>
+    <length>32768</length>
+    <type>LongTextArea</type>
+    <visibleLines>5</visibleLines>
+</CustomField>
