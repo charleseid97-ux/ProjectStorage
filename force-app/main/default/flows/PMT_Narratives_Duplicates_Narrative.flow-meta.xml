@@ -305,10 +305,10 @@
             </value>
         </filters>
         <filters>
-            <field>Language__c</field>
+            <field>LanguageNew__c</field>
             <operator>EqualTo</operator>
             <value>
-                <elementReference>Record.Language__c</elementReference>
+                <elementReference>Record.LanguageNew__c</elementReference>
             </value>
         </filters>
         <filters>
@@ -396,10 +396,10 @@
             </value>
         </filters>
         <filters>
-            <field>Language__c</field>
+            <field>LanguageNew__c</field>
             <operator>EqualTo</operator>
             <value>
-                <elementReference>Record.Language__c</elementReference>
+                <elementReference>Record.LanguageNew__c</elementReference>
             </value>
         </filters>
         <filters>
@@ -494,10 +494,10 @@
             </value>
         </filters>
         <filters>
-            <field>Language__c</field>
+            <field>LanguageNew__c</field>
             <operator>EqualTo</operator>
             <value>
-                <elementReference>Record.Language__c</elementReference>
+                <elementReference>Record.LanguageNew__c</elementReference>
             </value>
         </filters>
         <filters>
@@ -578,10 +578,10 @@
             </value>
         </filters>
         <filters>
-            <field>Language__c</field>
+            <field>LanguageNew__c</field>
             <operator>EqualTo</operator>
             <value>
-                <elementReference>Record.Language__c</elementReference>
+                <elementReference>Record.LanguageNew__c</elementReference>
             </value>
         </filters>
         <filters>
@@ -655,10 +655,10 @@
             </value>
         </filters>
         <filters>
-            <field>Language__c</field>
+            <field>LanguageNew__c</field>
             <operator>EqualTo</operator>
             <value>
-                <elementReference>Record.Language__c</elementReference>
+                <elementReference>Record.LanguageNew__c</elementReference>
             </value>
         </filters>
         <filters>
