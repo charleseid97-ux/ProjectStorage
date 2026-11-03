@@ -196,9 +196,10 @@ public with sharing class EventSpeakerApprovalsService {
     }
 
     // Submits the approval using the record owner as submitter.
+    // Submits the approval using the related Event owner as submitter.
     private static Approval.ProcessResult submitApproval(Id recordId, String processDeveloperName, String comments) {
         EventSpeakerApprovals__c approvalRecord = [
-            SELECT OwnerId
+            SELECT Event__r.OwnerId
             FROM EventSpeakerApprovals__c
             WHERE Id = :recordId
             LIMIT 1
@@ -206,7 +207,7 @@ public with sharing class EventSpeakerApprovalsService {
 
         Approval.ProcessSubmitRequest req = new Approval.ProcessSubmitRequest();
         req.setObjectId(recordId);
-        req.setSubmitterId(approvalRecord.OwnerId);
+        req.setSubmitterId(approvalRecord.Event__r.OwnerId);
         req.setProcessDefinitionNameOrId(processDeveloperName);
         req.setComments(String.isBlank(comments) ? '' : comments);
 
