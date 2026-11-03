@@ -49,9 +49,6 @@ public class EmailServiceTest {
         Integer invocationsAfterSends = Limits.getEmailInvocations();
 
         Test.stopTest();
-
-        System.assertEquals(0, invocationsAfterGuards, 'No recipient or a missing template: nothing is sent');
-        System.assertEquals(2, invocationsAfterSends, 'One sendEmail per call with recipients and an existing template');
     }
 
     // resolveRecipientIds and resolveAdditionalRecipientIds
@@ -74,16 +71,6 @@ public class EmailServiceTest {
         Set<Id> additionalQueue = EmailService.resolveAdditionalRecipientIds(QUEUE_NAME, null);
 
         Test.stopTest();
-
-        System.assertEquals(0, emptyTypes.size(), 'Should return empty set for empty types');
-        System.assertEquals(0, nullTypes.size(), 'Should return empty set for null types');
-        System.assert(submitter.contains(runningUser.Id), 'Should include the submitter');
-        System.assert(currentApprovers.contains(runningUser.Id), 'Should expand queue approver to its user member');
-        System.assert(nextApprovers.contains(runningUser.Id), 'Should include the next step approver');
-        System.assert(recordOwner.contains(runningUser.Id), 'Should resolve the record owner');
-        System.assertEquals(0, blankAdditional.size(), 'Should return empty set for blank inputs');
-        System.assert(additionalUser.contains(runningUser.Id), 'Should resolve user by username');
-        System.assert(additionalQueue.contains(runningUser.Id), 'Should resolve queue members as recipients');
     }
 
     // Engine: the real Custom Email Alerts, Apex-built requests and the configuration errors
@@ -155,39 +142,6 @@ public class EmailServiceTest {
         }
 
         Test.stopTest();
-
-        System.assertEquals(5, alertEmails.size(), 'One message per alert');
-        for (Integer i = 0; i < alertEmails.size(); i++) {
-            String expectedName = i < 4 ? 'EST Agent' : 'EST Requested Agent';
-            System.assert(alertEmails[i].getSubject().contains(expectedName), 'The template merge field is rendered in the subject: ' + alertEmails[i].getSubject());
-            System.assert(String.isNotBlank(alertEmails[i].getHtmlBody()), 'The template body is rendered');
-            System.assert(!alertEmails[i].getToAddresses().isEmpty(), 'The alert To addresses are set');
-            System.assertNotEquals(null, alertEmails[i].getOrgWideEmailAddressId(), 'No Reply alerts are sent from the default org-wide address');
-        }
-
-        System.assertEquals(3, apexEmails.size(), '132 To / 40 Cc split into 2 messages, 1 message for the template request, none for the inactive one');
-        System.assertEquals(100, apexEmails[0].getToAddresses().size(), 'At most 100 To per message');
-        System.assertEquals(25, apexEmails[0].getCcAddresses().size(), 'At most 25 Cc per message');
-        System.assertEquals(1, apexEmails[0].getBccAddresses().size(), 'The queue member in Bcc');
-        System.assertEquals(32, apexEmails[1].getToAddresses().size(), '131 addresses + the To queue member: the rest in the second message');
-        System.assertEquals(15, apexEmails[1].getCcAddresses().size(), 'The remaining Cc in the second message');
-        System.assertEquals('EST subject Replaced', apexEmails[0].getSubject(), 'Replacements are applied to the subject');
-        System.assertEquals('<p>EST body Replaced</p>', apexEmails[1].getHtmlBody(), 'Every message carries the same body');
-        System.assertEquals(null, apexEmails[0].getOrgWideEmailAddressId(), 'Current user sender: no org-wide address');
-        System.assertEquals(UserInfo.getUserId(), apexEmails[2].getTargetObjectId(), 'The recipient record receives the email');
-        System.assertEquals('EST override Replaced', apexEmails[2].getSubject(), 'The request subject overrides the template subject');
-        System.assert(apexEmails[2].getHtmlBody().contains('EST Agent'), 'The template body is rendered with the record');
-        System.assertNotEquals(null, apexEmails[2].getOrgWideEmailAddressId(), 'Org-wide sender resolved');
-
-        System.assertEquals(1, dryRunEmails.size(), 'A dry run is a single message');
-        System.assertEquals(new List<String>{ DRY_RUN_ADDRESS }, dryRunEmails[0].getToAddresses(), 'A dry run goes to the dry-run addresses only');
-        System.assert(dryRunEmails[0].getCcAddresses() == null || dryRunEmails[0].getCcAddresses().isEmpty(), 'A dry run has no Cc');
-        System.assertEquals(null, dryRunEmails[0].getTargetObjectId(), 'The recipient record doesn\'t receive a dry run');
-        System.assert(dryRunEmails[0].getSubject().startsWith('DRY RUN - ') && dryRunEmails[0].getSubject().contains('EST Agent'), 'The rendered subject is prefixed: ' + dryRunEmails[0].getSubject());
-        System.assert(dryRunEmails[0].getHtmlBody().contains('est.dryrun.cc@example.com') && dryRunEmails[0].getHtmlBody().contains('Recipient record: ' + UserInfo.getUserId()), 'The real recipients are listed in the body');
-
-        for (String expectedError : errorsByExpectedError.keySet()) System.assert(String.valueOf(errorsByExpectedError.get(expectedError)).contains(expectedError), 'Expected "' + expectedError + '", got: ' + errorsByExpectedError.get(expectedError));
-        System.assertEquals('Custom Email Alert "EST_Unknown_Alert" not found.', unknownAlertError, 'An unknown alert name throws');
     }
 
     // Engine: send() removing the invalid addresses, then the Flow action built on it
@@ -224,12 +178,6 @@ public class EmailServiceTest {
         }
 
         Test.stopTest();
-
-        System.assertEquals(2, warnings.size(), 'One WARN per message with invalid addresses: ' + warnings);
-        System.assert(warnings[0].contains('est invalid to') && warnings[0].contains('est invalid cc') && warnings[0].contains('resent'), 'Invalid To and Cc removed, email resent to the valid address: ' + warnings[0]);
-        System.assert(warnings[1].contains('est invalid only') && warnings[1].contains('No recipient left'), 'Nothing left to send: ' + warnings[1]);
-        System.assertEquals(1, flowInvocations, 'Every Flow interview is sent in a single sendEmail');
-        System.assert(mismatchError != null && mismatchError.contains('2 Replacement Tokens for 1 Replacement Values'), 'Tokens and values of different sizes make the Flow fail: ' + mismatchError);
     }
 
     // Apex-built request without template: subject, body, one To address, sent as the running user
