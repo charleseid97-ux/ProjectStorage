@@ -5,9 +5,11 @@
  *                  OperationLog buffer is flushed: this action is the entry point of the email logs.
  *              Configuration errors (unknown alert, template or queue, no recipient, tokens and values of different sizes)
  *                  make the Flow fail; send failures are only logged (LogFailures__c) and never stop the Flow.
+ *              Dry Run input: forces a dry run for that call (it can't turn off the alert's own DryRun__c).
  * @author Charles EID
- * @testClass TBD
- * @coverage TBD
+ * @testClass EmailServiceTest
+ * @coverage 100%   [03-11-26]
+ * @lastModifiedBy Charles EID   [03-11-26]
  ────────────────────────────────────── */
 public with sharing class CustomEmailAlertFlowAction {
 
@@ -18,6 +20,7 @@ public with sharing class CustomEmailAlertFlowAction {
             EmailService.EmailRequest emailRequest = new EmailService.EmailRequest(request.alertName, request.recordId);
             emailRequest.recipientId = request.recipientId;
             emailRequest.replacements.putAll(buildReplacements(request));
+            if (request.dryRun == true) emailRequest.dryRun = true;
             emailRequests.add(emailRequest);
         }
         EmailService.send(emailRequests);
@@ -50,5 +53,8 @@ public with sharing class CustomEmailAlertFlowAction {
 
         @InvocableVariable(label='Replacement Values' description='Optional text collection of values (text or HTML), same size and order as Replacement Tokens. Different sizes: the Flow fails.')
         public List<String> replacementValues;
+
+        @InvocableVariable(label='Dry Run' description='Optional. True: this email is a test, sent only to the Dry Run Addresses of the Email Service Settings (Custom Setting) with "DRY RUN - " before the subject and the real recipients listed at the top of the body. Empty or False: the alert\'s own Dry Run setting applies.')
+        public Boolean dryRun;
     }
 }

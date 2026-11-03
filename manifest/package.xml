@@ -3,6 +3,7 @@
     <types>
         <members>CustomEmailAlertFlowAction</members>
         <members>EmailService</members>
+        <members>EmailServiceTest</members>
         <name>ApexClass</name>
     </types>
     <types>
@@ -11,6 +12,7 @@
         <members>CustomEmailAlert__mdt.CcAddresses__c</members>
         <members>CustomEmailAlert__mdt.CcQueues__c</members>
         <members>CustomEmailAlert__mdt.Description__c</members>
+        <members>CustomEmailAlert__mdt.DryRun__c</members>
         <members>CustomEmailAlert__mdt.EmailTemplate__c</members>
         <members>CustomEmailAlert__mdt.IsActive__c</members>
         <members>CustomEmailAlert__mdt.LogFailures__c</members>
@@ -18,10 +20,13 @@
         <members>CustomEmailAlert__mdt.Sender__c</members>
         <members>CustomEmailAlert__mdt.ToAddresses__c</members>
         <members>CustomEmailAlert__mdt.ToQueues__c</members>
+        <members>EmailServiceSettings__c.DryRunAddresses__c</members>
+        <members>EmailServiceSettings__c.ForceDryRun__c</members>
         <name>CustomField</name>
     </types>
     <types>
         <members>CustomEmailAlert__mdt</members>
+        <members>EmailServiceSettings__c</members>
         <name>CustomObject</name>
     </types>
     <types>

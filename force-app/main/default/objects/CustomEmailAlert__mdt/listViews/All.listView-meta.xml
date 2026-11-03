@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>All</fullName>
+    <columns>MasterLabel</columns>
+    <columns>DeveloperName</columns>
+    <columns>EmailTemplate__c</columns>
+    <columns>Sender__c</columns>
+    <columns>ToAddresses__c</columns>
+    <columns>CcAddresses__c</columns>
+    <columns>BccAddresses__c</columns>
+    <columns>ToQueues__c</columns>
+    <columns>CcQueues__c</columns>
+    <columns>BccQueues__c</columns>
+    <columns>Description__c</columns>
+    <columns>IsActive__c</columns>
+    <columns>LogFailures__c</columns>
+    <filterScope>Everything</filterScope>
+    <label>All</label>
+    <language>en_US</language>
+</ListView>
