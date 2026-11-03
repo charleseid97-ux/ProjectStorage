@@ -535,6 +535,19 @@ stages:
                   source use_dir.env
                   MANIFEST_PATH="manifest/package.xml"
 
+                  # Affiche les composants du package avant le lancement de la validation.
+                  echo ""
+                  echo "=========================================="
+                  echo "=== ELEMENTS EN COURS DE VALIDATION ==="
+                  echo "=========================================="
+                  xmlstarlet sel -N sf="http://soap.sforce.com/2006/04/metadata" \
+                    -t -m "/sf:Package/sf:types" \
+                    -v "sf:name" -o ":" -n \
+                    -m "sf:members" -o "  - " -v "." -n \
+                    -b "$MANIFEST_PATH"
+                  echo "=========================================="
+                  echo ""
+
                   sf project deploy validate \
                     --metadata-dir "$USE_DIR" \
                     --target-org prod \
