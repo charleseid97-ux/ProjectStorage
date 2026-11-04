@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <actionCalls>
+        <name>SendEmailReminderAfter30Days</name>
+        <label>Send Email Reminder after 30 Days</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <actionName>CustomEmailAlertFlowAction</actionName>
+        <actionType>apex</actionType>
+        <flowTransactionModel>Automatic</flowTransactionModel>
+        <inputParameters>
+            <name>alertName</name>
+            <value>
+                <inputConfiguratorMode>Custom</inputConfiguratorMode>
+                <stringValue>AIAgentRequestReminder</stringValue>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>recipientId</name>
+        </inputParameters>
+        <inputParameters>
+            <name>recordId</name>
+            <value>
+                <elementReference>$Record.Case_ID__c</elementReference>
+                <inputConfiguratorMode>Resource</inputConfiguratorMode>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>replacementTokens</name>
+        </inputParameters>
+        <inputParameters>
+            <name>replacementValues</name>
+        </inputParameters>
+        <nameSegment>CustomEmailAlertFlowAction</nameSegment>
+        <offset>0</offset>
+    </actionCalls>
+    <apiVersion>68.0</apiVersion>
+    <areMetricsLoggedToDataCloud>false</areMetricsLoggedToDataCloud>
+    <decisions>
+        <name>Is_Request_Still_Open</name>
+        <label>Is Request Still Open?</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <defaultConnectorLabel>Request Closed</defaultConnectorLabel>
+        <rules>
+            <name>Request_Still_Open</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>$Record.AgentStatus__c</leftValueReference>
+                <operator>NotEqualTo</operator>
+                <rightValue>
+                    <stringValue>Closed</stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>SendEmailReminderAfter30Days</targetReference>
+            </connector>
+            <label>Request Still Open</label>
+        </rules>
+    </decisions>
+    <description>Sends a reminder to the Dust Admin team when an AI Agent request is still open 30 days after its creation.</description>
+    <environments>Default</environments>
+    <interviewLabel>AI Agent - Request Reminder {!$Flow.CurrentDateTime}</interviewLabel>
+    <label>AI Agent - Request Reminder</label>
+    <processMetadataValues>
+        <name>BuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>CanvasMode</name>
+        <value>
+            <stringValue>AUTO_LAYOUT_CANVAS</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>OriginBuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processType>AutoLaunchedFlow</processType>
+    <start>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <filterLogic>or</filterLogic>
+        <filters>
+            <field>AI_Agent_Request_Type__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <stringValue>New Agent</stringValue>
+            </value>
+        </filters>
+        <filters>
+            <field>AI_Agent_Request_Type__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <stringValue>Agent Modification</stringValue>
+            </value>
+        </filters>
+        <object>Case</object>
+        <recordTriggerType>Create</recordTriggerType>
+        <scheduledPaths>
+            <name>X30_Day_Reminder</name>
+            <connector>
+                <targetReference>Is_Request_Still_Open</targetReference>
+            </connector>
+            <label>30 Day Reminder</label>
+            <offsetNumber>30</offsetNumber>
+            <offsetUnit>Days</offsetUnit>
+            <recordField>CreatedDate</recordField>
+            <timeSource>RecordField</timeSource>
+        </scheduledPaths>
+        <triggerType>RecordAfterSave</triggerType>
+    </start>
+    <status>Active</status>
+</Flow>

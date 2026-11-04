@@ -1,0 +1,97 @@
+<html>
+<head>
+	<title></title>
+</head>
+<body style="height: auto; min-height: auto;">
+<table border="0" cellpadding="0" cellspacing="0" style="font-family:Arial,Helvetica,sans-serif;background-color:#f5f7f5;padding:24px;" width="100%">
+	
+		<tr>
+			<td align="center">
+			<table border="0" cellpadding="0" cellspacing="0" style="width:620px;max-width:100%;background-color:#ffffff;border:1px solid #e2e6e2;" width="620">
+				
+					<tr>
+						<td bgcolor="#2f4233" style="background-color:#2f4233;padding:22px 28px;">
+						<div style="font-size:12px;letter-spacing:1px;color:#cbd8ce;font-weight:bold;">AI AGENT GOVERNANCE</div>
+
+						<div style="font-size:22px;line-height:28px;color:#ffffff;font-weight:bold;padding-top:4px;">Data Protection Assessment Required</div>
+						</td>
+					</tr>
+					<tr>
+						<td style="padding:26px 28px 14px 28px;color:#242424;font-size:14px;line-height:21px;">Hello,<br />
+						<br />
+						The AI Agent <strong>{{{AI_Agent__c.Name}}}</strong> has been created or updated with a <strong>{{{AI_Agent__c.DataSensitivity__c}}}</strong> Data Sensitivity level.<br />
+						<br />
+						Your review and validation are required as part of the Carmignac AI Agent Governance process.</td>
+					</tr>
+					<tr>
+						<td style="padding:6px 28px 22px 28px;">
+						<table border="0" cellpadding="0" cellspacing="0" style="font-size:14px;color:#242424;" width="100%">
+							
+								<tr>
+									<td style="padding:10px 0;border-bottom:1px solid #eeeeee;color:#6b746d;font-weight:bold;" width="180">Agent</td>
+									<td style="padding:10px 0;border-bottom:1px solid #eeeeee;">{{{AI_Agent__c.Name}}}</td>
+								</tr>
+								<tr>
+									<td style="padding:10px 0;border-bottom:1px solid #eeeeee;color:#6b746d;font-weight:bold;vertical-align:top;">Agent Purpose</td>
+									<td style="padding:10px 0;border-bottom:1px solid #eeeeee;line-height:20px;">{{{AI_Agent__c.AgentPurpose__c}}}</td>
+								</tr>
+								<tr>
+									<td style="padding:10px 0;border-bottom:1px solid #eeeeee;color:#6b746d;font-weight:bold;">Data Sensitivity</td>
+									<td style="padding:10px 0;border-bottom:1px solid #eeeeee;"><strong>{{{AI_Agent__c.DataSensitivity__c}}}</strong></td>
+								</tr>
+								<tr>
+									<td style="padding:10px 0;border-bottom:1px solid #eeeeee;color:#6b746d;font-weight:bold;">Business Criticality</td>
+									<td style="padding:10px 0;border-bottom:1px solid #eeeeee;">{{{AI_Agent__c.Business_Criticality__c}}}</td>
+								</tr>
+								<tr>
+									<td style="padding:10px 0;border-bottom:1px solid #eeeeee;color:#6b746d;font-weight:bold;">Client Impact</td>
+									<td style="padding:10px 0;border-bottom:1px solid #eeeeee;">{{{AI_Agent__c.ClientImpact__c}}}</td>
+								</tr>
+								<tr>
+									<td style="padding:10px 0;color:#6b746d;font-weight:bold;">Current Risk Level</td>
+									<td style="padding:10px 0;"><strong>{{{AI_Agent__c.CurrentRiskLevel__c}}}</strong></td>
+								</tr>
+							
+						</table>
+						</td>
+					</tr>
+					<tr>
+						<td bgcolor="#f1f5f2" style="background-color:#f1f5f2;padding:20px 28px;color:#242424;font-size:14px;line-height:21px;"><strong style="color:#2f4233;font-size:15px;">Action required – DPO assessment </strong><br />
+						<br />
+						Please review the Agent configuration and confirm:
+						<ul style="margin:8px 0 8px 20px;padding:0;">
+							<li style="margin-bottom:6px;">whether the proposed data access and usage are acceptable;</li>
+							<li style="margin-bottom:6px;">whether additional privacy or data protection controls are required;</li>
+							<li style="margin-bottom:6px;">whether any additional stakeholders need to be involved;</li>
+							<li>your validation and any required next steps before the Agent can proceed.</li>
+						</ul>
+						<br />
+						<strong>Please reply to this email with your assessment, validation and any required next steps. </strong></td>
+					</tr>
+					<tr>
+						<td style="padding:24px 28px 28px 28px;">
+						<table border="0" cellpadding="0" cellspacing="0">
+							
+								<tr>
+									<td bgcolor="#2f4233" style="background-color:#2f4233;padding:12px 20px;"><a href="{_*AIAgentLink_*}" style="color:#ffffff;text-decoration:none;font-size:14px;font-weight:bold;">Open AI Agent </a></td>
+								</tr>
+							
+						</table>
+						</td>
+					</tr>
+					<tr>
+						<td style="border-top:1px solid #eeeeee;padding:16px 28px;color:#777777;font-size:12px;line-height:18px;">This is an automated governance escalation notification.<br />
+						<br />
+						For any questions, contact <strong>dust@carmignac.com</strong>.<br />
+						<br />
+						Dust Admin Team<br />
+						Carmignac AI Agent Governance</td>
+					</tr>
+				
+			</table>
+			</td>
+		</tr>
+	
+</table>
+</body>
+</html>

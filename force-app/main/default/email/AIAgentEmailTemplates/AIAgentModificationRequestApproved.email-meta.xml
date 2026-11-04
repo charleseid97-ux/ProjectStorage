@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <description>Email template confirming approval of an AI Agent modification request, presenting the approved changes and providing implementation guidance and governance considerations.</description>
+    <encodingKey>ISO-8859-1</encodingKey>
+    <name>AI Agent - Modification Request Approved</name>
+    <relatedEntityType>Case</relatedEntityType>
+    <style>none</style>
+    <subject>AI Agent Modification Request Approved - {{{Case.AgentName__c}}}</subject>
+    <type>custom</type>
+    <uiType>SFX</uiType>
+</EmailTemplate>

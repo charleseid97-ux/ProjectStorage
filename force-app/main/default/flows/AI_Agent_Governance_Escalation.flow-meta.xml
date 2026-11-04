@@ -1,0 +1,194 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <actionCalls>
+        <name>SendCriticalityAlertToRSSI</name>
+        <label>Send Criticality Alert to RSSI</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <actionName>CustomEmailAlertFlowAction</actionName>
+        <actionType>apex</actionType>
+        <flowTransactionModel>Automatic</flowTransactionModel>
+        <inputParameters>
+            <name>alertName</name>
+            <value>
+                <inputConfiguratorMode>Resource</inputConfiguratorMode>
+                <stringValue>AIAgentGovernanceRSSIAssessment</stringValue>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>recordId</name>
+            <value>
+                <elementReference>$Record.Id</elementReference>
+                <inputConfiguratorMode>Resource</inputConfiguratorMode>
+            </value>
+        </inputParameters>
+        <nameSegment>CustomEmailAlertFlowAction</nameSegment>
+        <offset>0</offset>
+    </actionCalls>
+    <actionCalls>
+        <name>SendDataSensitivityAlertToDPO</name>
+        <label>Send Data Sensitivity Alert to DPO</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <actionName>CustomEmailAlertFlowAction</actionName>
+        <actionType>apex</actionType>
+        <connector>
+            <targetReference>Check_Business_Criticality_Escalation</targetReference>
+        </connector>
+        <flowTransactionModel>Automatic</flowTransactionModel>
+        <inputParameters>
+            <name>alertName</name>
+            <value>
+                <inputConfiguratorMode>Custom</inputConfiguratorMode>
+                <stringValue>AIAgentGovernanceDPOAssessment</stringValue>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>recordId</name>
+            <value>
+                <elementReference>$Record.Id</elementReference>
+                <inputConfiguratorMode>Resource</inputConfiguratorMode>
+            </value>
+        </inputParameters>
+        <nameSegment>CustomEmailAlertFlowAction</nameSegment>
+        <offset>0</offset>
+    </actionCalls>
+    <apiVersion>68.0</apiVersion>
+    <areMetricsLoggedToDataCloud>false</areMetricsLoggedToDataCloud>
+    <decisions>
+        <description>Determines whether the RSSI must be notified because Business Criticality is Critical and the value is new or has changed.</description>
+        <name>Check_Business_Criticality_Escalation</name>
+        <label>Check Business Criticality Escalation</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <defaultConnectorLabel>No RSSI Escalation</defaultConnectorLabel>
+        <rules>
+            <name>Notify_RSSI</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>Is_RSSI_Escalation</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>SendCriticalityAlertToRSSI</targetReference>
+            </connector>
+            <label>Notify RSSI</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <description>Determines whether the DPO must be notified because Data Sensitivity is Confidential or Restricted and the value is new or has changed.</description>
+        <name>Check_Data_Sensitivity_Escalation</name>
+        <label>Check Data Sensitivity Escalation</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <defaultConnector>
+            <targetReference>Check_Business_Criticality_Escalation</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>No DPO Escalation</defaultConnectorLabel>
+        <rules>
+            <name>Notify_DPO</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>Is_DPO_Escalation</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>SendDataSensitivityAlertToDPO</targetReference>
+            </connector>
+            <label>Notify DPO</label>
+        </rules>
+    </decisions>
+    <description>Sends governance escalation notifications when an AI Agent is created or updated with sensitive data or critical business impact. Confidential or Restricted data triggers a DPO notification, while Critical business criticality triggers an RSSI notification</description>
+    <environments>Default</environments>
+    <formulas>
+        <description>- Returns true when Data Sensitivity is Confidential or Restricted and the value is new or has changed.</description>
+        <name>Is_DPO_Escalation</name>
+        <dataType>Boolean</dataType>
+        <expression>AND(
+    OR(
+        ISPICKVAL({!$Record.DataSensitivity__c}, &quot;Confidential&quot;),
+        ISPICKVAL({!$Record.DataSensitivity__c}, &quot;Restricted&quot;)
+    ),
+    OR(
+        ISBLANK(TEXT({!$Record__Prior.DataSensitivity__c})),
+        TEXT({!$Record.DataSensitivity__c}) &lt;&gt;
+        TEXT({!$Record__Prior.DataSensitivity__c})
+    )
+)</expression>
+    </formulas>
+    <formulas>
+        <description>- Returns true when Business Criticality is Critical and the value is new or has changed.</description>
+        <name>Is_RSSI_Escalation</name>
+        <dataType>Boolean</dataType>
+        <expression>AND(
+    ISPICKVAL({!$Record.Business_Criticality__c}, &quot;Critical&quot;),
+    OR(
+        ISBLANK(TEXT({!$Record__Prior.Business_Criticality__c})),
+        TEXT({!$Record.Business_Criticality__c}) &lt;&gt;
+        TEXT({!$Record__Prior.Business_Criticality__c})
+    )
+)</expression>
+    </formulas>
+    <interviewLabel>AI Agent - Governance Escalation {!$Flow.CurrentDateTime}</interviewLabel>
+    <label>AI Agent - Governance Escalation</label>
+    <processMetadataValues>
+        <name>BuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>CanvasMode</name>
+        <value>
+            <stringValue>AUTO_LAYOUT_CANVAS</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>OriginBuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processType>AutoLaunchedFlow</processType>
+    <start>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <connector>
+            <targetReference>Check_Data_Sensitivity_Escalation</targetReference>
+        </connector>
+        <filterFormula>OR(
+
+    /* DATA SENSITIVITY ESCALATION */
+    AND(
+        OR(
+            ISPICKVAL({!$Record.DataSensitivity__c}, &quot;Confidential&quot;),
+            ISPICKVAL({!$Record.DataSensitivity__c}, &quot;Restricted&quot;)
+        ),
+        OR(
+            ISNEW(),
+            ISCHANGED({!$Record.DataSensitivity__c})
+        )
+    ),
+
+    /* BUSINESS CRITICALITY ESCALATION */
+    AND(
+        ISPICKVAL({!$Record.Business_Criticality__c}, &quot;Critical&quot;),
+        OR(
+            ISNEW(),
+            ISCHANGED({!$Record.Business_Criticality__c})
+        )
+    )
+
+)</filterFormula>
+        <object>AI_Agent__c</object>
+        <recordTriggerType>CreateAndUpdate</recordTriggerType>
+        <triggerType>RecordAfterSave</triggerType>
+    </start>
+    <status>Active</status>
+</Flow>

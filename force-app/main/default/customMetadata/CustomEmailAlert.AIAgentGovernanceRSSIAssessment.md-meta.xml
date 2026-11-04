@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomMetadata xmlns="http://soap.sforce.com/2006/04/metadata" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <label>AI Agent Governance - RSSI Assessment</label>
+    <protected>false</protected>
+    <values>
+        <field>BccAddresses__c</field>
+        <value xsi:nil="true"/>
+    </values>
+    <values>
+        <field>BccQueues__c</field>
+        <value xsi:nil="true"/>
+    </values>
+    <values>
+        <field>CcAddresses__c</field>
+        <value xsi:type="xsd:string">dust@carmignac.com</value>
+    </values>
+    <values>
+        <field>CcQueues__c</field>
+        <value xsi:nil="true"/>
+    </values>
+    <values>
+        <field>Description__c</field>
+        <value xsi:type="xsd:string">Notification for Information Security Officer (RSSI) assessment and validation of AI Agent security risks, business impact, and required information security controls.</value>
+    </values>
+    <values>
+        <field>DryRun__c</field>
+        <value xsi:type="xsd:boolean">false</value>
+    </values>
+    <values>
+        <field>EmailTemplate__c</field>
+        <value xsi:type="xsd:string">AIAgentGovernanceRSSIAssessment</value>
+    </values>
+    <values>
+        <field>IsActive__c</field>
+        <value xsi:type="xsd:boolean">true</value>
+    </values>
+    <values>
+        <field>LogFailures__c</field>
+        <value xsi:type="xsd:boolean">true</value>
+    </values>
+    <values>
+        <field>OrgWideAddress__c</field>
+        <value xsi:nil="true"/>
+    </values>
+    <values>
+        <field>Sender__c</field>
+        <value xsi:type="xsd:string">NO_REPLY</value>
+    </values>
+    <values>
+        <field>ToAddresses__c</field>
+        <value xsi:type="xsd:string">ssi@carmignac.com</value>
+    </values>
+    <values>
+        <field>ToQueues__c</field>
+        <value xsi:nil="true"/>
+    </values>
+</CustomMetadata>
