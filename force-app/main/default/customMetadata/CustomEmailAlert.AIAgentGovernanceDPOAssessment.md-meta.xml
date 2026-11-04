@@ -12,8 +12,7 @@
     </values>
     <values>
         <field>CcAddresses__c</field>
-        <value xsi:type="xsd:string">dust@carmignac.com.invalid
-charles.eid@uprizon.com</value>
+        <value xsi:type="xsd:string">dust@carmignac.com</value>
     </values>
     <values>
         <field>CcQueues__c</field>
@@ -22,6 +21,10 @@ charles.eid@uprizon.com</value>
     <values>
         <field>Description__c</field>
         <value xsi:type="xsd:string">Notification for Data Protection Officer (DPO) assessment and validation of AI Agent data access, usage, privacy risks, and required data protection controls.</value>
+    </values>
+    <values>
+        <field>DryRun__c</field>
+        <value xsi:type="xsd:boolean">false</value>
     </values>
     <values>
         <field>EmailTemplate__c</field>
@@ -45,8 +48,9 @@ charles.eid@uprizon.com</value>
     </values>
     <values>
         <field>ToAddresses__c</field>
-        <value xsi:type="xsd:string">‎dpo@carmignac.com‎.invalid
-ceid1@carmignac.com</value>
+        <value xsi:type="xsd:string">dpo@carmignac.com
+ssi@carmignac.com
+jean.corneille@carmignac.com</value>
     </values>
     <values>
         <field>ToQueues__c</field>

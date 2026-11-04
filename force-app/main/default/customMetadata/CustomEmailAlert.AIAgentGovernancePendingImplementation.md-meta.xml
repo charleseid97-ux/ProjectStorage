@@ -23,6 +23,10 @@
         <value xsi:type="xsd:string">Notification for AI Agents remaining in Pending Implementation status 30 days after creation, requesting a review of implementation progress and appropriate status updates.</value>
     </values>
     <values>
+        <field>DryRun__c</field>
+        <value xsi:type="xsd:boolean">false</value>
+    </values>
+    <values>
         <field>EmailTemplate__c</field>
         <value xsi:type="xsd:string">AIAgentGovernancePendingImplementation</value>
     </values>
@@ -44,8 +48,7 @@
     </values>
     <values>
         <field>ToAddresses__c</field>
-        <value xsi:type="xsd:string">dust@carmignac.com.invalid
-ceid1@carmignac.com</value>
+        <value xsi:type="xsd:string">dust@carmignac.com</value>
     </values>
     <values>
         <field>ToQueues__c</field>

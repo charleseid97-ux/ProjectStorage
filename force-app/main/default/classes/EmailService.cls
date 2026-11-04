@@ -19,7 +19,7 @@
 public without sharing class EmailService {
 
     private static final String DEFAULT_ORG_WIDE_ADDRESS = Label.EmailService_DefaultOrgWideAddress;
-    private static final String DRY_RUN_SUBJECT_PREFIX = 'DRY RUN - ';
+    private static final String DRY_RUN_SUBJECT_PREFIX = '[DRY RUN] ';
     // Running user's effective values (org default, overridden per profile / user)
     private static final EmailServiceSettings__c SETTINGS = EmailServiceSettings__c.getInstance();
     private static final Boolean FORCE_DRY_RUN = SETTINGS.ForceDryRun__c == true;
