@@ -17,6 +17,7 @@ public class ShareClassTriggerHandler {
         }
 
         ShareClassHandler.updateFormattedName(newShareClasses, null);
+        ShareClassHandler.validateMainForInternational(newShareClasses, null);
         
     }
 
@@ -29,6 +30,7 @@ public class ShareClassTriggerHandler {
     // Rebuilds the formatted Share Class name when relevant fields change.
     public static void handleBeforeUpdate(List<Share_Class__c> newShareClasses , Map<Id,Share_Class__c> oldShareClassesMap){
         ShareClassHandler.updateFormattedName(newShareClasses, oldShareClassesMap);
+        ShareClassHandler.validateMainForInternational(newShareClasses, oldShareClassesMap);
     }
     
     // Executes existing update logic and recalculates Main Share Classes when required.
