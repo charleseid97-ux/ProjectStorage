@@ -230,6 +230,64 @@ public without sharing  class ShareClassHandler {
             
             update taxDataToUpdate;
         }
+
+        // Ensures that only one Share Class per Fund is marked as Main for International.
+        public static void validateMainForInternational(
+            List<Share_Class__c> newShareClasses,
+            Map<Id, Share_Class__c> oldShareClassesMap
+        ) {
+            Map<Id, List<Share_Class__c>> shareClassesByFund = new Map<Id, List<Share_Class__c>>();
+            Set<Id> shareClassIds = new Set<Id>();
+
+            for (Share_Class__c shareClass : newShareClasses) {
+                Share_Class__c oldShareClass = oldShareClassesMap == null ? null : oldShareClassesMap.get(shareClass.Id);
+                Boolean becameMain = shareClass.IsMainForInternational__c
+                    && (oldShareClass == null
+                        || !oldShareClass.IsMainForInternational__c
+                        || shareClass.Fund__c != oldShareClass.Fund__c);
+
+                if (!becameMain || shareClass.Fund__c == null) {
+                    continue;
+                }
+
+                if (!shareClassesByFund.containsKey(shareClass.Fund__c)) {
+                    shareClassesByFund.put(shareClass.Fund__c, new List<Share_Class__c>());
+                }
+
+                shareClassesByFund.get(shareClass.Fund__c).add(shareClass);
+
+                if (shareClass.Id != null) {
+                    shareClassIds.add(shareClass.Id);
+                }
+            }
+
+            if (shareClassesByFund.isEmpty()) {
+                return;
+            }
+
+            Set<Id> fundsWithExistingMain = new Set<Id>();
+            for (Share_Class__c existingShareClass : [
+                SELECT Id, Fund__c
+                FROM Share_Class__c
+                WHERE Fund__c IN :shareClassesByFund.keySet()
+                AND IsMainForInternational__c = true
+                AND Id NOT IN :shareClassIds
+            ]) {
+                fundsWithExistingMain.add(existingShareClass.Fund__c);
+            }
+
+            // Blocks an existing Main or multiple Main Share Classes in the same transaction.
+            for (Id fundId : shareClassesByFund.keySet()) {
+                List<Share_Class__c> shareClasses = shareClassesByFund.get(fundId);
+
+                if (fundsWithExistingMain.contains(fundId) || shareClasses.size() > 1) {
+                    for (Share_Class__c shareClass : shareClasses) {
+                        shareClass.addError('Only one Share Class can be defined as Main for International per Fund.');
+                    }
+                }
+            }
+        }
+
 /* Dev Khadija 
         private static final String TYPE_BELGIUM_SIMULATOR = 'Belgium Simulator';
         private static final String COUNTRY_BE = 'BE';
