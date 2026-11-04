@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <description>Email template requesting a Data Protection Officer (DPO) assessment and validation of an AI Agent&apos;s data access, usage, and privacy controls.</description>
+    <encodingKey>ISO-8859-1</encodingKey>
+    <name>AI Agent Governance - DPO Assessment</name>
+    <relatedEntityType>AI_Agent__c</relatedEntityType>
+    <style>none</style>
+    <subject>AI Agent Data Sensitivity Alert - {{{AI_Agent__c.Name}}}</subject>
+    <type>custom</type>
+    <uiType>SFX</uiType>
+</EmailTemplate>
