@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <description>Email template presenting the details of a new AI Agent request and requesting a review and coordination of a meeting with the builder.</description>
+    <encodingKey>ISO-8859-1</encodingKey>
+    <name>AI Agent - New Agent Request Notification</name>
+    <relatedEntityType>Case</relatedEntityType>
+    <style>none</style>
+    <subject>New AI Agent Request - {{{Case.AgentName__c}}}</subject>
+    <type>custom</type>
+    <uiType>SFX</uiType>
+</EmailTemplate>

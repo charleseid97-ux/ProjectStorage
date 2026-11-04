@@ -1,0 +1,96 @@
+<html>
+<head>
+	<title></title>
+</head>
+<body style="height: auto; min-height: auto;">
+<table border="0" cellpadding="0" cellspacing="0" role="presentation" style="font-family:Arial,Helvetica,sans-serif;background:#f5f7f5;padding:24px;" width="100%">
+	
+		<tr>
+			<td align="center">
+			<table border="0" cellpadding="0" cellspacing="0" role="presentation" style="width:620px;max-width:100%;background:#ffffff;border:1px solid #e2e6e2;" width="620"><!-- Header -->
+				
+					<tr>
+						<td style="background:#2f4233;padding:22px 28px;">
+						<div style="font-size:12px;letter-spacing:1px;color:#cbd8ce;font-weight:bold;">AI AGENT GOVERNANCE</div>
+
+						<div style="font-size:22px;line-height:28px;color:#ffffff;font-weight:bold;margin-top:4px;">Agent Modification Approved</div>
+						</td>
+					</tr>
+					<!-- Intro -->
+					<tr>
+						<td style="padding:26px 28px 14px 28px;color:#242424;font-size:14px;line-height:21px;">Hello,<br />
+						<br />
+						Your request to modify the <strong>{{{Case.AgentName__c}}}</strong> AI Agent has been approved.<br />
+						<br />
+						You can now proceed with the requested change.</td>
+					</tr>
+					<!-- Agent Details -->
+					<tr>
+						<td style="padding:6px 28px 22px 28px;">
+						<table border="0" cellpadding="0" cellspacing="0" role="presentation" style="font-size:14px;color:#242424;" width="100%">
+							
+								<tr>
+									<td style="padding:10px 0;border-bottom:1px solid #eeeeee;color:#6b746d;font-weight:bold;" width="160">Agent</td>
+									<td style="padding:10px 0;border-bottom:1px solid #eeeeee;">{{{Case.AgentName__c}}}</td>
+								</tr>
+								<tr>
+									<td style="padding:10px 0;border-bottom:1px solid #eeeeee;color:#6b746d;font-weight:bold;">Category</td>
+									<td style="padding:10px 0;border-bottom:1px solid #eeeeee;">{{{Case.UseCaseCategory__c}}}</td>
+								</tr>
+							
+						</table>
+						</td>
+					</tr>
+					<!-- Approved Change -->
+					<tr>
+						<td style="padding:0 28px 22px 28px;">
+						<div style="font-size:13px;color:#6b746d;font-weight:bold;margin-bottom:8px;">APPROVED CHANGE</div>
+
+						<div style="background:#f7f8f7;border-left:4px solid #2f4233;padding:16px 18px;color:#242424;font-size:14px;line-height:21px;">{{{Case.AIAgentRequestedChange__c}}}</div>
+						</td>
+					</tr>
+					<!-- Support -->
+					<tr>
+						<td style="background:#f1f5f2;padding:20px 28px;color:#242424;font-size:14px;line-height:21px;"><strong style="color:#2f4233;">What happens next?</strong><br />
+						<br />
+						You can implement the approved modification. The Dust Admin team can support you where needed to help ensure that:
+						<ul style="margin:8px 0 0 20px;padding:0;">
+							<li style="margin-bottom:5px;">data sources and access levels remain appropriate;</li>
+							<li style="margin-bottom:5px;">connectors and actions remain aligned with the approved use case;</li>
+							<li style="margin-bottom:5px;">execution time and credit consumption remain efficient;</li>
+							<li style="margin-bottom:5px;">the output remains relevant for users;</li>
+							<li>the sharing scope remains appropriate.</li>
+						</ul>
+						</td>
+					</tr>
+					<!-- Important note -->
+					<tr>
+						<td style="padding:20px 28px;color:#242424;font-size:13px;line-height:20px;"><strong>Important:</strong> if the implemented change materially affects the agent's data access, connectors, actions, execution mode or sharing scope, the agent's governance information should be updated accordingly.</td>
+					</tr>
+					<!-- CTA -->
+					<tr>
+						<td style="padding:8px 28px 28px 28px;">
+						<table border="0" cellpadding="0" cellspacing="0" role="presentation">
+							
+								<tr>
+									<td style="background:#2f4233;"><a href="{{{Case.link}}}" style="display:inline-block;padding:12px 20px;color:#ffffff;text-decoration:none;font-size:14px;font-weight:bold;">Open Modification Request </a></td>
+								</tr>
+							
+						</table>
+						</td>
+					</tr>
+					<!-- Footer -->
+					<tr>
+						<td style="border-top:1px solid #eeeeee;padding:16px 28px;color:#777777;font-size:12px;line-height:18px;">Need help? Contact <strong>dust@carmignac.com</strong>.<br />
+						<br />
+						Dust Admin Team<br />
+						Carmignac AI Agent Governance</td>
+					</tr>
+				
+			</table>
+			</td>
+		</tr>
+	
+</table>
+</body>
+</html>
