@@ -1,5 +1,5 @@
 public without sharing class EventSyncAuditController {
-    private static final String GRAPH_NAMED_CREDENTIAL = 'MicrosoftGraph';
+    private static final String GRAPH_NAMED_CREDENTIAL = 'MicrosoftGraphSF';
     private static final String GRAPH_EVENT_ID_FIELD = 'GraphEventId__c';
     private static final String FULLY_APPROVED_STATUS = 'FullyApproved';
 
@@ -70,7 +70,7 @@ public without sharing class EventSyncAuditController {
     private List<GraphEvent> loadGraphEvents() {
         String startValue = DateTime.newInstance(startDate, Time.newInstance(0, 0, 0, 0)).formatGmt('yyyy-MM-dd\'T\'HH:mm:ss\'Z\'');
         String endValue = DateTime.newInstance(endDate.addDays(1), Time.newInstance(0, 0, 0, 0)).formatGmt('yyyy-MM-dd\'T\'HH:mm:ss\'Z\'');
-        String endpoint = 'callout:' + GRAPH_NAMED_CREDENTIAL + '/v1.0/me/calendarView' +
+        String endpoint = 'callout:' + GRAPH_NAMED_CREDENTIAL + '/me/calendarView' +
             '?startDateTime=' + EncodingUtil.urlEncode(startValue, 'UTF-8') +
             '&endDateTime=' + EncodingUtil.urlEncode(endValue, 'UTF-8') +
             '&$select=id,subject,start,end';
@@ -84,7 +84,7 @@ public without sharing class EventSyncAuditController {
 
             HttpResponse response = new Http().send(request);
             if (response.getStatusCode() < 200 || response.getStatusCode() >= 300) {
-                throw new AuraHandledException('Graph callout failed: ' + response.getStatusCode() + ' ' + response.getStatus());
+                throw new EventSyncAuditException('Graph callout failed: ' + response.getStatusCode() + ' ' + response.getStatus());
             }
 
             Map<String, Object> payload = (Map<String, Object>) JSON.deserializeUntyped(response.getBody());
@@ -112,9 +112,12 @@ public without sharing class EventSyncAuditController {
 
     // Converts an absolute Graph nextLink to the configured Named Credential endpoint.
     private static String normalizeNextLink(String nextLink) {
-        Integer versionIndex = nextLink.indexOf('/v1.0/');
+        String graphVersion = '/v1.0';
+        Integer versionIndex = nextLink.indexOf(graphVersion + '/');
         if (versionIndex < 0) return null;
-        return 'callout:' + GRAPH_NAMED_CREDENTIAL + nextLink.substring(versionIndex);
+
+        return 'callout:' + GRAPH_NAMED_CREDENTIAL +
+            nextLink.substring(versionIndex + graphVersion.length());
     }
 
     // Reconciles both independent datasets by normalized subject and date, never by stored Graph Id.
@@ -266,5 +269,9 @@ public without sharing class EventSyncAuditController {
         String id;
         String subject;
         Date eventDate;
+    }
+
+    // Represents a functional error raised while auditing Salesforce and Graph events.
+    private class EventSyncAuditException extends Exception {
     }
 }
