@@ -43,9 +43,6 @@
     <columns>
         <field>Case.Work_Together_Process_Products__r$Product__c.Strategy__c</field>
     </columns>
-    <columns>
-        <field>Case$Strategy__c</field>
-    </columns>
     <currency>EUR</currency>
     <filter>
         <criteriaItems>
