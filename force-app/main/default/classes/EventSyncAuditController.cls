@@ -1,6 +1,6 @@
 public without sharing class EventSyncAuditController {
     private static final String GRAPH_NAMED_CREDENTIAL = 'MicrosoftGraphSF';
-    private static final String GRAPH_EVENT_ID_FIELD = 'GraphEventId__c';
+    private static final String GRAPH_EVENT_ID_FIELD = 'MicrosoftEventId__c';
     private static final String FULLY_APPROVED_STATUS = 'FullyApproved';
 
     public Date startDate { get; set; }
