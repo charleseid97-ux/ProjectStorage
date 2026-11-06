@@ -620,7 +620,7 @@
             </value>
         </filters>
         <filters>
-            <field>Product__c</field>
+            <field>Strategy__c</field>
             <operator>EqualTo</operator>
             <value>
                 <elementReference>Record.Strategy__c</elementReference>

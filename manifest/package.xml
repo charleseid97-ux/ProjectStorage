@@ -1,18 +1,31 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Package xmlns="http://soap.sforce.com/2006/04/metadata">
     <types>
-        <members>ProjectProductBatchController</members>
-        <members>Test_ProjectProductBatch</members>
+        <members>ProductTileListWTP</members>
+        <name>AuraDefinitionBundle</name>
+    </types>
+    <types>
+        <members>Batch_DataMngt_MeetingNotes</members>
+        <members>CTL_AudienceManagement</members>
+        <members>CTL_AudienceManagementTest</members>
+        <members>CTL_MeetingNotes</members>
+        <members>CTL_MeetingNotesTest</members>
+        <members>CTL_SearchSubscriptionProduct</members>
+        <members>CTL_SearchSubscriptionProductTest</members>
+        <members>ProductSelectionCtrl</members>
+        <members>WTPSelectorController</members>
         <name>ApexClass</name>
     </types>
     <types>
-        <members>PMTExclusionsField.ProjectShareclass</members>
-        <name>CustomMetadata</name>
+        <members>PMT_Narratives_Duplicates_Narrative</members>
+        <name>Flow</name>
     </types>
     <types>
-        <members>Project_Shareclass</members>
-        <members>PMP_ShareClass_Lightning_Page</members>
-        <name>FlexiPage</name>
+        <members>audienceManagementSelection</members>
+        <members>textProcessor</members>
+        <members>meetingNote</members>
+        <members>meetingNoteAI</members>
+        <name>LightningComponentBundle</name>
     </types>
     <version>64.0</version>
 </Package>

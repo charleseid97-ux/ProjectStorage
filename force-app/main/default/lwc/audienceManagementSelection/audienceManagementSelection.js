@@ -14,7 +14,7 @@ import amQuery from "@salesforce/messageChannel/audienceManagementQuery__c";
 
 import getAllFilters from '@salesforce/apex/CTL_AudienceManagement.getAllFilters';
 import getCurrentProfile from '@salesforce/apex/CTL_AudienceManagement.getCurrentProfile';
-import getProducts from '@salesforce/apex/CTL_AudienceManagement.getProducts';
+import getStrategies from '@salesforce/apex/CTL_AudienceManagement.getStrategies';
 import getUsers from '@salesforce/apex/CTL_AudienceManagement.getUsers';
 import getContactFromProductInterest from '@salesforce/apex/CTL_AudienceManagement.getContactFromProductInterest';
 import getCompanyFromProductInterest from '@salesforce/apex/CTL_AudienceManagement.getCompanyFromProductInterest';
@@ -123,7 +123,7 @@ export default class AudienceManagementSelection extends LightningElement {
         }
     }
     //Retrieve products on load
-    @wire(getProducts, {})
+    @wire(getStrategies, {})
     products({data,error}) {
         if(data && data.length){ 
             let products =[];

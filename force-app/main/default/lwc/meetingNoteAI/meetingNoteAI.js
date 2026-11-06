@@ -21,7 +21,7 @@ import { NavigationMixin } from 'lightning/navigation';
 //apex methods
 import createRelatedObjects from '@salesforce/apex/CTL_MeetingNotes.createRelatedObjects';
 import getContacts from '@salesforce/apex/CTL_MeetingNotes.getNeededContacts';
-import getProducts from '@salesforce/apex/CTL_MeetingNotes.getProducts';
+import getStrategies from '@salesforce/apex/CTL_MeetingNotes.getStrategies';
 import getUsers from '@salesforce/apex/CTL_MeetingNotes.getUsers';
 import getEmailTemplate from '@salesforce/apex/CTL_MeetingNotes.getEmailTemplate';
 import sendEmailMeeting from '@salesforce/apex/CTL_MeetingNotes.sendEmailMeeting';
@@ -265,7 +265,7 @@ export default class MeetingNote extends NavigationMixin(LightningElement) {
         }
     }
 
-    @wire (getProducts,{statFilter:''})
+    @wire (getStrategies,{statFilter:''})
     products({data,error}){
         if(data && data.length){ 
             let products =[];

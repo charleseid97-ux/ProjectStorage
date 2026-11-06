@@ -19,7 +19,7 @@
             component.set("v.products", result.products);
             // component.set("v.asset_classes", result.asset_classes);
             // component.set("v.sub_asset_classes", result.sub_asset_classes);
-            component.set("v.strategies", result.strategies);
+            // component.set("v.strategies", result.strategies);
       
             console.log('Asset classes retrieved from custom cache');
             console.log('v.products: ' + result.products);
