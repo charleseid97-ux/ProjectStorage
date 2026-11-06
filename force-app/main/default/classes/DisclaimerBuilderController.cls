@@ -7,25 +7,25 @@
  ────────────────────────────────────── */
 public with sharing class DisclaimerBuilderController {
 
-    @AuraEnabled(cacheable=true)
+    @AuraEnabled
     public static NarrativeSearchResult searchNarratives(String criteriaJson) {
         DisclaimerCriteria criteria = (DisclaimerCriteria) JSON.deserialize(criteriaJson, DisclaimerCriteria.class);
         String numberOfFunds = (criteria.products != null && criteria.products.size() > 1) ? 'Multiple' : 'Single';
 
         List<Narrative__c> footnotes      = new List<Narrative__c>();
         List<Narrative__c> endDisclaimers = new List<Narrative__c>();
-        for (Narrative__c n : [SELECT Id, Type__c, Content__c
-                                FROM Narrative__c
-                                WHERE RecordType.DeveloperName = 'Disclaimer'
-                                AND Type__c IN ('Footnote', 'End Disclaimer')
-                                AND (Source__c IN :criteria.sources OR Source__c = null)
-                                AND SubType__c IN :criteria.subTypes
-                                AND Media__c IN :criteria.media
-                                AND Country__c = :criteria.country
-                                AND Language__c = :criteria.language]) {
-            if (n.Type__c == 'Footnote') {
+        List<String> criteriaMediaList = criteria.media;
+        String narrativeQuery = 'SELECT Id, Type__c, Content__c, RecordType.DeveloperName ' +
+                                ' FROM Narrative__c ' +
+                                ' WHERE (RecordType.DeveloperName = \'EndDisclaimer\' OR RecordType.DeveloperName = \'FootnoteDisclaimer\')' +
+                                ' AND Country__c = \'' + criteria.country + '\'' +
+                                ' AND Language__c = \'' + criteria.language + '\'';
+        narrativeQuery += !criteria.media.isEmpty()? ' AND Media__c IN :criteriaMediaList ' : ' AND Media__c = null ';
+        for (Narrative__c n : Database.query(narrativeQuery)) {
+            if (n.RecordType.DeveloperName == 'FootnoteDisclaimer') {
                 footnotes.add(n);
-            } else {
+            } 
+            else {
                 endDisclaimers.add(n);
             }
         }

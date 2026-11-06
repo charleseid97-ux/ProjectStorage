@@ -45,14 +45,34 @@
                 <label>PRIIPs</label>
             </value>
             <value>
-                <fullName>Footnote</fullName>
+                <fullName>Content</fullName>
                 <default>false</default>
-                <label>Footnote</label>
+                <label>Content</label>
             </value>
             <value>
-                <fullName>End Disclaimer</fullName>
+                <fullName>Source</fullName>
                 <default>false</default>
-                <label>End Disclaimer</label>
+                <label>Source</label>
+            </value>
+            <value>
+                <fullName>ManCo</fullName>
+                <default>false</default>
+                <label>ManCo</label>
+            </value>
+            <value>
+                <fullName>Audience</fullName>
+                <default>false</default>
+                <label>Audience</label>
+            </value>
+            <value>
+                <fullName>Targeted audience</fullName>
+                <default>false</default>
+                <label>Targeted audience</label>
+            </value>
+            <value>
+                <fullName>Logical Rule</fullName>
+                <default>false</default>
+                <label>Logical Rule</label>
             </value>
             <value>
                 <fullName>Benchmark</fullName>
@@ -71,12 +91,6 @@
                 <default>false</default>
                 <isActive>false</isActive>
                 <label>Disclaimer</label>
-            </value>
-            <value>
-                <fullName>ESG</fullName>
-                <default>false</default>
-                <isActive>false</isActive>
-                <label>ESG</label>
             </value>
             <value>
                 <fullName>Investment Scope</fullName>

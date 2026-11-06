@@ -1,0 +1,302 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<RecordType xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>FootnoteDisclaimer</fullName>
+    <active>true</active>
+    <description>Manage Footnote narratives used by the Disclaimer Builder</description>
+    <label>Footnote Disclaimer</label>
+    <picklistValues>
+        <picklist>Media__c</picklist>
+        <values>
+            <fullName>EPT</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Factsheet</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Form</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Kid</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>PTEMT</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Prospectus</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Web</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Website</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>NumberOfFunds__c</picklist>
+        <values>
+            <fullName>Multiple</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Single</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Source__c</picklist>
+        <values>
+            <fullName>Carmignac</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>MSCI</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Morningstar</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>SubType__c</picklist>
+        <values>
+            <fullName>Active management vs reference index</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Approach</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Award or ranking</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>BNP AM France</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Carmignac</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Carmignac Gestion Luxembourg S%2EA</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Carmignac Gestion S%2EA</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Chaining performance</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Changes</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Citywire Rating</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Classification</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Controversial weapons</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Definition</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Dividend rate from inc shares</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Elibigle Counterparties</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>External</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>FID</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Fund name</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>GHG scope 1%2C2%2C3</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Generic disclamer</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Gross results</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>In euros in a country whose currency is CHF%2C GBP or USD</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Investment duration</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Investment simulator</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>KID%2FKIID%2Fprospectus</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Lack of fund history duration</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>MSCI</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>MSCI ESG</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>MSCI ESG rating</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Mandatory disclaimer</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Morningstar</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>PM or Team</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Past performance</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Perf up to 1Y</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Performance</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Power generator</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Professional Clients</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Promotional Material</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Prospectus reference</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Rated Manager</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Rating</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Retail Clients</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Risk Scale</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>START disclaimer</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Simulated performance</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Since first nav</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Specific issuer mentioned</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>TopDirectPos</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>UN SDG alignment methodology</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>White Creek Capital LLP</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>White Creek delegation</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Type__c</picklist>
+        <values>
+            <fullName>Audience</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Content</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Logical Rule</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>ManCo</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Source</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Targeted audience</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+</RecordType>

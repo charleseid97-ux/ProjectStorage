@@ -915,22 +915,246 @@
                 <label>Mandatory disclaimer</label>
             </value>
             <value>
-                <fullName>Simulated Performances</fullName>
-                <default>false</default>
-                <label>Simulated Performances</label>
-            </value>
-            <value>
                 <fullName>Risk Scale</fullName>
                 <default>false</default>
                 <label>Risk Scale</label>
             </value>
+            <value>
+                <fullName>Carmignac Gestion Luxembourg S.A</fullName>
+                <default>false</default>
+                <label>Carmignac Gestion Luxembourg S.A</label>
+            </value>
+            <value>
+                <fullName>Carmignac Gestion S.A</fullName>
+                <default>false</default>
+                <label>Carmignac Gestion S.A</label>
+            </value>
+            <value>
+                <fullName>BNP AM France</fullName>
+                <default>false</default>
+                <label>BNP AM France</label>
+            </value>
+            <value>
+                <fullName>White Creek Capital LLP</fullName>
+                <default>false</default>
+                <label>White Creek Capital LLP</label>
+            </value>
+            <value>
+                <fullName>Carmignac</fullName>
+                <default>false</default>
+                <label>Carmignac</label>
+            </value>
+            <value>
+                <fullName>Morningstar</fullName>
+                <default>false</default>
+                <label>Morningstar</label>
+            </value>
+            <value>
+                <fullName>MSCI</fullName>
+                <default>false</default>
+                <label>MSCI</label>
+            </value>
+            <value>
+                <fullName>Retail Clients</fullName>
+                <default>false</default>
+                <label>Retail Clients</label>
+            </value>
+            <value>
+                <fullName>Professional Clients</fullName>
+                <default>false</default>
+                <label>Professional Clients</label>
+            </value>
+            <value>
+                <fullName>Elibigle Counterparties</fullName>
+                <default>false</default>
+                <label>Elibigle Counterparties</label>
+            </value>
+            <value>
+                <fullName>Simulated performance</fullName>
+                <default>false</default>
+                <label>Simulated performance</label>
+            </value>
+            <value>
+                <fullName>Past performance</fullName>
+                <default>false</default>
+                <label>Past performance</label>
+            </value>
+            <value>
+                <fullName>External</fullName>
+                <default>false</default>
+                <label>External</label>
+            </value>
+            <value>
+                <fullName>In euros in a country whose currency is CHF, GBP or USD</fullName>
+                <default>false</default>
+                <label>In euros in a country whose currency is CHF, GBP or USD</label>
+            </value>
+            <value>
+                <fullName>Investment duration</fullName>
+                <default>false</default>
+                <label>Investment duration</label>
+            </value>
+            <value>
+                <fullName>Lack of fund history duration</fullName>
+                <default>false</default>
+                <label>Lack of fund history duration</label>
+            </value>
+            <value>
+                <fullName>Gross results</fullName>
+                <default>false</default>
+                <label>Gross results</label>
+            </value>
+            <value>
+                <fullName>Investment simulator</fullName>
+                <default>false</default>
+                <label>Investment simulator</label>
+            </value>
+            <value>
+                <fullName>Promotional Material</fullName>
+                <default>false</default>
+                <label>Promotional Material</label>
+            </value>
+            <value>
+                <fullName>Since first nav</fullName>
+                <default>false</default>
+                <label>Since first nav</label>
+            </value>
+            <value>
+                <fullName>Perf up to 1Y</fullName>
+                <default>false</default>
+                <label>Perf up to 1Y</label>
+            </value>
+            <value>
+                <fullName>Specific issuer mentioned</fullName>
+                <default>false</default>
+                <label>Specific issuer mentioned</label>
+            </value>
+            <value>
+                <fullName>Definition</fullName>
+                <default>false</default>
+                <label>Definition</label>
+            </value>
+            <value>
+                <fullName>Award or ranking</fullName>
+                <default>false</default>
+                <label>Award or ranking</label>
+            </value>
+            <value>
+                <fullName>Dividend rate from inc shares</fullName>
+                <default>false</default>
+                <label>Dividend rate from inc shares</label>
+            </value>
+            <value>
+                <fullName>Chaining performance</fullName>
+                <default>false</default>
+                <label>Chaining performance</label>
+            </value>
+            <value>
+                <fullName>MSCI ESG rating</fullName>
+                <default>false</default>
+                <label>MSCI ESG rating</label>
+            </value>
+            <value>
+                <fullName>GHG scope 1,2,3</fullName>
+                <default>false</default>
+                <label>GHG scope 1,2,3</label>
+            </value>
+            <value>
+                <fullName>START disclaimer</fullName>
+                <default>false</default>
+                <label>START disclaimer</label>
+            </value>
+            <value>
+                <fullName>Controversial weapons</fullName>
+                <default>false</default>
+                <label>Controversial weapons</label>
+            </value>
+            <value>
+                <fullName>Power generator</fullName>
+                <default>false</default>
+                <label>Power generator</label>
+            </value>
+            <value>
+                <fullName>MSCI ESG</fullName>
+                <default>false</default>
+                <label>MSCI ESG</label>
+            </value>
+            <value>
+                <fullName>Classification</fullName>
+                <default>false</default>
+                <label>Classification</label>
+            </value>
+            <value>
+                <fullName>KID/KIID/prospectus</fullName>
+                <default>false</default>
+                <label>KID/KIID/prospectus</label>
+            </value>
+            <value>
+                <fullName>Generic disclamer</fullName>
+                <default>false</default>
+                <label>Generic disclamer</label>
+            </value>
+            <value>
+                <fullName>White Creek delegation</fullName>
+                <default>false</default>
+                <label>White Creek delegation</label>
+            </value>
+            <value>
+                <fullName>UN SDG alignment methodology</fullName>
+                <default>false</default>
+                <label>UN SDG alignment methodology</label>
+            </value>
+            <value>
+                <fullName>Rated Manager</fullName>
+                <default>false</default>
+                <label>Rated Manager</label>
+            </value>
+            <value>
+                <fullName>Citywire Rating</fullName>
+                <default>false</default>
+                <label>Citywire Rating</label>
+            </value>
+            <value>
+                <fullName>FID</fullName>
+                <default>false</default>
+                <label>FID</label>
+            </value>
+            <value>
+                <fullName>PM or Team</fullName>
+                <default>false</default>
+                <label>PM or Team</label>
+            </value>
+            <value>
+                <fullName>TopDirectPos</fullName>
+                <default>false</default>
+                <label>TopDirectPos</label>
+            </value>
+            <value>
+                <fullName>Fund name</fullName>
+                <default>false</default>
+                <label>Fund name</label>
+            </value>
+            <value>
+                <fullName>Changes</fullName>
+                <default>false</default>
+                <label>Changes</label>
+            </value>
+            <value>
+                <fullName>Approach</fullName>
+                <default>false</default>
+                <label>Approach</label>
+            </value>
+            <value>
+                <fullName>Prospectus reference</fullName>
+                <default>false</default>
+                <label>Prospectus reference</label>
+            </value>
+            <value>
+                <fullName>Active management vs reference index</fullName>
+                <default>false</default>
+                <label>Active management vs reference index</label>
+            </value>
         </valueSetDefinition>
-        <valueSettings>
-            <controllingFieldValue>Investment Objective</controllingFieldValue>
-            <controllingFieldValue>Investment Strategy</controllingFieldValue>
-            <controllingFieldValue>PRIIPs</controllingFieldValue>
-            <valueName>Description</valueName>
-        </valueSettings>
         <valueSettings>
             <controllingFieldValue>Biography</controllingFieldValue>
             <valueName>Standard</valueName>
@@ -942,6 +1166,40 @@
         <valueSettings>
             <controllingFieldValue>Biography</controllingFieldValue>
             <valueName>Short</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>ManCo</controllingFieldValue>
+            <valueName>Carmignac Gestion Luxembourg S.A</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>ManCo</controllingFieldValue>
+            <valueName>Carmignac Gestion S.A</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>ManCo</controllingFieldValue>
+            <valueName>BNP AM France</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>ManCo</controllingFieldValue>
+            <valueName>White Creek Capital LLP</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Investment Strategy</controllingFieldValue>
+            <controllingFieldValue>PRIIPs</controllingFieldValue>
+            <controllingFieldValue>Investment Objective</controllingFieldValue>
+            <valueName>Description</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Audience</controllingFieldValue>
+            <valueName>Retail Clients</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Audience</controllingFieldValue>
+            <valueName>Elibigle Counterparties</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Targeted audience</controllingFieldValue>
+            <valueName>Professional Clients</valueName>
         </valueSettings>
         <valueSettings>
             <controllingFieldValue>Third Party</controllingFieldValue>
@@ -984,10 +1242,6 @@
             <valueName>Delegated_Investment_Managers</valueName>
         </valueSettings>
         <valueSettings>
-            <controllingFieldValue>Risk</controllingFieldValue>
-            <valueName>Main Risk of the Fund</valueName>
-        </valueSettings>
-        <valueSettings>
             <controllingFieldValue>PRIIPs</controllingFieldValue>
             <valueName>INTENDED_RETAIL_INVESTOR</valueName>
         </valueSettings>
@@ -1024,24 +1278,8 @@
             <valueName>Performance_fee_EPT/KID</valueName>
         </valueSettings>
         <valueSettings>
-            <controllingFieldValue>Footnote</controllingFieldValue>
-            <controllingFieldValue>End Disclaimer</controllingFieldValue>
-            <valueName>Performance</valueName>
-        </valueSettings>
-        <valueSettings>
-            <controllingFieldValue>Footnote</controllingFieldValue>
-            <controllingFieldValue>End Disclaimer</controllingFieldValue>
-            <valueName>Mandatory disclaimer</valueName>
-        </valueSettings>
-        <valueSettings>
-            <controllingFieldValue>Footnote</controllingFieldValue>
-            <controllingFieldValue>End Disclaimer</controllingFieldValue>
-            <valueName>Simulated Performances</valueName>
-        </valueSettings>
-        <valueSettings>
-            <controllingFieldValue>Footnote</controllingFieldValue>
-            <controllingFieldValue>End Disclaimer</controllingFieldValue>
-            <valueName>Risk Scale</valueName>
+            <controllingFieldValue>Risk</controllingFieldValue>
+            <valueName>Main Risk of the Fund</valueName>
         </valueSettings>
         <valueSettings>
             <controllingFieldValue>Glossary</controllingFieldValue>
@@ -1598,6 +1836,175 @@
         <valueSettings>
             <controllingFieldValue>Glossary</controllingFieldValue>
             <valueName>COMMUNICATION</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Content</controllingFieldValue>
+            <valueName>Performance</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Content</controllingFieldValue>
+            <valueName>Mandatory disclaimer</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Content</controllingFieldValue>
+            <valueName>Risk Scale</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Content</controllingFieldValue>
+            <valueName>Simulated performance</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Content</controllingFieldValue>
+            <valueName>Past performance</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Content</controllingFieldValue>
+            <controllingFieldValue>Source</controllingFieldValue>
+            <valueName>External</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Content</controllingFieldValue>
+            <valueName>In euros in a country whose currency is CHF, GBP or USD</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Content</controllingFieldValue>
+            <valueName>Investment duration</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Content</controllingFieldValue>
+            <valueName>Lack of fund history duration</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Content</controllingFieldValue>
+            <valueName>Gross results</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Content</controllingFieldValue>
+            <valueName>Investment simulator</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Content</controllingFieldValue>
+            <valueName>Promotional Material</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Content</controllingFieldValue>
+            <valueName>Since first nav</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Content</controllingFieldValue>
+            <valueName>Perf up to 1Y</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Content</controllingFieldValue>
+            <valueName>Specific issuer mentioned</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Content</controllingFieldValue>
+            <valueName>Definition</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Content</controllingFieldValue>
+            <valueName>Award or ranking</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Content</controllingFieldValue>
+            <valueName>Dividend rate from inc shares</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Content</controllingFieldValue>
+            <valueName>Chaining performance</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Content</controllingFieldValue>
+            <valueName>GHG scope 1,2,3</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Content</controllingFieldValue>
+            <valueName>START disclaimer</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Content</controllingFieldValue>
+            <valueName>Controversial weapons</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Content</controllingFieldValue>
+            <valueName>Power generator</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Content</controllingFieldValue>
+            <valueName>Classification</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Content</controllingFieldValue>
+            <valueName>KID/KIID/prospectus</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Content</controllingFieldValue>
+            <valueName>Generic disclamer</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Content</controllingFieldValue>
+            <valueName>UN SDG alignment methodology</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Content</controllingFieldValue>
+            <valueName>Rated Manager</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Content</controllingFieldValue>
+            <valueName>Citywire Rating</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Content</controllingFieldValue>
+            <valueName>FID</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Content</controllingFieldValue>
+            <valueName>PM or Team</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Content</controllingFieldValue>
+            <valueName>TopDirectPos</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Content</controllingFieldValue>
+            <valueName>Fund name</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Content</controllingFieldValue>
+            <valueName>Changes</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Content</controllingFieldValue>
+            <valueName>Approach</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Content</controllingFieldValue>
+            <valueName>Prospectus reference</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Content</controllingFieldValue>
+            <valueName>Active management vs reference index</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Source</controllingFieldValue>
+            <valueName>Carmignac</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Source</controllingFieldValue>
+            <valueName>Morningstar</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Source</controllingFieldValue>
+            <valueName>MSCI</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Source</controllingFieldValue>
+            <valueName>MSCI ESG rating</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Source</controllingFieldValue>
+            <valueName>MSCI ESG</valueName>
         </valueSettings>
     </valueSet>
 </CustomField>
