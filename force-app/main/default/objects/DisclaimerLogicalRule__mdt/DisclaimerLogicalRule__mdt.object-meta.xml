@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObject xmlns="http://soap.sforce.com/2006/04/metadata">
+    <description>Disclaimer Builder: decides which "Logical Rule" narratives (Narrative__c.LogicalRule__c = this record's DeveloperName) join a disclaimer, from the products the user selected. Every filled criterion must pass (Number Of Products, Products, Condition). Read by the DisclaimerLogicalRules Apex class.</description>
+    <label>Disclaimer - Logical Rule</label>
+    <pluralLabel>Disclaimer - Logical Rules</pluralLabel>
+    <visibility>Public</visibility>
+</CustomObject>
