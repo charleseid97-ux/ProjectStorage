@@ -16,12 +16,16 @@ private class NarrativeTemplateServiceTest {
         return null;
     }
 
-    // Crée un produit avec les données nécessaires à la génération de narrative
+    // Crée un produit actif de type Fund compatible avec le lookup Narrative Product
     private static Product__c createProduct(
         String legalForm,
         String selectedRisk
     ) {
         Product__c product = new Product__c();
+        product.RecordTypeId = Schema.SObjectType.Product__c
+            .getRecordTypeInfosByDeveloperName()
+            .get('Fund')
+            .getRecordTypeId();
 
         // Renseigne Name uniquement lorsqu'il n'est pas auto-numéroté
         if (!Product__c.Name.getDescribe().isAutoNumber()) {
@@ -30,6 +34,7 @@ private class NarrativeTemplateServiceTest {
 
         product.LegalForm__c = legalForm;
         product.RiskNotConsideredinIndicator__c = selectedRisk;
+        product.Validity__c = true;
         insert product;
 
         return product;
