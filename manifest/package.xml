@@ -6,6 +6,7 @@
         <members>Narrative__c.NumberOfFunds__c</members>
         <members>Narrative__c.Type__c</members>
         <members>Narrative__c.Media__c</members>
+        <members>Narrative__c.LogicalRule__c</members>
         <name>CustomField</name>
     </types>
     <types>
@@ -16,6 +17,7 @@
     <types>
         <members>ApprovalActionConfig__mdt</members>
         <members>ApprovalStepConfig__mdt</members>
+        <members>DisclaimerLogicalRule__mdt</members>
         <members>Disclaimer__c</members>
         <members>DisclaimerDetail__c</members>
         <name>CustomObject</name>
@@ -56,17 +58,23 @@
     <types>
         <members>buildDisclaimer</members>
         <members>disclaimerSubmitForApproval</members>
+        <members>multiSelectSearchList</members>
         <name>LightningComponentBundle</name>
     </types>
     <types>
         <members>DisclaimerBuilderController</members>
         <members>DisclaimerBuilderControllerTest</members>
+        <members>DisclaimerLogicalRules</members>
         <members>DisclaimerTriggerHandler</members>
         <name>ApexClass</name>
     </types>
     <types>
         <members>DisclaimerTrigger</members>
         <name>ApexTrigger</name>
+    </types>
+    <types>
+        <members>Narrative__c.VR06_DisclaimerRT_LogicalRuleRequired</members>
+        <name>ValidationRule</name>
     </types>
     <types>
         <members>DisclaimerBuilderPermissions</members>

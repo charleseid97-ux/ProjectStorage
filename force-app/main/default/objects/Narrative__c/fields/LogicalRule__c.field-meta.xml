@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>LogicalRule__c</fullName>
+    <description>Disclaimer narratives of Type "Logical Rule": DeveloperName of the DisclaimerLogicalRule__mdt record deciding when the Disclaimer Builder takes this narrative.</description>
+    <externalId>false</externalId>
+    <inlineHelpText>Developer Name of the Disclaimer Logical Rule (custom metadata) deciding when this narrative joins a disclaimer. Required for Type &quot;Logical Rule&quot; only.</inlineHelpText>
+    <label>Logical Rule</label>
+    <length>40</length>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>
