@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Value__c</fullName>
+    <description>One recipient, depending on Type__c: an email address, a queue or public group DeveloperName, or a field path on the email's record (relationships allowed: Agreement__r.OwnerId).</description>
+    <externalId>false</externalId>
+    <fieldManageability>SubscriberControlled</fieldManageability>
+    <inlineHelpText>One recipient. Address: a@carmignac.com. Queue / Public Group: its API name. Record Field: the field API name on the email's record, e.g. AgentOwner__c (a user) or Contact__r.Email (an email field).</inlineHelpText>
+    <label>Value</label>
+    <length>255</length>
+    <required>true</required>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

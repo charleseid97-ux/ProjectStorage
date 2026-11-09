@@ -19,13 +19,6 @@
             </value>
         </inputParameters>
         <inputParameters>
-            <name>recipientId</name>
-            <value>
-                <elementReference>$Record.AgentOwner__r.Id</elementReference>
-                <inputConfiguratorMode>Resource</inputConfiguratorMode>
-            </value>
-        </inputParameters>
-        <inputParameters>
             <name>recordId</name>
             <value>
                 <elementReference>$Record.Case_ID__c</elementReference>
@@ -48,13 +41,6 @@
             <value>
                 <inputConfiguratorMode>Resource</inputConfiguratorMode>
                 <stringValue>AIAgentCreationRequestNotApproved</stringValue>
-            </value>
-        </inputParameters>
-        <inputParameters>
-            <name>recipientId</name>
-            <value>
-                <elementReference>$Record.AgentOwner__r.Id</elementReference>
-                <inputConfiguratorMode>Resource</inputConfiguratorMode>
             </value>
         </inputParameters>
         <inputParameters>
@@ -86,13 +72,6 @@
             </value>
         </inputParameters>
         <inputParameters>
-            <name>recipientId</name>
-            <value>
-                <elementReference>$Record.Requester__r.Id</elementReference>
-                <inputConfiguratorMode>Resource</inputConfiguratorMode>
-            </value>
-        </inputParameters>
-        <inputParameters>
             <name>recordId</name>
             <value>
                 <elementReference>$Record.Case_ID__c</elementReference>
@@ -119,13 +98,6 @@
         </inputParameters>
         <inputParameters>
             <name>dryRun</name>
-        </inputParameters>
-        <inputParameters>
-            <name>recipientId</name>
-            <value>
-                <elementReference>$Record.Requester__r.Id</elementReference>
-                <inputConfiguratorMode>Resource</inputConfiguratorMode>
-            </value>
         </inputParameters>
         <inputParameters>
             <name>recordId</name>
