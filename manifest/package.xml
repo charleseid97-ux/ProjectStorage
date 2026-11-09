@@ -1,5 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<Package xmlns="http://soap.sforce.com/2006/04/metadata">   
+<Package xmlns="http://soap.sforce.com/2006/04/metadata">
+    <types>
+        <members>AI_Agent_Activation_Notification</members>
+        <members>AI_Agent_Implementation_Reminder</members>
+        <members>AI_Agent_Governance_Escalation</members>
+        <members>AI_Agent_Request_Reminder</members>
+        <members>AI_Agent_New_Request_Notification</members>
+        <name>Flow</name>
+    </types>
     <types>
         <members>AIAgentEmailTemplates</members>
         <name>EmailTemplateFolder</name>
