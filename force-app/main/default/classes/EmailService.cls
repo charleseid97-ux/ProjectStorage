@@ -6,44 +6,61 @@
  *                  - new EmailRequest(customAlertName, recordId): filled from a CustomEmailAlert__mdt record (used by the Flow action CustomEmailAlertFlowAction); the caller can still override or add anything before send().
  *              The template is always rendered (renderStoredEmailTemplate: Classic, Lightning, Visualforce), once per distinct template / recipient / record, then the replacements are applied. Each render costs 1 SOQL query.
  *              To / Cc / Bcc = addresses + queue members + users of userOrGroupIds, split into several identical messages above 100 To / 25 Cc / 25 Bcc, all sent in a single Messaging.sendEmail.
- *              Configuration errors (unknown alert, template, queue or org-wide address, invalid recipient, no To recipient) throw EmailServiceException before anything is sent. Send failures never throw: they are logged in
+ *              Configuration errors (unknown alert, template, queue or org-wide address, invalid recipient) throw EmailServiceException before anything is sent. Send failures never throw: they are logged in
  *                  OperationLog__c (logFailures). The engine never flushes OperationLogService: the entry point flushes, and send() must come after any callout of the transaction (sendEmail is pending work).
  *              Invalid addresses (e.g. masked sandbox addresses "x@y.com.invalid") never block the others: a message Salesforce rejects for them is resent once without them (WARN log).
  *              Dry run (dryRun, DryRun__c on the alert, or forced for the org / a profile / a user by EmailServiceSettings__c.ForceDryRun__c): the email is built and checked as configured, but sent only to the dry-run addresses
- *                  (EmailServiceSettings__c.DryRunAddresses__c), its subject prefixed with "DRY RUN - " and the real recipients listed at the top of its body.
+ *                  (EmailServiceSettings__c.DryRunAddresses__c), its subject prefixed with "[DRY RUN] " and the real recipients listed at the top of its body (the recipient record by name and email).
+ *              No To recipient (e.g. every Custom Email Recipient inactive, an empty record field, no active user): the email goes the same way to the No Recipient Addresses only (EmailServiceSettings__c.NoRecipientAddresses__c),
+ *                  its subject prefixed with "[NO RECIPIENT] ", its Cc / Bcc, alert and record listed at the top of its body, with a WARN log; the caller never fails for it. No address set: configuration error.
+ *              Recipients of an alert: its CustomEmailRecipient__mdt rows, one recipient per row (Address, Queue, PublicGroup, RecordField in To / Cc / Bcc), each with an optional formula Condition on the email's record (Formula.builder).
+ *                  The fields the rows read (conditions, record fields) are queried once per object for all the requests of a build.
+ *                  A Record Field row giving a User in To makes that user the recipient record (targetObjectId) when the request has none, exactly like the Flow's Recipient Id (rows read by DeveloperName order).
  * @author Charles EID
  * @testClass EmailServiceTest
- * @coverage 98%   [03-11-26]
- * @lastModifiedBy Charles EID   [03-11-26]
+ * @coverage 97%   [09-11-26]
+ * @lastModifiedBy Charles EID   [09-11-26]
 ────────────────────────────────────── */
 public without sharing class EmailService {
 
     private static final String DEFAULT_ORG_WIDE_ADDRESS = Label.EmailService_DefaultOrgWideAddress;
+    @TestVisible
     private static final String DRY_RUN_SUBJECT_PREFIX = '[DRY RUN] ';
+    @TestVisible
+    private static final String NO_RECIPIENT_SUBJECT_PREFIX = '[NO RECIPIENT] ';
     // Running user's effective values (org default, overridden per profile / user)
     private static final EmailServiceSettings__c SETTINGS = EmailServiceSettings__c.getInstance();
     private static final Boolean FORCE_DRY_RUN = SETTINGS.ForceDryRun__c == true;
     private static final List<String> DRY_RUN_ADDRESSES = new List<String>(splitValues(SETTINGS.DryRunAddresses__c));
+    private static final List<String> NO_RECIPIENT_ADDRESSES = new List<String>(splitValues(SETTINGS.NoRecipientAddresses__c));
     private static final String DEFAULT_LOG_OPERATION = 'Email send';
     private static final Integer MAX_TO_ADDRESSES = 100;
     private static final Integer MAX_CC_BCC_ADDRESSES = 25;
     private static final Set<String> ADDRESS_FIELDS = new Set<String>{ 'toAddresses', 'ccAddresses', 'bccAddresses' };
     private static final Set<Schema.SObjectType> RECIPIENT_TYPES = new Set<Schema.SObjectType>{ Contact.SObjectType, Lead.SObjectType, User.SObjectType };
+    private static final Set<Schema.SObjectType> USER_OR_GROUP_TYPES = new Set<Schema.SObjectType>{ User.SObjectType, Group.SObjectType };
+    private static final String RECORD_FIELD = 'RecordField';
 
     // Loaded once per alert per transaction: a bulk Flow builds one request per record with the same alert
     private static Map<String, CustomEmailAlert__mdt> alertsByName = new Map<String, CustomEmailAlert__mdt>();
+    private static Map<String, List<CustomEmailRecipient__mdt>> recipientRulesByAlertName = new Map<String, List<CustomEmailRecipient__mdt>>();
+    // Compiled once per condition and object per transaction
+    private static Map<String, FormulaEval.FormulaInstance> conditionsByKey = new Map<String, FormulaEval.FormulaInstance>();
     private static Map<String, Id> orgWideIdsByAddress = new Map<String, Id>();
+    private static Map<Id, String> recipientLabelsById = new Map<Id, String>();
 
     public enum Sender { NO_REPLY, CURRENT_USER, ORG_WIDE }
 
     public class EmailServiceException extends Exception {}
 
-    // Builds then sends every active request in a single Messaging.sendEmail; send failures are logged, never thrown
+    // Builds then sends every active request in a single Messaging.sendEmail; send failures and emails sent to the No Recipient Addresses are logged, never thrown
     public static void send(List<EmailRequest> requests) {
         List<EmailRequest> requestByEmail = new List<EmailRequest>();
-        List<Messaging.SingleEmailMessage> emails = buildEmails(requests, requestByEmail);
+        List<EmailRequest> noRecipientRequests = new List<EmailRequest>();
+        List<Messaging.SingleEmailMessage> emails = buildEmails(requests, requestByEmail, noRecipientRequests);
         if (emails.isEmpty()) return;
 
+        for (EmailRequest request : noRecipientRequests) logFailure(OperationLogService.Level.WARN, request, null, 'No To recipient: the email was sent to the No Recipient Addresses (Custom Setting Email Service Settings).', null);
         try {
             sendEmails(emails, requestByEmail, true);
         }
@@ -58,7 +75,18 @@ public without sharing class EmailService {
 
     // The exact messages send() would send, without sending them (preview, checks, tests)
     public static List<Messaging.SingleEmailMessage> build(List<EmailRequest> requests) {
-        return buildEmails(requests, new List<EmailRequest>());
+        return buildEmails(requests, new List<EmailRequest>(), new List<EmailRequest>());
+    }
+
+    // Splits a list of values (Flow inputs Additional To / Cc / Bcc Addresses): separated by commas, semicolons or line breaks
+    public static Set<String> splitValues(String raw) {
+        Set<String> values = new Set<String>();
+        if (String.isBlank(raw)) return values;
+
+        for (String value : raw.split('[\\r\\n,;]+')) {
+            if (String.isNotBlank(value)) values.add(value.trim());
+        }
+        return values;
     }
 
     public static void sendTemplateEmail(String templateDeveloperName, Id whatId, Set<Id> recipientUserIds) {
@@ -212,18 +240,25 @@ public without sharing class EmailService {
         return emailList;
     }
 
-    // Resolves templates, queues, users and senders in bulk, checks each request, then builds its content (buildContent) and its messages (splitMessages); requestByEmail receives the request of each message
-    private static List<Messaging.SingleEmailMessage> buildEmails(List<EmailRequest> requests, List<EmailRequest> requestByEmail) {
+    // Applies the Custom Email Recipient rows, resolves templates, queues, users and senders in bulk, checks each request, then builds its content (buildContent) and its messages (splitMessages)
+    // requestByEmail receives the request of each message, noRecipientRequests the requests sent to the No Recipient Addresses
+    private static List<Messaging.SingleEmailMessage> buildEmails(List<EmailRequest> requests, List<EmailRequest> requestByEmail, List<EmailRequest> noRecipientRequests) {
         List<EmailRequest> activeRequests = new List<EmailRequest>();
+        for (EmailRequest request : requests) {
+            if (request.isActive) activeRequests.add(request);
+        }
+        List<Messaging.SingleEmailMessage> emails = new List<Messaging.SingleEmailMessage>();
+        if (activeRequests.isEmpty()) return emails;
+
+        applyRecipientRules(activeRequests);
         Set<String> templateNames = new Set<String>();
         Set<String> queueNames = new Set<String>();
         Set<Id> userOrGroupIds = new Set<Id>();
         Set<String> orgWideAddresses = new Set<String>();
-        for (EmailRequest request : requests) {
-            if (!request.isActive) continue;
-
-            activeRequests.add(request);
+        Set<Id> dryRunRecipientIds = new Set<Id>();
+        for (EmailRequest request : activeRequests) {
             if (String.isNotBlank(request.templateDeveloperName)) templateNames.add(request.templateDeveloperName);
+            if (request.recipientId != null && isDryRun(request)) dryRunRecipientIds.add(request.recipientId);
             for (Recipients recipients : new List<Recipients>{ request.to, request.cc, request.bcc }) {
                 queueNames.addAll(recipients.queues);
                 userOrGroupIds.addAll(recipients.userOrGroupIds);
@@ -231,14 +266,12 @@ public without sharing class EmailService {
             String senderAddress = getSenderAddress(request);
             if (senderAddress != null) orgWideAddresses.add(senderAddress);
         }
-        List<Messaging.SingleEmailMessage> emails = new List<Messaging.SingleEmailMessage>();
-        if (activeRequests.isEmpty()) return emails;
-
         Map<String, Id> templateIdsByName = getTemplateIds(templateNames);
         Map<String, Set<String>> emailsByQueue = QueueMemberService.getQueueMemberEmails(queueNames);
         checkAllFound(queueNames, emailsByQueue.keySet(), 'Queue(s)');
         Map<Id, Set<String>> emailsByUserOrGroupId = getUserOrGroupEmails(userOrGroupIds);
         loadOrgWideAddresses(orgWideAddresses);
+        loadRecipientLabels(dryRunRecipientIds);
 
         Map<String, Messaging.SingleEmailMessage> renderedByKey = new Map<String, Messaging.SingleEmailMessage>();
         for (EmailRequest request : activeRequests) {
@@ -249,14 +282,140 @@ public without sharing class EmailService {
             List<String> toAddresses = resolveAddresses(request.to, emailsByQueue, emailsByUserOrGroupId);
             List<String> ccAddresses = resolveAddresses(request.cc, emailsByQueue, emailsByUserOrGroupId);
             List<String> bccAddresses = resolveAddresses(request.bcc, emailsByQueue, emailsByUserOrGroupId);
-            if (toAddresses.isEmpty() && request.recipientId == null) throw new EmailServiceException(describe(request) + ' has no To recipient (no To address, no member in its To queues and no recipient record).');
+            Boolean noRecipient = toAddresses.isEmpty() && request.recipientId == null;
+            if (noRecipient && NO_RECIPIENT_ADDRESSES.isEmpty()) throw new EmailServiceException(describe(request) + ' has no To recipient (no To address, no active user or queue member, no matching Custom Email Recipient and no recipient record) and no No Recipient Address is set (Custom Setting Email Service Settings).');
+            if (noRecipient && !isDryRun(request)) noRecipientRequests.add(request);
 
-            for (Messaging.SingleEmailMessage email : splitMessages(request, content, toAddresses, ccAddresses, bccAddresses)) {
+            for (Messaging.SingleEmailMessage email : splitMessages(request, content, toAddresses, ccAddresses, bccAddresses, noRecipient)) {
                 emails.add(email);
                 requestByEmail.add(request);
             }
         }
         return emails;
+    }
+
+    // Adds the recipients of each request's Custom Email Recipient rows whose condition is true on its record; sets keep build() then send() on the same requests free of duplicates
+    private static void applyRecipientRules(List<EmailRequest> requests) {
+        Map<Id, SObject> recordsById = queryRuleRecords(requests);
+        Map<String, List<Recipients>> recipientsByGroupName = new Map<String, List<Recipients>>();
+        for (EmailRequest request : requests) {
+            SObject record = recordsById.get(request.whatId);
+            for (CustomEmailRecipient__mdt rule : request.recipientRules) {
+                if (String.isNotBlank(rule.Condition__c) && getCondition(rule, record.getSObjectType()).evaluate(record) != true) continue;
+
+                Recipients recipients = rule.SendAs__c == 'Cc' ? request.cc : rule.SendAs__c == 'Bcc' ? request.bcc : request.to;
+                addRecipient(request, recipients, rule, record, recipientsByGroupName);
+            }
+        }
+        addPublicGroups(recipientsByGroupName);
+    }
+
+    // The records the rows read (conditions, record fields): one query per object with every field read by the rows of all the requests
+    private static Map<Id, SObject> queryRuleRecords(List<EmailRequest> requests) {
+        Map<Schema.SObjectType, Set<Id>> recordIdsByType = new Map<Schema.SObjectType, Set<Id>>();
+        Map<Schema.SObjectType, Set<String>> fieldsByType = new Map<Schema.SObjectType, Set<String>>();
+        for (EmailRequest request : requests) {
+            for (CustomEmailRecipient__mdt rule : request.recipientRules) {
+                Set<String> fields = getRuleFields(request, rule);
+                if (fields.isEmpty()) continue;
+
+                Schema.SObjectType recordType = request.whatId.getSObjectType();
+                if (!recordIdsByType.containsKey(recordType)) {
+                    recordIdsByType.put(recordType, new Set<Id>());
+                    fieldsByType.put(recordType, new Set<String>{ 'id' });
+                }
+                recordIdsByType.get(recordType).add(request.whatId);
+                fieldsByType.get(recordType).addAll(fields);
+            }
+        }
+        Map<Id, SObject> recordsById = new Map<Id, SObject>();
+        for (Schema.SObjectType recordType : recordIdsByType.keySet()) {
+            Set<Id> recordIds = recordIdsByType.get(recordType);
+            List<SObject> records = Database.query('SELECT ' + String.join(new List<String>(fieldsByType.get(recordType)), ', ') + ' FROM ' + recordType + ' WHERE Id IN :recordIds');
+            recordsById.putAll(records);
+        }
+        return recordsById;
+    }
+
+    // Lower-case fields a row reads on the request's record: its condition's fields and its record field; empty when it reads nothing
+    private static Set<String> getRuleFields(EmailRequest request, CustomEmailRecipient__mdt rule) {
+        Set<String> fields = new Set<String>();
+        if (rule.Type__c != RECORD_FIELD && String.isBlank(rule.Condition__c)) return fields;
+        if (request.whatId == null) throw new EmailServiceException(describe(request) + ': its Custom Email Recipient "' + rule.DeveloperName + '" reads the email\'s record, but there is no Record Id.');
+
+        if (rule.Type__c == RECORD_FIELD) fields.add(rule.Value__c.trim().toLowerCase());
+        if (String.isNotBlank(rule.Condition__c)) {
+            for (String field : getCondition(rule, request.whatId.getSObjectType()).getReferencedFields()) fields.add(field.toLowerCase());
+        }
+        return fields;
+    }
+
+    private static FormulaEval.FormulaInstance getCondition(CustomEmailRecipient__mdt rule, Schema.SObjectType recordType) {
+        String key = recordType + '|' + rule.Condition__c;
+        if (!conditionsByKey.containsKey(key)) {
+            try {
+                conditionsByKey.put(key, Formula.builder().withType(recordType).withReturnType(FormulaEval.FormulaReturnType.BOOLEAN).withFormula(rule.Condition__c).build());
+            }
+            catch (FormulaValidationException e) {
+                throw new EmailServiceException('Custom Email Recipient "' + rule.DeveloperName + '": its condition is not a valid formula on ' + recordType + ' (' + e.getMessage() + ').');
+            }
+        }
+        return conditionsByKey.get(key);
+    }
+
+    // Public groups are collected by name (recipientsByGroupName) and resolved together by addPublicGroups
+    private static void addRecipient(EmailRequest request, Recipients recipients, CustomEmailRecipient__mdt rule, SObject record, Map<String, List<Recipients>> recipientsByGroupName) {
+        String value = rule.Value__c.trim();
+        switch on rule.Type__c {
+            when 'Address' {
+                recipients.addresses.add(value);
+            }
+            when 'Queue' {
+                recipients.queues.add(value);
+            }
+            when 'PublicGroup' {
+                if (!recipientsByGroupName.containsKey(value)) recipientsByGroupName.put(value, new List<Recipients>());
+                recipientsByGroupName.get(value).add(recipients);
+            }
+            when else {
+                addRecordFieldRecipient(request, recipients, rule, readFieldPath(record, value));
+            }
+        }
+    }
+
+    // A User / Queue / Group lookup gives its active users (userOrGroupIds), an Email or Text field gives addresses; an empty field adds nobody
+    // A User in To becomes the recipient record when the request has none, as the Flow's Recipient Id did: not counted in the daily email limit, fills the Recipient merge fields, and an inactive user is a send failure (logged), not a build error
+    private static void addRecordFieldRecipient(EmailRequest request, Recipients recipients, CustomEmailRecipient__mdt rule, Object value) {
+        if (value instanceof Id) {
+            Id userOrGroupId = (Id) value;
+            if (!USER_OR_GROUP_TYPES.contains(userOrGroupId.getSObjectType())) throw new EmailServiceException('Custom Email Recipient "' + rule.DeveloperName + '": ' + rule.Value__c + ' is a ' + userOrGroupId.getSObjectType() + ', not a User, Queue or Group. For a Contact or Lead, use its Email field (e.g. Contact__r.Email).');
+            if (recipients === request.to && userOrGroupId.getSObjectType() == User.SObjectType && (request.recipientId == null || request.recipientId == userOrGroupId)) request.recipientId = userOrGroupId;
+            else recipients.userOrGroupIds.add(userOrGroupId);
+        }
+        else if (value != null) {
+            recipients.addresses.addAll(splitValues(String.valueOf(value)));
+        }
+    }
+
+    // Value of a field path on a queried record (e.g. Agreement__r.Owner.Email); null when a relationship on the way is empty
+    private static Object readFieldPath(SObject record, String path) {
+        List<String> parts = path.split('\\.');
+        SObject current = record;
+        for (Integer i = 0; i < parts.size() - 1 && current != null; i++) current = current.getSObject(parts[i]);
+        return current?.get(parts[parts.size() - 1]);
+    }
+
+    // Ids of the rows' public groups (by DeveloperName) in userOrGroupIds, expanded to their active users like any group; an unknown group throws
+    private static void addPublicGroups(Map<String, List<Recipients>> recipientsByGroupName) {
+        if (recipientsByGroupName.isEmpty()) return;
+
+        Set<String> groupNames = recipientsByGroupName.keySet();
+        Map<String, Id> groupIdsByName = new Map<String, Id>();
+        for (Group publicGroup : [SELECT Id, DeveloperName FROM Group WHERE Type = 'Regular' AND DeveloperName IN :groupNames]) groupIdsByName.put(publicGroup.DeveloperName, publicGroup.Id);
+        checkAllFound(groupNames, groupIdsByName.keySet(), 'Public group(s)');
+        for (String groupName : groupNames) {
+            for (Recipients recipients : recipientsByGroupName.get(groupName)) recipients.userOrGroupIds.add(groupIdsByName.get(groupName));
+        }
     }
 
     // Subject and bodies of a request, replacements applied: rendered from its template (its subject can override the rendered one), otherwise its own subject and HTML body
@@ -286,12 +445,14 @@ public without sharing class EmailService {
 
     // A message takes at most 100 To / 25 Cc / 25 Bcc: above that, identical messages share the addresses out, each address in exactly one of them; the recipient record is on the first one
     // A dry run (its recipients already checked by buildEmails) goes to the dry-run addresses only: no To / Cc / Bcc, no recipient record (it still fills the Recipient merge fields), the real recipients listed at the top of the body
-    private static List<Messaging.SingleEmailMessage> splitMessages(EmailRequest request, Messaging.SingleEmailMessage content, List<String> toAddresses, List<String> ccAddresses, List<String> bccAddresses) {
+    // An email without To recipient goes the same way to the No Recipient Addresses only, its subject prefixed (a dry run stays a dry run)
+    private static List<Messaging.SingleEmailMessage> splitMessages(EmailRequest request, Messaging.SingleEmailMessage content, List<String> toAddresses, List<String> ccAddresses, List<String> bccAddresses, Boolean noRecipient) {
         Boolean dryRun = isDryRun(request);
-        if (dryRun) {
-            if (DRY_RUN_ADDRESSES.isEmpty()) throw new EmailServiceException(describe(request) + ' is a dry run but no dry-run address is set (Custom Setting Email Service Settings, Dry Run Addresses).');
-            addDryRunBanner(content, request, toAddresses, ccAddresses, bccAddresses);
-            toAddresses = DRY_RUN_ADDRESSES;
+        if (dryRun || noRecipient) {
+            if (dryRun && DRY_RUN_ADDRESSES.isEmpty()) throw new EmailServiceException(describe(request) + ' is a dry run but no dry-run address is set (Custom Setting Email Service Settings, Dry Run Addresses).');
+            addBanner(content, dryRun ? DRY_RUN_SUBJECT_PREFIX + 'This email was not sent to its real recipients:' : NO_RECIPIENT_SUBJECT_PREFIX + 'This email has no To recipient, so it was sent to you instead. Its recipients:', request, toAddresses, ccAddresses, bccAddresses);
+            if (!dryRun) content.setSubject(NO_RECIPIENT_SUBJECT_PREFIX + content.getSubject());
+            toAddresses = dryRun ? DRY_RUN_ADDRESSES : NO_RECIPIENT_ADDRESSES;
             ccAddresses = new List<String>();
             bccAddresses = new List<String>();
         }
@@ -320,12 +481,16 @@ public without sharing class EmailService {
         return emails;
     }
 
-    // Dry run: the recipients the email would have reached, at the top of its HTML and text bodies
-    private static void addDryRunBanner(Messaging.SingleEmailMessage content, EmailRequest request, List<String> toAddresses, List<String> ccAddresses, List<String> bccAddresses) {
-        List<String> lines = new List<String>{ 'DRY RUN - this email was not sent to its real recipients:', 'To: ' + String.join(toAddresses, ', ') };
+    // Dry run or no To recipient: the recipients the email would have reached (the recipient record first, by name and email), its alert and its record, at the top of its HTML and text bodies
+    private static void addBanner(Messaging.SingleEmailMessage content, String title, EmailRequest request, List<String> toAddresses, List<String> ccAddresses, List<String> bccAddresses) {
+        List<String> toRecipients = new List<String>();
+        if (request.recipientId != null) toRecipients.add(recipientLabelsById.get(request.recipientId) + ' (recipient record)');
+        toRecipients.addAll(toAddresses);
+        List<String> lines = new List<String>{ title, 'To: ' + (toRecipients.isEmpty() ? '(none)' : String.join(toRecipients, ', ')) };
         if (!ccAddresses.isEmpty()) lines.add('Cc: ' + String.join(ccAddresses, ', '));
         if (!bccAddresses.isEmpty()) lines.add('Bcc: ' + String.join(bccAddresses, ', '));
-        if (request.recipientId != null) lines.add('Recipient record: ' + request.recipientId);
+        if (String.isNotBlank(request.customAlertName)) lines.add('Custom Email Alert: ' + request.customAlertName);
+        if (request.whatId != null) lines.add('Record: ' + URL.getOrgDomainUrl().toExternalForm() + '/' + request.whatId);
         String banner = String.join(lines, '\n');
         if (String.isNotBlank(content.getHtmlBody())) content.setHtmlBody('<div style="border:2px solid #c23934;padding:8px;margin-bottom:16px;font-family:Arial,sans-serif;font-size:12px;">' + banner.escapeHtml4().replace('\n', '<br/>') + '</div>' + content.getHtmlBody());
         if (String.isNotBlank(content.getPlainTextBody())) content.setPlainTextBody(banner + '\n\n' + content.getPlainTextBody());
@@ -398,14 +563,19 @@ public without sharing class EmailService {
         return kept;
     }
 
-    // Static cache per alert name; SOQL rather than getInstance(), which cuts long text areas to 255 characters
+    // Static cache per alert name, with its active Custom Email Recipient rows; SOQL rather than getInstance(), which cuts long text areas to 255 characters
     private static CustomEmailAlert__mdt getAlert(String customAlertName) {
         if (!alertsByName.containsKey(customAlertName)) {
-            List<CustomEmailAlert__mdt> alerts = [SELECT DeveloperName, IsActive__c, DryRun__c, EmailTemplate__c, ToAddresses__c, CcAddresses__c, BccAddresses__c, ToQueues__c, CcQueues__c, BccQueues__c, Sender__c, OrgWideAddress__c, LogFailures__c
+            List<CustomEmailAlert__mdt> alerts = [SELECT DeveloperName, IsActive__c, DryRun__c, EmailTemplate__c, Sender__c, OrgWideAddress__c, LogFailures__c
                                                   FROM CustomEmailAlert__mdt
                                                   WHERE DeveloperName = :customAlertName];
             if (alerts.isEmpty()) throw new EmailServiceException('Custom Email Alert "' + customAlertName + '" not found.');
+            List<CustomEmailRecipient__mdt> rules = [SELECT DeveloperName, SendAs__c, Type__c, Value__c, Condition__c
+                                                     FROM CustomEmailRecipient__mdt
+                                                     WHERE CustomEmailAlert__r.DeveloperName = :customAlertName AND IsActive__c = true
+                                                     ORDER BY DeveloperName];
             alertsByName.put(customAlertName, alerts[0]);
+            recipientRulesByAlertName.put(customAlertName, rules);
         }
         return alertsByName.get(customAlertName);
     }
@@ -448,6 +618,22 @@ public without sharing class EmailService {
             for (OrgWideEmailAddress owea : [SELECT Id, Address FROM OrgWideEmailAddress WHERE Address IN :missingAddresses]) orgWideIdsByAddress.put(owea.Address.toLowerCase(), owea.Id);
         }
         checkAllFound(addresses, orgWideIdsByAddress.keySet(), 'Org-wide email address(es)');
+    }
+
+    // "Name <email>" of the dry runs' recipient records (User, Contact or Lead), shown in their banner: one query per object, cached per transaction
+    private static void loadRecipientLabels(Set<Id> recipientIds) {
+        Map<Schema.SObjectType, Set<Id>> idsByType = new Map<Schema.SObjectType, Set<Id>>();
+        for (Id recipientId : recipientIds) {
+            if (recipientLabelsById.containsKey(recipientId)) continue;
+
+            if (!idsByType.containsKey(recipientId.getSObjectType())) idsByType.put(recipientId.getSObjectType(), new Set<Id>());
+            idsByType.get(recipientId.getSObjectType()).add(recipientId);
+        }
+        for (Schema.SObjectType recipientType : idsByType.keySet()) {
+            Set<Id> ids = idsByType.get(recipientType);
+            List<SObject> recipients = Database.query('SELECT Id, Name, Email FROM ' + recipientType + ' WHERE Id IN :ids');
+            for (SObject recipient : recipients) recipientLabelsById.put(recipient.Id, recipient.get('Name') + ' <' + recipient.get('Email') + '>');
+        }
     }
 
     // Lower-case org-wide address the request is sent from, null for the current user
@@ -498,17 +684,6 @@ public without sharing class EmailService {
         return chunk;
     }
 
-    // Splits a configuration text area: one value per line (commas and semicolons are accepted too)
-    private static Set<String> splitValues(String raw) {
-        Set<String> values = new Set<String>();
-        if (String.isBlank(raw)) return values;
-
-        for (String value : raw.split('[\\r\\n,;]+')) {
-            if (String.isNotBlank(value)) values.add(value.trim());
-        }
-        return values;
-    }
-
     // Logs a send failure (ERROR) or a removed invalid address (WARN) on the request's record, when the request asks for it (logFailures); never flushes
     private static void logFailure(OperationLogService.Level level, EmailRequest request, Messaging.SingleEmailMessage email, String errorMessage, Exception e) {
         if (request.logFailures != true) return;
@@ -551,6 +726,7 @@ public without sharing class EmailService {
         public String customAlertName;
         public Boolean isActive = true;
         public Boolean dryRun = false;
+        public List<CustomEmailRecipient__mdt> recipientRules = new List<CustomEmailRecipient__mdt>();
 
         public EmailRequest() {}
 
@@ -561,12 +737,8 @@ public without sharing class EmailService {
             this.dryRun = alert.DryRun__c;
             this.templateDeveloperName = alert.EmailTemplate__c;
             this.whatId = recordId;
-            this.to.addresses.addAll(splitValues(alert.ToAddresses__c));
-            this.cc.addresses.addAll(splitValues(alert.CcAddresses__c));
-            this.bcc.addresses.addAll(splitValues(alert.BccAddresses__c));
-            this.to.queues.addAll(splitValues(alert.ToQueues__c));
-            this.cc.queues.addAll(splitValues(alert.CcQueues__c));
-            this.bcc.queues.addAll(splitValues(alert.BccQueues__c));
+            // Resolved by build(), with the record's fields queried once for all the requests
+            this.recipientRules.addAll(recipientRulesByAlertName.get(customAlertName));
             this.sender = EmailService.Sender.valueOf(alert.Sender__c);
             this.orgWideAddress = alert.OrgWideAddress__c;
             this.logFailures = alert.LogFailures__c;

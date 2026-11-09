@@ -3,22 +3,6 @@
     <label>AI Agent - Modif Request Not Approved</label>
     <protected>false</protected>
     <values>
-        <field>BccAddresses__c</field>
-        <value xsi:nil="true"/>
-    </values>
-    <values>
-        <field>BccQueues__c</field>
-        <value xsi:nil="true"/>
-    </values>
-    <values>
-        <field>CcAddresses__c</field>
-        <value xsi:nil="true"/>
-    </values>
-    <values>
-        <field>CcQueues__c</field>
-        <value xsi:nil="true"/>
-    </values>
-    <values>
         <field>Description__c</field>
         <value xsi:type="xsd:string">Notification for AI Agent modification requests that have not been approved, communicating the decision and outlining possible next steps or adjustments to the requested changes.</value>
     </values>
@@ -45,13 +29,5 @@
     <values>
         <field>Sender__c</field>
         <value xsi:type="xsd:string">CURRENT_USER</value>
-    </values>
-    <values>
-        <field>ToAddresses__c</field>
-        <value xsi:nil="true"/>
-    </values>
-    <values>
-        <field>ToQueues__c</field>
-        <value xsi:nil="true"/>
     </values>
 </CustomMetadata>
