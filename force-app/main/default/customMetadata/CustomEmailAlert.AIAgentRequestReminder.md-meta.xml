@@ -3,22 +3,6 @@
     <label>AI Agent - Request Reminder</label>
     <protected>false</protected>
     <values>
-        <field>BccAddresses__c</field>
-        <value xsi:nil="true"/>
-    </values>
-    <values>
-        <field>BccQueues__c</field>
-        <value xsi:nil="true"/>
-    </values>
-    <values>
-        <field>CcAddresses__c</field>
-        <value xsi:nil="true"/>
-    </values>
-    <values>
-        <field>CcQueues__c</field>
-        <value xsi:nil="true"/>
-    </values>
-    <values>
         <field>Description__c</field>
         <value xsi:type="xsd:string">Reminder that an AI Agent request is still open 30 days after its creation</value>
     </values>
@@ -45,13 +29,5 @@
     <values>
         <field>Sender__c</field>
         <value xsi:type="xsd:string">NO_REPLY</value>
-    </values>
-    <values>
-        <field>ToAddresses__c</field>
-        <value xsi:type="xsd:string">dust@carmignac.com</value>
-    </values>
-    <values>
-        <field>ToQueues__c</field>
-        <value xsi:nil="true"/>
     </values>
 </CustomMetadata>

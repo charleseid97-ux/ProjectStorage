@@ -3,22 +3,6 @@
     <label>AI Agent Governance - DPO Assessment</label>
     <protected>false</protected>
     <values>
-        <field>BccAddresses__c</field>
-        <value xsi:nil="true"/>
-    </values>
-    <values>
-        <field>BccQueues__c</field>
-        <value xsi:nil="true"/>
-    </values>
-    <values>
-        <field>CcAddresses__c</field>
-        <value xsi:type="xsd:string">dust@carmignac.com</value>
-    </values>
-    <values>
-        <field>CcQueues__c</field>
-        <value xsi:nil="true"/>
-    </values>
-    <values>
         <field>Description__c</field>
         <value xsi:type="xsd:string">Notification for Data Protection Officer (DPO) assessment and validation of AI Agent data access, usage, privacy risks, and required data protection controls.</value>
     </values>
@@ -45,15 +29,5 @@
     <values>
         <field>Sender__c</field>
         <value xsi:type="xsd:string">NO_REPLY</value>
-    </values>
-    <values>
-        <field>ToAddresses__c</field>
-        <value xsi:type="xsd:string">dpo@carmignac.com
-ssi@carmignac.com
-jean.corneille@carmignac.com</value>
-    </values>
-    <values>
-        <field>ToQueues__c</field>
-        <value xsi:nil="true"/>
     </values>
 </CustomMetadata>
