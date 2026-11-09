@@ -38,7 +38,59 @@
         <members>CustomEmailAlert.AIAgentRequestReminder</members>
         <members>CustomEmailAlert.AIAgentGovernanceDPOAssessment</members>
         <members>CustomEmailAlert.AIAgentGovernanceRSSIAssessment</members>
+        <members>CustomEmailRecipient.AIAgentActivationTo1</members>
+        <members>CustomEmailRecipient.AIAgentActivationTo2</members>
+        <members>CustomEmailRecipient.AIAgentActivationTo3</members>
+        <members>CustomEmailRecipient.AIAgentActivationTo4</members>
+        <members>CustomEmailRecipient.AIAgentActivationTo5</members>
+        <members>CustomEmailRecipient.AIAgentAgentModificationRequestNotifTo1</members>
+        <members>CustomEmailRecipient.AIAgentCreationRequestApprovedTo1</members>
+        <members>CustomEmailRecipient.AIAgentCreationRequestNotApprovedTo1</members>
+        <members>CustomEmailRecipient.AIAgentGovernanceDPOAssessmentCc1</members>
+        <members>CustomEmailRecipient.AIAgentGovernanceDPOAssessmentTo1</members>
+        <members>CustomEmailRecipient.AIAgentGovernanceDPOAssessmentTo2</members>
+        <members>CustomEmailRecipient.AIAgentGovernanceDPOAssessmentTo3</members>
+        <members>CustomEmailRecipient.AIAgentGovernancePendingImplementatioTo1</members>
+        <members>CustomEmailRecipient.AIAgentGovernanceRSSIAssessmentCc1</members>
+        <members>CustomEmailRecipient.AIAgentGovernanceRSSIAssessmentTo1</members>
+        <members>CustomEmailRecipient.AIAgentModificationRequestApprovedTo1</members>
+        <members>CustomEmailRecipient.AIAgentModificationRequestNotApprovedTo1</members>
+        <members>CustomEmailRecipient.AIAgentNewAgentRequestNotificationTo1</members>
+        <members>CustomEmailRecipient.AIAgentRequestReminderTo1</members>
         <name>CustomMetadata</name>
+    </types>
+    <types>
+        <members>CustomEmailAlertFlowAction</members>
+        <members>EmailService</members>
+        <members>EmailServiceTest</members>
+        <name>ApexClass</name>
+    </types>
+    <types>
+        <members>CustomEmailAlert__mdt</members>
+        <members>CustomEmailRecipient__mdt</members>
+        <name>CustomObject</name>
+    </types>
+    <types>
+        <members>CustomEmailAlert__mdt.DryRun__c</members>
+        <members>CustomEmailRecipient__mdt.Condition__c</members>
+        <members>CustomEmailRecipient__mdt.CustomEmailAlert__c</members>
+        <members>CustomEmailRecipient__mdt.IsActive__c</members>
+        <members>CustomEmailRecipient__mdt.SendAs__c</members>
+        <members>CustomEmailRecipient__mdt.Type__c</members>
+        <members>CustomEmailRecipient__mdt.Value__c</members>
+        <members>EmailServiceSettings__c.ForceDryRun__c</members>
+        <members>EmailServiceSettings__c.NoRecipientAddresses__c</members>
+        <name>CustomField</name>
+    </types>
+    <types>
+        <members>CustomEmailAlert__mdt.All</members>
+        <members>CustomEmailRecipient__mdt.All</members>
+        <name>ListView</name>
+    </types>
+    <types>
+        <members>CustomEmailAlert__mdt-Custom Email Alert Layout</members>
+        <members>CustomEmailRecipient__mdt-Custom Email Recipient Layout</members>
+        <name>Layout</name>
     </types>
     <version>64.0</version>
 </Package>
