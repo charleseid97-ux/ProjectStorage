@@ -1,15 +1,23 @@
 .main-div {
-    width: 100%;
+    width: 60%;
     display: flex;
     gap: 20px;
     flex-direction: column;
+    align-self: center;
+    justify-self: center;
+    align-items: center;
 }
 
 .criteria-div {
     display: flex;
     gap: 20px;
+    width: 100%;
 }
 
 .criteria-div > div{
     flex: 1;
+}
+
+.result-div {
+    width: 100%;
 }

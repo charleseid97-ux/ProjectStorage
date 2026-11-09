@@ -9,13 +9,27 @@
         <name>CustomField</name>
     </types>
     <types>
-        <members>Narrative__c.Disclaimer</members>
+        <members>Narrative__c.EndDisclaimer</members>
+        <members>Narrative__c.FootnoteDisclaimer</members>
         <name>RecordType</name>
     </types>
     <types>
+        <members>ApprovalActionConfig__mdt</members>
+        <members>ApprovalStepConfig__mdt</members>
         <members>Disclaimer__c</members>
         <members>DisclaimerDetail__c</members>
         <name>CustomObject</name>
+    </types>
+    <types>
+        <members>ApprovalActionConfig.DisclaimerAppr_FinalApprovalUpdate</members>
+        <members>ApprovalActionConfig.DisclaimerAppr_FinalRejectionUpdate</members>
+        <members>ApprovalActionConfig.DisclaimerAppr_InitSubmissionUpdate</members>
+        <members>ApprovalActionConfig.DisclaimerAppr_RecallUpdate</members>
+        <members>ApprovalLockConfig.DisclaimerApprovalLock</members>
+        <members>ApprovalProcessConfig.DisclaimerApproval</members>
+        <members>ApprovalStepApproverConfig.DisclaimerApproval_Compliance</members>
+        <members>ApprovalStepConfig.DisclaimerApproval_Compliance</members>
+        <name>CustomMetadata</name>
     </types>
     <types>
         <members>Disclaimer__c</members>
@@ -41,12 +55,18 @@
     </types>
     <types>
         <members>buildDisclaimer</members>
+        <members>disclaimerSubmitForApproval</members>
         <name>LightningComponentBundle</name>
     </types>
     <types>
         <members>DisclaimerBuilderController</members>
         <members>DisclaimerBuilderControllerTest</members>
+        <members>DisclaimerTriggerHandler</members>
         <name>ApexClass</name>
+    </types>
+    <types>
+        <members>DisclaimerTrigger</members>
+        <name>ApexTrigger</name>
     </types>
     <types>
         <members>DisclaimerBuilderPermissions</members>

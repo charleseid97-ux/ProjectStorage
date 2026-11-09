@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <RecordType xmlns="http://soap.sforce.com/2006/04/metadata">
-    <fullName>Disclaimer</fullName>
+    <fullName>EndDisclaimer</fullName>
     <active>true</active>
-    <description>Manage Footnote and End Disclaimer narratives used by the Disclaimer Builder</description>
-    <label>Disclaimer</label>
+    <description>Manage End Disclaimer narratives used by the Disclaimer Builder</description>
+    <label>End Disclaimer</label>
     <picklistValues>
         <picklist>Media__c</picklist>
         <values>
@@ -68,7 +68,35 @@
     <picklistValues>
         <picklist>SubType__c</picklist>
         <values>
+            <fullName>BNP AM France</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Carmignac</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Carmignac Gestion Luxembourg S%2EA</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Carmignac Gestion S%2EA</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Elibigle Counterparties</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>MSCI</fullName>
+            <default>false</default>
+        </values>
+        <values>
             <fullName>Mandatory disclaimer</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Morningstar</fullName>
             <default>false</default>
         </values>
         <values>
@@ -76,7 +104,15 @@
             <default>false</default>
         </values>
         <values>
+            <fullName>Professional Clients</fullName>
+            <default>false</default>
+        </values>
+        <values>
             <fullName>Rating</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Retail Clients</fullName>
             <default>false</default>
         </values>
         <values>
@@ -84,18 +120,26 @@
             <default>false</default>
         </values>
         <values>
-            <fullName>Simulated Performances</fullName>
+            <fullName>White Creek Capital LLP</fullName>
             <default>false</default>
         </values>
     </picklistValues>
     <picklistValues>
         <picklist>Type__c</picklist>
         <values>
-            <fullName>End Disclaimer</fullName>
+            <fullName>Audience</fullName>
             <default>false</default>
         </values>
         <values>
-            <fullName>Footnote</fullName>
+            <fullName>Content</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>ManCo</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Source</fullName>
             <default>false</default>
         </values>
     </picklistValues>

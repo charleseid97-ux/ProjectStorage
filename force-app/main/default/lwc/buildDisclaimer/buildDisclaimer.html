@@ -79,30 +79,30 @@
             </div>
 
             <template if:true={hasSearched}>
-
-                <div class="slds-box slds-m-bottom_medium">
-                    <h3 class="slds-text-heading_small slds-m-bottom_small">
-                        Footnote ({footnoteCount} matching narrative(s))
-                    </h3>
-                    <lightning-textarea
-                        label="Footnote content"
-                        variant="label-hidden"
-                        value={footnoteContent}
-                        disabled="true">
-                    </lightning-textarea>
+                <div class="result-div">
+                    <div class="slds-box slds-m-bottom_medium">
+                        <h3 class="slds-text-heading_small slds-m-bottom_small">
+                            Footnote ({footnoteCount} matching narrative(s))
+                        </h3>
+                        <lightning-textarea
+                            label="Footnote content"
+                            variant="label-hidden"
+                            value={footnoteContent}
+                            disabled="true">
+                        </lightning-textarea>
+                    </div>
+                    <div class="slds-box slds-m-bottom_medium">
+                        <h3 class="slds-text-heading_small slds-m-bottom_small">
+                            End Disclaimer ({endDisclaimerCount} matching narrative(s))
+                        </h3>
+                        <lightning-textarea
+                            label="End Disclaimer content"
+                            variant="label-hidden"
+                            value={endDisclaimerContent}
+                            disabled="true">
+                        </lightning-textarea>
+                    </div>
                 </div>
-                <div class="slds-box slds-m-bottom_medium">
-                    <h3 class="slds-text-heading_small slds-m-bottom_small">
-                        End Disclaimer ({endDisclaimerCount} matching narrative(s))
-                    </h3>
-                    <lightning-textarea
-                        label="End Disclaimer content"
-                        variant="label-hidden"
-                        value={endDisclaimerContent}
-                        disabled="true">
-                    </lightning-textarea>
-                </div>
-
             </template>
         </div>
 
