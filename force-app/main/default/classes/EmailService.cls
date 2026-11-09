@@ -10,7 +10,7 @@
  *                  OperationLog__c (logFailures). The engine never flushes OperationLogService: the entry point flushes, and send() must come after any callout of the transaction (sendEmail is pending work).
  *              Invalid addresses (e.g. masked sandbox addresses "x@y.com.invalid") never block the others: a message Salesforce rejects for them is resent once without them (WARN log).
  *              Dry run (dryRun, DryRun__c on the alert, or forced for the org / a profile / a user by EmailServiceSettings__c.ForceDryRun__c): the email is built and checked as configured, but sent only to the dry-run addresses
- *                  (EmailServiceSettings__c.DryRunAddresses__c), its subject prefixed with "[DRY RUN] " and the real recipients listed at the top of its body.
+ *                  (EmailServiceSettings__c.DryRunAddresses__c), its subject prefixed with "[DRY RUN] " and the real recipients listed at the top of its body (the recipient record by name and email).
  *              No To recipient (e.g. every Custom Email Recipient inactive, an empty record field, no active user): the email goes the same way to the No Recipient Addresses only (EmailServiceSettings__c.NoRecipientAddresses__c),
  *                  its subject prefixed with "[NO RECIPIENT] ", its Cc / Bcc, alert and record listed at the top of its body, with a WARN log; the caller never fails for it. No address set: configuration error.
  *              Recipients of an alert: its CustomEmailRecipient__mdt rows, one recipient per row (Address, Queue, PublicGroup, RecordField in To / Cc / Bcc), each with an optional formula Condition on the email's record (Formula.builder).
@@ -47,6 +47,7 @@ public without sharing class EmailService {
     // Compiled once per condition and object per transaction
     private static Map<String, FormulaEval.FormulaInstance> conditionsByKey = new Map<String, FormulaEval.FormulaInstance>();
     private static Map<String, Id> orgWideIdsByAddress = new Map<String, Id>();
+    private static Map<Id, String> recipientLabelsById = new Map<Id, String>();
 
     public enum Sender { NO_REPLY, CURRENT_USER, ORG_WIDE }
 
@@ -254,8 +255,10 @@ public without sharing class EmailService {
         Set<String> queueNames = new Set<String>();
         Set<Id> userOrGroupIds = new Set<Id>();
         Set<String> orgWideAddresses = new Set<String>();
+        Set<Id> dryRunRecipientIds = new Set<Id>();
         for (EmailRequest request : activeRequests) {
             if (String.isNotBlank(request.templateDeveloperName)) templateNames.add(request.templateDeveloperName);
+            if (request.recipientId != null && isDryRun(request)) dryRunRecipientIds.add(request.recipientId);
             for (Recipients recipients : new List<Recipients>{ request.to, request.cc, request.bcc }) {
                 queueNames.addAll(recipients.queues);
                 userOrGroupIds.addAll(recipients.userOrGroupIds);
@@ -268,6 +271,7 @@ public without sharing class EmailService {
         checkAllFound(queueNames, emailsByQueue.keySet(), 'Queue(s)');
         Map<Id, Set<String>> emailsByUserOrGroupId = getUserOrGroupEmails(userOrGroupIds);
         loadOrgWideAddresses(orgWideAddresses);
+        loadRecipientLabels(dryRunRecipientIds);
 
         Map<String, Messaging.SingleEmailMessage> renderedByKey = new Map<String, Messaging.SingleEmailMessage>();
         for (EmailRequest request : activeRequests) {
@@ -477,12 +481,14 @@ public without sharing class EmailService {
         return emails;
     }
 
-    // Dry run or no To recipient: the recipients the email would have reached, its alert and its record, at the top of its HTML and text bodies
+    // Dry run or no To recipient: the recipients the email would have reached (the recipient record first, by name and email), its alert and its record, at the top of its HTML and text bodies
     private static void addBanner(Messaging.SingleEmailMessage content, String title, EmailRequest request, List<String> toAddresses, List<String> ccAddresses, List<String> bccAddresses) {
-        List<String> lines = new List<String>{ title, 'To: ' + (toAddresses.isEmpty() ? '(none)' : String.join(toAddresses, ', ')) };
+        List<String> toRecipients = new List<String>();
+        if (request.recipientId != null) toRecipients.add(recipientLabelsById.get(request.recipientId) + ' (recipient record)');
+        toRecipients.addAll(toAddresses);
+        List<String> lines = new List<String>{ title, 'To: ' + (toRecipients.isEmpty() ? '(none)' : String.join(toRecipients, ', ')) };
         if (!ccAddresses.isEmpty()) lines.add('Cc: ' + String.join(ccAddresses, ', '));
         if (!bccAddresses.isEmpty()) lines.add('Bcc: ' + String.join(bccAddresses, ', '));
-        if (request.recipientId != null) lines.add('Recipient record: ' + request.recipientId);
         if (String.isNotBlank(request.customAlertName)) lines.add('Custom Email Alert: ' + request.customAlertName);
         if (request.whatId != null) lines.add('Record: ' + URL.getOrgDomainUrl().toExternalForm() + '/' + request.whatId);
         String banner = String.join(lines, '\n');
@@ -612,6 +618,22 @@ public without sharing class EmailService {
             for (OrgWideEmailAddress owea : [SELECT Id, Address FROM OrgWideEmailAddress WHERE Address IN :missingAddresses]) orgWideIdsByAddress.put(owea.Address.toLowerCase(), owea.Id);
         }
         checkAllFound(addresses, orgWideIdsByAddress.keySet(), 'Org-wide email address(es)');
+    }
+
+    // "Name <email>" of the dry runs' recipient records (User, Contact or Lead), shown in their banner: one query per object, cached per transaction
+    private static void loadRecipientLabels(Set<Id> recipientIds) {
+        Map<Schema.SObjectType, Set<Id>> idsByType = new Map<Schema.SObjectType, Set<Id>>();
+        for (Id recipientId : recipientIds) {
+            if (recipientLabelsById.containsKey(recipientId)) continue;
+
+            if (!idsByType.containsKey(recipientId.getSObjectType())) idsByType.put(recipientId.getSObjectType(), new Set<Id>());
+            idsByType.get(recipientId.getSObjectType()).add(recipientId);
+        }
+        for (Schema.SObjectType recipientType : idsByType.keySet()) {
+            Set<Id> ids = idsByType.get(recipientType);
+            List<SObject> recipients = Database.query('SELECT Id, Name, Email FROM ' + recipientType + ' WHERE Id IN :ids');
+            for (SObject recipient : recipients) recipientLabelsById.put(recipient.Id, recipient.get('Name') + ' <' + recipient.get('Email') + '>');
+        }
     }
 
     // Lower-case org-wide address the request is sent from, null for the current user

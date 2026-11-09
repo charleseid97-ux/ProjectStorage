@@ -218,7 +218,7 @@ public class EmailServiceTest {
         System.assert(dryRunEmails[0].getCcAddresses() == null || dryRunEmails[0].getCcAddresses().isEmpty(), 'A dry run has no Cc');
         System.assertEquals(null, dryRunEmails[0].getTargetObjectId(), 'The recipient record doesn\'t receive a dry run');
         System.assert(dryRunEmails[0].getSubject().startsWith(EmailService.DRY_RUN_SUBJECT_PREFIX), 'The subject is prefixed: ' + dryRunEmails[0].getSubject());
-        System.assert(dryRunEmails[0].getHtmlBody().contains('est.dryrun.cc@example.com') && dryRunEmails[0].getHtmlBody().contains('Recipient record: ' + UserInfo.getUserId()), 'The real recipients are listed in the body');
+        System.assert(dryRunEmails[0].getHtmlBody().contains('est.dryrun.cc@example.com') && dryRunEmails[0].getHtmlBody().contains(UserInfo.getUserEmail() + '&gt; (recipient record)'), 'The real recipients are listed in the body, the recipient record by its email');
 
         System.assertEquals(1, noRecipientEmails.size(), 'An email without To recipient is still sent, as a single message');
         System.assertEquals(new List<String>{ NO_RECIPIENT_ADDRESS }, noRecipientEmails[0].getToAddresses(), 'An email without To recipient goes to the No Recipient Addresses only');
