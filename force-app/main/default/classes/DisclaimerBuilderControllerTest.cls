@@ -4,7 +4,7 @@
  *              condition and its scope, invalid conditions) on in-memory DisclaimerLogicalRule__mdt, and the Disclaimer__c + DisclaimerDetail__c creation.
  *              Runs with the DisclaimerBuilderPermissions permission set: the narrative search is in user mode.
  * @author Charles EID
- * @covers DisclaimerBuilderController   100%   [07-11-26]
+ * @covers DisclaimerBuilderController   100%   [09-11-26]
  * @covers DisclaimerLogicalRules   100%   [07-11-26]
  * @lastModifiedBy Charles EID   [06-11-26]
  ────────────────────────────────────── */

@@ -5,6 +5,26 @@
         </template>
 
         <div class="main-div">
+            <div class="slds-tabs_default">
+                <ul class="slds-tabs_default__nav" role="tablist">
+                    <template for:each={footnoteTabs} for:item="tab">
+                        <li key={tab.id} class={tab.className} role="presentation">
+                            <a href="#" class="slds-tabs_default__link" role="tab" aria-selected={tab.isActive} data-id={tab.id} onclick={handleTabSelect}>{tab.label}</a>
+                        </li>
+                    </template>
+                    <li class="slds-tabs_default__item add-tab" role="presentation">
+                        <a href="#" class="slds-tabs_default__link" role="tab" title="Add a footnote" onclick={handleAddFootnote}>
+                            <lightning-icon icon-name="utility:add" size="xx-small" alternative-text="Add a footnote"></lightning-icon>
+                        </a>
+                    </li>
+                    <template for:each={endDisclaimerTabs} for:item="tab">
+                        <li key={tab.id} class={tab.className} role="presentation">
+                            <a href="#" class="slds-tabs_default__link" role="tab" aria-selected={tab.isActive} data-id={tab.id} onclick={handleTabSelect}>{tab.label}</a>
+                        </li>
+                    </template>
+                </ul>
+            </div>
+
             <div class="filters-header">
                 <button class="slds-button filters-toggle" aria-expanded={filtersExpanded} onclick={toggleFilters}>
                     <lightning-icon icon-name={filtersIcon} size="x-small" class="slds-m-right_x-small"></lightning-icon>
@@ -94,24 +114,11 @@
             <template if:true={hasSearched}>
                 <div class="result-div">
                     <div class="slds-box slds-m-bottom_medium">
-                        <h3 class="slds-text-heading_small slds-m-bottom_small">
-                            Footnote ({footnoteCount} matching narrative(s))
-                        </h3>
+                        <h3 class="slds-text-heading_small slds-m-bottom_small">{previewTitle}</h3>
                         <lightning-textarea
-                            label="Footnote content"
+                            label={previewTitle}
                             variant="label-hidden"
-                            value={footnoteContent}
-                            disabled="true">
-                        </lightning-textarea>
-                    </div>
-                    <div class="slds-box slds-m-bottom_medium">
-                        <h3 class="slds-text-heading_small slds-m-bottom_small">
-                            End Disclaimer ({endDisclaimerCount} matching narrative(s))
-                        </h3>
-                        <lightning-textarea
-                            label="End Disclaimer content"
-                            variant="label-hidden"
-                            value={endDisclaimerContent}
+                            value={previewContent}
                             disabled="true">
                         </lightning-textarea>
                     </div>
