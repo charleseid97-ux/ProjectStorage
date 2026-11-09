@@ -6,6 +6,10 @@
     padding: 5px 20px;
 }
 
+.add-tab .slds-tabs_default__link {
+    padding: 0 0.75rem;
+}
+
 .filters-header {
     display: flex;
     align-items: center;

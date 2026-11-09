@@ -59,6 +59,15 @@ function buildTypeSections(picklists, excludedType) {
         }));
 }
 
+// One bucket from several (footnote tabs merged into the single Footnote detail).
+function mergeBuckets(buckets) {
+    return {
+        content: buckets.map(bucket => bucket.content).filter(Boolean).join('\n\n'),
+        narrativeIds: buckets.flatMap(bucket => bucket.narrativeIds),
+        matchCount: buckets.reduce((total, bucket) => total + bucket.matchCount, 0)
+    };
+}
+
 // "Name: a, b +3" (first values shown) or "Name (5)" when no value is shown.
 function summarize(name, values, shownCount) {
     if (!values.length) return null;
@@ -73,7 +82,6 @@ export default class BuildDisclaimer extends NavigationMixin(LightningElement) {
     countryOptions = [];
     languageOptions = [];
     mediaOptions = [];
-    typeSections = [];
 
     selectedProducts = [];
     selectedMedia = [];
@@ -84,10 +92,13 @@ export default class BuildDisclaimer extends NavigationMixin(LightningElement) {
     footnotePicklists;
     endDisclaimerPicklists;
 
+    // One tab per footnote, then the End Disclaimer: each holds its record type, Type sections and preview.
+    tabs = [];
+    activeTabId;
+    tabCount = 0;
+
     filtersExpanded = true;
     isLoading = false;
-    hasSearched = false;
-    previewResult;
 
     @wire(getBuilderOptions)
     wiredBuilderOptions({ data, error }) {
@@ -116,7 +127,27 @@ export default class BuildDisclaimer extends NavigationMixin(LightningElement) {
     }
 
     get isBuildDisabled() {
-        return this.isLoading || !this.hasSearched;
+        return this.isLoading || !this.tabs.some(tab => tab.hasSearched);
+    }
+
+    get activeTab() {
+        return this.tabs.find(tab => tab.id === this.activeTabId);
+    }
+
+    get footnoteTabs() {
+        return this.toTabItems(this.tabs.filter(tab => tab.isFootnote));
+    }
+
+    get endDisclaimerTabs() {
+        return this.toTabItems(this.tabs.filter(tab => !tab.isFootnote));
+    }
+
+    get typeSections() {
+        return this.activeTab?.typeSections || [];
+    }
+
+    get hasSearched() {
+        return this.activeTab?.hasSearched;
     }
 
     get filtersBodyClass() {
@@ -139,20 +170,18 @@ export default class BuildDisclaimer extends NavigationMixin(LightningElement) {
             .map((label, index) => ({ key: index, label }));
     }
 
-    get footnoteContent() {
-        return this.previewResult?.footnote?.content || '';
+    get previewBucket() {
+        const result = this.activeTab?.previewResult;
+        if (!result) return null;
+        return this.activeTab.isFootnote ? result.footnote : result.endDisclaimer;
     }
 
-    get footnoteCount() {
-        return this.previewResult?.footnote?.matchCount || 0;
+    get previewTitle() {
+        return `${this.activeTab?.label} (${this.previewBucket?.matchCount || 0} matching narrative(s))`;
     }
 
-    get endDisclaimerContent() {
-        return this.previewResult?.endDisclaimer?.content || '';
-    }
-
-    get endDisclaimerCount() {
-        return this.previewResult?.endDisclaimer?.matchCount || 0;
+    get previewContent() {
+        return this.previewBucket?.content || '';
     }
 
     storePicklists(propertyName, data, error) {
@@ -172,7 +201,52 @@ export default class BuildDisclaimer extends NavigationMixin(LightningElement) {
         this.countryOptions = mergeValues(picklists, COUNTRY_FIELD);
         this.languageOptions = mergeValues(picklists, LANGUAGE_FIELD);
         this.mediaOptions = mergeValues(picklists, MEDIA_FIELD);
-        this.typeSections = buildTypeSections(picklists, this.builderOptions.logicalRuleType);
+        if (this.tabs.length) return;
+        this.tabs = [this.newTab(true), this.newTab(false)];
+        this.activeTabId = this.tabs[0].id;
+    }
+
+    // A footnote tab (Footnote, Footnote 2...) or the End Disclaimer tab, with the Types of its record type.
+    newTab(isFootnote) {
+        this.tabCount += 1;
+        const footnoteNumber = this.tabs.filter(tab => tab.isFootnote).length + 1;
+        const footnoteLabel = footnoteNumber === 1 ? 'Footnote' : `Footnote ${footnoteNumber}`;
+        return {
+            id: `tab-${this.tabCount}`,
+            label: isFootnote ? footnoteLabel : 'End Disclaimer',
+            isFootnote,
+            recordTypeId: isFootnote ? this.builderOptions.footnoteRecordTypeId : this.builderOptions.endDisclaimerRecordTypeId,
+            typeSections: buildTypeSections([isFootnote ? this.footnotePicklists : this.endDisclaimerPicklists], this.builderOptions.logicalRuleType),
+            previewResult: null,
+            hasSearched: false
+        };
+    }
+
+    toTabItems(tabs) {
+        return tabs.map(tab => ({ ...tab, isActive: tab.id === this.activeTabId, className: `slds-tabs_default__item${tab.id === this.activeTabId ? ' slds-is-active' : ''}` }));
+    }
+
+    updateTab(tabId, changes) {
+        this.tabs = this.tabs.map(tab => (tab.id === tabId ? { ...tab, ...changes } : tab));
+    }
+
+    // Shared filters changed: every tab's preview is outdated.
+    resetSearches() {
+        this.tabs = this.tabs.map(tab => ({ ...tab, hasSearched: false }));
+    }
+
+    handleTabSelect(event) {
+        event.preventDefault();
+        this.activeTabId = event.currentTarget.dataset.id;
+        this.filtersExpanded = !this.activeTab.hasSearched;
+    }
+
+    handleAddFootnote(event) {
+        event.preventDefault();
+        const tab = this.newTab(true);
+        this.tabs = [...this.tabs, tab];
+        this.activeTabId = tab.id;
+        this.filtersExpanded = true;
     }
 
     toggleFilters() {
@@ -182,19 +256,19 @@ export default class BuildDisclaimer extends NavigationMixin(LightningElement) {
     // Country, Language, Products: the property to set is the input's data-field.
     handleValueChange(event) {
         this[event.target.dataset.field] = event.detail.value;
-        this.hasSearched = false;
+        this.resetSearches();
     }
 
     handleMediaChange(event) {
         if (event.detail.isSearchChange) return;
         this.selectedMedia = event.detail.selectedValues || [];
-        this.hasSearched = false;
+        this.resetSearches();
     }
 
     handleTypeChange(event) {
         const type = event.target.dataset.type;
-        this.typeSections = this.typeSections.map(section => (section.type === type ? { ...section, selected: event.detail.value } : section));
-        this.hasSearched = false;
+        const typeSections = this.typeSections.map(section => (section.type === type ? { ...section, selected: event.detail.value } : section));
+        this.updateTab(this.activeTabId, { typeSections, hasSearched: false });
     }
 
     handleCancel() {
@@ -207,12 +281,14 @@ export default class BuildDisclaimer extends NavigationMixin(LightningElement) {
         });
     }
 
+    // Searches the active tab's record type only.
     async handleSearch() {
         try {
             this.isLoading = true;
-            const criteriaJson = JSON.stringify(this.buildCriteria());
-            this.previewResult = await searchNarratives({ criteriaJson });
-            this.hasSearched = true;
+            const tab = this.activeTab;
+            const criteriaJson = JSON.stringify({ ...this.buildCriteria(tab.typeSections), recordTypeId: tab.recordTypeId });
+            const previewResult = await searchNarratives({ criteriaJson });
+            this.updateTab(tab.id, { previewResult, hasSearched: true });
             this.filtersExpanded = false;
         }
         catch (error) {
@@ -226,8 +302,12 @@ export default class BuildDisclaimer extends NavigationMixin(LightningElement) {
     async handleBuild() {
         try {
             this.isLoading = true;
-            const criteriaJson = JSON.stringify(this.buildCriteria());
-            const previewJson = JSON.stringify(this.previewResult);
+            const searchedTabs = this.tabs.filter(tab => tab.hasSearched);
+            const criteriaJson = JSON.stringify(this.buildCriteria(searchedTabs.flatMap(tab => tab.typeSections)));
+            const previewJson = JSON.stringify({
+                footnote: mergeBuckets(searchedTabs.filter(tab => tab.isFootnote).map(tab => tab.previewResult.footnote)),
+                endDisclaimer: mergeBuckets(searchedTabs.filter(tab => !tab.isFootnote).map(tab => tab.previewResult.endDisclaimer))
+            });
             const disclaimerId = await buildDisclaimer({ criteriaJson, previewJson });
             showToast(this, 'Success', 'Disclaimer built successfully', 'success');
             this[NavigationMixin.Navigate]({
@@ -247,13 +327,13 @@ export default class BuildDisclaimer extends NavigationMixin(LightningElement) {
         }
     }
 
-    // Only the Types with selected Sub Types are sent: { Type: [Sub Types] }.
-    buildCriteria() {
+    // Only the Types with selected Sub Types are sent: { Type: [Sub Types] }, Sub Types of several tabs merged.
+    buildCriteria(typeSections) {
         const subTypesByType = {};
-        this.typeSections
+        typeSections
             .filter(section => section.selected.length)
             .forEach(section => {
-                subTypesByType[section.type] = section.selected;
+                subTypesByType[section.type] = [...new Set([...(subTypesByType[section.type] || []), ...section.selected])];
             });
         return {
             products: this.selectedProducts,

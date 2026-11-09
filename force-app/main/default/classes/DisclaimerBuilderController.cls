@@ -5,7 +5,7 @@
  *              Concatenates their Content__c per Footnote / End Disclaimer bucket, and persists the resulting Disclaimer__c + DisclaimerDetail__c records.
  * @author Charles EID
  * @testClass DisclaimerBuilderControllerTest
- * @coverage 100%   [07-11-26]
+ * @coverage 100%   [09-11-26]
  * @lastModifiedBy Charles EID   [06-11-26]
  ────────────────────────────────────── */
 public with sharing class DisclaimerBuilderController {
@@ -64,7 +64,9 @@ public with sharing class DisclaimerBuilderController {
 
         NarrativeSearchResult result = new NarrativeSearchResult();
         if (typeConditions.isEmpty()) return result;
-        binds.put('recordTypes', new List<String>{ FOOTNOTE_RECORD_TYPE, END_DISCLAIMER_RECORD_TYPE });
+        List<String> recordTypes = new List<String>{ FOOTNOTE_RECORD_TYPE, END_DISCLAIMER_RECORD_TYPE };
+        if (criteria.recordTypeId != null) recordTypes = new List<String>{ Schema.SObjectType.Narrative__c.getRecordTypeInfosById().get(criteria.recordTypeId).getDeveloperName() };
+        binds.put('recordTypes', recordTypes);
         binds.put('country', criteria.country);
         binds.put('language', criteria.language);
         String mediaCondition = ' AND Media__c = null';
@@ -167,6 +169,7 @@ public with sharing class DisclaimerBuilderController {
         @AuraEnabled public List<String> media { get; set; }
         @AuraEnabled public String country { get; set; }
         @AuraEnabled public String language { get; set; }
+        @AuraEnabled public Id recordTypeId { get; set; }
     }
 
     public class NarrativeSearchResult {
