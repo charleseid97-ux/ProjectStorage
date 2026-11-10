@@ -1,96 +1,82 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Package xmlns="http://soap.sforce.com/2006/04/metadata">
     <types>
-        <members>AI_Agent_Activation_Notification</members>
-        <members>AI_Agent_Implementation_Reminder</members>
-        <members>AI_Agent_Governance_Escalation</members>
-        <members>AI_Agent_Request_Reminder</members>
-        <members>AI_Agent_New_Request_Notification</members>
-        <name>Flow</name>
-    </types>
-    <types>
-        <members>AIAgentEmailTemplates</members>
+        <members>PMTEmailTemplates</members>
         <name>EmailTemplateFolder</name>
     </types>
     <types>
-        <members>AIAgentEmailTemplates/AIAgentNewAgentRequestNotification</members>
-        <members>AIAgentEmailTemplates/AIAgentAgentModificationRequestNotification</members>
-        <members>AIAgentEmailTemplates/AIAgentCreationRequestApproved</members>
-        <members>AIAgentEmailTemplates/AIAgentModificationRequestApproved</members>
-        <members>AIAgentEmailTemplates/AIAgentCreationRequestNotApproved</members>
-        <members>AIAgentEmailTemplates/AIAgentModificationRequestNotApproved</members>
-        <members>AIAgentEmailTemplates/AIAgentGovernancePendingImplementation</members>
-        <members>AIAgentEmailTemplates/AIAgentActivation</members>
-        <members>AIAgentEmailTemplates/AIAgentRequestReminder</members>
-        <members>AIAgentEmailTemplates/AIAgentGovernanceDPOAssessment</members>
-        <members>AIAgentEmailTemplates/AIAgentGovernanceRSSIAssessment</members>
+        <members>PMTEmailTemplates/PMTGoLiveEmailTemplate</members>
+        <members>PMTEmailTemplates/PMTSPCFinalValidationCreation</members>
+        <members>PMTEmailTemplates/PMTSPCFinalValidationModification</members>
         <name>EmailTemplate</name>
     </types>
     <types>
-        <members>CustomEmailAlert.AIAgentNewAgentRequestNotification</members>
-        <members>CustomEmailAlert.AIAgentAgentModificationRequestNotif</members>
-        <members>CustomEmailAlert.AIAgentCreationRequestApproved</members>
-        <members>CustomEmailAlert.AIAgentModificationRequestApproved</members>
-        <members>CustomEmailAlert.AIAgentCreationRequestNotApproved</members>
-        <members>CustomEmailAlert.AIAgentModificationRequestNotApproved</members>
-        <members>CustomEmailAlert.AIAgentGovernancePendingImplementation</members>
-        <members>CustomEmailAlert.AIAgentActivation</members>
-        <members>CustomEmailAlert.AIAgentRequestReminder</members>
-        <members>CustomEmailAlert.AIAgentGovernanceDPOAssessment</members>
-        <members>CustomEmailAlert.AIAgentGovernanceRSSIAssessment</members>
-        <members>CustomEmailRecipient.AIAgentActivationTo1</members>
-        <members>CustomEmailRecipient.AIAgentActivationTo2</members>
-        <members>CustomEmailRecipient.AIAgentActivationTo3</members>
-        <members>CustomEmailRecipient.AIAgentActivationTo4</members>
-        <members>CustomEmailRecipient.AIAgentActivationTo5</members>
-        <members>CustomEmailRecipient.AIAgentAgentModificationRequestNotifTo1</members>
-        <members>CustomEmailRecipient.AIAgentCreationRequestApprovedTo1</members>
-        <members>CustomEmailRecipient.AIAgentCreationRequestNotApprovedTo1</members>
-        <members>CustomEmailRecipient.AIAgentGovernanceDPOAssessmentCc1</members>
-        <members>CustomEmailRecipient.AIAgentGovernanceDPOAssessmentTo1</members>
-        <members>CustomEmailRecipient.AIAgentGovernanceDPOAssessmentTo2</members>
-        <members>CustomEmailRecipient.AIAgentGovernanceDPOAssessmentTo3</members>
-        <members>CustomEmailRecipient.AIAgentGovernancePendingImplementatioTo1</members>
-        <members>CustomEmailRecipient.AIAgentGovernanceRSSIAssessmentCc1</members>
-        <members>CustomEmailRecipient.AIAgentGovernanceRSSIAssessmentTo1</members>
-        <members>CustomEmailRecipient.AIAgentModificationRequestApprovedTo1</members>
-        <members>CustomEmailRecipient.AIAgentModificationRequestNotApprovedTo1</members>
-        <members>CustomEmailRecipient.AIAgentNewAgentRequestNotificationTo1</members>
-        <members>CustomEmailRecipient.AIAgentRequestReminderTo1</members>
+        <members>CustomEmailAlert.PMTGoLiveNotification</members>
+        <members>CustomEmailAlert.PMTSPCFinalValidationCreation</members>
+        <members>CustomEmailAlert.PMTSPCFinalValidationModification</members>
+
+        <!-- PMT Go Live Recipients -->
+        <members>CustomEmailRecipient.PMTGoLiveNotificationTo1</members>
+        <members>CustomEmailRecipient.PMTGoLiveNotificationTo2</members>
+        <members>CustomEmailRecipient.PMTGoLiveNotificationTo3</members>
+        <members>CustomEmailRecipient.PMTGoLiveNotificationTo4</members>
+        <members>CustomEmailRecipient.PMTGoLiveNotificationTo5</members>
+        <members>CustomEmailRecipient.PMTGoLiveNotificationTo6</members>
+        <members>CustomEmailRecipient.PMTGoLiveNotificationTo7</members>
+        <members>CustomEmailRecipient.PMTGoLiveNotificationTo8</members>
+        <members>CustomEmailRecipient.PMTGoLiveNotificationTo9</members>
+        <members>CustomEmailRecipient.PMTGoLiveNotificationTo10</members>
+        <members>CustomEmailRecipient.PMTGoLiveNotificationTo11</members>
+        <members>CustomEmailRecipient.PMTGoLiveNotificationTo12</members>
+        <members>CustomEmailRecipient.PMTGoLiveNotificationTo13</members>
+        <members>CustomEmailRecipient.PMTGoLiveNotificationTo14</members>
+
+        <!-- SPC Final Validation - Creation -->
+        <members>CustomEmailRecipient.PMTSPCFinalValidationCreationTo1</members>
+        <members>CustomEmailRecipient.PMTSPCFinalValidationCreationTo2</members>
+        <members>CustomEmailRecipient.PMTSPCFinalValidationCreationTo3</members>
+        <members>CustomEmailRecipient.PMTSPCFinalValidationCreationTo4</members>
+        <members>CustomEmailRecipient.PMTSPCFinalValidationCreationTo5</members>
+        <members>CustomEmailRecipient.PMTSPCFinalValidationCreationTo6</members>
+        <members>CustomEmailRecipient.PMTSPCFinalValidationCreationTo7</members>
+        <members>CustomEmailRecipient.PMTSPCFinalValidationCreationTo8</members>
+        <members>CustomEmailRecipient.PMTSPCFinalValidationCreationTo9</members>
+        <members>CustomEmailRecipient.PMTSPCFinalValidationCreationTo10</members>
+        <members>CustomEmailRecipient.PMTSPCFinalValidationCreationTo11</members>
+        <members>CustomEmailRecipient.PMTSPCFinalValidationCreationTo12</members>
+        <members>CustomEmailRecipient.PMTSPCFinalValidationCreationTo13</members>
+        <members>CustomEmailRecipient.PMTSPCFinalValidationCreationTo14</members>
+
+        <!-- SPC Final Validation - Modification -->
+        <members>CustomEmailRecipient.PMTSPCFinalValidationModificationTo1</members>
+        <members>CustomEmailRecipient.PMTSPCFinalValidationModificationTo2</members>
+        <members>CustomEmailRecipient.PMTSPCFinalValidationModificationTo3</members>
+        <members>CustomEmailRecipient.PMTSPCFinalValidationModificationTo4</members>
+        <members>CustomEmailRecipient.PMTSPCFinalValidationModificationTo5</members>
+        <members>CustomEmailRecipient.PMTSPCFinalValidationModificationTo6</members>
+        <members>CustomEmailRecipient.PMTSPCFinalValidationModificationTo7</members>
+        <members>CustomEmailRecipient.PMTSPCFinalValidationModificationTo8</members>
+        <members>CustomEmailRecipient.PMTSPCFinalValidationModificationTo9</members>
+        <members>CustomEmailRecipient.PMTSPCFinalValidationModificationTo10</members>
+        <members>CustomEmailRecipient.PMTSPCFinalValidationModificationTo11</members>
+        <members>CustomEmailRecipient.PMTSPCFinalValidationModificationTo12</members>
+        <members>CustomEmailRecipient.PMTSPCFinalValidationModificationTo13</members>
+        <members>CustomEmailRecipient.PMTSPCFinalValidationModificationTo14</members>
         <name>CustomMetadata</name>
     </types>
     <types>
-        <members>CustomEmailAlertFlowAction</members>
-        <members>EmailService</members>
-        <members>EmailServiceTest</members>
-        <name>ApexClass</name>
-    </types>
-    <types>
-        <members>CustomEmailAlert__mdt</members>
-        <members>CustomEmailRecipient__mdt</members>
-        <name>CustomObject</name>
-    </types>
-    <types>
-        <members>CustomEmailAlert__mdt.DryRun__c</members>
-        <members>CustomEmailRecipient__mdt.Condition__c</members>
-        <members>CustomEmailRecipient__mdt.CustomEmailAlert__c</members>
-        <members>CustomEmailRecipient__mdt.IsActive__c</members>
-        <members>CustomEmailRecipient__mdt.SendAs__c</members>
-        <members>CustomEmailRecipient__mdt.Type__c</members>
-        <members>CustomEmailRecipient__mdt.Value__c</members>
-        <members>EmailServiceSettings__c.ForceDryRun__c</members>
-        <members>EmailServiceSettings__c.NoRecipientAddresses__c</members>
-        <name>CustomField</name>
-    </types>
-    <types>
-        <members>CustomEmailAlert__mdt.All</members>
-        <members>CustomEmailRecipient__mdt.All</members>
-        <name>ListView</name>
-    </types>
-    <types>
-        <members>CustomEmailAlert__mdt-Custom Email Alert Layout</members>
-        <members>CustomEmailRecipient__mdt-Custom Email Recipient Layout</members>
-        <name>Layout</name>
+        <members>PMT_Benchmark_techno_fund_Management_Notification_Setup</members>
+        <members>FL_PMT_EmailNotifications</members>
+        <members>FL_SendEmailForBenchmarkCreation</members>
+        <members>FL_7_days_before_Notification</members>
+        <members>PMT_Email_Notification_Milestone_Filing_in_7_days</members>
+        <members>Reminder_Notice_to_Shareholders_J_60</members>
+        <members>FL_SPCFinalEmailNotification</members>
+        <members>PMT_Teams_Send_Message</members>
+        <members>Teams_Send_Message_Launch_Date_Change</members>
+        <members>Teams_Send_Message_Milestone_Completed</members>
+        <members>Teams_Send_Message</members>
+        <name>Flow</name>
     </types>
     <version>64.0</version>
 </Package>
