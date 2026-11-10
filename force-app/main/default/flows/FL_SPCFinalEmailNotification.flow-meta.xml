@@ -3,8 +3,8 @@
     <actionCalls>
         <name>SendLaunchDateNotification</name>
         <label>Send Launch Date Notification</label>
-        <locationX>578</locationX>
-        <locationY>539</locationY>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
         <actionName>CustomEmailAlertFlowAction</actionName>
         <actionType>apex</actionType>
         <flowTransactionModel>Automatic</flowTransactionModel>
@@ -53,8 +53,8 @@
     <actionCalls>
         <name>SendSPCFinalEmailCreation</name>
         <label>Send SPC Final Email Creation</label>
-        <locationX>314</locationX>
-        <locationY>647</locationY>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
         <actionName>CustomEmailAlertFlowAction</actionName>
         <actionType>apex</actionType>
         <flowTransactionModel>Automatic</flowTransactionModel>
@@ -103,8 +103,8 @@
     <actionCalls>
         <name>SendSPCFinalEmailModification</name>
         <label>Send SPC Final Email Modification</label>
-        <locationX>50</locationX>
-        <locationY>647</locationY>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
         <actionName>CustomEmailAlertFlowAction</actionName>
         <actionType>apex</actionType>
         <flowTransactionModel>Automatic</flowTransactionModel>
@@ -135,13 +135,13 @@
         <nameSegment>CustomEmailAlertFlowAction</nameSegment>
         <offset>0</offset>
     </actionCalls>
-    <apiVersion>63.0</apiVersion>
+    <apiVersion>68.0</apiVersion>
     <areMetricsLoggedToDataCloud>false</areMetricsLoggedToDataCloud>
     <assignments>
         <name>AddTokensAndValues</name>
         <label>Add Tokens and Values</label>
-        <locationX>512</locationX>
-        <locationY>323</locationY>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
         <assignmentItems>
             <assignToReference>CustomEmailAlertTokens</assignToReference>
             <operator>Add</operator>
@@ -212,8 +212,8 @@
     <decisions>
         <name>Check_if_Creation_or_Modification</name>
         <label>Check if Creation or Modification</label>
-        <locationX>182</locationX>
-        <locationY>539</locationY>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
         <defaultConnector>
             <targetReference>SendSPCFinalEmailCreation</targetReference>
         </defaultConnector>
@@ -237,8 +237,8 @@
     <decisions>
         <name>check_if_SPC_Final_or_Go_Live</name>
         <label>check if SPC Final or Launch Date</label>
-        <locationX>512</locationX>
-        <locationY>431</locationY>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
         <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
         <rules>
             <name>SPC_Final</name>
@@ -312,7 +312,7 @@ ESG (responsible.investment@carmignac.com) is included only if SFDR Category = 6
     </processMetadataValues>
     <processType>AutoLaunchedFlow</processType>
     <start>
-        <locationX>386</locationX>
+        <locationX>0</locationX>
         <locationY>0</locationY>
         <connector>
             <targetReference>AddTokensAndValues</targetReference>
