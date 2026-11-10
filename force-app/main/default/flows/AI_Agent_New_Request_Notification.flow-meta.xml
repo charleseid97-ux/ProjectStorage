@@ -37,7 +37,6 @@
         <inputParameters>
             <name>alertName</name>
             <value>
-                <inputConfiguratorMode>Resource</inputConfiguratorMode>
                 <stringValue>AIAgentCreationRequestNotApproved</stringValue>
             </value>
         </inputParameters>
@@ -45,7 +44,6 @@
             <name>recordId</name>
             <value>
                 <elementReference>$Record.Case_ID__c</elementReference>
-                <inputConfiguratorMode>Resource</inputConfiguratorMode>
             </value>
         </inputParameters>
         <nameSegment>CustomEmailAlertFlowAction</nameSegment>
@@ -65,7 +63,6 @@
         <inputParameters>
             <name>alertName</name>
             <value>
-                <inputConfiguratorMode>Resource</inputConfiguratorMode>
                 <stringValue>AIAgentModificationRequestApproved</stringValue>
             </value>
         </inputParameters>
@@ -73,7 +70,6 @@
             <name>recordId</name>
             <value>
                 <elementReference>$Record.Case_ID__c</elementReference>
-                <inputConfiguratorMode>Resource</inputConfiguratorMode>
             </value>
         </inputParameters>
         <nameSegment>CustomEmailAlertFlowAction</nameSegment>
@@ -89,8 +85,7 @@
         <flowTransactionModel>Automatic</flowTransactionModel>
         <inputParameters>
             <name>alertName</name>
-            <value>
-                <inputConfiguratorMode>Resource</inputConfiguratorMode>
+            <value> 
                 <stringValue>AIAgentModificationRequestNotApproved</stringValue>
             </value>
         </inputParameters>
@@ -101,7 +96,6 @@
             <name>recordId</name>
             <value>
                 <elementReference>$Record.Case_ID__c</elementReference>
-                <inputConfiguratorMode>Resource</inputConfiguratorMode>
             </value>
         </inputParameters>
         <inputParameters>
@@ -124,7 +118,6 @@
         <inputParameters>
             <name>alertName</name>
             <value>
-                <inputConfiguratorMode>Resource</inputConfiguratorMode>
                 <stringValue>AIAgentNewAgentRequestNotification</stringValue>
             </value>
         </inputParameters>
@@ -138,7 +131,6 @@
             <name>recordId</name>
             <value>
                 <elementReference>$Record.Case_ID__c</elementReference>
-                <inputConfiguratorMode>Resource</inputConfiguratorMode>
             </value>
         </inputParameters>
         <inputParameters>
@@ -161,7 +153,6 @@
         <inputParameters>
             <name>alertName</name>
             <value>
-                <inputConfiguratorMode>Resource</inputConfiguratorMode>
                 <stringValue>AIAgentAgentModificationRequestNotif</stringValue>
             </value>
         </inputParameters>
@@ -169,7 +160,6 @@
             <name>recordId</name>
             <value>
                 <elementReference>$Record.Case_ID__c</elementReference>
-                <inputConfiguratorMode>Resource</inputConfiguratorMode>
             </value>
         </inputParameters>
         <nameSegment>CustomEmailAlertFlowAction</nameSegment>
