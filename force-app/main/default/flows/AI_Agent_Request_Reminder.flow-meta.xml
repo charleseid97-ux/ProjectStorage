@@ -11,7 +11,6 @@
         <inputParameters>
             <name>alertName</name>
             <value>
-                <inputConfiguratorMode>Custom</inputConfiguratorMode>
                 <stringValue>AIAgentRequestReminder</stringValue>
             </value>
         </inputParameters>
@@ -22,7 +21,6 @@
             <name>recordId</name>
             <value>
                 <elementReference>$Record.Case_ID__c</elementReference>
-                <inputConfiguratorMode>Resource</inputConfiguratorMode>
             </value>
         </inputParameters>
         <inputParameters>

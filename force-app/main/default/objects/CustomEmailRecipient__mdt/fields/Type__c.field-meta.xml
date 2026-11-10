@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>Type__c</fullName>
-    <description>How EmailService reads Value__c: Address (one email address), Queue (queue DeveloperName, its active members), PublicGroup (public group DeveloperName, its active members) or RecordField (field path on the email's record: a User, Queue or Group lookup gives its active users, an Email or Text field gives addresses; the first User in To becomes the email's recipient record, like the Flow's Recipient Id).</description>
+    <description>How EmailService reads Value__c: Address (one email address), Queue (queue DeveloperName, its active members), PublicGroup (public group DeveloperName, its active members) or RecordField (field path on the email&apos;s record: a User, Queue or Group lookup gives its active users, an Email or Text field gives addresses; the first User in To becomes the email&apos;s recipient record, like the Flow&apos;s Recipient Id).</description>
     <fieldManageability>SubscriberControlled</fieldManageability>
-    <inlineHelpText>What Value contains. Address: one email address. Queue / Public Group: its API name, its active members receive the email. Record Field: a field of the email's record (Record Id), e.g. OwnerId, AgentOwner__c or Contact__r.Email. A user in To receives it as the Flow's Recipient Id would.</inlineHelpText>
+    <inlineHelpText>What Value contains. Address: one email address. Queue / Public Group: its API name, its active members receive the email. Record Field: a field of the email&apos;s record (Record Id), e.g. OwnerId, AgentOwner__c or Contact__r.Email. A user in To receives it as the Flow&apos;s Recipient Id would.</inlineHelpText>
     <label>Type</label>
     <required>true</required>
     <type>Picklist</type>

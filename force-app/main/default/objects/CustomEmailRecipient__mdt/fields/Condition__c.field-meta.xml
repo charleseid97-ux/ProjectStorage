@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>Condition__c</fullName>
-    <description>Optional Salesforce formula returning true or false, evaluated on the email's record (Record Id) by EmailService (Formula.builder). Empty: the rule always applies. Fields are written as in a formula field of the record's object, relationships allowed.</description>
+    <description>Optional Salesforce formula returning true or false, evaluated on the email&apos;s record (Record Id) by EmailService (Formula.builder). Empty: the rule always applies. Fields are written as in a formula field of the record&apos;s object, relationships allowed.</description>
     <fieldManageability>SubscriberControlled</fieldManageability>
-    <inlineHelpText>Optional. A formula on the email's record, true when this recipient must receive the email, e.g. ISPICKVAL(DataSensitivity__c, &quot;Confidential&quot;). Leave empty to always send to this recipient.</inlineHelpText>
+    <inlineHelpText>Optional. A formula on the email&apos;s record, true when this recipient must receive the email, e.g. ISPICKVAL(DataSensitivity__c, &quot;Confidential&quot;). Leave empty to always send to this recipient.</inlineHelpText>
     <label>Condition</label>
     <length>5000</length>
     <type>LongTextArea</type>
