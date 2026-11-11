@@ -432,9 +432,8 @@
         }
     </script>
 
-    <apex:form>
-        <apex:actionFunction
-            name="refreshAuditAfterLink"
+    <apex:form >
+        <apex:actionFunction name="refreshAuditAfterLink"
             action="{!searchEvents}"
             reRender="auditResults"
         />
@@ -452,8 +451,7 @@
                     <div class="filter event-name-filter">
                         <label>Event Name</label>
                         <apex:inputText value="{!eventNameFilter}">
-                            <apex:actionSupport
-                                event="onchange"
+                            <apex:actionSupport event="onchange"
                                 action="{!searchEvents}"
                                 reRender="auditResults"
                             />
@@ -470,8 +468,7 @@
                         <apex:input type="date" value="{!endDate}"/>
                     </div>
 
-                    <apex:commandButton
-                        value="Search"
+                    <apex:commandButton value="Search"
                         action="{!searchEvents}"
                         styleClass="search-btn"
                         reRender="auditResults"
@@ -570,8 +567,7 @@
 
                                                 <br/>
 
-                                                <apex:outputLink
-                                                    value="{!row.salesforceUrl}"
+                                                <apex:outputLink value="{!row.salesforceUrl}"
                                                     styleClass="sf-link"
                                                 >
                                                     Open Event
@@ -608,15 +604,13 @@
 
                                                 <br/>
 
-                                                <apex:commandButton
-                                                    value="{!IF(ISBLANK(row.salesforceGraphId), 'Send invitation', 'Update invitation')}"
+                                                <apex:commandButton value="{!IF(ISBLANK(row.salesforceGraphId), 'Send invitation', 'Update invitation')}"
                                                     action="{!resendEvent}"
                                                     styleClass="resend-btn"
                                                     reRender="resendResult"
                                                     onclick="if (!confirm(this.value + ' - Are you sure?')) { return false; } this.disabled=true; this.value='Queued';"
                                                 >
-                                                    <apex:param
-                                                        name="resendEventId"
+                                                    <apex:param name="resendEventId"
                                                         value="{!row.salesforceId}"
                                                         assignTo="{!resendEventId}"
                                                     />
@@ -631,25 +625,21 @@
 
                                                 <br/><br/>
 
-                                                <apex:commandButton
-                                                    value="Find in Bookly"
+                                                <apex:commandButton value="Find in Bookly"
                                                     action="{!findInBookly}"
                                                     styleClass="find-bookly-btn"
                                                     reRender="booklyModalContent"
                                                     oncomplete="openBooklyModal();"
                                                 >
-                                                    <apex:param
-                                                        name="selectedMicrosoftEventId"
+                                                    <apex:param name="selectedMicrosoftEventId"
                                                         value="{!row.graphEvents[0].id}"
                                                         assignTo="{!selectedMicrosoftEventId}"
                                                     />
-                                                    <apex:param
-                                                        name="selectedMicrosoftSubject"
+                                                    <apex:param name="selectedMicrosoftSubject"
                                                         value="{!row.graphEvents[0].subject}"
                                                         assignTo="{!selectedMicrosoftSubject}"
                                                     />
-                                                    <apex:param
-                                                        name="selectedMicrosoftDate"
+                                                    <apex:param name="selectedMicrosoftDate"
                                                         value="{!TEXT(row.graphEvents[0].eventDate)}"
                                                         assignTo="{!selectedMicrosoftDate}"
                                                     />
@@ -661,8 +651,7 @@
                                     <td>
                                         <apex:repeat value="{!row.graphEvents}" var="g">
                                             <div class="{!g.linkClass}">
-                                                <apex:outputText
-                                                    value="{!g.linkSymbol}"
+                                                <apex:outputText value="{!g.linkSymbol}"
                                                     escape="false"
                                                 />
                                             </div>
@@ -706,15 +695,13 @@
 
                                                 <br/>
 
-                                                <apex:commandButton
-                                                    value="Delete"
+                                                <apex:commandButton value="Delete"
                                                     action="{!deleteMicrosoftEvent}"
                                                     styleClass="delete-microsoft-btn"
                                                     reRender="auditResults"
                                                     onclick="if (!confirm('Delete this Microsoft Calendar Event - Are you sure?')) { return false; }"
                                                 >
-                                                    <apex:param
-                                                        name="deleteMicrosoftEventId"
+                                                    <apex:param name="deleteMicrosoftEventId"
                                                         value="{!g.id}"
                                                         assignTo="{!selectedMicrosoftEventId}"
                                                     />
@@ -800,8 +787,7 @@
                                                 <td>{!candidate.status}</td>
 
                                                 <td>
-                                                    <apex:outputLink
-                                                        value="{!candidate.eventUrl}"
+                                                    <apex:outputLink value="{!candidate.eventUrl}"
                                                         target="_blank"
                                                         styleClass="sf-link"
                                                     >
@@ -810,16 +796,14 @@
                                                 </td>
 
                                                 <td>
-                                                    <apex:commandButton
-                                                        rendered="{!candidate.canLink}"
+                                                    <apex:commandButton rendered="{!candidate.canLink}"
                                                         value="Link to this event"
                                                         action="{!linkBooklyEvent}"
                                                         styleClass="link-bookly-btn"
                                                         reRender="booklyModalContent"
                                                         oncomplete="closeBooklyModal(); refreshAuditAfterLink();"
                                                     >
-                                                        <apex:param
-                                                            value="{!candidate.id}"
+                                                        <apex:param value="{!candidate.id}"
                                                             assignTo="{!selectedBooklyEventId}"
                                                         />
                                                     </apex:commandButton>
