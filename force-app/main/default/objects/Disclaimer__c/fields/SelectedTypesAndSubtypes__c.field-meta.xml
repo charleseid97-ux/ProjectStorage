@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>SelectedTypesAndSubtypes__c</fullName>
-    <description>Narrative Types and their Sub Types selected when building this Disclaimer, as JSON: {"Type": ["Sub Type", ...]}.</description>
+    <description>Narrative Types and their Sub Types selected when building this Disclaimer, as JSON: {&quot;Type&quot;: [&quot;Sub Type&quot;, ...]}.</description>
     <encryptionScheme>None</encryptionScheme>
     <label>Selected Types And Subtypes</label>
     <length>32768</length>

@@ -80,5 +80,9 @@
         <members>DisclaimerBuilderPermissions</members>
         <name>PermissionSet</name>
     </types>
+    <types>
+        <members>Disclaimer__c.SubmitForApproval</members>
+        <name>QuickAction</name>
+    </types>
     <version>66.0</version>
 </Package>

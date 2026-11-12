@@ -3,6 +3,7 @@
     <fullName>Type__c</fullName>
     <label>Type</label>
     <required>false</required>
+    <securityClassification>Confidential</securityClassification>
     <trackTrending>false</trackTrending>
     <type>Picklist</type>
     <valueSet>
@@ -43,6 +44,16 @@
                 <fullName>PRIIPs</fullName>
                 <default>false</default>
                 <label>PRIIPs</label>
+            </value>
+            <value>
+                <fullName>Marketing</fullName>
+                <default>false</default>
+                <label>Marketing</label>
+            </value>
+            <value>
+                <fullName>ESG</fullName>
+                <default>false</default>
+                <label>ESG</label>
             </value>
             <value>
                 <fullName>Content</fullName>
