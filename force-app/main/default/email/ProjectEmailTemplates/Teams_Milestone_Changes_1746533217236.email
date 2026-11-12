@@ -1,0 +1,12 @@
+<html>
+<head>
+	<title></title>
+</head>
+<body style="height: auto; min-height: auto;">
+<p>✅ The PMT project called &lt;b&gt;{{{Milestone__c.TECH_ProjectName__c}}}&lt;/b&gt; has completed the milestone&nbsp;&lt;b&gt;{{{Milestone__c.Name}}}&lt;/b&gt;.<br />
+<br />
+You can access this projet through&nbsp;<a href="{{{Milestone__c.TECH_ProjectLink__c}}}">this link</a>&nbsp;<br />
+<br />
+The Product Strategy Team</p>
+</body>
+</html>

@@ -1,0 +1,16 @@
+<html>
+<head>
+	<title></title>
+</head>
+<body style="height: auto; min-height: auto;">
+<p><span style="font-size:11.0pt"><span style="font-family:Calibri">New Meeting note shared on &lt;b&gt;{{{ProjectDocuments__c.tech_Project_Product_Name__c}}}&lt;/b&gt;</span></span><br />
+<br />
+<span style="font-size:11.0pt"><span style="font-family:Calibri">Context: {{{ProjectDocuments__c.Name}}}</span></span><br />
+<span style="font-size:11.0pt"><span style="font-family:Calibri">Author: {{{ProjectDocuments__c.tech_user__c}}}</span></span><br />
+<span style="font-size:11.0pt"><span style="font-family:&quot;Segoe UI Emoji&quot;">🔗</span><span style="font-family:Calibri"> Access the record:&nbsp;</span></span><a href="{{{ProjectDocuments__c.tech_RecordLinkNotifyAllcheckbox__c}}}"><span style="font-family:Calibri">View project in Salesforce</span></a><br />
+<span style="font-size:11.0pt"><span style="font-family:&quot;Segoe UI Emoji&quot;">📝</span><span style="font-family:Calibri"> Note content:</span></span><br />
+<span style="font-size:11.0pt"><span style="font-family:Calibri">{{{ProjectDocuments__c.Note__c}}}</span></span><br />
+<br />
+<span style="font-size:11.0pt"><span style="font-family:&quot;Segoe UI Emoji&quot;">📣</span><span style="font-family:Calibri"> This information was shared with all relevant team owners involved in the project. Please review and follow up if needed.</span></span></p>
+</body>
+</html>
