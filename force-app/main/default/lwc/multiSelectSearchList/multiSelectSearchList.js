@@ -6,6 +6,7 @@
  * [25-10-2024]		[SILA Nicolas]
  * [16-12-2025]		[EID Charles]	  [Add showValuesWhenNotSelecting feature]
  * [23-01-2025]		[EID Charles]	  [Add enableSelectAll feature]
+ * [07-11-2026]		[EID Charles]	  [Fix endless render loop when options load after the first render]
 **/
 import { LightningElement, api, track } from 'lwc';
 
@@ -98,10 +99,9 @@ export default class MultiSelectSearchList extends LightningElement {
 		}
 	}
    
+    // Saved once options exist: copying an empty list re-assigns the tracked optionsSaved on every render, an endless render loop when options load asynchronously.
     renderedCallback(){
-		if(!(this.optionsSaved && this.optionsSaved.length)){
-			this.optionsSaved = [...this.options];
-      	}
+		if (!this.optionsSaved?.length && this.options?.length) this.optionsSaved = [...this.options];
     }
    
     @api refreshOptions(newoptions){

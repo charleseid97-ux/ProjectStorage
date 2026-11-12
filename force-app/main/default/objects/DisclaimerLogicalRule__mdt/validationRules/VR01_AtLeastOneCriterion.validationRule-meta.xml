@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>VR01_AtLeastOneCriterion</fullName>
+    <active>true</active>
+    <errorConditionFormula>AND(
+ISBLANK(TEXT(NumberOfProducts__c)),
+ISBLANK(Products__c),
+ISBLANK(Condition__c)
+)</errorConditionFormula>
+    <errorMessage>Fill at least one of Number Of Products, Products or Condition.</errorMessage>
+</ValidationRule>
