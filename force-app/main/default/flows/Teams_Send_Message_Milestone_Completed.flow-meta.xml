@@ -1,12 +1,38 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Flow xmlns="http://soap.sforce.com/2006/04/metadata">
     <actionCalls>
-        <name>Send_chat_message</name>
-        <label>Send chat message</label>
-        <locationX>314</locationX>
-        <locationY>492</locationY>
+        <name>SendEmailNotification</name>
+        <label>Send Email Notification</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <actionName>CustomEmailAlertFlowAction</actionName>
+        <actionType>apex</actionType>
+        <flowTransactionModel>Automatic</flowTransactionModel>
+        <inputParameters>
+            <name>alertName</name>
+            <value>
+                <stringValue>PMTMilestoneCompletedNotification</stringValue>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>recordId</name>
+            <value>
+                <elementReference>$Record.Id</elementReference>
+            </value>
+        </inputParameters>
+        <nameSegment>CustomEmailAlertFlowAction</nameSegment>
+        <offset>0</offset>
+    </actionCalls>
+    <actionCalls>
+        <name>SendTeamsMessage</name>
+        <label>Send Teams Message</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
         <actionName>WS_QueueableLauncher</actionName>
         <actionType>apex</actionType>
+        <connector>
+            <targetReference>SendEmailNotification</targetReference>
+        </connector>
         <flowTransactionModel>CurrentTransaction</flowTransactionModel>
         <inputParameters>
             <name>email</name>
@@ -23,13 +49,13 @@
         <inputParameters>
             <name>templateId</name>
             <value>
-                <elementReference>Copy_1_of_Get_Email_Template.Id</elementReference>
+                <elementReference>GetMilestoneCompletedTemplate.Id</elementReference>
             </value>
         </inputParameters>
         <nameSegment>WS_QueueableLauncher</nameSegment>
         <offset>0</offset>
     </actionCalls>
-    <apiVersion>63.0</apiVersion>
+    <apiVersion>68.0</apiVersion>
     <areMetricsLoggedToDataCloud>false</areMetricsLoggedToDataCloud>
     <description>This flow sends Teams notifications when a milestone is marked as Completed in the Product Management Tool (PMT).
 All milestones trigger a notification except for “SPC Final” and “Go Live”, which are handled via separate email flows.
@@ -93,11 +119,6 @@ IF(ISBLANK({!GETPMT.IS__r.Email}), &apos;&apos;, {!GETPMT.IS__r.Email} &amp; &ap
 IF(ISBLANK({!GETPMT.Technology__r.Email}), &apos;&apos;, {!GETPMT.Technology__r.Email})
 )</expression>
     </formulas>
-    <formulas>
-        <name>PMTRecordId</name>
-        <dataType>String</dataType>
-        <expression>{!$Record.Project_product__r.Id}</expression>
-    </formulas>
     <interviewLabel>Teams Send Message - Road To market Activated {!$Flow.CurrentDateTime}</interviewLabel>
     <label>PMT - Teams Notification - Milestones Completed</label>
     <processMetadataValues>
@@ -120,38 +141,20 @@ IF(ISBLANK({!GETPMT.Technology__r.Email}), &apos;&apos;, {!GETPMT.Technology__r.
     </processMetadataValues>
     <processType>AutoLaunchedFlow</processType>
     <recordLookups>
-        <name>Copy_1_of_Get_Email_Template</name>
-        <label>Copy 1 of Get Email Template</label>
-        <locationX>314</locationX>
-        <locationY>384</locationY>
+        <name>GetMilestoneCompletedTemplate</name>
+        <label>Get Milestone Completed Template</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
-            <targetReference>Send_chat_message</targetReference>
+            <targetReference>SendTeamsMessage</targetReference>
         </connector>
         <filterLogic>and</filterLogic>
         <filters>
             <field>DeveloperName</field>
             <operator>EqualTo</operator>
             <value>
-                <stringValue>Teams_Milestone_Changes_1746533217236</stringValue>
-            </value>
-        </filters>
-        <getFirstRecordOnly>true</getFirstRecordOnly>
-        <object>EmailTemplate</object>
-        <storeOutputAutomatically>true</storeOutputAutomatically>
-    </recordLookups>
-    <recordLookups>
-        <name>Get_Email_Template</name>
-        <label>Get Email Template</label>
-        <locationX>50</locationX>
-        <locationY>276</locationY>
-        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
-        <filterLogic>and</filterLogic>
-        <filters>
-            <field>DeveloperName</field>
-            <operator>EqualTo</operator>
-            <value>
-                <stringValue>Teams_Milestone_Changes_1746533217236</stringValue>
+                <stringValue>PMTMilestoneCompletedNotification</stringValue>
             </value>
         </filters>
         <getFirstRecordOnly>true</getFirstRecordOnly>
@@ -160,19 +163,19 @@ IF(ISBLANK({!GETPMT.Technology__r.Email}), &apos;&apos;, {!GETPMT.Technology__r.
     </recordLookups>
     <recordLookups>
         <name>GETPMT</name>
-        <label>GET PMT</label>
-        <locationX>314</locationX>
-        <locationY>276</locationY>
+        <label>Get Project Product</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
-            <targetReference>Copy_1_of_Get_Email_Template</targetReference>
+            <targetReference>GetMilestoneCompletedTemplate</targetReference>
         </connector>
         <filterLogic>and</filterLogic>
         <filters>
             <field>Id</field>
             <operator>EqualTo</operator>
             <value>
-                <elementReference>PMTRecordId</elementReference>
+                <elementReference>$Record.Project_product__r.Id</elementReference>
             </value>
         </filters>
         <getFirstRecordOnly>true</getFirstRecordOnly>
@@ -180,11 +183,8 @@ IF(ISBLANK({!GETPMT.Technology__r.Email}), &apos;&apos;, {!GETPMT.Technology__r.
         <storeOutputAutomatically>true</storeOutputAutomatically>
     </recordLookups>
     <start>
-        <locationX>56</locationX>
+        <locationX>0</locationX>
         <locationY>0</locationY>
-        <connector>
-            <targetReference>Get_Email_Template</targetReference>
-        </connector>
         <filterLogic>1 AND 2 AND 3 AND 4</filterLogic>
         <filters>
             <field>Status__c</field>
@@ -224,10 +224,5 @@ IF(ISBLANK({!GETPMT.Technology__r.Email}), &apos;&apos;, {!GETPMT.Technology__r.
         </scheduledPaths>
         <triggerType>RecordAfterSave</triggerType>
     </start>
-    <status>Obsolete</status>
-    <textTemplates>
-        <name>emailsTeamsTEST</name>
-        <isViewedAsPlainText>true</isViewedAsPlainText>
-        <text>sihem.mokhtari.external@carmignac.com;thomas.coullon@carmignac.com;laurent.danino@carmignac.com;nicolas.rossignol@carmignac.com;faith.blakesley-park.external@carmignac.com</text>
-    </textTemplates>
+    <status>Draft</status>
 </Flow>

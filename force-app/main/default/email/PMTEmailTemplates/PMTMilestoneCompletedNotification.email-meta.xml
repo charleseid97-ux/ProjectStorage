@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <description>Email template confirming completion of a PMT project milestone, identifying the project and completed milestone, and providing a link to the project.</description>
+    <encodingKey>ISO-8859-1</encodingKey>
+    <name>PMT - Milestone Completed Notification</name>
+    <relatedEntityType>Milestone__c</relatedEntityType>
+    <style>none</style>
+    <subject>PMT Milestone Completed - {{{Milestone__c.TECH_ProjectName__c}}} - {{{Milestone__c.Name}}}</subject>
+    <type>custom</type>
+    <uiType>SFX</uiType>
+</EmailTemplate>

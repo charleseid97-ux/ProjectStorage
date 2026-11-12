@@ -8,12 +8,14 @@
         <members>PMTEmailTemplates/PMTGoLiveEmailTemplate</members>
         <members>PMTEmailTemplates/PMTSPCFinalValidationCreation</members>
         <members>PMTEmailTemplates/PMTSPCFinalValidationModification</members>
+        <members>PMTEmailTemplates/PMTMilestoneCompletedNotification</members>
         <name>EmailTemplate</name>
     </types>
     <types>
         <members>CustomEmailAlert.PMTGoLiveNotification</members>
         <members>CustomEmailAlert.PMTSPCFinalValidationCreation</members>
         <members>CustomEmailAlert.PMTSPCFinalValidationModification</members>
+        <members>CustomEmailAlert.PMTMilestoneCompletedNotification</members>
 
         <!-- PMT Go Live Recipients -->
         <members>CustomEmailRecipient.PMTGoLiveNotificationTo1</members>
@@ -62,6 +64,28 @@
         <members>CustomEmailRecipient.PMTSPCFinalValidationModificationTo12</members>
         <members>CustomEmailRecipient.PMTSPCFinalValidationModificationTo13</members>
         <members>CustomEmailRecipient.PMTSPCFinalValidationModificationTo14</members>
+
+        <!-- PMT Milestone Completed -->
+        <members>CustomEmailRecipient.PMTMilestoneCompletedTo1</members>
+        <members>CustomEmailRecipient.PMTMilestoneCompletedTo2</members>
+        <members>CustomEmailRecipient.PMTMilestoneCompletedTo3</members>
+        <members>CustomEmailRecipient.PMTMilestoneCompletedTo4</members>
+        <members>CustomEmailRecipient.PMTMilestoneCompletedTo5</members>
+        <members>CustomEmailRecipient.PMTMilestoneCompletedTo6</members>
+        <members>CustomEmailRecipient.PMTMilestoneCompletedTo7</members>
+        <members>CustomEmailRecipient.PMTMilestoneCompletedTo8</members>
+        <members>CustomEmailRecipient.PMTMilestoneCompletedTo9</members>
+        <members>CustomEmailRecipient.PMTMilestoneCompletedTo10</members>
+        <members>CustomEmailRecipient.PMTMilestoneCompletedTo11</members>
+        <members>CustomEmailRecipient.PMTMilestoneCompletedTo12</members>
+        <members>CustomEmailRecipient.PMTMilestoneCompletedTo13</members>
+        <members>CustomEmailRecipient.PMTMilestoneCompletedTo14</members>
+        <members>CustomEmailRecipient.PMTMilestoneCompletedTo15</members>
+        <members>CustomEmailRecipient.PMTMilestoneCompletedTo16</members>
+        <members>CustomEmailRecipient.PMTMilestoneCompletedTo17</members>
+        <members>CustomEmailRecipient.PMTMilestoneCompletedTo18</members>
+        <members>CustomEmailRecipient.PMTMilestoneCompletedTo19</members>
+        <members>CustomEmailRecipient.PMTMilestoneCompletedTo20</members>
         <name>CustomMetadata</name>
     </types>
     <types>
