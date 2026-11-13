@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>CustomTeamsMessage__c</fullName>
+    <description>The Custom Teams Message this recipient rule belongs to. TeamsMessageService loads the active rules of a Teams message with it. A rule with both a Custom Email Alert and a Custom Teams Message serves both: the same people receive the email and the Teams message.</description>
+    <fieldManageability>SubscriberControlled</fieldManageability>
+    <inlineHelpText>The Teams message this recipient receives. Fill it together with Custom Email Alert so the same person receives the email and the Teams message, or alone for a Teams-only recipient.</inlineHelpText>
+    <label>Custom Teams Message</label>
+    <referenceTo>CustomTeamsMessage__mdt</referenceTo>
+    <relationshipLabel>Custom Email Recipients</relationshipLabel>
+    <relationshipName>CustomEmailRecipients</relationshipName>
+    <required>false</required>
+    <type>MetadataRelationship</type>
+    <unique>false</unique>
+</CustomField>

@@ -16,10 +16,13 @@
  *              Recipients of an alert: its CustomEmailRecipient__mdt rows, one recipient per row (Address, Queue, PublicGroup, RecordField in To / Cc / Bcc), each with an optional formula Condition on the email's record (Formula.builder).
  *                  The fields the rows read (conditions, record fields) are queried once per object for all the requests of a build.
  *                  A Record Field row giving a User in To makes that user the recipient record (targetObjectId) when the request has none, exactly like the Flow's Recipient Id (rows read by DeveloperName order).
+ *                  US-20337: an Apex row (Type Apex, Value__c = a class implementing RecipientResolver, e.g. PMTTeamOwnerRecipients) adds the users the class returns for the record, resolved once per class per build.
+ *              US-20337: Microsoft Teams messages (TeamsMessageService) are built here too (isTeamsMessage): same rows, conditions, render, replacements, dry run and No Recipient fallback,
+ *                  with Teams wording in the banner and errors and no recipient record (every recipient is an address). build(requests, requestByEmail) tells which request each message belongs to.
  * @author Charles EID
  * @testClass EmailServiceTest
- * @coverage 97%   [09-11-26]
- * @lastModifiedBy Charles EID   [09-11-26]
+ * @coverage 97%   [12-11-26]
+ * @lastModifiedBy Charles EID   [12-11-26]
 ────────────────────────────────────── */
 public without sharing class EmailService {
 
@@ -40,6 +43,7 @@ public without sharing class EmailService {
     private static final Set<Schema.SObjectType> RECIPIENT_TYPES = new Set<Schema.SObjectType>{ Contact.SObjectType, Lead.SObjectType, User.SObjectType };
     private static final Set<Schema.SObjectType> USER_OR_GROUP_TYPES = new Set<Schema.SObjectType>{ User.SObjectType, Group.SObjectType };
     private static final String RECORD_FIELD = 'RecordField';
+    private static final String APEX_RESOLVER = 'Apex';
 
     // Loaded once per alert per transaction: a bulk Flow builds one request per record with the same alert
     private static Map<String, CustomEmailAlert__mdt> alertsByName = new Map<String, CustomEmailAlert__mdt>();
@@ -48,10 +52,17 @@ public without sharing class EmailService {
     private static Map<String, FormulaEval.FormulaInstance> conditionsByKey = new Map<String, FormulaEval.FormulaInstance>();
     private static Map<String, Id> orgWideIdsByAddress = new Map<String, Id>();
     private static Map<Id, String> recipientLabelsById = new Map<Id, String>();
+    // Apex rows' classes, instantiated once per transaction
+    private static Map<String, RecipientResolver> resolversByName = new Map<String, RecipientResolver>();
 
     public enum Sender { NO_REPLY, CURRENT_USER, ORG_WIDE }
 
     public class EmailServiceException extends Exception {}
+
+    // Class named by a Custom Email Recipient of Type Apex: the users who receive the email or Teams message of each record (all the build's records at once)
+    public interface RecipientResolver {
+        Map<Id, Set<Id>> getUserIds(Set<Id> recordIds);
+    }
 
     // Builds then sends every active request in a single Messaging.sendEmail; send failures and emails sent to the No Recipient Addresses are logged, never thrown
     public static void send(List<EmailRequest> requests) {
@@ -60,7 +71,7 @@ public without sharing class EmailService {
         List<Messaging.SingleEmailMessage> emails = buildEmails(requests, requestByEmail, noRecipientRequests);
         if (emails.isEmpty()) return;
 
-        for (EmailRequest request : noRecipientRequests) logFailure(OperationLogService.Level.WARN, request, null, 'No To recipient: the email was sent to the No Recipient Addresses (Custom Setting Email Service Settings).', null);
+        for (EmailRequest request : noRecipientRequests) logFailure(OperationLogService.Level.WARN, request, null, 'No To recipient: the email was sent to the No Recipient Addresses (Custom Setting Email and Notification Service Settings).', null);
         try {
             sendEmails(emails, requestByEmail, true);
         }
@@ -75,7 +86,23 @@ public without sharing class EmailService {
 
     // The exact messages send() would send, without sending them (preview, checks, tests)
     public static List<Messaging.SingleEmailMessage> build(List<EmailRequest> requests) {
-        return buildEmails(requests, new List<EmailRequest>(), new List<EmailRequest>());
+        return build(requests, new List<EmailRequest>());
+    }
+
+    // Same, requestByEmail receiving the request of each message (a request above 100 To / 25 Cc / 25 Bcc gives several messages): TeamsMessageService reads its recipients there
+    public static List<Messaging.SingleEmailMessage> build(List<EmailRequest> requests, List<EmailRequest> requestByEmail) {
+        return buildEmails(requests, requestByEmail, new List<EmailRequest>());
+    }
+
+    // Flow inputs Replacement Tokens and Replacement Values, matched by position (Flow has no Map type); configName names the alert or Teams message in the error
+    public static Map<String, String> buildReplacements(String configName, List<String> tokens, List<String> values) {
+        tokens = tokens != null ? tokens : new List<String>();
+        values = values != null ? values : new List<String>();
+        if (tokens.size() != values.size()) throw new EmailServiceException(configName + ': ' + tokens.size() + ' Replacement Tokens for ' + values.size() + ' Replacement Values. Both collections need the same size and order.');
+
+        Map<String, String> replacements = new Map<String, String>();
+        for (Integer i = 0; i < tokens.size(); i++) replacements.put(tokens[i], values[i]);
+        return replacements;
     }
 
     // Splits a list of values (Flow inputs Additional To / Cc / Bcc Addresses): separated by commas, semicolons or line breaks
@@ -282,9 +309,11 @@ public without sharing class EmailService {
             List<String> toAddresses = resolveAddresses(request.to, emailsByQueue, emailsByUserOrGroupId);
             List<String> ccAddresses = resolveAddresses(request.cc, emailsByQueue, emailsByUserOrGroupId);
             List<String> bccAddresses = resolveAddresses(request.bcc, emailsByQueue, emailsByUserOrGroupId);
-            Boolean noRecipient = toAddresses.isEmpty() && request.recipientId == null;
-            if (noRecipient && NO_RECIPIENT_ADDRESSES.isEmpty()) throw new EmailServiceException(describe(request) + ' has no To recipient (no To address, no active user or queue member, no matching Custom Email Recipient and no recipient record) and no No Recipient Address is set (Custom Setting Email Service Settings).');
-            if (noRecipient && !isDryRun(request)) noRecipientRequests.add(request);
+            // A Teams message goes to all its recipients alike: it has none when all three lists are empty
+            Boolean noRecipient = request.isTeamsMessage ? toAddresses.isEmpty() && ccAddresses.isEmpty() && bccAddresses.isEmpty() : toAddresses.isEmpty() && request.recipientId == null;
+            if (noRecipient && NO_RECIPIENT_ADDRESSES.isEmpty()) throw new EmailServiceException(describe(request) + ' has no ' + (request.isTeamsMessage ? 'recipient' : 'To recipient') + ' (no address, no active user or queue member, no matching Custom Email Recipient' + (request.isTeamsMessage ? '' : ' and no recipient record') + ') and no No Recipient Address is set (Custom Setting Email and Notification Service Settings).');
+            request.noRecipient = noRecipient && !isDryRun(request);
+            if (request.noRecipient) noRecipientRequests.add(request);
 
             for (Messaging.SingleEmailMessage email : splitMessages(request, content, toAddresses, ccAddresses, bccAddresses, noRecipient)) {
                 emails.add(email);
@@ -295,19 +324,21 @@ public without sharing class EmailService {
     }
 
     // Adds the recipients of each request's Custom Email Recipient rows whose condition is true on its record; sets keep build() then send() on the same requests free of duplicates
+    // Public groups and Apex rows are collected first (pending), then resolved once for all the requests
     private static void applyRecipientRules(List<EmailRequest> requests) {
         Map<Id, SObject> recordsById = queryRuleRecords(requests);
-        Map<String, List<Recipients>> recipientsByGroupName = new Map<String, List<Recipients>>();
+        PendingRecipients pending = new PendingRecipients();
         for (EmailRequest request : requests) {
             SObject record = recordsById.get(request.whatId);
             for (CustomEmailRecipient__mdt rule : request.recipientRules) {
                 if (String.isNotBlank(rule.Condition__c) && getCondition(rule, record.getSObjectType()).evaluate(record) != true) continue;
 
                 Recipients recipients = rule.SendAs__c == 'Cc' ? request.cc : rule.SendAs__c == 'Bcc' ? request.bcc : request.to;
-                addRecipient(request, recipients, rule, record, recipientsByGroupName);
+                addRecipient(request, recipients, rule, record, pending);
             }
         }
-        addPublicGroups(recipientsByGroupName);
+        addPublicGroups(pending.recipientsByGroupName);
+        addResolverRecipients(pending.recipientsByRecordIdByResolver);
     }
 
     // The records the rows read (conditions, record fields): one query per object with every field read by the rows of all the requests
@@ -337,10 +368,10 @@ public without sharing class EmailService {
         return recordsById;
     }
 
-    // Lower-case fields a row reads on the request's record: its condition's fields and its record field; empty when it reads nothing
+    // Lower-case fields a row reads on the request's record: its condition's fields and its record field; empty when it reads nothing (an Apex row needs the Record Id, its class reads the record itself)
     private static Set<String> getRuleFields(EmailRequest request, CustomEmailRecipient__mdt rule) {
         Set<String> fields = new Set<String>();
-        if (rule.Type__c != RECORD_FIELD && String.isBlank(rule.Condition__c)) return fields;
+        if (rule.Type__c != RECORD_FIELD && rule.Type__c != APEX_RESOLVER && String.isBlank(rule.Condition__c)) return fields;
         if (request.whatId == null) throw new EmailServiceException(describe(request) + ': its Custom Email Recipient "' + rule.DeveloperName + '" reads the email\'s record, but there is no Record Id.');
 
         if (rule.Type__c == RECORD_FIELD) fields.add(rule.Value__c.trim().toLowerCase());
@@ -363,8 +394,8 @@ public without sharing class EmailService {
         return conditionsByKey.get(key);
     }
 
-    // Public groups are collected by name (recipientsByGroupName) and resolved together by addPublicGroups
-    private static void addRecipient(EmailRequest request, Recipients recipients, CustomEmailRecipient__mdt rule, SObject record, Map<String, List<Recipients>> recipientsByGroupName) {
+    // Public groups are collected by name and Apex rows by class and record (pending), then resolved together by addPublicGroups and addResolverRecipients
+    private static void addRecipient(EmailRequest request, Recipients recipients, CustomEmailRecipient__mdt rule, SObject record, PendingRecipients pending) {
         String value = rule.Value__c.trim();
         switch on rule.Type__c {
             when 'Address' {
@@ -374,8 +405,15 @@ public without sharing class EmailService {
                 recipients.queues.add(value);
             }
             when 'PublicGroup' {
-                if (!recipientsByGroupName.containsKey(value)) recipientsByGroupName.put(value, new List<Recipients>());
-                recipientsByGroupName.get(value).add(recipients);
+                if (!pending.recipientsByGroupName.containsKey(value)) pending.recipientsByGroupName.put(value, new List<Recipients>());
+                pending.recipientsByGroupName.get(value).add(recipients);
+            }
+            when 'Apex' {
+                getResolver(rule);
+                if (!pending.recipientsByRecordIdByResolver.containsKey(value)) pending.recipientsByRecordIdByResolver.put(value, new Map<Id, List<Recipients>>());
+                Map<Id, List<Recipients>> recipientsByRecordId = pending.recipientsByRecordIdByResolver.get(value);
+                if (!recipientsByRecordId.containsKey(request.whatId)) recipientsByRecordId.put(request.whatId, new List<Recipients>());
+                recipientsByRecordId.get(request.whatId).add(recipients);
             }
             when else {
                 addRecordFieldRecipient(request, recipients, rule, readFieldPath(record, value));
@@ -383,13 +421,39 @@ public without sharing class EmailService {
         }
     }
 
+    // The class of an Apex row, instantiated once per transaction; a missing class, or one not implementing RecipientResolver, is a configuration error
+    private static RecipientResolver getResolver(CustomEmailRecipient__mdt rule) {
+        String className = rule.Value__c.trim();
+        if (!resolversByName.containsKey(className)) {
+            Object resolver = Type.forName(className)?.newInstance();
+            if (!(resolver instanceof RecipientResolver)) throw new EmailServiceException('Custom Email Recipient "' + rule.DeveloperName + '": ' + className + ' is not an Apex class implementing EmailService.RecipientResolver.');
+            resolversByName.put(className, (RecipientResolver) resolver);
+        }
+        return resolversByName.get(className);
+    }
+
+    // Users of the Apex rows: each class is called once with all its records, its users added to the rows' lists (userOrGroupIds: active users only); a record it returns nothing for adds nobody
+    private static void addResolverRecipients(Map<String, Map<Id, List<Recipients>>> recipientsByRecordIdByResolver) {
+        for (String className : recipientsByRecordIdByResolver.keySet()) {
+            Map<Id, List<Recipients>> recipientsByRecordId = recipientsByRecordIdByResolver.get(className);
+            Map<Id, Set<Id>> userIdsByRecordId = resolversByName.get(className).getUserIds(recipientsByRecordId.keySet());
+            for (Id recordId : recipientsByRecordId.keySet()) {
+                Set<Id> userIds = userIdsByRecordId.get(recordId);
+                if (userIds == null) continue;
+
+                for (Recipients recipients : recipientsByRecordId.get(recordId)) recipients.userOrGroupIds.addAll(userIds);
+            }
+        }
+    }
+
     // A User / Queue / Group lookup gives its active users (userOrGroupIds), an Email or Text field gives addresses; an empty field adds nobody
     // A User in To becomes the recipient record when the request has none, as the Flow's Recipient Id did: not counted in the daily email limit, fills the Recipient merge fields, and an inactive user is a send failure (logged), not a build error
+    // A Teams message has no recipient record: its users are addresses like the others
     private static void addRecordFieldRecipient(EmailRequest request, Recipients recipients, CustomEmailRecipient__mdt rule, Object value) {
         if (value instanceof Id) {
             Id userOrGroupId = (Id) value;
             if (!USER_OR_GROUP_TYPES.contains(userOrGroupId.getSObjectType())) throw new EmailServiceException('Custom Email Recipient "' + rule.DeveloperName + '": ' + rule.Value__c + ' is a ' + userOrGroupId.getSObjectType() + ', not a User, Queue or Group. For a Contact or Lead, use its Email field (e.g. Contact__r.Email).');
-            if (recipients === request.to && userOrGroupId.getSObjectType() == User.SObjectType && (request.recipientId == null || request.recipientId == userOrGroupId)) request.recipientId = userOrGroupId;
+            if (recipients === request.to && !request.isTeamsMessage && userOrGroupId.getSObjectType() == User.SObjectType && (request.recipientId == null || request.recipientId == userOrGroupId)) request.recipientId = userOrGroupId;
             else recipients.userOrGroupIds.add(userOrGroupId);
         }
         else if (value != null) {
@@ -449,8 +513,9 @@ public without sharing class EmailService {
     private static List<Messaging.SingleEmailMessage> splitMessages(EmailRequest request, Messaging.SingleEmailMessage content, List<String> toAddresses, List<String> ccAddresses, List<String> bccAddresses, Boolean noRecipient) {
         Boolean dryRun = isDryRun(request);
         if (dryRun || noRecipient) {
-            if (dryRun && DRY_RUN_ADDRESSES.isEmpty()) throw new EmailServiceException(describe(request) + ' is a dry run but no dry-run address is set (Custom Setting Email Service Settings, Dry Run Addresses).');
-            addBanner(content, dryRun ? DRY_RUN_SUBJECT_PREFIX + 'This email was not sent to its real recipients:' : NO_RECIPIENT_SUBJECT_PREFIX + 'This email has no To recipient, so it was sent to you instead. Its recipients:', request, toAddresses, ccAddresses, bccAddresses);
+            if (dryRun && DRY_RUN_ADDRESSES.isEmpty()) throw new EmailServiceException(describe(request) + ' is a dry run but no dry-run address is set (Custom Setting Email and Notification Service Settings, Dry Run Addresses).');
+            String kind = request.isTeamsMessage ? 'Teams message' : 'email';
+            addBanner(content, dryRun ? DRY_RUN_SUBJECT_PREFIX + 'This ' + kind + ' was not sent to its real recipients:' : NO_RECIPIENT_SUBJECT_PREFIX + 'This ' + kind + ' has no ' + (request.isTeamsMessage ? 'recipient' : 'To recipient') + ', so it was sent to you instead. Its recipients:', request, toAddresses, ccAddresses, bccAddresses);
             if (!dryRun) content.setSubject(NO_RECIPIENT_SUBJECT_PREFIX + content.getSubject());
             toAddresses = dryRun ? DRY_RUN_ADDRESSES : NO_RECIPIENT_ADDRESSES;
             ccAddresses = new List<String>();
@@ -482,14 +547,19 @@ public without sharing class EmailService {
     }
 
     // Dry run or no To recipient: the recipients the email would have reached (the recipient record first, by name and email), its alert and its record, at the top of its HTML and text bodies
+    // A Teams message lists its recipients in one line: they all receive it alike
     private static void addBanner(Messaging.SingleEmailMessage content, String title, EmailRequest request, List<String> toAddresses, List<String> ccAddresses, List<String> bccAddresses) {
         List<String> toRecipients = new List<String>();
         if (request.recipientId != null) toRecipients.add(recipientLabelsById.get(request.recipientId) + ' (recipient record)');
         toRecipients.addAll(toAddresses);
-        List<String> lines = new List<String>{ title, 'To: ' + (toRecipients.isEmpty() ? '(none)' : String.join(toRecipients, ', ')) };
-        if (!ccAddresses.isEmpty()) lines.add('Cc: ' + String.join(ccAddresses, ', '));
-        if (!bccAddresses.isEmpty()) lines.add('Bcc: ' + String.join(bccAddresses, ', '));
-        if (String.isNotBlank(request.customAlertName)) lines.add('Custom Email Alert: ' + request.customAlertName);
+        if (request.isTeamsMessage) {
+            toRecipients.addAll(ccAddresses);
+            toRecipients.addAll(bccAddresses);
+        }
+        List<String> lines = new List<String>{ title, (request.isTeamsMessage ? 'Recipients: ' : 'To: ') + (toRecipients.isEmpty() ? '(none)' : String.join(toRecipients, ', ')) };
+        if (!request.isTeamsMessage && !ccAddresses.isEmpty()) lines.add('Cc: ' + String.join(ccAddresses, ', '));
+        if (!request.isTeamsMessage && !bccAddresses.isEmpty()) lines.add('Bcc: ' + String.join(bccAddresses, ', '));
+        if (String.isNotBlank(request.customAlertName)) lines.add((request.isTeamsMessage ? 'Custom Teams Message: ' : 'Custom Email Alert: ') + request.customAlertName);
         if (request.whatId != null) lines.add('Record: ' + URL.getOrgDomainUrl().toExternalForm() + '/' + request.whatId);
         String banner = String.join(lines, '\n');
         if (String.isNotBlank(content.getHtmlBody())) content.setHtmlBody('<div style="border:2px solid #c23934;padding:8px;margin-bottom:16px;font-family:Arial,sans-serif;font-size:12px;">' + banner.escapeHtml4().replace('\n', '<br/>') + '</div>' + content.getHtmlBody());
@@ -699,7 +769,8 @@ public without sharing class EmailService {
 
     private static String describe(EmailRequest request) {
         String name = String.isNotBlank(request.customAlertName) ? request.customAlertName : String.isNotBlank(request.templateDeveloperName) ? request.templateDeveloperName : request.subject;
-        return String.isBlank(name) ? 'Email request' : 'Email "' + name + '"';
+        String kind = request.isTeamsMessage ? 'Teams message' : 'Email';
+        return String.isBlank(name) ? kind + ' request' : kind + ' "' + name + '"';
     }
 
     // One recipient list (To, Cc or Bcc), whatever its sources; a new source = one new field here
@@ -727,6 +798,10 @@ public without sharing class EmailService {
         public Boolean isActive = true;
         public Boolean dryRun = false;
         public List<CustomEmailRecipient__mdt> recipientRules = new List<CustomEmailRecipient__mdt>();
+        // US-20337: built by TeamsMessageService (customAlertName = its Custom Teams Message): Teams wording, no recipient record
+        public Boolean isTeamsMessage = false;
+        // Set by the build: the message goes to the No Recipient Addresses
+        public Boolean noRecipient = false;
 
         public EmailRequest() {}
 
@@ -744,5 +819,11 @@ public without sharing class EmailService {
             this.logFailures = alert.LogFailures__c;
             this.logOperation = 'Custom Email Alert ' + alert.DeveloperName;
         }
+    }
+
+    // Rows resolved for all the requests at once, after the loop on the rows: public groups by name, Apex rows by class then record
+    private class PendingRecipients {
+        public Map<String, List<Recipients>> recipientsByGroupName = new Map<String, List<Recipients>>();
+        public Map<String, Map<Id, List<Recipients>>> recipientsByRecordIdByResolver = new Map<String, Map<Id, List<Recipients>>>();
     }
 }

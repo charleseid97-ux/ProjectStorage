@@ -1,0 +1,13 @@
+<html>
+<head>
+	<title></title>
+</head>
+<body>
+<b>🚀 Road to Market launched</b><br>
+Project: <b>{{{ProjectProduct__c.Name}}}</b><br><br>
+Please <b>review tasks</b>, <b>update statuses</b> and <b>comment if needed</b>.<br><br>
+🔗 <a href="{{{ProjectProduct__c.Tech_RecordLinkRoadToMarket__c}}}">View project in Salesforce</a>
+<hr>
+<i>The Product Strategy Team</i>
+</body>
+</html>

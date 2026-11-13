@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>LogFailures__c</fullName>
+    <defaultValue>true</defaultValue>
+    <description>When checked, a recipient the message could not reach (not found in Microsoft 365, chat or message refused) is logged in OperationLog__c on the Record Id given by the caller. A send failure never stops the Flow.</description>
+    <fieldManageability>SubscriberControlled</fieldManageability>
+    <inlineHelpText>Check to log, in Operation Logs on the record given by the Flow, the recipients the Teams message could not reach.</inlineHelpText>
+    <label>Log Failures</label>
+    <type>Checkbox</type>
+</CustomField>

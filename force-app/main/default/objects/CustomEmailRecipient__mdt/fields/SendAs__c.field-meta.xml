@@ -3,9 +3,9 @@
     <fullName>SendAs__c</fullName>
     <description>The recipient list (To, Cc or Bcc) the rule&apos;s recipients are added to.</description>
     <fieldManageability>SubscriberControlled</fieldManageability>
-    <inlineHelpText>To, Cc or Bcc. An email left without any To recipient is sent to the No Recipient Addresses of the Email Service Settings (Custom Setting) instead.</inlineHelpText>
+    <inlineHelpText>To, Cc or Bcc of the email (required with a Custom Email Alert). A Teams message ignores it: every recipient gets it in a 1:1 chat. An email left without any To recipient is sent to the No Recipient Addresses of the Email and Notification Service Settings (Custom Setting) instead.</inlineHelpText>
     <label>Send As</label>
-    <required>true</required>
+    <required>false</required>
     <type>Picklist</type>
     <valueSet>
         <restricted>true</restricted>

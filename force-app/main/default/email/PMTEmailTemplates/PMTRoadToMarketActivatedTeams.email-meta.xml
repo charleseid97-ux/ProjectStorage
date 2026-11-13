@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <description>Microsoft Teams message telling the PMT team owners the Road to Market of a project is launched (Custom Teams Message PMTRoadToMarketActivated).</description>
+    <encodingKey>ISO-8859-1</encodingKey>
+    <name>PMT - Road To Market Activated (Teams)</name>
+    <relatedEntityType>ProjectProduct__c</relatedEntityType>
+    <style>none</style>
+    <subject>PMT Road to Market launched - {{{ProjectProduct__c.Name}}}</subject>
+    <type>custom</type>
+    <uiType>SFX</uiType>
+</EmailTemplate>

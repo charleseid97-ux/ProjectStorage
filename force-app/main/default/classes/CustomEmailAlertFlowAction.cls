@@ -5,13 +5,14 @@
  *                  OperationLog buffer is flushed: this action is the entry point of the email logs.
  *              Configuration errors (unknown alert, template or queue, tokens and values of different sizes)
  *                  make the Flow fail; send failures are only logged (LogFailures__c) and never stop the Flow.
- *              An email left without To recipient goes to the No Recipient Addresses (Email Service Settings) and doesn't stop the Flow.
+ *              An email left without To recipient goes to the No Recipient Addresses (Email and Notification Service Settings) and doesn't stop the Flow.
  *              Dry Run input: forces a dry run for that call (it can't turn off the alert's own DryRun__c).
  *              Additional To / Cc / Bcc Addresses inputs: addresses computed by the Flow (comma-separated text), added to the alert's Custom Email Recipients.
+ *              US-20337: tokens and values are paired by EmailService.buildReplacements, shared with the Teams action (CustomTeamsMessageFlowAction).
  * @author Charles EID
  * @testClass EmailServiceTest
- * @coverage 100%   [09-11-26]
- * @lastModifiedBy Charles EID   [09-11-26]
+ * @coverage 100%   [12-11-26]
+ * @lastModifiedBy Charles EID   [12-11-26]
  ────────────────────────────────────── */
 public with sharing class CustomEmailAlertFlowAction {
 
@@ -32,22 +33,11 @@ public with sharing class CustomEmailAlertFlowAction {
             emailRequest.to.addresses.addAll(EmailService.splitValues(request.additionalToAddresses));
             emailRequest.cc.addresses.addAll(EmailService.splitValues(request.additionalCcAddresses));
             emailRequest.bcc.addresses.addAll(EmailService.splitValues(request.additionalBccAddresses));
-            emailRequest.replacements.putAll(buildReplacements(request));
+            emailRequest.replacements.putAll(EmailService.buildReplacements('Custom Email Alert "' + request.alertName + '"', request.replacementTokens, request.replacementValues));
             if (request.dryRun == true) emailRequest.dryRun = true;
             emailRequests.add(emailRequest);
         }
         return emailRequests;
-    }
-
-    // Replacement Tokens and Replacement Values are matched by position (Flow has no Map type)
-    private static Map<String, String> buildReplacements(Request request) {
-        List<String> tokens = request.replacementTokens != null ? request.replacementTokens : new List<String>();
-        List<String> values = request.replacementValues != null ? request.replacementValues : new List<String>();
-        if (tokens.size() != values.size()) throw new EmailService.EmailServiceException('Custom Email Alert "' + request.alertName + '": ' + tokens.size() + ' Replacement Tokens for ' + values.size() + ' Replacement Values. Both collections need the same size and order.');
-
-        Map<String, String> replacements = new Map<String, String>();
-        for (Integer i = 0; i < tokens.size(); i++) replacements.put(tokens[i], values[i]);
-        return replacements;
     }
 
     public class Request {
@@ -75,7 +65,7 @@ public with sharing class CustomEmailAlertFlowAction {
         @InvocableVariable(label='Replacement Values' description='Optional text collection of values (text or HTML), same size and order as Replacement Tokens. Different sizes: the Flow fails.')
         public List<String> replacementValues;
 
-        @InvocableVariable(label='Dry Run' description='Optional. True: this email is a test, sent only to the Dry Run Addresses of the Email Service Settings (Custom Setting) with "[DRY RUN] " before the subject and the real recipients listed at the top of the body. Empty or False: the alert\'s own Dry Run setting applies.')
+        @InvocableVariable(label='Dry Run' description='Optional. True: this email is a test, sent only to the Dry Run Addresses of the Email and Notification Service Settings (Custom Setting) with "[DRY RUN] " before the subject and the real recipients listed at the top of the body. Empty or False: the alert\'s own Dry Run setting applies.')
         public Boolean dryRun;
     }
 }

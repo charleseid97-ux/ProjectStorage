@@ -1,0 +1,17 @@
+<html>
+<head>
+	<title></title>
+</head>
+<body>
+<b>📝 New Meeting note shared</b><br>
+Project: <b>{{{ProjectProduct__c.Name}}}</b><br>
+Context: {_DocumentName_}<br>
+Author: {_DocumentAuthor_}<br>
+🔗 <a href="{_DocumentLink_}">Access the record in Salesforce</a>
+<hr>
+<b>Note content</b><br>
+{_DocumentNote_}
+<hr>
+📣 <i>This information was shared with all relevant team owners involved in the project. Please review and follow up if needed.</i>
+</body>
+</html>

@@ -4,7 +4,7 @@
     <defaultValue>false</defaultValue>
     <description>When checked, EmailService builds the email exactly as configured (template, recipients and queues checked, sender) but sends it only to the dry-run addresses (EmailServiceSettings__c.DryRunAddresses__c), with a subject starting with &quot;[DRY RUN] &quot;. The configured To / Cc / Bcc and the Flow&apos;s Recipient Id receive nothing.</description>
     <fieldManageability>SubscriberControlled</fieldManageability>
-    <inlineHelpText>Check to test this email: it is sent only to the Dry Run Addresses of the Email Service Settings (Custom Setting), with &quot;[DRY RUN] &quot; before the subject. The recipients configured here (and the Flow&apos;s Recipient Id) receive nothing. Uncheck to go live.</inlineHelpText>
+    <inlineHelpText>Check to test this email: it is sent only to the Dry Run Addresses of the Email and Notification Service Settings (Custom Setting), with &quot;[DRY RUN] &quot; before the subject. The recipients configured here (and the Flow&apos;s Recipient Id) receive nothing. Uncheck to go live.</inlineHelpText>
     <label>Dry Run</label>
     <type>Checkbox</type>
 </CustomField>

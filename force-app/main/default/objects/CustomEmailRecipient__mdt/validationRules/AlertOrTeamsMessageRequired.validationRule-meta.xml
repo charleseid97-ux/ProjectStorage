@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>AlertOrTeamsMessageRequired</fullName>
+    <active>true</active>
+    <description>A recipient belongs to a Custom Email Alert, a Custom Teams Message, or both.</description>
+    <errorConditionFormula>ISBLANK(CustomEmailAlert__c) &amp;&amp; ISBLANK(CustomTeamsMessage__c)</errorConditionFormula>
+    <errorMessage>Choose the Custom Email Alert, the Custom Teams Message, or both, that this recipient receives.</errorMessage>
+</ValidationRule>

@@ -1,0 +1,12 @@
+<html>
+<head>
+	<title></title>
+</head>
+<body>
+<b>✅ Milestone Completed</b><br>
+The PMT project <b>{{{Milestone__c.TECH_ProjectName__c}}}</b> has completed the milestone <b>{{{Milestone__c.Name}}}</b>.<br><br>
+🔗 <a href="{{{Milestone__c.TECH_ProjectLink__c}}}">Access the project in Salesforce</a>
+<hr>
+<i>The Product Strategy Team</i>
+</body>
+</html>

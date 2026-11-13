@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <description>Microsoft Teams message sharing a project document (meeting note) with the PMT team owners (Custom Teams Message PMTDocumentNotifyAllOwners). Rendered on the document&apos;s project (ProjectDocuments__c has no activities, so no template renders on it): the document&apos;s name, author, link and note come from the Flow as tokens {_DocumentName_}, {_DocumentAuthor_}, {_DocumentLink_}, {_DocumentNote_}.</description>
+    <encodingKey>ISO-8859-1</encodingKey>
+    <name>PMT - Document Notify All Owners (Teams)</name>
+    <relatedEntityType>ProjectProduct__c</relatedEntityType>
+    <style>none</style>
+    <subject>PMT New Meeting note - {{{ProjectProduct__c.Name}}}</subject>
+    <type>custom</type>
+    <uiType>SFX</uiType>
+</EmailTemplate>
