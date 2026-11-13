@@ -147,7 +147,7 @@ public class MilestoneHandler {
         }
         List<ProjectProductChild__c> children = [SELECT Id, ProjectProductParent__c, TECH_TeamValidation__c
                                                  FROM ProjectProductChild__c
-                                                 WHERE ProjectProductParent__c IN :projectIds AND ProjectProductParent__r.RecordTypeId = :fundCreationRecordTypeId AND ProjectProductParent__r.SFDRcategory__c = '0'];
+                                                 WHERE ProjectProductParent__c IN :projectIds AND ProjectProductParent__r.RecordTypeId = :fundCreationRecordTypeId AND ProjectProductParent__r.SFDRcategory__c = null];
         for (ProjectProductChild__c child : children) {
             Set<String> currentTeams = new Set<String>();
             if (child.TECH_TeamValidation__c != null) currentTeams.addAll(child.TECH_TeamValidation__c.split(';'));
