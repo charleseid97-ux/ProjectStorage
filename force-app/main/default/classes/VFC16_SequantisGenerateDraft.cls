@@ -91,9 +91,9 @@ public with sharing class VFC16_SequantisGenerateDraft {
                     // Call the external Sequantis API for each share class
                     String response = callSequantisService(token, shareClassId, false);
                     if (response == 'OK') {
-                        infoMessage += '<br/>ShareClass '+shareClass.Name__c+' updated successfully.';
+                        infoMessage += '\nShareClass '+shareClass.Name__c+' updated successfully.';
                     } else {
-                        errorMessage+= '<br/>Error updating ShareClass with ID ' + shareClassId + ': ' + response;
+                        errorMessage+= '\nError updating ShareClass with ID ' + shareClassId + ': ' + response;
                     }                                    
                 } catch (Exception innerEx) {
                     // Log or handle per-share-class failure

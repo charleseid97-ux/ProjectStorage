@@ -1,11 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Package xmlns="http://soap.sforce.com/2006/04/metadata">
     <types>
-        <members>TaxEmailService</members>
-        <members>EngagementScoringCoreTest</members>
-        <members>Test_TaxEmailService</members>
+        <members>AccountPlanPDFController</members>
+        <members>DecisionMakerPDFController</members>
+        <members>VFC16_SequantisGenerateDraft</members>
+        <members>VFC18_EventAgenda</members>
         <name>ApexClass</name>
     </types>
-    
+    <types>
+        <members>MeetingNotePDF</members>
+        <members>StrategicNewsPDF</members>
+        <members>VFP04_AddToEventController</members>
+        <members>VFP04_AddToEventLeadController</members>
+        <members>VFP16_SequantisDraftProjectShareClass</members>
+        <name>ApexPage</name>
+    </types>
+    <types>
+        <members>jquery321min</members>
+        <name>StaticResource</name>
+    </types>
     <version>66.0</version>
 </Package>

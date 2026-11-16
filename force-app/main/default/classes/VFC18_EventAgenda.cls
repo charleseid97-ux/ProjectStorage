@@ -267,7 +267,7 @@ public without sharing class VFC18_EventAgenda {
         r.title = String.isBlank(c.Title__c) ? DEFAULT_TITLE : c.Title__c;
 
         r.bgGoal = buildBgGoalLabel(safeStr(c.MeetingBackground__c), safeStr(c.MeetingGoal__c));
-        r.note = (c.MeetingNote__r != null) ? safeStr(c.MeetingNote__r.Note__c) : '-';
+        r.note = (c.MeetingNote__r != null) ? safeHtmlWithLineBreaks(c.MeetingNote__r.Note__c) : '-';
 
         r.attendees = acc.attendeesByEvent.containsKey(c.Id)
             ? acc.attendeesByEvent.get(c.Id)
@@ -565,6 +565,11 @@ public without sharing class VFC18_EventAgenda {
     // -----------------------
     private static String safeStr(Object o) {
         return (o == null) ? '' : String.valueOf(o);
+    }
+
+    // Escapes user-controlled content while preserving line breaks for Visualforce rendering.
+    private static String safeHtmlWithLineBreaks(Object value) {
+        return (value == null) ? '' : String.valueOf(value).escapeHtml4().replace('\n', '<br/>');
     }
 
     private static String buildBgGoalLabel(String bg, String goal) {

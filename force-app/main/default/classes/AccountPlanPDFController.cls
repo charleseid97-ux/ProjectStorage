@@ -89,7 +89,7 @@ public with sharing class AccountPlanPDFController
 
     private static String formatEndOfLine(String value){
         String result = '';
-        if(String.isNotBlank(value)) result = value.replaceAll('\n', '<br/>');
+        if(String.isNotBlank(value)) result = value.escapeHtml4().replaceAll('\n', '<br/>');
         return result;
     }
     

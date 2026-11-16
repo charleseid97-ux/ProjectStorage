@@ -90,7 +90,7 @@
                     <table style="width:100%">
                         <tr>
                             <td>
-                                <apex:outputText value="{!SUBSTITUTE(SUBSTITUTE(JSENCODE(SN.StrategicNews__c),'\\n','<br/>'),'\\r','')}" style="white-space:pre;" escape="false"/>
+                                <apex:outputText value="{!SUBSTITUTE(SUBSTITUTE(HTMLENCODE(SN.StrategicNews__c),'\\n','<br/>'),'\\r','')}" style="white-space:pre;" escape="false"/>
                                 <br/><br/>
                                 <a href="{!baseURL}.lightning.force.com/{!SN.Id}">Read more by clicking here</a><br/><br/>
                             </td>

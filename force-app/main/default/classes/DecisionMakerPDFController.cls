@@ -99,7 +99,7 @@ public with sharing class DecisionMakerPDFController {
             String contactKey = 'ct'+getKeyFromValue(recommendMap,c.Level_of_Support__c)+getKeyFromValue(influenceMap,c.Level_of_Influence__c);
             if(contactTableMap.get(contactKey)!= null)
 	            contactNames += contactTableMap.get(contactKey)+'<br/>'; 
-            contactNames += '<a href="/lightning/r/Contact/'+c.Id+'/view" style="color:black;font-weight:bold;">'+c.FirstName+' '+c.LastName+'</a>';
+            contactNames += '<a href="/lightning/r/Contact/'+c.Id+'/view" style="color:black;font-weight:bold;">'+String.valueOf(c.FirstName).escapeHtml4()+' '+String.valueOf(c.LastName).escapeHtml4()+'</a>';
             contactTableMap.put(contactKey, contactNames);
         }
         return contactTableMap;
