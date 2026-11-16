@@ -414,7 +414,12 @@ public with sharing class TaxEmailService {
         System.debug(LoggingLevel.ERROR, '=== INTERNAL ADDRESSES: ' + internalAddresses);
 
         for (TaxData__c td : recordsToProcess) {
-            Boolean isKpmgExcluded = td.Type__c == TYPE_TRANSPARENCY && isKpmgExcludedFund(td);
+            Boolean isKpmgExcluded = false;
+
+            // KPMG exclusion applies only to Tax Transparency requests.
+            if (td.Type__c == TYPE_TRANSPARENCY) {
+                isKpmgExcluded = isKpmgExcludedFund(td);
+            }
 
             System.debug(LoggingLevel.ERROR, '=== TAX DATA: ' + td.Id);
             System.debug(LoggingLevel.ERROR, '=== KPMG EXCLUDED: ' + isKpmgExcluded);

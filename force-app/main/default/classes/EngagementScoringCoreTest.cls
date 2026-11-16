@@ -33,7 +33,7 @@ private class EngagementScoringCoreTest {
     @IsTest
     static void testRecentNewsletterScore() {
         Engagement_Signal__c signal = new Engagement_Signal__c(
-            SourceType__c = 'NEWSLETTER_CLICK',
+            SourceType__c = 'NEWSLETTER_INTERACTION',
             InteractionDate__c = Datetime.newInstance(Date.today().addDays(-5), Time.newInstance(12, 0, 0, 0)),
             QualityValue__c = null,
             IsActive__c = true
