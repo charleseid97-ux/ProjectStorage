@@ -416,8 +416,8 @@ public with sharing class TaxEmailService {
         for (TaxData__c td : recordsToProcess) {
             Boolean isKpmgExcluded = false;
 
-            // KPMG exclusion applies only to Tax Transparency requests.
-            if (td.Type__c == TYPE_TRANSPARENCY) {
+            // KPMG exclusion applies only to requested Tax Transparency notifications.
+            if (td.Type__c == TYPE_TRANSPARENCY && td.Status__c == STATUS_REQUESTED) {
                 isKpmgExcluded = isKpmgExcludedFund(td);
             }
 
