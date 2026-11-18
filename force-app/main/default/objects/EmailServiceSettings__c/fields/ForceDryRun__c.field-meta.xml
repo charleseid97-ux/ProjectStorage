@@ -2,8 +2,8 @@
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>ForceDryRun__c</fullName>
     <defaultValue>false</defaultValue>
-    <description>When checked, every email sent through EmailService (Custom Email Alerts and Apex EmailRequests) is a dry run: sent only to the dry-run addresses (DryRunAddresses__c), &quot;[DRY RUN] &quot; before the subject, the real recipients listed at the top of the body. Meant for sandboxes (org default checked), with an unchecked value on a user or profile who needs the real emails.</description>
-    <inlineHelpText>Check (org default, in a sandbox) so that no email of the email engine reaches its real recipients: they all go to the Dry Run Addresses as dry runs. Uncheck on a user or profile to let their emails go out for real.</inlineHelpText>
+    <description>When checked, every email sent through EmailService (Custom Email Alerts and Apex EmailRequests) and every Teams message sent through TeamsMessageService is a dry run: sent only to the dry-run addresses (DryRunAddresses__c), &quot;[DRY RUN] &quot; before the subject, the real recipients listed at the top of the body. Meant for sandboxes (org default checked), with an unchecked value on a user or profile who needs the real emails.</description>
+    <inlineHelpText>Check (org default, in a sandbox) so that no email or Teams message of the engines reaches its real recipients: they all go to the Dry Run Addresses as dry runs. Uncheck on a user or profile to let their emails go out for real.</inlineHelpText>
     <label>Force Dry Run</label>
     <trackTrending>false</trackTrending>
     <type>Checkbox</type>

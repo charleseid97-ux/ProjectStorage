@@ -1,45 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Flow xmlns="http://soap.sforce.com/2006/04/metadata">
     <actionCalls>
-        <name>SendEmailNotification</name>
-        <label>Send Email Notification</label>
-        <locationX>0</locationX>
-        <locationY>0</locationY>
-        <actionName>CustomEmailAlertFlowAction</actionName>
-        <actionType>apex</actionType>
-        <flowTransactionModel>Automatic</flowTransactionModel>
-        <inputParameters>
-            <name>alertName</name>
-            <value>
-                <stringValue>PMTMilestoneCompletedNotification</stringValue>
-            </value>
-        </inputParameters>
-        <inputParameters>
-            <name>recordId</name>
-            <value>
-                <elementReference>$Record.Id</elementReference>
-            </value>
-        </inputParameters>
-        <nameSegment>CustomEmailAlertFlowAction</nameSegment>
-        <offset>0</offset>
-    </actionCalls>
-    <actionCalls>
         <name>SendTeamsMessage</name>
         <label>Send Teams Message</label>
         <locationX>0</locationX>
         <locationY>0</locationY>
-        <actionName>WS_QueueableLauncher</actionName>
+        <actionName>CustomTeamsMessageFlowAction</actionName>
         <actionType>apex</actionType>
-        <connector>
-            <targetReference>SendEmailNotification</targetReference>
-        </connector>
-        <flowTransactionModel>CurrentTransaction</flowTransactionModel>
-        <inputParameters>
-            <name>email</name>
-            <value>
-                <elementReference>emailsTeams</elementReference>
-            </value>
-        </inputParameters>
+        <flowTransactionModel>Automatic</flowTransactionModel>
         <inputParameters>
             <name>recordId</name>
             <value>
@@ -47,79 +15,21 @@
             </value>
         </inputParameters>
         <inputParameters>
-            <name>templateId</name>
+            <name>teamsMessageName</name>
             <value>
-                <elementReference>GetMilestoneCompletedTemplate.Id</elementReference>
+                <stringValue>PMTMilestoneCompleted</stringValue>
             </value>
         </inputParameters>
-        <nameSegment>WS_QueueableLauncher</nameSegment>
+        <nameSegment>CustomTeamsMessageFlowAction</nameSegment>
         <offset>0</offset>
     </actionCalls>
     <apiVersion>68.0</apiVersion>
     <areMetricsLoggedToDataCloud>false</areMetricsLoggedToDataCloud>
-    <description>This flow sends Teams notifications when a milestone is marked as Completed in the Product Management Tool (PMT).
-All milestones trigger a notification except for “SPC Final” and “Go Live”, which are handled via separate email flows.
-Each notification is sent to the relevant Team Owner assigned to the milestone. If a team owner is not assigned (empty field), no notification will be sent for that team.</description>
+    <description>This flow sends a Teams message when a milestone is marked as Completed in the Product Management Tool (PMT).
+All milestones trigger a notification except for “SPC Final” and “Launch Date”, which are handled by FL_SPCFinalEmailNotification.
+Custom Teams Message PMTMilestoneCompleted; recipients: the PMT team owners of the project (Custom Email Recipient PMTMilestoneCompleted1, Apex Resolver PMTTeamOwnerRecipients). A team without owner is not notified; ESG only for SFDR 6, 8 or 9 (PMTTeam__mdt Notification Condition).</description>
     <environments>Default</environments>
-    <formulas>
-        <description>Ne contient pas l&apos;équipe IS (à terme il faut ajouter une condition suivant le vehicule type et remplacer PS par IS) et l&apos;équipe INvestment Management (Laurent Mathieu) qui contribue indirectement à PMT en ajoutant des Product Manager si nécessaire ou en faisant les modifications d&apos;assignation.
-On ajoute une condition pour exclure l&apos;équipe ESG des communications suivant la catégorie SFDR</description>
-        <name>emailsTeams</name>
-        <dataType>String</dataType>
-        <expression>IF(
-  OR(
-    ISPICKVAL({!GETPMT.SFDRcategory__c}, &apos;6&apos;),
-    ISPICKVAL({!GETPMT.SFDRcategory__c}, &apos;8&apos;),
-    ISPICKVAL({!GETPMT.SFDRcategory__c}, &apos;9&apos;)
-  ),
-
-  /* ESG included */
-
-IF(ISBLANK({!GETPMT.Communication__r.Email}), &apos;&apos;, {!GETPMT.Communication__r.Email} &amp; &apos;;&apos;) &amp;
-IF(ISBLANK({!GETPMT.Compliance__r.Email}), &apos;&apos;, {!GETPMT.Compliance__r.Email} &amp; &apos;;&apos;) &amp;
-IF(ISBLANK({!GETPMT.DBS__r.Email}), &apos;&apos;, {!GETPMT.DBS__r.Email} &amp; &apos;;&apos;) &amp;
-IF(ISBLANK({!GETPMT.DCO__r.Email}), &apos;&apos;, {!GETPMT.DCO__r.Email} &amp; &apos;;&apos;) &amp;
-IF(ISBLANK({!GETPMT.DCP__r.Email}), &apos;&apos;, {!GETPMT.DCP__r.Email} &amp; &apos;;&apos;) &amp;
-IF(ISBLANK({!GETPMT.DCR__r.Email}), &apos;&apos;, {!GETPMT.DCR__r.Email} &amp; &apos;;&apos;) &amp;
-IF(ISBLANK({!GETPMT.DM__r.Email}), &apos;&apos;, {!GETPMT.DM__r.Email} &amp; &apos;;&apos;) &amp;
-IF(ISBLANK({!GETPMT.ESG__r.Email}), &apos;&apos;, {!GETPMT.ESG__r.Email} &amp; &apos;;&apos;) &amp;
-IF(ISBLANK({!GETPMT.Finance__r.Email}), &apos;&apos;, {!GETPMT.Finance__r.Email} &amp; &apos;;&apos;) &amp;
-IF(ISBLANK({!GETPMT.FundMarketing__r.Email}), &apos;&apos;, {!GETPMT.FundMarketing__r.Email} &amp; &apos;;&apos;) &amp;
-IF(ISBLANK({!GETPMT.InvestmentPerf__r.Email}), &apos;&apos;, {!GETPMT.InvestmentPerf__r.Email} &amp; &apos;;&apos;) &amp;
-IF(ISBLANK({!GETPMT.Legal__r.Email}), &apos;&apos;, {!GETPMT.Legal__r.Email} &amp; &apos;;&apos;) &amp;
-IF(ISBLANK({!GETPMT.OPS__r.Email}), &apos;&apos;, {!GETPMT.OPS__r.Email} &amp; &apos;;&apos;) &amp;
-IF(ISBLANK({!GETPMT.ProductSpecialists__r.Email}), &apos;&apos;, {!GETPMT.ProductSpecialists__r.Email} &amp; &apos;;&apos;) &amp;
-IF(ISBLANK({!GETPMT.ProductStrategy__r.Email}), &apos;&apos;, {!GETPMT.ProductStrategy__r.Email} &amp; &apos;;&apos;) &amp;
-IF(ISBLANK({!GETPMT.RFP__r.Email}), &apos;&apos;, {!GETPMT.RFP__r.Email} &amp; &apos;;&apos;) &amp;
-IF(ISBLANK({!GETPMT.Risk__r.Email}), &apos;&apos;, {!GETPMT.Risk__r.Email} &amp; &apos;;&apos;) &amp;
-IF(ISBLANK({!GETPMT.Tax__r.Email}), &apos;&apos;, {!GETPMT.Tax__r.Email} &amp; &apos;;&apos;) &amp;
-IF(ISBLANK({!GETPMT.IS__r.Email}), &apos;&apos;, {!GETPMT.IS__r.Email} &amp; &apos;;&apos;) &amp;
-IF(ISBLANK({!GETPMT.Technology__r.Email}), &apos;&apos;, {!GETPMT.Technology__r.Email}),
-
-  /* ESG excluded */
-
-IF(ISBLANK({!GETPMT.Communication__r.Email}), &apos;&apos;, {!GETPMT.Communication__r.Email} &amp; &apos;;&apos;) &amp;
-IF(ISBLANK({!GETPMT.Compliance__r.Email}), &apos;&apos;, {!GETPMT.Compliance__r.Email} &amp; &apos;;&apos;) &amp;
-IF(ISBLANK({!GETPMT.DBS__r.Email}), &apos;&apos;, {!GETPMT.DBS__r.Email} &amp; &apos;;&apos;) &amp;
-IF(ISBLANK({!GETPMT.DCO__r.Email}), &apos;&apos;, {!GETPMT.DCO__r.Email} &amp; &apos;;&apos;) &amp;
-IF(ISBLANK({!GETPMT.DCP__r.Email}), &apos;&apos;, {!GETPMT.DCP__r.Email} &amp; &apos;;&apos;) &amp;
-IF(ISBLANK({!GETPMT.DCR__r.Email}), &apos;&apos;, {!GETPMT.DCR__r.Email} &amp; &apos;;&apos;) &amp;
-IF(ISBLANK({!GETPMT.DM__r.Email}), &apos;&apos;, {!GETPMT.DM__r.Email} &amp; &apos;;&apos;) &amp;
-IF(ISBLANK({!GETPMT.Finance__r.Email}), &apos;&apos;, {!GETPMT.Finance__r.Email} &amp; &apos;;&apos;) &amp;
-IF(ISBLANK({!GETPMT.FundMarketing__r.Email}), &apos;&apos;, {!GETPMT.FundMarketing__r.Email} &amp; &apos;;&apos;) &amp;
-IF(ISBLANK({!GETPMT.InvestmentPerf__r.Email}), &apos;&apos;, {!GETPMT.InvestmentPerf__r.Email} &amp; &apos;;&apos;) &amp;
-IF(ISBLANK({!GETPMT.Legal__r.Email}), &apos;&apos;, {!GETPMT.Legal__r.Email} &amp; &apos;;&apos;) &amp;
-IF(ISBLANK({!GETPMT.OPS__r.Email}), &apos;&apos;, {!GETPMT.OPS__r.Email} &amp; &apos;;&apos;) &amp;
-IF(ISBLANK({!GETPMT.ProductSpecialists__r.Email}), &apos;&apos;, {!GETPMT.ProductSpecialists__r.Email} &amp; &apos;;&apos;) &amp;
-IF(ISBLANK({!GETPMT.ProductStrategy__r.Email}), &apos;&apos;, {!GETPMT.ProductStrategy__r.Email} &amp; &apos;;&apos;) &amp;
-IF(ISBLANK({!GETPMT.RFP__r.Email}), &apos;&apos;, {!GETPMT.RFP__r.Email} &amp; &apos;;&apos;) &amp;
-IF(ISBLANK({!GETPMT.Risk__r.Email}), &apos;&apos;, {!GETPMT.Risk__r.Email} &amp; &apos;;&apos;) &amp;
-IF(ISBLANK({!GETPMT.Tax__r.Email}), &apos;&apos;, {!GETPMT.Tax__r.Email} &amp; &apos;;&apos;) &amp;
-IF(ISBLANK({!GETPMT.IS__r.Email}), &apos;&apos;, {!GETPMT.IS__r.Email} &amp; &apos;;&apos;) &amp;
-IF(ISBLANK({!GETPMT.Technology__r.Email}), &apos;&apos;, {!GETPMT.Technology__r.Email})
-)</expression>
-    </formulas>
-    <interviewLabel>Teams Send Message - Road To market Activated {!$Flow.CurrentDateTime}</interviewLabel>
+    <interviewLabel>PMT - Teams Notification - Milestones Completed {!$Flow.CurrentDateTime}</interviewLabel>
     <label>PMT - Teams Notification - Milestones Completed</label>
     <processMetadataValues>
         <name>BuilderType</name>
@@ -140,48 +50,6 @@ IF(ISBLANK({!GETPMT.Technology__r.Email}), &apos;&apos;, {!GETPMT.Technology__r.
         </value>
     </processMetadataValues>
     <processType>AutoLaunchedFlow</processType>
-    <recordLookups>
-        <name>GetMilestoneCompletedTemplate</name>
-        <label>Get Milestone Completed Template</label>
-        <locationX>0</locationX>
-        <locationY>0</locationY>
-        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
-        <connector>
-            <targetReference>SendTeamsMessage</targetReference>
-        </connector>
-        <filterLogic>and</filterLogic>
-        <filters>
-            <field>DeveloperName</field>
-            <operator>EqualTo</operator>
-            <value>
-                <stringValue>PMTMilestoneCompletedNotification</stringValue>
-            </value>
-        </filters>
-        <getFirstRecordOnly>true</getFirstRecordOnly>
-        <object>EmailTemplate</object>
-        <storeOutputAutomatically>true</storeOutputAutomatically>
-    </recordLookups>
-    <recordLookups>
-        <name>GETPMT</name>
-        <label>Get Project Product</label>
-        <locationX>0</locationX>
-        <locationY>0</locationY>
-        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
-        <connector>
-            <targetReference>GetMilestoneCompletedTemplate</targetReference>
-        </connector>
-        <filterLogic>and</filterLogic>
-        <filters>
-            <field>Id</field>
-            <operator>EqualTo</operator>
-            <value>
-                <elementReference>$Record.Project_product__r.Id</elementReference>
-            </value>
-        </filters>
-        <getFirstRecordOnly>true</getFirstRecordOnly>
-        <object>ProjectProduct__c</object>
-        <storeOutputAutomatically>true</storeOutputAutomatically>
-    </recordLookups>
     <start>
         <locationX>0</locationX>
         <locationY>0</locationY>
@@ -218,7 +86,7 @@ IF(ISBLANK({!GETPMT.Technology__r.Email}), &apos;&apos;, {!GETPMT.Technology__r.
         <recordTriggerType>Update</recordTriggerType>
         <scheduledPaths>
             <connector>
-                <targetReference>GETPMT</targetReference>
+                <targetReference>SendTeamsMessage</targetReference>
             </connector>
             <pathType>AsyncAfterCommit</pathType>
         </scheduledPaths>

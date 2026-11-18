@@ -2,25 +2,22 @@
 <Package xmlns="http://soap.sforce.com/2006/04/metadata">
     <types>
         <members>PMTEmailTemplates</members>
-        <members>ProjectEmailTemplates</members>
         <name>EmailTemplateFolder</name>
     </types>
     <types>
         <members>PMTEmailTemplates/PMTGoLiveEmailTemplate</members>
         <members>PMTEmailTemplates/PMTSPCFinalValidationCreation</members>
         <members>PMTEmailTemplates/PMTSPCFinalValidationModification</members>
-        <members>PMTEmailTemplates/PMTMilestoneCompletedNotification</members>
-        <members>ProjectEmailTemplates/Teams_Notify_All_checkbox</members>
-        <members>ProjectEmailTemplates/Teams_Milestone_Changes_1746533217236</members>
-        <members>ProjectEmailTemplates/Teams_Launch_Date_Change_1746525360287</members>
-        <members>ProjectEmailTemplates/Teams_Message_Template</members>
+        <members>PMTEmailTemplates/PMTMilestoneCompletedTeams</members>
+        <members>PMTEmailTemplates/PMTLaunchDateChangeTeams</members>
+        <members>PMTEmailTemplates/PMTRoadToMarketActivatedTeams</members>
+        <members>PMTEmailTemplates/PMTDocumentNotifyAllOwnersTeams</members>
         <name>EmailTemplate</name>
     </types>
     <types>
         <members>CustomEmailAlert.PMTGoLiveNotification</members>
         <members>CustomEmailAlert.PMTSPCFinalValidationCreation</members>
         <members>CustomEmailAlert.PMTSPCFinalValidationModification</members>
-        <members>CustomEmailAlert.PMTMilestoneCompletedNotification</members>
 
         <!-- PMT Go Live Recipients -->
         <members>CustomEmailRecipient.PMTGoLiveNotificationTo1</members>
@@ -71,26 +68,15 @@
         <members>CustomEmailRecipient.PMTSPCFinalValidationModificationTo14</members>
 
         <!-- PMT Milestone Completed -->
-        <members>CustomEmailRecipient.PMTMilestoneCompletedTo1</members>
-        <members>CustomEmailRecipient.PMTMilestoneCompletedTo2</members>
-        <members>CustomEmailRecipient.PMTMilestoneCompletedTo3</members>
-        <members>CustomEmailRecipient.PMTMilestoneCompletedTo4</members>
-        <members>CustomEmailRecipient.PMTMilestoneCompletedTo5</members>
-        <members>CustomEmailRecipient.PMTMilestoneCompletedTo6</members>
-        <members>CustomEmailRecipient.PMTMilestoneCompletedTo7</members>
-        <members>CustomEmailRecipient.PMTMilestoneCompletedTo8</members>
-        <members>CustomEmailRecipient.PMTMilestoneCompletedTo9</members>
-        <members>CustomEmailRecipient.PMTMilestoneCompletedTo10</members>
-        <members>CustomEmailRecipient.PMTMilestoneCompletedTo11</members>
-        <members>CustomEmailRecipient.PMTMilestoneCompletedTo12</members>
-        <members>CustomEmailRecipient.PMTMilestoneCompletedTo13</members>
-        <members>CustomEmailRecipient.PMTMilestoneCompletedTo14</members>
-        <members>CustomEmailRecipient.PMTMilestoneCompletedTo15</members>
-        <members>CustomEmailRecipient.PMTMilestoneCompletedTo16</members>
-        <members>CustomEmailRecipient.PMTMilestoneCompletedTo17</members>
-        <members>CustomEmailRecipient.PMTMilestoneCompletedTo18</members>
-        <members>CustomEmailRecipient.PMTMilestoneCompletedTo19</members>
-        <members>CustomEmailRecipient.PMTMilestoneCompletedTo20</members>
+        <members>CustomEmailRecipient.PMTMilestoneCompleted1</members>
+        <members>CustomTeamsMessage.PMTMilestoneCompleted</members>
+        <members>CustomTeamsMessage.PMTLaunchDateChange</members>
+        <members>CustomTeamsMessage.PMTRoadToMarketActivated</members>
+        <members>CustomTeamsMessage.PMTDocumentNotifyAllOwners</members>
+        <members>CustomEmailRecipient.PMTLaunchDateChange1</members>
+        <members>CustomEmailRecipient.PMTRoadToMarketActivated1</members>
+        <members>CustomEmailRecipient.PMTDocumentNotifyAllOwners1</members>
+        <members>PMTTeam.ESG</members>
         <name>CustomMetadata</name>
     </types>
     <types>
@@ -106,6 +92,34 @@
         <members>Teams_Send_Message_Milestone_Completed</members>
         <members>Teams_Send_Message</members>
         <name>Flow</name>
+    </types>
+    <types>
+        <members>EmailService</members>
+        <members>EmailServiceTest</members>
+        <members>CustomEmailAlertFlowAction</members>
+        <members>WS_GetUserGraphApi</members>
+        <members>TeamsMessageService</members>
+        <members>TeamsMessageQueueable</members>
+        <members>CustomTeamsMessageFlowAction</members>
+        <members>PMTTeamOwnerRecipients</members>
+        <members>TeamsMessageServiceTest</members>
+        <name>ApexClass</name>
+    </types>
+    <types>
+        <members>CustomTeamsMessage__mdt</members>
+        <members>CustomEmailRecipient__mdt</members>
+        <members>EmailServiceSettings__c</members>
+        <name>CustomObject</name>
+    </types>
+    <types>
+        <members>CustomEmailAlert__mdt.DryRun__c</members>
+        <members>PMTTeam__mdt.NotificationCondition__c</members>
+        <name>CustomField</name>
+    </types>
+    <types>
+        <members>CustomTeamsMessage__mdt-Custom Teams Message Layout</members>
+        <members>CustomEmailRecipient__mdt-Custom Email Recipient Layout</members>
+        <name>Layout</name>
     </types>
     <version>64.0</version>
 </Package>

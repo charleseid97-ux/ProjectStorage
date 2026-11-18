@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>NoRecipientAddresses__c</fullName>
-    <description>Addresses that receive an EmailService email left without any To recipient (e.g. every Custom Email Recipient inactive, an empty record field, no active user), one per line, instead of making the Flow or Apex caller fail. The email is sent to them only, with &quot;[NO RECIPIENT] &quot; before the subject, its Cc / Bcc, alert and record listed at the top of the body, and a WARN log on the record. Set on the org default (e.g. salesforcesupport@carmignac.com). Empty: an email without To recipient fails with a configuration error.</description>
+    <description>Addresses that receive an EmailService email left without any To recipient (or a TeamsMessageService message left without any recipient) (e.g. every Custom Email Recipient inactive, an empty record field, no active user), one per line, instead of making the Flow or Apex caller fail. The email is sent to them only, with &quot;[NO RECIPIENT] &quot; before the subject, its Cc / Bcc, alert and record listed at the top of the body, and a WARN log on the record. Set on the org default (e.g. salesforcesupport@carmignac.com). Empty: an email without To recipient fails with a configuration error.</description>
     <encryptionScheme>None</encryptionScheme>
-    <inlineHelpText>Addresses that receive an email that has no To recipient, one per line (e.g. salesforcesupport@carmignac.com). Empty: such an email makes the Flow fail.</inlineHelpText>
+    <inlineHelpText>Addresses that receive an email that has no To recipient, or a Teams message that has no recipient, one per line (e.g. salesforcesupport@carmignac.com). Empty: such an email or message makes the Flow fail.</inlineHelpText>
     <label>No Recipient Addresses</label>
     <required>false</required>
     <trackTrending>false</trackTrending>
