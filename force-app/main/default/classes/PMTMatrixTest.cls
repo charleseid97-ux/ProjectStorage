@@ -7,8 +7,8 @@
  *              US-20194 V1.6: the line and owner rule rules (getLineErrors, getOwnerRuleErrors) on every deployed record, then each rule broken,
  *                  and an invalid record skipped and reported by the warning of the PMT screens (custom label PMT_InvalidRecords).
  *              US-20194 V1.8: a condition following a lookup: watched lookup, queried path, parent read once for a record carrying none.
- * @covers PMTMatrix   100%   [24-10-26]
- * @lastModifiedBy Charles EID   [24-10-26]
+ * @covers PMTMatrix   100%   [18-11-26]
+ * @lastModifiedBy Charles EID   [18-11-26]
  ────────────────────────────────────── */
 @isTest
 private class PMTMatrixTest {

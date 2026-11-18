@@ -3,9 +3,11 @@
  *                  update logic to ProjectProductSetupHandler and ProjectProductSetupHandlerUtilities.
  *              Before update, the PMT owner rules are reapplied (applyOwnerRules, FIX-20178 - replaces updateLegalOwner).
  *              After update, a change of a field read by the PMT conditions realigns the phases (resyncConditionalValues, US-20194).
- * @lastModifiedBy Charles EID   [21-10-26]
+ *              US-20194 V1.8: each context first reads the parent records followed by the PMT conditions (PMTMatrix.loadRelationships):
+ *                  one query per lookup, none when no condition follows a lookup.
+ * @lastModifiedBy Charles EID   [18-11-26]
  * @testClass Test_ProjectProductTrigger
- * @coverage 100%   [21-10-26]
+ * @coverage 100%   [18-11-26]
  ────────────────────────────────────── */
 public class ProjectProductTriggerHandler {
     public static Boolean isBlankingFields = false;

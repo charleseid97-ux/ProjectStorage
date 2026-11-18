@@ -3,7 +3,9 @@
  *                  type, its editability/modification conditions, and the fields of a team's screen (getFieldStates, US-20194 V1.2):
  *                  the team's PMT lines at the record's stage whose condition applies, required from the line, editable with the
  *                  team's custom permission.
- * @lastModifiedBy Charles EID   [26-10-26]
+ *              US-20194 V1.7.4: the unsaved values of the screen re-evaluate the conditions whatever the user's access to the project and
+ *                  share class fields (applyDraftValues): business users edit the stage records, not ProjectProduct__c / ProjectShareclass__c.
+ * @lastModifiedBy Charles EID   [18-11-26]
  * @testClass PageLayoutControllerTest
  * @coverage 97%   [26-10-26]
  ────────────────────────────────────── */

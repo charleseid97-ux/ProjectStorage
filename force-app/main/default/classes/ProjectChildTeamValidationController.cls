@@ -4,7 +4,9 @@
  *                  team validation (TECH_TeamValidation__c) and record locking once validated.
  *              The fields of a team at a stage come from the PMT matrix (PMTMatrix, FIX-20178), according to the conditions of the
  *                  project and, for the required Share Class fields, of each share class (US-20194).
- * @lastModifiedBy Charles EID   [21-10-26]
+ *              US-20194 V1.8.1: the share class phases are queried with every Share Class field of the team's rule: a Conditional line
+ *                  required by a share class condition (e.g. PerfFeesCrystallisationDate__c when HasPerfFees__c) is required only for that share class.
+ * @lastModifiedBy Charles EID   [18-11-26]
  * @testClass Test_ProjectChildTeamValidationCTRL
  * @coverage 94%   [21-10-26]
  ────────────────────────────────────── */
@@ -455,7 +457,6 @@ public without sharing class ProjectChildTeamValidationController {
     }
 
     public static Map<String, List<Map<String, List<String>>>> checkRequiredFieldsClassic(Id recordId, String teamName, String stepName) {
-        List<String> requiredFieldsShareClass = new List<String>();
         List<String> requiredFieldsFund = new List<String>();
         List<String> requiredFieldsEmptyFund = new List<String>();
 
@@ -467,11 +468,11 @@ public without sharing class ProjectChildTeamValidationController {
         PMTMatrix phaseMatrix = getPhaseMatrix(recordId);
         PMTMatrix.FieldRule matriceRecord = phaseMatrix.getRule(teamName, stepName);
         requiredFieldsFund = new List<String>(matriceRecord.requiredFund);
-        requiredFieldsShareClass = new List<String>(matriceRecord.requiredShareClass);
 
         List<ProjectShareclassChild__c> shareclassChildsRT = new List<ProjectShareclassChild__c>();
         Set<Id> shareClassIds = getShareclassesId(recordId);
-        List<SObject> shareclassChilds = getRecordWithFields('ProjectShareclassChild__c', shareClassIds, requiredFieldsShareClass);
+        // US-20194 V1.8.1: every Share Class field of the rule is queried, not only its required ones: a Conditional line whose RequiredCondition__c reads the share class (e.g. PerfFeesCrystallisationDate__c when HasPerfFees__c) is optional at project level and required for a share class (forShareClass, below)
+        List<SObject> shareclassChilds = getRecordWithFields('ProjectShareclassChild__c', shareClassIds, new List<String>(new Set<String>(matriceRecord.getAllShareClass())));
         List<SObject> fundrecord = getRecordWithFields('ProjectProductChild__c', new Set<Id> {recordId}, requiredFieldsFund);
         ProjectProductChild__c fundRecordConverted = (ProjectProductChild__c) fundrecord[0];
 

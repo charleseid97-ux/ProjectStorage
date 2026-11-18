@@ -5,7 +5,8 @@
  *              At SPC Final, the teams owning the modified fields get their owner from the PMT matrix (PMTMatrix,
  *                  FIX-20178: default owner then owner rules), the other teams are emptied, the Scope team keeps its owner.
  *                  US-20194: the matrix follows the project's conditions (PMTMatrix.forProject).
- * @lastModifiedBy Charles EID   [21-10-26]
+ *                  US-20194 V1.8: the projects are queried with the paths of the conditions following a lookup (getConditionQueryFields).
+ * @lastModifiedBy Charles EID   [18-11-26]
  * @testClass Test_MilestoneTrigger
  * @coverage 99%   [21-10-26]
  ────────────────────────────────────── */

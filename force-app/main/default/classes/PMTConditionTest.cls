@@ -2,8 +2,9 @@
  * @description Tests of PMTCondition: compilation of a condition (object prefixes, fields read, cache), evaluation at project and
  *                  share class level, lookups followed (US-20194 V1.8), rejected conditions (unknown field, picklist without ISPICKVAL,
  *                  polymorphic lookup, too many lookups), the projects query, and the evaluation by a user with minimum access.
- * @covers PMTCondition   100%   [21-10-26]
+ * @covers PMTCondition   100%   [18-11-26]
  * @author Charles EID
+ * @lastModifiedBy Charles EID   [18-11-26]
  ────────────────────────────────────── */
 @isTest
 private class PMTConditionTest {
