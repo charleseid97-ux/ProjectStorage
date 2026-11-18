@@ -232,13 +232,14 @@ public without sharing class PageLayoutController {
     }
 
     // Puts the screen's unsaved values on the in-memory record, typed like its fields; fields it doesn't have or can't take (formulas, auto numbers) are skipped.
+    // US-20194 V1.7.4: not filtered on the user's field access (isUpdateable): a business user edits the stage record, not the project or share class read by the conditions, and the values only live in memory for the evaluation (nothing is saved)
     private static void applyDraftValues(SObject record, Map<String, Object> draftValues) {
         if (draftValues == null) return;
 
         Map<String, Schema.SObjectField> fields = record.getSObjectType().getDescribe().fields.getMap();
         for (String fieldName : draftValues.keySet()) {
             Schema.SObjectField field = fields.get(fieldName.toLowerCase());
-            if (field == null || !field.getDescribe().isUpdateable()) continue;
+            if (field == null || isReadOnly(field.getDescribe())) continue;
             Object value = draftValues.get(fieldName);
             if (value instanceof List<Object>) value = String.join((List<Object>) value, ';');
             Schema.DisplayType fieldType = field.getDescribe().getType();
@@ -249,5 +250,10 @@ public without sharing class PageLayoutController {
             else if (fieldType == Schema.DisplayType.Integer) record.put(field, Integer.valueOf(String.valueOf(value)));
             else record.put(field, String.valueOf(value));
         }
+    }
+
+    // Fields no screen value can take whoever the user is: formulas, roll-ups, auto numbers, and the Id and system fields (neither createable nor updateable for anyone, e.g. CreatedDate)
+    private static Boolean isReadOnly(Schema.DescribeFieldResult describe) {
+        return describe.isCalculated() || describe.isAutoNumber() || describe.getType() == Schema.DisplayType.Id || (!describe.isPermissionable() && !describe.isCreateable() && !describe.isUpdateable());
     }
 }
