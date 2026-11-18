@@ -12,16 +12,19 @@ public class ProjectProductTriggerHandler {
 
     public static void handleBeforeInsert(List<ProjectProduct__c> newProjectProduct) {
         ProjectProductSetupHandler.cloneFund(newProjectProduct);
+        PMTMatrix.loadRelationships(newProjectProduct); // US-20194 V1.8: parents read by the PMT conditions, in one query per lookup (none when no condition follows one)
         new ProjectProductSetupHandler().getOwnersTeam(newProjectProduct);
     }
 
     public static void handleBeforeUpdate(Map<Id, ProjectProduct__c> newProjectProduct, Map<Id, ProjectProduct__c> oldProjectProduct) {
+        PMTMatrix.loadRelationships(newProjectProduct.values());
         new ProjectProductSetupHandler().updateProjectProductStatus(newProjectProduct, oldProjectProduct);
         ProjectProductSetupHandler.applyOwnerRules(newProjectProduct, oldProjectProduct);
         new ProjectProductSetupHandler().updateProjectProductName(newProjectProduct, oldProjectProduct);
     }
 
     public static void handleAfterInsert(Map<Id, ProjectProduct__c> l_project) {
+        PMTMatrix.loadRelationships(l_project.values());
         ProjectProductSetupHandler.updatePPName(l_project.values());
         new ProjectProductSetupHandler().createProjectProduct(l_project.values());
         new ProjectProductSetupHandler().createTaskList(l_project.values());
@@ -31,6 +34,7 @@ public class ProjectProductTriggerHandler {
     public static void handleAfterUpdate(Map<Id, ProjectProduct__c> newProjectProduct, Map<Id, ProjectProduct__c> oldProjectProduct) {
         Map<Id, ProjectProduct__c> cleanednewProjectProduct = newProjectProduct;
         Map<Id, ProjectProduct__c> recalNbOfFields = new Map<Id, ProjectProduct__c>();
+        PMTMatrix.loadRelationships(newProjectProduct.values());
 
         // US-20194: before the return below, the condition fields are usually filled on a phase and copied to the project
         ProjectProductSetupHandler.resyncConditionalValues(newProjectProduct, oldProjectProduct);

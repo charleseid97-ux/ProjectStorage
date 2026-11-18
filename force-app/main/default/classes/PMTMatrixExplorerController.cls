@@ -113,8 +113,9 @@ public with sharing class PMTMatrixExplorerController {
         check.error = isRequired == true ? PMTMatrix.getRequiredConditionError(CONDITIONAL, condition, isFund) : PMTMatrix.getConditionError(condition, isFund);
         if (check.error == null && String.isNotBlank(condition)) {
             PMTCondition compiled = PMTCondition.compile(condition);
-            check.projectFields = new List<String>(compiled.projectFields);
-            check.shareClassFields = new List<String>(compiled.shareClassFields);
+            // US-20194 V1.8: as written, lookups followed included (ParentProduct__r.Name)
+            check.projectFields = new List<String>(compiled.projectPaths);
+            check.shareClassFields = new List<String>(compiled.shareClassPaths);
         }
         return check;
     }

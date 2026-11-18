@@ -6,6 +6,7 @@
  *                  conditions of a modification project.
  *              US-20194 V1.6: the line and owner rule rules (getLineErrors, getOwnerRuleErrors) on every deployed record, then each rule broken,
  *                  and an invalid record skipped and reported by the warning of the PMT screens (custom label PMT_InvalidRecords).
+ *              US-20194 V1.8: a condition following a lookup: watched lookup, queried path, parent read once for a record carrying none.
  * @covers PMTMatrix   100%   [24-10-26]
  * @lastModifiedBy Charles EID   [24-10-26]
  ────────────────────────────────────── */
@@ -185,6 +186,10 @@ private class PMTMatrixTest {
         System.assertEquals(new Map<String, Boolean>{ 'SFDRcategory__c' => true }, fcpRequirementMatrix.getTeamFieldStates('Legal', new Set<String>{ 'Filing' }, true), 'Fund fields of the Legal screen at Filing');
         System.assert(fcpRequirementMatrix.getTeamFieldStates('OPS', new Set<String>{ 'Filing' }, true).isEmpty(), 'A team without line has an empty screen');
 
+        // US-20194 V1.8: a condition following a lookup (checked at the end, on the project read by loadProjects with its path)
+        PMTTestFactoryData.createMatrixLine('Filing', 'Tax', 'Product__c', 'MasterFund__c', 'Optional', 'ProjectProduct__c.ParentProduct__r.Name = \'LiveFund\'');
+        PMTMatrix relationshipMatrix = PMTMatrix.get();
+
         Test.startTest();
 
         Map<Id, ProjectProduct__c> projectById = PMTMatrix.loadProjects(new Set<Id>{ project.Id, null });
@@ -203,6 +208,20 @@ private class PMTMatrixTest {
         System.assert(projectMatrix.forShareClass(project.Id) === projectMatrix, 'An unknown share class keeps the project matrix');
         Map<Id, ProjectProduct__c> noProjectById = PMTMatrix.loadProjects(new Set<Id>());
         System.assert(noProjectById.isEmpty(), 'No project to read');
+
+        // US-20194 V1.8: the matrix watches the lookup of a path and queries the path; a record carrying no parent (Trigger.new) gets it from loadRelationships, read once
+        System.assert(relationshipMatrix.getConditionFields().contains('ParentProduct__c'), 'A change of the lookup changes the matrix');
+        System.assert(relationshipMatrix.getConditionQueryFields().containsAll(new Set<String>{ 'ParentProduct__r.Name', 'ParentProduct__r.Id' }), 'A query selects the path and the parent Id');
+        ProjectProduct__c childOfLiveFund = new ProjectProduct__c(ParentProduct__c = liveFund.Id);
+        PMTMatrix.loadRelationships(new List<ProjectProduct__c>{ childOfLiveFund });
+        Integer queriesBefore = Limits.getQueries();
+        PMTMatrix childMatrix = relationshipMatrix.forConditions(childOfLiveFund);
+        System.assertEquals(queriesBefore, Limits.getQueries(), 'The parent read by loadRelationships is not read again');
+        System.assertEquals(new List<String>{ 'MasterFund__c' }, childMatrix.getRule('Tax', 'Filing').optionalFund, 'Parent named LiveFund: Tax uses MasterFund__c');
+        ProjectProduct__c loadedProject = projectById.get(project.Id);
+        System.assert(relationshipMatrix.forConditions(loadedProject).getRule('Tax', 'Filing').isEmpty(), 'Project without parent: the condition is false');
+        loadedProject.ParentProduct__c = liveFund.Id;
+        System.assertEquals(new List<String>{ 'MasterFund__c' }, relationshipMatrix.forConditions(loadedProject).getRule('Tax', 'Filing').optionalFund, 'Lookup changed in memory (unsaved value of a screen): its new parent is read');
     }
 
     private static User newUser(String alias, String suffix) {
