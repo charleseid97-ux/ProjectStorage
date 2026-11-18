@@ -139,6 +139,11 @@
                             <lightning-input label="Active Products" data-id="isActiveProducts" type="checkbox" checked={isActiveProducts} onchange={handleActiveProductsChange}>
                             </lightning-input>
                         </div>
+                        <!-- IS Products Checkbox -->
+                        <div class="slds-form-element input_buttom">
+                            <lightning-input label="IS Products" data-id="isISProducts" type="checkbox" checked={isISProducts} onchange={handleISProductsChange}>
+                            </lightning-input>
+                        </div>
                         <!-- Bouton Reset -->
                         <div class="slds-m-top_medium slds-align_absolute-center" style="justify-content: flex-end;">
                             <lightning-button label="Reset Filters" onclick={handleResetFilters} variant="neutral"></lightning-button>
@@ -168,8 +173,9 @@
                         <div class="slds-m-right_small">
                             <lightning-button label="NAV Calendar" onclick={handleOpenNavCalendar} variant="neutral"></lightning-button>
                         </div>
+                        
                         <div class="slds-m-right_small">
-                            <lightning-button label="Export" onclick={handleExport} variant="brand"></lightning-button>
+                            <lightning-button label="Export Sheet" onclick={handleExportSheet} variant="brand"></lightning-button>
                         </div>
                         
                     </div>
