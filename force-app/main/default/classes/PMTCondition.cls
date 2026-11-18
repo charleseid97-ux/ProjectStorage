@@ -2,9 +2,12 @@
  * @description Condition of the PMT configuration (US-20194): PMTFieldRuleLine__mdt.Condition__c, PMTOwnerRule__mdt.Condition__c.
  *              A condition is a Salesforce formula returning true or false whose fields are prefixed with their object:
  *                  ProjectProduct__c.LegalForm__c (the project) or ProjectShareclass__c.HasPerfFees__c (the share class being evaluated).
- *                  Only direct fields of the two objects can be read: trigger records (Trigger.new) carry no parent relationship.
+ *              US-20194 V1.8: like a formula field, a condition follows lookups, e.g. ProjectProduct__c.ParentProduct__r.Name or
+ *                  ProjectProduct__c.RecordType.DeveloperName (up to MAX_RELATIONSHIP_HOPS, never a polymorphic lookup such as Owner:
+ *                  the formula engine reads it as blank). PMTMatrix attaches the parent records before an evaluation (Trigger.new carries none).
  *              Compiled once per transaction: the prefixes become a formula on ProjectShareclass__c (the project through ProjectProduct__r),
- *                  built with Formula.builder(), whose referenced fields tell what to query (queryProjects).
+ *                  built with Formula.builder(), whose referenced fields tell what to query (projectPaths, shareClassPaths) and which
+ *                  fields of the project or share class change the result (projectFields, shareClassFields: a lookup for a path).
  *              Evaluated on an in-memory share class carrying the project: an empty share class for a project-level evaluation.
  * @author Charles EID
  * @testClass PMTConditionTest
@@ -16,12 +19,19 @@ public without sharing class PMTCondition {
     private static final String SHARE_CLASS_OBJECT = 'ProjectShareclass__c';
     private static final String PROJECT_RELATIONSHIP = 'ProjectProduct__r';
     private static final String SHARE_CLASS_RELATIONSHIP = 'ProjectShareclasses__r';
+    // US-20194 V1.8: lookups a path may follow from the project or the share class (SOQL reads 5 levels of parents, the share class adds one)
+    public static final Integer MAX_RELATIONSHIP_HOPS = 4;
 
     private static Map<String, PMTCondition> conditionByText = new Map<String, PMTCondition>();
+    private static Map<Schema.SObjectType, Map<String, Schema.SObjectField>> lookupByRelationshipByType = new Map<Schema.SObjectType, Map<String, Schema.SObjectField>>();
 
     public String text { get; private set; }
+    // Fields of the project / share class whose change can change the result: the direct fields read and the lookup of each path
     public Set<String> projectFields { get; private set; }
     public Set<String> shareClassFields { get; private set; }
+    // US-20194 V1.8: what the condition reads, as written (LegalForm__c, ParentProduct__r.Name): what a query selects
+    public Set<String> projectPaths { get; private set; }
+    public Set<String> shareClassPaths { get; private set; }
     private FormulaEval.FormulaInstance formulaInstance;
 
     // Compiled condition of a text, cached per transaction. Null for an empty text: the line or rule always applies.
@@ -47,12 +57,53 @@ public without sharing class PMTCondition {
 
         projectFields = new Set<String>();
         shareClassFields = new Set<String>();
+        projectPaths = new Set<String>();
+        shareClassPaths = new Set<String>();
         for (String reference : formulaInstance.getReferencedFields()) {
-            String field = reference.startsWith(PROJECT_RELATIONSHIP + '.') ? reference.substringAfter('.') : reference;
-            if (field.contains('.')) throw new PMTConditionException('"' + text + '": only direct fields of ' + PROJECT_OBJECT + ' and ' + SHARE_CLASS_OBJECT + ' can be read, not ' + reference);
-            if (reference.startsWith(PROJECT_RELATIONSHIP + '.')) projectFields.add(field);
-            else shareClassFields.add(field);
+            Boolean readsProject = reference.startsWith(PROJECT_RELATIONSHIP + '.');
+            String path = readsProject ? reference.substringAfter('.') : reference;
+            Schema.SObjectType objectType = readsProject ? Schema.ProjectProduct__c.SObjectType : Schema.ProjectShareclass__c.SObjectType;
+            String field = path.contains('.') ? getFirstLookup(objectType, path, text).getDescribe().getName() : path;
+            if (readsProject) {
+                projectFields.add(field);
+                projectPaths.add(path);
+            }
+            else {
+                shareClassFields.add(field);
+                shareClassPaths.add(path);
+            }
         }
+    }
+
+    // US-20194 V1.8: lookup of the object followed first by a path (ParentProduct__r.Name -> ParentProduct__c, RecordType.DeveloperName -> RecordTypeId), once each hop of the path is checked: a lookup to a single object, at most MAX_RELATIONSHIP_HOPS
+    private static Schema.SObjectField getFirstLookup(Schema.SObjectType objectType, String path, String text) {
+        List<String> hops = path.split('\\.');
+        hops.remove(hops.size() - 1);
+        if (hops.size() > MAX_RELATIONSHIP_HOPS) throw new PMTConditionException('"' + text + '": ' + path + ' follows more than ' + MAX_RELATIONSHIP_HOPS + ' lookups');
+
+        Schema.SObjectField firstLookup;
+        Schema.SObjectType hopType = objectType;
+        for (String hop : hops) {
+            Schema.SObjectField lookup = getLookup(hopType, hop);
+            List<Schema.SObjectType> targets = lookup?.getDescribe().getReferenceTo();
+            if (hop.contains(':') || targets == null || targets.size() != 1) throw new PMTConditionException('"' + text + '": ' + path + ' follows a polymorphic lookup (' + hop + '), which a condition cannot read');
+            if (firstLookup == null) firstLookup = lookup;
+            hopType = targets[0];
+        }
+        return firstLookup;
+    }
+
+    // US-20194 V1.8: lookup field of a relationship of an object (ParentProduct__r -> ParentProduct__c), case-insensitive; null when the object has none
+    public static Schema.SObjectField getLookup(Schema.SObjectType objectType, String relationshipName) {
+        if (!lookupByRelationshipByType.containsKey(objectType)) {
+            Map<String, Schema.SObjectField> lookupByRelationship = new Map<String, Schema.SObjectField>();
+            for (Schema.SObjectField field : objectType.getDescribe().fields.getMap().values()) {
+                String name = field.getDescribe().getRelationshipName();
+                if (name != null) lookupByRelationship.put(name.toLowerCase(), field);
+            }
+            lookupByRelationshipByType.put(objectType, lookupByRelationship);
+        }
+        return lookupByRelationshipByType.get(objectType).get(relationshipName.toLowerCase());
     }
 
     // True when the condition reads a share class field: it is then evaluated once per share class.
