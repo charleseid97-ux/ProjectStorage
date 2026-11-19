@@ -41,6 +41,7 @@ public class WTPProductDelete_Test
             Share_Class__c shareClass = new Share_Class__c(
                     Name = 'TestShareclass1',
                     Validity__c = true,
+                    Status__c = 'Active',
                     Fund__c = product.Id
             );
             insert shareClass;
@@ -48,6 +49,7 @@ public class WTPProductDelete_Test
             Share_Class__c shareClass2 = new Share_Class__c(
                     Name = 'TestShareclass2',
                     Validity__c = true,
+                    Status__c = 'Active',
                     Fund__c = product.Id
             );
             insert shareClass2;
