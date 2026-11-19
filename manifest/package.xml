@@ -6,7 +6,6 @@
         <members>Narrative__c.NumberOfFunds__c</members>
         <members>Narrative__c.Type__c</members>
         <members>Narrative__c.Media__c</members>
-        <members>Narrative__c.LogicalRule__c</members>
         <name>CustomField</name>
     </types>
     <types>
@@ -53,6 +52,7 @@
     <types>
         <members>DisclaimerDetail__c-Disclaimer Detail Layout</members>
         <members>Disclaimer__c-Disclaimer Layout</members>
+        <members>DisclaimerLogicalRule__mdt-Disclaimer - Logical Rule Layout</members>
         <name>Layout</name>
     </types>
     <types>
@@ -71,10 +71,6 @@
     <types>
         <members>DisclaimerTrigger</members>
         <name>ApexTrigger</name>
-    </types>
-    <types>
-        <members>Narrative__c.VR06_DisclaimerRT_LogicalRuleRequired</members>
-        <name>ValidationRule</name>
     </types>
     <types>
         <members>DisclaimerBuilderPermissions</members>

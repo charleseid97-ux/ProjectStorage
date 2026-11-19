@@ -84,6 +84,38 @@
             <default>false</default>
         </values>
         <values>
+            <fullName>CMD_isCCO</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>CMD_isCELT</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>CMD_isCPEG</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>CMD_isOEIC</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>CMD_isPrivtAsst</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>CMD_isSicav</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>CMD_isTCN</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>CMD_minSubAmt</fullName>
+            <default>false</default>
+        </values>
+        <values>
             <fullName>Carmignac</fullName>
             <default>false</default>
         </values>

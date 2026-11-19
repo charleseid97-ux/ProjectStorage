@@ -1,5 +1,5 @@
 /** ──────────────────────────────────────
- * @description Logical Rules of the Disclaimer Builder: DisclaimerLogicalRule__mdt records deciding which "Logical Rule" narratives (Narrative__c.LogicalRule__c = rule DeveloperName) join a disclaimer.
+ * @description Logical Rules of the Disclaimer Builder: DisclaimerLogicalRule__mdt records deciding which "Logical Rule" narratives (Narrative__c.SubType__c = rule DeveloperName) join a disclaimer.
  *              A rule passes when every filled criterion passes, an empty one does not constrain:
  *                  NumberOfProducts__c: 0, 1 or Multiple, compared with the number of products the user selected.
  *                  Products__c: InternalShortName__c values separated by ';', at least one of them is selected.
