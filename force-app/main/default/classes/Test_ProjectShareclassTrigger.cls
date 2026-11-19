@@ -161,7 +161,6 @@ public class Test_ProjectShareclassTrigger {
             DomiciledIn__c = 'FR',
             ProjectStatus__c = 'Closed',
             ProductName__c = 'toto',
-            SFDRCategory__c = '0',
             LegalForm__c = legalForm,
             LettreRequise__c = 'No'
         );
