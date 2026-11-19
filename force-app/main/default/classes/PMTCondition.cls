@@ -10,8 +10,9 @@
  *                  fields of the project or share class change the result (projectFields, shareClassFields: a lookup for a path).
  *              Evaluated on an in-memory share class carrying the project: an empty share class for a project-level evaluation.
  * @author Charles EID
+ * @lastModifiedBy Charles EID   [18-11-26]
  * @testClass PMTConditionTest
- * @coverage 100%   [21-10-26]
+ * @coverage 100%   [18-11-26]
  ────────────────────────────────────── */
 public without sharing class PMTCondition {
 

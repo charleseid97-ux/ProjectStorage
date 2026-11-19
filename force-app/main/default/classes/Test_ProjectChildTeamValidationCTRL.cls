@@ -2,8 +2,9 @@
  * @description Tests of the projectChildTeamValidation LWC controller: on a Fund creation project, every read and validation method
  *                  (user permissions, stage of a record, records with fields, required fields and matrix of a team at a stage, team
  *                  validation); on a modification project, the required fields check and the record locks.
+ *              US-20194 V1.8.1: a Share Class field required only by a share class condition is queried before being checked.
  * @covers ProjectChildTeamValidationController   94%   [21-10-26]
- * @lastModifiedBy Charles EID   [21-10-26]
+ * @lastModifiedBy Charles EID   [18-11-26]
  ────────────────────────────────────── */
 @isTest
 public class Test_ProjectChildTeamValidationCTRL {
@@ -52,6 +53,8 @@ public class Test_ProjectChildTeamValidationCTRL {
         ProjectChildTeamValidationController.getExcludedFieldsForValidation('ShareclassCreation');
 
         // Champs de l'équipe à l'étape (matrice PMT) : Design (aucun champ) et Proposal (champs requis Product Strategy vides)
+        // US-20194 V1.8.1: a Conditional Share Class line required by a share class condition (like SC_PerfFeesCrystallisationDate_1 with HasPerfFees__c): optional at project level, required for this share class (Accumulating)
+        PMTTestFactoryData.createMatrixLine('Proposal', 'Product Strategy', 'Share_Class__c', 'PerfFeesCrystallisationDate__c', 'Conditional', null, 'ISPICKVAL(ProjectShareclass__c.DividendPolicy__c, \'Accumulating\')');
         ProjectChildTeamValidationController.checkRequiredFiledsIsEmpty(child.Id, 'Product Strategy', 'Design');
         Map<String, List<Map<String, List<String>>>> emptyProposalFields = ProjectChildTeamValidationController.checkRequiredFiledsIsEmpty(child.Id, 'Product Strategy', 'Proposal');
         ProjectChildTeamValidationController.getShareClasses(child.Id, 'Product Strategy', 'Design');
@@ -72,6 +75,12 @@ public class Test_ProjectChildTeamValidationCTRL {
         System.assert(invalidParametersMessage != null && invalidParametersMessage.contains('Invalid parameters'), 'Invalid parameters are rejected');
         System.assert(fundCreationExclusions.isEmpty(), 'No exclusion outside Shareclass Creation');
         System.assert(!emptyProposalFields.isEmpty(), 'Empty required Product Strategy fields are reported');
+        String crystallisationLabel = Schema.SObjectType.ProjectShareclassChild__c.fields.PerfFeesCrystallisationDate__c.getLabel();
+        Boolean crystallisationReported = false;
+        for (Map<String, List<String>> emptyByShareClass : emptyProposalFields.get('ShareClass')) {
+            for (List<String> labels : emptyByShareClass.values()) crystallisationReported |= labels.contains(crystallisationLabel);
+        }
+        System.assert(crystallisationReported, 'A field required by a share class condition is queried and reported empty for that share class');
     }
 
     // Fund modification project: required fields check and record locks

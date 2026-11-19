@@ -23,9 +23,9 @@
  *                  getConditionFields() keeps the fields whose change changes the matrix (the lookup of a path); getConditionQueryFields()
  *                  is what a query selects.
  * @author Charles EID
- * @lastModifiedBy Charles EID   [24-10-26]
+ * @lastModifiedBy Charles EID   [18-11-26]
  * @testClass PMTMatrixTest
- * @coverage 100%   [24-10-26]
+ * @coverage 100%   [18-11-26]
  ────────────────────────────────────── */
 public without sharing class PMTMatrix {
 

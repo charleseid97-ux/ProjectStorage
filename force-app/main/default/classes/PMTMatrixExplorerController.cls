@@ -16,10 +16,11 @@
  *                  together by Metadata.Operations, whose result is published as PMTConfigurationDeploy__e (DeployCallback) for the explorer.
  *                  A line is named {FUND|SC}_{field}_{index} (e.g. SC_ISIN_2), after its field only, so its name stays true when it moves; its
  *                  label "Team - Stage - Field" is rewritten on every save.
+ *              US-20194 V1.8: checkCondition lists what a condition reads as written, lookups followed included (ParentProduct__r.Name).
  * @author Charles EID
- * @lastModifiedBy Charles EID   [28-10-26]
+ * @lastModifiedBy Charles EID   [18-11-26]
  * @testClass PMTMatrixExplorerControllerTest
- * @coverage 99%   [28-10-26]
+ * @coverage 99%   [18-11-26]
  ────────────────────────────────────── */
 public with sharing class PMTMatrixExplorerController {
 

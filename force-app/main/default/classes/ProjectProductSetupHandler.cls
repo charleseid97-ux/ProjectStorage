@@ -7,7 +7,8 @@
  *                  restricted to the project's Scope where PS and IS are mutually exclusive.
  *              US-20194: the matrix follows the project's conditions (PMTMatrix.forConditions / forProject); resyncConditionalValues
  *                  realigns (asynchronously) the goals and the automatically validated teams when a field read by a condition changes.
- * @lastModifiedBy Charles EID   [22-10-26]
+ *              US-20194 V1.8: resyncPhases reads once the parent records followed by the conditions on the old values (PMTMatrix.loadRelationships).
+ * @lastModifiedBy Charles EID   [18-11-26]
  * @testClass Test_ProjectProductTrigger
  * @coverage 95%   [22-10-26]
  ────────────────────────────────────── */
