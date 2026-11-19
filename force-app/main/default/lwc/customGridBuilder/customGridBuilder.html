@@ -7,7 +7,7 @@
                 </h2>
             </div>
             <div class="grid-builder-header-center">
-                <template if:false={hasPendingGrid}>
+                <template if:true={showWizardNav}>
                     <button class="nav-btn nav-btn-back" onclick={handleGlobalBack} disabled={isGlobalBackDisabled}>
                         <span class="nav-btn-arrow nav-btn-back-arrow">←</span> {labels.UI_Back}
                     </button>
@@ -24,6 +24,18 @@
                     <button class="nav-btn nav-btn-next" onclick={handleGlobalNext} disabled={isGlobalNextDisabled}>
                         {labels.UI_Next} <span class="nav-btn-arrow nav-btn-next-arrow">→</span>
                     </button>
+                </template>
+                <template if:true={showOtherFeesActions}>
+                    <lightning-button label={labels.Grid_SaveGrid}
+                                       onclick={handleOtherFeesSave}
+                                       disabled={isOtherFeesActionDisabled}>
+                    </lightning-button>
+                    <lightning-button label={labels.Grid_SubmitForApproval}
+                                       variant="brand"
+                                       onclick={handleOtherFeesSubmit}
+                                       disabled={isOtherFeesActionDisabled}
+                                       class="slds-m-left_small">
+                    </lightning-button>
                 </template>
             </div>
             <div class="grid-builder-header-right"></div>
@@ -44,6 +56,7 @@
             <template if:false={hasPendingGrid}>
                 <template if:true={showAgreementsPage}>
                     <c-grid-agreements-selection agreement-selection-mode={agreementSelectionMode}
+                                                available-types-per-record-type={availableTypesPerRecordType}
                                                 options={agreementOptions}
                                                 value={selectedAgreements}
                                                 available-teams={availableTeams}
@@ -56,7 +69,8 @@
                                                 initial-load-previous-grid={savedLoadPreviousGrid}
                                                 onagreementsnext={handleAgreementsNext}
                                                 onformvaliditychange={handleAgreementsFormValidityChange}
-                                                onloadpreviouschange={handleLoadPreviousChange}>
+                                                onloadpreviouschange={handleLoadPreviousChange}
+                                                onkindchange={handleKindChange}>
                     </c-grid-agreements-selection>
                 </template>
 

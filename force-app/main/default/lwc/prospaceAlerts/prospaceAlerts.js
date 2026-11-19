@@ -13,7 +13,7 @@ import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 import LightningConfirm from 'lightning/confirm';
 import { getRecord, getFieldValue } from 'lightning/uiRecordApi';
 import CONTACT_SYNCHRO_FIELD from '@salesforce/schema/Contact.Synchrostatus__c';
-import CONTACT_WEBSITEID_FIELD from '@salesforce/schema/Contact.TECH_WebSiteID__c';
+import CONTACT_WEBSITECOUNTRY_FIELD from '@salesforce/schema/Contact.WebsiteCountry__c';
 import contactNotSynchronizedMSG from '@salesforce/label/c.PreferenceCenter_Contact_Not_Sync';
 
 //import Apex Methods
@@ -53,13 +53,27 @@ export default class prospaceAlerts extends LightningElement {
         contactNotSynchronizedMSG
     }
 
-    @wire(getRecord, {recordId: '$recordId', fields: [CONTACT_SYNCHRO_FIELD, CONTACT_WEBSITEID_FIELD]})
+    @wire(getRecord, {recordId: '$recordId', fields: [CONTACT_SYNCHRO_FIELD, CONTACT_WEBSITECOUNTRY_FIELD]})
     contact;
 
     get contactNotSynchronised() {
-        return getFieldValue(this.contact.data, CONTACT_SYNCHRO_FIELD) !== 'Success'
-            && (getFieldValue(this.contact.data, CONTACT_WEBSITEID_FIELD) === null
-            || getFieldValue(this.contact.data, CONTACT_WEBSITEID_FIELD) === undefined);
+        return getFieldValue(this.contact.data, CONTACT_SYNCHRO_FIELD) !== 'Success';
+    }
+
+        // Vérifie si un abonnement doit être affiché pour un Contact UAE.
+    isAlertAvailableForUAE(element) {
+        const websiteCountry = getFieldValue(this.contact.data, CONTACT_WEBSITECOUNTRY_FIELD);
+
+        // Aucun filtrage supplémentaire pour les autres pays.
+        if (websiteCountry !== 'AE') {
+            return true;
+        }
+
+        // Pour AE, seuls Nav, Report, Carmignac's Note et EC Letter sont disponibles.
+        return element.checkboxCategory === 'Nav'
+            || element.checkboxCategory === 'Report'
+            || element.checkboxLabel === "Carmignac's Note"
+            || element.checkboxLabel === 'EC Letter';
     }
 
     @wire(getTooglesValues, { recordId: '$recordId' })
@@ -78,6 +92,11 @@ wiredToggles(result) {
     if (result.data) {
         const parsed = JSON.parse(result.data);
         parsed.forEach((element) => {
+            // Pour UAE, ignore les abonnements qui ne sont pas autorisés.
+            if (!this.isAlertAvailableForUAE(element)) {
+                return;
+            }
+
             const arr = this.getTargetArray(element.checkboxCategory);
             arr.push({
                 checkboxLabel: element.checkboxLabel,

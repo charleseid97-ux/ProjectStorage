@@ -142,7 +142,8 @@ export default class GridValidationPage extends LightningElement {
                 selectedShareClassIds: shareClassIds,
                 agreementIds: this.selectedAgreements,
                 shareClassGridIdMap: shareClassGridIdMap,
-                availableGridIds: Object.keys(this.gridShareClassMap || {})
+                availableGridIds: Object.keys(this.gridShareClassMap || {}),
+                gridContextJson: JSON.stringify({ startDate: this.gridRequestData?.startDate })
             });
             const fieldsApiToInfoMap = validationResult?.fieldsApiToInfoMap || {};
             const products = validationResult?.products || [];

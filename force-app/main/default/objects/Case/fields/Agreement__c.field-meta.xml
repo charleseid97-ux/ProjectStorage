@@ -3,6 +3,15 @@
     <fullName>Agreement__c</fullName>
     <deleteConstraint>SetNull</deleteConstraint>
     <label>Agreement</label>
+    <lookupFilter>
+        <active>true</active>
+        <filterItems>
+            <field>Convention__c.Company__c</field>
+            <operation>equals</operation>
+            <valueField>$Source.AccountId</valueField>
+        </filterItems>
+        <isOptional>true</isOptional>
+    </lookupFilter>
     <referenceTo>Convention__c</referenceTo>
     <relationshipLabel>Work Together Processes</relationshipLabel>
     <relationshipName>Work_Together_Processes</relationshipName>

@@ -88,9 +88,9 @@ public with sharing class GridTestSetupHelper {
 
             // 5. Create Test Companies (Accounts)
             List<Account> companies = new List<Account>{
-                createAccount('Test Company FR', 'Client', '123 Test Street', 'Paris', '75001', 'France', 'IFA', 'IFA', 'BP_FR'),
-                createAccount('Test Company UK', 'Client', '456 Test Avenue', 'London', 'SW1A 1AA', 'United Kingdom', 'IFA', 'IFA', 'BP_UK'),
-                createAccount('Test Company DE', 'Client', '789 Test Strasse', 'Berlin', '10115', 'Germany', 'IFA', 'IFA', 'BP_DA')
+                createAccount('Test Company FR', 'Client', '123 Test Street', 'Paris', '75001', 'France', 'IFA', 'IFA', 'BP_FR', TEST_TEAM_FR),
+                createAccount('Test Company UK', 'Client', '456 Test Avenue', 'London', 'SW1A 1AA', 'United Kingdom', 'IFA', 'IFA', 'BP_UK', TEST_TEAM_UK),
+                createAccount('Test Company DE', 'Client', '789 Test Strasse', 'Berlin', '10115', 'Germany', 'IFA', 'IFA', 'BP_DA', TEST_TEAM_DE)
             };
             insert companies;
 
@@ -151,19 +151,19 @@ public with sharing class GridTestSetupHelper {
             ProductName__c = name,
             FundStrategy__c = strategyId,
             InternalShortName__c = internalShortName,
-            Legal_Status__c = legalStatus,
-            Fund_Code__c = internalShortName // Unique external ID
+            LegalForm__c = legalStatus//,
+            //Fund_Code__c = internalShortName // Unique external ID
         );
     }
 
     public static List<Product__c> getTestProducts() {
-        return [SELECT Id, Name, ProductName__c, FundStrategy__c, InternalShortName__c, Legal_Status__c
+        return [SELECT Id, Name, ProductName__c, FundStrategy__c, InternalShortName__c, LegalForm__c
                 FROM Product__c
                 ORDER BY Name];
     }
 
     public static Product__c getTestProductByShortName(String shortName) {
-        List<Product__c> products = [SELECT Id, Name, InternalShortName__c, Legal_Status__c
+        List<Product__c> products = [SELECT Id, Name, InternalShortName__c, LegalForm__c
                                   FROM Product__c
                                   WHERE InternalShortName__c = :shortName
                                   LIMIT 1];
@@ -187,7 +187,7 @@ public with sharing class GridTestSetupHelper {
 
     public static List<Share_Class__c> getTestShareClasses() {
         return [SELECT Id, Name, Name__c, Fund__c, ISIN__c, Type__c, EffectiveManagementFees__c, Currency__c,
-                       Fund__r.Legal_Status__c, Fund__r.InternalShortName__c, Fund__r.FundStrategy__c
+                       Fund__r.LegalForm__c, Fund__r.InternalShortName__c, Fund__r.FundStrategy__c
                 FROM Share_Class__c
                 ORDER BY Name];
     }
@@ -211,7 +211,7 @@ public with sharing class GridTestSetupHelper {
 
     public static Share_Class__c getShareClassByType(String type) {
         List<Share_Class__c> shareClasses = [SELECT Id, Name, Type__c, Fund__c, ISIN__c, EffectiveManagementFees__c,
-                                              Fund__r.Legal_Status__c, Fund__r.InternalShortName__c
+                                              Fund__r.LegalForm__c, Fund__r.InternalShortName__c
                                               FROM Share_Class__c
                                               WHERE Type__c = :type
                                               LIMIT 1];
@@ -238,6 +238,14 @@ public with sharing class GridTestSetupHelper {
 
     // ------------------------------------ ACCOUNT METHODS ------------------------------------
     public static Account createAccount(String name, String accountType, String street, String city, String postalCode, String country, String distributorType, String subType, String businessRegion) {
+        return createAccount(name, accountType, street, city, postalCode, country, distributorType, subType, businessRegion, null);
+    }
+
+    // Team__c on Account is a real (non-formula) picklist, but its <defaultValue> only mirrors the
+    // running test user's own Team__c — it can't tell apart FR/UK/DE accounts created in the same test
+    // run. Convention__c.Team__c is a formula off Company__r.Team__c, so anything that resolves agreements
+    // by team (e.g. GridTestSetupHelper.getTestAgreementByTeam) needs this explicitly set per account.
+    public static Account createAccount(String name, String accountType, String street, String city, String postalCode, String country, String distributorType, String subType, String businessRegion, String team) {
         return new Account(
             Name = name,
             Type = accountType,
@@ -250,7 +258,8 @@ public with sharing class GridTestSetupHelper {
             LegalForm__c = 'Other',
             In__c = 'Wholesale',
             Final_Distribution__c = 'Retail',
-            BusinessDevelopmentRegion__c = businessRegion
+            BusinessDevelopmentRegion__c = businessRegion,
+            Team__c = team
         );
     }
 

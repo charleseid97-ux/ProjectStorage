@@ -58,6 +58,7 @@ public with sharing class CampaignService {
         if(campaignToUpdate.size()>0){
             update campaignToUpdate;
         }
+        OperationLogService.flush();
     }
 
     @future(callout=true)
@@ -103,6 +104,7 @@ public with sharing class CampaignService {
         if(cmToUpdate.size()>0){
             update cmToUpdate;
         }*/
+        OperationLogService.flush();
     }
 
     public static void setCanceledStatus(List<Campaign> newList, Map<Id, Campaign> oldMap) {

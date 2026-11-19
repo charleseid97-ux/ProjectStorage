@@ -1,3 +1,4 @@
+// FIX-20270: this component might not be used (on no flexipage in the repo, duplicate of projectManagementPhase). Once confirmed in Prod, it may be deleted with ProjectProductChildDatatableController.
 import { LightningElement, api, track, wire } from 'lwc';
 import getChildren from '@salesforce/apex/ProjectProductChildDatatableController.getChildren';
 import getStatusPicklistValues from '@salesforce/apex/ProjectProductChildDatatableController.getStatusPicklistValues';

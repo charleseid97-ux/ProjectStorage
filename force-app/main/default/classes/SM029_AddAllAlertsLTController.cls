@@ -1,36 +1,43 @@
+/** ──────────────────────────────────────
+ * @description Lightning controller for the "Add all" Prospace alerts action on Contact/Lead:
+ *              checks the record is synced with Prospace and lists the alert types for its website language.
+ * @testClass SM029_WebCommunicationTest
+ * @coverage 94%   [08-10-26]
+ * @lastModifiedBy Charles EID   [08-10-26]
+ ────────────────────────────────────── */
 public class SM029_AddAllAlertsLTController {
-        
-    @AuraEnabled
-    public static void addAllProspaceAlerts(Id aContactId, List<String> selectedAlertTypes) {
-        System.debug('Contact Syncing 0');
 
-        Contact contactRec;
-        Lead leadRec;
+    // @AuraEnabled
+    // public static void addAllProspaceAlerts(Id aContactId, List<String> selectedAlertTypes) {
+    //     System.debug('Contact Syncing 0');
+
+    //     Contact contactRec;
+    //     Lead leadRec;
         
-        //System.debug('object is '+ aContactId.getsobjecttype());
+    //     //System.debug('object is '+ aContactId.getsobjecttype());
         
-        String objectType = aContactId.getSObjectType().getDescribe().getName();
+    //     String objectType = aContactId.getSObjectType().getDescribe().getName();
         
-        if(objectType == 'Contact'){
-            contactRec = [SELECT Id, WebsiteCountry__c, Prospace_Status__c, TECH_WebSiteID__c FROM Contact WHERE Id = :aContactId];
-        }else{
-            leadRec = [SELECT Id, WebsiteCountry__c, Prospace_Status__c, TECH_WebSiteID__c FROM Lead WHERE Id = :aContactId];
-        }
+    //     if(objectType == 'Contact'){
+    //         contactRec = [SELECT Id, WebsiteCountry__c, Prospace_Status__c, TECH_WebSiteID__c FROM Contact WHERE Id = :aContactId];
+    //     }else{
+    //         leadRec = [SELECT Id, WebsiteCountry__c, Prospace_Status__c, TECH_WebSiteID__c FROM Lead WHERE Id = :aContactId];
+    //     }
         
-        if(objectType == 'Contact'){
-            if(!String.isBlank(contactRec.TECH_WebSiteID__c) && contactRec.Prospace_Status__c == 'Validated'){
-                System.debug('Contact Syncing 1');
-                SM029_WebCommunication.addAllContactAlerts(contactRec, selectedAlertTypes);
-            }else{
-                throw new AuraHandledException('Error Contact not synced!');
-            }
-        }else if(!String.isBlank(leadRec.TECH_WebSiteID__c) && leadRec.Prospace_Status__c == 'Validated'){
-            SM029_WebCommunication.addAllLeadAlerts(leadRec, selectedAlertTypes);
-        }else{
-            throw new AuraHandledException('Error Lead not synced!');
-        }
+    //     if(objectType == 'Contact'){
+    //         if(!String.isBlank(contactRec.TECH_WebSiteID__c) && contactRec.Prospace_Status__c == 'Validated'){
+    //             System.debug('Contact Syncing 1');
+    //             // SM029_WebCommunication.addAllContactAlerts(contactRec, selectedAlertTypes);
+    //         }else{
+    //             throw new AuraHandledException('Error Contact not synced!');
+    //         }
+    //     }else if(!String.isBlank(leadRec.TECH_WebSiteID__c) && leadRec.Prospace_Status__c == 'Validated'){
+    //         // SM029_WebCommunication.addAllLeadAlerts(leadRec, selectedAlertTypes);
+    //     }else{
+    //         throw new AuraHandledException('Error Lead not synced!');
+    //     }
         
-    }
+    // }
 
 
     /*

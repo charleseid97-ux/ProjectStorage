@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>MaxRatingAgeMonths__c</fullName>
+    <defaultValue>3</defaultValue>
+    <description>Maximum age, in months, of a Citywire rating date before it is ignored as stale.</description>
+    <externalId>false</externalId>
+    <fieldManageability>DeveloperControlled</fieldManageability>
+    <inlineHelpText>Ratings whose Citywire rating date is missing or older than this many months are ignored entirely (logged as CityWireStaleRatingDate) rather than merged, so they can never overwrite good data or manufacture a false conflict.</inlineHelpText>
+    <label>Max Rating Age (Months)</label>
+    <precision>3</precision>
+    <required>false</required>
+    <scale>0</scale>
+    <type>Number</type>
+    <unique>false</unique>
+</CustomField>

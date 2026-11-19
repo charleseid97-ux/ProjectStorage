@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>EnableAlerts__c</fullName>
+    <defaultValue>true</defaultValue>
+    <description>Master switch controlling whether CityWireUpdateBatch sends alert emails at all.</description>
+    <externalId>false</externalId>
+    <fieldManageability>DeveloperControlled</fieldManageability>
+    <inlineHelpText>When unchecked, no alert email is ever sent, regardless of the failure threshold, the Alert On Zero Updates setting, or whether an Alert Queue/Alert Email Template is configured.</inlineHelpText>
+    <label>Enable Alerts</label>
+    <type>Checkbox</type>
+</CustomField>

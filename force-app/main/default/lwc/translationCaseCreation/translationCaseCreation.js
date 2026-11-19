@@ -188,7 +188,7 @@ export default class TranslationCaseCreation extends NavigationMixin(
       });
       let tmpSelectedWS = [];
       websites.forEach((website) => {
-        var found = false;
+        let found = false;
         for (let i = 0; i < this.targetWebsiteOptions.length; i++) {
           if (this.targetWebsiteOptions[i].value == website.value) {
             found = true;
@@ -249,7 +249,7 @@ export default class TranslationCaseCreation extends NavigationMixin(
     this.sourceLanguageValue = e.target.value;
     console.log('source lang : '+this.sourceLanguageValue);
     if(this.sourceLanguageValue!=null && this.sourceLanguageValue!=''){
-      var found = false;
+      let found = false;
       for(let i = 0; i < this.selectedLanguages.length; i++){
         if (this.selectedLanguages[i] == this.sourceLanguageValue) {
           found = true;
@@ -510,9 +510,9 @@ export default class TranslationCaseCreation extends NavigationMixin(
     const dueDateDefaut = new Date(this.dueDateDefaultValue); 
     const currentDueDate = new Date(event.target.value); 
     
-    var errorMsg = '';
-    var changeDate = false;
-    var result ;
+    let errorMsg = '';
+    let changeDate = false;
+    let result ;
     if(event.target.dataset.id === 'translationDueDate'){ 
       this.dueDateDefaultValue = event.target.value;
       this.businessDays = this.calculateBusinessDays(currentDueDate, dueDateFinal); 
@@ -561,7 +561,7 @@ export default class TranslationCaseCreation extends NavigationMixin(
 
   formatDateTime(date) {
     console.log("format debut ");
-    var tmpDate = new Date(date);
+    let tmpDate = new Date(date);
     const year = tmpDate.getFullYear();
     const month = String(tmpDate.getMonth() + 1).padStart(2, '0');
     const day = String(tmpDate.getDate()).padStart(2, '0');
@@ -632,7 +632,7 @@ export default class TranslationCaseCreation extends NavigationMixin(
           let mapProducts = {};
           result.forEach((product) => {
             products.push({
-              label: product.Name + " | " + product.Product_Name__c,
+              label: product.Name + " | " + product.ProductName__c,
               value: product.Id,
               code: product.Name
             });
@@ -884,8 +884,8 @@ export default class TranslationCaseCreation extends NavigationMixin(
     console.log('this.finalDueDate',finalDueDate);
     console.log('translationDueDate',translationDueDate);
     console.log('this.defaultTranslationDueDateValue > this.dueDateDefaultValue',translationDueDate > dueDate);
-    var result = this.calculateBusinessDaysAndHours(new Date(translationDueDate), new Date(finalDueDate));
-    var requiredDays= 0;
+    let result = this.calculateBusinessDaysAndHours(new Date(translationDueDate), new Date(finalDueDate));
+    let requiredDays= 0;
     if(this.isPubAndTrans){
       for (let i = 0; i < this.mdtPrioDueDate.length; i++) {
         if (this.mdtPrioDueDate[i].Priority__c === this.priority) {

@@ -77,6 +77,7 @@
         <offset>0</offset>
     </actionCalls>
     <apiVersion>64.0</apiVersion>
+    <areMetricsLoggedToDataCloud>false</areMetricsLoggedToDataCloud>
     <decisions>
         <name>Check_Notify_All</name>
         <label>Check Notify All</label>
@@ -338,7 +339,7 @@ IF(ISBLANK({!GETPMT.Technology__r.Email}), &apos;&apos;, {!GETPMT.Technology__r.
         </scheduledPaths>
         <triggerType>RecordAfterSave</triggerType>
     </start>
-    <status>Active</status>
+    <status>Obsolete</status>
     <textTemplates>
         <name>EmailBodyTax</name>
         <isViewedAsPlainText>false</isViewedAsPlainText>

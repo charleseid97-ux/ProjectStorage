@@ -88,6 +88,23 @@
                     <name>uiBehavior</name>
                     <value>none</value>
                 </fieldInstanceProperties>
+                <fieldItem>Record.BenchmarkName__c</fieldItem>
+                <identifier>RecordBenchmarkName_cField</identifier>
+                <visibilityRule>
+                    <criteria>
+                        <leftValue>{!Record.HasBenchmark__c}</leftValue>
+                        <operator>EQUAL</operator>
+                        <rightValue>True</rightValue>
+                    </criteria>
+                </visibilityRule>
+            </fieldInstance>
+        </itemInstances>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>none</value>
+                </fieldInstanceProperties>
                 <fieldItem>Record.CloseDate__c</fieldItem>
                 <identifier>RecordCloseDate_cField</identifier>
                 <visibilityRule>
@@ -110,6 +127,12 @@
                     <valueList>
                         <valueListItems>
                             <value>CustomButton.Product__c.ExportProduct</value>
+                        </valueListItems>
+                        <valueListItems>
+                            <value>Product__c.FieldHistory</value>
+                        </valueListItems>
+                        <valueListItems>
+                            <value>CustomButton.Product__c.NavPerf</value>
                         </valueListItems>
                     </valueList>
                 </componentInstanceProperties>
@@ -186,23 +209,6 @@
                     <name>uiBehavior</name>
                     <value>none</value>
                 </fieldInstanceProperties>
-                <fieldItem>Record.Useref__c</fieldItem>
-                <identifier>RecordUseref_cField</identifier>
-                <visibilityRule>
-                    <criteria>
-                        <leftValue>{!Record.HasBenchmark__c}</leftValue>
-                        <operator>EQUAL</operator>
-                        <rightValue>True</rightValue>
-                    </criteria>
-                </visibilityRule>
-            </fieldInstance>
-        </itemInstances>
-        <itemInstances>
-            <fieldInstance>
-                <fieldInstanceProperties>
-                    <name>uiBehavior</name>
-                    <value>none</value>
-                </fieldInstanceProperties>
                 <fieldItem>Record.MaturityDate__c</fieldItem>
                 <identifier>RecordMaturityDate_cField</identifier>
             </fieldInstance>
@@ -225,6 +231,16 @@
                 </fieldInstanceProperties>
                 <fieldItem>Record.MasterFeederStructure__c</fieldItem>
                 <identifier>RecordMasterFeederStructure_cField</identifier>
+            </fieldInstance>
+        </itemInstances>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>none</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.GridManualUpdate__c</fieldItem>
+                <identifier>RecordGridManualUpdate_cField</identifier>
             </fieldInstance>
         </itemInstances>
         <name>Facet-33919cb4-bfbe-40c3-9f2c-dbfd0307baea</name>
@@ -294,6 +310,16 @@
                     <name>uiBehavior</name>
                     <value>none</value>
                 </fieldInstanceProperties>
+                <fieldItem>Record.InitialLabPeriod__c</fieldItem>
+                <identifier>RecordInitial_Lab_Period_cField</identifier>
+            </fieldInstance>
+        </itemInstances>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>none</value>
+                </fieldInstanceProperties>
                 <fieldItem>Record.CloseDate__c</fieldItem>
                 <identifier>RecordCloseDate_cField2</identifier>
                 <visibilityRule>
@@ -313,16 +339,6 @@
                 </fieldInstanceProperties>
                 <fieldItem>Record.InternalShortName__c</fieldItem>
                 <identifier>RecordInternalShortName_cField2</identifier>
-            </fieldInstance>
-        </itemInstances>
-        <itemInstances>
-            <fieldInstance>
-                <fieldInstanceProperties>
-                    <name>uiBehavior</name>
-                    <value>none</value>
-                </fieldInstanceProperties>
-                <fieldItem>Record.Sponsor__c</fieldItem>
-                <identifier>RecordSponsor_cField</identifier>
             </fieldInstance>
         </itemInstances>
         <itemInstances>
@@ -738,6 +754,16 @@
                 <identifier>RecordDEEquityRatio_cField</identifier>
             </fieldInstance>
         </itemInstances>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>none</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.NumberofShareholdersforTraspaso__c</fieldItem>
+                <identifier>RecordNumbero_ShareholdersforTraspaso_cField</identifier>
+            </fieldInstance>
+        </itemInstances>
         <name>Facet-53735ba9-f450-4751-b960-690ff2b364e2</name>
         <type>Facet</type>
     </flexiPageRegions>
@@ -767,44 +793,6 @@
     </flexiPageRegions>
     <flexiPageRegions>
         <itemInstances>
-            <fieldInstance>
-                <fieldInstanceProperties>
-                    <name>uiBehavior</name>
-                    <value>none</value>
-                </fieldInstanceProperties>
-                <fieldItem>Record.InvestmentStrategy__c</fieldItem>
-                <identifier>RecordInvestmentStrategy_cField</identifier>
-            </fieldInstance>
-        </itemInstances>
-        <itemInstances>
-            <fieldInstance>
-                <fieldInstanceProperties>
-                    <name>uiBehavior</name>
-                    <value>none</value>
-                </fieldInstanceProperties>
-                <fieldItem>Record.InvestmentObjective__c</fieldItem>
-                <identifier>RecordInvestmentObjective_cField</identifier>
-            </fieldInstance>
-        </itemInstances>
-        <name>Facet-1c3915f7-af09-4dbe-a6b9-8bf2a9196b79</name>
-        <type>Facet</type>
-    </flexiPageRegions>
-    <flexiPageRegions>
-        <itemInstances>
-            <componentInstance>
-                <componentInstanceProperties>
-                    <name>body</name>
-                    <value>Facet-1c3915f7-af09-4dbe-a6b9-8bf2a9196b79</value>
-                </componentInstanceProperties>
-                <componentName>flexipage:column</componentName>
-                <identifier>flexipage_column9</identifier>
-            </componentInstance>
-        </itemInstances>
-        <name>Facet-5ab6989f-bb11-4c65-b322-565cdcfab24f</name>
-        <type>Facet</type>
-    </flexiPageRegions>
-    <flexiPageRegions>
-        <itemInstances>
             <componentInstance>
                 <componentInstanceProperties>
                     <name>columns</name>
@@ -820,24 +808,6 @@
                 </componentInstanceProperties>
                 <componentName>flexipage:fieldSection</componentName>
                 <identifier>flexipage_fieldSection2</identifier>
-            </componentInstance>
-        </itemInstances>
-        <itemInstances>
-            <componentInstance>
-                <componentInstanceProperties>
-                    <name>columns</name>
-                    <value>Facet-5ab6989f-bb11-4c65-b322-565cdcfab24f</value>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>horizontalAlignment</name>
-                    <value>false</value>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>label</name>
-                    <value>Investment Information</value>
-                </componentInstanceProperties>
-                <componentName>flexipage:fieldSection</componentName>
-                <identifier>flexipage_fieldSection5</identifier>
             </componentInstance>
         </itemInstances>
         <name>Facet-c15014c8-6423-4353-a3ae-ec85dd90e563</name>
@@ -960,20 +930,20 @@
             <fieldInstance>
                 <fieldInstanceProperties>
                     <name>uiBehavior</name>
-                    <value>none</value>
+                    <value>required</value>
                 </fieldInstanceProperties>
-                <fieldItem>Record.NoticePeriod__c</fieldItem>
-                <identifier>RecordNoticePeriod_cField</identifier>
+                <fieldItem>Record.NoticePeriodRedemption__c</fieldItem>
+                <identifier>RecordNoticePeriodRedemption_cField</identifier>
             </fieldInstance>
         </itemInstances>
         <itemInstances>
             <fieldInstance>
                 <fieldInstanceProperties>
                     <name>uiBehavior</name>
-                    <value>none</value>
+                    <value>required</value>
                 </fieldInstanceProperties>
-                <fieldItem>Record.HasGate__c</fieldItem>
-                <identifier>RecordHasGate_cField</identifier>
+                <fieldItem>Record.NoticePeriodSubscription__c</fieldItem>
+                <identifier>RecordNotice_Period_Subscription_cField</identifier>
             </fieldInstance>
         </itemInstances>
         <itemInstances>
@@ -1392,6 +1362,36 @@
                 </visibilityRule>
             </fieldInstance>
         </itemInstances>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>none</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.EET20430__c</fieldItem>
+                <identifier>RecordEET20430_cField</identifier>
+            </fieldInstance>
+        </itemInstances>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>none</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.EET20460__c</fieldItem>
+                <identifier>RecordEET20460_cField</identifier>
+            </fieldInstance>
+        </itemInstances>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>none</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.EET40000__c</fieldItem>
+                <identifier>RecordEET40000_cField</identifier>
+            </fieldInstance>
+        </itemInstances>
         <name>Facet-f66e7076-985e-474f-9daf-8bb58ea53b4c</name>
         <type>Facet</type>
     </flexiPageRegions>
@@ -1588,6 +1588,16 @@
                 </visibilityRule>
             </fieldInstance>
         </itemInstances>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>none</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.BenchmarkESG__c</fieldItem>
+                <identifier>RecordBenchmarkESG_cField</identifier>
+            </fieldInstance>
+        </itemInstances>
         <name>Facet-ef072671-8c75-4ec9-9356-a06ff66a4d4d</name>
         <type>Facet</type>
     </flexiPageRegions>
@@ -1642,8 +1652,8 @@
                     <name>uiBehavior</name>
                     <value>none</value>
                 </fieldInstanceProperties>
-                <fieldItem>Record.HasSwingPricing__c</fieldItem>
-                <identifier>RecordHasSwingPricing_cField</identifier>
+                <fieldItem>Record.LiquidityManagementToolLMT__c</fieldItem>
+                <identifier>RecordLiquidityManagementToolLMT_cField</identifier>
             </fieldInstance>
         </itemInstances>
         <itemInstances>
@@ -1702,7 +1712,7 @@
                 <fieldItem>Record.LeveragewithIRD__c</fieldItem>
                 <identifier>RecordLeveragewithIRD_cField</identifier>
                 <visibilityRule>
-                    <booleanFilter>(1 OR 2) AND (3 OR 4)</booleanFilter>
+                    <booleanFilter>(1 OR 2 OR 5) AND (3 OR 4)</booleanFilter>
                     <criteria>
                         <leftValue>{!Record.LegalForm__c}</leftValue>
                         <operator>EQUAL</operator>
@@ -1722,6 +1732,11 @@
                         <leftValue>{!Record.GlobalRiskMethod__c}</leftValue>
                         <operator>EQUAL</operator>
                         <rightValue>Relative VaR</rightValue>
+                    </criteria>
+                    <criteria>
+                        <leftValue>{!Record.LegalForm__c}</leftValue>
+                        <operator>EQUAL</operator>
+                        <rightValue>OEIC</rightValue>
                     </criteria>
                 </visibilityRule>
             </fieldInstance>
@@ -1735,7 +1750,7 @@
                 <fieldItem>Record.LeveragewoIRD__c</fieldItem>
                 <identifier>RecordLeveragewoIRD_cField</identifier>
                 <visibilityRule>
-                    <booleanFilter>(1 OR 2) AND (3 OR 4)</booleanFilter>
+                    <booleanFilter>(1 OR 2 OR 5) AND (3 OR 4)</booleanFilter>
                     <criteria>
                         <leftValue>{!Record.LegalForm__c}</leftValue>
                         <operator>EQUAL</operator>
@@ -1756,7 +1771,32 @@
                         <operator>EQUAL</operator>
                         <rightValue>Relative VaR</rightValue>
                     </criteria>
+                    <criteria>
+                        <leftValue>{!Record.LegalForm__c}</leftValue>
+                        <operator>EQUAL</operator>
+                        <rightValue>OEIC</rightValue>
+                    </criteria>
                 </visibilityRule>
+            </fieldInstance>
+        </itemInstances>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>none</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.PRIIPSCategory__c</fieldItem>
+                <identifier>RecordPRIIPSCategory_cField</identifier>
+            </fieldInstance>
+        </itemInstances>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>none</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.RiskNotConsideredinIndicator__c</fieldItem>
+                <identifier>RecordRiskNotConsideredinIndicator_cField</identifier>
             </fieldInstance>
         </itemInstances>
         <name>Facet-b0f3edf7-9f3f-4159-8292-99980fd90386</name>
@@ -2032,6 +2072,515 @@
             <componentInstance>
                 <componentInstanceProperties>
                     <name>actionNames</name>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>adminFilters</name>
+                    <valueList>
+                        <valueListItems>
+                            <value>Language__c|EQUALS|[&quot;French&quot;]</value>
+                        </valueListItems>
+                        <valueListItems>
+                            <value>Type__c|NOT_EQUAL|[&quot;Third Party&quot;,&quot;Glossary&quot;,&quot;Biography&quot;,&quot;Marketing&quot;,&quot;ESG&quot;]</value>
+                        </valueListItems>
+                    </valueList>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>maxRecordsToDisplay</name>
+                    <value>10</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>parentFieldApiName</name>
+                    <value>Product__c.Id</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>relatedListApiName</name>
+                    <value>Narratives__r</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>relatedListDisplayType</name>
+                    <value>ADVGRID</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>relatedListFieldAliases</name>
+                    <valueList>
+                        <valueListItems>
+                            <value>NAME</value>
+                        </valueListItems>
+                        <valueListItems>
+                            <value>Type__c</value>
+                        </valueListItems>
+                        <valueListItems>
+                            <value>SubType__c</value>
+                        </valueListItems>
+                        <valueListItems>
+                            <value>Content__c</value>
+                        </valueListItems>
+                    </valueList>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>relatedListLabel</name>
+                    <value>Narratives (French)</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>showActionBar</name>
+                    <value>true</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>sortFieldAlias</name>
+                    <value>Type__c</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>sortFieldOrder</name>
+                    <value>Ascending</value>
+                </componentInstanceProperties>
+                <componentName>lst:dynamicRelatedList</componentName>
+                <identifier>lst_dynamicRelatedList9</identifier>
+                <visibilityRule>
+                    <criteria>
+                        <leftValue>{!Record.DomiciledIn__c}</leftValue>
+                        <operator>EQUAL</operator>
+                        <rightValue>FR</rightValue>
+                    </criteria>
+                </visibilityRule>
+            </componentInstance>
+        </itemInstances>
+        <itemInstances>
+            <componentInstance>
+                <componentInstanceProperties>
+                    <name>actionNames</name>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>adminFilters</name>
+                    <valueList>
+                        <valueListItems>
+                            <value>Language__c|NOT_EQUAL|[&quot;French&quot;]</value>
+                        </valueListItems>
+                        <valueListItems>
+                            <value>Type__c|NOT_EQUAL|[&quot;Biography&quot;,&quot;Third Party&quot;,&quot;Glossary&quot;,&quot;ESG&quot;,&quot;Marketing&quot;]</value>
+                        </valueListItems>
+                    </valueList>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>maxRecordsToDisplay</name>
+                    <value>10</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>parentFieldApiName</name>
+                    <value>Product__c.Id</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>relatedListApiName</name>
+                    <value>Narratives__r</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>relatedListDisplayType</name>
+                    <value>ADVGRID</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>relatedListFieldAliases</name>
+                    <valueList>
+                        <valueListItems>
+                            <value>NAME</value>
+                        </valueListItems>
+                        <valueListItems>
+                            <value>Type__c</value>
+                        </valueListItems>
+                        <valueListItems>
+                            <value>SubType__c</value>
+                        </valueListItems>
+                        <valueListItems>
+                            <value>Language__c</value>
+                        </valueListItems>
+                        <valueListItems>
+                            <value>Content__c</value>
+                        </valueListItems>
+                    </valueList>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>relatedListLabel</name>
+                    <value>Narratives (Other Languages)</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>showActionBar</name>
+                    <value>true</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>sortFieldAlias</name>
+                    <value>Type__c</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>sortFieldOrder</name>
+                    <value>Ascending</value>
+                </componentInstanceProperties>
+                <componentName>lst:dynamicRelatedList</componentName>
+                <identifier>lst_dynamicRelatedList11</identifier>
+                <visibilityRule>
+                    <criteria>
+                        <leftValue>{!Record.DomiciledIn__c}</leftValue>
+                        <operator>EQUAL</operator>
+                        <rightValue>FR</rightValue>
+                    </criteria>
+                </visibilityRule>
+            </componentInstance>
+        </itemInstances>
+        <itemInstances>
+            <componentInstance>
+                <componentInstanceProperties>
+                    <name>actionNames</name>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>adminFilters</name>
+                    <valueList>
+                        <valueListItems>
+                            <value>Language__c|EQUALS|[&quot;English&quot;]</value>
+                        </valueListItems>
+                        <valueListItems>
+                            <value>Type__c|NOT_EQUAL|[&quot;Biography&quot;,&quot;Third Party&quot;,&quot;Glossary&quot;,&quot;ESG&quot;,&quot;Marketing&quot;]</value>
+                        </valueListItems>
+                    </valueList>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>maxRecordsToDisplay</name>
+                    <value>10</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>parentFieldApiName</name>
+                    <value>Product__c.Id</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>relatedListApiName</name>
+                    <value>Narratives__r</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>relatedListDisplayType</name>
+                    <value>ADVGRID</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>relatedListFieldAliases</name>
+                    <valueList>
+                        <valueListItems>
+                            <value>NAME</value>
+                        </valueListItems>
+                        <valueListItems>
+                            <value>Type__c</value>
+                        </valueListItems>
+                        <valueListItems>
+                            <value>SubType__c</value>
+                        </valueListItems>
+                        <valueListItems>
+                            <value>Content__c</value>
+                        </valueListItems>
+                    </valueList>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>relatedListLabel</name>
+                    <value>Narratives (English)</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>showActionBar</name>
+                    <value>true</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>sortFieldAlias</name>
+                    <value>Type__c</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>sortFieldOrder</name>
+                    <value>Ascending</value>
+                </componentInstanceProperties>
+                <componentName>lst:dynamicRelatedList</componentName>
+                <identifier>lst_dynamicRelatedList12</identifier>
+                <visibilityRule>
+                    <criteria>
+                        <leftValue>{!Record.DomiciledIn__c}</leftValue>
+                        <operator>NE</operator>
+                        <rightValue>FR</rightValue>
+                    </criteria>
+                </visibilityRule>
+            </componentInstance>
+        </itemInstances>
+        <itemInstances>
+            <componentInstance>
+                <componentInstanceProperties>
+                    <name>actionNames</name>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>adminFilters</name>
+                    <valueList>
+                        <valueListItems>
+                            <value>Language__c|NOT_EQUAL|[&quot;English&quot;]</value>
+                        </valueListItems>
+                        <valueListItems>
+                            <value>Type__c|NOT_EQUAL|[&quot;Biography&quot;,&quot;Third Party&quot;,&quot;Glossary&quot;,&quot;ESG&quot;,&quot;Marketing&quot;]</value>
+                        </valueListItems>
+                    </valueList>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>maxRecordsToDisplay</name>
+                    <value>10</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>parentFieldApiName</name>
+                    <value>Product__c.Id</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>relatedListApiName</name>
+                    <value>Narratives__r</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>relatedListDisplayType</name>
+                    <value>ADVGRID</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>relatedListFieldAliases</name>
+                    <valueList>
+                        <valueListItems>
+                            <value>NAME</value>
+                        </valueListItems>
+                        <valueListItems>
+                            <value>Type__c</value>
+                        </valueListItems>
+                        <valueListItems>
+                            <value>SubType__c</value>
+                        </valueListItems>
+                        <valueListItems>
+                            <value>Language__c</value>
+                        </valueListItems>
+                        <valueListItems>
+                            <value>Content__c</value>
+                        </valueListItems>
+                    </valueList>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>relatedListLabel</name>
+                    <value>Narratives (Other Languages)</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>showActionBar</name>
+                    <value>true</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>sortFieldAlias</name>
+                    <value>Type__c</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>sortFieldOrder</name>
+                    <value>Ascending</value>
+                </componentInstanceProperties>
+                <componentName>lst:dynamicRelatedList</componentName>
+                <identifier>lst_dynamicRelatedList10</identifier>
+                <visibilityRule>
+                    <criteria>
+                        <leftValue>{!Record.DomiciledIn__c}</leftValue>
+                        <operator>NE</operator>
+                        <rightValue>FR</rightValue>
+                    </criteria>
+                </visibilityRule>
+            </componentInstance>
+        </itemInstances>
+        <itemInstances>
+            <componentInstance>
+                <componentInstanceProperties>
+                    <name>actionNames</name>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>adminFilters</name>
+                    <valueList>
+                        <valueListItems>
+                            <value>Type__c|EQUALS|[&quot;ESG&quot;,&quot;Marketing&quot;]</value>
+                        </valueListItems>
+                    </valueList>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>maxRecordsToDisplay</name>
+                    <value>10</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>parentFieldApiName</name>
+                    <value>Product__c.Id</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>relatedListApiName</name>
+                    <value>Narratives__r</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>relatedListDisplayType</name>
+                    <value>ADVGRID</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>relatedListFieldAliases</name>
+                    <valueList>
+                        <valueListItems>
+                            <value>NAME</value>
+                        </valueListItems>
+                        <valueListItems>
+                            <value>Type__c</value>
+                        </valueListItems>
+                        <valueListItems>
+                            <value>SubType__c</value>
+                        </valueListItems>
+                        <valueListItems>
+                            <value>Media__c</value>
+                        </valueListItems>
+                        <valueListItems>
+                            <value>Language__c</value>
+                        </valueListItems>
+                        <valueListItems>
+                            <value>Content__c</value>
+                        </valueListItems>
+                    </valueList>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>relatedListLabel</name>
+                    <value>Narratives Marketing et ESG</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>showActionBar</name>
+                    <value>true</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>sortFieldAlias</name>
+                    <value>Type__c</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>sortFieldOrder</name>
+                    <value>Ascending</value>
+                </componentInstanceProperties>
+                <componentName>lst:dynamicRelatedList</componentName>
+                <identifier>lst_dynamicRelatedList14</identifier>
+                <visibilityRule>
+                    <booleanFilter>1 AND 2 AND 3 AND 4</booleanFilter>
+                    <criteria>
+                        <leftValue>{!$Permission.CustomPermission.PRPESG}</leftValue>
+                        <operator>EQUAL</operator>
+                        <rightValue>false</rightValue>
+                    </criteria>
+                    <criteria>
+                        <leftValue>{!$Permission.CustomPermission.PRPFundMarketing}</leftValue>
+                        <operator>EQUAL</operator>
+                        <rightValue>false</rightValue>
+                    </criteria>
+                    <criteria>
+                        <leftValue>{!$Permission.CustomPermission.PRPDCR}</leftValue>
+                        <operator>EQUAL</operator>
+                        <rightValue>false</rightValue>
+                    </criteria>
+                    <criteria>
+                        <leftValue>{!$Permission.CustomPermission.PRPIS}</leftValue>
+                        <operator>EQUAL</operator>
+                        <rightValue>false</rightValue>
+                    </criteria>
+                </visibilityRule>
+            </componentInstance>
+        </itemInstances>
+        <itemInstances>
+            <componentInstance>
+                <componentInstanceProperties>
+                    <name>actionNames</name>
+                    <valueList>
+                        <valueListItems>
+                            <value>New</value>
+                        </valueListItems>
+                    </valueList>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>adminFilters</name>
+                    <valueList>
+                        <valueListItems>
+                            <value>Type__c|EQUALS|[&quot;ESG&quot;,&quot;Marketing&quot;]</value>
+                        </valueListItems>
+                    </valueList>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>maxRecordsToDisplay</name>
+                    <value>10</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>parentFieldApiName</name>
+                    <value>Product__c.Id</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>relatedListApiName</name>
+                    <value>Narratives__r</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>relatedListDisplayType</name>
+                    <value>ADVGRID</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>relatedListFieldAliases</name>
+                    <valueList>
+                        <valueListItems>
+                            <value>NAME</value>
+                        </valueListItems>
+                        <valueListItems>
+                            <value>Type__c</value>
+                        </valueListItems>
+                        <valueListItems>
+                            <value>SubType__c</value>
+                        </valueListItems>
+                        <valueListItems>
+                            <value>Media__c</value>
+                        </valueListItems>
+                        <valueListItems>
+                            <value>Language__c</value>
+                        </valueListItems>
+                        <valueListItems>
+                            <value>Content__c</value>
+                        </valueListItems>
+                    </valueList>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>relatedListLabel</name>
+                    <value>Narratives Marketing et ESG</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>showActionBar</name>
+                    <value>true</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>sortFieldAlias</name>
+                    <value>Type__c</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>sortFieldOrder</name>
+                    <value>Ascending</value>
+                </componentInstanceProperties>
+                <componentName>lst:dynamicRelatedList</componentName>
+                <identifier>lst_dynamicRelatedList15</identifier>
+                <visibilityRule>
+                    <booleanFilter>1 OR 2 OR 3 OR 4</booleanFilter>
+                    <criteria>
+                        <leftValue>{!$Permission.CustomPermission.PRPESG}</leftValue>
+                        <operator>EQUAL</operator>
+                        <rightValue>true</rightValue>
+                    </criteria>
+                    <criteria>
+                        <leftValue>{!$Permission.CustomPermission.PRPFundMarketing}</leftValue>
+                        <operator>EQUAL</operator>
+                        <rightValue>true</rightValue>
+                    </criteria>
+                    <criteria>
+                        <leftValue>{!$Permission.CustomPermission.PRPDCR}</leftValue>
+                        <operator>EQUAL</operator>
+                        <rightValue>true</rightValue>
+                    </criteria>
+                    <criteria>
+                        <leftValue>{!$Permission.CustomPermission.PRPIS}</leftValue>
+                        <operator>EQUAL</operator>
+                        <rightValue>true</rightValue>
+                    </criteria>
+                </visibilityRule>
+            </componentInstance>
+        </itemInstances>
+        <name>Facet-ae64dcab-cd27-42d8-9198-af185cb665e6</name>
+        <type>Facet</type>
+    </flexiPageRegions>
+    <flexiPageRegions>
+        <itemInstances>
+            <componentInstance>
+                <componentInstanceProperties>
+                    <name>actionNames</name>
                     <valueList>
                         <valueListItems>
                             <value>New</value>
@@ -2256,6 +2805,55 @@
         <itemInstances>
             <componentInstance>
                 <componentInstanceProperties>
+                    <name>customQueryParameters</name>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>debugMode</name>
+                    <value>false</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>filterOnRecordId</name>
+                    <value>true</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>forceRefresh</name>
+                    <value>false</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>height</name>
+                    <value>700</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>sfAdvancedFilter</name>
+                    <value>Product__c.InternalShortName__c</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>showTabs</name>
+                    <value>true</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>showToolbar</name>
+                    <value>false</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>tabAdvancedFilter</name>
+                    <value>PTF_P</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>vizUrl</name>
+                    <value>https://tableau.carmignac.com//views/AUMPerfCaracRevamp/AUMNAV_1?:iid=7&amp;PTF_P=CAD</value>
+                </componentInstanceProperties>
+                <componentName>tableau:tableauViz</componentName>
+                <identifier>tableau_tableauViz</identifier>
+            </componentInstance>
+        </itemInstances>
+        <name>Facet-4fa05b5e-8573-4e72-9a52-f40f15b803da</name>
+        <type>Facet</type>
+    </flexiPageRegions>
+    <flexiPageRegions>
+        <itemInstances>
+            <componentInstance>
+                <componentInstanceProperties>
                     <name>active</name>
                     <value>true</value>
                 </componentInstanceProperties>
@@ -2345,6 +2943,20 @@
             <componentInstance>
                 <componentInstanceProperties>
                     <name>body</name>
+                    <value>Facet-ae64dcab-cd27-42d8-9198-af185cb665e6</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>title</name>
+                    <value>Narratives</value>
+                </componentInstanceProperties>
+                <componentName>flexipage:tab</componentName>
+                <identifier>flexipage_tab8</identifier>
+            </componentInstance>
+        </itemInstances>
+        <itemInstances>
+            <componentInstance>
+                <componentInstanceProperties>
+                    <name>body</name>
                     <value>Facet-3d0dfdf0-9dae-4c06-9d8e-b1ebc7889652</value>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
@@ -2355,12 +2967,30 @@
                 <identifier>flexipage_tab5</identifier>
             </componentInstance>
         </itemInstances>
+        <itemInstances>
+            <componentInstance>
+                <componentInstanceProperties>
+                    <name>body</name>
+                    <value>Facet-4fa05b5e-8573-4e72-9a52-f40f15b803da</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>title</name>
+                    <value>NAV Perf</value>
+                </componentInstanceProperties>
+                <componentName>flexipage:tab</componentName>
+                <identifier>flexipage_tab9</identifier>
+            </componentInstance>
+        </itemInstances>
         <name>Facet-35fc46d1-fa04-4c77-81fc-52d311aaa4af</name>
         <type>Facet</type>
     </flexiPageRegions>
     <flexiPageRegions>
         <itemInstances>
             <componentInstance>
+                <componentInstanceProperties>
+                    <name>label</name>
+                    <value>Tabs</value>
+                </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>tabs</name>
                     <value>Facet-35fc46d1-fa04-4c77-81fc-52d311aaa4af</value>
@@ -2382,7 +3012,7 @@
                     <name>adminFilters</name>
                     <valueList>
                         <valueListItems>
-                            <value>Status__c|EQUALS|[&quot;Active&quot;]</value>
+                            <value>Status__c|EQUALS|[&quot;Active&quot;,&quot;Active - Lab&quot;]</value>
                         </valueListItems>
                     </valueList>
                 </componentInstanceProperties>
@@ -2557,7 +3187,7 @@
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>sortFieldAlias</name>
-                    <value>StartDate__c</value>
+                    <value>RepOrder__c</value>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>sortFieldOrder</name>
@@ -2573,17 +3203,17 @@
                         <rightValue>false</rightValue>
                     </criteria>
                     <criteria>
-                        <leftValue>{!$Permission.CustomPermission.PMT_Manage_ProductManager}</leftValue>
-                        <operator>EQUAL</operator>
-                        <rightValue>false</rightValue>
-                    </criteria>
-                    <criteria>
                         <leftValue>{!$Permission.CustomPermission.PRPRFP}</leftValue>
                         <operator>EQUAL</operator>
                         <rightValue>false</rightValue>
                     </criteria>
                     <criteria>
                         <leftValue>{!$Permission.CustomPermission.PRPIS}</leftValue>
+                        <operator>EQUAL</operator>
+                        <rightValue>false</rightValue>
+                    </criteria>
+                    <criteria>
+                        <leftValue>{!$Permission.CustomPermission.PMT_Manage_ProductManager}</leftValue>
                         <operator>EQUAL</operator>
                         <rightValue>false</rightValue>
                     </criteria>
@@ -2597,6 +3227,9 @@
                     <valueList>
                         <valueListItems>
                             <value>New</value>
+                        </valueListItems>
+                        <valueListItems>
+                            <value>MassChangeOwner</value>
                         </valueListItems>
                     </valueList>
                 </componentInstanceProperties>
@@ -2626,13 +3259,13 @@
                             <value>FundManager__c</value>
                         </valueListItems>
                         <valueListItems>
-                            <value>RepOrder__c</value>
-                        </valueListItems>
-                        <valueListItems>
                             <value>StartDate__c</value>
                         </valueListItems>
                         <valueListItems>
                             <value>EndDate__c</value>
+                        </valueListItems>
+                        <valueListItems>
+                            <value>RepOrder__c</value>
                         </valueListItems>
                     </valueList>
                 </componentInstanceProperties>
@@ -2646,7 +3279,7 @@
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>sortFieldAlias</name>
-                    <value>StartDate__c</value>
+                    <value>RepOrder__c</value>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>sortFieldOrder</name>
@@ -2737,6 +3370,117 @@
                 </componentInstanceProperties>
                 <componentName>lst:dynamicRelatedList</componentName>
                 <identifier>lst_dynamicRelatedList6</identifier>
+                <visibilityRule>
+                    <booleanFilter>1 AND 2 AND 3 AND 4</booleanFilter>
+                    <criteria>
+                        <leftValue>{!$Permission.CustomPermission.PRPProductStrategy}</leftValue>
+                        <operator>EQUAL</operator>
+                        <rightValue>false</rightValue>
+                    </criteria>
+                    <criteria>
+                        <leftValue>{!$Permission.CustomPermission.PRPDCO}</leftValue>
+                        <operator>EQUAL</operator>
+                        <rightValue>false</rightValue>
+                    </criteria>
+                    <criteria>
+                        <leftValue>{!$Permission.CustomPermission.PRPOPS}</leftValue>
+                        <operator>EQUAL</operator>
+                        <rightValue>false</rightValue>
+                    </criteria>
+                    <criteria>
+                        <leftValue>{!$Permission.CustomPermission.PRPCompliance}</leftValue>
+                        <operator>EQUAL</operator>
+                        <rightValue>false</rightValue>
+                    </criteria>
+                </visibilityRule>
+            </componentInstance>
+        </itemInstances>
+        <itemInstances>
+            <componentInstance>
+                <componentInstanceProperties>
+                    <name>actionNames</name>
+                    <valueList>
+                        <valueListItems>
+                            <value>New</value>
+                        </valueListItems>
+                    </valueList>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>adminFilters</name>
+                    <valueList>
+                        <valueListItems>
+                            <value>Type__c|EQUALS|[&quot;Third Party&quot;]</value>
+                        </valueListItems>
+                    </valueList>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>maxRecordsToDisplay</name>
+                    <value>10</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>parentFieldApiName</name>
+                    <value>Product__c.Id</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>relatedListApiName</name>
+                    <value>Narratives__r</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>relatedListDisplayType</name>
+                    <value>ADVGRID</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>relatedListFieldAliases</name>
+                    <valueList>
+                        <valueListItems>
+                            <value>SubType__c</value>
+                        </valueListItems>
+                        <valueListItems>
+                            <value>NAME</value>
+                        </valueListItems>
+                    </valueList>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>relatedListLabel</name>
+                    <value>Third Parties</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>showActionBar</name>
+                    <value>true</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>sortFieldAlias</name>
+                    <value>DisplayOrder__c</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>sortFieldOrder</name>
+                    <value>Ascending</value>
+                </componentInstanceProperties>
+                <componentName>lst:dynamicRelatedList</componentName>
+                <identifier>lst_dynamicRelatedList13</identifier>
+                <visibilityRule>
+                    <booleanFilter>1 OR 2 OR 3 OR 4</booleanFilter>
+                    <criteria>
+                        <leftValue>{!$Permission.CustomPermission.PRPProductStrategy}</leftValue>
+                        <operator>EQUAL</operator>
+                        <rightValue>true</rightValue>
+                    </criteria>
+                    <criteria>
+                        <leftValue>{!$Permission.CustomPermission.PRPDCO}</leftValue>
+                        <operator>EQUAL</operator>
+                        <rightValue>true</rightValue>
+                    </criteria>
+                    <criteria>
+                        <leftValue>{!$Permission.CustomPermission.PRPCompliance}</leftValue>
+                        <operator>EQUAL</operator>
+                        <rightValue>true</rightValue>
+                    </criteria>
+                    <criteria>
+                        <leftValue>{!$Permission.CustomPermission.PRPOPS}</leftValue>
+                        <operator>EQUAL</operator>
+                        <rightValue>true</rightValue>
+                    </criteria>
+                </visibilityRule>
             </componentInstance>
         </itemInstances>
         <name>sidebar</name>

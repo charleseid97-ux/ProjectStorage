@@ -6,18 +6,9 @@
     <columns>SubType__c</columns>
     <columns>RECORDTYPE</columns>
     <columns>Product__c</columns>
+    <columns>ShareClass__c</columns>
     <columns>Project__c</columns>
     <columns>CREATED_DATE</columns>
     <filterScope>Everything</filterScope>
-    <filters>
-        <field>Type__c</field>
-        <operation>equals</operation>
-        <value>PRIIPs</value>
-    </filters>
-    <filters>
-        <field>SubType__c</field>
-        <operation>contains</operation>
-        <value>Reason for RHP</value>
-    </filters>
     <label>All</label>
 </ListView>

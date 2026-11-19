@@ -16,7 +16,8 @@ IF(ISPICKVAL($User.Team__c,&quot;Luxembourg&quot;),&quot;Luxembourg&quot;,
 IF(ISPICKVAL($User.Team__c,&quot;Netherlands&quot;),&quot;Netherlands&quot;,
 IF(ISPICKVAL($User.Team__c,&quot;Japan&quot;),&quot;Japan&quot;,
 IF(ISPICKVAL($User.Team__c,&quot;Taiwan&quot;),&quot;Taiwan&quot;,
-&quot;&quot; ))))))))))))))</defaultValue>
+IF(ISPICKVAL($User.Team__c,&quot;Middle East&quot;),&quot;Middle East&quot;,
+&quot;&quot; )))))))))))))))</defaultValue>
     <label>Feedback Team</label>
     <required>false</required>
     <trackFeedHistory>false</trackFeedHistory>

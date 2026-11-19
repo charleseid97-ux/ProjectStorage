@@ -7,7 +7,7 @@
 @isTest
 public class TestDataFactory {
     /** Final Static Variables */
-    public final static Id PRODUCT_STRATEDY_RECID = Schema.SObjectType.Product__c.getRecordTypeInfosByDeveloperName().get('Strategy').getRecordTypeId();
+    // public final static Id PRODUCT_STRATEDY_RECID = Schema.SObjectType.Product__c.getRecordTypeInfosByDeveloperName().get('Strategy').getRecordTypeId();
     public final static Id PRODUCT_FUND_RECID = Schema.SObjectType.Product__c.getRecordTypeInfosByDeveloperName().get('Fund').getRecordTypeId();
     public final static Id CONTACT_DISTRIBUTION_RECID = Schema.SObjectType.Contact.getRecordTypeInfosByDeveloperName().get('Contact_DistributionContact').getRecordTypeId();
     public final static Id CONTACT_INTERNAL_RECID = Schema.SObjectType.Contact.getRecordTypeInfosByDeveloperName().get('Internal_Carmignac_Contact').getRecordTypeId();
@@ -95,7 +95,7 @@ public class TestDataFactory {
     public static Product__c getProduct(Id recId, String code, String name, Boolean isActive){
         return ( new Product__c (RecordTypeId = recId,
                                  Name = code,
-                                 Product_Name__c = name,
+                                 ProductName__c = name,
                                  Validity__c = isActive));
         
     }
@@ -192,5 +192,33 @@ public class TestDataFactory {
         );
 
         return le;
+    }
+    
+    public static Case getCase() {
+        Id subPublicationRecordTypeId = Schema.SObjectType.Case.getRecordTypeInfosByDeveloperName().get('Sub_Publication_Request').getRecordTypeId();
+        
+        Case c = new Case(
+            Status = 'New',
+            Origin = 'Web',
+            Subject = 'Test Case Working Hours',
+            Website_Type__c = 'Corporate',
+            Website_SubType__c = 'Homepage update',
+            RecordTypeId = subPublicationRecordTypeId 
+        );
+        return c;
+    }
+    
+    public static Case getESGCase() {
+        Id ESGRecordTypeId = Schema.SObjectType.Case.getRecordTypeInfosByName().get('ESG').getRecordTypeId();
+        
+        Case c = new Case(
+            Status = 'New',
+            Origin = 'Web',
+            Subject = 'Test Case Working Hours',
+            Website_Type__c = 'Corporate',
+            Website_SubType__c = 'Homepage update',
+            RecordTypeId = ESGRecordTypeId
+        );
+        return c;
     }
 }

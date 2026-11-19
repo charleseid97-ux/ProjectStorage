@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Flow xmlns="http://soap.sforce.com/2006/04/metadata">
     <apiVersion>65.0</apiVersion>
+    <areMetricsLoggedToDataCloud>false</areMetricsLoggedToDataCloud>
     <assignments>
         <name>Error_Message</name>
         <label>Error Message</label>
@@ -10,7 +11,7 @@
             <assignToReference>errorMessage</assignToReference>
             <operator>Assign</operator>
             <value>
-                <stringValue>A Biography with this Type, Subtype, Language, and Country already exists</stringValue>
+                <stringValue>A Biography for this manager with this Language and Country already exists</stringValue>
             </value>
         </assignmentItems>
     </assignments>

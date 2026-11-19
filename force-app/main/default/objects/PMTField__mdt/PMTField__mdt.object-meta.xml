@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObject xmlns="http://soap.sforce.com/2006/04/metadata">
+    <description>US-20194: dictionary of the fields managed by the PMT, one record per field and level (Fund = Product__c / ProjectProduct__c, Share Class = Share_Class__c / ProjectShareclass__c). The teams that use a field at each stage are its PMTFieldRuleLine__mdt records. Read through the PMTMatrix Apex class.</description>
+    <label>PMT - Field</label>
+    <pluralLabel>PMT - Fields</pluralLabel>
+    <visibility>Public</visibility>
+</CustomObject>

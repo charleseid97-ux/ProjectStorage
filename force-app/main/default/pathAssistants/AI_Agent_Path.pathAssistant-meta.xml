@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PathAssistant xmlns="http://soap.sforce.com/2006/04/metadata">
+    <active>true</active>
+    <entityName>Case</entityName>
+    <fieldName>AgentStatus__c</fieldName>
+    <masterLabel>AI Agent Path</masterLabel>
+    <pathAssistantSteps>
+        <info>&lt;p&gt;Complete the review decision and document the outcome.&lt;/p&gt;&lt;p&gt;Confirm whether the agent is &lt;strong&gt;Approved, Not Approved, Changes Required, or requires an additional Security Review&lt;/strong&gt;, and record any final comments or actions&lt;/p&gt;</info>
+        <picklistValueName>Closed</picklistValueName>
+    </pathAssistantSteps>
+    <pathAssistantSteps>
+        <info>&lt;p&gt;The Dust Admin team will contact you to organise a short review meeting and discuss the agent, its use case and any potential improvements before publication.&lt;/p&gt;&lt;p&gt;If you have any questions in the meantime, you can contact us at &lt;a href=&quot;mailto:dust@carmignac.com&quot; rel=&quot;noopener noreferrer&quot; target=&quot;_blank&quot;&gt;dust@carmignac.com&lt;/a&gt;.&lt;/p&gt;</info>
+        <picklistValueName>Submitted</picklistValueName>
+    </pathAssistantSteps>
+    <pathAssistantSteps>
+        <info>&lt;p&gt;Review the agent with the builder: business need, data access, connectors, permissions, output, performance, risks and potential improvements.&lt;/p&gt;&lt;p&gt;Capture any actions required before closing the review.&lt;/p&gt;</info>
+        <picklistValueName>Under Review</picklistValueName>
+    </pathAssistantSteps>
+    <recordTypeName>AIAgentGovernance</recordTypeName>
+</PathAssistant>

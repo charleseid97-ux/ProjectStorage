@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>VRGrid_TypeMatchesRecordType</fullName>
+    <active>true</active>
+    <description>Enforces Type__c/RecordType pairing on every DML path, since RecordType picklist restriction is UI-only. OtherFeesGrid must use Courtage Assurance et Capi or Performance Fees; every other record type must use SINGLE RULE or MULTI RULE.</description>
+    <errorConditionFormula>AND(
+    NOT($User.BypassValidationRules__c),
+    OR(
+        AND(
+            RecordType.DeveloperName = &quot;OtherFeesGrid&quot;,
+            OR(
+                ISPICKVAL(Type__c, &quot;SINGLE RULE&quot;),
+                ISPICKVAL(Type__c, &quot;MULTI RULE&quot;)
+            )
+        ),
+        AND(
+            RecordType.DeveloperName &lt;&gt; &quot;OtherFeesGrid&quot;,
+            OR(
+                ISPICKVAL(Type__c, &quot;Courtage Assurance et Capi&quot;),
+                ISPICKVAL(Type__c, &quot;Performance Fees&quot;)
+            )
+        )
+    )
+)</errorConditionFormula>
+    <errorMessage>Type must match the grid's Record Type: Other Fees Grids require Courtage Assurance et Capi or Performance Fees; every other grid requires SINGLE RULE or MULTI RULE.</errorMessage>
+</ValidationRule>

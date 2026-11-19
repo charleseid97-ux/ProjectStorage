@@ -30,6 +30,7 @@
         <offset>0</offset>
     </actionCalls>
     <apiVersion>63.0</apiVersion>
+    <areMetricsLoggedToDataCloud>false</areMetricsLoggedToDataCloud>
     <description>This flow sends a notification to all Team Owners whenever the Launch Date of a PMT project is modified.
 The objective is to ensure that all stakeholders are informed of any changes that may impact planning, coordination, or go-to-market activities.</description>
     <environments>Default</environments>
@@ -201,7 +202,7 @@ IF(ISBLANK({!GETPMT.Technology__r.Email}), &apos;&apos;, {!GETPMT.Technology__r.
         </scheduledPaths>
         <triggerType>RecordAfterSave</triggerType>
     </start>
-    <status>Active</status>
+    <status>Obsolete</status>
     <textTemplates>
         <name>emailsTeamsTEST</name>
         <isViewedAsPlainText>true</isViewedAsPlainText>

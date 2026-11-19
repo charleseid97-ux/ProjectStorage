@@ -62,12 +62,12 @@
                                                   variant="brand"
                                                   onclick="{!c.handleCancel}"/>
                                 
-                                <lightning:button label="Delete"
-                                                  class="slds-m-top--medium"
+                                <!-- <lightning:button label="Delete"
+                                                  class="slds-m-top-medium"
                                                   variant="brand"
                                                   disabled="true"
                                                   aura:id="buttonAdd"
-                                                  onclick="{!c.delAllAlerts}"/>
+                                                  onclick="{!c.delAllAlerts}"/> -->
                             </div>
                             
                         </form>
