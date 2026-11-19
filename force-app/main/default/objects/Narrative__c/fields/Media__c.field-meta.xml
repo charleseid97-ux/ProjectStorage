@@ -8,6 +8,7 @@
 • PS : Fiches Produit.</inlineHelpText>
     <label>Media</label>
     <required>false</required>
+    <securityClassification>Confidential</securityClassification>
     <trackTrending>false</trackTrending>
     <type>Picklist</type>
     <valueSet>
@@ -37,6 +38,46 @@
                 <fullName>PS</fullName>
                 <default>false</default>
                 <label>PS</label>
+            </value>
+            <value>
+                <fullName>Factsheet</fullName>
+                <default>false</default>
+                <label>Factsheet</label>
+            </value>
+            <value>
+                <fullName>Web</fullName>
+                <default>false</default>
+                <label>Web</label>
+            </value>
+            <value>
+                <fullName>Kid</fullName>
+                <default>false</default>
+                <label>Kid</label>
+            </value>
+            <value>
+                <fullName>PTEMT</fullName>
+                <default>false</default>
+                <label>PTEMT</label>
+            </value>
+            <value>
+                <fullName>Form</fullName>
+                <default>false</default>
+                <label>Form</label>
+            </value>
+            <value>
+                <fullName>Prospectus</fullName>
+                <default>false</default>
+                <label>Prospectus</label>
+            </value>
+            <value>
+                <fullName>EPT</fullName>
+                <default>false</default>
+                <label>EPT</label>
+            </value>
+            <value>
+                <fullName>Website</fullName>
+                <default>false</default>
+                <label>Website</label>
             </value>
         </valueSetDefinition>
     </valueSet>
