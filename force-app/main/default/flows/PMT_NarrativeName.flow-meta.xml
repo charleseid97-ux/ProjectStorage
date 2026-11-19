@@ -134,7 +134,7 @@
         <defaultConnector>
             <targetReference>Scope</targetReference>
         </defaultConnector>
-        <defaultConnectorLabel>NOT Third Party</defaultConnectorLabel>
+        <defaultConnectorLabel>NOT Third Party or ESG</defaultConnectorLabel>
         <rules>
             <name>Third_Party</name>
             <conditionLogic>and</conditionLogic>
@@ -151,15 +151,8 @@
             <label>Third Party</label>
         </rules>
         <rules>
-            <name>Marketing_ESG</name>
-            <conditionLogic>or</conditionLogic>
-            <conditions>
-                <leftValueReference>$Record.Type__c</leftValueReference>
-                <operator>EqualTo</operator>
-                <rightValue>
-                    <stringValue>Marketing</stringValue>
-                </rightValue>
-            </conditions>
+            <name>ESG</name>
+            <conditionLogic>1 AND (2 OR 3 OR 4 OR 5 OR 6)</conditionLogic>
             <conditions>
                 <leftValueReference>$Record.Type__c</leftValueReference>
                 <operator>EqualTo</operator>
@@ -167,10 +160,45 @@
                     <stringValue>ESG</stringValue>
                 </rightValue>
             </conditions>
+            <conditions>
+                <leftValueReference>$Record.SubType__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>United Nations Sustainable Development Goals (sdgs)</stringValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>$Record.SubType__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>Green, Social, Sustainable and Sustainability-Linked-Bonds</stringValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>$Record.SubType__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>ESG Sovereign Score</stringValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>$Record.SubType__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>Carbon Emissions Figures</stringValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>$Record.SubType__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>Customer and Employee Satisfaction Model</stringValue>
+                </rightValue>
+            </conditions>
             <connector>
-                <targetReference>Update_Mkt_ESG_Narrative</targetReference>
+                <targetReference>Update_ESG_Narrative</targetReference>
             </connector>
-            <label>Marketing/ESG</label>
+            <label>ESG fixe</label>
         </rules>
     </decisions>
     <environments>Default</environments>
@@ -193,21 +221,24 @@ CASE(
 )</expression>
     </formulas>
     <formulas>
-        <name>FormattedMktESGName</name>
+        <name>FormattedESGName</name>
         <dataType>String</dataType>
-        <expression>TEXT($Record.Type__c) &amp; &quot; – &quot; &amp;  TEXT($Record.SubType__c) &amp; &quot; – &quot; &amp;  
+        <expression>TEXT($Record.Type__c)
+&amp; &quot; – &quot; &amp;
+TEXT($Record.SubType__c)
+&amp; &quot; – &quot; &amp;
 CASE(
-  {!LanguageCodeText},
-  &quot;Dutch&quot;, &quot;NL&quot;,
-  &quot;English&quot;, &quot;EN&quot;,
-  &quot;French&quot;, &quot;FR&quot;,
-  &quot;German&quot;, &quot;DE&quot;,
-  &quot;Italian&quot;, &quot;IT&quot;,
-  &quot;Portuguese&quot;, &quot;PT&quot;,
-  &quot;Spanish&quot;, &quot;ES&quot;,
- &quot;Finnish&quot;, &quot;FI&quot;,
-  &quot;Swedish&quot;, &quot;SE&quot;,
-  {!LanguageCodeText}
+    {!LanguageCodeText},
+    &quot;Dutch&quot;, &quot;NL&quot;,
+    &quot;English&quot;, &quot;EN&quot;,
+    &quot;French&quot;, &quot;FR&quot;,
+    &quot;German&quot;, &quot;DE&quot;,
+    &quot;Italian&quot;, &quot;IT&quot;,
+    &quot;Portuguese&quot;, &quot;PT&quot;,
+    &quot;Spanish&quot;, &quot;ES&quot;,
+    &quot;Finnish&quot;, &quot;FI&quot;,
+    &quot;Swedish&quot;, &quot;SE&quot;,
+    {!LanguageCodeText}
 )</expression>
     </formulas>
     <formulas>
@@ -316,14 +347,14 @@ CASE(
         <inputReference>$Record</inputReference>
     </recordUpdates>
     <recordUpdates>
-        <name>Update_Mkt_ESG_Narrative</name>
-        <label>Update Mkt/ESG Narrative</label>
+        <name>Update_ESG_Narrative</name>
+        <label>Update ESG Narrative</label>
         <locationX>0</locationX>
         <locationY>0</locationY>
         <inputAssignments>
             <field>Name</field>
             <value>
-                <elementReference>FormattedMktESGName</elementReference>
+                <elementReference>FormattedESGName</elementReference>
             </value>
         </inputAssignments>
         <inputReference>$Record</inputReference>
@@ -405,5 +436,5 @@ CASE(
         <recordTriggerType>CreateAndUpdate</recordTriggerType>
         <triggerType>RecordAfterSave</triggerType>
     </start>
-    <status>Draft</status>
+    <status>Active</status>
 </Flow>

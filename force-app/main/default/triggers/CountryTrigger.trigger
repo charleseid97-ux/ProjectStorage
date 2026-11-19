@@ -1,4 +1,4 @@
-trigger CountryTrigger on Country__c (before insert, before update, after update, after insert) {
+trigger CountryTrigger on Country__c (before insert, before update, after update, after insert, after delete) {
     
 	if(Trigger.isBefore && Trigger.isInsert) {
     	CountryTriggerHandler.handleBeforeInsert(Trigger.new);
@@ -14,5 +14,9 @@ trigger CountryTrigger on Country__c (before insert, before update, after update
     
     if(Trigger.isAfter && Trigger.isUpdate) {
     	CountryTriggerHandler.handleAfterUpdate(Trigger.new  ,  Trigger.oldMap);
+    }
+
+    if(Trigger.isAfter && Trigger.isDelete) {
+        CountryTriggerHandler.handleAfterDelete(Trigger.old);
     }
 }

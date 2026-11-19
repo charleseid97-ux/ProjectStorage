@@ -71,17 +71,17 @@ public class DM002_Contact {
      * @param : Set<String> ContactWebSiteIds This parameter is a list of unique Website identifiers of contact.
      * @return : List<Contact> The returned item is a list of Contacts.
      */  
-    public static List<Contact> getListByTechWebSiteIds(Set<String> ContactWebSiteIds){
+    // public static List<Contact> getListByTechWebSiteIds(Set<String> ContactWebSiteIds){
         
-        String methodName = 'getListByTechWebSiteIds';    
-        ObjectUtil.debugLogBegin(CLASS_NAME, methodName, '[ContactWebSiteIds] :' + ContactWebSiteIds);
+    //     String methodName = 'getListByTechWebSiteIds';    
+    //     ObjectUtil.debugLogBegin(CLASS_NAME, methodName, '[ContactWebSiteIds] :' + ContactWebSiteIds);
         
-        String soqlQuery = 'SELECT ' + ALL_FIELDS + ' FROM Contact WHERE TECH_WebSiteID__c IN: ContactWebSiteIds';    
-        List<Contact> listContacts = new List<Contact>((List<Contact>)Database.query(soqlQuery));
+    //     String soqlQuery = 'SELECT ' + ALL_FIELDS + ' FROM Contact WHERE TECH_WebSiteID__c IN: ContactWebSiteIds';    
+    //     List<Contact> listContacts = new List<Contact>((List<Contact>)Database.query(soqlQuery));
         
-        ObjectUtil.debugLogEnd(CLASS_NAME, methodName, '[RESULTS] :' + listContacts);
-        return listContacts; 
-    }
+    //     ObjectUtil.debugLogEnd(CLASS_NAME, methodName, '[RESULTS] :' + listContacts);
+    //     return listContacts; 
+    // }
     
     /**
      * @author : Pape DIOUF

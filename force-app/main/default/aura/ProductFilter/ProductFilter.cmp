@@ -19,14 +19,14 @@
 
     <c:ProductSearchBar aura:id="searchBar" onchange="{!c.searchKeyChangeHandler}" />
     
-    <c:ProductAssetClassSelector aura:id="assetClassSel" onchange="{!c.assetClassChangeHandler}" />                                        
+    <!-- <c:ProductAssetClassSelector aura:id="assetClassSel" onchange="{!c.assetClassChangeHandler}" /> -->
 
-    <c:ProductSubAssetClassSelector aura:id="subAssetClassSel" onchange="{!c.subAssetClassChangeHandler}" />
+    <!-- <c:ProductSubAssetClassSelector aura:id="subAssetClassSel" onchange="{!c.subAssetClassChangeHandler}" /> -->
     
-    <br/>
+    <!-- <br/>
     <ui:inputCheckbox aura:id="sriChkBx" class="filterCheckbox" label="SRI?" change="{!c.sriChangeHandler}"/>
     <br/>
-    <ui:inputCheckbox aura:id="oeicChkBx" class="filterCheckbox" label="OEIC Funds?" change="{!c.oeicChangeHandler}"/>
+    <ui:inputCheckbox aura:id="oeicChkBx" class="filterCheckbox" label="OEIC Funds?" change="{!c.oeicChangeHandler}"/> -->
 
     
 </aura:component>

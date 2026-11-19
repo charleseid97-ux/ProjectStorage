@@ -1,7 +1,8 @@
-<aura:component implements="flexipage:availableForAllPageTypes" 
-                controller="ProductSelectionCtrl" access="global">
+<aura:component implements="flexipage:availableForAllPageTypes" controller="ProductSelectionCtrl" access="global">
 
-  	<aura:registerEvent name="onchange" type="c:ProductValueChange"/>
+    <!-- TO BE DELETED -->
+
+  	<!-- <aura:registerEvent name="onchange" type="c:ProductValueChange"/>
   	
     <aura:handler event="c:ProductSelectorSubAssetClassFilterEvent" action="{!c.sacChangeHandler}"/>
 	
@@ -23,5 +24,5 @@
                 <lightning:buttonIcon iconName="utility:close" variant="bare" onclick="{!c.clearHandler}"/>
            </lightning:layoutItem>
        </lightning:layout>
-    </div>
+    </div> -->
 </aura:component>

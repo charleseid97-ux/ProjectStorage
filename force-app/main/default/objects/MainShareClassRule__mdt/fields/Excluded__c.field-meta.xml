@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Excluded__c</fullName>
+    <defaultValue>false</defaultValue>
+    <description>Excludes the configured Share Class from Main Share Class selection.</description>
+    <fieldManageability>DeveloperControlled</fieldManageability>
+    <label>Excluded</label>
+    <type>Checkbox</type>
+</CustomField>

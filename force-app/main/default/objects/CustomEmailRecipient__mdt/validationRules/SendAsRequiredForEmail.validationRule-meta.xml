@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>SendAsRequiredForEmail</fullName>
+    <active>true</active>
+    <description>A recipient of a Custom Email Alert needs To, Cc or Bcc.</description>
+    <errorConditionFormula>NOT(ISBLANK(CustomEmailAlert__c)) &amp;&amp; ISPICKVAL(SendAs__c, &quot;&quot;)</errorConditionFormula>
+    <errorDisplayField>SendAs__c</errorDisplayField>
+    <errorMessage>Choose To, Cc or Bcc for the email.</errorMessage>
+</ValidationRule>

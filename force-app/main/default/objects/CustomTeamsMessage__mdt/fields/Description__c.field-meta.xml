@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Description__c</fullName>
+    <description>What this Teams message is for and which Flow or Apex class sends it. Documentation only, not used at runtime.</description>
+    <fieldManageability>SubscriberControlled</fieldManageability>
+    <inlineHelpText>Describe what this Teams message is for and which Flow sends it (e.g. &quot;Tells the PMT team owners a milestone is completed - Flow Teams_Send_Message_Milestone_Completed&quot;).</inlineHelpText>
+    <label>Description</label>
+    <required>false</required>
+    <type>TextArea</type>
+</CustomField>
