@@ -1337,6 +1337,96 @@
                 <label>CMD-isCELT</label>
             </value>
             <value>
+                <fullName>Performance in a CHF, GBP or USD country</fullName>
+                <default>false</default>
+                <label>Performance in a CHF, GBP or USD country</label>
+            </value>
+            <value>
+                <fullName>If simulator - investment duration</fullName>
+                <default>false</default>
+                <label>If simulator - investment duration</label>
+            </value>
+            <value>
+                <fullName>If simulator - lack of fund history duration</fullName>
+                <default>false</default>
+                <label>If simulator - lack of fund history duration</label>
+            </value>
+            <value>
+                <fullName>Results without fees</fullName>
+                <default>false</default>
+                <label>Results without fees</label>
+            </value>
+            <value>
+                <fullName>Issuer or values mentionned</fullName>
+                <default>false</default>
+                <label>Issuer or values mentionned</label>
+            </value>
+            <value>
+                <fullName>Share class definition</fullName>
+                <default>false</default>
+                <label>Share class definition</label>
+            </value>
+            <value>
+                <fullName>External logo</fullName>
+                <default>false</default>
+                <label>External logo</label>
+            </value>
+            <value>
+                <fullName>Dividend rate from income shares</fullName>
+                <default>false</default>
+                <label>Dividend rate from income shares</label>
+            </value>
+            <value>
+                <fullName>GHG scope 1,2,4</fullName>
+                <default>false</default>
+                <label>GHG scope 1,2,4</label>
+            </value>
+            <value>
+                <fullName>SDFR Classification</fullName>
+                <default>false</default>
+                <label>SDFR Classification</label>
+            </value>
+            <value>
+                <fullName>Fund mention</fullName>
+                <default>false</default>
+                <label>Fund mention</label>
+            </value>
+            <value>
+                <fullName>ESG aspects</fullName>
+                <default>false</default>
+                <label>ESG aspects</label>
+            </value>
+            <value>
+                <fullName>FID_Except_CPEG</fullName>
+                <default>false</default>
+                <label>FID_Except_CPEG</label>
+            </value>
+            <value>
+                <fullName>Fund name change</fullName>
+                <default>false</default>
+                <label>Fund name change</label>
+            </value>
+            <value>
+                <fullName>Investment policy change</fullName>
+                <default>false</default>
+                <label>Investment policy change</label>
+            </value>
+            <value>
+                <fullName>SFDR _approach</fullName>
+                <default>false</default>
+                <label>SFDR _approach</label>
+            </value>
+            <value>
+                <fullName>CLOs</fullName>
+                <default>false</default>
+                <label>CLOs</label>
+            </value>
+            <value>
+                <fullName>Main risks</fullName>
+                <default>false</default>
+                <label>Main risks</label>
+            </value>
+            <value>
                 <fullName>Actifs nets</fullName>
                 <default>false</default>
                 <isActive>false</isActive>
@@ -2517,6 +2607,78 @@
         <valueSettings>
             <controllingFieldValue>Content</controllingFieldValue>
             <valueName>Active management vs reference index</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Content</controllingFieldValue>
+            <valueName>Performance in a CHF, GBP or USD country</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Content</controllingFieldValue>
+            <valueName>If simulator - investment duration</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Content</controllingFieldValue>
+            <valueName>If simulator - lack of fund history duration</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Content</controllingFieldValue>
+            <valueName>Results without fees</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Content</controllingFieldValue>
+            <valueName>Issuer or values mentionned</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Content</controllingFieldValue>
+            <valueName>Share class definition</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Content</controllingFieldValue>
+            <valueName>External logo</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Content</controllingFieldValue>
+            <valueName>Dividend rate from income shares</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Content</controllingFieldValue>
+            <valueName>GHG scope 1,2,4</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Content</controllingFieldValue>
+            <valueName>SDFR Classification</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Content</controllingFieldValue>
+            <valueName>Fund mention</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Content</controllingFieldValue>
+            <valueName>ESG aspects</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Content</controllingFieldValue>
+            <valueName>FID_Except_CPEG</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Content</controllingFieldValue>
+            <valueName>Fund name change</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Content</controllingFieldValue>
+            <valueName>Investment policy change</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Content</controllingFieldValue>
+            <valueName>SFDR _approach</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Content</controllingFieldValue>
+            <valueName>CLOs</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Content</controllingFieldValue>
+            <valueName>Main risks</valueName>
         </valueSettings>
         <valueSettings>
             <controllingFieldValue>Source</controllingFieldValue>
