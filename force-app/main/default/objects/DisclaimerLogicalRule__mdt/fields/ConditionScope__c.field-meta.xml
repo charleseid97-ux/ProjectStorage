@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>ConditionScope__c</fullName>
-    <description>Which selected products must satisfy the Condition: at least one of them, or all of them. Only read when Condition is filled and reads the product.</description>
+    <description>Object the Condition is evaluated on, and how many of its records must satisfy it: the narrative; the selected products (at least one, or all); the valid share classes (Validity__c) of the selected products, all of them together (at least one, or all). Empty = All products. Product and share class scopes never pass without selected product. Only read when Condition is filled.</description>
     <fieldManageability>DeveloperControlled</fieldManageability>
-    <inlineHelpText>At least one product: one selected product satisfying the Condition is enough. All products: every selected product must satisfy it.</inlineHelpText>
+    <inlineHelpText>Object the Condition is written on. Narrative: the narrative. At least one / All products: the selected products. At least one / All share classes: the valid share classes of the selected products. Empty = All products.</inlineHelpText>
     <label>Condition Scope</label>
     <required>false</required>
     <type>Picklist</type>
@@ -11,6 +11,11 @@
         <restricted>true</restricted>
         <valueSetDefinition>
             <sorted>false</sorted>
+            <value>
+                <fullName>Narrative</fullName>
+                <default>false</default>
+                <label>Narrative</label>
+            </value>
             <value>
                 <fullName>At least one product</fullName>
                 <default>false</default>
@@ -20,6 +25,16 @@
                 <fullName>All products</fullName>
                 <default>true</default>
                 <label>All products</label>
+            </value>
+            <value>
+                <fullName>At least one share class</fullName>
+                <default>false</default>
+                <label>At least one share class</label>
+            </value>
+            <value>
+                <fullName>All share classes</fullName>
+                <default>false</default>
+                <label>All share classes</label>
             </value>
         </valueSetDefinition>
     </valueSet>
