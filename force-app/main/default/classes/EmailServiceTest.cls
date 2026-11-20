@@ -8,11 +8,12 @@
  *                  (sent to the No Recipient Addresses, subject prefix, banner, WARN log), and the Flow action CustomEmailAlertFlowAction.
  *              Custom Email Recipients: every active row of the org is validated (condition, record field, queue, group), the real alerts' rows are checked in their messages, and in-memory rows cover
  *                  conditions, record fields (a user in To being the recipient record), queues, public groups and their configuration errors.
+ *              US-20337: the org-wide row check also covers the Teams messages' rows and the Apex rows (class implementing EmailService.RecipientResolver); an in-memory Apex row and an unknown class.
  *              Assertions pass in any org: real alerts, templates and rows are read at runtime, never hard-coded; the only requirement is one active alert whose template object has a test record.
  * @author Charles EID
- * @covers EmailService   97%   [09-11-26]
- * @covers CustomEmailAlertFlowAction   100%   [09-11-26]
- * @lastModifiedBy Charles EID   [09-11-26]
+ * @covers EmailService   97%   [12-11-26]
+ * @covers CustomEmailAlertFlowAction   100%   [12-11-26]
+ * @lastModifiedBy Charles EID   [12-11-26]
  ────────────────────────────────────── */
 @IsTest
 public class EmailServiceTest {
@@ -153,6 +154,8 @@ public class EmailServiceTest {
         ruleRequest.to.addresses.clear();
         ruleRequest.whatId = agentRequest.Id;
         ruleRequest.recipientRules.addAll(new List<CustomEmailRecipient__mdt>{ newRule('To', 'Address', 'est.rule.a@example.com', null), newRule('To', 'Address', 'est.rule.b@example.com', null), newRule('To', 'RecordField', 'CreatedById', null), newRule('Cc', 'RecordField', 'CreatedBy.Email', null), newRule('Cc', 'Address', 'est.rule.true@example.com', 'NOT(ISBLANK(Subject))'), newRule('Cc', 'Address', 'est.rule.false@example.com', 'ISBLANK(Subject)'), newRule('Cc', 'PublicGroup', GROUP_NAME, null), newRule('Bcc', 'RecordField', 'CreatedById', null), newRule('Bcc', 'Queue', QUEUE_NAME, null) });
+        // US-20337: an Apex row, its users added as addresses (never as the recipient record)
+        EmailService.EmailRequest resolverRequest = newRuleRequest(agentRequest.Id, newRule('Cc', 'Apex', 'EmailServiceTest.RunningUserResolver', null));
 
         EmailService.EmailRequest unknownTemplate = newApexRequest();
         unknownTemplate.templateDeveloperName = 'EST_Unknown_Template';
@@ -167,7 +170,7 @@ public class EmailServiceTest {
         EmailService.EmailRequest unknownOrgWide = newApexRequest();
         unknownOrgWide.sender = EmailService.Sender.ORG_WIDE;
         unknownOrgWide.orgWideAddress = 'est.unknown.sender@example.com';
-        Map<String, EmailService.EmailRequest> requestsByExpectedError = new Map<String, EmailService.EmailRequest>{ 'Email template(s) not found' => unknownTemplate, 'Queue(s) not found' => unknownQueue, 'needs a subject and an HTML body' => noBody, 'must be a Contact, Lead or User' => groupRecipient, 'has no orgWideAddress' => orgWideWithoutAddress, 'Org-wide email address(es) not found' => unknownOrgWide, 'is not a valid formula' => newRuleRequest(agentRequest.Id, newRule('Cc', 'Address', 'est.rule@example.com', 'NoSuchField__c = 1')), 'there is no Record Id' => newRuleRequest(null, newRule('Cc', 'RecordField', 'OwnerId', null)), 'not a User, Queue or Group' => newRuleRequest(agentRequest.Id, newRule('Cc', 'RecordField', 'Id', null)), 'Public group(s) not found' => newRuleRequest(null, newRule('Cc', 'PublicGroup', 'EST_Unknown_Group', null)) };
+        Map<String, EmailService.EmailRequest> requestsByExpectedError = new Map<String, EmailService.EmailRequest>{ 'Email template(s) not found' => unknownTemplate, 'Queue(s) not found' => unknownQueue, 'needs a subject and an HTML body' => noBody, 'must be a Contact, Lead or User' => groupRecipient, 'has no orgWideAddress' => orgWideWithoutAddress, 'Org-wide email address(es) not found' => unknownOrgWide, 'is not a valid formula' => newRuleRequest(agentRequest.Id, newRule('Cc', 'Address', 'est.rule@example.com', 'NoSuchField__c = 1')), 'there is no Record Id' => newRuleRequest(null, newRule('Cc', 'RecordField', 'OwnerId', null)), 'not a User, Queue or Group' => newRuleRequest(agentRequest.Id, newRule('Cc', 'RecordField', 'Id', null)), 'Public group(s) not found' => newRuleRequest(null, newRule('Cc', 'PublicGroup', 'EST_Unknown_Group', null)), 'is not an Apex class implementing' => newRuleRequest(agentRequest.Id, newRule('Cc', 'Apex', 'EST_No_Such_Class', null)) };
 
         Test.startTest();
 
@@ -178,6 +181,7 @@ public class EmailServiceTest {
         List<Messaging.SingleEmailMessage> noRecipientEmails = EmailService.build(new List<EmailService.EmailRequest>{ noToRecipient });
         List<Messaging.SingleEmailMessage> ruleEmails = EmailService.build(new List<EmailService.EmailRequest>{ ruleRequest });
         List<Messaging.SingleEmailMessage> ruleEmailsRebuilt = EmailService.build(new List<EmailService.EmailRequest>{ ruleRequest });
+        List<Messaging.SingleEmailMessage> resolverEmails = EmailService.build(new List<EmailService.EmailRequest>{ resolverRequest });
         Map<String, String> errorsByExpectedError = new Map<String, String>();
         for (String expectedError : requestsByExpectedError.keySet()) errorsByExpectedError.put(expectedError, getBuildError(requestsByExpectedError.get(expectedError)));
         String unknownAlertError;
@@ -233,6 +237,7 @@ public class EmailServiceTest {
         System.assertEquals(new List<String>{ userEmail }, ruleEmails[0].getBccAddresses(), 'Bcc: the user of the record field CreatedById (outside To: an address) and the queue member, once');
         System.assertEquals(new Set<String>(ruleEmails[0].getToAddresses()), new Set<String>(ruleEmailsRebuilt[0].getToAddresses()), 'A second build of the same request adds nobody');
         System.assertEquals(UserInfo.getUserId(), ruleEmailsRebuilt[0].getTargetObjectId(), 'A second build keeps the same recipient record');
+        System.assertEquals(new List<String>{ userEmail }, resolverEmails[0].getCcAddresses(), 'An Apex row adds the users its class returns for the record');
 
         for (String expectedError : errorsByExpectedError.keySet()) System.assert(String.valueOf(errorsByExpectedError.get(expectedError)).contains(expectedError), 'Expected "' + expectedError + '", got: ' + errorsByExpectedError.get(expectedError));
         System.assertEquals('Custom Email Alert "EST_Unknown_Alert" not found.', unknownAlertError, 'An unknown alert name throws');
@@ -369,13 +374,14 @@ public class EmailServiceTest {
         return addressesBySubject;
     }
 
-    // Active Custom Email Recipients of the org that would fail when sent: unknown queue or group, record field or condition invalid on their alert template's object
+    // Active Custom Email Recipients of the org that would fail when sent: unknown queue, group or Apex class, record field or condition invalid on the object of their alert's or Teams message's template
     private static List<String> getInvalidRules() {
-        List<CustomEmailRecipient__mdt> rules = [SELECT DeveloperName, Type__c, Value__c, Condition__c, CustomEmailAlert__r.EmailTemplate__c FROM CustomEmailRecipient__mdt WHERE IsActive__c = true];
+        List<CustomEmailRecipient__mdt> rules = [SELECT DeveloperName, Type__c, Value__c, Condition__c, CustomEmailAlert__r.EmailTemplate__c, CustomTeamsMessage__r.MessageTemplate__c FROM CustomEmailRecipient__mdt WHERE IsActive__c = true];
         Set<String> templateNames = new Set<String>();
         Set<String> groupNames = new Set<String>();
         for (CustomEmailRecipient__mdt rule : rules) {
             templateNames.add(rule.CustomEmailAlert__r.EmailTemplate__c);
+            templateNames.add(rule.CustomTeamsMessage__r.MessageTemplate__c);
             groupNames.add(rule.Value__c.trim());
         }
         Map<String, String> objectsByTemplate = getObjectsByTemplate(templateNames);
@@ -384,8 +390,10 @@ public class EmailServiceTest {
 
         List<String> invalidRules = new List<String>();
         for (CustomEmailRecipient__mdt rule : rules) {
-            String error = getRuleError(rule, objectsByTemplate.get(rule.CustomEmailAlert__r.EmailTemplate__c), existingGroups);
-            if (error != null) invalidRules.add(rule.DeveloperName + ': ' + error);
+            for (String templateName : new List<String>{ rule.CustomEmailAlert__r.EmailTemplate__c, rule.CustomTeamsMessage__r.MessageTemplate__c }) {
+                String error = getRuleError(rule, objectsByTemplate.get(templateName), existingGroups);
+                if (error != null) invalidRules.add(rule.DeveloperName + ': ' + error);
+            }
         }
         return invalidRules;
     }
@@ -395,6 +403,7 @@ public class EmailServiceTest {
         String value = rule.Value__c.trim();
         if (rule.Type__c == 'Queue' && !existingGroups.contains('Queue|' + value)) return 'queue ' + value + ' not found';
         if (rule.Type__c == 'PublicGroup' && !existingGroups.contains('Regular|' + value)) return 'public group ' + value + ' not found';
+        if (rule.Type__c == 'Apex' && !(Type.forName(value)?.newInstance() instanceof EmailService.RecipientResolver)) return value + ' is not an Apex class implementing EmailService.RecipientResolver';
         if (objectName == null) return null;
 
         try {
@@ -405,6 +414,15 @@ public class EmailServiceTest {
             return e.getMessage();
         }
         return null;
+    }
+
+    // Apex row of testBuild: the running user for every record
+    public class RunningUserResolver implements EmailService.RecipientResolver {
+        public Map<Id, Set<Id>> getUserIds(Set<Id> recordIds) {
+            Map<Id, Set<Id>> userIdsByRecordId = new Map<Id, Set<Id>>();
+            for (Id recordId : recordIds) userIdsByRecordId.put(recordId, new Set<Id>{ UserInfo.getUserId() });
+            return userIdsByRecordId;
+        }
     }
 
     // A real alert of the org, its template and a test record of the template's object

@@ -199,7 +199,6 @@ private with sharing class DisclaimerBuilderControllerTest {
             RecordTypeId   = Schema.SObjectType.Narrative__c.getRecordTypeInfosByDeveloperName().get(recordType).getRecordTypeId(),
             Type__c        = type,
             SubType__c     = subType,
-            LogicalRule__c = logicalRule,
             Content__c     = name,
             Country__c     = COUNTRY,
             Language__c    = language,

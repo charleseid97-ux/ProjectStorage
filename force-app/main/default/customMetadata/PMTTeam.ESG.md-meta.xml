@@ -7,6 +7,10 @@
         <value xsi:type="xsd:boolean">true</value>
     </values>
     <values>
+        <field>NotificationCondition__c</field>
+        <value xsi:type="xsd:string">OR(ISPICKVAL(ProjectProduct__c.SFDRcategory__c, &apos;6&apos;), ISPICKVAL(ProjectProduct__c.SFDRcategory__c, &apos;8&apos;), ISPICKVAL(ProjectProduct__c.SFDRcategory__c, &apos;9&apos;))</value>
+    </values>
+    <values>
         <field>Order__c</field>
         <value xsi:type="xsd:double">5.0</value>
     </values>

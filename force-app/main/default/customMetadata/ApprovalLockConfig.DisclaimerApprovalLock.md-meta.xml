@@ -11,6 +11,10 @@
         <value xsi:type="xsd:boolean">true</value>
     </values>
     <values>
+        <field>ExemptFields__c</field>
+        <value xsi:nil="true"/>
+    </values>
+    <values>
         <field>LockingStatuses__c</field>
         <value xsi:type="xsd:string">Pending Approval
 Approved</value>

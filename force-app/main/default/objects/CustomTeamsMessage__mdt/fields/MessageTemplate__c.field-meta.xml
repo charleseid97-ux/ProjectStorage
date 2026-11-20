@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>MessageTemplate__c</fullName>
+    <description>DeveloperName of the email template (Classic, Lightning or Visualforce) whose HTML body is the Teams message. It can be the template of a Custom Email Alert or a template written for Teams. Rendered with the record given by the caller, exactly like an email.</description>
+    <externalId>false</externalId>
+    <fieldManageability>SubscriberControlled</fieldManageability>
+    <inlineHelpText>Template API name (DeveloperName). Its body is the Teams message, its merge fields are filled with the Record Id given by the Flow. Teams ignores colors, fonts and widths: bold, links, line breaks, lists and emojis are kept.</inlineHelpText>
+    <label>Message Template</label>
+    <length>80</length>
+    <required>true</required>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

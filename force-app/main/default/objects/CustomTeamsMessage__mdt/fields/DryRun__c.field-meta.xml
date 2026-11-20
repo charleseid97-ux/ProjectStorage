@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>DryRun__c</fullName>
+    <defaultValue>false</defaultValue>
+    <description>When checked, TeamsMessageService builds the message exactly as configured (template and recipients checked) but sends it only to the dry-run addresses (EmailServiceSettings__c.DryRunAddresses__c), with a banner listing the real recipients at the top of the message.</description>
+    <fieldManageability>SubscriberControlled</fieldManageability>
+    <inlineHelpText>Check to test this Teams message: it is sent only to the Dry Run Addresses of the Email and Notification Service Settings (Custom Setting), with the real recipients listed at the top. Uncheck to go live.</inlineHelpText>
+    <label>Dry Run</label>
+    <type>Checkbox</type>
+</CustomField>

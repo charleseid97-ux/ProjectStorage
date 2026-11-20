@@ -1,12 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Package xmlns="http://soap.sforce.com/2006/04/metadata">
     <types>
-        <members>MilestoneHandler</members>
-        <members>PMTTestFactoryData</members>
-        <members>Test_ProjectProductBatch</members>
-        <members>Test_ProjectShareclassTrigger</members>
+        <members>FormulaEvaluatorService</members>
+        <members>FormulaEvaluatorServiceTest</members>
         <name>ApexClass</name>
     </types>
-    <!-- FLAG: ON -->
-    <version>66.0</version>
+    <version>64.0</version>
 </Package>

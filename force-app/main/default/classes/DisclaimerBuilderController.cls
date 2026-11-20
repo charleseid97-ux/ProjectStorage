@@ -57,7 +57,7 @@ public with sharing class DisclaimerBuilderController {
             binds.put('subTypes' + index, subTypes);
         }
         if (!ruleNames.isEmpty()) {
-            typeConditions.add('(Type__c = :logicalRuleType AND LogicalRule__c IN :ruleNames)');
+            typeConditions.add('(Type__c = :logicalRuleType AND SubType__c IN :ruleNames)');
             binds.put('logicalRuleType', LOGICAL_RULE_TYPE);
             binds.put('ruleNames', new List<String>(ruleNames));
         }
