@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>ConditionScope__c</fullName>
-    <description>Which selected products must satisfy the Condition: at least one of them, or all of them. Only read when Condition is filled.</description>
+    <description>Which selected products must satisfy the Condition: at least one of them, or all of them. Only read when Condition is filled and reads the product.</description>
     <fieldManageability>DeveloperControlled</fieldManageability>
     <inlineHelpText>At least one product: one selected product satisfying the Condition is enough. All products: every selected product must satisfy it.</inlineHelpText>
     <label>Condition Scope</label>
