@@ -120,7 +120,7 @@ private class FormulaEvaluatorServiceTest {
                     when 14 { both.getPaths('Product__c'); }
                     when 15 { text.evaluateBoolean(new Account()); }
                     when 16 { both.evaluate(new Map<String, SObject>{ 'Contact' => new Account() }); }
-                    when 17 { FormulaEvaluatorService.withParents(new List<Case>{ new Case() }, new Set<String>{ 'Owner.Name' }, AccessLevel.SYSTEM_MODE); }
+                    when else { FormulaEvaluatorService.withParents(new List<Case>{ new Case() }, new Set<String>{ 'Owner.Name' }, AccessLevel.SYSTEM_MODE); }
                 }
             }
             catch (FormulaEvaluatorService.FormulaEvaluatorException e) {
