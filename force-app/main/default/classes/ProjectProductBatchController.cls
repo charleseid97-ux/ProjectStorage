@@ -362,7 +362,7 @@ public class ProjectProductBatchController {
     private static void fillProductNarrativeMaps(ProjectProduct__c pp, List<String> fieldsToModify, ModificationContext context) {
         Id prodId = pp.Product__c;
         if (fieldsToModify.contains('InvestmentObjective__c')) context.mapInvObj.put(prodId, ProjectProductBatchUtilities.getContentForField(pp, 'InvestmentObjective__c'));
-        if (fieldsToModify.contains('CCIInvestmentObjective__c')) mapCCIInvObj.put(prodId, ProjectProductBatchUtilities.getContentForField(pp, 'CCIInvestmentObjective__c')); // Prépare le contenu de la narrative CCI lorsque le champ est modifié.
+        if (fieldsToModify.contains('CCIInvestmentObjective__c')) context.mapCCIInvObj.put(prodId, ProjectProductBatchUtilities.getContentForField(pp, 'CCIInvestmentObjective__c')); // Prépare le contenu de la narrative CCI lorsque le champ est modifié.
         if (fieldsToModify.contains('RiskAssociated__c')) context.mapRisk.put(prodId, ProjectProductBatchUtilities.getContentForField(pp, 'RiskAssociated__c'));
         if (fieldsToModify.contains('IntentedRetailInvestor__c')) context.mapIntendedRetail.put(prodId, ProjectProductBatchUtilities.getContentForField(pp, 'IntentedRetailInvestor__c'));
         if (fieldsToModify.contains('ReasonForRHP__c')) context.mapReasonForRHP.put(prodId, ProjectProductBatchUtilities.getContentForField(pp, 'ReasonForRHP__c'));
