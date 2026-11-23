@@ -19,7 +19,9 @@ public class ProjectProductBatchController {
     private static final String LOG_ERROR = '[ERROR] ';
     private static final String LOG_UPSERT_FAILED_SUFFIX = ' upserts failed.';
 
+    private static final String TYPE_INVESTMENT_OBJECTIVE = 'Investment Objective';
     private static final String TYPE_PRIIPS = 'PRIIPs';
+    private static final String TYPE_RISK = 'Risk';
 
     private static final String PRIIPS_SC_INVESTMENT_OBJECTIVE = 'PRIIPs Share Class Investment Objective';
     private static final String PRIIPS_PERF_FEE_UCITS = 'PRIIPs Performance fee UCITS KIID';
@@ -459,8 +461,8 @@ public class ProjectProductBatchController {
         List<Narrative__c> existingNarratives = [SELECT Id, Product__c, Language__c, Type__c, SubType__c, Content__c
                                                  FROM Narrative__c
                                                  WHERE Product__c IN :prodIdsForNarratives
-                                                 AND ((Type__c = 'Investment Objective' AND SubType__c IN ('PRIIPS', 'CCI'))
-                                                    OR (Type__c = 'Risk' AND SubType__c = 'Main Risk of the Fund') 
+                                                 AND ((Type__c = :TYPE_INVESTMENT_OBJECTIVE AND SubType__c IN ('PRIIPS', 'CCI'))
+                                                    OR (Type__c = :TYPE_RISK AND SubType__c = 'Main Risk of the Fund') 
                                                     OR (Type__c = :TYPE_PRIIPS AND SubType__c = 'INTENDED_RETAIL_INVESTOR') 
                                                     OR (Type__c = :TYPE_PRIIPS AND SubType__c = 'REASON_FOR_RHP'))];
 
@@ -470,9 +472,9 @@ public class ProjectProductBatchController {
         }
 
         List<Narrative__c> narrativesToUpsert = new List<Narrative__c>();
-        narrativesToUpsert.addAll(ProjectProductBatchUtilities.buildNarrativesForField(context.mapInvObj, context.languageByProductId, existingByKey, 'Investment Objective', 'PRIIPS', 'Investment Objective PRIIPS', NARRATIVE_RECORD_TYPE_ID, debugInformation));
-        narrativesToUpsert.addAll(ProjectProductBatchUtilities.buildNarrativesForField(context.mapCCIInvObj, context.languageByProductId, existingByKey, 'Investment Objective', 'CCI', 'Investment Objective CCI', NARRATIVE_RECORD_TYPE_ID, debugInformation)); // Crée ou met à jour la narrative CCI sans créer de doublon.
-        narrativesToUpsert.addAll(ProjectProductBatchUtilities.buildNarrativesForField(context.mapRisk, context.languageByProductId, existingByKey, 'Risk', 'Main Risk of the Fund', 'Risk Main Risk of the Fund', NARRATIVE_RECORD_TYPE_ID, debugInformation));
+        narrativesToUpsert.addAll(ProjectProductBatchUtilities.buildNarrativesForField(context.mapInvObj, context.languageByProductId, existingByKey, TYPE_INVESTMENT_OBJECTIVE, 'PRIIPS', 'Investment Objective PRIIPS', NARRATIVE_RECORD_TYPE_ID, debugInformation));
+        narrativesToUpsert.addAll(ProjectProductBatchUtilities.buildNarrativesForField(context.mapCCIInvObj, context.languageByProductId, existingByKey, TYPE_INVESTMENT_OBJECTIVE, 'CCI', 'Investment Objective CCI', NARRATIVE_RECORD_TYPE_ID, debugInformation)); // Crée ou met à jour la narrative CCI sans créer de doublon.
+        narrativesToUpsert.addAll(ProjectProductBatchUtilities.buildNarrativesForField(context.mapRisk, context.languageByProductId, existingByKey, TYPE_RISK, 'Main Risk of the Fund', 'Risk Main Risk of the Fund', NARRATIVE_RECORD_TYPE_ID, debugInformation));
         narrativesToUpsert.addAll(ProjectProductBatchUtilities.buildNarrativesForField(context.mapIntendedRetail, context.languageByProductId, existingByKey, TYPE_PRIIPS, 'INTENDED_RETAIL_INVESTOR', 'PRIIPs Intended Retail Investor', NARRATIVE_RECORD_TYPE_ID, debugInformation));
         narrativesToUpsert.addAll(ProjectProductBatchUtilities.buildNarrativesForField(context.mapReasonForRHP, context.languageByProductId, existingByKey, TYPE_PRIIPS, 'REASON_FOR_PHP', 'PRIIPs Reason For PHP', NARRATIVE_RECORD_TYPE_ID, debugInformation));
 
