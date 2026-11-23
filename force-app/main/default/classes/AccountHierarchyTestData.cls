@@ -12,8 +12,7 @@ public with sharing class AccountHierarchyTestData{
     	
     	InlineAcountHerachy_TestUtilities testUtils = new InlineAcountHerachy_TestUtilities();
     	//Set of Fields should be checked
-    	Set<String> fieldsToCheck = new Set<String>{'AnnualRevenue', 'BillingCity','BillingCountry','BillingPostalCode','BillingState', 'BillingStreet', 'Description', 'ShippingCity', 'ShippingStreet', 'Name', 'ShippingState', 'ShippingPostalCode', 'ShippingCountry' };
-		
+    	Set<String> fieldsToCheck = new Set<String>{'Name', 'BillingCountry', 'LegalForm__c', 'BusinessDevelopmentRegion__c'};		
 		//Create my Parent Account 
 		testUtils.createAccounts( 1 , fieldsToCheck );
  		testUtils.testAccList[0].Name = 'NullthHierarchyTest0';

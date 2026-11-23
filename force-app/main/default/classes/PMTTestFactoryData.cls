@@ -21,7 +21,6 @@ public class PMTTestFactoryData {
             DomiciledIn__c = 'FR',
             ProjectStatus__c = 'Closed',
             ProductName__c = 'toto',
-            SFDRCategory__c = '0',
             LegalForm__c = 'Other'
         );
         System.debug('createProjectProductWithAllFields: ' + p.recordTypeId);

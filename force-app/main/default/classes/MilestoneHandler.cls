@@ -1,7 +1,8 @@
 public class MilestoneHandler {
-
+    
     // Constants to avoid duplicated literals (fix Sonar CODE_SMELL)
     private static final String SPC_FINAL = 'SPC Final';
+    private static final String FILING = 'Filing';
     private static final String STATUS_COMPLETED = 'Completed';
 
     static final Id fundModificationRecordTypeId = Schema.SObjectType.ProjectProduct__c.getRecordTypeInfosByDeveloperName().get('FundShareClassModification').getRecordTypeId();  
@@ -181,19 +182,12 @@ public class MilestoneHandler {
     public static void validatePhasesESG(Map<Id, Milestone__c> newMilestones, Map<Id, Milestone__c> oldMilestones){
         Set<Id> projectIds = new Set<Id>();
         for (Milestone__c milestone : newMilestones.values()) {
-            if(milestone.Name == SPC_FINAL && 
-                milestone.Status__c != oldMilestones.get(milestone.Id).Status__c 
-                && milestone.Status__c == STATUS_COMPLETED 
-                ){
-                    system.debug('milestone.Project_Product__c: ' + milestone.Project_Product__c);
-                    projectIds.add(milestone.Project_Product__c);
-            }
+            if (milestone.Name == FILING && milestone.Status__c != oldMilestones.get(milestone.Id).Status__c && milestone.Status__c == STATUS_COMPLETED) projectIds.add(milestone.Project_Product__c);
         }
-        List<ProjectProductChild__c> children = [SELECT Id, ProjectProductParent__c, TECH_TeamValidation__c FROM ProjectProductChild__c 
-                                                    WHERE ProjectProductParent__c IN :projectIds
-                                                    AND ProjectProductParent__r.RecordTypeId =: fundCreationRecordTypeId 
-                                                    AND ProjectProductParent__r.SFDRcategory__c = '0'];
-        for(ProjectProductChild__c child : children){
+        List<ProjectProductChild__c> children = [SELECT Id, ProjectProductParent__c, TECH_TeamValidation__c
+                                                 FROM ProjectProductChild__c
+                                                 WHERE ProjectProductParent__c IN :projectIds AND ProjectProductParent__r.RecordTypeId = :fundCreationRecordTypeId AND ProjectProductParent__r.SFDRcategory__c = null];
+        for (ProjectProductChild__c child : children) {
             Set<String> currentTeams = new Set<String>();
             if (child.TECH_TeamValidation__c != null) {
                 currentTeams.addAll(child.TECH_TeamValidation__c.split(';'));
