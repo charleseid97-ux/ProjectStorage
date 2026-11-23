@@ -16,12 +16,16 @@ private class NarrativeTemplateServiceTest {
         return null;
     }
 
-    // Crée un produit avec les données nécessaires à la génération de narrative
+    // Crée un produit actif de type Fund compatible avec le lookup Narrative Product
     private static Product__c createProduct(
         String legalForm,
         String selectedRisk
     ) {
         Product__c product = new Product__c();
+        product.RecordTypeId = Schema.SObjectType.Product__c
+            .getRecordTypeInfosByDeveloperName()
+            .get('Fund')
+            .getRecordTypeId();
 
         // Renseigne Name uniquement lorsqu'il n'est pas auto-numéroté
         if (!Product__c.Name.getDescribe().isAutoNumber()) {
@@ -30,6 +34,7 @@ private class NarrativeTemplateServiceTest {
 
         product.LegalForm__c = legalForm;
         product.RiskNotConsideredinIndicator__c = selectedRisk;
+        product.Validity__c = true;
         insert product;
 
         return product;
@@ -60,7 +65,7 @@ private class NarrativeTemplateServiceTest {
         System.assertEquals(template.MasterLabel, narrative.Name);
         System.assertEquals(template.Type__c, narrative.Type__c);
         System.assertEquals(template.Subtype__c, narrative.SubType__c);
-        System.assertEquals('English', narrative.Language__c);
+        System.assertEquals('English', narrative.LanguageNew__c);
         System.assertEquals(template.Content__c, narrative.Content__c);
         System.assertEquals('Product', narrative.Narrative_Scope__c);
         System.assertEquals(Date.today(), narrative.StartDate__c);
@@ -110,7 +115,7 @@ private class NarrativeTemplateServiceTest {
             Product__c = product.Id,
             Type__c = 'PRIIPS',
             SubType__c = template.Subtype__c,
-            Language__c = 'English',
+            LanguageNew__c = 'English',
             Content__c = 'Old content',
             Narrative_Scope__c = 'Product',
             StartDate__c = Date.today()

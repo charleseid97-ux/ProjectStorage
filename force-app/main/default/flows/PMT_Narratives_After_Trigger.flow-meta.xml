@@ -53,7 +53,7 @@
                 </rightValue>
             </conditions>
             <conditions>
-                <leftValueReference>$Record.Language__c</leftValueReference>
+                <leftValueReference>$Record.LanguageNew__c</leftValueReference>
                 <operator>EqualTo</operator>
                 <rightValue>
                     <stringValue>English</stringValue>

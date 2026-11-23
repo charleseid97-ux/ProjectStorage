@@ -11,9 +11,10 @@
  * @coverage 99%   [21-10-26]
  ────────────────────────────────────── */
 public class MilestoneHandler {
-
+    
     // Constants to avoid duplicated literals (fix Sonar CODE_SMELL)
     private static final String SPC_FINAL = 'SPC Final';
+    private static final String FILING = 'Filing';
     private static final String STATUS_COMPLETED = 'Completed';
 
     static final Id fundModificationRecordTypeId = Schema.SObjectType.ProjectProduct__c.getRecordTypeInfosByDeveloperName().get('FundShareClassModification').getRecordTypeId();
@@ -144,7 +145,7 @@ public class MilestoneHandler {
     public static void validatePhasesESG(Map<Id, Milestone__c> newMilestones, Map<Id, Milestone__c> oldMilestones) {
         Set<Id> projectIds = new Set<Id>();
         for (Milestone__c milestone : newMilestones.values()) {
-            if (milestone.Name == SPC_FINAL && milestone.Status__c != oldMilestones.get(milestone.Id).Status__c && milestone.Status__c == STATUS_COMPLETED) projectIds.add(milestone.Project_Product__c);
+            if (milestone.Name == FILING && milestone.Status__c != oldMilestones.get(milestone.Id).Status__c && milestone.Status__c == STATUS_COMPLETED) projectIds.add(milestone.Project_Product__c);
         }
         List<ProjectProductChild__c> children = [SELECT Id, ProjectProductParent__c, TECH_TeamValidation__c
                                                  FROM ProjectProductChild__c

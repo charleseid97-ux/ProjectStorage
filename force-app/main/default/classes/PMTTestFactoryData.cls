@@ -21,17 +21,14 @@ public class PMTTestFactoryData {
             VehicleType__c = 'Funds',
             ProjectStartDate__c = Date.today() - 20,
             EndDate__c = Date.today(),
-            RiskAssociated__c = 'Equity;Interest rates;Credit;Currency',
+            RiskAssociated__c = 'Equity;Interest rate;Credit;Currency',
             InvestmentObjective__c = 'Sample Objective',
             InvestmentStrategy__c = 'Sample Strategy',
             DomiciledIn__c = 'FR',
             ProjectStatus__c = 'Closed',
             ProductName__c = 'toto',
-            SFDRCategory__c = '0',
-            LegalForm__c = 'Other',
-        // US-18299: SPC Final can only be completed once the Notice to Shareholders decision is recorded
-        LettreRequise__c = 'No'
-    );
+            LegalForm__c = 'Other'
+        );
         System.debug('createProjectProductWithAllFields: ' + p.recordTypeId);
         insert p;
         return p;
@@ -43,7 +40,7 @@ public class PMTTestFactoryData {
             EndDate__c = Date.today(),
             VehicleType__c = 'Funds', // requis pour le trigger
             ProjectStartDate__c = Date.today(),// ✅ Ajout nécessaire pour éviter l'erreur
-            RiskAssociated__c = 'Equity;Interest rates;Credit;Currency',
+            RiskAssociated__c = 'Equity',
             RecordTypeId = recordTypeId
         );
         insert p;

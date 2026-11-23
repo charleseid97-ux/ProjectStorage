@@ -1,5 +1,6 @@
-<aura:component implements="force:hasRecordId,force:appHostable,flexipage:availableForAllPageTypes" 
-                controller="GlobalBuyListCtrl" access="global">
+<aura:component implements="force:hasRecordId,force:appHostable,flexipage:availableForAllPageTypes" controller="GlobalBuyListCtrl" access="global">
+
+    <!-- THIS IS NOT A STRATEGY ANYMORE. WE ARE CHOOSING ACTUAL FUNDS. THIS COMPONENT NEEDS REFACTORING -->
     
 	<aura:attribute name="componentPage" type="String" default="tasklist" access="global"/>
 
@@ -43,11 +44,11 @@
                                      <div class="slds-col slds-size_1-of-2"  style="padding : 1px">
                                          <c:strike_lookup aura:id="strategyLookup"
                                              required="true"
-                                             label="Strategy"
+                                             label="(OLD) Strategy"
                                              object="Product__c"
                                              searchField="Name"
                                              subtitleField="RecordType.Name"
-                                             placeholder="Select a strategy"
+                                             placeholder="Select a (old) strategy"
                                              iconName="custom:custom5"
                                              order="Name"
                                              limit="5"
@@ -55,7 +56,9 @@
                                              errorMessage="Invalid input"
                                              isNameSOSL="true"
                                              value="{!v.buyListDisplay.Product__c}"
-                                             filter="RecordType.Name='Strategy' AND Validity__c = true"/> <!-- AND Dedicated_Fund__c = false"/> -->
+                                             filter="Validity__c = true"/>
+                                             <!-- filter="RecordType.Name='Strategy' AND Validity__c = true AND Dedicated_Fund__c = false"/> -->
+                                             <!-- THIS IS NOT A STRATEGY ANYMORE. WE ARE CHOOSING ACTUAL FUNDS. THIS COMPONENT NEEDS REFACTORING -->
                                      </div>
                                      <div class="slds-col slds-size_1-of-2"  style="padding : 6px">
                                          <ui:inputSelect aura:id="localStatus" required="true" label="Local Status" value="{!v.buyListDisplay.Local_Status__c}"/>

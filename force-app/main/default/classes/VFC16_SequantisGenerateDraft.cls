@@ -91,9 +91,9 @@ public with sharing class VFC16_SequantisGenerateDraft {
                     // Call the external Sequantis API for each share class
                     String response = callSequantisService(token, shareClassId, false);
                     if (response == 'OK') {
-                        infoMessage += '<br/>ShareClass '+shareClass.Name__c+' updated successfully.';
+                        infoMessage += '\nShareClass '+shareClass.Name__c+' updated successfully.';
                     } else {
-                        errorMessage+= '<br/>Error updating ShareClass with ID ' + shareClassId + ': ' + response;
+                        errorMessage+= '\nError updating ShareClass with ID ' + shareClassId + ': ' + response;
                     }                                    
                 } catch (Exception innerEx) {
                     // Log or handle per-share-class failure
@@ -283,6 +283,14 @@ public with sharing class VFC16_SequantisGenerateDraft {
 
             // Ignore une configuration dont l'objet source n'est pas supporté.
             if (sourceRecord == null) {
+                continue;
+            }
+
+            // Ignore le mapping si le champ configuré n'existe pas sur l'objet source.
+            Map<String, Schema.SObjectField> sourceFields =
+                sourceRecord.getSObjectType().getDescribe().fields.getMap();
+
+            if (!sourceFields.containsKey(mapping.SourceField__c)) {
                 continue;
             }
 

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>IsActive__c</fullName>
+    <defaultValue>true</defaultValue>
+    <description>When unchecked, EmailService sends nothing for this alert. The Flows and Apex calling it keep running without error.</description>
+    <fieldManageability>SubscriberControlled</fieldManageability>
+    <inlineHelpText>Uncheck to stop this email without changing the Flows or Apex that send it.</inlineHelpText>
+    <label>Active</label>
+    <type>Checkbox</type>
+</CustomField>

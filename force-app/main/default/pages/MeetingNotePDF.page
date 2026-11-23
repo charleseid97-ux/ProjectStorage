@@ -179,7 +179,7 @@
                     </tr>                                                      
                     <tr colspan="3">                    
                         <td>                          
-                            <apex:outputText value="{!meetingNote.Note__c}" escape="false"/>  
+                            <apex:outputText value="{!meetingNote.Note__c}" style="white-space:pre-wrap;"/>  
                         </td> 
                     </tr>                                           
                 </table>       

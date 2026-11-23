@@ -16,17 +16,22 @@ public with sharing class TaxEmailService {
 
     private static final String TYPE_TRANSPARENCY = 'Transparency';
 
+    private static final Set<String> KPMG_EXCLUDED_FUNDS = new Set<String>{ 'CELT', 'CPEG' };
+
     private static final String SC_STATUS_CLOSED_LIQUIDATED = 'Closed - liquidated';
     private static final String SC_STATUS_CLOSED_MERGED = 'Closed - merged';
 
+    // Sends Austria Tax Transparency notifications.
     public static void sendATTransparencyEmails(List<TaxData__c> newList) {
         sendTransparencyEmailsByCountry(newList, COUNTRY_AT);
     }
 
+    // Sends Switzerland Tax Transparency notifications.
     public static void sendCHTransparencyEmails(List<TaxData__c> newList) {
         sendTransparencyEmailsByCountry(newList, COUNTRY_CH);
     }
 
+    // Sends the quarterly UK Tax Transparency file to KPMG.
     public static void sendUKQuarterlyTransparencyEmails() {
         TaxEmailConfiguration__mdt config = getConfiguration(COUNTRY_UK, SCENARIO_TRANSPARENCY_QUARTERLY);
         if (!isValidConfiguration(config)) {
@@ -67,6 +72,8 @@ public with sharing class TaxEmailService {
                 ShareClass__r.Name,
                 ShareClass__r.LaunchDate__c,
                 ShareClass__r.Fund__r.ProductName__c,
+                ShareClass__r.Fund__r.InternalShortName__c,
+                ProjectShareclass__r.ProjectProduct__r.InternalShortName__c,
                 ProjectShareclass__r.ISIN__c,
                 CreatedDate
             FROM TaxData__c
@@ -77,15 +84,17 @@ public with sharing class TaxEmailService {
             AND CreatedDate < :quarterEndExclusive
         ];
 
-        if (recordsToProcess.isEmpty()) {
+        // CELT and CPEG must never be included in the quarterly KPMG export.
+        List<TaxData__c> recordsForKpmg = excludeKpmgFunds(recordsToProcess);
+        if (recordsForKpmg.isEmpty()) {
             return;
         }
 
         Map<Id, Date> shareClassToUkRegistrationDate =
-            fetchRegistrationDatesByCountryCode(recordsToProcess, COUNTRY_GB);
+            fetchRegistrationDatesByCountryCode(recordsForKpmg, COUNTRY_GB);
 
         Messaging.SingleEmailMessage email = buildUKQuarterlySummaryEmail(
-            recordsToProcess,
+            recordsForKpmg,
             config,
             template,
             shareClassToUkRegistrationDate,
@@ -100,6 +109,7 @@ public with sharing class TaxEmailService {
         sendEmails(new List<Messaging.SingleEmailMessage>{ email });
     }
 
+    // Sends Austria Merger/Liquidation notifications.
     public static void sendATMergerLiquidationEmails(List<Share_Class__c> newList, Map<Id, Share_Class__c> oldMap) {
         if (newList == null || newList.isEmpty() || oldMap == null) {
             return;
@@ -152,6 +162,7 @@ public with sharing class TaxEmailService {
         sendEmails(emails);
     }
 
+    // Sends Tax Transparency notifications for a specific country.
     private static void sendTransparencyEmailsByCountry(List<TaxData__c> newList, String country) {
         if (newList == null || newList.isEmpty()) {
             return;
@@ -198,6 +209,7 @@ public with sharing class TaxEmailService {
         sendEmails(emails);
     }
 
+    // Collects Tax Data records eligible for Transparency notifications.
     private static Set<Id> collectEligibleTaxDataIds(List<TaxData__c> newList, String country) {
         Set<Id> taxDataIds = new Set<Id>();
 
@@ -210,6 +222,7 @@ public with sharing class TaxEmailService {
         return taxDataIds;
     }
 
+    // Checks whether a Tax Data record is eligible for a Transparency notification.
     private static Boolean isEligibleForTransparency(TaxData__c td, String country) {
         return td != null
             && td.Id != null
@@ -218,6 +231,7 @@ public with sharing class TaxEmailService {
             && td.Status__c == STATUS_REQUESTED;
     }
 
+    // Checks whether a Share Class is eligible for an Austria Merger/Liquidation notification.
     private static Boolean isEligibleForATMergerLiquidation(Share_Class__c sc, Share_Class__c oldSc) {
         if (sc == null || oldSc == null) {
             return false;
@@ -231,6 +245,40 @@ public with sharing class TaxEmailService {
         return statusChanged && targetStatus;
     }
 
+    // Excludes funds that must not be included in KPMG Tax Transparency exports.
+    private static List<TaxData__c> excludeKpmgFunds(List<TaxData__c> taxDataList) {
+        List<TaxData__c> eligibleTaxData = new List<TaxData__c>();
+
+        for (TaxData__c td : taxDataList) {
+            if (!isKpmgExcludedFund(td)) {
+                eligibleTaxData.add(td);
+            }
+        }
+
+        return eligibleTaxData;
+    }
+
+    // Checks whether the Tax Data belongs to a fund excluded from KPMG notifications.
+    private static Boolean isKpmgExcludedFund(TaxData__c td) {
+        if (td == null) {
+            return false;
+        }
+
+        String internalShortName;
+
+        // PMT requests use the fund information stored on the project.
+        if (td.Source__c == SOURCE_PMT && td.ProjectShareclass__r != null
+            && td.ProjectShareclass__r.ProjectProduct__r != null) {
+            internalShortName = td.ProjectShareclass__r.ProjectProduct__r.InternalShortName__c;
+        } else if (td.ShareClass__r != null && td.ShareClass__r.Fund__r != null) {
+            // Other requests use the Product Catalog fund.
+            internalShortName = td.ShareClass__r.Fund__r.InternalShortName__c;
+        }
+
+        return KPMG_EXCLUDED_FUNDS.contains(internalShortName);
+    }
+
+    // Retrieves the complete Tax Data required to build Transparency emails.
     private static List<TaxData__c> fetchTaxData(Set<Id> taxDataIds) {
         return [
             SELECT Id,
@@ -240,10 +288,10 @@ public with sharing class TaxEmailService {
                 Source__c,
                 ISIN__c,
                 StartDate__c,
-
                 ShareClass__c,
                 ShareClass__r.LaunchDate__c,
                 ShareClass__r.Fund__r.ProductName__c,
+                ShareClass__r.Fund__r.InternalShortName__c,
                 ShareClass__r.Name,
 
                 ProjectShareclass__c,
@@ -257,6 +305,7 @@ public with sharing class TaxEmailService {
         ];
     }
 
+    // Retrieves Tax Data used by the Austria Merger/Liquidation process.
     private static List<TaxData__c> fetchATMergerLiquidationTaxData(Set<Id> shareClassIds) {
         return [
             SELECT Id,
@@ -272,11 +321,11 @@ public with sharing class TaxEmailService {
 
                    Source__c,
 
-                    ProjectShareclass__c,
-                    ProjectShareclass__r.Share_Class_Name__c,
-                    ProjectShareclass__r.ProjectProduct__r.Name,
-                    ProjectShareclass__r.ProjectProduct__r.InternalShortName__c,
-                    ProjectShareclass__r.ISIN__c
+                   ProjectShareclass__c,
+                   ProjectShareclass__r.Share_Class_Name__c,
+                   ProjectShareclass__r.ProjectProduct__r.Name,
+                   ProjectShareclass__r.ProjectProduct__r.InternalShortName__c,
+                   ProjectShareclass__r.ISIN__c
             FROM TaxData__c
             WHERE ShareClass__c IN :shareClassIds
               AND Country__c = :COUNTRY_AT
@@ -284,6 +333,7 @@ public with sharing class TaxEmailService {
         ];
     }
 
+    // Retrieves Share Class registration dates for the requested country.
     private static Map<Id, Date> fetchRegistrationDatesByCountryCode(List<TaxData__c> taxDataList, String countryCode) {
         Set<Id> shareClassIds = new Set<Id>();
 
@@ -310,6 +360,7 @@ public with sharing class TaxEmailService {
         return result;
     }
 
+    // Retrieves the active email configuration for the requested scenario.
     private static TaxEmailConfiguration__mdt getConfiguration(String country, String scenario) {
         List<TaxEmailConfiguration__mdt> configs = [
             SELECT Country__c,
@@ -327,6 +378,7 @@ public with sharing class TaxEmailService {
         return configs.isEmpty() ? null : configs[0];
     }
 
+    // Checks whether an email configuration contains the required information.
     private static Boolean isValidConfiguration(TaxEmailConfiguration__mdt config) {
         return config != null
             && config.IsActive__c
@@ -334,6 +386,7 @@ public with sharing class TaxEmailService {
             && !splitEmails(config.ToAddresses__c).isEmpty();
     }
 
+    // Retrieves an email template by Developer Name.
     private static EmailTemplate getTemplateByDeveloperName(String developerName) {
         List<EmailTemplate> templates = [
             SELECT Id, DeveloperName, Subject, HtmlValue, Body, TemplateType
@@ -345,6 +398,7 @@ public with sharing class TaxEmailService {
         return templates.isEmpty() ? null : templates[0];
     }
 
+    // Builds KPMG emails while preserving internal notifications for excluded funds.
     private static List<Messaging.SingleEmailMessage> buildEmails(
         List<TaxData__c> recordsToProcess,
         TaxEmailConfiguration__mdt config,
@@ -353,10 +407,34 @@ public with sharing class TaxEmailService {
         Map<Id, Date> shareClassToRegistrationDate
     ) {
         List<Messaging.SingleEmailMessage> emails = new List<Messaging.SingleEmailMessage>();
-        List<String> toAddresses = splitEmails(config.ToAddresses__c);
-        List<String> ccAddresses = splitEmails(config.CcAddresses__c);
+        List<String> kpmgAddresses = splitEmails(config.ToAddresses__c);
+        List<String> internalAddresses = splitEmails(config.CcAddresses__c);
+
+        System.debug(LoggingLevel.ERROR, '=== KPMG ADDRESSES: ' + kpmgAddresses);
+        System.debug(LoggingLevel.ERROR, '=== INTERNAL ADDRESSES: ' + internalAddresses);
 
         for (TaxData__c td : recordsToProcess) {
+            Boolean isKpmgExcluded = false;
+
+            // KPMG exclusion applies only to requested Tax Transparency notifications.
+            if (td.Type__c == TYPE_TRANSPARENCY && td.Status__c == STATUS_REQUESTED) {
+                isKpmgExcluded = isKpmgExcludedFund(td);
+            }
+
+            System.debug(LoggingLevel.ERROR, '=== TAX DATA: ' + td.Id);
+            System.debug(LoggingLevel.ERROR, '=== KPMG EXCLUDED: ' + isKpmgExcluded);
+
+            // CELT/CPEG notifications remain internal and must never be addressed to KPMG.
+            List<String> toAddresses = isKpmgExcluded ? internalAddresses : kpmgAddresses;
+            List<String> ccAddresses = isKpmgExcluded ? new List<String>() : internalAddresses;
+
+            System.debug(LoggingLevel.ERROR, '=== FINAL TO: ' + toAddresses);
+            System.debug(LoggingLevel.ERROR, '=== FINAL CC: ' + ccAddresses);
+
+            if (toAddresses.isEmpty()) {
+                continue;
+            }
+
             Messaging.SingleEmailMessage email = buildSingleEmail(
                 td,
                 template,
@@ -365,6 +443,7 @@ public with sharing class TaxEmailService {
                 country,
                 shareClassToRegistrationDate
             );
+
             if (email != null) {
                 emails.add(email);
             }
@@ -373,6 +452,7 @@ public with sharing class TaxEmailService {
         return emails;
     }
 
+    // Builds the quarterly UK KPMG summary email and attachment.
     private static Messaging.SingleEmailMessage buildUKQuarterlySummaryEmail(
         List<TaxData__c> recordsToProcess,
         TaxEmailConfiguration__mdt config,
@@ -407,7 +487,6 @@ public with sharing class TaxEmailService {
             email.setPlainTextBody(textBody);
         }
 
-
         Messaging.EmailFileAttachment attachment = new Messaging.EmailFileAttachment();
         attachment.setFileName(buildUkQuarterlyFileName(quarterStartDate, quarterEndDate));
         attachment.setBody(
@@ -422,6 +501,7 @@ public with sharing class TaxEmailService {
         return email;
     }
 
+    // Builds the Excel-compatible content for the quarterly UK submission.
     private static String buildUkQuarterlyExcelContent(
         List<TaxData__c> recordsToProcess,
         Map<Id, Date> shareClassToUkRegistrationDate
@@ -489,6 +569,7 @@ public with sharing class TaxEmailService {
         return html;
     }
 
+    // Escapes HTML-sensitive characters.
     private static String htmlEscape(String input) {
         if (input == null) {
             return '';
@@ -503,6 +584,7 @@ public with sharing class TaxEmailService {
         return result;
     }
 
+    // Builds the quarterly UK attachment file name.
     private static String buildUkQuarterlyFileName(Date quarterStartDate, Date quarterEndDate) {
         return 'UK_Tax_Reporting_'
             + formatDate(quarterStartDate)
@@ -511,6 +593,7 @@ public with sharing class TaxEmailService {
             + '.xls';
     }
 
+    // Builds a single Tax notification email.
     private static Messaging.SingleEmailMessage buildSingleEmail(
         TaxData__c td,
         EmailTemplate template,
@@ -560,8 +643,6 @@ public with sharing class TaxEmailService {
             email.setPlainTextBody(textBody);
         }
 
-
-
         return email;
     }
 
@@ -577,6 +658,7 @@ public with sharing class TaxEmailService {
         return '';
     }*/
 
+    // Returns the effective Share Class name.
     private static String getShareClassName(TaxData__c td) {
         if (td == null) {
             return '';
@@ -593,6 +675,7 @@ public with sharing class TaxEmailService {
         return '';
     }
 
+    // Returns the effective ISIN.
     private static String getIsin(TaxData__c td) {
         
         if (td == null) {
@@ -610,6 +693,7 @@ public with sharing class TaxEmailService {
         return '';
     }
 
+    // Returns the Share Class inception date.
     private static String getInceptionDate(TaxData__c td) {
         if (td == null || td.ShareClass__r == null || td.ShareClass__r.LaunchDate__c == null) {
             return '';
@@ -618,6 +702,7 @@ public with sharing class TaxEmailService {
         return formatDate(td.ShareClass__r.LaunchDate__c);
     }
 
+    // Returns the UK registration date.
     private static String getUkRegistrationDate(TaxData__c td, Map<Id, Date> shareClassToUkRegistrationDate) {
         if (td == null || td.ShareClass__c == null || !shareClassToUkRegistrationDate.containsKey(td.ShareClass__c)) {
             return '';
@@ -627,6 +712,7 @@ public with sharing class TaxEmailService {
         return registrationDate != null ? formatDate(registrationDate) : '';
     }
 
+    // Returns the registration date for countries requiring it.
     private static String getRegistrationDate(
         TaxData__c td,
         String country,
@@ -645,6 +731,7 @@ public with sharing class TaxEmailService {
         return '';
     }
 
+    // Returns the first date of the current quarter.
     private static Date getCurrentQuarterStartDate() {
         Date today = Date.today();
         Integer month = today.month();
@@ -663,11 +750,13 @@ public with sharing class TaxEmailService {
         return Date.newInstance(today.year(), quarterStartMonth, 1);
     }
 
+    // Returns the final date of the current quarter.
     private static Date getCurrentQuarterEndDate() {
         Date quarterStart = getCurrentQuarterStartDate();
         return quarterStart.addMonths(3).addDays(-1);
     }
 
+    // Formats a date using ISO yyyy-MM-dd format.
     private static String formatDate(Date d) {
         if (d == null) {
             return '';
@@ -697,6 +786,7 @@ public with sharing class TaxEmailService {
         }
     }
     
+    // Splits configured email addresses into individual recipients.
     private static List<String> splitEmails(String rawEmails) {
         List<String> results = new List<String>();
 
@@ -715,6 +805,7 @@ public with sharing class TaxEmailService {
         return results;
     }
 
+    // Replaces dynamic values in the email template.
     private static String applyTokens(
         String templateContent,
         String shareClassName,
@@ -729,6 +820,7 @@ public with sharing class TaxEmailService {
         return output;
     }
 
+    // Cleans email template content before token replacement.
     private static String cleanTemplateContent(String content) {
         if (String.isBlank(content)) {
             return '';
@@ -741,6 +833,7 @@ public with sharing class TaxEmailService {
         return cleaned.trim();
     }
 
+    // Retrieves the Org-Wide Email Address used by Tax notifications.
     private static Id getOrgWideEmailAddressId(String address) {
         List<OrgWideEmailAddress> results = [
             SELECT Id, Address

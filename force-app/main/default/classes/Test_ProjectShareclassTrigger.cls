@@ -155,13 +155,12 @@ public class Test_ProjectShareclassTrigger {
             VehicleType__c = 'Funds',
             ProjectStartDate__c = Date.today().addDays(-20),
             EndDate__c = Date.today(),
-            RiskAssociated__c = 'Equity;Interest rates;Credit;Currency',
+            RiskAssociated__c = 'Equity;Interest rate;Credit;Currency',
             InvestmentObjective__c = 'Sample Objective',
             InvestmentStrategy__c = 'Sample Strategy',
             DomiciledIn__c = 'FR',
             ProjectStatus__c = 'Closed',
             ProductName__c = 'toto',
-            SFDRCategory__c = '0',
             LegalForm__c = legalForm,
             LettreRequise__c = 'No'
         );

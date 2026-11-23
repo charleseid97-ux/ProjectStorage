@@ -4,7 +4,7 @@
     <style>
         .close-btn{text-align: right;color: white;font-size: 20px;padding: 0.5%;cursor: pointer;}
     </style>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <apex:includeScript value="{!$Resource.jquery321min}"/>
     <apex:includeScript value="/lightning/lightning.out.js"/>
         <script>
         var myUserContext = "{!$User.UITheme}";

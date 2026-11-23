@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <description>Email template communicating the non-approval of an AI Agent creation request, presenting the request details and providing guidance on possible next steps.</description>
+    <encodingKey>ISO-8859-1</encodingKey>
+    <name>AI Agent - Creation Request Not Approved</name>
+    <relatedEntityType>Case</relatedEntityType>
+    <style>none</style>
+    <subject>AI Agent Creation Request Not Approved - {{{Case.AgentName__c}}}</subject>
+    <type>custom</type>
+    <uiType>SFX</uiType>
+</EmailTemplate>

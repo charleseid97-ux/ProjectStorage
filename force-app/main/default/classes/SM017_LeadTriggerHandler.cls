@@ -1,46 +1,37 @@
-/** 
-* @author: Briag Guemard
-* @date : Creation 04/04/2017
-* @date : Modification 04/04/2017
-* @description : This Class allows to handle trigger events in contact entity.
-*
-* -- History
-* -- Date        Name        Version  Remarks
-* -- -----------  ----------  -------  ---------------------------------------
-* -- 12-OCT-2019  Noor         1.0    Update handler to cater for website prospace V2
-*
-*/
-public class SM017_LeadTriggerHandler implements ITriggerHandler{
+/** ──────────────────────────────────────
+ * @author: Briag Guemard
+ * @date : Creation 04/04/2017
+ * @date : Modification 04/04/2017
+ * @description : This Class allows to handle trigger events in contact entity.
+ *              On delete, runs the Lyyti Deletion Alert for the Lead's Lyyti campaign members (LyytiDeletionAlertService.alertDeletedLeads).
+ * @testClass SM017_LeadTriggerHandlerTest
+ * @lastModifiedBy Charles EID   [26-10-26]
+ *
+ * -- History
+ * -- Date        Name        Version  Remarks
+ * -- -----------  ----------  -------  ---------------------------------------
+ * -- 12-OCT-2019  Noor         1.0    Update handler to cater for website prospace V2
+ * -- 26-OCT-2026  Charles EID  1.1    Lyyti Deletion Alert on AfterDelete (replaces the commented-out website delete calls)
+ ────────────────────────────────────── */
+public class SM017_LeadTriggerHandler implements ITriggerHandler {
 
     //Allows unit tests (or other code) to disable this trigger for the transaction
     public static Boolean triggerDisabled = false;
 
     public void BeforeInsert(List<SObject> newItems) {
-
         if (PAD.canTrigger('LeadBeforeInsert')) {
-            // Boolean isWebsiteUser = UserInfo.getUserId() == Label.WebsiteProspaceId;
-            // if (!Pad.SKIP_STRIGGER_MAP.containsKey('initializeNewLeadFromWebSite') && isWebsiteUser) {
-            //     SM026_Lead_Website.initializeNewLeadFromWebSite((List<Lead>) newItems);
-            // }
-
-            if (!Pad.SKIP_STRIGGER_MAP.containsKey('updateTechnicalId')) {
-                updateTechnicalId((List<Lead>) newItems);
-            }
-
+            //boolean isWebsiteUser = UserInfo.getUserId() == Label.WebsiteProspaceId;
+            //if (!Pad.SKIP_STRIGGER_MAP.containsKey('initializeNewLeadFromWebSite') && isWebsiteUser) SM026_Lead_Website.initializeNewLeadFromWebSite((List<Lead>) newItems);
+            if (!Pad.SKIP_STRIGGER_MAP.containsKey('updateTechnicalId')) updateTechnicalId((List<Lead>) newItems);
             UtilitiesSObject.initPreferenceCenter(newItems);
         }
     }
 
     public void BeforeUpdate(Map<Id, SObject> newItems, Map<Id, SObject> oldItems) {
-
         if (PAD.canTrigger('LeadBeforeUpdate')) {
             // Boolean isWebsiteUser = UserInfo.getUserId() == Label.WebsiteProspaceId;
-            // if (!Pad.SKIP_STRIGGER_MAP.containsKey('updateLeadOwner') && !isWebsiteUser) {
-            //     SM026_Lead_Website.updateLeadOwner((Map<Id, Lead>) newItems, (Map<Id, Lead>) oldItems);
-            // }
-            // if (!Pad.SKIP_STRIGGER_MAP.containsKey('initializeExistingLeadFromWebSite') && isWebsiteUser) {
-            //     SM026_Lead_Website.initializeExistingLeadFromWebSite((Map<Id, Lead>) newItems, (Map<Id, Lead>) oldItems);
-            // }
+            // if (!Pad.SKIP_STRIGGER_MAP.containsKey('updateLeadOwner') && !isWebsiteUser) SM026_Lead_Website.updateLeadOwner((Map<Id, Lead>) newItems, (Map<Id, Lead>) oldItems);
+            // if (!Pad.SKIP_STRIGGER_MAP.containsKey('initializeExistingLeadFromWebSite') && isWebsiteUser) SM026_Lead_Website.initializeExistingLeadFromWebSite((Map<Id, Lead>) newItems, (Map<Id, Lead>) oldItems);
 
             //Check the preference center and hasoptoutofemail fiels
             //Some fields may be checked or unchecked based on other fields changes
@@ -48,32 +39,25 @@ public class SM017_LeadTriggerHandler implements ITriggerHandler{
         }
     }
 
-    public void BeforeDelete(Map<Id, SObject> oldItems) { }
+    public void BeforeDelete(Map<Id, SObject> oldItems) {}
 
-    public void AfterInsert(Map<Id, SObject> newItems) { }
+    public void AfterInsert(Map<Id, SObject> newItems) {}
 
     public void AfterUpdate(Map<Id, SObject> newItems, Map<Id, SObject> oldItems) {
         if (PAD.canTrigger('LeadAfterUpdate')) {
             // Boolean isNotWebsiteUser = UserInfo.getUserId() != Label.WebsiteProspaceId;
-            // if (!Pad.SKIP_STRIGGER_MAP.containsKey('sendAsyncWebsiteLead') && isNotWebsiteUser) {
-            //     SM026_Lead_Website.sendAsyncWebsiteLead((Map<Id, Lead>) newItems, (Map<Id, Lead>) oldItems);
-            // }
-
-            // if (!Pad.SKIP_STRIGGER_MAP.containsKey('processConvertedLead')) {
-            //     SM026_Lead_Website.processConvertedLead((Map<Id, Lead>) newItems, (Map<Id, Lead>) oldItems);
-            // }
-
-            //if (!Pad.SKIP_STRIGGER_MAP.containsKey('updateCampaignMembersForLead')) updateCampaignMembersForLead((List<Lead>) newItems.values());
-
-            // if (!Pad.SKIP_STRIGGER_MAP.containsKey('deactivateLeadAlerts')) {
-            //     SM026_Lead_Website.deactivateLeadAlerts((List<Lead>) newItems.values(), (Map<Id, Lead>) oldItems);
-            // }
+            // if (!Pad.SKIP_STRIGGER_MAP.containsKey('sendAsyncWebsiteLead') && isNotWebsiteUser) SM026_Lead_Website.sendAsyncWebsiteLead((Map<Id, Lead>) newItems, (Map<Id, Lead>) oldItems);
+            // if (!Pad.SKIP_STRIGGER_MAP.containsKey('processConvertedLead')) SM026_Lead_Website.processConvertedLead((Map<Id, Lead>) newItems, (Map<Id, Lead>) oldItems);
+            // if (!Pad.SKIP_STRIGGER_MAP.containsKey('updateCampaignMembersForLead')) updateCampaignMembersForLead((List<Lead>) newItems.values());
+            // if (!Pad.SKIP_STRIGGER_MAP.containsKey('deactivateLeadAlerts')) SM026_Lead_Website.deactivateLeadAlerts((List<Lead>) newItems.values(), (Map<Id, Lead>) oldItems);
         }
     }
 
-    public void AfterDelete(Map<Id, SObject> oldItems) { }
+    public void AfterDelete(Map<Id, SObject> oldItems) {
+        if (PAD.canTrigger('LeadAfterDelete')) LyytiDeletionAlertService.alertDeletedLeads(oldItems.keySet());
+    }
 
-    public void AfterUndelete(Map<Id, SObject> newItems) { }
+    public void AfterUndelete(Map<Id, SObject> newItems) {}
 
     public Boolean IsDisabled() {
         if (PAD.canTrigger('LeadTrigger')) {
@@ -99,9 +83,7 @@ public class SM017_LeadTriggerHandler implements ITriggerHandler{
         }
 
         listCMToUpdate = EM015_CampaignMember.getListByLeadIds(LeadIds);
-        if (listCMToUpdate != null && listCMToUpdate.size() > 0) {
-            update listCMToUpdate;
-        }
+        if (listCMToUpdate != null && listCMToUpdate.size() > 0) update listCMToUpdate;
         Pad.SKIP_STRIGGER_MAP.put('updateCampaignMembersForLead', 'prevent double execution');
     }
 
@@ -121,8 +103,6 @@ public class SM017_LeadTriggerHandler implements ITriggerHandler{
             }
         }
         //Update incremental value in custom settings
-        if (setting != null){
-            update setting;
-        }
+        if (setting != null) update setting;
     }
 }

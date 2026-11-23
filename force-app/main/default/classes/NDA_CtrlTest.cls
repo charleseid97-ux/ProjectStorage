@@ -27,7 +27,7 @@ private class NDA_CtrlTest {
 
             insert pList;
 
-            Share_Class__c sc = new Share_Class__c(Name='ShareClass', Fund_Code__c='PFund',ISIN_Code__c='1234abcd', Fund__c=pList[0].Id, Validity__c = true);
+            Share_Class__c sc = new Share_Class__c(Name='ShareClass', Fund_Code__c='PFund',ISIN_Code__c='1234abcd', Fund__c=pList[0].Id, Validity__c = true, Status__c = 'Active');
             insert sc;
 
             CarmignacProduct__c  cp = new CarmignacProduct__c (Name='ShareClass',ISIN__c ='1234abcd');
@@ -81,7 +81,7 @@ private class NDA_CtrlTest {
 
             insert pList;
 
-            Share_Class__c sc2 = new Share_Class__c(Name='ShareClass2', Fund_Code__c='PFund',ISIN_Code__c='I1234569', Fund__c=pList[0].Id, Validity__c = true);
+            Share_Class__c sc2 = new Share_Class__c(Name='ShareClass2', Fund_Code__c='PFund',ISIN_Code__c='I1234569', Fund__c=pList[0].Id, Validity__c = true, Status__c = 'Active');
             insert sc2;
 
             NDA_Product__c np = new NDA_Product__c(NDA__c = parentNDA.Id, Share_Class__c = sc2.Id);

@@ -43,7 +43,7 @@
         <connector>
             <targetReference>Update_Scope</targetReference>
         </connector>
-        <filterLogic>or</filterLogic>
+        <filterLogic>1 OR (2 AND NOT (3 OR 4 OR 5 OR 6 OR 7))</filterLogic>
         <filters>
             <field>Type__c</field>
             <operator>EqualTo</operator>
@@ -58,8 +58,43 @@
                 <stringValue>ESG</stringValue>
             </value>
         </filters>
+        <filters>
+            <field>SubType__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <stringValue>United Nations Sustainable Development Goals (sdgs)</stringValue>
+            </value>
+        </filters>
+        <filters>
+            <field>SubType__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <stringValue>Green, Social, Sustainable and Sustainability-Linked-Bonds</stringValue>
+            </value>
+        </filters>
+        <filters>
+            <field>SubType__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <stringValue>ESG Sovereign Score</stringValue>
+            </value>
+        </filters>
+        <filters>
+            <field>SubType__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <stringValue>Carbon Emissions Figures</stringValue>
+            </value>
+        </filters>
+        <filters>
+            <field>SubType__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <stringValue>Customer and Employee Satisfaction Model</stringValue>
+            </value>
+        </filters>
         <object>Narrative__c</object>
-        <recordTriggerType>Create</recordTriggerType>
+        <recordTriggerType>CreateAndUpdate</recordTriggerType>
         <triggerType>RecordBeforeSave</triggerType>
     </start>
     <status>Active</status>

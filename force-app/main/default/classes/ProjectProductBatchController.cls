@@ -321,6 +321,7 @@ public class ProjectProductBatchController {
 
         // Narratives Product : contenu par Product Id, et langue du Product
         public Map<Id, String> mapInvObj = new Map<Id, String>();
+        public Map<Id, String> mapCCIInvObj = new Map<Id, String>();
         public Map<Id, String> mapRisk = new Map<Id, String>();
         public Map<Id, String> mapIntendedRetail = new Map<Id, String>();
         public Map<Id, String> mapReasonForRHP = new Map<Id, String>();
@@ -361,6 +362,7 @@ public class ProjectProductBatchController {
     private static void fillProductNarrativeMaps(ProjectProduct__c pp, List<String> fieldsToModify, ModificationContext context) {
         Id prodId = pp.Product__c;
         if (fieldsToModify.contains('InvestmentObjective__c')) context.mapInvObj.put(prodId, ProjectProductBatchUtilities.getContentForField(pp, 'InvestmentObjective__c'));
+        if (fieldsToModify.contains('CCIInvestmentObjective__c')) mapCCIInvObj.put(prodId, ProjectProductBatchUtilities.getContentForField(pp, 'CCIInvestmentObjective__c')); // Prépare le contenu de la narrative CCI lorsque le champ est modifié.
         if (fieldsToModify.contains('RiskAssociated__c')) context.mapRisk.put(prodId, ProjectProductBatchUtilities.getContentForField(pp, 'RiskAssociated__c'));
         if (fieldsToModify.contains('IntentedRetailInvestor__c')) context.mapIntendedRetail.put(prodId, ProjectProductBatchUtilities.getContentForField(pp, 'IntentedRetailInvestor__c'));
         if (fieldsToModify.contains('ReasonForRHP__c')) context.mapReasonForRHP.put(prodId, ProjectProductBatchUtilities.getContentForField(pp, 'ReasonForRHP__c'));
@@ -402,7 +404,7 @@ public class ProjectProductBatchController {
 
         Set<String> scFieldsToModify = new Set<String>(getFieldsToModify(sc.TECH_FieldsToModify__c));
         fillShareclassNarrativeMaps(sc, scId, scFieldsToModify, context);
-        scToUpdate.ESMAApplicationStartDate__c = pp.EndDate__c;
+        // scToUpdate.ESMAApplicationStartDate__c = pp.EndDate__c;
         applyShareclassFieldUpdates(scToUpdate, sc, scFieldsToModify, errorMessages, recordsFailed);
         context.shareclassesToUpdate.add(scToUpdate);
     }
@@ -448,6 +450,7 @@ public class ProjectProductBatchController {
     private static void upsertProductNarratives(ModificationContext context, List<String> debugInformation) {
         Set<Id> prodIdsForNarratives = new Set<Id>();
         prodIdsForNarratives.addAll(context.mapInvObj.keySet());
+        prodIdsForNarratives.addAll(context.mapCCIInvObj.keySet());
         prodIdsForNarratives.addAll(context.mapRisk.keySet());
         prodIdsForNarratives.addAll(context.mapIntendedRetail.keySet());
         prodIdsForNarratives.addAll(context.mapReasonForRHP.keySet());
@@ -456,7 +459,10 @@ public class ProjectProductBatchController {
         List<Narrative__c> existingNarratives = [SELECT Id, Product__c, Language__c, Type__c, SubType__c, Content__c
                                                  FROM Narrative__c
                                                  WHERE Product__c IN :prodIdsForNarratives
-                                                 AND ((Type__c = 'Investment Objective' AND SubType__c = 'PRIIPS') OR (Type__c = 'Risk' AND SubType__c = 'Main Risk of the Fund') OR (Type__c = :TYPE_PRIIPS AND SubType__c = 'INTENDED_RETAIL_INVESTOR') OR (Type__c = :TYPE_PRIIPS AND SubType__c = 'REASON_FOR_PHP'))];
+                                                 AND ((Type__c = 'Investment Objective' AND SubType__c IN ('PRIIPS', 'CCI'))
+                                                    OR (Type__c = 'Risk' AND SubType__c = 'Main Risk of the Fund') 
+                                                    OR (Type__c = :TYPE_PRIIPS AND SubType__c = 'INTENDED_RETAIL_INVESTOR') 
+                                                    OR (Type__c = :TYPE_PRIIPS AND SubType__c = 'REASON_FOR_RHP'))];
 
         Map<String, Narrative__c> existingByKey = new Map<String, Narrative__c>();
         for (Narrative__c n : existingNarratives) {
@@ -465,6 +471,7 @@ public class ProjectProductBatchController {
 
         List<Narrative__c> narrativesToUpsert = new List<Narrative__c>();
         narrativesToUpsert.addAll(ProjectProductBatchUtilities.buildNarrativesForField(context.mapInvObj, context.languageByProductId, existingByKey, 'Investment Objective', 'PRIIPS', 'Investment Objective PRIIPS', NARRATIVE_RECORD_TYPE_ID, debugInformation));
+        narrativesToUpsert.addAll(ProjectProductBatchUtilities.buildNarrativesForField(context.mapCCIInvObj, context.languageByProductId, existingByKey, 'Investment Objective', 'CCI', 'Investment Objective CCI', NARRATIVE_RECORD_TYPE_ID, debugInformation)); // Crée ou met à jour la narrative CCI sans créer de doublon.
         narrativesToUpsert.addAll(ProjectProductBatchUtilities.buildNarrativesForField(context.mapRisk, context.languageByProductId, existingByKey, 'Risk', 'Main Risk of the Fund', 'Risk Main Risk of the Fund', NARRATIVE_RECORD_TYPE_ID, debugInformation));
         narrativesToUpsert.addAll(ProjectProductBatchUtilities.buildNarrativesForField(context.mapIntendedRetail, context.languageByProductId, existingByKey, TYPE_PRIIPS, 'INTENDED_RETAIL_INVESTOR', 'PRIIPs Intended Retail Investor', NARRATIVE_RECORD_TYPE_ID, debugInformation));
         narrativesToUpsert.addAll(ProjectProductBatchUtilities.buildNarrativesForField(context.mapReasonForRHP, context.languageByProductId, existingByKey, TYPE_PRIIPS, 'REASON_FOR_PHP', 'PRIIPs Reason For PHP', NARRATIVE_RECORD_TYPE_ID, debugInformation));
@@ -503,7 +510,6 @@ public class ProjectProductBatchController {
     }
 
     // ------------------------- Helpers - DML / rollback / logs ---------------------------
-
     private static void upsertAndLog(List<SObject> toUpsert, List<String> debugInformation, List<String> errorMessages, Integer[] recordsFailed, List<Id> insertedRecords) {
         if (toUpsert.isEmpty()) return;
 

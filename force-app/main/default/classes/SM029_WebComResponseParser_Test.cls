@@ -3,7 +3,7 @@ public class SM029_WebComResponseParser_Test {
 
     // Helpers de création de données liées aux FORMULES
     private static Contact makeContactWithWebsiteId(String websiteTechId) {
-        Contact c = new Contact(LastName = 'Tst', TECH_WebSiteID__c = websiteTechId);
+        Contact c = new Contact(LastName = 'Tst');
         insert c;
         return c;
     }
