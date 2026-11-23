@@ -74,7 +74,7 @@
             <assignToReference>Record.VehicleType__c</assignToReference>
             <operator>Assign</operator>
             <value>
-                <elementReference>Vehicle_Type</elementReference>
+                <stringValue>External IS</stringValue>
             </value>
         </assignmentItems>
         <assignmentItems>
@@ -112,24 +112,45 @@
                 <booleanValue>false</booleanValue>
             </value>
         </assignmentItems>
+        <assignmentItems>
+            <assignToReference>Record.LegalForm__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>Legal_Form</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>Record.Validity__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>Active</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>Record.VehicleType__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>Vehicle_Type</elementReference>
+            </value>
+        </assignmentItems>
         <connector>
             <targetReference>Create_IS_Product</targetReference>
         </connector>
     </assignments>
     <choices>
-        <name>Advisory</name>
-        <choiceText>Advisory</choiceText>
+        <name>CarmignacDFM</name>
+        <choiceText>Carmignac DFM</choiceText>
         <dataType>String</dataType>
         <value>
-            <stringValue>Advisory</stringValue>
+            <stringValue>Carmignac DFM</stringValue>
         </value>
     </choices>
     <choices>
-        <name>Mandate</name>
-        <choiceText>&lt;span style=&quot;background-color: rgb(227, 243, 255); font-size: 11.36px; font-family: Helvetica; color: rgb(0, 0, 0);&quot;&gt;Mandate&lt;/span&gt;</choiceText>
+        <name>ExternalIS</name>
+        <choiceText>External IS</choiceText>
         <dataType>String</dataType>
         <value>
-            <stringValue>Mandate</stringValue>
+            <stringValue>External IS</stringValue>
         </value>
     </choices>
     <customProperties>
@@ -156,11 +177,11 @@
         <picklistObject>Product__c</picklistObject>
     </dynamicChoiceSets>
     <dynamicChoiceSets>
-        <name>VehicleType</name>
+        <name>LegalForm</name>
         <dataType>Picklist</dataType>
         <displayField xsi:nil="true"/>
         <object xsi:nil="true"/>
-        <picklistField>VehicleType__c</picklistField>
+        <picklistField>LegalForm__c</picklistField>
         <picklistObject>Product__c</picklistObject>
     </dynamicChoiceSets>
     <environments>Default</environments>
@@ -413,10 +434,14 @@
                 <name>Key_Information_Column2</name>
                 <fieldType>Region</fieldType>
                 <fields>
-                    <fieldType>ObjectProvided</fieldType>
+                    <name>Vehicle_Type</name>
+                    <choiceReferences>ExternalIS</choiceReferences>
+                    <choiceReferences>CarmignacDFM</choiceReferences>
+                    <dataType>String</dataType>
+                    <fieldText>Vehicle Type</fieldText>
+                    <fieldType>DropdownBox</fieldType>
                     <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
-                    <isRequired>false</isRequired>
-                    <objectFieldReference>Record.LegalForm__c</objectFieldReference>
+                    <isRequired>true</isRequired>
                     <styleProperties>
                         <verticalAlignment>
                             <stringValue>top</stringValue>
@@ -427,10 +452,35 @@
                     </styleProperties>
                 </fields>
                 <fields>
-                    <fieldType>ObjectProvided</fieldType>
+                    <name>Legal_Form</name>
+                    <choiceReferences>LegalForm</choiceReferences>
+                    <dataType>String</dataType>
+                    <defaultValue>
+                        <stringValue>Other</stringValue>
+                    </defaultValue>
+                    <fieldText>Legal Form</fieldText>
+                    <fieldType>DropdownBox</fieldType>
                     <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
-                    <isRequired>false</isRequired>
-                    <objectFieldReference>Record.Validity__c</objectFieldReference>
+                    <isRequired>true</isRequired>
+                    <styleProperties>
+                        <verticalAlignment>
+                            <stringValue>top</stringValue>
+                        </verticalAlignment>
+                        <width>
+                            <stringValue>12</stringValue>
+                        </width>
+                    </styleProperties>
+                </fields>
+                <fields>
+                    <name>Active</name>
+                    <dataType>Boolean</dataType>
+                    <defaultValue>
+                        <booleanValue>true</booleanValue>
+                    </defaultValue>
+                    <fieldText>Active</fieldText>
+                    <fieldType>InputField</fieldType>
+                    <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
+                    <isRequired>true</isRequired>
                     <styleProperties>
                         <verticalAlignment>
                             <stringValue>top</stringValue>
@@ -455,27 +505,12 @@
                     </styleProperties>
                 </fields>
                 <fields>
-                    <name>Vehicle_Type</name>
-                    <choiceReferences>Mandate</choiceReferences>
-                    <choiceReferences>Advisory</choiceReferences>
-                    <dataType>String</dataType>
-                    <fieldText>Vehicle Type</fieldText>
-                    <fieldType>DropdownBox</fieldType>
-                    <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
-                    <isRequired>true</isRequired>
-                    <styleProperties>
-                        <verticalAlignment>
-                            <stringValue>top</stringValue>
-                        </verticalAlignment>
-                        <width>
-                            <stringValue>12</stringValue>
-                        </width>
-                    </styleProperties>
-                </fields>
-                <fields>
                     <name>Base_Currency</name>
                     <choiceReferences>BaseCurrency</choiceReferences>
                     <dataType>String</dataType>
+                    <defaultValue>
+                        <stringValue>EUR</stringValue>
+                    </defaultValue>
                     <fieldText>Base Currency</fieldText>
                     <fieldType>DropdownBox</fieldType>
                     <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
@@ -762,6 +797,20 @@
                         </width>
                     </styleProperties>
                 </fields>
+                <fields>
+                    <fieldType>ObjectProvided</fieldType>
+                    <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
+                    <isRequired>false</isRequired>
+                    <objectFieldReference>Record.Usage__c</objectFieldReference>
+                    <styleProperties>
+                        <verticalAlignment>
+                            <stringValue>top</stringValue>
+                        </verticalAlignment>
+                        <width>
+                            <stringValue>12</stringValue>
+                        </width>
+                    </styleProperties>
+                </fields>
                 <inputParameters>
                     <name>width</name>
                     <value>
@@ -824,7 +873,7 @@
             <targetReference>New_Product</targetReference>
         </connector>
     </start>
-    <status>Active</status>
+    <status>Draft</status>
     <variables>
         <name>Record</name>
         <dataType>SObject</dataType>

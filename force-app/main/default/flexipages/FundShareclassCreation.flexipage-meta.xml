@@ -101,7 +101,7 @@
                         <valueListItems>
                             <value>ProjectProduct__c.Generate_Draft_KID</value>
                             <visibilityRule>
-                                <booleanFilter>(1 OR 2 OR 3 OR 4 OR 6 OR 7 OR 8) AND ( 5 AND 9)</booleanFilter>
+                                <booleanFilter>(1 OR 2 OR 3 OR 4 OR 6 OR 7 OR 8 OR 10) AND ( 5 AND 9)</booleanFilter>
                                 <criteria>
                                     <leftValue>{!$User.Username}</leftValue>
                                     <operator>CONTAINS</operator>
@@ -146,6 +146,11 @@
                                     <leftValue>{!Record.LegalForm__c}</leftValue>
                                     <operator>NE</operator>
                                     <rightValue>OEIC</rightValue>
+                                </criteria>
+                                <criteria>
+                                    <leftValue>{!$User.Username}</leftValue>
+                                    <operator>CONTAINS</operator>
+                                    <rightValue>rebecca</rightValue>
                                 </criteria>
                             </visibilityRule>
                         </valueListItems>
@@ -2373,6 +2378,16 @@
                 </fieldInstanceProperties>
                 <fieldItem>Record.HasSwingPricing__c</fieldItem>
                 <identifier>RecordHasSwingPricing_cField</identifier>
+            </fieldInstance>
+        </itemInstances>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>none</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.CCIMainDrivers__c</fieldItem>
+                <identifier>RecordCCIMainDrivers_cField</identifier>
             </fieldInstance>
         </itemInstances>
         <name>Facet-cc03199a-a815-4bd9-afdd-3796da436595</name>

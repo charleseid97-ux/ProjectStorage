@@ -4,7 +4,7 @@
     <protected>false</protected>
     <values>
         <field>Condition__c</field>
-        <value xsi:nil="true"/>
+        <value xsi:type="xsd:string">NOT(ISPICKVAL(ProjectProduct__c.LegalForm__c, &apos;OEIC&apos;))</value>
     </values>
     <values>
         <field>FieldRule__c</field>
@@ -24,6 +24,6 @@
     </values>
     <values>
         <field>Requirement__c</field>
-        <value xsi:type="xsd:string">Required</value>
+        <value xsi:type="xsd:string">Optional</value>
     </values>
 </CustomMetadata>
