@@ -17,10 +17,15 @@
  *                  Explorer and PMTMatrixTest: the field exists on the stage object, the conditions compile, a project-level condition (Fund line,
  *                  owner rule) reads only ProjectProduct__c, RequiredCondition__c is set exactly on the Conditional lines. An invalid record is
  *                  skipped and reported by getConfigurationWarning() (custom label PMT_InvalidRecords) instead of stopping the PMT.
+ *              US-20194 V1.8: a condition may follow lookups (ProjectProduct__c.ParentProduct__r.Name). Before an evaluation, the project and
+ *                  the share class get the parent records their lookups point to (withRelationships, on a clone): read by loadProjects() with
+ *                  the paths, or by loadRelationships(records) in one query per relationship for records that carry none (Trigger.new).
+ *                  getConditionFields() keeps the fields whose change changes the matrix (the lookup of a path); getConditionQueryFields()
+ *                  is what a query selects.
  * @author Charles EID
- * @lastModifiedBy Charles EID   [24-10-26]
+ * @lastModifiedBy Charles EID   [18-11-26]
  * @testClass PMTMatrixTest
- * @coverage 100%   [24-10-26]
+ * @coverage 100%   [18-11-26]
  ────────────────────────────────────── */
 public without sharing class PMTMatrix {
 
@@ -45,6 +50,8 @@ public without sharing class PMTMatrix {
     @TestVisible
     private static List<String> invalidRecords = new List<String>();
     private static Map<Boolean, Map<String, Schema.SObjectField>> stageFieldsByFund = new Map<Boolean, Map<String, Schema.SObjectField>>();
+    // US-20194 V1.8: parent records followed by the conditions, by lowercase relationship name + Id (null: the parent no longer exists)
+    private static Map<String, SObject> relatedRecordByKey = new Map<String, SObject>();
 
     public List<Stage> stages { get; private set; }
     public List<Team> teams { get; private set; }
@@ -56,6 +63,8 @@ public without sharing class PMTMatrix {
     private Map<String, FieldRule> ruleByKey = new Map<String, FieldRule>();
     private Map<String, PMTMatrix> matrixByScope = new Map<String, PMTMatrix>();
     private Map<String, PMTMatrix> matrixByConditionResults = new Map<String, PMTMatrix>();
+    // US-20194 V1.8: per object, the relationships the conditions follow (lowercase) and what they read on the parent (lowercase -> as written)
+    private Map<Schema.SObjectType, Map<String, Map<String, String>>> subPathsByRelationshipByType = new Map<Schema.SObjectType, Map<String, Map<String, String>>>();
 
     // Loads the configuration once per transaction. SOQL rather than getAll(): getAll() truncates Long Text Areas (conditions) to 255 characters.
     public static PMTMatrix get() {
@@ -233,10 +242,10 @@ public without sharing class PMTMatrix {
         ids.remove(null);
         if (ids.isEmpty()) return new Map<Id, ProjectProduct__c>();
 
-        // US-20194 V1.2: with what withLiveValues() needs on a modification project
-        Set<String> projectFields = matrix.getConditionFields();
+        // US-20194 V1.2: with what withLiveValues() needs on a modification project. US-20194 V1.8: and the paths of the conditions following a lookup
+        Set<String> projectFields = matrix.getConditionQueryFields();
         projectFields.addAll(new List<String>{ 'RecordTypeId', 'Product__c', 'TECH_FieldsToModify__c' });
-        Set<String> shareClassFields = matrix.getShareClassConditionFields();
+        Set<String> shareClassFields = matrix.getShareClassConditionQueryFields();
         shareClassFields.addAll(new List<String>{ 'Tech_ShareClass__c', 'TECH_FieldsToModify__c' });
         List<ProjectProduct__c> projects = PMTCondition.queryProjects(ids, projectFields, shareClassFields);
         Map<Id, ProjectProduct__c> projectById = new Map<Id, ProjectProduct__c>(projects);
@@ -304,6 +313,8 @@ public without sharing class PMTMatrix {
     // Project level (shareClass null): evaluates the conditions that read only the project. Share class level: evaluates the conditions that read the share class. Matrices are cached by condition results, so the projects (or share classes) answering the same share one matrix.
     // US-20194 V1.2: Condition__c first; only a line that applies resolves its RequiredCondition__c (Conditional line), at the level of the fields it reads (share class level: every remaining one).
     private PMTMatrix filter(ProjectProduct__c project, ProjectShareclass__c shareClass) {
+        project = (ProjectProduct__c) withRelationships(project);
+        shareClass = (ProjectShareclass__c) withRelationships(shareClass);
         Boolean shareClassLevel = shareClass != null;
         List<Line> applicableLines = new List<Line>();
         String conditionResults = shareClassLevel ? 'S' : 'P';
@@ -450,6 +461,107 @@ public without sharing class PMTMatrix {
         return fields;
     }
 
+    // US-20194 V1.8: what a query of the projects selects for the conditions of the lines and owner rules: their fields, their paths (ParentProduct__r.Name) and the Id of each parent they follow (withRelationships compares it with the lookup)
+    public Set<String> getConditionQueryFields() {
+        Set<String> paths = getConditionFields();
+        for (Line line : lines) {
+            if (line.condition != null) paths.addAll(line.condition.projectPaths);
+            if (line.requiredCondition != null) paths.addAll(line.requiredCondition.projectPaths);
+        }
+        for (OwnerRule rule : ownerRules) {
+            if (rule.condition != null) paths.addAll(rule.condition.projectPaths);
+        }
+        return withParentIds(paths);
+    }
+
+    // US-20194 V1.8: what a query of the share classes selects for the conditions of the lines (see getConditionQueryFields)
+    public Set<String> getShareClassConditionQueryFields() {
+        Set<String> paths = getShareClassConditionFields();
+        for (Line line : lines) {
+            if (line.condition != null) paths.addAll(line.condition.shareClassPaths);
+            if (line.requiredCondition != null) paths.addAll(line.requiredCondition.shareClassPaths);
+        }
+        return withParentIds(paths);
+    }
+
+    private static Set<String> withParentIds(Set<String> paths) {
+        Set<String> fields = new Set<String>(paths);
+        for (String path : paths) {
+            if (path.contains('.')) fields.add(path.substringBefore('.') + '.Id');
+        }
+        return fields;
+    }
+
+    // US-20194 V1.8: reads the parent records the conditions follow from these projects or share classes (one object), one query per relationship, for withRelationships: e.g. Trigger.new, which carries none. No query when no condition follows a lookup, or for parents already read.
+    public static void loadRelationships(List<SObject> records) {
+        if (records == null || records.isEmpty()) return;
+
+        Schema.SObjectType objectType = records[0].getSObjectType();
+        Map<String, Map<String, String>> subPathsByRelationship = get().getSubPathsByRelationship(objectType);
+        for (String relationship : subPathsByRelationship.keySet()) {
+            Schema.DescribeFieldResult lookup = PMTCondition.getLookup(objectType, relationship).getDescribe();
+            Set<Id> relatedIds = new Set<Id>();
+            for (SObject record : records) {
+                Id relatedId = (Id) getPopulatedValue(record, lookup.getName());
+                if (relatedId != null && !relatedRecordByKey.containsKey(relationship + relatedId)) relatedIds.add(relatedId);
+            }
+            if (relatedIds.isEmpty()) continue;
+
+            List<String> selectList = new List<String>{ 'Id' };
+            selectList.addAll(subPathsByRelationship.get(relationship).values());
+            for (Id relatedId : relatedIds) relatedRecordByKey.put(relationship + relatedId, null);
+            for (SObject related : Database.query('SELECT ' + String.join(selectList, ', ') + ' FROM ' + lookup.getReferenceTo()[0] + ' WHERE Id IN :relatedIds')) {
+                relatedRecordByKey.put(relationship + related.Id, related);
+            }
+        }
+    }
+
+    // US-20194 V1.8: the record with the parent records its conditions follow, as its lookups point now (a draft value or a live value may have changed one): a clone when a parent has to be attached (Trigger.new is read-only), the record itself otherwise
+    private static SObject withRelationships(SObject record) {
+        if (record == null) return null;
+
+        Schema.SObjectType objectType = record.getSObjectType();
+        SObject context;
+        for (String relationship : get().getSubPathsByRelationship(objectType).keySet()) {
+            Schema.DescribeFieldResult lookup = PMTCondition.getLookup(objectType, relationship).getDescribe();
+            Id relatedId = (Id) getPopulatedValue(record, lookup.getName());
+            SObject attached = (SObject) getPopulatedValue(record, lookup.getRelationshipName());
+            if (attached?.Id == relatedId) continue;
+
+            if (relatedId != null && !relatedRecordByKey.containsKey(relationship + relatedId)) loadRelationships(new List<SObject>{ record });
+            if (context == null) context = record.clone(true, true, true, true);
+            context.putSObject(lookup.getRelationshipName(), relatedId == null ? null : relatedRecordByKey.get(relationship + relatedId));
+        }
+        return context != null ? context : record;
+    }
+
+    // US-20194 V1.8: per object, the relationships followed by the conditions of the configuration and what they read on the parent, without duplicates (field names are case-insensitive) and without Id (always selected)
+    private Map<String, Map<String, String>> getSubPathsByRelationship(Schema.SObjectType objectType) {
+        if (!subPathsByRelationshipByType.containsKey(objectType)) {
+            Map<String, Map<String, String>> subPathsByRelationship = new Map<String, Map<String, String>>();
+            Set<String> paths = objectType == Schema.ProjectProduct__c.SObjectType ? getConditionQueryFields() : getShareClassConditionQueryFields();
+            for (String path : paths) {
+                if (!path.contains('.')) continue;
+                String relationship = path.substringBefore('.').toLowerCase();
+                String subPath = path.substringAfter('.');
+                if (!subPathsByRelationship.containsKey(relationship)) subPathsByRelationship.put(relationship, new Map<String, String>());
+                if (!subPath.equalsIgnoreCase('Id')) subPathsByRelationship.get(relationship).put(subPath.toLowerCase(), subPath);
+            }
+            subPathsByRelationshipByType.put(objectType, subPathsByRelationship);
+        }
+        return subPathsByRelationshipByType.get(objectType);
+    }
+
+    // A value set on the record (queried or put), whatever the case of its name; null when absent (never an "SObject row was retrieved via SOQL without querying the requested field" error)
+    private static Object getPopulatedValue(SObject record, String name) {
+        Map<String, Object> populated = record.getPopulatedFieldsAsMap();
+        if (populated.containsKey(name)) return populated.get(name);
+        for (String key : populated.keySet()) {
+            if (key.equalsIgnoreCase(name)) return populated.get(key);
+        }
+        return null;
+    }
+
     // US-20194 V1.2: fields of one team's screen at the given stages (Fund or Share Class), with whether each is required (required at one of the stages wins). Empty when the team has no line there.
     public Map<String, Boolean> getTeamFieldStates(String teamKey, Set<String> stageNames, Boolean fund) {
         Map<String, Boolean> requiredByField = new Map<String, Boolean>();
@@ -494,6 +606,7 @@ public without sharing class PMTMatrix {
 
     // Owner of the teams of this matrix for which an owner rule applies to the project (teams without an applicable rule are absent).
     public Map<String, Id> getRuleOwnerIdByTeam(ProjectProduct__c project) {
+        project = (ProjectProduct__c) withRelationships(project);
         Map<String, Id> userIds = getUserIdByFederationId();
         Map<String, Id> ownerIdByTeam = new Map<String, Id>();
         for (Team team : teams) {

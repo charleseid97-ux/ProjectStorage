@@ -5,7 +5,8 @@
  *              At SPC Final, the teams owning the modified fields get their owner from the PMT matrix (PMTMatrix,
  *                  FIX-20178: default owner then owner rules), the other teams are emptied, the Scope team keeps its owner.
  *                  US-20194: the matrix follows the project's conditions (PMTMatrix.forProject).
- * @lastModifiedBy Charles EID   [21-10-26]
+ *                  US-20194 V1.8: the projects are queried with the paths of the conditions following a lookup (getConditionQueryFields).
+ * @lastModifiedBy Charles EID   [18-11-26]
  * @testClass Test_MilestoneTrigger
  * @coverage 99%   [21-10-26]
  ────────────────────────────────────── */
@@ -92,10 +93,10 @@ public class MilestoneHandler {
         String fieldsToModifySC = '';
         PMTMatrix matrix = PMTMatrix.get(); // FIX-20178: teams owning the modified fields and their owners come from the PMT matrix (default owner, then owner rules such as Legal by LegalForm__c)
         Map<String, Schema.SObjectField> projectFields = Schema.SObjectType.ProjectProduct__c.fields.getMap();
-        // US-20194: fields read by the conditions of the lines and owner rules, except those already selected (field names are case-insensitive)
+        // US-20194: fields read by the conditions of the lines and owner rules, except those already selected (field names are case-insensitive). US-20194 V1.8: with the paths of the conditions following a lookup
         Set<String> selectedFields = new Set<String>{ 'id', 'scope__c', 'tech_fieldstomodify__c' };
         Set<String> conditionFields = new Set<String>();
-        for (String field : matrix.getConditionFields()) {
+        for (String field : matrix.getConditionQueryFields()) {
             if (!selectedFields.contains(field.toLowerCase())) conditionFields.add(field);
         }
         String conditionFieldList = conditionFields.isEmpty() ? '' : ', ' + String.join(new List<String>(conditionFields), ', ');
@@ -147,7 +148,7 @@ public class MilestoneHandler {
         }
         List<ProjectProductChild__c> children = [SELECT Id, ProjectProductParent__c, TECH_TeamValidation__c
                                                  FROM ProjectProductChild__c
-                                                 WHERE ProjectProductParent__c IN :projectIds AND ProjectProductParent__r.RecordTypeId = :fundCreationRecordTypeId AND ProjectProductParent__r.SFDRcategory__c = '0'];
+                                                 WHERE ProjectProductParent__c IN :projectIds AND ProjectProductParent__r.RecordTypeId = :fundCreationRecordTypeId AND ProjectProductParent__r.SFDRcategory__c = null];
         for (ProjectProductChild__c child : children) {
             Set<String> currentTeams = new Set<String>();
             if (child.TECH_TeamValidation__c != null) currentTeams.addAll(child.TECH_TeamValidation__c.split(';'));
