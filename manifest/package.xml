@@ -808,6 +808,8 @@
         <members>PMTField.FundCCIInvestmentObjective</members>
         <members>PMTFieldRuleLine.FUND_LEICode_1</members>
         <members>PMTFieldRuleLine.FUND_BenchmarkESG_1</members>
+        <members>CustomEmailAlert.ProductClosureNotification</members>
+        <members>CustomEmailRecipient.ProductClosureNotificationTo1</members>
         <name>CustomMetadata</name>
     </types>
     <types>
@@ -984,6 +986,14 @@
     <types>
         <members>PMT_Matrix_Explorer</members>
         <name>CustomTab</name>
+    </types>
+    <types>
+        <members>ProductEmailTemplates</members>
+        <name>EmailTemplateFolder</name>
+    </types>
+    <types>
+        <members>ProductEmailTemplates/ProductClosureNotification</members>
+        <name>EmailTemplate</name>
     </types>
     <version>64.0</version>
 </Package>

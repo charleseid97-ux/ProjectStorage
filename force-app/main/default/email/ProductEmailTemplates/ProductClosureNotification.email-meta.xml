@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <description>Notification that a product has been closed in Salesforce and provides the product name, internal product code, and closure date.</description>
+    <encodingKey>ISO-8859-1</encodingKey>
+    <name>Product - Closure Notification</name>
+    <relatedEntityType>Product2</relatedEntityType>
+    <style>none</style>
+    <subject>Product has been closed: {{{Product__c.InternalShortName__c}}}</subject>
+    <type>custom</type>
+    <uiType>SFX</uiType>
+</EmailTemplate>
