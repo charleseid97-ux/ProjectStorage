@@ -12,7 +12,6 @@
             <name>SObjectRowId</name>
             <value>
                 <elementReference>$Record.Id</elementReference>
-                <inputConfiguratorMode>Resource</inputConfiguratorMode>
             </value>
         </inputParameters>
         <nameSegment>Share_Class__c.Closed_Share_Class</nameSegment>
@@ -33,7 +32,6 @@
             <name>SObjectRowId</name>
             <value>
                 <elementReference>$Record.Id</elementReference>
-                <inputConfiguratorMode>Resource</inputConfiguratorMode>
             </value>
         </inputParameters>
         <nameSegment>Share_Class__c.Product_closure_required</nameSegment>
