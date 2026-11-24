@@ -1,44 +1,91 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Flow xmlns="http://soap.sforce.com/2006/04/metadata">
     <actionCalls>
-        <name>Closed_Share_Class</name>
-        <label>Closed Share Class</label>
+        <name>SendNotificationISShareClassClosure</name>
+        <label>Send Notification of IS Share Class Closure</label>
         <locationX>0</locationX>
         <locationY>0</locationY>
-        <actionName>Share_Class__c.Closed_Share_Class</actionName>
-        <actionType>emailAlert</actionType>
-        <flowTransactionModel>CurrentTransaction</flowTransactionModel>
+        <actionName>CustomEmailAlertFlowAction</actionName>
+        <actionType>apex</actionType>
+        <flowTransactionModel>Automatic</flowTransactionModel>
         <inputParameters>
-            <name>SObjectRowId</name>
+            <name>alertName</name>
+            <value>
+                <stringValue>ISShareClassClosureNotification</stringValue>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>recordId</name>
             <value>
                 <elementReference>$Record.Id</elementReference>
             </value>
         </inputParameters>
-        <nameSegment>Share_Class__c.Closed_Share_Class</nameSegment>
+        <nameSegment>CustomEmailAlertFlowAction</nameSegment>
         <offset>0</offset>
     </actionCalls>
     <actionCalls>
-        <name>Product_closure_required</name>
-        <label>Product closure required</label>
+        <name>SendNotificationProductClosureActions</name>
+        <label>Send Notification for Product Closure Actions</label>
         <locationX>0</locationX>
         <locationY>0</locationY>
-        <actionName>Share_Class__c.Product_closure_required</actionName>
-        <actionType>emailAlert</actionType>
+        <actionName>CustomEmailAlertFlowAction</actionName>
+        <actionType>apex</actionType>
         <connector>
             <targetReference>IS_Share_Class</targetReference>
         </connector>
-        <flowTransactionModel>CurrentTransaction</flowTransactionModel>
+        <flowTransactionModel>Automatic</flowTransactionModel>
         <inputParameters>
-            <name>SObjectRowId</name>
+            <name>alertName</name>
+            <value>
+                <stringValue>ProductShareClassClosureNotification</stringValue>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>recordId</name>
             <value>
                 <elementReference>$Record.Id</elementReference>
             </value>
         </inputParameters>
-        <nameSegment>Share_Class__c.Product_closure_required</nameSegment>
+        <inputParameters>
+            <name>replacementTokens</name>
+            <value>
+                <elementReference>ReplacementTokens</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>replacementValues</name>
+            <value>
+                <elementReference>ReplacementValues</elementReference>
+            </value>
+        </inputParameters>
+        <nameSegment>CustomEmailAlertFlowAction</nameSegment>
         <offset>0</offset>
     </actionCalls>
     <apiVersion>68.0</apiVersion>
     <areMetricsLoggedToDataCloud>false</areMetricsLoggedToDataCloud>
+    <assignments>
+        <name>AssignTokensAndValues</name>
+        <label>Assign Tokens and Values</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <assignmentItems>
+            <assignToReference>ReplacementTokens</assignToReference>
+            <operator>Add</operator>
+            <value>
+                <stringValue>{_ProductLink_}</stringValue>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>ReplacementValues</assignToReference>
+            <operator>Add</operator>
+            <value>
+                <elementReference>ProductLink</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>SendNotificationProductClosureActions</targetReference>
+        </connector>
+    </assignments>
     <decisions>
         <name>Check_Product</name>
         <label>Check Product</label>
@@ -66,7 +113,7 @@
                 </rightValue>
             </conditions>
             <connector>
-                <targetReference>Product_closure_required</targetReference>
+                <targetReference>AssignTokensAndValues</targetReference>
             </connector>
             <label>Active</label>
         </rules>
@@ -88,12 +135,17 @@
                 </rightValue>
             </conditions>
             <connector>
-                <targetReference>Closed_Share_Class</targetReference>
+                <targetReference>SendNotificationISShareClassClosure</targetReference>
             </connector>
             <label>IS</label>
         </rules>
     </decisions>
     <environments>Default</environments>
+    <formulas>
+        <name>ProductLink</name>
+        <dataType>String</dataType>
+        <expression>LEFT({!$Api.Enterprise_Server_URL_520}, FIND(&apos;/services&apos;, {!$Api.Enterprise_Server_URL_520})) &amp; {!$Record.Fund__r.Id}</expression>
+    </formulas>
     <interviewLabel>Share Class Status Update {!$Flow.CurrentDateTime}</interviewLabel>
     <label>Share Class Status Update</label>
     <processMetadataValues>
@@ -172,4 +224,18 @@
         <triggerType>RecordAfterSave</triggerType>
     </start>
     <status>Active</status>
+    <variables>
+        <name>ReplacementTokens</name>
+        <dataType>String</dataType>
+        <isCollection>true</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+    <variables>
+        <name>ReplacementValues</name>
+        <dataType>String</dataType>
+        <isCollection>true</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+    </variables>
 </Flow>

@@ -810,6 +810,10 @@
         <members>PMTFieldRuleLine.FUND_BenchmarkESG_1</members>
         <members>CustomEmailAlert.ProductClosureNotification</members>
         <members>CustomEmailRecipient.ProductClosureNotificationTo1</members>
+        <members>CustomEmailAlert.ProductShareClassClosureNotification</members>
+        <members>CustomEmailRecipient.ShareClassClosureNotificationTo1</members>
+        <members>CustomEmailAlert.ISShareClassClosureNotification</members>
+        <members>CustomEmailRecipient.ISShareClassClosureNotificationTo1</members>
         <name>CustomMetadata</name>
     </types>
     <types>
@@ -993,6 +997,8 @@
     </types>
     <types>
         <members>ProductEmailTemplates/ProductClosureNotification</members>
+        <members>ProductEmailTemplates/ShareClassClosureConfirmationNotification</members>
+        <members>ProductEmailTemplates/ISShareClassClosureNotification</members>
         <name>EmailTemplate</name>
     </types>
     <version>64.0</version>

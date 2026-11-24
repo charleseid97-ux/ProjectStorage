@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <description>Notification confirming that an IS Share Class has been closed, including the related Product, Share Class, ISIN, Closure Type, and Closure Date.</description>
+    <encodingKey>ISO-8859-1</encodingKey>
+    <name>IS Share Class Closure Notification</name>
+    <relatedEntityType>Share_Class__c</relatedEntityType>
+    <style>none</style>
+    <subject>IS Share Class Closed - {{{Share_Class__c.ISIN__c}}}</subject>
+    <type>custom</type>
+    <uiType>SFX</uiType>
+</EmailTemplate>
