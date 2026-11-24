@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>AgreementReference__c</fullName>
+    <deleteConstraint>SetNull</deleteConstraint>
+    <label>Agreement Reference</label>
+    <referenceTo>Convention__c</referenceTo>
+    <relationshipLabel>Products</relationshipLabel>
+    <relationshipName>ProductsIS</relationshipName>
+    <required>false</required>
+    <securityClassification>Internal</securityClassification>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Lookup</type>
+</CustomField>

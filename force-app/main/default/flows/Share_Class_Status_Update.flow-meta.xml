@@ -1,43 +1,68 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Flow xmlns="http://soap.sforce.com/2006/04/metadata">
     <actionCalls>
-        <name>Product_closure_required</name>
-        <label>Product closure required</label>
+        <name>Closed_Share_Class</name>
+        <label>Closed Share Class</label>
         <locationX>0</locationX>
         <locationY>0</locationY>
-        <actionName>Share_Class__c.Product_closure_required</actionName>
+        <actionName>Share_Class__c.Closed_Share_Class</actionName>
         <actionType>emailAlert</actionType>
         <flowTransactionModel>CurrentTransaction</flowTransactionModel>
         <inputParameters>
             <name>SObjectRowId</name>
             <value>
                 <elementReference>$Record.Id</elementReference>
+                <inputConfiguratorMode>Resource</inputConfiguratorMode>
+            </value>
+        </inputParameters>
+        <nameSegment>Share_Class__c.Closed_Share_Class</nameSegment>
+        <offset>0</offset>
+    </actionCalls>
+    <actionCalls>
+        <name>Product_closure_required</name>
+        <label>Product closure required</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <actionName>Share_Class__c.Product_closure_required</actionName>
+        <actionType>emailAlert</actionType>
+        <connector>
+            <targetReference>IS_Share_Class</targetReference>
+        </connector>
+        <flowTransactionModel>CurrentTransaction</flowTransactionModel>
+        <inputParameters>
+            <name>SObjectRowId</name>
+            <value>
+                <elementReference>$Record.Id</elementReference>
+                <inputConfiguratorMode>Resource</inputConfiguratorMode>
             </value>
         </inputParameters>
         <nameSegment>Share_Class__c.Product_closure_required</nameSegment>
         <offset>0</offset>
     </actionCalls>
-    <apiVersion>67.0</apiVersion>
+    <apiVersion>68.0</apiVersion>
     <areMetricsLoggedToDataCloud>false</areMetricsLoggedToDataCloud>
     <decisions>
         <name>Check_Product</name>
         <label>Check Product</label>
         <locationX>0</locationX>
         <locationY>0</locationY>
+        <defaultConnector>
+            <targetReference>IS_Share_Class</targetReference>
+        </defaultConnector>
         <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
         <rules>
             <name>Active</name>
             <conditionLogic>and</conditionLogic>
             <conditions>
-                <leftValueReference>$Record.Fund__r.Validity__c</leftValueReference>
-                <operator>EqualTo</operator>
+                <leftValueReference>Get_Active_Share_Classes</leftValueReference>
+                <operator>IsNull</operator>
                 <rightValue>
                     <booleanValue>true</booleanValue>
                 </rightValue>
             </conditions>
             <conditions>
-                <leftValueReference>Get_Active_Share_Classes</leftValueReference>
-                <operator>IsNull</operator>
+                <leftValueReference>$Record.Fund__r.Validity__c</leftValueReference>
+                <operator>EqualTo</operator>
                 <rightValue>
                     <booleanValue>true</booleanValue>
                 </rightValue>
@@ -46,6 +71,28 @@
                 <targetReference>Product_closure_required</targetReference>
             </connector>
             <label>Active</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <name>IS_Share_Class</name>
+        <label>IS Share Class</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>IS</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>$Record.Fund__r.Scope__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>IS</stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Closed_Share_Class</targetReference>
+            </connector>
+            <label>IS</label>
         </rules>
     </decisions>
     <environments>Default</environments>

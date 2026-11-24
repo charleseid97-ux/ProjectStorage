@@ -5,7 +5,8 @@
     <errorConditionFormula>AND(
 				NOT($User.BypassValidationRules__c),
     NOT(ISPICKVAL(LegalForm__c, &quot;OEIC&quot;)),
-    ISBLANK(RiskNotConsideredinIndicator__c)
+    ISBLANK(RiskNotConsideredinIndicator__c),
+				 PMTScope__c
 )</errorConditionFormula>
     <errorDisplayField>RiskNotConsideredinIndicator__c</errorDisplayField>
     <errorMessage>Risk Not Considered in Indicator is required when Legal Form is not OEIC.</errorMessage>

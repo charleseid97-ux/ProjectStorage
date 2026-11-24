@@ -3,26 +3,66 @@
     <fullName>VR09_Narrative_ProductStrategyAccess</fullName>
     <active>true</active>
     <errorConditionFormula>AND(
-				NOT($User.BypassValidationRules__c),
-				$Permission.PRPProductStrategy,
-				NOT(
-								AND(
-												RecordType.DeveloperName = &quot;Narrative&quot;,
-												OR(
-																AND(
-																				ISPICKVAL(Type__c, &quot;Third Party&quot;),
-																				OR(
-																								ISPICKVAL(SubType__c, &quot;ManagementCompany&quot;),
-																								ISPICKVAL(SubType__c, &quot;Delegated_Investment_Management_3&quot;),
-																								ISPICKVAL(SubType__c, &quot;Delegated_FX_Investment_Manager&quot;),
-																								ISPICKVAL(SubType__c, &quot;Delegated_Investment_Management_2&quot;),
-																								ISPICKVAL(SubType__c, &quot;FundAdvisor&quot;),
-																								ISPICKVAL(SubType__c, &quot;Delegated_Investment_Management_1&quot;)
-																				)
-																)
-												)
-								)
-				)
+    NOT($User.BypassValidationRules__c),
+    $Permission.PRPProductStrategy,
+				LEFT($User.Id, 15) &lt;&gt; &quot;0051i0000036qXR&quot;,
+$Profile.Name &lt;&gt; &apos;Carmignac - System Administrator&apos;,
+    NOT(
+        AND(
+            RecordType.DeveloperName = &quot;Narrative&quot;,
+
+            OR(
+                /* =====================================
+                   PMT - SCOPE PS
+                   THIRD PARTY - 14 SUBTYPES
+                   ===================================== */
+                AND(
+                    NOT(ISBLANK(Project__c)),
+                    ISBLANK(Product__c),
+                    ISPICKVAL(Project__r.Scope__c, &quot;PS&quot;),
+                    ISPICKVAL(Type__c, &quot;Third Party&quot;),
+
+                    OR(
+                        ISPICKVAL(SubType__c, &quot;ManagementCompany&quot;),
+                        ISPICKVAL(SubType__c, &quot;Delegated_Investment_Management_1&quot;),
+                        ISPICKVAL(SubType__c, &quot;Delegated_Investment_Management_2&quot;),
+                        ISPICKVAL(SubType__c, &quot;Delegated_Investment_Management_3&quot;),
+                        ISPICKVAL(SubType__c, &quot;Delegated_FX_Investment_Manager&quot;),
+                        ISPICKVAL(SubType__c, &quot;FundAdvisor&quot;),
+                        ISPICKVAL(SubType__c, &quot;FundAuditor&quot;),
+                        ISPICKVAL(SubType__c, &quot;TransferAgent&quot;),
+                        ISPICKVAL(SubType__c, &quot;Prime_Agent&quot;),
+                        ISPICKVAL(SubType__c, &quot;Pre-central admin&quot;),
+                        ISPICKVAL(SubType__c, &quot;Custodian&quot;),
+                        ISPICKVAL(SubType__c, &quot;Central Admin&quot;),
+                        ISPICKVAL(SubType__c, &quot;Central_Admin2&quot;),
+                        ISPICKVAL(SubType__c, &quot;FundAdmin&quot;)
+                    )
+                ),
+
+                /* =====================================
+                   PRODUCT CATALOGUE - PMT SCOPE
+                   PRODUCT SCOPE PS
+                   THIRD PARTY - 6 SUBTYPES
+                   ===================================== */
+                AND(
+                    NOT(ISBLANK(Product__c)),
+                    Product__r.PMTScope__c = TRUE,
+                    ISPICKVAL(Product__r.Scope__c, &quot;PS&quot;),
+                    ISPICKVAL(Type__c, &quot;Third Party&quot;),
+
+                    OR(
+                        ISPICKVAL(SubType__c, &quot;ManagementCompany&quot;),
+                        ISPICKVAL(SubType__c, &quot;Delegated_Investment_Management_1&quot;),
+                        ISPICKVAL(SubType__c, &quot;Delegated_Investment_Management_2&quot;),
+                        ISPICKVAL(SubType__c, &quot;Delegated_Investment_Management_3&quot;),
+                        ISPICKVAL(SubType__c, &quot;Delegated_FX_Investment_Manager&quot;),
+                        ISPICKVAL(SubType__c, &quot;FundAdvisor&quot;)
+                    )
+                )
+            )
+        )
+    )
 )</errorConditionFormula>
-    <errorMessage>Oops...you don&apos;t have the necessary privileges to edit this record. See your administrator for help.</errorMessage>
+    <errorMessage>Oops...you don&apos;t have the necessary privileges to edit this record. See your administrator for help. PS</errorMessage>
 </ValidationRule>

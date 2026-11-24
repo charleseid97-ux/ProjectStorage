@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>VR17_VehicleType</fullName>
+    <active>true</active>
+    <errorConditionFormula>AND(
+				NOT($User.BypassValidationRules__c),
+				ISPICKVAL(Scope__c, &quot;IS&quot;),
+				PMTScope__c = FALSE,
+				NOT(
+								OR(
+												ISPICKVAL(VehicleType__c, &quot;External IS&quot;),
+												ISPICKVAL(VehicleType__c, &quot;Carmignac DFM&quot;)
+
+								)
+				)
+)</errorConditionFormula>
+    <errorDisplayField>VehicleType__c</errorDisplayField>
+    <errorMessage>Vehicle Type must be Exyernal IS or Carmignac DFM for Investment Solution non PMT products.</errorMessage>
+</ValidationRule>

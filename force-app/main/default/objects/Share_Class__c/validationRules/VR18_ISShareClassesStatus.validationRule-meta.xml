@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>VR18_ISShareClassesStatus</fullName>
+    <active>true</active>
+    <errorConditionFormula>AND(
+				NOT($User.BypassValidationRules__c),
+			 NOT(PMTScope__c),
+    NOT(
+        OR(
+            ISPICKVAL(Status__c, &quot;Active&quot;),
+            ISPICKVAL(Status__c, &quot;Inactive&quot;)
+        )
+    )
+)</errorConditionFormula>
+    <errorDisplayField>Status__c</errorDisplayField>
+    <errorMessage>For IS non PMT Share Classes the Status must be Active or Inactive.</errorMessage>
+</ValidationRule>

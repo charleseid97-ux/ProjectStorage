@@ -68,8 +68,8 @@ public class ProjectProductBatchUtilities {
         }
 
         if (reasonForRHP != '') {
-            Narrative__c reasonForRHPNarrative = new Narrative__c(Name = 'PRIIPs Reason For PHP', RecordTypeId = recordTypeId, Narrative_Scope__c = scope, 
-                                                                        Type__c = 'PRIIPs', SubType__c = 'REASON_FOR_PHP', LanguageNew__c = language, 
+            Narrative__c reasonForRHPNarrative = new Narrative__c(Name = 'PRIIPs Reason For RHP', RecordTypeId = recordTypeId, Narrative_Scope__c = scope, 
+                                                                        Type__c = 'PRIIPs', SubType__c = 'REASON_FOR_RHP', LanguageNew__c = language, 
                                                                         Product__c = productId, Content__c = reasonForRHP, StartDate__c = System.today());
             newNarrative.add(reasonForRHPNarrative);
         }

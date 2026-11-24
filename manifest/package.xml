@@ -32,6 +32,14 @@
         <members>PMTConfigurationDeploy__e.JobId__c</members>
         <members>PMTConfigurationDeploy__e.IsSuccess__c</members>
         <members>PMTConfigurationDeploy__e.Message__c</members>
+        <members>Share_Class__c.PMTScope__c</members>
+        <members>Product__c.ProductDescriptionIS__c</members>
+        <members>Product__c.ShareclassMaster__c</members>
+        <members>Product__c.AgreementReference__c</members>
+        <members>Product__c.Borneexpositionaction__c</members>
+        <members>Product__c.MaxPublicEquitiesExpoFID__c</members>
+        <members>Product__c.TargetPEExpoFID__c</members>
+        <members>Product__c.Usage__c</members>
         <name>CustomField</name>
     </types>
     <types>
@@ -942,11 +950,28 @@
         <members>ProjectProductChild__c.VR11_SeedDescriptionMandatory</members>
         <members>ProjectProductChild__c.VR13_MasterFundMandatory</members>
         <members>ProjectShareclassChild__c.VR43_DividendPolicyOEIC</members>
+        <members>ProjectShareclassChild__c.VR28_ISIN</members>
+        <members>Product__c.VR12_RiskNotConsideredIndicatorRequired</members>
+        <members>Product__c.VR14_ISAccess</members>
+        <members>Product__c.VR15_PSAccess</members>
+        <members>Product__c.VR17_VehicleType</members>
+        <members>Product__c.VR13_MasterFundRequired</members>
+        <members>Share_Class__c.VR19_ISAccess</members>
+        <members>Share_Class__c.VR20_PSAccess</members>
+        <members>Share_Class__c.VR18_ISShareClassesStatus</members>
+        <members>Narrative__c.VR13_Narrative_ISAccess</members>
+        <members>Narrative__c.VR09_Narrative_ProductStrategyAccess</members>
         <name>ValidationRule</name>
     </types>
     <types>
         <members>New_IS_Product</members>
         <members>New_IS_Benchmark</members>
+        <members>PMT_ISIN_Control</members>
+        <members>New_IS_Narrative_Marketing</members>
+        <members>New_IS_Narrative_ThirdParty</members>
+        <members>New_IS_Share_Class</members>
+        <members>Share_Class_Status_Update</members>
+        <members>IS_Product_Closed</members>
         <name>Flow</name>
     </types>
     <types>

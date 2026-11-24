@@ -3,9 +3,55 @@
     <fullName>VR28_ISIN</fullName>
     <active>true</active>
     <errorConditionFormula>AND(
-  NOT($User.BypassValidationRules__c),
-  NOT(ISBLANK(ISIN__c)),
-  NOT(REGEX(ISIN__c, &quot;^[A-Z]{2}[A-Z0-9]{9}[0-9]$&quot;))
+    NOT($User.BypassValidationRules__c),
+    NOT(ISBLANK(ISIN__c)),
+
+    OR(
+        /* Contrôle du format général de l&apos;ISIN */
+        NOT(
+            REGEX(
+                ISIN__c,
+                &quot;^[A-Z]{2}[A-Z0-9]{9}[0-9]$&quot;
+            )
+        ),
+
+        /* France */
+        AND(
+            ISPICKVAL(
+                ProjectShareclasses__r.ProjectProduct__r.DomiciledIn__c,
+                &quot;FR&quot;
+            ),
+            NOT(BEGINS(ISIN__c, &quot;FR&quot;))
+        ),
+
+        /* Luxembourg */
+        AND(
+            ISPICKVAL(
+                ProjectShareclasses__r.ProjectProduct__r.DomiciledIn__c,
+                &quot;LU&quot;
+            ),
+            NOT(BEGINS(ISIN__c, &quot;LU&quot;))
+        ),
+
+        /* Ireland */
+        AND(
+            ISPICKVAL(
+                ProjectShareclasses__r.ProjectProduct__r.DomiciledIn__c,
+                &quot;IE&quot;
+            ),
+            NOT(BEGINS(ISIN__c, &quot;IE&quot;))
+        ),
+
+        /* United Kingdom */
+        AND(
+            ISPICKVAL(
+                ProjectShareclasses__r.ProjectProduct__r.DomiciledIn__c,
+                &quot;GB&quot;
+            ),
+            NOT(BEGINS(ISIN__c, &quot;GB&quot;))
+        )
+    )
 )</errorConditionFormula>
-    <errorMessage>The ISIN must consist of 12 characters: two uppercase letters, followed by nine alphanumeric characters, and ending with a single digit.</errorMessage>
+    <errorDisplayField>ISIN__c</errorDisplayField>
+    <errorMessage>Invalid ISIN. Please enter a valid 12-character ISIN. The first two characters must match the fund domiciliation (FR, LU, IE or GB).</errorMessage>
 </ValidationRule>

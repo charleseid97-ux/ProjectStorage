@@ -476,7 +476,7 @@ public class ProjectProductBatchController {
         narrativesToUpsert.addAll(ProjectProductBatchUtilities.buildNarrativesForField(context.mapCCIInvObj, context.languageByProductId, existingByKey, TYPE_INVESTMENT_OBJECTIVE, 'CCI', 'Investment Objective CCI', NARRATIVE_RECORD_TYPE_ID, debugInformation)); // Crée ou met à jour la narrative CCI sans créer de doublon.
         narrativesToUpsert.addAll(ProjectProductBatchUtilities.buildNarrativesForField(context.mapRisk, context.languageByProductId, existingByKey, TYPE_RISK, 'Main Risk of the Fund', 'Risk Main Risk of the Fund', NARRATIVE_RECORD_TYPE_ID, debugInformation));
         narrativesToUpsert.addAll(ProjectProductBatchUtilities.buildNarrativesForField(context.mapIntendedRetail, context.languageByProductId, existingByKey, TYPE_PRIIPS, 'INTENDED_RETAIL_INVESTOR', 'PRIIPs Intended Retail Investor', NARRATIVE_RECORD_TYPE_ID, debugInformation));
-        narrativesToUpsert.addAll(ProjectProductBatchUtilities.buildNarrativesForField(context.mapReasonForRHP, context.languageByProductId, existingByKey, TYPE_PRIIPS, 'REASON_FOR_PHP', 'PRIIPs Reason For PHP', NARRATIVE_RECORD_TYPE_ID, debugInformation));
+        narrativesToUpsert.addAll(ProjectProductBatchUtilities.buildNarrativesForField(context.mapReasonForRHP, context.languageByProductId, existingByKey, TYPE_PRIIPS, 'REASON_FOR_RHP', 'PRIIPs Reason For RHP', NARRATIVE_RECORD_TYPE_ID, debugInformation));
 
         if (!narrativesToUpsert.isEmpty()) {
             upsert narrativesToUpsert;
