@@ -27,7 +27,8 @@ public class PMTTestFactoryData {
             DomiciledIn__c = 'FR',
             ProjectStatus__c = 'Closed',
             ProductName__c = 'toto',
-            LegalForm__c = 'Other'
+            LegalForm__c = 'Other',
+            LettreRequise__c = 'No' // US-18299: SPC Final can only be completed once the Notice to Shareholders decision is recorded
         );
         System.debug('createProjectProductWithAllFields: ' + p.recordTypeId);
         insert p;

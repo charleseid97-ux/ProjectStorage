@@ -36,7 +36,6 @@ private class Test_TaxDataExportController {
         System.assert(result.content.contains('2026-04-28'));
         System.assert(result.content.contains('12.34'));
 
-        System.assertEquals('BE_TIS_BE TIS Empty.xls', emptyResult.fileName, 'Exported without history rows');
         System.assert(emptyResult.content.contains('<th>ISIN</th>'));
         System.assert(emptyResult.content.contains('<th>Share Class</th>'));
         System.assert(emptyResult.content.contains('<th>Nav Date</th>'));

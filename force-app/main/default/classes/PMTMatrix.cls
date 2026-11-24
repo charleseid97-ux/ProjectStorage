@@ -46,6 +46,8 @@ public without sharing class PMTMatrix {
     private static Map<Id, ProjectProduct__c> loadedProjectById = new Map<Id, ProjectProduct__c>();
     private static Map<Id, ProjectShareclass__c> loadedShareClassById = new Map<Id, ProjectShareclass__c>();
     private static Map<Id, SObject> liveRecordById = new Map<Id, SObject>();
+    // Fields queried on each live record: a field queried with a null value is missing from getPopulatedFieldsAsMap(), so the record would be queried again on every call
+    private static Map<Id, Set<String>> liveFieldsById = new Map<Id, Set<String>>();
     // US-20194 V1.6: lines and owner rules skipped because invalid, reported by getConfigurationWarning()
     @TestVisible
     private static List<String> invalidRecords = new List<String>();
@@ -284,11 +286,12 @@ public without sharing class PMTMatrix {
         if (fields.isEmpty()) return record;
 
         SObject live = liveRecordById.get(liveRecordId);
-        if (live == null || !hasFields(live, fields)) {
+        if (live == null || !liveFieldsById.get(liveRecordId).containsAll(fields)) {
             List<SObject> liveRecords = Database.query('SELECT ' + String.join(new List<String>(fields), ', ') + ' FROM ' + liveObject.getName() + ' WHERE Id = :liveRecordId');
             if (liveRecords.isEmpty()) return record;
             live = liveRecords[0];
             liveRecordById.put(liveRecordId, live);
+            liveFieldsById.put(liveRecordId, fields);
         }
         SObject context = record.clone(true, true, true, true);
         for (String field : fields) context.put(field, live.get(field));
@@ -300,14 +303,6 @@ public without sharing class PMTMatrix {
             if (candidate.equalsIgnoreCase(value)) return true;
         }
         return false;
-    }
-
-    private static Boolean hasFields(SObject record, Set<String> fields) {
-        Map<String, Object> populated = record.getPopulatedFieldsAsMap();
-        for (String field : fields) {
-            if (!populated.containsKey(field)) return false;
-        }
-        return true;
     }
 
     // Project level (shareClass null): evaluates the conditions that read only the project. Share class level: evaluates the conditions that read the share class. Matrices are cached by condition results, so the projects (or share classes) answering the same share one matrix.

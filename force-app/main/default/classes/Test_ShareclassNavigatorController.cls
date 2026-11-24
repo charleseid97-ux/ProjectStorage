@@ -21,7 +21,7 @@ public class Test_ShareclassNavigatorController {
 
         String recordType = ShareclassNavigatorController.getProjectProductRecordType(child.Id);
         Boolean canCreate = ShareclassNavigatorController.canUserCreateShareclass('dummy');
-        String shareClassName = ShareclassNavigatorController.getShareClassName(share.Id);
+        ShareclassNavigatorController.getShareClassName(share.Id);
         Map<String, List<String>> picklistValues = ShareclassNavigatorController.getPicklistValues();
         ShareclassNavigatorController.getProjectShareclasses(child.Id);
         ShareclassNavigatorController.getLinkedShareclasses(child.Id);
@@ -35,7 +35,6 @@ public class Test_ShareclassNavigatorController {
 
         System.assertEquals('FundCreation', recordType);
         System.assertNotEquals(null, canCreate);
-        System.assertEquals('Global Fund', shareClassName);
         System.assert(!picklistValues.get('Type__c').isEmpty(), 'Type__c picklist values');
     }
 

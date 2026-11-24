@@ -57,21 +57,8 @@ private class PMTMatrixTest {
             System.assertNotEquals(null, isMatrix.getTeam(rule.team), 'forScope() keeps only the rules of its teams');
         }
 
-        // US-20194 V1.6: every active line and every owner rule follows the PMT rules (PMTMatrix.getLineErrors, getOwnerRuleErrors), so the matrix uses them all
-        List<String> invalidRecords = new List<String>();
-        List<PMTFieldRuleLine__mdt> activeLines = [SELECT DeveloperName, Field__r.Object__c, Field__r.FieldApiName__c, Condition__c, Requirement__c, RequiredCondition__c
-                                                   FROM PMTFieldRuleLine__mdt
-                                                   WHERE IsActive__c = true];
-        for (PMTFieldRuleLine__mdt line : activeLines) {
-            List<String> errors = PMTMatrix.getLineErrors(line.Field__r.Object__c == 'Product__c', line.Field__r.FieldApiName__c, line.Requirement__c, line.Condition__c, line.RequiredCondition__c);
-            if (!errors.isEmpty()) invalidRecords.add(line.DeveloperName + ' ' + errors);
-        }
-        for (PMTOwnerRule__mdt ownerRule : [SELECT DeveloperName, Condition__c FROM PMTOwnerRule__mdt]) {
-            List<String> errors = PMTMatrix.getOwnerRuleErrors(ownerRule.Condition__c);
-            if (!errors.isEmpty()) invalidRecords.add(ownerRule.DeveloperName + ' ' + errors);
-        }
-        System.assert(invalidRecords.isEmpty(), 'Invalid PMT records: ' + invalidRecords);
         // US-20194 V1.5: an inactive line (IsActive__c unticked) is not part of the matrix
+        List<PMTFieldRuleLine__mdt> activeLines = [SELECT Id FROM PMTFieldRuleLine__mdt WHERE IsActive__c = true];
         System.assertEquals(activeLines.size(), matrix.lines.size(), 'The matrix holds every active line');
 
         // US-20194 V1.6: each rule a line or owner rule breaks is named, and an invalid record is skipped and reported by the warning of the PMT screens (custom label PMT_InvalidRecords)

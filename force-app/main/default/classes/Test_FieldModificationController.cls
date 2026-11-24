@@ -40,12 +40,11 @@ public class Test_FieldModificationController {
         }
         insert junctionsToInsert;
 
+        Test.startTest();
+
         // Saving the selected fields again once the junctions exist runs both validateSteps (project and share class)
         proj.TECH_FieldsToModify__c = 'NAVFrequency__c;ForeseenEUCategory__c;PricingMethod__c;RecommendedHoldingPeriod__c';
         update proj;
-
-        Test.startTest();
-
         shareClass.TECH_FieldsToModify__c = 'DividendFrequency__c;Type__c;InvestmentStatusInvestors__c;DividendPolicy__c';
         update shareClass;
         List<Map<String, String>> productsList = FieldModificationController.getFieldsToModify(proj.Id, 'Product__c');
