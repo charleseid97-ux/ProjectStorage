@@ -1,36 +1,47 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Package xmlns="http://soap.sforce.com/2006/04/metadata">
     <types>
-        <members>IS_Agreement</members>
-        <members>Carmignac_IS_HomePage</members>
+        <members>ProductSelectionCtrl</members>
+        <members>ProductSelectionCtrlTest</members>
+        <members>WTPProductSelectorController</members>
+        <members>WTPProductSelectorControllerTest</members>
+        <members>WTPSelectorController</members>
+        <members>WTPSelectorControllerTest</members>
+        <name>ApexClass</name>
+    </types>
+    <types>
+        <members>ProductSelectorContainerWTP</members>
+        <members>ProductSelectorDynamicRowWTP</members>
+        <members>ProductSelectorInitialModalWTP</members>
+        <members>ProductSelectorInitialModalWTPEvt</members>
+        <members>ProductSelectorListenerWTP</members>
+        <members>ProductSelectorRedirectWTP</members>
+        <members>ProductSelectorSaveListToWTP</members>
+        <members>ProductSelectorTileSelectedAddToDynamicListWTPEvt</members>
+        <members>ProductSelectorWTPSelectButton</members>
+        <members>ProductTileListWTP</members>
+        <name>AuraDefinitionBundle</name>
+    </types>
+    <types>
+        <members>Work_Together_Process_Record_Page4</members>
+        <members>Work_Together_Process_Record_PageDPM</members>
+        <members>Work_Together_Process_Record_Page_Admin_MI</members>
         <name>FlexiPage</name>
     </types>
     <types>
-        <members>Convention__c.DCOPayment__c</members>
-        <members>Convention__c.DCOReallocation__c</members>
-        <members>Convention__c.SetupStatus__c</members>
-        <members>Convention__c.NextReviewDate__c</members>
-        <name>CustomField</name>
+        <members>WTP_Product_Selector</members>
+        <name>Flow</name>
     </types>
     <types>
-        <members>Convention__c.IS_Agreement</members>
-        <name>RecordType</name>
+        <members>flowModal</members>
+        <members>sharesSelector</members>
+        <members>wtpProductSelector</members>
+        <members>wtpProductSelectorAction</members>
+        <name>LightningComponentBundle</name>
     </types>
     <types>
-        <members>DCO/InvestmentSolutionXDCO</members>
-        <name>Report</name>
-    </types>
-    <types>
-        <members>DCO</members>
-        <name>ReportFolder</name>
-    </types>
-    <types>
-        <members>DCODashboards/zxFdtcMWiWwQUfRUpxLiaDHvykVULI</members>
-        <name>Dashboard</name>
-    </types>
-    <types>
-        <members>DCODashboards</members>
-        <name>DashboardFolder</name>
+        <members>Case.Add_Products_Share_Classes</members>
+        <name>QuickAction</name>
     </types>
     <version>64.0</version>
 </Package>

@@ -207,19 +207,6 @@
                 <identifier>force_relatedListContainer</identifier>
             </componentInstance>
         </itemInstances>
-        <itemInstances>
-            <componentInstance>
-                <componentName>ProductSelectorListenerWTP</componentName>
-                <identifier>c_ProductSelectorListenerWTP1</identifier>
-                <visibilityRule>
-                    <criteria>
-                        <leftValue>{!Record.RecordType.DeveloperName}</leftValue>
-                        <operator>EQUAL</operator>
-                        <rightValue>RFP</rightValue>
-                    </criteria>
-                </visibilityRule>
-            </componentInstance>
-        </itemInstances>
         <name>Facet-f6f6004a-8f80-4e9d-bb4b-7cf20ae2719e</name>
         <type>Facet</type>
     </flexiPageRegions>
