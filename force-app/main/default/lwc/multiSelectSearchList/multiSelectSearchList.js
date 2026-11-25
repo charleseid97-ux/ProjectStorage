@@ -101,7 +101,7 @@ export default class MultiSelectSearchList extends LightningElement {
    
     // Saved once options exist: copying an empty list re-assigns the tracked optionsSaved on every render, an endless render loop when options load asynchronously.
     renderedCallback(){
-		if (!this.optionsSaved?.length && this.options?.length) this.optionsSaved = [...this.options];
+		if (!this.optionsSaved?.length && this.options?.length) this.optionsSaved = [...this.options]; 
     }
    
     @api refreshOptions(newoptions){
