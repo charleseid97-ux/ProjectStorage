@@ -10,19 +10,6 @@
         <name>ApexClass</name>
     </types>
     <types>
-        <members>ProductSelectorContainerWTP</members>
-        <members>ProductSelectorDynamicRowWTP</members>
-        <members>ProductSelectorInitialModalWTP</members>
-        <members>ProductSelectorInitialModalWTPEvt</members>
-        <members>ProductSelectorListenerWTP</members>
-        <members>ProductSelectorRedirectWTP</members>
-        <members>ProductSelectorSaveListToWTP</members>
-        <members>ProductSelectorTileSelectedAddToDynamicListWTPEvt</members>
-        <members>ProductSelectorWTPSelectButton</members>
-        <members>ProductTileListWTP</members>
-        <name>AuraDefinitionBundle</name>
-    </types>
-    <types>
         <members>Work_Together_Process_Record_Page4</members>
         <members>Work_Together_Process_Record_PageDPM</members>
         <members>Work_Together_Process_Record_Page_Admin_MI</members>
@@ -34,7 +21,6 @@
     </types>
     <types>
         <members>flowModal</members>
-        <members>sharesSelector</members>
         <members>wtpProductSelector</members>
         <members>wtpProductSelectorAction</members>
         <name>LightningComponentBundle</name>
