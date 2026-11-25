@@ -1,9 +1,9 @@
 /** ──────────────────────────────────────
  * @description Tests of the ProjectProductChild__c trigger on a modification project: the active share classes of the fund cloned into Project Share Classes linked to
  *                  every phase, a field edited on a phase copied to the project, and the completion rate of a Completed phase of a modification project (100).
- * @covers ProjectProductChildHandler   93%   [21-10-26]
- * @covers ProjectProductChildTriggerHandler   100%   [21-10-26]
- * @lastModifiedBy Charles EID   [21-10-26]
+ * @covers ProjectProductChildHandler   93%   [25-11-26]
+ * @covers ProjectProductChildTriggerHandler   100%   [25-11-26]
+ * @lastModifiedBy Charles EID   [25-11-26]
  ────────────────────────────────────── */
 @isTest
 private class Test_ProjectProductChildTriggerHandler {
@@ -21,7 +21,7 @@ private class Test_ProjectProductChildTriggerHandler {
             VehicleType__c = 'Funds',
             ProjectStartDate__c = Date.today() - 20,
             EndDate__c = Date.today(),
-            RiskAssociated__c = 'Equity;Interest rates;Credit;Currency',
+            RiskAssociated__c = 'Equity;Interest rate;Credit;Currency',
             InvestmentObjective__c = 'Sample Objective',
             InvestmentStrategy__c = 'Sample Strategy',
             DomiciledIn__c = 'FR',

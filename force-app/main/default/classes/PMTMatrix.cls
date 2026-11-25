@@ -22,10 +22,12 @@
  *                  the paths, or by loadRelationships(records) in one query per relationship for records that carry none (Trigger.new).
  *                  getConditionFields() keeps the fields whose change changes the matrix (the lookup of a path); getConditionQueryFields()
  *                  is what a query selects.
+ *              PMT IS Scope: withLiveValues keeps the fields queried on each live record (liveFieldsById): a field queried with a null value
+ *                  is missing from getPopulatedFieldsAsMap(), so the record was queried again on every call (Too many SOQL queries).
  * @author Charles EID
- * @lastModifiedBy Charles EID   [18-11-26]
+ * @lastModifiedBy Charles EID   [24-11-26]
  * @testClass PMTMatrixTest
- * @coverage 100%   [18-11-26]
+ * @coverage 100%   [25-11-26]
  ────────────────────────────────────── */
 public without sharing class PMTMatrix {
 

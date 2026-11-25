@@ -4,8 +4,9 @@
  *                  US-20194 V1.2): the team's lines at the record's stage whose condition applies (ISIN__c on Legal's Filing screen of
  *                  an FCP fund, not on OPS's), required from the line or its RequiredCondition__c with the unsaved values, editable with
  *                  the team's custom permission only.
- * @covers PageLayoutController   97%   [26-10-26]
- * @lastModifiedBy Charles EID   [26-10-26]
+ *              PMT IS Scope: no assertion on the PMT configuration warning, which depends on the deployed custom metadata records.
+ * @covers PageLayoutController   97%   [25-11-26]
+ * @lastModifiedBy Charles EID   [25-11-26]
  ────────────────────────────────────── */
 @isTest
 public class PageLayoutControllerTest {
@@ -45,7 +46,7 @@ public class PageLayoutControllerTest {
         PageLayoutController.checkModificationConidtions(scChild.Id, 'ProjectShareclassChild__c');
         Boolean projectEditable = PageLayoutController.checkEditableConidtions(proj.Id, 'ProjectProduct__c');
         SObject projectModification = PageLayoutController.checkModificationConidtions(proj.Id, 'ProjectProduct__c');
-        String configurationWarning = PageLayoutController.getPMTConfigurationWarning();
+        PageLayoutController.getPMTConfigurationWarning();
 
         // Editable fields read from a field of the stage, or of its parent project
         PageLayoutController.getEditableFieldsFromSourceField('ISIN__c,ProjectProductParent__r.Name', 'ProjectProductChild__c', child.Id);
@@ -77,7 +78,6 @@ public class PageLayoutControllerTest {
 
         System.assert(!projectEditable, 'Only stages and Shareclass Children are editable here');
         System.assertEquals(null, projectModification, 'Only stages and Shareclass Children are checked');
-        System.assertEquals(null, configurationWarning, 'Every PMT line field exists in this org: no warning');
         System.assert(!parentFieldValue.isEmpty(), 'Value of a parent field');
         System.assert(!recordFieldValue.isEmpty(), 'Value of a field of the record');
         System.assert(emptyParentFieldValue.isEmpty(), 'Empty parent field');

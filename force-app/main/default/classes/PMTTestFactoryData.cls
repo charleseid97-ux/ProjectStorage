@@ -2,7 +2,9 @@
  * @description Test data factory of the PMT: projects, stages, share classes, junctions, milestones, users, and the PMT matrix of the
  *                  running test (createMatrice, createMatrixLine, createOwnerRule, clearMatrix): custom metadata records cannot be
  *                  inserted in a test, so these replace the matrix of the transaction (PMTMatrix internals visible to tests only).
- * @lastModifiedBy Charles EID   [22-10-26]
+ *              PMT IS Scope: createProjectProductWithAllFields sets LettreRequise__c (SPC Final can be completed); buildProjectShareclass
+ *                  builds a project share class without the insert, so several are inserted in one DML.
+ * @lastModifiedBy Charles EID   [25-11-26]
  ────────────────────────────────────── */
 @isTest
 public class PMTTestFactoryData {
@@ -165,7 +167,14 @@ public class PMTTestFactoryData {
     }
 
     public static ProjectShareclass__c createProjectShareclass(Id parentId, String fieldsToModify) {
-        ProjectShareclass__c shc = new ProjectShareclass__c(
+        ProjectShareclass__c shc = buildProjectShareclass(parentId, fieldsToModify);
+        insert shc;
+        return shc;
+    }
+
+    // Project share class without the insert: several are inserted in one DML, the PMT triggers run many queries per DML
+    public static ProjectShareclass__c buildProjectShareclass(Id parentId, String fieldsToModify) {
+        return new ProjectShareclass__c(
             ProjectProduct__c = parentId,
             TECH_FieldsToModify__c = fieldsToModify,
             Type__c = 'A',
@@ -173,8 +182,6 @@ public class PMTTestFactoryData {
             DividendPolicy__c = 'Accumulating',
             CurrencyHedging__c = 'False'
         );
-        insert shc;
-        return shc;
     }
 
     public static Product__c getProduct(Id recId, String code, String name, Boolean isActive) {

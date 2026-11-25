@@ -2,8 +2,8 @@
  * @description Tests of TaxDataExportController.exportBETISHistory: export of the BE TIS history of a share class (with and without
  *                  history rows), and the handled errors (no share class Id, no BE TIS request).
  * @author Khadija
- * @covers TaxDataExportController   96%   [21-10-26]
- * @lastModifiedBy Charles EID   [21-10-26]
+ * @covers TaxDataExportController   96%   [25-11-26]
+ * @lastModifiedBy Charles EID   [24-11-26]
  ────────────────────────────────────── */
 @isTest
 private class Test_TaxDataExportController {

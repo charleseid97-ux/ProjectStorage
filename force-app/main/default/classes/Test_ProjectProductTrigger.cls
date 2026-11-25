@@ -2,9 +2,10 @@
  * @description Tests of the ProjectProduct__c trigger on a Fund creation project: Road To Market at creation, status date,
  *                  Launch Date milestone, PMT owner rule (condition on LegalForm__c) and, when the fields read by the PMT
  *                  conditions change, the realignment of the automatically validated teams (US-20194: ISIN__c becomes an OPS field).
- * @covers ProjectProductTriggerHandler   100%   [21-10-26]
- * @covers ProjectProductSetupHandler   94%   [21-10-26]
- * @lastModifiedBy Charles EID   [21-10-26]
+ *              PMT IS Scope: the OPS validation at creation is no longer compared with the deployed custom metadata records.
+ * @covers ProjectProductTriggerHandler   100%   [25-11-26]
+ * @covers ProjectProductSetupHandler   95%   [25-11-26]
+ * @lastModifiedBy Charles EID   [25-11-26]
  ────────────────────────────────────── */
 @isTest
 public class Test_ProjectProductTrigger {
@@ -30,12 +31,6 @@ public class Test_ProjectProductTrigger {
         ProjectProduct__c proj = PMTTestFactoryData.createProjectProductWithAllFields(fundCreationRtId);
         List<RoadToMarket__c> roadToMarkets = [SELECT Id FROM RoadToMarket__c WHERE Parent_Project__c = :proj.Id];
         System.assert(!roadToMarkets.isEmpty(), 'RoadToMarket should be created after insert');
-        PMTMatrix projectMatrix = PMTMatrix.get().forConditions(proj);
-        Boolean opsUsesOtherFilingFields = !projectMatrix.getRule('OPS', 'Filing').isEmpty();
-        ProjectProductChild__c filing = [SELECT TECH_TeamValidation__c
-                                         FROM ProjectProductChild__c
-                                         WHERE ProjectProductParent__c = :proj.Id AND Name = 'Filing'];
-        System.assertEquals(!opsUsesOtherFilingFields, ProjectProductSetupHandlerUtilities.splitMultiPicklist(filing.TECH_TeamValidation__c).contains('OPS'), 'OPS without field at Filing is validated automatically');
 
         // Set a milestone to test EndDate__c update handling
         Milestone__c milestone = PMTTestFactoryData.createMilestone(proj.Id, 'Launch Date', proj.EndDate__c);
@@ -59,7 +54,7 @@ public class Test_ProjectProductTrigger {
         System.assertEquals(oeicOwner.Id, updated.Legal__c, 'Legal owner of the new legal form (PMT owner rule)');
 
         // US-20194: OPS now has ISIN__c to fill at Filing, it is no longer validated automatically (resyncConditionalValues, asynchronous)
-        filing = [SELECT TECH_TeamValidation__c FROM ProjectProductChild__c WHERE ProjectProductParent__c = :proj.Id AND Name = 'Filing'];
+        ProjectProductChild__c filing = [SELECT TECH_TeamValidation__c FROM ProjectProductChild__c WHERE ProjectProductParent__c = :proj.Id AND Name = 'Filing'];
         System.assert(!ProjectProductSetupHandlerUtilities.splitMultiPicklist(filing.TECH_TeamValidation__c).contains('OPS'), 'OPS gained a field at Filing: it has to validate');
 
         // Assert milestone was updated

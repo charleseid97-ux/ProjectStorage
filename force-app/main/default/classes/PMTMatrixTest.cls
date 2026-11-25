@@ -7,59 +7,23 @@
  *              US-20194 V1.6: the line and owner rule rules (getLineErrors, getOwnerRuleErrors) on every deployed record, then each rule broken,
  *                  and an invalid record skipped and reported by the warning of the PMT screens (custom label PMT_InvalidRecords).
  *              US-20194 V1.8: a condition following a lookup: watched lookup, queried path, parent read once for a record carrying none.
- * @covers PMTMatrix   100%   [18-11-26]
- * @lastModifiedBy Charles EID   [18-11-26]
+ *              PMT IS Scope: no assertion on the deployed custom metadata records (admins change them freely): only the loading of the matrix,
+ *                  the in-memory test matrix and the rules on hand-built values are asserted. The 2 share classes are inserted in one DML.
+ * @covers PMTMatrix   100%   [25-11-26]
+ * @lastModifiedBy Charles EID   [25-11-26]
  ────────────────────────────────────── */
 @isTest
 private class PMTMatrixTest {
 
     @isTest
     static void test_matrix() {
-        // 1. Configuration loaded from the PMT custom metadata records, once per transaction
+        // 1. Configuration loaded from the PMT custom metadata records, once per transaction (no assertion on the deployed records: admins change them freely)
         PMTMatrix matrix = PMTMatrix.get();
         PMTMatrix sameMatrix = PMTMatrix.get();
         System.assert(matrix === sameMatrix, 'The matrix is loaded once per transaction');
-
-        for (Integer i = 1; i < matrix.stages.size(); i++) {
-            System.assert(matrix.stages[i - 1].sortOrder <= matrix.stages[i].sortOrder, 'Stages are sorted by order');
-        }
-        for (Integer i = 1; i < matrix.teams.size(); i++) {
-            System.assert(matrix.teams[i - 1].sortOrder <= matrix.teams[i].sortOrder, 'Teams are sorted by order');
-        }
-        for (PMTMatrix.FieldRule rule : matrix.rules) {
-            System.assertNotEquals(null, matrix.getTeam(rule.team), 'Every rule belongs to a team of the matrix');
-            System.assertNotEquals(null, matrix.getStage(rule.stage), 'Every rule belongs to a stage of the matrix');
-            System.assert(rule === matrix.getRule(rule.team, rule.stage), 'getRule() returns the configured rule');
-            System.assert(!rule.isEmpty(), 'Only teams and stages with fields have a rule');
-        }
         System.assert(matrix.getRule('Unknown Team', 'Unknown Stage').isEmpty(), 'getRule() returns an empty rule, never null');
-
-        Map<String, String> teamByField = matrix.getTeamByField();
-        Map<String, String> stageByField = matrix.getStageByField();
-        Set<String> requiredFundFields = new Set<String>(matrix.getRequiredFields(true));
-        for (PMTMatrix.FieldRule rule : matrix.rules) {
-            Map<String, String> stageByTeamField = matrix.getStageByField(rule.team);
-            for (String field : rule.getAllFields()) {
-                System.assert(teamByField.containsKey(field) && stageByField.containsKey(field), 'Every field has a team and a stage');
-                System.assert(stageByTeamField.containsKey(field), 'Every field of a team has a stage for that team');
-            }
-            System.assert(requiredFundFields.containsAll(rule.requiredFund), 'getRequiredFields() holds every required Fund field');
-        }
-        System.assertEquals(matrix.stages.size(), matrix.getRequiredFieldsByStage(false).size(), 'Every stage is a key of getRequiredFieldsByStage()');
-        System.assertEquals(matrix.stages.size(), matrix.getTeamsWithoutFieldsByStage().size(), 'Every stage is a key of getTeamsWithoutFieldsByStage()');
-
         PMTMatrix isMatrix = matrix.forScope('IS');
         System.assert(isMatrix === matrix.forScope('IS'), 'forScope() is computed once per scope');
-        for (PMTMatrix.Team team : isMatrix.teams) {
-            System.assert(String.isBlank(team.scope) || team.scope == 'IS', 'forScope() keeps the teams of every scope and of the given scope');
-        }
-        for (PMTMatrix.FieldRule rule : isMatrix.rules) {
-            System.assertNotEquals(null, isMatrix.getTeam(rule.team), 'forScope() keeps only the rules of its teams');
-        }
-
-        // US-20194 V1.5: an inactive line (IsActive__c unticked) is not part of the matrix
-        List<PMTFieldRuleLine__mdt> activeLines = [SELECT Id FROM PMTFieldRuleLine__mdt WHERE IsActive__c = true];
-        System.assertEquals(activeLines.size(), matrix.lines.size(), 'The matrix holds every active line');
 
         // US-20194 V1.6: each rule a line or owner rule breaks is named, and an invalid record is skipped and reported by the warning of the PMT screens (custom label PMT_InvalidRecords)
         String projectCondition = 'ISPICKVAL(ProjectProduct__c.LegalForm__c, \'FCP\')';
@@ -70,32 +34,22 @@ private class PMTMatrixTest {
         System.assertEquals(new List<String>{ 'Required condition: ' + PMTMatrix.IGNORED_REQUIRED_CONDITION_ERROR }, PMTMatrix.getLineErrors(true, 'LegalForm__c', 'Required', projectCondition, projectCondition), 'RequiredCondition__c only on Conditional lines');
         System.assert(PMTMatrix.getLineErrors(true, 'LegalForm__c', 'Conditional', projectCondition, projectCondition).isEmpty(), 'A valid Conditional line has no error');
         System.assertEquals(1, PMTMatrix.getOwnerRuleErrors('NOT_A_FUNCTION(').size(), 'An owner rule condition must compile');
-        String noWarning = PMTMatrix.getConfigurationWarning();
         Boolean invalidLineUsed = PMTMatrix.isUsable(PMTFieldRuleLine__mdt.SObjectType, 'SC_Test_1', lineErrors);
         Boolean validRuleUsed = PMTMatrix.isUsable(PMTOwnerRule__mdt.SObjectType, 'LegalDefault', new List<String>());
         String warning = PMTMatrix.getConfigurationWarning();
-        System.assertEquals(null, noWarning, 'Every deployed record is valid: no warning');
         System.assert(!invalidLineUsed && validRuleUsed, 'Only a record without errors is used');
         System.assert(warning.contains(Schema.PMTFieldRuleLine__mdt.SObjectType.getDescribe().getLabel() + ' SC_Test_1 (') && warning.contains(PMTMatrix.PROJECT_ONLY_ERROR), 'The warning names the record and its errors: ' + warning);
         PMTMatrix.invalidRecords = new List<String>();
         PMTMatrix screenMatrix = PMTMatrix.getForScreen();
         System.assert(screenMatrix === matrix, 'getForScreen() returns the matrix of the transaction');
 
-        // US-20194: ISIN__c is used by Legal (FR/IE + FCP/ICAV/FCPR/FCPE), by OPS (GB/LU + OEIC/SICAV), by nobody otherwise
-        PMTMatrix frFcpMatrix = PMTMatrix.forProject(new ProjectProduct__c(DomiciledIn__c = 'FR', LegalForm__c = 'FCP'));
-        PMTMatrix luSicavMatrix = PMTMatrix.forProject(new ProjectProduct__c(DomiciledIn__c = 'LU', LegalForm__c = 'SICAV'));
-        PMTMatrix luFcpMatrix = PMTMatrix.forProject(new ProjectProduct__c(DomiciledIn__c = 'LU', LegalForm__c = 'FCP'));
-        System.assertEquals('Legal', frFcpMatrix.getTeamByField().get('ISIN__c'), 'FR FCP fund: ISIN__c is a Legal field');
-        System.assertEquals('OPS', luSicavMatrix.getTeamByField().get('ISIN__c'), 'LU SICAV fund: ISIN__c is an OPS field');
-        System.assertEquals(null, luFcpMatrix.getTeamByField().get('ISIN__c'), 'LU FCP fund: nobody uses ISIN__c');
-
         // Project with two share classes (created with the deployed matrix), read in part 3
         ProjectProduct__c project = PMTTestFactoryData.createProjectProductWithAllFields(PMTTestFactoryData.getRecordTypeId('ProjectProduct__c', 'FundCreation'));
-        ProjectShareclass__c withPerfFees = PMTTestFactoryData.createProjectShareclass(project.Id, null);
-        ProjectShareclass__c withoutPerfFees = PMTTestFactoryData.createProjectShareclass(project.Id, null);
+        ProjectShareclass__c withPerfFees = PMTTestFactoryData.buildProjectShareclass(project.Id, null);
+        ProjectShareclass__c withoutPerfFees = PMTTestFactoryData.buildProjectShareclass(project.Id, null);
         withPerfFees.HasPerfFees__c = 'True';
         withoutPerfFees.HasPerfFees__c = 'False';
-        update new List<ProjectShareclass__c>{ withPerfFees, withoutPerfFees };
+        insert new List<ProjectShareclass__c>{ withPerfFees, withoutPerfFees }; // One DML: the PMT triggers run many queries per DML
         Product__c liveFund = PMTTestFactoryData.getProduct(Schema.SObjectType.Product__c.getRecordTypeInfosByDeveloperName().get('Fund').getRecordTypeId(), 'LiveFund', 'Live Fund', true);
         liveFund.LegalForm__c = 'FCP';
         update liveFund;

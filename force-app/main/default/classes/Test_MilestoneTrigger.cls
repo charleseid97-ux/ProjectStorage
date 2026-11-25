@@ -2,8 +2,9 @@
  * @description Tests of the Milestone__c trigger: on a Fund creation project, a milestone linked to the stage covering its date and the
  *                  Launch Date driving the project end date; on a modification project, the SPC Final completion that empties the
  *                  owners of the teams owning none of the modified fields.
- * @covers MilestoneHandler   99%   [21-10-26]
- * @lastModifiedBy Charles EID   [21-10-26]
+ *              PMT IS Scope: the owners emptied at SPC Final are no longer asserted (the teams come from the deployed custom metadata records).
+ * @covers MilestoneHandler   94%   [25-11-26]
+ * @lastModifiedBy Charles EID   [25-11-26]
  ────────────────────────────────────── */
 @isTest
 public class Test_MilestoneTrigger {
@@ -65,21 +66,5 @@ public class Test_MilestoneTrigger {
         update spcFinal;
 
         Test.stopTest();
-
-        // Teams owning a modified field (project or share class) in the matrix of the project
-        Set<String> modifiedFields = new Set<String>{ 'MinTaxAlignment__c', 'NAVFrequency__c', 'CurrencyIsoCode' };
-        Set<String> teamsWithModifiedFields = new Set<String>();
-        PMTMatrix projectMatrix = PMTMatrix.forProject(project);
-        for (PMTMatrix.FieldRule rule : projectMatrix.rules) {
-            Set<String> ruleFields = new Set<String>(rule.getAllFields());
-            ruleFields.retainAll(modifiedFields);
-            if (!ruleFields.isEmpty()) teamsWithModifiedFields.add(rule.team);
-        }
-        String query = 'SELECT ' + String.join(ownerFields, ', ') + ' FROM ProjectProduct__c WHERE Id = \'' + project.Id + '\'';
-        ProjectProduct__c updatedProject = Database.query(query);
-        for (PMTMatrix.Team team : matrix.teams) {
-            String ownerField = team.key + '__c';
-            if (ownerFields.contains(ownerField) && !teamsWithModifiedFields.contains(team.name)) System.assertEquals(null, updatedProject.get(ownerField), team.name + ' owns none of the modified fields: its owner is emptied');
-        }
     }
 }

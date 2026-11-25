@@ -3,11 +3,13 @@
  *                  product with its Scope__c and PMTScope__c, share classes), fund/share class modification, share class
  *                  creation, and a project not ready for launch (skipped). The controller's error paths are tested
  *                  directly (no project enriched, project without product).
- * @lastModifiedBy Charles EID   [21-10-26]
- * @covers ProjectProductBatch   85%   [21-10-26]
- * @covers ProjectProductBatchController   94%   [21-10-26]
- * @covers ProjectProductBatchUtilities   80%   [21-10-26]
- * @covers ProjectProductBatchScheduler   100%   [21-10-26]
+ *              PMT IS Scope: the share classes and the launch of the setup run in Test.startTest(), with their own governor limits (the setup
+ *                  reached 100 SOQL queries in Prod).
+ * @lastModifiedBy Charles EID   [25-11-26]
+ * @covers ProjectProductBatch   85%   [25-11-26]
+ * @covers ProjectProductBatchController   96%   [25-11-26]
+ * @covers ProjectProductBatchUtilities   77%   [25-11-26]
+ * @covers ProjectProductBatchScheduler   100%   [25-11-26]
  ────────────────────────────────────── */
 @isTest
 private class Test_ProjectProductBatch {
@@ -45,12 +47,15 @@ private class Test_ProjectProductBatch {
         shareclassCreation.Product__c = fundForShareclass.Id;
         update projects;
 
+        // The PMT triggers run many queries per DML: the share classes and the launch get their own governor limits, so the setup stays far from the 100 SOQL limit
+        Test.startTest();
+
         Share_Class__c shareclassToModify = new Share_Class__c(Name = 'SC To Modify', Fund__c = fundToModify.Id, Validity__c = true);
         insert shareclassToModify;
 
-        ProjectShareclass__c fundCreationSc = buildProjectShareclass(fundCreation.Id, 'CurrencyIsoCode;Type__c');
-        ProjectShareclass__c modificationSc = buildProjectShareclass(modification.Id, 'Name');
-        ProjectShareclass__c shareclassCreationSc = buildProjectShareclass(shareclassCreation.Id, 'CurrencyIsoCode;Type__c');
+        ProjectShareclass__c fundCreationSc = PMTTestFactoryData.buildProjectShareclass(fundCreation.Id, 'CurrencyIsoCode;Type__c');
+        ProjectShareclass__c modificationSc = PMTTestFactoryData.buildProjectShareclass(modification.Id, 'Name');
+        ProjectShareclass__c shareclassCreationSc = PMTTestFactoryData.buildProjectShareclass(shareclassCreation.Id, 'CurrencyIsoCode;Type__c');
         insert new List<ProjectShareclass__c>{ fundCreationSc, modificationSc, shareclassCreationSc };
 
         // The modification updates the existing share class and its narrative fields
@@ -79,6 +84,8 @@ private class Test_ProjectProductBatch {
             milestone.Status__c = 'Completed';
         }
         update launchMilestones;
+
+        Test.stopTest();
     }
 
     // The scheduler launches the batch on the 4 projects: the 3 ready ones are launched, the other one is skipped
@@ -161,10 +168,5 @@ private class Test_ProjectProductBatch {
     // Same values as PMTTestFactoryData.createProjectProductWithAllFields, without the insert (projects are inserted in one DML)
     private static ProjectProduct__c buildProject(Id recordTypeId) {
         return new ProjectProduct__c(Name = 'Test Project', RecordTypeId = recordTypeId, VehicleType__c = 'Funds', ProjectStartDate__c = Date.today() - 20, EndDate__c = Date.today(), RiskAssociated__c = 'Equity;Interest rate;Credit;Currency', InvestmentObjective__c = 'Sample Objective', InvestmentStrategy__c = 'Sample Strategy', DomiciledIn__c = 'FR', ProjectStatus__c = 'Closed', ProductName__c = 'toto', LegalForm__c = 'Other', LettreRequise__c = 'No');
-    }
-
-    // Same values as PMTTestFactoryData.createProjectShareclass, without the insert
-    private static ProjectShareclass__c buildProjectShareclass(Id projectId, String fieldsToModify) {
-        return new ProjectShareclass__c(ProjectProduct__c = projectId, TECH_FieldsToModify__c = fieldsToModify, Type__c = 'A', CurrencyIsoCode = 'EUR', DividendPolicy__c = 'Accumulating', CurrencyHedging__c = 'False');
     }
 }

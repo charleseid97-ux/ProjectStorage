@@ -2,8 +2,8 @@
  * @description Tests of ShareclassNavigatorController: share classes of a Fund creation project read from its stage (linked,
  *                  filtered, children, record type, names, picklists), then created, cloned (from a Project Shareclass and from
  *                  a referential Share Class) and deleted.
- * @covers ShareclassNavigatorController   93%   [21-10-26]
- * @lastModifiedBy Charles EID   [21-10-26]
+ * @covers ShareclassNavigatorController   93%   [25-11-26]
+ * @lastModifiedBy Charles EID   [24-11-26]
  ────────────────────────────────────── */
 @isTest
 public class Test_ShareclassNavigatorController {

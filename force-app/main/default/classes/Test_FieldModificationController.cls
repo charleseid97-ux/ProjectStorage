@@ -1,8 +1,8 @@
 /** ──────────────────────────────────────
  * @description Tests of the fieldsModificationList LWC controller: fields to modify of an IS modification project (Product and Share
  *                  Classes) owned by the team of its Scope, the phase validations that follow, and the 3 update entry points of the LWC.
- * @covers FieldModificationController   100%   [22-10-26]
- * @lastModifiedBy Charles EID   [22-10-26]
+ * @covers FieldModificationController   100%   [25-11-26]
+ * @lastModifiedBy Charles EID   [24-11-26]
  ────────────────────────────────────── */
 @isTest
 public class Test_FieldModificationController {
