@@ -1,9 +1,90 @@
+/* Plain container: the path header, then the current step's div, each with its own layout */
 .main-div {
     width: 100%;
-    display: flex;
-    gap: 20px;
-    flex-direction: column;
     padding: 5px 20px;
+}
+
+/* Path header: Back, path, Next (same look as customGridBuilder), centered above both steps */
+.builder-header {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    width: 50%;
+    margin: 0 auto 20px;
+}
+
+.builder-path {
+    flex: 0 1 600px;
+}
+
+lightning-progress-step.step-enabled {
+    cursor: pointer;
+}
+
+lightning-progress-step.step-disabled {
+    cursor: not-allowed;
+    opacity: 0.5;
+    pointer-events: none;
+}
+
+.nav-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    padding: 0.2rem 0.8rem;
+    border-radius: 2rem;
+    border: 2px solid;
+    font-size: 0.8rem;
+    font-weight: 600;
+    cursor: pointer;
+    white-space: nowrap;
+    line-height: 1.5;
+    flex-shrink: 0;
+    transition: background-color 0.15s ease, color 0.15s ease;
+}
+
+.nav-btn-arrow {
+    border-radius: 45px;
+    width: 20px;
+    height: 20px;
+    font-family: fantasy;
+}
+
+.nav-btn-back {
+    color: var(--slds-c-button-brand-color-background, var(--sds-c-button-brand-color-background, var(--lwc-brandAccessible, rgb(65 100 62))));
+    background: #ffffff;
+    border-color: var(--slds-c-button-brand-color-background, var(--sds-c-button-brand-color-background, var(--lwc-brandAccessible, rgb(65 100 62))));
+}
+
+.nav-btn-back-arrow {
+    background: var(--slds-c-button-brand-color-background, var(--sds-c-button-brand-color-background, var(--lwc-brandAccessible, rgb(65 100 62))));
+    color: white;
+}
+
+.nav-btn-back:hover:not(:disabled) {
+    background: var(--slds-c-button-neutral-color-background-hover, var(--sds-c-button-neutral-color-background-hover, var(--slds-g-color-neutral-base-95, var(--lwc-colorBackgroundButtonDefaultHover, rgb(243, 243, 243)))));
+}
+
+.nav-btn-next {
+    color: #ffffff;
+    border-color: var(--slds-c-button-brand-color-background, var(--sds-c-button-brand-color-background, var(--lwc-brandAccessible, rgb(65 100 62))));
+    background: var(--slds-c-button-brand-color-background, var(--sds-c-button-brand-color-background, var(--lwc-brandAccessible, rgb(65 100 62))));
+}
+
+.nav-btn-next-arrow {
+    background: white;
+    color: var(--slds-c-button-brand-color-background, var(--sds-c-button-brand-color-background, var(--lwc-brandAccessible, rgb(65 100 62))));
+}
+
+.nav-btn-next:hover:not(:disabled) {
+    background: var(--slds-c-button-brand-color-background-hover, var(--sds-c-button-brand-color-background-hover, var(--lwc-brandAccessibleActive, rgba(47, 75, 45, 1))));
+    border-color: var(--slds-c-button-brand-color-background-hover, var(--sds-c-button-brand-color-background-hover, var(--lwc-brandAccessibleActive, rgba(47, 75, 45, 1))));
+}
+
+.nav-btn:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
 }
 
 .add-tab .slds-tabs_default__link {
@@ -34,10 +115,33 @@
     margin: 0;
 }
 
+/* As many columns as fit, each box at least --box-min-width wide (a dual listbox stays readable), never more than --max-columns per line:
+   about 3 on a laptop, 4 to 5 on a large screen, 1 on a narrow one. */
 .filters-grid {
+    --box-min-width: 360px;
+    --max-columns: 5;
+    --column-gap: 24px;
     display: grid;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: 16px 24px;
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, max(var(--box-min-width), calc((100% - (var(--max-columns) - 1) * var(--column-gap)) / var(--max-columns)))), 1fr));
+    gap: 16px var(--column-gap);
+}
+
+/* Step 1: one filter under the other, centered, kept to a readable width on large screens */
+.general-settings {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    width: 100%;
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+/* Step 2: tabs, filters and preview stacked over the full width (the filters themselves in .filters-grid) */
+.content-step {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    width: 100%;
 }
 
 .filter-box {

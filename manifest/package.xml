@@ -30,7 +30,14 @@
         <members>ApprovalProcessConfig.DisclaimerApproval</members>
         <members>ApprovalStepApproverConfig.DisclaimerApproval_Compliance</members>
         <members>ApprovalStepConfig.DisclaimerApproval_Compliance</members>
-        <members>DisclaimerLogicalRule.*</members>
+        <members>DisclaimerLogicalRule.CMD_isCCO</members>
+        <members>DisclaimerLogicalRule.CMD_isCELT</members>
+        <members>DisclaimerLogicalRule.CMD_isCPEG</members>
+        <members>DisclaimerLogicalRule.CMD_isOEIC</members>
+        <members>DisclaimerLogicalRule.CMD_isPrivtAsst</members>
+        <members>DisclaimerLogicalRule.CMD_isSicav</members>
+        <members>DisclaimerLogicalRule.CMD_isTMC</members>
+        <members>DisclaimerLogicalRule.CMD_minSubAmt</members>
         <name>CustomMetadata</name>
     </types>
     <types>
