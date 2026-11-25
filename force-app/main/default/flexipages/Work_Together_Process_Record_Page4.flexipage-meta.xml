@@ -233,8 +233,8 @@
         </itemInstances>
         <itemInstances>
             <componentInstance>
-                <componentName>ProductSelectorListenerWTP</componentName>
-                <identifier>c_ProductSelectorListenerWTP1</identifier>
+                <componentName>wtpProductSelector</componentName>
+                <identifier>c_wtpProductSelector</identifier>
                 <visibilityRule>
                     <criteria>
                         <leftValue>{!Record.RecordType.DeveloperName}</leftValue>
@@ -270,25 +270,6 @@
         <type>Facet</type>
     </flexiPageRegions>
     <flexiPageRegions>
-        <itemInstances>
-            <componentInstance>
-                <componentName>ProductSelectorWTPSelectButton</componentName>
-                <identifier>c_ProductSelectorWTPSelectButton1</identifier>
-                <visibilityRule>
-                    <booleanFilter>1 OR 2</booleanFilter>
-                    <criteria>
-                        <leftValue>{!Record.Focus__c}</leftValue>
-                        <operator>EQUAL</operator>
-                        <rightValue>DD Product</rightValue>
-                    </criteria>
-                    <criteria>
-                        <leftValue>{!Record.RecordType.DeveloperName}</leftValue>
-                        <operator>EQUAL</operator>
-                        <rightValue>RFP</rightValue>
-                    </criteria>
-                </visibilityRule>
-            </componentInstance>
-        </itemInstances>
         <itemInstances>
             <componentInstance>
                 <componentInstanceProperties>
