@@ -1,10 +1,12 @@
 /**
- * @description	: Disclaimer Builder screen - lets a user pick Country/Language/Media, Products and, per Narrative Type, its Sub Types,
- *                    search the matching Footnote / End Disclaimer Narrative__c records, preview the concatenated content,
- *                    then build the Disclaimer__c + DisclaimerDetail__c records.
+ * @description	: Disclaimer Builder screen, a 2-step path:
+ *                    1. General Settings: Country, Language, Media and whether products are chosen, shared by every tab of step 2.
+ *                    2. Disclaimer Content: Footnote / End Disclaimer tabs, each picking per Narrative Type its Sub Types (and the shared Products when chosen in step 1),
+ *                       searching the matching Narrative__c records of its record type and previewing the concatenated content, then building the Disclaimer__c + DisclaimerDetail__c records.
  *                    Every option comes from the org: picklists (values, Type => Sub Type dependency) of the 2 disclaimer record types, valid products from Apex.
  *                    A new Type with its Sub Types shows up as a new box without code change.
  * @author		    : Charles EID
+ * @lastModifiedBy  : Charles EID   [25-11-26]
 **/
 import { LightningElement, wire } from 'lwc';
 import { NavigationMixin } from 'lightning/navigation';
@@ -21,6 +23,8 @@ const COUNTRY_FIELD = 'Country__c';
 const LANGUAGE_FIELD = 'Language__c';
 const MEDIA_FIELD = 'Media__c';
 const SHOWN_VALUES_IN_SUMMARY = 2;
+const GENERAL_STEP = '1';
+const CONTENT_STEP = '2';
 
 // Values of a picklist field across record types, without duplicates, in picklist order.
 function mergeValues(picklists, fieldName) {
@@ -87,6 +91,9 @@ export default class BuildDisclaimer extends NavigationMixin(LightningElement) {
     selectedMedia = [];
     selectedCountry = '';
     selectedLanguage = '';
+    includeProducts = false;
+
+    currentStep = GENERAL_STEP;
 
     builderOptions;
     footnotePicklists;
@@ -122,8 +129,40 @@ export default class BuildDisclaimer extends NavigationMixin(LightningElement) {
         this.storePicklists('endDisclaimerPicklists', data, error);
     }
 
+    get isGeneralStep() {
+        return this.currentStep === GENERAL_STEP;
+    }
+
+    get isContentStep() {
+        return this.currentStep === CONTENT_STEP;
+    }
+
+    // Country and Language are required to leave step 1.
+    get isGeneralStepValid() {
+        return Boolean(this.selectedCountry && this.selectedLanguage);
+    }
+
+    get isBackDisabled() {
+        return this.isGeneralStep;
+    }
+
+    get isNextDisabled() {
+        return this.isContentStep || !this.isGeneralStepValid;
+    }
+
+    // Path steps: the current one keeps the default style, the other one is clickable (step 2 only once step 1 is valid).
+    get generalStepClass() {
+        return this.isContentStep ? 'step-enabled' : '';
+    }
+
+    get contentStepClass() {
+        if (this.isContentStep) return '';
+        return this.isGeneralStepValid ? 'step-enabled' : 'step-disabled';
+    }
+
+    // Products chosen in step 1: at least one is required to search.
     get isSearchDisabled() {
-        return this.isLoading || !this.selectedCountry || !this.selectedLanguage;
+        return this.isLoading || (this.includeProducts && !this.selectedProducts.length);
     }
 
     get isBuildDisabled() {
@@ -233,6 +272,30 @@ export default class BuildDisclaimer extends NavigationMixin(LightningElement) {
     // Shared filters changed: every tab's preview is outdated.
     resetSearches() {
         this.tabs = this.tabs.map(tab => ({ ...tab, hasSearched: false }));
+    }
+
+    handlePathStepClick(event) {
+        this.goToStep(event.currentTarget.dataset.step);
+    }
+
+    handleBack() {
+        this.goToStep(GENERAL_STEP);
+    }
+
+    handleNext() {
+        this.goToStep(CONTENT_STEP);
+    }
+
+    goToStep(step) {
+        if (step === CONTENT_STEP && !this.isGeneralStepValid) return;
+        this.currentStep = step;
+    }
+
+    // Products no longer chosen: the selection is cleared so it is neither searched nor saved.
+    handleIncludeProductsChange(event) {
+        this.includeProducts = event.target.checked;
+        if (!this.includeProducts) this.selectedProducts = [];
+        this.resetSearches();
     }
 
     handleTabSelect(event) {

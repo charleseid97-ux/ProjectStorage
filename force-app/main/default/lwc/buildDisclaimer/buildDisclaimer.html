@@ -5,47 +5,29 @@
         </template>
 
         <div class="main-div">
-            <div class="slds-tabs_default">
-                <ul class="slds-tabs_default__nav" role="tablist">
-                    <template for:each={footnoteTabs} for:item="tab">
-                        <li key={tab.id} class={tab.className} role="presentation">
-                            <a href="#" class="slds-tabs_default__link" role="tab" aria-selected={tab.isActive} data-id={tab.id} onclick={handleTabSelect}>{tab.label}</a>
-                        </li>
-                    </template>
-                    <li class="slds-tabs_default__item add-tab" role="presentation">
-                        <a href="#" class="slds-tabs_default__link" role="tab" title="Add a footnote" onclick={handleAddFootnote}>
-                            <lightning-icon icon-name="utility:add" size="xx-small" alternative-text="Add a footnote"></lightning-icon>
-                        </a>
-                    </li>
-                    <template for:each={endDisclaimerTabs} for:item="tab">
-                        <li key={tab.id} class={tab.className} role="presentation">
-                            <a href="#" class="slds-tabs_default__link" role="tab" aria-selected={tab.isActive} data-id={tab.id} onclick={handleTabSelect}>{tab.label}</a>
-                        </li>
-                    </template>
-                </ul>
-            </div>
-
-            <div class="filters-header">
-                <button class="slds-button filters-toggle" aria-expanded={filtersExpanded} onclick={toggleFilters}>
-                    <lightning-icon icon-name={filtersIcon} size="x-small" class="slds-m-right_x-small"></lightning-icon>
-                    <span class="slds-text-heading_small">Filters</span>
+            <div class="builder-header">
+                <button class="nav-btn nav-btn-back" onclick={handleBack} disabled={isBackDisabled}>
+                    <span class="nav-btn-arrow nav-btn-back-arrow">←</span> Back
                 </button>
-                <template if:false={filtersExpanded}>
-                    <div class="filter-summary">
-                        <template for:each={filterSummary} for:item="pill">
-                            <span key={pill.key} class="slds-badge">{pill.label}</span>
-                        </template>
-                    </div>
-                </template>
+                <div class="builder-path">
+                    <lightning-progress-indicator current-step={currentStep} type="path" variant="base">
+                        <lightning-progress-step label="General Settings" value="1" data-step="1" onclick={handlePathStepClick} class={generalStepClass}></lightning-progress-step>
+                        <lightning-progress-step label="Disclaimer Content" value="2" data-step="2" onclick={handlePathStepClick} class={contentStepClass}></lightning-progress-step>
+                    </lightning-progress-indicator>
+                </div>
+                <button class="nav-btn nav-btn-next" onclick={handleNext} disabled={isNextDisabled}>
+                    Next <span class="nav-btn-arrow nav-btn-next-arrow">→</span>
+                </button>
             </div>
 
-            <div class={filtersBodyClass}>
-                <div class="filters-grid">
+            <template if:true={isGeneralStep}>
+                <div class="general-settings">
                     <div class="filter-box">
                         <lightning-combobox
                             label="Country"
                             options={countryOptions}
                             value={selectedCountry}
+                            required
                             data-field="selectedCountry"
                             onchange={handleValueChange}>
                         </lightning-combobox>
@@ -56,6 +38,7 @@
                             label="Language"
                             options={languageOptions}
                             value={selectedLanguage}
+                            required
                             data-field="selectedLanguage"
                             onchange={handleValueChange}>
                         </lightning-combobox>
@@ -73,55 +56,110 @@
                     </div>
 
                     <div class="filter-box">
-                        <lightning-dual-listbox
-                            label="Products"
-                            source-label="Available"
-                            selected-label="Selected"
-                            options={productOptions}
-                            value={selectedProducts}
-                            size="4"
-                            data-field="selectedProducts"
-                            onchange={handleValueChange}>
-                        </lightning-dual-listbox>
+                        <lightning-input
+                            type="checkbox"
+                            label="Choose products"
+                            checked={includeProducts}
+                            field-level-help="Tick to select, in the next step, the products the disclaimer applies to."
+                            onchange={handleIncludeProductsChange}>
+                        </lightning-input>
+                    </div>
+                </div>
+            </template>
+
+            <template if:true={isContentStep}>
+                <div class="content-step">
+                    <div class="slds-tabs_default">
+                        <ul class="slds-tabs_default__nav" role="tablist">
+                            <template for:each={footnoteTabs} for:item="tab">
+                                <li key={tab.id} class={tab.className} role="presentation">
+                                    <a href="#" class="slds-tabs_default__link" role="tab" aria-selected={tab.isActive} data-id={tab.id} onclick={handleTabSelect}>{tab.label}</a>
+                                </li>
+                            </template>
+                            <li class="slds-tabs_default__item add-tab" role="presentation">
+                                <a href="#" class="slds-tabs_default__link" role="tab" title="Add a footnote" onclick={handleAddFootnote}>
+                                    <lightning-icon icon-name="utility:add" size="xx-small" alternative-text="Add a footnote"></lightning-icon>
+                                </a>
+                            </li>
+                            <template for:each={endDisclaimerTabs} for:item="tab">
+                                <li key={tab.id} class={tab.className} role="presentation">
+                                    <a href="#" class="slds-tabs_default__link" role="tab" aria-selected={tab.isActive} data-id={tab.id} onclick={handleTabSelect}>{tab.label}</a>
+                                </li>
+                            </template>
+                        </ul>
                     </div>
 
-                    <template for:each={typeSections} for:item="section">
-                        <div key={section.type} class="filter-box">
-                            <lightning-dual-listbox
-                                label={section.label}
-                                source-label="Available"
-                                selected-label="Selected"
-                                options={section.options}
-                                value={section.selected}
-                                size="4"
-                                data-type={section.type}
-                                onchange={handleTypeChange}>
-                            </lightning-dual-listbox>
+                    <div class="filters-header">
+                        <button class="slds-button filters-toggle" aria-expanded={filtersExpanded} onclick={toggleFilters}>
+                            <lightning-icon icon-name={filtersIcon} size="x-small" class="slds-m-right_x-small"></lightning-icon>
+                            <span class="slds-text-heading_small">Filters</span>
+                        </button>
+                        <template if:false={filtersExpanded}>
+                            <div class="filter-summary">
+                                <template for:each={filterSummary} for:item="pill">
+                                    <span key={pill.key} class="slds-badge">{pill.label}</span>
+                                </template>
+                            </div>
+                        </template>
+                    </div>
+
+                    <div class={filtersBodyClass}>
+                        <div class="filters-grid">
+                            <template if:true={includeProducts}>
+                                <div class="filter-box">
+                                    <lightning-dual-listbox
+                                        label="Products"
+                                        source-label="Available"
+                                        selected-label="Selected"
+                                        options={productOptions}
+                                        value={selectedProducts}
+                                        size="4"
+                                        required
+                                        data-field="selectedProducts"
+                                        onchange={handleValueChange}>
+                                    </lightning-dual-listbox>
+                                </div>
+                            </template>
+
+                            <template for:each={typeSections} for:item="section">
+                                <div key={section.type} class="filter-box">
+                                    <lightning-dual-listbox
+                                        label={section.label}
+                                        source-label="Available"
+                                        selected-label="Selected"
+                                        options={section.options}
+                                        value={section.selected}
+                                        size="4"
+                                        data-type={section.type}
+                                        onchange={handleTypeChange}>
+                                    </lightning-dual-listbox>
+                                </div>
+                            </template>
+                        </div>
+
+                        <div class="slds-m-top_medium">
+                            <lightning-button
+                                label="Search"
+                                variant="brand"
+                                disabled={isSearchDisabled}
+                                onclick={handleSearch}>
+                            </lightning-button>
+                        </div>
+                    </div>
+
+                    <template if:true={hasSearched}>
+                        <div class="result-div">
+                            <div class="slds-box slds-m-bottom_medium">
+                                <h3 class="slds-text-heading_small slds-m-bottom_small">{previewTitle}</h3>
+                                <lightning-textarea
+                                    label={previewTitle}
+                                    variant="label-hidden"
+                                    value={previewContent}
+                                    disabled="true">
+                                </lightning-textarea>
+                            </div>
                         </div>
                     </template>
-                </div>
-
-                <div class="slds-m-top_medium">
-                    <lightning-button
-                        label="Search"
-                        variant="brand"
-                        disabled={isSearchDisabled}
-                        onclick={handleSearch}>
-                    </lightning-button>
-                </div>
-            </div>
-
-            <template if:true={hasSearched}>
-                <div class="result-div">
-                    <div class="slds-box slds-m-bottom_medium">
-                        <h3 class="slds-text-heading_small slds-m-bottom_small">{previewTitle}</h3>
-                        <lightning-textarea
-                            label={previewTitle}
-                            variant="label-hidden"
-                            value={previewContent}
-                            disabled="true">
-                        </lightning-textarea>
-                    </div>
                 </div>
             </template>
         </div>
@@ -130,15 +168,17 @@
             <lightning-button
                 label="Cancel"
                 variant="neutral"
-                class="slds-m-right_small"
                 onclick={handleCancel}>
             </lightning-button>
-            <lightning-button
-                label="Build Disclaimer"
-                variant="brand"
-                disabled={isBuildDisabled}
-                onclick={handleBuild}>
-            </lightning-button>
+            <template if:true={isContentStep}>
+                <lightning-button
+                    label="Build Disclaimer"
+                    variant="brand"
+                    class="slds-m-left_small"
+                    disabled={isBuildDisabled}
+                    onclick={handleBuild}>
+                </lightning-button>
+            </template>
         </div>
     </lightning-card>
 </template>
