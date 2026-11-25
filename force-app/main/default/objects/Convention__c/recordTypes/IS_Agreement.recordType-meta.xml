@@ -1250,6 +1250,25 @@
         </values>
     </picklistValues>
     <picklistValues>
+        <picklist>SetupStatus__c</picklist>
+        <values>
+            <fullName>AUTO - Live</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>MANUAL - Live</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Pending DCO</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Pending IS</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
         <picklist>Status__c</picklist>
         <values>
             <fullName>Post Governance</fullName>

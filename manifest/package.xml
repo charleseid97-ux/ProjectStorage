@@ -1,15 +1,36 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Package xmlns="http://soap.sforce.com/2006/04/metadata">
     <types>
-        <members>EngagementMeetingSignalBatch</members>
-        <members>EngagementNewsletterSignalBatch</members>
-        <members>EngagementScoringCoreTest</members>
-        <members>EngagementSignalIngestionTest</members>
-        <members>EngagementSignalRefreshService</members>
-        <members>EngagementSubscriptionSignalBatch</members>
-        <members>EngagementWebinarSignalBatch</members>
-        <members>EngagementWebsiteSignalBatch</members>
-        <name>ApexClass</name>
+        <members>IS_Agreement</members>
+        <members>Carmignac_IS_HomePage</members>
+        <name>FlexiPage</name>
+    </types>
+    <types>
+        <members>Convention__c.DCOPayment__c</members>
+        <members>Convention__c.DCOReallocation__c</members>
+        <members>Convention__c.SetupStatus__c</members>
+        <members>Convention__c.NextReviewDate__c</members>
+        <name>CustomField</name>
+    </types>
+    <types>
+        <members>Convention__c.IS_Agreement</members>
+        <name>RecordType</name>
+    </types>
+    <types>
+        <members>DCO/InvestmentSolutionXDCO</members>
+        <name>Report</name>
+    </types>
+    <types>
+        <members>DCO</members>
+        <name>ReportFolder</name>
+    </types>
+    <types>
+        <members>DCODashboards/zxFdtcMWiWwQUfRUpxLiaDHvykVULI</members>
+        <name>Dashboard</name>
+    </types>
+    <types>
+        <members>DCODashboards</members>
+        <name>DashboardFolder</name>
     </types>
     <version>64.0</version>
 </Package>
