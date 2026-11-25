@@ -146,26 +146,6 @@
                 <identifier>RecordLegalEntity__cField</identifier>
             </fieldInstance>
         </itemInstances>
-        <itemInstances>
-            <fieldInstance>
-                <fieldInstanceProperties>
-                    <name>uiBehavior</name>
-                    <value>none</value>
-                </fieldInstanceProperties>
-                <fieldItem>Record.DCOReallocation__c</fieldItem>
-                <identifier>RecordDCOReallocation__cField</identifier>
-            </fieldInstance>
-        </itemInstances>
-        <itemInstances>
-            <fieldInstance>
-                <fieldInstanceProperties>
-                    <name>uiBehavior</name>
-                    <value>none</value>
-                </fieldInstanceProperties>
-                <fieldItem>Record.DCOPayment__c</fieldItem>
-                <identifier>RecordDCOPayment__cField</identifier>
-            </fieldInstance>
-        </itemInstances>
         <name>Facet-1ac072af-05aa-4c40-9023-1d24ebf8207c</name>
         <type>Facet</type>
     </flexiPageRegions>
@@ -236,16 +216,6 @@
                     <name>uiBehavior</name>
                     <value>none</value>
                 </fieldInstanceProperties>
-                <fieldItem>Record.SetupStatus__c</fieldItem>
-                <identifier>RecordSetupStatus__cField</identifier>
-            </fieldInstance>
-        </itemInstances>
-        <itemInstances>
-            <fieldInstance>
-                <fieldInstanceProperties>
-                    <name>uiBehavior</name>
-                    <value>none</value>
-                </fieldInstanceProperties>
                 <fieldItem>Record.NoGridRequired__c</fieldItem>
                 <identifier>RecordNoGridRequired_cField</identifier>
             </fieldInstance>
@@ -308,6 +278,26 @@
                 <identifier>RecordSignedDate_cField2</identifier>
             </fieldInstance>
         </itemInstances>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>none</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.NextReviewDate__c</fieldItem>
+                <identifier>RecordNextReviewDate_cField</identifier>
+            </fieldInstance>
+        </itemInstances>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>none</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.OwnerId</fieldItem>
+                <identifier>RecordOwnerIdField</identifier>
+            </fieldInstance>
+        </itemInstances>
         <name>Facet-b2626705-23e2-4931-800b-07775c96d80b</name>
         <type>Facet</type>
     </flexiPageRegions>
@@ -330,6 +320,36 @@
                 </fieldInstanceProperties>
                 <fieldItem>Record.YTDNetFlows__c</fieldItem>
                 <identifier>RecordYTDNetFlows_cField</identifier>
+            </fieldInstance>
+        </itemInstances>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>none</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.DCOReallocation__c</fieldItem>
+                <identifier>RecordDCOReallocation__cField</identifier>
+            </fieldInstance>
+        </itemInstances>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>none</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.DCOPayment__c</fieldItem>
+                <identifier>RecordDCOPayment__cField</identifier>
+            </fieldInstance>
+        </itemInstances>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>none</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.SetupStatus__c</fieldItem>
+                <identifier>RecordSetupStatus__cField</identifier>
             </fieldInstance>
         </itemInstances>
         <name>Facet-656b4ea2-c3ab-4ab0-9d02-24aee7d2416d</name>
