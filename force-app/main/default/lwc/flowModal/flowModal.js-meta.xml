@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<LightningComponentBundle xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>66.0</apiVersion>
+    <masterLabel>Flow Modal</masterLabel>
+    <description>Generic pop-up running a screen flow, closed once the flow ends (US-20300).</description>
+    <isExposed>false</isExposed>
+</LightningComponentBundle>

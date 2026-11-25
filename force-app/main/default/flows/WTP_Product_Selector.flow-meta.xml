@@ -44,6 +44,13 @@
                 <elementReference>Existing_Products.Product__c</elementReference>
             </value>
         </assignmentItems>
+        <assignmentItems>
+            <assignToReference>ExistingProductsCount</assignToReference>
+            <operator>Add</operator>
+            <value>
+                <numberValue>1.0</numberValue>
+            </value>
+        </assignmentItems>
         <connector>
             <targetReference>Existing_Products</targetReference>
         </connector>
@@ -145,6 +152,13 @@
         </value>
     </customProperties>
     <environments>Default</environments>
+    <formulas>
+        <description>At least one product to select while the WTP has none (US-20300); once it has some, the user can add only share classes of its products</description>
+        <name>MinProductSelection</name>
+        <dataType>Number</dataType>
+        <expression>IF({!ExistingProductsCount} = 0, 1, 0)</expression>
+        <scale>0</scale>
+    </formulas>
     <interviewLabel>WTP Product Selector {!$Flow.CurrentDateTime}</interviewLabel>
     <label>WTP Product Selector</label>
     <loops>
@@ -460,7 +474,7 @@
             <inputParameters>
                 <name>minRowSelection</name>
                 <value>
-                    <numberValue>0.0</numberValue>
+                    <elementReference>MinProductSelection</elementReference>
                 </value>
             </inputParameters>
             <inputParameters>
@@ -704,6 +718,17 @@
         </connector>
     </start>
     <status>Active</status>
+    <variables>
+        <name>ExistingProductsCount</name>
+        <dataType>Number</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+        <scale>0</scale>
+        <value>
+            <numberValue>0.0</numberValue>
+        </value>
+    </variables>
     <variables>
         <name>ExistingProductsIdColl</name>
         <dataType>String</dataType>
