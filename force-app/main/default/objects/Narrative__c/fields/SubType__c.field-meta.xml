@@ -1062,26 +1062,6 @@
                 <label>Risk Scale</label>
             </value>
             <value>
-                <fullName>Carmignac Gestion Luxembourg S.A</fullName>
-                <default>false</default>
-                <label>Carmignac Gestion Luxembourg S.A</label>
-            </value>
-            <value>
-                <fullName>Carmignac Gestion S.A</fullName>
-                <default>false</default>
-                <label>Carmignac Gestion S.A</label>
-            </value>
-            <value>
-                <fullName>BNP AM France</fullName>
-                <default>false</default>
-                <label>BNP AM France</label>
-            </value>
-            <value>
-                <fullName>White Creek Capital LLP</fullName>
-                <default>false</default>
-                <label>White Creek Capital LLP</label>
-            </value>
-            <value>
                 <fullName>Carmignac</fullName>
                 <default>false</default>
                 <label>Carmignac</label>
@@ -1312,9 +1292,9 @@
                 <label>CMD-isOEIC</label>
             </value>
             <value>
-                <fullName>CMD_isTCN</fullName>
+                <fullName>CMD_isTMC</fullName>
                 <default>false</default>
-                <label>CMD-isTCN</label>
+                <label>CMD-isTMC</label>
             </value>
             <value>
                 <fullName>CMD_isPrivtAsst</fullName>
@@ -2275,7 +2255,7 @@
         </valueSettings>
         <valueSettings>
             <controllingFieldValue>Logical Rule</controllingFieldValue>
-            <valueName>CMD_isTCN</valueName>
+            <valueName>CMD_isTMC</valueName>
         </valueSettings>
         <valueSettings>
             <controllingFieldValue>Logical Rule</controllingFieldValue>
@@ -3287,22 +3267,6 @@
         <valueSettings>
             <controllingFieldValue>Glossary</controllingFieldValue>
             <valueName>COMMUNICATION</valueName>
-        </valueSettings>
-        <valueSettings>
-            <controllingFieldValue>ManCo</controllingFieldValue>
-            <valueName>Carmignac Gestion Luxembourg S.A</valueName>
-        </valueSettings>
-        <valueSettings>
-            <controllingFieldValue>ManCo</controllingFieldValue>
-            <valueName>Carmignac Gestion S.A</valueName>
-        </valueSettings>
-        <valueSettings>
-            <controllingFieldValue>ManCo</controllingFieldValue>
-            <valueName>BNP AM France</valueName>
-        </valueSettings>
-        <valueSettings>
-            <controllingFieldValue>ManCo</controllingFieldValue>
-            <valueName>White Creek Capital LLP</valueName>
         </valueSettings>
         <valueSettings>
             <controllingFieldValue>Audience</controllingFieldValue>

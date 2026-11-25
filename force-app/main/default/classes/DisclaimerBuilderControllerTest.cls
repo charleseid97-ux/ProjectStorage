@@ -2,7 +2,8 @@
  * @description Test class for the Disclaimer Builder: builder options (record types, valid products), narrative search (one branch per Type with selected Sub Types,
  *              Logical Rule narratives found with the same filters then kept by their rule for 0, 1 and several products, Footnote / End Disclaimer bucketing,
  *              invalid rule error), Logical Rules on in-memory narratives and DisclaimerLogicalRule__mdt (number of products, products, narrative product,
- *              conditions on the product, its parents and the narrative, scope, unknown rule, queries made, invalid conditions), and the Disclaimer__c + DisclaimerDetail__c creation.
+ *              Condition Scopes: narrative, at least one / all products, at least one / all valid share classes, parents through lookups, unknown rule,
+ *              queries made, invalid conditions and scope), and the Disclaimer__c + DisclaimerDetail__c creation.
  *              Runs with the DisclaimerBuilderPermissions permission set: the narrative search is in user mode.
  * @author Charles EID
  * @covers DisclaimerBuilderController   100%   [20-11-26]
@@ -29,9 +30,11 @@ private with sharing class DisclaimerBuilderControllerTest {
     private static final String NO_PRODUCT_RULE = RULE_SUB_TYPES[2];
     private static final String PARENT_RULE = RULE_SUB_TYPES[3];
     private static final String UNKNOWN_RULE = RULE_SUB_TYPES[4];
-    private static final String SICAV_CONDITION = 'ISPICKVAL(Product__c.LegalForm__c, "SICAV")';
-    private static final String PARENT_SICAV_CONDITION = 'ISPICKVAL(Product__r.ParentProduct__r.LegalForm__c, "SICAV")';
-    private static final String NARRATIVE_CONDITION = 'ISPICKVAL(Country__c, "BE") && Narrative__c.RecordType.DeveloperName = "FootnoteDisclaimer"';
+    // Conditions written on their scope's object: product, share class (its product through Fund__r), narrative
+    private static final String SICAV_CONDITION = 'ISPICKVAL(LegalForm__c, "SICAV")';
+    private static final String SHARE_CLASS_A_CONDITION = 'ISPICKVAL(Type__c, "A")';
+    private static final String SHARE_CLASS_A_OF_SICAV_CHILD_CONDITION = 'ISPICKVAL(Type__c, "A") && ISPICKVAL(Fund__r.ParentProduct__r.LegalForm__c, "SICAV")';
+    private static final String NARRATIVE_CONDITION = 'ISPICKVAL(Country__c, "BE") && RecordType.DeveloperName = "FootnoteDisclaimer"';
 
     @TestSetup
     static void makeData() {
@@ -47,6 +50,12 @@ private with sharing class DisclaimerBuilderControllerTest {
         insert new List<Product__c>{
             fcp,
             new Product__c(Name = INVALID_PRODUCT, InternalShortName__c = INVALID_PRODUCT, ProductName__c = 'Test Invalid', Validity__c = false)
+        };
+        // The SICAV's only A share class is not valid: share class rules ignore it
+        insert new List<Share_Class__c>{
+            new Share_Class__c(Name = 'TST SICAV AW', Fund__c = sicav.Id, Type__c = 'AW', Validity__c = true),
+            new Share_Class__c(Name = 'TST SICAV A closed', Fund__c = sicav.Id, Type__c = 'A', Validity__c = false),
+            new Share_Class__c(Name = 'TST FCP A', Fund__c = fcp.Id, Type__c = 'A', Validity__c = true)
         };
 
         String footnote = DisclaimerBuilderController.FOOTNOTE_RECORD_TYPE;
@@ -91,8 +100,8 @@ private with sharing class DisclaimerBuilderControllerTest {
         DisclaimerLogicalRules.rules = new List<DisclaimerLogicalRule__mdt>{
             rule(SICAV_RULE, null, null, SICAV_CONDITION, DisclaimerLogicalRules.AT_LEAST_ONE_PRODUCT),
             rule(MULTIPLE_RULE, DisclaimerLogicalRules.MULTIPLE_PRODUCTS, null, null, null),
-            rule(NO_PRODUCT_RULE, DisclaimerLogicalRules.NO_PRODUCT, null, NARRATIVE_CONDITION, null),
-            rule(PARENT_RULE, null, null, PARENT_SICAV_CONDITION, DisclaimerLogicalRules.AT_LEAST_ONE_PRODUCT)
+            rule(NO_PRODUCT_RULE, DisclaimerLogicalRules.NO_PRODUCT, null, NARRATIVE_CONDITION, DisclaimerLogicalRules.NARRATIVE_SCOPE),
+            rule(PARENT_RULE, null, null, SHARE_CLASS_A_OF_SICAV_CHILD_CONDITION, DisclaimerLogicalRules.AT_LEAST_ONE_SHARE_CLASS)
         };
         Map<String, List<String>> subTypesByType = new Map<String, List<String>>{
             CONTENT_TYPE => new List<String>{ 'Performance' },
@@ -111,7 +120,7 @@ private with sharing class DisclaimerBuilderControllerTest {
             oneProduct = DisclaimerBuilderController.searchNarratives(JSON.serialize(criteria(new List<String>{ SICAV_PRODUCT }, subTypesByType)));
             noProduct = DisclaimerBuilderController.searchNarratives(JSON.serialize(criteria(new List<String>(), noType)));
             twoProducts = DisclaimerBuilderController.searchNarratives(JSON.serialize(criteria(new List<String>{ SICAV_PRODUCT, FCP_PRODUCT }, noType)));
-            DisclaimerLogicalRules.rules.add(rule(UNKNOWN_RULE, null, null, 'ISPICKVAL(Product__c.LegalForm__c', null));
+            DisclaimerLogicalRules.rules.add(rule(UNKNOWN_RULE, null, null, 'ISPICKVAL(LegalForm__c', null));
             try {
                 DisclaimerBuilderController.searchNarratives(JSON.serialize(criteria(new List<String>{ SICAV_PRODUCT }, noType)));
             }
@@ -126,9 +135,9 @@ private with sharing class DisclaimerBuilderControllerTest {
             'Selected Sub Type + SICAV rule; the multiple rule (1 product), the FCP narrative (FCP not selected), the unknown rule and the Logical Rule key sent by the client are left out');
         Assert.areEqual('End MSCI', oneProduct.endDisclaimer.content, 'The no product rule fails with 1 product');
         Assert.areEqual('Footnote no product rule', noProduct.footnote.content,
-            'No product: the 0 rule passes, its condition read on the narrative; conditions reading the product never pass, the FCP narrative needs its product');
+            'No product: the 0 rule passes, its condition read on the narrative; product and share class conditions never pass, the FCP narrative needs its product');
         Assert.areEqual(0, noProduct.endDisclaimer.matchCount);
-        Assert.areEqual(3, twoProducts.footnote.matchCount, 'SICAV rule (one SICAV), multiple rule, FCP narrative (FCP selected, its parent is a SICAV)');
+        Assert.areEqual(3, twoProducts.footnote.matchCount, 'SICAV rule (one SICAV), multiple rule, FCP narrative (FCP selected, its valid A share class belongs to a SICAV child)');
         Assert.isTrue(twoProducts.footnote.content.contains('Footnote FCP parent rule'));
         Assert.areEqual(0, twoProducts.endDisclaimer.matchCount);
         Assert.isTrue(error != null && error.contains(UNKNOWN_RULE), 'An invalid rule stops the search with its name');
@@ -143,9 +152,10 @@ private with sharing class DisclaimerBuilderControllerTest {
             rule('ListedFcp', null, 'OTHER; ' + FCP_PRODUCT, null, null),
             rule('AnySicav', null, null, SICAV_CONDITION, DisclaimerLogicalRules.AT_LEAST_ONE_PRODUCT),
             rule('AllSicav', null, null, SICAV_CONDITION, null),
-            rule('ParentSicav', null, null, PARENT_SICAV_CONDITION, DisclaimerLogicalRules.AT_LEAST_ONE_PRODUCT),
-            rule('BelgianNarrative', null, null, 'ISPICKVAL(Narrative__c.Country__c, "BE")', null),
-            rule('BelgianFcp', null, null, 'ISPICKVAL(Country__c, "BE") && ISPICKVAL(Product__c.LegalForm__c, "FCP")', DisclaimerLogicalRules.AT_LEAST_ONE_PRODUCT)
+            rule('ParentSicav', null, null, 'ISPICKVAL(ParentProduct__r.LegalForm__c, "SICAV")', DisclaimerLogicalRules.AT_LEAST_ONE_PRODUCT),
+            rule('BelgianNarrative', null, null, 'ISPICKVAL(Country__c, "BE")', DisclaimerLogicalRules.NARRATIVE_SCOPE),
+            rule('AnyShareClassA', null, null, SHARE_CLASS_A_CONDITION, DisclaimerLogicalRules.AT_LEAST_ONE_SHARE_CLASS),
+            rule('AllSicavShareClasses', null, null, 'ISPICKVAL(Fund__r.LegalForm__c, "SICAV")', DisclaimerLogicalRules.ALL_SHARE_CLASSES)
         };
         Id fcpId = [SELECT Id FROM Product__c WHERE InternalShortName__c = :FCP_PRODUCT].Id;
         List<Narrative__c> narratives = new List<Narrative__c>{ new Narrative__c(Name = 'Not a rule', Type__c = CONTENT_TYPE, SubType__c = 'Performance') };
@@ -167,22 +177,26 @@ private with sharing class DisclaimerBuilderControllerTest {
         List<String> sicavAndFcp = names(DisclaimerLogicalRules.filter(narratives, new List<String>{ SICAV_PRODUCT, FCP_PRODUCT }));
         Integer sicavAndFcpQueries = Limits.getQueries() - queries;
         List<Narrative__c> unchanged = DisclaimerLogicalRules.filter(withoutRules, new List<String>{ SICAV_PRODUCT });
-        String syntaxError = getRuleError('ISPICKVAL(Product__c.LegalForm__c');
-        String hopsError = getRuleError('Product__c.ParentProduct__r.ParentProduct__r.ParentProduct__r.ParentProduct__r.ParentProduct__r.Name = "x"');
-        String narrativeFieldError = getRuleError('ISPICKVAL(LegalForm__c, "SICAV")');
+        String syntaxError = getRuleError('ISPICKVAL(LegalForm__c', null);
+        String hopsError = getRuleError('ParentProduct__r.ParentProduct__r.ParentProduct__r.ParentProduct__r.ParentProduct__r.Name = "x"', DisclaimerLogicalRules.ALL_PRODUCTS);
+        String narrativeFieldError = getRuleError('ISPICKVAL(LegalForm__c, "SICAV")', DisclaimerLogicalRules.NARRATIVE_SCOPE);
+        String scopeError = getRuleError('TRUE', 'Unknown scope');
 
         Test.stopTest();
 
-        Assert.areEqual(new List<String>{ 'Not a rule', 'NoProduct', 'BelgianNarrative' }, noProduct, 'No product: the 0 rule and the condition on the narrative; conditions reading the product fail, the FCP narrative needs its product');
+        Assert.areEqual(new List<String>{ 'Not a rule', 'NoProduct', 'BelgianNarrative' }, noProduct,
+            'No product: the 0 rule and the narrative condition; product and share class conditions fail, the FCP narrative needs its product');
         Assert.areEqual(0, noProductQueries, 'Rules given, no product and no narrative Id: nothing to query');
-        Assert.areEqual(new List<String>{ 'Not a rule', 'OneProduct', 'AnySicav', 'AllSicav', 'BelgianNarrative' }, sicav, 'The SICAV has no SICAV parent and is not an FCP');
-        Assert.areEqual(new List<String>{ 'Not a rule', 'MultipleProducts', 'ListedFcp', 'AnySicav', 'ParentSicav', 'BelgianNarrative', 'BelgianFcp', 'FcpNarrative' }, sicavAndFcp,
-            'AllSicav fails on the FCP (empty scope = all products); the narrative of the FCP passes once the FCP is selected');
-        Assert.areEqual(1, sicavAndFcpQueries, 'One query for the selected products, whatever the number of rules');
+        Assert.areEqual(new List<String>{ 'Not a rule', 'OneProduct', 'AnySicav', 'AllSicav', 'BelgianNarrative', 'AllSicavShareClasses' }, sicav,
+            'The SICAV has no SICAV parent; its A share class is not valid, so only its AW share class is read');
+        Assert.areEqual(new List<String>{ 'Not a rule', 'MultipleProducts', 'ListedFcp', 'AnySicav', 'ParentSicav', 'BelgianNarrative', 'AnyShareClassA', 'FcpNarrative' }, sicavAndFcp,
+            'AllSicav fails on the FCP (blank scope = all products), AllSicavShareClasses on the FCP share class; the narrative of the FCP passes once the FCP is selected');
+        Assert.areEqual(2, sicavAndFcpQueries, 'One query for the selected products and one for their share classes, whatever the number of rules');
         Assert.areEqual(withoutRules, unchanged, 'Without Logical Rule narrative the list is returned as is');
         Assert.isTrue(syntaxError != null && syntaxError.startsWith('TestErrorRule: '), 'Invalid formula reported with the rule name: ' + syntaxError);
         Assert.isTrue(hopsError != null && hopsError.contains('more than the 4 allowed'), 'Paths limited to 4 lookups: ' + hopsError);
-        Assert.isTrue(narrativeFieldError != null && narrativeFieldError.contains('LegalForm__c'), 'A field without prefix is read on the narrative, which has no LegalForm__c: ' + narrativeFieldError);
+        Assert.isTrue(narrativeFieldError != null && narrativeFieldError.contains('LegalForm__c'), 'A Narrative condition is read on the narrative, which has no LegalForm__c: ' + narrativeFieldError);
+        Assert.isTrue(scopeError != null && scopeError.contains('unknown Condition Scope Unknown scope'), 'A scope without object is reported: ' + scopeError);
     }
 
     @IsTest
@@ -214,9 +228,9 @@ private with sharing class DisclaimerBuilderControllerTest {
         return new User(Id = UserInfo.getUserId());
     }
 
-    // Error message of a Logical Rule narrative whose single rule holds the given condition.
-    private static String getRuleError(String condition) {
-        DisclaimerLogicalRules.rules = new List<DisclaimerLogicalRule__mdt>{ rule('TestErrorRule', null, null, condition, null) };
+    // Error message of a Logical Rule narrative whose single rule holds the given condition and scope.
+    private static String getRuleError(String condition, String scope) {
+        DisclaimerLogicalRules.rules = new List<DisclaimerLogicalRule__mdt>{ rule('TestErrorRule', null, null, condition, scope) };
         try {
             DisclaimerLogicalRules.filter(new List<Narrative__c>{ new Narrative__c(Type__c = DisclaimerLogicalRules.LOGICAL_RULE_TYPE, SubType__c = 'TestErrorRule') }, new List<String>{ SICAV_PRODUCT });
         }

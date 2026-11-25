@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>Condition__c</fullName>
-    <description>Salesforce formula returning true or false, written like a formula field of the narrative and evaluated by DisclaimerLogicalRules (FormulaEvaluatorService). Narrative fields directly or prefixed (Country__c, Narrative__c.Country__c); the selected product prefixed Product__c. or Product__r. (Product__r.LegalForm__c); lookups followed, 4 at most per path (Product__r.ParentProduct__r.LegalForm__c). With products selected, evaluated on each of them, Condition Scope saying whether at least one or all must pass. Without product, evaluated on the narrative; a condition reading the product then never passes. Empty = no condition.</description>
+    <description>Salesforce formula returning true or false, written like a formula field of the Condition Scope&apos;s object (Narrative__c, Product__c or Share_Class__c) and evaluated by DisclaimerLogicalRules (FormulaEvaluatorService). Fields written directly, lookups followed, 4 at most per path: ISPICKVAL(LegalForm__c, &quot;SICAV&quot;) or ParentProduct__r.Name on a product, ISPICKVAL(Type__c, &quot;A&quot;) or Fund__r.LegalForm__c on a share class, ISPICKVAL(Country__c, &quot;BE&quot;) on a narrative. Empty = no condition.</description>
     <fieldManageability>DeveloperControlled</fieldManageability>
-    <inlineHelpText>Salesforce formula returning true or false. Selected product: ISPICKVAL(Product__r.LegalForm__c, &quot;SICAV&quot;) (or Product__c.LegalForm__c). Narrative: its fields directly. Picklists: ISPICKVAL() or TEXT(). Empty = no condition.</inlineHelpText>
+    <inlineHelpText>Salesforce formula returning true or false, written on the Condition Scope&apos;s object with its fields directly: ISPICKVAL(LegalForm__c, &quot;SICAV&quot;) for products, ISPICKVAL(Type__c, &quot;A&quot;) for share classes (Fund__r. = their product). Picklists: ISPICKVAL() or TEXT(). Empty = no condition.</inlineHelpText>
     <label>Condition</label>
     <length>32768</length>
     <type>LongTextArea</type>
