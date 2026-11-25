@@ -339,6 +339,11 @@ public without sharing class MainShareClassService {
             return null;
         }
 
+        // Uses the only eligible registered Share Class as Main when no competition exists.
+        if (eligibleRegistrations.size() == 1) {
+            return eligibleRegistrations[0].Id;
+        }
+
         Country__c firstRegistration = eligibleRegistrations[0];
         String legalForm = firstRegistration.ShareClass__r.Fund__r.LegalForm__c;
         String scope = firstRegistration.Country__c == UkCountryCode ? UkScope : AllCountriesScope;
@@ -379,16 +384,21 @@ public without sharing class MainShareClassService {
                 continue;
             }
 
-            if (!rulesByShareClassName.containsKey(rule.ShareClassName)) {
-                rulesByShareClassName.put(rule.ShareClassName, new List<RuleDefinition>());
+            String normalizedRuleName = rule.ShareClassName.trim().toLowerCase();
+            if (!rulesByShareClassName.containsKey(normalizedRuleName)) {
+                rulesByShareClassName.put(normalizedRuleName, new List<RuleDefinition>());
             }
-            rulesByShareClassName.get(rule.ShareClassName).add(rule);
+            rulesByShareClassName.get(normalizedRuleName).add(rule);
         }
 
         List<RuleCandidate> candidates = new List<RuleCandidate>();
         for (Country__c registration : eligibleRegistrations) {
             String shareClassName = registration.ShareClass__r.Name__c;
-            List<RuleDefinition> matchingRules = rulesByShareClassName.get(shareClassName);
+            String normalizedShareClassName = String.isBlank(shareClassName)
+                ? null
+                : shareClassName.trim().toLowerCase();
+
+            List<RuleDefinition> matchingRules = rulesByShareClassName.get(normalizedShareClassName);
             if (matchingRules == null || matchingRules.isEmpty()) {
                 continue;
             }

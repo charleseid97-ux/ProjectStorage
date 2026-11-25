@@ -158,20 +158,24 @@ public class SM029_WebCommunicationResponseParser {
     private static WebComSets fetchCandidates(KeySets keys) {
         WebComSets wcSets  = new WebComSets();
         if (!keys.withIsin.isEmpty()) {
-            Set<String> kC = new Set<String>(), kW = new Set<String>(), kI = new Set<String>();
+            //Set<String> kC = new Set<String>();
+            Set<String> kW = new Set<String>(); 
+            Set<String> kI = new Set<String>();
             for (String k : keys.withIsin) {
                 List<String> p = k.split('\\|', 0);
-                kC.add(p[0]); kW.add(p[1]); kI.add(p[2]);
+                //kC.add(p[0]); 
+                kW.add(p[1]); 
+                kI.add(p[2]);
             }
-            for (Web_Communication__c wc : [SELECT Id, CreatedDate, /*TECH_WebsiteLeadContactTechId__c*/Contact__c, Contact__r.TECH_WebSiteID__c, /*AlertType__c*/ AlertTypeRecord__r.TECH_WebSiteID__c, /*TECH_WebISINCode__c*/ ShareClass__r.ISIN__c, IsActive__c
+            for (Web_Communication__c wc : [SELECT Id, CreatedDate, /*TECH_WebsiteLeadContactTechId__c, Contact__c, Contact__r.TECH_WebSiteID__c, AlertType__c*/ AlertTypeRecord__r.TECH_WebSiteID__c, /*TECH_WebISINCode__c*/ ShareClass__r.ISIN__c, IsActive__c
                                                     //, Synchro_Status__c, Website_Response__c, TECH_CommunicationWebsiteId__c
                                             FROM Web_Communication__c
-                                            WHERE /*TECH_WebsiteLeadContactTechId__c*/Contact__r.TECH_WebSiteID__c IN :kC
+                                            WHERE /*TECH_WebsiteLeadContactTechId__cContact__r.TECH_WebSiteID__c IN :kC*/
                                             //AND AlertType__c IN :kW
-                                            AND AlertTypeRecord__r.TECH_WebSiteID__c IN :kW
+                                            AlertTypeRecord__r.TECH_WebSiteID__c IN :kW
                                             //AND TECH_WebISINCode__c IN :kI]){
                                             AND ShareClass__r.ISIN__c IN :kI]){
-                                                String k = key3(/*wc.TECH_WebsiteLeadContactTechId__c*/(String.isNotBlank(wc.Contact__c)? wc.Contact__r.TECH_WebSiteID__c : ''), /*wc.AlertType__c*/ wc.AlertTypeRecord__r.TECH_WebSiteID__c, /*wc.TECH_WebISINCode__c*/ wc.ShareClass__r.ISIN__c);
+                                                String k = key3('', /*wc.AlertType__c*/ wc.AlertTypeRecord__r.TECH_WebSiteID__c, /*wc.TECH_WebISINCode__c*/ wc.ShareClass__r.ISIN__c);
                                                 if (!keys.withIsin.contains(k)) continue;
                                                 Web_Communication__c cur = wcSets.withIsin.get(k);
                                                 if (cur == null || wc.CreatedDate > cur.CreatedDate) wcSets.withIsin.put(k, wc);
@@ -179,19 +183,21 @@ public class SM029_WebCommunicationResponseParser {
             
         }
         if (!keys.noIsin.isEmpty()) {
-            Set<String> kC = new Set<String>(), kW = new Set<String>();
+            //Set<String> kC = new Set<String>();
+            Set<String> kW = new Set<String>();
             for (String k : keys.noIsin) {
                 List<String> p = k.split('\\|', 0);
-                kC.add(p[0]); kW.add(p[1]);
+                //kC.add(p[0]); 
+                kW.add(p[1]);
             }
-            for (Web_Communication__c wc : [SELECT Id, CreatedDate, /*TECH_WebsiteLeadContactTechId__c*/Contact__c, Contact__r.TECH_WebSiteID__c, /*AlertType__c*/ AlertTypeRecord__r.TECH_WebSiteID__c, IsActive__c
+            for (Web_Communication__c wc : [SELECT Id, CreatedDate, /*TECH_WebsiteLeadContactTechId__c, Contact__c, Contact__r.TECH_WebSiteID__c, AlertType__c*/ AlertTypeRecord__r.TECH_WebSiteID__c, IsActive__c
                                                     //, Synchro_Status__c, Website_Response__c, TECH_CommunicationWebsiteId__c
                                             FROM Web_Communication__c
-                                            WHERE /*TECH_WebsiteLeadContactTechId__c*/Contact__r.TECH_WebSiteID__c IN :kC
+                                            WHERE /*TECH_WebsiteLeadContactTechId__cContact__r.TECH_WebSiteID__c IN :kC*/
                                             //AND AlertType__c IN :kW
-                                            AND AlertTypeRecord__r.TECH_WebSiteID__c IN :kW
+                                            AlertTypeRecord__r.TECH_WebSiteID__c IN :kW
             ]) {
-                String k = key2(/*wc.TECH_WebsiteLeadContactTechId__c*/(String.isNotBlank(wc.Contact__c)? wc.Contact__r.TECH_WebSiteID__c : ''), /*wc.AlertType__c*/ wc.AlertTypeRecord__r.TECH_WebSiteID__c);
+                String k = key2('', /*wc.AlertType__c*/ wc.AlertTypeRecord__r.TECH_WebSiteID__c);
                 if (!keys.noIsin.contains(k)) continue;
                 Web_Communication__c cur = wcSets.noIsin.get(k);
                 if (cur == null || wc.CreatedDate > cur.CreatedDate) wcSets.noIsin.put(k, wc);

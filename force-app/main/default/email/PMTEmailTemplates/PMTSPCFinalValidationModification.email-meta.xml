@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <description>Email template confirming SPC Final milestone validation for a product modification project, including project details, estimated launch date, validation date, and guidance on compliance and project phase validation.</description>
+    <encodingKey>ISO-8859-1</encodingKey>
+    <name>PMT - SPC Final Validation - Modification</name>
+    <relatedEntityType>Milestone__c</relatedEntityType>
+    <style>none</style>
+    <subject>SPC Final Validation – {{{Milestone__c.TECH_ProjectName__c}}} Approved</subject>
+    <type>custom</type>
+    <uiType>SFX</uiType>
+</EmailTemplate>

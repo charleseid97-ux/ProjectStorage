@@ -3,20 +3,20 @@ public class ProductTriggerTest {
 	static final Id fundRecordTypeId = Schema.SObjectType.Product__c.getRecordTypeInfosByDeveloperName().get('Fund').getRecordTypeId();  
 
     static testMethod void doTest() {
-        Id StrategyRecordTypeId = Schema.SObjectType.Product__c.getRecordTypeInfosByDeveloperName().get('Strategy').getRecordTypeId();
+        // Id StrategyRecordTypeId = Schema.SObjectType.Product__c.getRecordTypeInfosByDeveloperName().get('Strategy').getRecordTypeId();
         
-		Product__c ac0 = new Product__c(Name='Equity', ProductName__c='Equity', Record_Type_Name__c = 'Asset Class', Asset_Class_Code__c = 'EQTY');
-		Product__c ac1 = new Product__c(Name='Alternative', ProductName__c='Alternative', Record_Type_Name__c = 'Asset Class',Asset_Class_Code__c = 'ALVE');
+		Product__c ac0 = new Product__c(Name='Equity', ProductName__c='Equity', Record_Type_Name__c = 'Asset Class');
+		Product__c ac1 = new Product__c(Name='Alternative', ProductName__c='Alternative', Record_Type_Name__c = 'Asset Class');
 		Product__c sac = new Product__c(Name='Global', ProductName__c='Global', Record_Type_Name__c = 'Regional Focus');
         
         insert ac0;
         insert ac1;
         insert sac;
 
-		Product__c p0 = new Product__c(Name='PStrategy', ProductName__c='Product Strategy', Record_Type_Name__c = 'Strategy', Asset_Class_Code__c = 'EQTY');
+		// Product__c p0 = new Product__c(Name='PStrategy', ProductName__c='Product Strategy', Record_Type_Name__c = 'Strategy');
         Product__c p1 = new Product__c(Name='PFund', ProductName__c='Product Fund', Record_Type_Name__c = 'Fund');//, Strategy_Code__c = 'PStrategy');
         
-        insert p0;
+        // insert p0;
         insert p1;
 
         Share_Class__c sc = new Share_Class__c(Name='ShareClass', Fund_Code__c='PFund', Fund__c=p1.Id);
@@ -26,12 +26,12 @@ public class ProductTriggerTest {
         insert fm;
         
         test.startTest();
-			Product__c productStrategyTest = [SELECT RecordTypeId from Product__c WHERE Id =: p0.Id];
-			Product__c productFundTest = [SELECT RecordTypeId, Strategy__c from Product__c WHERE Id =: p1.Id];
-			Share_Class__c scTest = [SELECT Fund__c from Share_Class__c WHERE Id =: sc.Id];
+			// Product__c productStrategyTest = [SELECT RecordTypeId from Product__c WHERE Id =: p0.Id];
+			Product__c productFundTest = [SELECT Id FROM Product__c WHERE Id = :p1.Id];
+			Share_Class__c scTest = [SELECT Fund__c FROM Share_Class__c WHERE Id = :sc.Id];
         	
-        	productStrategyTest.Asset_Class_Code__c = 'ALVE';
-        	update productStrategyTest;
+        	productFundTest.DomiciledIn__c = 'FR';
+        	update productFundTest;
         test.stopTest();
     }
     
@@ -54,7 +54,9 @@ public class ProductTriggerTest {
         
         insert sc0;
         insert sc1;
+
         Test.startTest();
+
         p0.LegalForm__c = 'FCP';
         p1.LegalForm__c = 'SICAV';
         p2.LegalForm__c = 'SICAV';
@@ -67,8 +69,7 @@ public class ProductTriggerTest {
         update sc0;
         sc0.Name__c = 'new Name';
         update sc0;
+
         Test.stopTest();
-        List<Fund_Field_ApplicabilityHistory__c> logsAllFields = [SELECT Id,Applicability__c FROM Fund_Field_ApplicabilityHistory__c WHERE Applicability__c = false];
-        List<Fund_Field_ApplicabilityHistory__c> logsApplicability = [SELECT Id,Applicability__c FROM Fund_Field_ApplicabilityHistory__c WHERE Applicability__c = true];
     }
 }

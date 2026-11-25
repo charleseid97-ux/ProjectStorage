@@ -568,38 +568,38 @@ public class SM029_WebCommunication {
 
     // }
 
-    public static void deleteAllProspaceAlerts(sObject aObjectRec, List<String> selectedAlertTypes){
+    // public static void deleteAllProspaceAlerts(sObject aObjectRec, List<String> selectedAlertTypes){
 
-        String sObjectType = ((SObject)aObjectRec).getSObjectType().getDescribe().getName();
-        System.debug('dev---- aObjectRec' + aObjectRec);
-        List<Web_Communication__c> webComToDeleteList = new List<Web_Communication__c>();
-        if(sObjectType == 'Contact'){
-            webComToDeleteList = [SELECT Id, AlertTypeRecord__r.Id, AlertTypeRecord__r.TECH_WebSiteID__c FROM Web_Communication__c WHERE Contact__c = :aObjectRec.Id AND AlertTypeRecord__r.Id IN :selectedAlertTypes];
-        }
-        // else{
-        //     webComToDeleteList = [SELECT Id, AlertTypeRecord__r.Id, AlertTypeRecord__r.TECH_WebSiteID__c FROM Web_Communication__c WHERE Lead__c = :aObjectRec.Id AND AlertTypeRecord__r.Id IN :selectedAlertTypes];
-        // }
+    //     String sObjectType = ((SObject)aObjectRec).getSObjectType().getDescribe().getName();
+    //     System.debug('dev---- aObjectRec' + aObjectRec);
+    //     List<Web_Communication__c> webComToDeleteList = new List<Web_Communication__c>();
+    //     if(sObjectType == 'Contact'){
+    //         webComToDeleteList = [SELECT Id, AlertTypeRecord__r.Id, AlertTypeRecord__r.TECH_WebSiteID__c FROM Web_Communication__c WHERE Contact__c = :aObjectRec.Id AND AlertTypeRecord__r.Id IN :selectedAlertTypes];
+    //     }
+    //     // else{
+    //     //     webComToDeleteList = [SELECT Id, AlertTypeRecord__r.Id, AlertTypeRecord__r.TECH_WebSiteID__c FROM Web_Communication__c WHERE Lead__c = :aObjectRec.Id AND AlertTypeRecord__r.Id IN :selectedAlertTypes];
+    //     // }
 
-        if(webComToDeleteList.size() > 0){
-            Database.delete(webComToDeleteList, false);
-        }
-    }
+    //     if(webComToDeleteList.size() > 0){
+    //         Database.delete(webComToDeleteList, false);
+    //     }
+    // }
 
-    public static void delAllContactAlerts(Set<Contact> aContactAlertsToDeleteList){
-        Set<Id> techContactIdSet = new Set<Id>();
-        for(Contact c : aContactAlertsToDeleteList){
-            techContactIdSet.add(c.Id);
-        }
+    // public static void delAllContactAlerts(Set<Contact> aContactAlertsToDeleteList){
+    //     Set<Id> techContactIdSet = new Set<Id>();
+    //     for(Contact c : aContactAlertsToDeleteList){
+    //         techContactIdSet.add(c.Id);
+    //     }
 
-        List<Web_Communication__c> webComToDeleteList = [SELECT Id, AlertTypeRecord__r.Id
-        FROM Web_Communication__c
-        WHERE Contact__c IN :techContactIdSet
-        LIMIT 50000];
+    //     List<Web_Communication__c> webComToDeleteList = [SELECT Id, AlertTypeRecord__r.Id
+    //     FROM Web_Communication__c
+    //     WHERE Contact__c IN :techContactIdSet
+    //     LIMIT 50000];
 
-        if(webComToDeleteList.size() > 0){
-            Database.delete(webComToDeleteList, false);
-        }
-    }
+    //     if(webComToDeleteList.size() > 0){
+    //         Database.delete(webComToDeleteList, false);
+    //     }
+    // }
 
 
     // public static void delAllLeadAlerts(Set<Lead> aLeadAlertsToDeleteSet){

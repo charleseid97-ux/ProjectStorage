@@ -132,29 +132,29 @@ public class SM007_ContactTriggerHandler {
     */
     public static void onAfterInsert(List<Contact> contacts) {
         
-        String methodName = 'onAfterInsert';
-        ObjectUtil.debugLogBegin(CLASS_NAME, methodName, ' [contacts] : ' + contacts);
+        // String methodName = 'onAfterInsert';
+        // ObjectUtil.debugLogBegin(CLASS_NAME, methodName, ' [contacts] : ' + contacts);
         
-        if (!ObjectUtil.isAccountServiceUser()) { //Check if not user Interface
+        // if (!ObjectUtil.isAccountServiceUser()) { //Check if not user Interface
             
-            /* Call Website webservice 2.0*/
-            List<Contact> contactsToBeSync = new List<Contact>();
+        //     /* Call Website webservice 2.0*/
+        //     List<Contact> contactsToBeSync = new List<Contact>();
             
-            for (Contact contact : contacts) {
-                if (isWebsiteSync(contact)) { //check status before creating
-                    contactsToBeSync.add(contact);
-                }
-            }
-            if (contactsToBeSync.size() > 0 && !Pad.SKIP_STRIGGER_MAP.containsKey('SyncContact')) {
-                //System.enqueueJob(new SendSelectedContactsAsync(contactsToBeSync, 0, 1));
-                System.debug('DEV --- - - contactsToBeSync' + contactsToBeSync);
-                SM026_Contact_Website.sendAsyncWebsiteContact(contactsToBeSync);
-                Pad.SKIP_STRIGGER_MAP.put('SyncContact', 'prevent double execution');
-                Pad.SKIP_STRIGGER_MAP.put('ContactAfterInsert', 'prevent double execution');
+        //     for (Contact contact : contacts) {
+        //         if (isWebsiteSync(contact)) { //check status before creating
+        //             contactsToBeSync.add(contact);
+        //         }
+        //     }
+        //     if (contactsToBeSync.size() > 0 && !Pad.SKIP_STRIGGER_MAP.containsKey('SyncContact')) {
+        //         //System.enqueueJob(new SendSelectedContactsAsync(contactsToBeSync, 0, 1));
+        //         System.debug('DEV --- - - contactsToBeSync' + contactsToBeSync);
+        //         SM026_Contact_Website.sendAsyncWebsiteContact(contactsToBeSync);
+        //         Pad.SKIP_STRIGGER_MAP.put('SyncContact', 'prevent double execution');
+        //         Pad.SKIP_STRIGGER_MAP.put('ContactAfterInsert', 'prevent double execution');
                 
-            }
-        }
-        EM023_Log.insertLogError(listLogError);
+        //     }
+        // }
+        // EM023_Log.insertLogError(listLogError);
     }
     
     /**
@@ -170,17 +170,17 @@ public class SM007_ContactTriggerHandler {
         String methodName = 'onAfterUpdate';
         ObjectUtil.debugLogBegin(CLASS_NAME, methodName, ' [contacts] : ' + contacts);
         
-        List<String> ContactIds = new List<String>();
+        // List<String> ContactIds = new List<String>();
         Set<Id> contactsAlertToDeactivate = new Set<Id>();
         
         /* Call Website webservice 2.0*/
-        List<Contact> contactsToBeSync = new List<Contact>();
+        // List<Contact> contactsToBeSync = new List<Contact>();
         
         for (Contact c : contacts) {
-            if (isWebsiteSync(c)) { //check status before creating
-                contactsToBeSync.add(c);
-                ContactIds.add(c.Id);
-            }
+            // if (isWebsiteSync(c)) { //check status before creating
+            //     contactsToBeSync.add(c);
+            //     ContactIds.add(c.Id);
+            // }
             
             Contact oldcontact = oldContacts.get(c.ID);
             //No need cauz general OptedOut will be triggered , so all alert will be disabled by the flow 
@@ -192,11 +192,11 @@ public class SM007_ContactTriggerHandler {
                 contactsAlertToDeactivate.add(c.Id);
             }
         }
-        if (contactsToBeSync.size() > 0 && !Pad.SKIP_STRIGGER_MAP.containsKey('SyncContact')) {
-            SM026_Contact_Website.sendAsyncWebsiteContact(contactsToBeSync);
-            Pad.SKIP_STRIGGER_MAP.put('SyncContact', 'prevent double execution');
-            Pad.SKIP_STRIGGER_MAP.put('ContactAfterUpdate', 'prevent double execution');   
-        }
+        // if (contactsToBeSync.size() > 0 && !Pad.SKIP_STRIGGER_MAP.containsKey('SyncContact')) {
+        //     SM026_Contact_Website.sendAsyncWebsiteContact(contactsToBeSync);
+        //     Pad.SKIP_STRIGGER_MAP.put('SyncContact', 'prevent double execution');
+        //     Pad.SKIP_STRIGGER_MAP.put('ContactAfterUpdate', 'prevent double execution');   
+        // }
 
         if (contactsAlertToDeactivate.size() > 0) {
             //SM029_WebCommunication.delAllContactAlerts(contactsAlertToDeleteList);
@@ -208,29 +208,29 @@ public class SM007_ContactTriggerHandler {
     
     public static void onAfterDelete(List<Contact> aContactList) {
         
-        String methodName = 'onAfterDelete';
-        ObjectUtil.debugLogBegin(CLASS_NAME, methodName, ' [aContactList] : ' + aContactList);
+        // String methodName = 'onAfterDelete';
+        // ObjectUtil.debugLogBegin(CLASS_NAME, methodName, ' [aContactList] : ' + aContactList);
         
-        List<Contact> contactToDeleteList = new List<Contact>();
+        // List<Contact> contactToDeleteList = new List<Contact>();
         
-        for (Contact cont : aContactList) {
-            if (!String.isEmpty(cont.TECH_WebSiteID__c)){
-                contactToDeleteList.add(cont);
-            }
-        }
+        // for (Contact cont : aContactList) {
+        //     if (!String.isEmpty(cont.TECH_WebSiteID__c)){
+        //         contactToDeleteList.add(cont);
+        //     }
+        // }
         
-        if (contactToDeleteList.size() > 0){
-            SM026_Contact_Website.deleteAsyncWebsiteContact(contactToDeleteList);
-            //SM029_WebCommunication.deleteEmptyWebCommunication();
-            EM023_Log.insertLogError(listLogError);
-        }
+        // if (contactToDeleteList.size() > 0){
+        //     SM026_Contact_Website.deleteAsyncWebsiteContact(contactToDeleteList);
+        //     //SM029_WebCommunication.deleteEmptyWebCommunication();
+        //     EM023_Log.insertLogError(listLogError);
+        // }
     }
     
-    private static boolean isWebsiteSync(Contact contact){
-        return contact.Synchrostatus__c != null && contact.Synchrostatus__c.equalsIgnoreCase('To be synced');        
-    }
-    private static String getUserNameById(Id userId) {
-        User user = [SELECT Name FROM User WHERE Id = :userId LIMIT 1];
-        return user.Name;
-    }
+    // private static boolean isWebsiteSync(Contact contact){
+    //     return contact.Synchrostatus__c != null && contact.Synchrostatus__c.equalsIgnoreCase('To be synced');        
+    // }
+    // private static String getUserNameById(Id userId) {
+    //     User user = [SELECT Name FROM User WHERE Id = :userId LIMIT 1];
+    //     return user.Name;
+    // }
 }

@@ -1,51 +1,61 @@
+/** ──────────────────────────────────────
+ * @description Trigger handler of ProjectProduct__c (ProjectProductTrigger): dispatches the before/after insert and
+ *                  update logic to ProjectProductSetupHandler and ProjectProductSetupHandlerUtilities.
+ *              Before update, the PMT owner rules are reapplied (applyOwnerRules, FIX-20178 - replaces updateLegalOwner).
+ *              After update, a change of a field read by the PMT conditions realigns the phases (resyncConditionalValues, US-20194).
+ *              US-20194 V1.8: each context first reads the parent records followed by the PMT conditions (PMTMatrix.loadRelationships):
+ *                  one query per lookup, none when no condition follows a lookup.
+ * @lastModifiedBy Charles EID   [18-11-26]
+ * @testClass Test_ProjectProductTrigger
+ * @coverage 100%   [18-11-26]
+ ────────────────────────────────────── */
 public class ProjectProductTriggerHandler {
     public static Boolean isBlankingFields = false;
 
     public static void handleBeforeInsert(List<ProjectProduct__c> newProjectProduct) {
         ProjectProductSetupHandler.cloneFund(newProjectProduct);
+        PMTMatrix.loadRelationships(newProjectProduct); // US-20194 V1.8: parents read by the PMT conditions, in one query per lookup (none when no condition follows one)
         new ProjectProductSetupHandler().getOwnersTeam(newProjectProduct);
-        
     }
-    
+
     public static void handleBeforeUpdate(Map<Id, ProjectProduct__c> newProjectProduct, Map<Id, ProjectProduct__c> oldProjectProduct) {
-        new ProjectProductSetupHandler().updateProjectProductStatus(newProjectProduct , oldProjectProduct);
-        ProjectProductSetupHandler.updateLegalOwner(newProjectProduct, oldProjectProduct);
-        new   ProjectProductSetupHandler().updateProjectProductName(newProjectProduct , oldProjectProduct);
+        PMTMatrix.loadRelationships(newProjectProduct.values());
+        new ProjectProductSetupHandler().updateProjectProductStatus(newProjectProduct, oldProjectProduct);
+        ProjectProductSetupHandler.applyOwnerRules(newProjectProduct, oldProjectProduct);
+        new ProjectProductSetupHandler().updateProjectProductName(newProjectProduct, oldProjectProduct);
     }
 
     public static void handleAfterInsert(Map<Id, ProjectProduct__c> l_project) {
+        PMTMatrix.loadRelationships(l_project.values());
         ProjectProductSetupHandler.updatePPName(l_project.values());
         new ProjectProductSetupHandler().createProjectProduct(l_project.values());
         new ProjectProductSetupHandler().createTaskList(l_project.values());
         ProjectProductSetupHandler.nbOfFieldsGoal(l_project);
-
     }
 
     public static void handleAfterUpdate(Map<Id, ProjectProduct__c> newProjectProduct, Map<Id, ProjectProduct__c> oldProjectProduct) {
-        
         Map<Id, ProjectProduct__c> cleanednewProjectProduct = newProjectProduct;
         Map<Id, ProjectProduct__c> recalNbOfFields = new Map<Id, ProjectProduct__c>();
-            
-        if(ProjectProductChildTriggerHandler.isBlankingFields){
-            return;
+        PMTMatrix.loadRelationships(newProjectProduct.values());
+
+        // US-20194: before the return below, the condition fields are usually filled on a phase and copied to the project
+        ProjectProductSetupHandler.resyncConditionalValues(newProjectProduct, oldProjectProduct);
+
+        if (ProjectProductChildTriggerHandler.isBlankingFields) return;
+
+        for (String projectId : newProjectProduct.keySet()) {
+            if (newProjectProduct.get(projectId).TECH_FieldsToModify__c != oldProjectProduct.get(projectId).TECH_FieldsToModify__c) recalNbOfFields.put(projectId, newProjectProduct.get(projectId));
         }
 
-        for(String projectId : newProjectProduct.keySet()) {
-            if(newProjectProduct.get(projectId).TECH_FieldsToModify__c != oldProjectProduct.get(projectId).TECH_FieldsToModify__c){
-               
-                recalNbOfFields.put(projectId, newProjectProduct.get(projectId));
-            }
-        }
-        
-        if(!recalNbOfFields.isEmpty()){
+        if (!recalNbOfFields.isEmpty()) {
             ProjectProductSetupHandler.nbOfFieldsGoal(recalNbOfFields);
             isBlankingFields = true;
-            ProjectProductSetupHandlerUtilities.validateSteps(recalNbOfFields , oldProjectProduct);            
-            ProjectProductSetupHandlerUtilities.emptyFields(recalNbOfFields , oldProjectProduct);
+            ProjectProductSetupHandlerUtilities.validateSteps(recalNbOfFields, oldProjectProduct);
+            ProjectProductSetupHandlerUtilities.emptyFields(recalNbOfFields, oldProjectProduct);
             isBlankingFields = false;
         }
 
         new ProjectProductSetupHandler().createGroupChatterForProject(cleanednewProjectProduct.values(), oldProjectProduct);
-        ProjectProductSetupHandlerUtilities.updateMilestoneGolive(cleanednewProjectProduct , oldProjectProduct);
+        ProjectProductSetupHandlerUtilities.updateMilestoneGolive(cleanednewProjectProduct, oldProjectProduct);
     }
 }

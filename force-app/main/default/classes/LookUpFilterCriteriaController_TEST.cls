@@ -57,7 +57,7 @@ public with sharing class LookUpFilterCriteriaController_TEST {
             testContact2.WebsiteLanguage__c = 'French';
             testContact2.Prospace_Status__c = 'Validated';
             testContact2.Synchrostatus__c = 'Success';
-            testContact2.TECH_WebSiteID__c = '123455';
+            // testContact2.TECH_WebSiteID__c = '123455';
 
             Database.insert(testContact2, true);
 

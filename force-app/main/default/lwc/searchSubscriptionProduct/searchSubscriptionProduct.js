@@ -15,10 +15,7 @@ import getFundsWithSub from "@salesforce/apex/CTL_SearchSubscriptionProduct.getF
 import { getRecord } from "lightning/uiRecordApi";
 import { ShowToastEvent } from "lightning/platformShowToastEvent";
 
-const CONTACT_FIELDS = [
-  "Contact.WebsiteCountry__c",
-  "Contact.TECH_WebSiteID__c"
-];
+const CONTACT_FIELDS = ["Contact.WebsiteCountry__c"];
 export default class SearchSubscriptionProduct extends LightningElement {
   @api alertType = "";
   @api recordId;
@@ -69,8 +66,9 @@ export default class SearchSubscriptionProduct extends LightningElement {
   selectionDisabled = true;
   searchKey = "";
   countryCode = "";
-  techContactId = "";
+  // techContactId = "";
   refreshRequired = null;
+  websiteIdsWithoutShareClass = ['100', '101'];
   @track mapFundCodeName;
   @track initGroupedData = [];
   @track selectedProducts = {}; //to save only new selected products
@@ -191,7 +189,7 @@ export default class SearchSubscriptionProduct extends LightningElement {
   contactInfo({ data, error }) {
     if (data && data.fields) {
       this.countryCode = data.fields.WebsiteCountry__c?.value;
-      this.techContactId = data.fields.TECH_WebSiteID__c?.value;
+      //this.techContactId = data.fields.TECH_WebSiteID__c?.value;
     } else if (error) {
       console.log(error);
     }
@@ -594,40 +592,33 @@ export default class SearchSubscriptionProduct extends LightningElement {
   }
 
   createProspaceAlert(prod) {
-    console.log('here')
     let prospaceAlerts = [];
     let alerts = prod.alertType;
     for (let key in alerts) {
       if (alerts[key] && alerts[key].checked !== alerts[key].active) {
-        console.log('alerts[key]:'+alerts[key].checked)
+        const webId = this.mapAlertTypeMetadataRecords[key].webId;
+        const excludeShareClass = this.websiteIdsWithoutShareClass.includes(webId);
+
         if (alerts[key].prospId !== "") {
-          console.log('prospId not null :'+alerts[key].prospId)
-          console.log('prod.shareClass :'+prod.shareClass)
           prospaceAlerts.push({
-            ShareClass__c: prod.shareClass,
+            ...(!excludeShareClass && { ShareClass__c: prod.shareClass }),
             Fund__c: prod.fund,
             Contact__c: this.recordId,
-            AlertTypeRecord__c: this.mapAlertTypeRecords[this.mapAlertTypeMetadataRecords[key].webId],
+            AlertTypeRecord__c: this.mapAlertTypeRecords[webId],
             IsActive__c: alerts[key].checked,
             Id: alerts[key].prospId
           });
         } else {
-          console.log('prospId null :'+alerts[key].prospId)
-          console.log('prod.shareClass :'+prod.shareClass)
-          console.log('prod.Fund__c :'+prod.fund)
-          console.log('alert type :'+this.mapAlertTypeRecords[this.mapAlertTypeMetadataRecords[key].webId])
-          console.log('checked :'+alerts[key].checked)
           prospaceAlerts.push({
-            ShareClass__c: prod.shareClass,
+            ...(!excludeShareClass && { ShareClass__c: prod.shareClass }),
             Fund__c: prod.fund,
             Contact__c: this.recordId,
-            AlertTypeRecord__c: this.mapAlertTypeRecords[this.mapAlertTypeMetadataRecords[key].webId],
+            AlertTypeRecord__c: this.mapAlertTypeRecords[webId],
             IsActive__c: alerts[key].checked
           });
         }
       }
     }
-    console.log('here 1:'+prospaceAlerts)
     return prospaceAlerts;
   }
 

@@ -1,0 +1,92 @@
+<html>
+<head>
+	<title></title>
+</head>
+<body style="height: auto; min-height: auto;">
+<table border="0" cellpadding="0" cellspacing="0" role="presentation" style="font-family:Arial,Helvetica,sans-serif;background-color:#f5f7f5;padding:24px;" width="100%">
+	
+		<tr>
+			<td align="center">
+			<table border="0" cellpadding="0" cellspacing="0" role="presentation" style="width:620px;max-width:100%;background-color:#ffffff;border:1px solid #e2e6e2;" width="620"><!-- HEADER -->
+				
+					<tr>
+						<td bgcolor="#2f4233" style="background-color:#2f4233;padding:22px 28px;">
+						<div style="font-size:12px;letter-spacing:1px;color:#cbd8ce;font-weight:bold;">AI AGENT GOVERNANCE</div>
+
+						<div style="font-size:22px;line-height:28px;color:#ffffff;font-weight:bold;padding-top:4px;">Agent Pending Implementation</div>
+						</td>
+					</tr>
+					<!-- INTRO -->
+					<tr>
+						<td style="padding:26px 28px 14px 28px;color:#242424;font-size:14px;line-height:21px;">Hello,<br />
+						<br />
+						The AI Agent <strong>{{{AI_Agent__c.Name}}}</strong> was created more than 30 days ago and is still in <strong>Pending Implementation</strong> status.<br />
+						<br />
+						Please confirm whether the implementation is still ongoing and update the Agent status when appropriate.</td>
+					</tr>
+					<!-- DETAILS -->
+					<tr>
+						<td style="padding:6px 28px 22px 28px;">
+						<table border="0" cellpadding="0" cellspacing="0" role="presentation" style="font-size:14px;color:#242424;" width="100%">
+							
+								<tr>
+									<td style="padding:10px 0;border-bottom:1px solid #eeeeee;color:#6b746d;font-weight:bold;" width="180">Agent</td>
+									<td style="padding:10px 0;border-bottom:1px solid #eeeeee;">{{{AI_Agent__c.Name}}}</td>
+								</tr>
+								<tr>
+									<td style="padding:10px 0;border-bottom:1px solid #eeeeee;color:#6b746d;font-weight:bold;vertical-align:top;">Agent Purpose</td>
+									<td style="padding:10px 0;border-bottom:1px solid #eeeeee;line-height:20px;">{{{AI_Agent__c.AgentPurpose__c}}}</td>
+								</tr>
+								<tr>
+									<td style="padding:10px 0;border-bottom:1px solid #eeeeee;color:#6b746d;font-weight:bold;">Agent Owner</td>
+									<td style="padding:10px 0;border-bottom:1px solid #eeeeee;">{{{AI_Agent__c.AgentOwner__c}}}</td>
+								</tr>
+								<tr>
+									<td style="padding:10px 0;border-bottom:1px solid #eeeeee;color:#6b746d;font-weight:bold;">Current Status</td>
+									<td style="padding:10px 0;border-bottom:1px solid #eeeeee;"><strong>{{{AI_Agent__c.Status__c}}}</strong></td>
+								</tr>
+								<tr>
+									<td style="padding:10px 0;color:#6b746d;font-weight:bold;">Created On</td>
+									<td style="padding:10px 0;">{{{AI_Agent__c.CreatedDate}}}</td>
+								</tr>
+							
+						</table>
+						</td>
+					</tr>
+					<!-- ACTION REQUIRED -->
+					<tr>
+						<td bgcolor="#f1f5f2" style="background-color:#f1f5f2;padding:20px 28px;color:#242424;font-size:14px;line-height:21px;"><strong style="color:#2f4233;">Action required </strong><br />
+						<br />
+						Please check the current implementation status of this agent.<br />
+						<br />
+						If the agent is ready for use, complete the required validation and update its status. If the implementation has been abandoned or postponed, update the Agent record accordingly.</td>
+					</tr>
+					<!-- CTA -->
+					<tr>
+						<td style="padding:24px 28px 28px 28px;">
+						<table border="0" cellpadding="0" cellspacing="0" role="presentation">
+							
+								<tr>
+									<td bgcolor="#2f4233" style="background-color:#2f4233;padding:12px 20px;"><a href="{{{AI_Agent__c.Link}}}" style="color:#ffffff;text-decoration:none;font-size:14px;font-weight:bold;">Open AI Agent </a></td>
+								</tr>
+							
+						</table>
+						</td>
+					</tr>
+					<!-- FOOTER -->
+					<tr>
+						<td style="border-top:1px solid #eeeeee;padding:16px 28px;color:#777777;font-size:12px;line-height:18px;">This is an automated reminder from the AI Agent Governance process.<br />
+						<br />
+						For any questions, contact <strong>dust@carmignac.com</strong>.<br />
+						<br />
+						Dust Admin Team<br />
+						Carmignac AI Agent Governance</td>
+					</tr>
+				
+			</table>
+			</td>
+		</tr>
+	
+</table>
+</body>
+</html>

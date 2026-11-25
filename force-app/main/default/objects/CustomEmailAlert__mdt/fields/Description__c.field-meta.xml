@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Description__c</fullName>
+    <description>What this email is for and which Flow or Apex class sends it. Documentation only, not used at runtime.</description>
+    <fieldManageability>SubscriberControlled</fieldManageability>
+    <inlineHelpText>Describe what this email is for and which Flow sends it (e.g. &quot;Notifies Legal when an agreement is signed - Flow Agreement_AfterUpdate&quot;).</inlineHelpText>
+    <label>Description</label>
+    <required>false</required>
+    <type>TextArea</type>
+</CustomField>

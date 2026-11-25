@@ -37,21 +37,21 @@ UY-&gt;LU</value>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Agreement RecordType DeveloperName.CodeType to Role Mapping</shortDescription>
-        <value>Agreement.Distribution Agreement->Distribution Delegate
-Agreement.Execution only Platform Agreement->Distribution Intermediary
-Agreement.Placement Agreement->Distribution Intermediary
-Agreement.Private Placement Agreement->Distribution Intermediary
-Agreement.French IFA Agreement->Investment Advisor
-Agreement.Platform Master Agreement->Distribution Delegate
-Agreement.US Offshore Agreement->Distribution Intermediary
-Sub_distributor_Agreement.Sub-distributor via Platforms->Sub-distributor via Platform
-IS_Agreement.IS Advisory->IS Agreement
-IS_Agreement.IS Dedicated Product Distribution->IS Agreement
-IS_Agreement.IS Master Feeder->IS Agreement
-IS_Agreement.IS Portfolio Management Delegation->IS Agreement
-Institutional_Agreement.Direct Investor->Investor w/o agreement
-Institutional_Agreement.UK intermediaries (none platform)->Investor w/o agreement
-Technical_Agreement.Technical->Code Technique</value>
+        <value>Agreement.Distribution Agreement-&gt;Distribution Delegate
+Agreement.Execution only Platform Agreement-&gt;Distribution Intermediary
+Agreement.Placement Agreement-&gt;Distribution Intermediary
+Agreement.Private Placement Agreement-&gt;Distribution Intermediary
+Agreement.French IFA Agreement-&gt;Investment Advisor
+Agreement.Platform Master Agreement-&gt;Distribution Delegate
+Agreement.US Offshore Agreement-&gt;Distribution Intermediary
+Sub_distributor_Agreement.Sub-distributor via Platforms-&gt;Sub-distributor via Platform
+IS_Agreement.IS Advisory-&gt;IS Agreement
+IS_Agreement.IS Dedicated Product Distribution-&gt;IS Agreement
+IS_Agreement.IS Master Feeder-&gt;IS Agreement
+IS_Agreement.IS Portfolio Management Delegation-&gt;IS Agreement
+Institutional_Agreement.Direct Investor-&gt;Investor w/o agreement
+Institutional_Agreement.UK intermediaries (none platform)-&gt;Investor w/o agreement
+Technical_Agreement.Technical-&gt;Code Technique</value>
     </labels>
     <labels>
         <fullName>ADD_TO_EVENT_CAMPAIGN</fullName>
@@ -2139,6 +2139,13 @@ Il calcolo viene adattato alla data di variazione delle spese effettivamente app
         <value>mira.eid.external@carmignac.com,mira.eid.external@carmignac.com</value>
     </labels>
     <labels>
+        <fullName>MasterRecordTypeId</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Master Record Type Id</shortDescription>
+        <value>012000000000000AAA</value>
+    </labels>
+    <labels>
         <fullName>Matrix_Blank</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -2208,5 +2215,29 @@ Il calcolo viene adattato alla data di variazione delle spese effettivamente app
         <protected>false</protected>
         <shortDescription>EmailService Default Org-Wide Address</shortDescription>
         <value>noreplysalesforce@carmignac.com</value>
+    </labels>
+    <labels>
+        <fullName>PMT_SPCFinalNoticeRequired</fullName>
+        <categories>PMT</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PMT SPC Final Notice Required</shortDescription>
+        <value>SPC Final cannot be completed until the Legal team has assessed whether a Notice to Shareholders is required and recorded the decision (Yes / No) on the project.</value>
+    </labels>
+    <labels>
+        <fullName>PMT_PhaseAlreadyValidated</fullName>
+        <categories>PMT</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PMT Phase Already Validated</shortDescription>
+        <value>You have validated this phase. You can no longer edit or contribute to this phase. If you need to make changes, please contact the project owner to request a rollback to draft status.</value>
+    </labels>
+    <labels>
+        <fullName>PMT_InvalidRecords</fullName>
+        <categories>PMT</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PMT Invalid Records</shortDescription>
+        <value>PMT configuration error: these PMT records are invalid and are not used: {0}. Please contact your Salesforce administrator to fix them in Setup &gt; Custom Metadata Types or in the PMT Matrix Explorer.</value>
     </labels>
 </CustomLabels>

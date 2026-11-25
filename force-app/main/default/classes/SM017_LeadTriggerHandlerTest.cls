@@ -164,8 +164,8 @@ public class SM017_LeadTriggerHandlerTest {
             List<Lead>ldList = new List<Lead>();
             ldList.add(ld3);
             
-           SM026_Lead_Website ldWebsite = new SM026_Lead_Website();
-           ldWebsite.processResetLeadPassword(ldList);
+        //    SM026_Lead_Website ldWebsite = new SM026_Lead_Website();
+        //    ldWebsite.processResetLeadPassword(ldList);
            SM017_LeadTriggerHandler.updateCampaignMembersForLead(ldList);
             
             // Test End 

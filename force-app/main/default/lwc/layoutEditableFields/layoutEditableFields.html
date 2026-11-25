@@ -12,6 +12,12 @@
             <lightning-spinner alternative-text="Loading..." size="medium"></lightning-spinner>
         </template>
 
+        <template if:true={hasFields}>
+            <div class="state-legend">
+                <span class="legend-item legend-required">Required, to fill</span>
+                <span class="legend-item legend-optional">Optional, empty</span>
+            </div>
+        </template>
         <template if:true={sections}>
             <lightning-accordion allow-multiple-sections-open active-section-name={allSectionIds}
                 class="custom-accordion">
@@ -23,40 +29,40 @@
                             <template for:each={filteredSections} for:item="section">
                                 <div key={section.id} class="slds-section slds-is-open">
                                     <h3 class="slds-section__title slds-theme_shade">
-                                        <button aria-controls={section.id} aria-expanded="true"
+                                        <button aria-controls={section.editId} aria-expanded="true"
                                             class="slds-button slds-section__title-action" onclick={handleSectionToggle}
                                             data-section-id={section.id}>
                                             <lightning-icon icon-name="utility:switch" size="x-small"
                                                 class="slds-section-title-action-icon slds-buttonicon slds-button__icon_left"></lightning-icon>
                                             <span class="slds-truncate" title={section.label}>{section.label}</span>
+                                            <template if:true={section.requiredMissingLabel}>
+                                                <span class="slds-badge slds-m-left_small required-missing-badge">{section.requiredMissingLabel}</span>
+                                            </template>
                                         </button>
                                     </h3>
 
-                                    <div aria-hidden="false" class="slds-section__content" id={section.id}>
-                                        <div class="slds-grid slds-wrap slds-p-around_medium">
+                                    <div aria-hidden="false" class="slds-section__content" id={section.editId}>
+                                        <div class="field-grid slds-p-around_medium">
                                             <template for:each={section.fields} for:item="field">
-                                                <template if:true={field.isVisibleByRule}>
-                                                    <template if:true={field.isEditable}>
-                                                        <div key={field.apiName} class={field.columnClass} style="padding: 0 2%;">
-
-                                                            <label for={field.apiName} class="slds-form-element__label">
+                                                <template if:true={field.isEditable}>
+                                                    <div key={field.apiName} class={field.columnClass}>
+                                                        <div class="field-background">
+                                                            <label for={field.apiName} class={field.labelClass}>
                                                                 <template if:true={field.isRequired}>
                                                                     <abbr class="slds-required" aria-hidden="true"
                                                                         title="required">*</abbr>
                                                                 </template>
                                                                 {field.label} <template if:true={field.helptext}><lightning-helptext style="vertical-align: bottom;" content={field.helptext}></lightning-helptext></template>
                                                             </label>
-                                                            <!-- <lightning-input-field field-name={field.apiName}
-                                                                class="edit-input" variant="label-hidden">
-                                                            </lightning-input-field> -->
                                                             <lightning-input-field 
                                                                 field-name={field.apiName}
                                                                 class="edit-input"
                                                                 variant="label-hidden"
                                                                 onchange={handleFieldChange}>
                                                             </lightning-input-field>
+                                                            <div></div>
                                                         </div>
-                                                    </template>
+                                                    </div>
                                                 </template>
                                             </template>
                                         </div>
@@ -77,15 +83,18 @@
                                             <lightning-icon icon-name="utility:switch" size="x-small"
                                                 class="slds-section-title-action-icon slds-buttonicon slds-button__icon_left"></lightning-icon>
                                             <span class="slds-truncate" title={section.label}>{section.label}</span>
+                                            <template if:true={section.requiredMissingLabel}>
+                                                <span class="slds-badge slds-m-left_small required-missing-badge">{section.requiredMissingLabel}</span>
+                                            </template>
                                         </button>
                                     </h3>
 
                                     <div aria-hidden="false" class="slds-section__content" id={section.id}>
-                                        <div class="slds-grid slds-wrap slds-p-around_medium">
+                                        <div class="field-grid slds-p-around_medium">
                                             <template for:each={section.fields} for:item="field">
-                                                <template if:true={field.isVisibleByRule}>
-                                                    <div key={field.apiName} class={field.columnClass} style="padding: 0 2%;">
-                                                        <label for={field.apiName} class="slds-form-element__label">
+                                                <div key={field.apiName} class={field.columnClass}>
+                                                    <div class="field-background">
+                                                        <label for={field.apiName} class={field.labelClass}>
                                                             <template if:true={field.isRequired}>
                                                                 <abbr class="slds-required" aria-hidden="true"
                                                                     title="required">*</abbr>
@@ -105,21 +114,20 @@
                                                                 </lightning-output-field>
                                                             </template>
                                                             <template if:true={userHasEditPermission}>
-                                                                <template if:false={viewAll}>
-                                                                    <template if:false={doNotProcess}>
+                                                                <template if:false={doNotProcess}>
 
-                                                                        <lightning-button-icon icon-name="utility:edit"
-                                                                            variant="bare"
-                                                                            class="slds-col  edit-icon slds-text-align_right" 
-                                                                            onclick={enableEditMode}>
-                                                                        </lightning-button-icon>
-                                                                        <!-- slds-size_1-of-5 -->
-                                                                    </template>
+                                                                    <lightning-button-icon icon-name="utility:edit"
+                                                                        variant="bare"
+                                                                        class="slds-col  edit-icon slds-text-align_right" 
+                                                                        onclick={enableEditMode}>
+                                                                    </lightning-button-icon>
+                                                                    <!-- slds-size_1-of-5 -->
                                                                 </template>
                                                             </template>
                                                         </div>
+                                                        <div></div>
                                                     </div>
-                                                </template>
+                                                </div>
                                             </template>
                                         </div>
                                     </div>
@@ -137,12 +145,10 @@
                             </template>
                             <template if:false={isEditMode}>
                                 <template if:true={userHasEditPermission}>
-                                    <template if:false={viewAll}>
-                                        <template if:false={doNotProcess}>
+                                    <template if:false={doNotProcess}>
 
-                                            <lightning-button variant="brand" label="Edit"
-                                                onclick={enableEditMode}></lightning-button>
-                                        </template>
+                                        <lightning-button variant="brand" label="Edit"
+                                            onclick={enableEditMode}></lightning-button>
                                     </template>
                                 </template>
                             </template>

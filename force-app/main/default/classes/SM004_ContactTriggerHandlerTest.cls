@@ -178,11 +178,11 @@ System.assert(Limits.getQueries() < 0.9 * Limits.getLimitQueries());
              
          //  SM007_ContactTriggerHandler.onBeforeInsert(contactsToBeSync); 
          //  
-            SM026_SendSelectedContactsAsync contAsync = new SM026_SendSelectedContactsAsync(contactsToBeSync, 0 , 1);
-            contAsync.executeNext(contactsToBeSync, 0 , 1);
+            // SM026_SendSelectedContactsAsync contAsync = new SM026_SendSelectedContactsAsync(contactsToBeSync, 0 , 1);
+            // contAsync.executeNext(contactsToBeSync, 0 , 1);
         
-            SM026_DeleteWebsiteContactsAsync contDelAsync = new SM026_DeleteWebsiteContactsAsync(contactsToBeSync, 0 , 1);
-            contDelAsync.executeNext(contactsToBeSync, 0 , 1);
+            // SM026_DeleteWebsiteContactsAsync contDelAsync = new SM026_DeleteWebsiteContactsAsync(contactsToBeSync, 0 , 1);
+            // contDelAsync.executeNext(contactsToBeSync, 0 , 1);
                 
 
             
@@ -356,7 +356,7 @@ System.assert(Limits.getQueries() < 0.9 * Limits.getLimitQueries());
             insert ContactFieldtoPopulate;
 
         
-        SM026_Contact_Website.processResetContactPassword(ContactFieldtoPopulate);
+        // SM026_Contact_Website.processResetContactPassword(ContactFieldtoPopulate);
       
         }
         // Test End 
@@ -364,91 +364,91 @@ System.assert(Limits.getQueries() < 0.9 * Limits.getLimitQueries());
         System.test.stopTest();
         //repeat the same for the rest of classes.
     }  
- static testMethod void ContactWebsiteButtonController(){
-        // Test User creation 
-        User u = TestFactory.getCarmignacUserTestApex();
-        System.runAs(u){
-            // Test Begin
-            System.test.startTest(); 
+//  static testMethod void ContactWebsiteButtonController(){
+//         // Test User creation 
+//         User u = TestFactory.getCarmignacUserTestApex();
+//         System.runAs(u){
+//             // Test Begin
+//             System.test.startTest(); 
             
-            TestFactory.createCustomSettings();
-            Account accTest1 = TestFactory.getSimpleAccount();
-            insert accTest1;
+//             TestFactory.createCustomSettings();
+//             Account accTest1 = TestFactory.getSimpleAccount();
+//             insert accTest1;
             
-            Contact testContact2 = TestFactory.getSimpleNoProfileContact(accTest1.Id, 'TestFName','LastNameTestCarmignac','65432345','TechwbesiteId','mail@mail1.com','mail@mail1.com','mail@mail1.com');
-            testContact2.WebsiteRole__c = '5';
-            testContact2.TrialStatus__c = '5';
-            testContact2.Synchrostatus__c='Success';
-            testContact2.FirstNameWebsite__c='testWebsiteFirstname';
-            testContact2.LastNameWebsite__c='testWebsitelastame';
-            testContact2.WebsiteCompany__c='testWebsitecompany';
-            testContact2.WebsiteSalutation__c='testWebsiteSalutation';
-            testContact2.WebsiteJobTitle__c='testWebsiteJob';
-            testContact2.WebsiteLogin__c='testWebsiteLogin@test.com';
-            testContact2.PostalCode__c='25624';
-            testContact2.PhoneNumber__c='0123456789';
-            testContact2.MobileNumber__c='0123456787';
-            testContact2.Address1__c='TestAddress';
-            testContact2.City__c='TestCity';
-            testContact2.Country__c='FR';
-            testContact2.WebsiteCountry__c = 'FR';
-            testContact2.WebsiteLanguage__c = 'French';
-			testContact2.TECH_WebSiteID__c = '12312';
-            Database.insert(testContact2, true);
+//             Contact testContact2 = TestFactory.getSimpleNoProfileContact(accTest1.Id, 'TestFName','LastNameTestCarmignac','65432345','TechwbesiteId','mail@mail1.com','mail@mail1.com','mail@mail1.com');
+//             testContact2.WebsiteRole__c = '5';
+//             testContact2.TrialStatus__c = '5';
+//             testContact2.Synchrostatus__c='Success';
+//             testContact2.FirstNameWebsite__c='testWebsiteFirstname';
+//             testContact2.LastNameWebsite__c='testWebsitelastame';
+//             testContact2.WebsiteCompany__c='testWebsitecompany';
+//             testContact2.WebsiteSalutation__c='testWebsiteSalutation';
+//             testContact2.WebsiteJobTitle__c='testWebsiteJob';
+//             testContact2.WebsiteLogin__c='testWebsiteLogin@test.com';
+//             testContact2.PostalCode__c='25624';
+//             testContact2.PhoneNumber__c='0123456789';
+//             testContact2.MobileNumber__c='0123456787';
+//             testContact2.Address1__c='TestAddress';
+//             testContact2.City__c='TestCity';
+//             testContact2.Country__c='FR';
+//             testContact2.WebsiteCountry__c = 'FR';
+//             testContact2.WebsiteLanguage__c = 'French';
+// 			// testContact2.TECH_WebSiteID__c = '12312';
+//             Database.insert(testContact2, true);
             
-            //VFC08_ResetContactWebsitePassword
-            //PageReference pageRefPwd = Page.VFP08_ResetContactWebsitePassword;
-   			//ApexPages.StandardController scReset = new ApexPages.StandardController(testContact2);
-			//VFC08_ResetContactWebsitePassword ResetContact = new VFC08_ResetContactWebsitePassword(scReset);
- 			//Test.setCurrentPage(pageRefPwd);
-            //pageRefPwd.getParameters().put('id',testContact2.id);
-			//ResetContact.resetUserPassword();
+//             //VFC08_ResetContactWebsitePassword
+//             //PageReference pageRefPwd = Page.VFP08_ResetContactWebsitePassword;
+//    			//ApexPages.StandardController scReset = new ApexPages.StandardController(testContact2);
+// 			//VFC08_ResetContactWebsitePassword ResetContact = new VFC08_ResetContactWebsitePassword(scReset);
+//  			//Test.setCurrentPage(pageRefPwd);
+//             //pageRefPwd.getParameters().put('id',testContact2.id);
+// 			//ResetContact.resetUserPassword();
 			
-			//Insert lead
-            Id RecordTypeIdLead = Schema.SObjectType.Lead.getRecordTypeInfosByName().get('Website Lead').getRecordTypeId();
-            Lead ld2 = TestFactory.getSimpleProSpaceLead();
-            ld2.recordTypeId=RecordTypeIdLead;
-            ld2.TECH_WebSiteID__c='85236';
-            ld2.Status = 'Pending Qualification';
-            ld2.LeadSource = 'Website';
-            ld2.Lead_Sub_Source__c = 'Web self-registration';
-            ld2.Prospace_Status__c = 'Pending';
+// 			//Insert lead
+//             Id RecordTypeIdLead = Schema.SObjectType.Lead.getRecordTypeInfosByName().get('Website Lead').getRecordTypeId();
+//             Lead ld2 = TestFactory.getSimpleProSpaceLead();
+//             ld2.recordTypeId=RecordTypeIdLead;
+//             ld2.TECH_WebSiteID__c='85236';
+//             ld2.Status = 'Pending Qualification';
+//             ld2.LeadSource = 'Website';
+//             ld2.Lead_Sub_Source__c = 'Web self-registration';
+//             ld2.Prospace_Status__c = 'Pending';
             
-            Database.insert(ld2, true); 
+//             Database.insert(ld2, true); 
             
-            //ld2.Status = 'Validated Prospace';
-            //Database.update(ld2, true); 
+//             //ld2.Status = 'Validated Prospace';
+//             //Database.update(ld2, true); 
 
             
-            SM026_ResetProSpacePasswordLTController.checkWebsiteId(testContact2.Id);
-            SM026_ResetProSpacePasswordLTController.resetProspacePass(testContact2.Id);
+//             // SM026_ResetProSpacePasswordLTController.checkWebsiteId(testContact2.Id);
+//             // SM026_ResetProSpacePasswordLTController.resetProspacePass(testContact2.Id);
             
-            SM026_ResetProSpacePasswordLTController.checkWebsiteId(ld2.Id);
-            SM026_ResetProSpacePasswordLTController.resetProspacePass(ld2.Id);
+//             // SM026_ResetProSpacePasswordLTController.checkWebsiteId(ld2.Id);
+//             // SM026_ResetProSpacePasswordLTController.resetProspacePass(ld2.Id);
             
-            SM026_SyncWebsiteContactLTController.syncProspaceDetails(testContact2.Id);
-            SM026_SyncWebsiteContactLTController.syncProspaceDetails(ld2.Id);
+//             // SM026_SyncWebsiteContactLTController.syncProspaceDetails(testContact2.Id);
+//             // SM026_SyncWebsiteContactLTController.syncProspaceDetails(ld2.Id);
              
-            //Insert lead
-            Lead ld3 = TestFactory.getSimpleProSpaceLead();
-            ld3.recordTypeId=RecordTypeIdLead;
-            ld3.TECH_WebSiteID__c='';
-            ld3.Status = 'Pending Qualification';
-            ld3.LeadSource = 'Website';
-            ld3.Lead_Sub_Source__c = 'Web self-registration';
-            ld3.Prospace_Status__c = 'Pending';
+//             //Insert lead
+//             Lead ld3 = TestFactory.getSimpleProSpaceLead();
+//             ld3.recordTypeId=RecordTypeIdLead;
+//             ld3.TECH_WebSiteID__c='';
+//             ld3.Status = 'Pending Qualification';
+//             ld3.LeadSource = 'Website';
+//             ld3.Lead_Sub_Source__c = 'Web self-registration';
+//             ld3.Prospace_Status__c = 'Pending';
             
-            Database.insert(ld3, true); 
+//             Database.insert(ld3, true); 
             
-            ld3.Status = 'Validated Prospace';
-            Database.update(ld3, true); 
+//             ld3.Status = 'Validated Prospace';
+//             Database.update(ld3, true); 
             
-            SM026_ResetProSpacePasswordLTController.checkWebsiteId(ld3.Id);
-            SM026_ResetProSpacePasswordLTController.resetProspacePass(ld3.Id);
+//             // SM026_ResetProSpacePasswordLTController.checkWebsiteId(ld3.Id);
+//             // SM026_ResetProSpacePasswordLTController.resetProspacePass(ld3.Id);
             
-           }
-        // Test End 
-        System.test.stopTest();  
-    }  
+//            }
+//         // Test End 
+//         System.test.stopTest();  
+//     }  
    
 }

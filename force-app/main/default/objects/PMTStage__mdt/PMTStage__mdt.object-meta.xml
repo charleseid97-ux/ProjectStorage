@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObject xmlns="http://soap.sforce.com/2006/04/metadata">
+    <description>FIX-20178: PMT project stages (Design, Proposal, Engineering, Filing, SetUp). The Label is the stage name used by ProjectProductChild__c.Name. Read through the PMTMatrix Apex class.</description>
+    <label>PMT - Stage</label>
+    <pluralLabel>PMT - Stages</pluralLabel>
+    <visibility>Public</visibility>
+</CustomObject>

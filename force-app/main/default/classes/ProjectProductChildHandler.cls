@@ -1,212 +1,181 @@
+/** ──────────────────────────────────────
+ * @description Trigger logic for ProjectProductChild__c (PMT project stages): KPMG tax notifications, stage status
+ *                  following the validation of the project's Scope teams, SPC validation lock, completion rate and
+ *                  filled fields count, related Share Class children, cloning from the parent project, milestones and
+ *                  end dates, record lock, parent project updates and phase validation logs.
+ *              The validation teams and the required fields per stage come from the PMT matrix (PMTMatrix, FIX-20178; US-20194:
+ *                  according to the project's conditions).
+ *              Stage status (FIX-20270): Completed once every validation team of the project's Scope has validated
+ *                  (ProjectProductSetupHandlerUtilities.isPhaseValidated), back to On track when a team is removed;
+ *                  Design takes the status of Proposal.
+ * @lastModifiedBy Charles EID   [22-10-26]
+ * @testClass Test_ProjectProductChildTriggerHandler, Test_RollbackTeamValidationController
+ * @coverage 93%   [22-10-26]
+ ────────────────────────────────────── */
 public without sharing class ProjectProductChildHandler {
 
-    static final Id fundCreationRecordTypeId = Schema.SObjectType.ProjectProduct__c.getRecordTypeInfosByDeveloperName().get('FundCreation').getRecordTypeId();  
-    static final Id fundModificationRecordTypeId = Schema.SObjectType.ProjectProduct__c.getRecordTypeInfosByDeveloperName().get('FundShareClassModification').getRecordTypeId();  
-    static final Id shareClassCreationRecordTypeId = Schema.SObjectType.ProjectProduct__c.getRecordTypeInfosByDeveloperName().get('ShareclassCreation').getRecordTypeId();     
-    
+    static final Id fundCreationRecordTypeId = Schema.SObjectType.ProjectProduct__c.getRecordTypeInfosByDeveloperName().get('FundCreation').getRecordTypeId();
+    static final Id fundModificationRecordTypeId = Schema.SObjectType.ProjectProduct__c.getRecordTypeInfosByDeveloperName().get('FundShareClassModification').getRecordTypeId();
+    static final Id shareClassCreationRecordTypeId = Schema.SObjectType.ProjectProduct__c.getRecordTypeInfosByDeveloperName().get('ShareclassCreation').getRecordTypeId();
+
     private static final String TECH_LEGAL = 'Legal';
+    private static final String STATUS_COMPLETED = 'Completed';
+    private static final String STATUS_ON_TRACK = 'On track';
+    private static final String PHASE_DESIGN = 'Design';
+    private static final String PHASE_PROPOSAL = 'Proposal';
 
-
-    public static void sendTaxNotificationsKPMG(List<ProjectProductChild__c> newProjectProductChild, Map<Id, ProjectProductChild__c> oldProjectProductChild){
-
-        if (newProjectProductChild == null || newProjectProductChild.isEmpty() || oldProjectProductChild == null) {
-            return;
-        }
+    public static void sendTaxNotificationsKPMG(List<ProjectProductChild__c> newProjectProductChild, Map<Id, ProjectProductChild__c> oldProjectProductChild) {
+        if (newProjectProductChild == null || newProjectProductChild.isEmpty() || oldProjectProductChild == null) return;
 
         Set<Id> projectProductIds = new Set<Id>();
 
         for (ProjectProductChild__c ppc : newProjectProductChild) {
             ProjectProductChild__c oldPpc = oldProjectProductChild.get(ppc.Id);
-            if (oldPpc == null) {
-                continue;
-            }
+            if (oldPpc == null) continue;
 
-            if (wasMultiPicklistValueAdded(oldPpc.TECH_TeamValidation__c, ppc.TECH_TeamValidation__c, TECH_LEGAL) 
-                && ppc.ProjectProductParent__c != null
-                && ppc.TECH_Childtype__c == 'Filing') {
-                projectProductIds.add(ppc.ProjectProductParent__c);
-            }
+            if (wasMultiPicklistValueAdded(oldPpc.TECH_TeamValidation__c, ppc.TECH_TeamValidation__c, TECH_LEGAL) && ppc.ProjectProductParent__c != null && ppc.TECH_Childtype__c == 'Filing') projectProductIds.add(ppc.ProjectProductParent__c);
         }
 
-        if (projectProductIds.isEmpty()) {
-            return;
-        }
+        if (projectProductIds.isEmpty()) return;
 
-        List<TaxData__c> taxDataList = [
-            SELECT Id,
-                   Country__c,
-                   Type__c,
-                   Status__c,
-                   Source__c
-            FROM TaxData__c
-            WHERE ProjectProduct__c IN :projectProductIds
-              AND Source__c = 'PMT'
-              AND Country__c IN ('AT', 'CH')
-              AND Type__c = 'Transparency'
-              AND Status__c = 'Requested'
-        ];
+        List<TaxData__c> taxDataList = [SELECT Id, Country__c, Type__c, Status__c, Source__c
+                                        FROM TaxData__c
+                                        WHERE ProjectProduct__c IN :projectProductIds AND Source__c = 'PMT' AND Country__c IN ('AT', 'CH') AND Type__c = 'Transparency' AND Status__c = 'Requested'];
 
-        if (taxDataList.isEmpty()) {
-            return;
-        }
+        if (taxDataList.isEmpty()) return;
 
         TaxEmailService.sendATTransparencyEmails(taxDataList);
         TaxEmailService.sendCHTransparencyEmails(taxDataList);
     }
 
-    private static Boolean wasMultiPicklistValueAdded(
-        String oldValue,
-        String newValue,
-        String targetValue
-    ) {
-        Set<String> oldValues = splitMultiPicklist(oldValue);
-        Set<String> newValues = splitMultiPicklist(newValue);
+    private static Boolean wasMultiPicklistValueAdded(String oldValue, String newValue, String targetValue) {
+        Set<String> oldValues = ProjectProductSetupHandlerUtilities.splitMultiPicklist(oldValue);
+        Set<String> newValues = ProjectProductSetupHandlerUtilities.splitMultiPicklist(newValue);
 
         return !oldValues.contains(targetValue) && newValues.contains(targetValue);
     }
 
-    private static Set<String> splitMultiPicklist(String value) {
-        Set<String> result = new Set<String>();
-
-        if (String.isBlank(value)) {
-            return result;
-        }
-
-        for (String item : value.split(';')) {
-            if (!String.isBlank(item)) {
-                result.add(item.trim());
-            }
-        }
-
-        return result;
-    }
-
+    // FIX-20270: the phase status follows the validation of the teams of the project's Scope (isPhaseValidated). Completed once they all validated, back to On track when a team is removed from a Completed phase (a save that only adds teams never reverts a manual Completed). Design has no team validation of its own: it takes the status of Proposal.
     public static void updatePhaseStatusWAllTeamValidation(Map<Id, ProjectProductChild__c> newProjectProductChild, Map<Id, ProjectProductChild__c> oldProjectProductChild) {
-        List<ProjectProductChild__c> listProjectProductChildToUpdate = new List<ProjectProductChild__c>();
-        Set<Id> setProjectProductParentId = new Set<Id>();
+        List<ProjectProductChild__c> changedPhases = new List<ProjectProductChild__c>();
+        Set<Id> parentIds = new Set<Id>();
 
         for (ProjectProductChild__c projectProductChild : newProjectProductChild.values()) {
-            if (projectProductChild.TECH_TeamValidation__c != null && projectProductChild.TECH_TeamValidation__c != oldProjectProductChild.get(projectProductChild.Id).TECH_TeamValidation__c && projectProductChild.Status__c != 'Completed') {
-                listProjectProductChildToUpdate.add(projectProductChild);
+            if (projectProductChild.Name != PHASE_DESIGN && projectProductChild.ProjectProductParent__c != null && projectProductChild.TECH_TeamValidation__c != oldProjectProductChild.get(projectProductChild.Id).TECH_TeamValidation__c) {
+                changedPhases.add(projectProductChild);
+                parentIds.add(projectProductChild.ProjectProductParent__c);
             }
         }
 
-        if (!listProjectProductChildToUpdate.isEmpty()) {
-            //On récupère le nombre de record pour avoir le nombre d'équipe total
-            List<ProductProjectSettings__c> listProductProjectSettings = [SELECT Id
-                                                                            FROM ProductProjectSettings__c
-                                                                            WHERE ProjectType__c = 'Creation' AND Stage__c = 'Design'
-                                                                            AND OrderTeam__c NOT IN (15, 16, 17, 18, 19, 20)
-                                                                        ];
+        if (changedPhases.isEmpty()) return;
 
-            if (!listProductProjectSettings.isEmpty()) {
-                for (ProjectProductChild__c projectProductChild : listProjectProductChildToUpdate) {
-                    if (projectProductChild.TECH_TeamValidation__c.contains(';')) {
-                        List<String> listTeamValidation = projectProductChild.TECH_TeamValidation__c.split(';');
-                        if (listTeamValidation.size() == listProductProjectSettings.size()) {
-                            //We need to update Design if all teams are validated on Proposal phase
-                            if (projectProductChild.Name == 'Proposal') {
-                                setProjectProductParentId.add(projectProductChild.ProjectProductParent__c);
-                            }
-                            projectProductChild.Status__c = 'Completed';
-                        }
-                    }
-                }
+        Map<Id, ProjectProduct__c> projectById = new Map<Id, ProjectProduct__c>([SELECT Id, Scope__c FROM ProjectProduct__c WHERE Id IN :parentIds]);
+        Map<Id, String> designStatusByProjectId = new Map<Id, String>();
+
+        for (ProjectProductChild__c projectProductChild : changedPhases) {
+            String scope = ProjectProductSetupHandlerUtilities.normalizeScope(projectById.get(projectProductChild.ProjectProductParent__c)?.Scope__c);
+            Boolean isValidated = ProjectProductSetupHandlerUtilities.isPhaseValidated(projectProductChild.TECH_TeamValidation__c, scope);
+            Set<String> newTeams = ProjectProductSetupHandlerUtilities.splitMultiPicklist(projectProductChild.TECH_TeamValidation__c);
+            Set<String> oldTeams = ProjectProductSetupHandlerUtilities.splitMultiPicklist(oldProjectProductChild.get(projectProductChild.Id).TECH_TeamValidation__c);
+
+            String newStatus;
+            if (projectProductChild.Status__c != STATUS_COMPLETED && isValidated) {
+                newStatus = STATUS_COMPLETED;
             }
-            if (!setProjectProductParentId.isEmpty()) {
-                ProjectProductChildHandlerUtilities.updateDesignStatusPhase(setProjectProductParentId);
-            }    
+            else if (projectProductChild.Status__c == STATUS_COMPLETED && !isValidated && !newTeams.containsAll(oldTeams)) {
+                newStatus = STATUS_ON_TRACK;
+            }
+            if (newStatus == null) continue;
+
+            projectProductChild.Status__c = newStatus;
+            if (projectProductChild.Name == PHASE_PROPOSAL) designStatusByProjectId.put(projectProductChild.ProjectProductParent__c, newStatus);
         }
+
+        if (!designStatusByProjectId.isEmpty()) ProjectProductChildHandlerUtilities.updateDesignStatusPhase(designStatusByProjectId, newProjectProductChild);
     }
 
-public static void blockValidationBeforeSPCValidated(Map<Id, ProjectProductChild__c> newProjectProductChild, Map<Id, ProjectProductChild__c> oldProjectProductChild) {
-    Set<Id> projectProductIds = new Set<Id>();
+    public static void blockValidationBeforeSPCValidated(Map<Id, ProjectProductChild__c> newProjectProductChild, Map<Id, ProjectProductChild__c> oldProjectProductChild) {
+        Set<Id> projectProductIds = new Set<Id>();
 
-    for (ProjectProductChild__c projectProductChild : newProjectProductChild.values()) {
-         if (projectProductChild.TECH_TeamValidation__c != oldProjectProductChild.get(projectProductChild.id).TECH_TeamValidation__c && projectProductChild.ProjectProductParent__c != null && projectProductChild.TECH_ProjectRecordType__c != 'FundShareClassModification') {
-            projectProductIds.add(projectProductChild.ProjectProductParent__c);
+        for (ProjectProductChild__c projectProductChild : newProjectProductChild.values()) {
+            if (projectProductChild.TECH_TeamValidation__c != oldProjectProductChild.get(projectProductChild.id).TECH_TeamValidation__c && projectProductChild.ProjectProductParent__c != null && projectProductChild.TECH_ProjectRecordType__c != 'FundShareClassModification') projectProductIds.add(projectProductChild.ProjectProductParent__c);
         }
-    }
- 
-    Map<Id, Milestone__c> mapMilestoneByProjectId = new Map<Id, Milestone__c>();
-    if (!projectProductIds.isEmpty()) {
-        for (Milestone__c milestone : [SELECT Id, Project_product__c, Name, Status__c
-                                        FROM Milestone__c
-                                        WHERE Project_product__c IN :projectProductIds
-                                        AND Name = 'SPC Final']) {
-            mapMilestoneByProjectId.put(milestone.Project_product__c, milestone);
+
+        Map<Id, Milestone__c> mapMilestoneByProjectId = new Map<Id, Milestone__c>();
+        if (!projectProductIds.isEmpty()) {
+            for (Milestone__c milestone : [SELECT Id, Project_product__c, Name, Status__c
+                                           FROM Milestone__c
+                                           WHERE Project_product__c IN :projectProductIds AND Name = 'SPC Final']) {
+                mapMilestoneByProjectId.put(milestone.Project_product__c, milestone);
+            }
         }
-    }
- 
-    for (ProjectProductChild__c projectProductChild : newProjectProductChild.values()) {
-         if (projectProductChild.TECH_TeamValidation__c != oldProjectProductChild.get(projectProductChild.id).TECH_TeamValidation__c && projectProductChild.ProjectProductParent__c != null && projectProductChild.TECH_ProjectRecordType__c != 'FundShareClassModification') {
-            Milestone__c milestone = mapMilestoneByProjectId.get(projectProductChild.ProjectProductParent__c);
-            if (milestone == null || milestone.Status__c != 'Completed') {
-                projectProductChild.addError('You cannot validate the phase until the "SPC Final" milestone is completed.');
+
+        for (ProjectProductChild__c projectProductChild : newProjectProductChild.values()) {
+            if (projectProductChild.TECH_TeamValidation__c != oldProjectProductChild.get(projectProductChild.id).TECH_TeamValidation__c && projectProductChild.ProjectProductParent__c != null && projectProductChild.TECH_ProjectRecordType__c != 'FundShareClassModification') {
+                Milestone__c milestone = mapMilestoneByProjectId.get(projectProductChild.ProjectProductParent__c);
+                if (milestone == null || milestone.Status__c != 'Completed') projectProductChild.addError('You cannot validate the phase until the "SPC Final" milestone is completed.');
             }
         }
     }
-}
-     
-    
+
+    // Completion rate of the phase: 100 for Design (no fields of its own) and for a Completed phase of a modification project, otherwise the Completion_Rate_Test__c formula.
+    // FIX-20270: runs after updatePhaseStatusWAllTeamValidation (the status set in this save counts), and the formulas are recalculated first so the rate uses the NbOfFilledFields__c computed in this save.
     public static void updateCompletionRate(Map<Id, ProjectProductChild__c> newProjectProductChild, Map<Id, ProjectProductChild__c> oldProjectProductChild) {
-        //Si statut = Completed alors taux de completion = 100% pour les projets de modifications
+        Formula.recalculateFormulas(newProjectProductChild.values());
+
         for (ProjectProductChild__c projectProductChild : newProjectProductChild.values()) {
-            if((projectProductChild.Parent_Record_Type_Id__c == fundModificationRecordTypeId && projectProductChild.Status__c == 'Completed' 
-                && projectProductChild.Status__c != oldProjectProductChild.get(projectProductChild.Id).Status__c) || projectProductChild.Name == 'Design'  ) {                 
-                    projectProductChild.CompletionRateStep__c = 100;
-            } else{
+            if ((projectProductChild.Parent_Record_Type_Id__c == fundModificationRecordTypeId && projectProductChild.Status__c == STATUS_COMPLETED) || projectProductChild.Name == PHASE_DESIGN) {
+                projectProductChild.CompletionRateStep__c = 100;
+            }
+            else {
                 projectProductChild.CompletionRateStep__c = projectProductChild.Completion_Rate_Test__c;
             }
         }
     }
 
     public static void calculNbOfFields(List<ProjectProductChild__c> newProjectProductChild) {
-        System.debug('calculNbOfFields called with ' + newProjectProductChild.size() + ' records.');
-
         Map<Id, String> idToFields = new Map<Id, String>();
-        List<String> parentList = new List<String>();
-        Map<String, List<String>> requiredFieldsByStage = ProjectMatriceUtilities.getAllRequiredFieldsByStep();
+        Set<Id> parentList = new Set<Id>();
         for (ProjectProductChild__c proj : newProjectProductChild) {
-            proj.NbOfFilledFields__c  = 0;
+            proj.NbOfFilledFields__c = 0;
             parentList.add(proj.ProjectProductParent__c);
         }
-        
-        for(ProjectProductChild__c proj : [SELECT id,ProjectProductParent__r.Tech_FieldsToModify__c FROM ProjectProductChild__c WHERE ProjectProductParent__c IN :parentList]){
+        Map<Id, ProjectProduct__c> projectById = PMTMatrix.loadProjects(parentList);
+
+        for (ProjectProductChild__c proj : [SELECT id, ProjectProductParent__r.Tech_FieldsToModify__c
+                                            FROM ProjectProductChild__c
+                                            WHERE ProjectProductParent__c IN :parentList]) {
             idToFields.put(proj.Id, proj.ProjectProductParent__r.Tech_FieldsToModify__c);
         }
         for (ProjectProductChild__c prod : newProjectProductChild) {
             List<String> fieldList = new List<String>();
 
             String prodChildType = prod.TECH_Childtype__c;
-            if(prod.TECH_Childtype__c =='DesignAndProposal'){
-                prodChildType = 'Proposal';
-            }
-            System.debug('Fund Stage : '+prodChildType+' setting: ' + requiredFieldsByStage.get(prodChildType));
+            if (prod.TECH_Childtype__c == 'DesignAndProposal') prodChildType = 'Proposal';
+            // FIX-20178 / US-20194: champs Fund requis par étape, depuis la matrice PMT selon les conditions du projet. US-20194 V1.2: with the project's Scope, as the validation (an IS project does not count Product Strategy's lines).
+            Map<String, List<String>> requiredFieldsByStage = PMTMatrix.forProject(projectById.get(prod.ProjectProductParent__c)).getRequiredFieldsByStage(true);
+            System.debug('Fund Stage : ' + prodChildType + ' setting: ' + requiredFieldsByStage.get(prodChildType));
 
             if (requiredFieldsByStage.get(prodChildType) != null) {
                 List<String> fields = requiredFieldsByStage.get(prodChildType);
-                if(prod.Parent_Record_Type_Id__c == fundModificationRecordTypeId){
-                   
-                    if(idToFields.get(prod.Id) != null){
-                        for(String str : idToFields.get(prod.Id).split(';')){
-                            if(fields?.contains(str)){
-                                fieldList.add(str);
-                            }
+                if (prod.Parent_Record_Type_Id__c == fundModificationRecordTypeId) {
+                    if (idToFields.get(prod.Id) != null) {
+                        for (String str : idToFields.get(prod.Id).split(';')) {
+                            if (fields?.contains(str)) fieldList.add(str);
                         }
                     }
-                } else {
+                }
+                else {
                     fieldList.addAll(fields);
                 }
-                System.debug('Fund Stage : '+prodChildType+' have Field List: ' + fieldList);
+                System.debug('Fund Stage : ' + prodChildType + ' have Field List: ' + fieldList);
 
-                prod.NbOfFilledFields__c = ProjectProductSetupHandlerUtilities.countFilledFields(prod,fieldList);
+                prod.NbOfFilledFields__c = ProjectProductSetupHandlerUtilities.countFilledFields(prod, fieldList);
             }
         }
     }
 
     public static void createRelatedShareClasses(List<ProjectProductChild__c> newProjectProducts) {
-        
         Map<Id, SObject> sourceRecords = new Map<Id, SObject>();
         Map<Id, List<SObject>> shareClassMap = new Map<Id, List<SObject>>();
         Map<Id, SObject> projectProductMap = new Map<Id, SObject>();
@@ -215,48 +184,35 @@ public static void blockValidationBeforeSPCValidated(Map<Id, ProjectProductChild
         Set<Id> productIds = new Set<Id>();
         Set<Id> productProjIds = new Set<Id>();
 
-
         for (ProjectProductChild__c target : newProjectProducts) {
-            if(target.Parent_Record_Type_Id__c == fundModificationRecordTypeId || target.Parent_Record_Type_Id__c == fundCreationRecordTypeId){
-                if(target.ProjectProductParent__c != null ){
-                    productProjIds.add(target.ProjectProductParent__c);
-                }
+            if (target.Parent_Record_Type_Id__c == fundModificationRecordTypeId || target.Parent_Record_Type_Id__c == fundCreationRecordTypeId) if (target.ProjectProductParent__c != null) productProjIds.add(target.ProjectProductParent__c);
+        }
+
+        for (ProjectProduct__c project : [SELECT Id, Product__c, RecordTypeId FROM ProjectProduct__c WHERE Id IN :productProjIds]) {
+            if (project.Product__c != null) {
+                productIds.add(project.Product__c);
+                projectProductMap.put(project.Product__c, project);
+                projectProductIdsMap.put(project.Id, project.Product__c);
             }
         }
 
-        for (ProjectProduct__c project : [SELECT Id,Product__c,RecordTypeId FROM ProjectProduct__c WHERE id in :productProjIds]) {
-
-            if(project.Product__c != null){
-                productIds.add(project.Product__c);  
-                projectProductMap.put(project.Product__c,project);  
-                projectProductIdsMap.put(project.Id, project.Product__c) ; 
-            }       
-        }
         if (!productIds.isEmpty()) {
-
             List<ProjectShareclass__c> projectShareClassList = new List<ProjectShareclass__c>();
-
-            for (SObject prod : Database.query('SELECT ' + RecordCloneHelper.getAllFieldNames('Share_Class__c') +  ' FROM Share_Class__c WHERE Fund__c IN :productIds AND Status__c = \'Active\'')) {
+            for (SObject prod : Database.query('SELECT ' + RecordCloneHelper.getAllFieldNames('Share_Class__c') + ' FROM Share_Class__c WHERE Fund__c IN :productIds AND Status__c = \'Active\'')) {
                 sourceRecords.put((Id)prod.get('Id'), prod);
                 shareClassList.add((Share_Class__c)prod);
-                if(shareClassMap.containsKey((Id)prod.get('Fund__c'))){
-                    
+                if (shareClassMap.containsKey((Id)prod.get('Fund__c'))) {
                     shareClassMap.get((Id)prod.get('Fund__c')).add(prod);
-                }else{
+                }
+                else {
                     shareClassMap.put((Id)prod.get('Fund__c'), new List<SObject>{prod});
                 }
-                
             }
-            
 
             for (Share_Class__c shareClassElt : shareClassList) {
                 Boolean donotDisplay = false;
                 for (Id child : projectProductIdsMap.keySet()) {
-                    
-                    if (projectProductIdsMap.get(child) == shareClassElt.Fund__c) {  
-                       /* if(projectProductMap.get(shareClassElt.Fund__c).get('RecordTypeId') == shareClassCreationRecordTypeId){
-                            donotDisplay = true;
-                        }*/
+                    if (projectProductIdsMap.get(child) == shareClassElt.Fund__c) {
                         projectShareClassList.add(new ProjectShareclass__c(
                             Fund__c = shareClassElt.Fund__c,
                             CurrencyIsoCode = shareClassElt.CurrencyIsoCode,
@@ -264,12 +220,10 @@ public static void blockValidationBeforeSPCValidated(Map<Id, ProjectProductChild
                             Type__c = shareClassElt.Type__c,
                             Tech_ShareClass__c = shareClassElt.Id,
                             ShareClassNamePreModif__c = shareClassElt.Name,
-                            //TECH_DoNotProcess__c = donotDisplay,
-                            projectProduct__c = child
-                        ));
-                        
+                        //TECH_DoNotProcess__c = donotDisplay,
+                        projectProduct__c = child
+                    ));
                     }
-                    
                 }
             }
 
@@ -277,197 +231,153 @@ public static void blockValidationBeforeSPCValidated(Map<Id, ProjectProductChild
             // Clone fields
             for (ProjectShareclass__c target : projectShareClassList) {
                 if (sourceRecords.containsKey(target.Tech_ShareClass__c)) {
-                    try {                
+                    try {
                         projectShareClassClonedList.add((ProjectShareclass__c)RecordCloneHelper.cloneRecordFields(sourceRecords.get(target.Tech_ShareClass__c), target));
-
-                    } catch (Exception e) {
-                        System.debug('Error cloning record: ' + e.getMessage());
-
+                    }
+                    catch (Exception e) {
                         target.addError('Error cloning record: ' + e.getMessage());
                     }
-                } else {
+                }
+                else {
                     target.addError('No matching Parent record found for cloning.');
                 }
             }
-            
+
             insert projectShareClassClonedList;
 
             List<ProjectChildJunction__c> junctions = new List<ProjectChildJunction__c>();
             for (ProjectProductChild__c sibling : newProjectProducts) {
                 for (ProjectShareclass__c projShareClass : projectShareClassClonedList) {
-                    if(sibling.ProjectProductParent__c == projShareClass.projectProduct__c){
+                    if (sibling.ProjectProductParent__c == projShareClass.projectProduct__c) {
                         junctions.add(new ProjectChildJunction__c(
                             ProjectProductChild__c = sibling.Id,
                             ProjectShareclass__c = projShareClass.Id
                         ));
-                    }                                        
+                    }
                 }
             }
 
-           
-
-            if (!junctions.isEmpty()) {
-                insert junctions;
-            }
-            
+            if (!junctions.isEmpty()) insert junctions;
         }
     }
 
     public static void cloneParentProject(List<ProjectProductChild__c> newProjectProducts) {
         Set<Id> productIds = new Set<Id>();
         for (ProjectProductChild__c target : newProjectProducts) {
-            if(target.Parent_Record_Type_Id__c == fundModificationRecordTypeId || target.Parent_Record_Type_Id__c == fundCreationRecordTypeId || target.Parent_Record_Type_Id__c == shareClassCreationRecordTypeId){
-                if(target.ProjectProductParent__c != null ){
-                    productIds.add(target.ProjectProductParent__c);
-                }
-            }
+            if (target.Parent_Record_Type_Id__c == fundModificationRecordTypeId || target.Parent_Record_Type_Id__c == fundCreationRecordTypeId || target.Parent_Record_Type_Id__c == shareClassCreationRecordTypeId) if (target.ProjectProductParent__c != null) productIds.add(target.ProjectProductParent__c);
         }
-    
+
         // Query all related Productc records
         if (!productIds.isEmpty()) {
             Map<Id, SObject> sourceRecords = new Map<Id, SObject>();
-
             try {
                 for (SObject prod : Database.query('SELECT ' + RecordCloneHelper.getAllFieldNames('ProjectProduct__c') + ' FROM ProjectProduct__c WHERE Id IN :productIds')) {
                     sourceRecords.put((Id)prod.get('Id'), prod);
                 }
-            } catch (Exception e) {
+            }
+            catch (Exception e) {
                 for (ProjectProductChild__c target : newProjectProducts) {
                     target.addError('Error querying source records: ' + e.getMessage());
                 }
                 return; // Stop further processing
             }
-    
+
             // Clone fields
             for (ProjectProductChild__c target : newProjectProducts) {
                 if (sourceRecords.containsKey(target.ProjectProductParent__c)) {
                     try {
                         RecordCloneHelper.cloneRecordFields(sourceRecords.get(target.ProjectProductParent__c), target);
-                        if(target.Parent_Record_Type_Id__c == shareClassCreationRecordTypeId ){
-                            target.InternalShortName__c = (String)sourceRecords.get(target.ProjectProductParent__c).get('InternalShortName__c');
-                        }
-                    } catch (Exception e) {
+                        if (target.Parent_Record_Type_Id__c == shareClassCreationRecordTypeId) target.InternalShortName__c = (String)sourceRecords.get(target.ProjectProductParent__c).get('InternalShortName__c');
+                    }
+                    catch (Exception e) {
                         target.addError('Error cloning record: ' + e.getMessage());
                     }
-                } else {
+                }
+                else {
                     target.addError('No matching Parent record found for cloning.');
                 }
             }
-            
         }
     }
 
-
-    // public static void updateProjectEndate(List<ProjectProductChild__c> l_projectProductChild, Date goliveEndDate) {
-    //     //Need to bulkify
-    //     ProjectProductChild__c productChild = l_projectProductChild[0];
-    //     ProjectProduct__c projectProduct = [SELECT Id, EndDate__c FROM ProjectProduct__c WHERE Id =: productChild.ProjectProductParent__c];
-    //     projectProduct.EndDate__c = goliveEndDate;
-    //     update projectProduct;
-    // }
     public static void updateProjectEndate(List<ProjectProductChild__c> projectProductChildren, Date goLiveEndDate) {
         Set<Id> parentIds = new Set<Id>();
         for (ProjectProductChild__c child : projectProductChildren) {
-            if (child.ProjectProductParent__c != null) {
-                parentIds.add(child.ProjectProductParent__c);
-            }
+            if (child.ProjectProductParent__c != null) parentIds.add(child.ProjectProductParent__c);
         }
-    
+
         if (parentIds.isEmpty()) return;
-    
-        List<ProjectProduct__c> toUpdate = [
-            SELECT Id, EndDate__c FROM ProjectProduct__c WHERE Id IN :parentIds
-        ];
-    
+
+        List<ProjectProduct__c> toUpdate = [SELECT Id, EndDate__c FROM ProjectProduct__c WHERE Id IN :parentIds];
+
         for (ProjectProduct__c parent : toUpdate) {
             parent.EndDate__c = goLiveEndDate;
         }
-    
+
         update toUpdate;
     }
 
-     /** 🔹 Création des milestones */
-     public static Date createMilestones(List<ProjectProductChild__c> l_projectProductChild) {
+    /** 🔹 Création des milestones */
+    public static Date createMilestones(List<ProjectProductChild__c> l_projectProductChild) {
         List<Milestone__c> l_milestoneToCreate = new List<Milestone__c>();
         Date goLiveEndDate;
- 
+
         for (ProjectProductChild__c projectProductChild : l_projectProductChild) {
             switch on projectProductChild.Name {
                 when 'Design' {
-                    l_milestoneToCreate.add(ProjectProductChildHandlerUtilities.createMilestone(
-                        'SPC 1', projectProductChild.ProjectProductParent__c, projectProductChild.Id, projectProductChild.EndDate__c
-                    ));
+                    l_milestoneToCreate.add(ProjectProductChildHandlerUtilities.createMilestone('SPC 1', projectProductChild.ProjectProductParent__c, projectProductChild.Id, projectProductChild.EndDate__c));
                 }
                 when 'Proposal' {
-                    l_milestoneToCreate.add(ProjectProductChildHandlerUtilities.createMilestone(
-                    'SPC Final', projectProductChild.ProjectProductParent__c, projectProductChild.Id, projectProductChild.EndDate__c - 4
-                    ));
+                    l_milestoneToCreate.add(ProjectProductChildHandlerUtilities.createMilestone('SPC Final', projectProductChild.ProjectProductParent__c, projectProductChild.Id, projectProductChild.EndDate__c - 4));
                 }
                 when 'Engineering' {
-                    l_milestoneToCreate.add(ProjectProductChildHandlerUtilities.createMilestone(
-                        'Filing', projectProductChild.ProjectProductParent__c, projectProductChild.Id, projectProductChild.EndDate__c
-                    ));
+                    l_milestoneToCreate.add(ProjectProductChildHandlerUtilities.createMilestone('Filing', projectProductChild.ProjectProductParent__c, projectProductChild.Id, projectProductChild.EndDate__c));
                 }
                 when 'Filing' {
-                    l_milestoneToCreate.add(ProjectProductChildHandlerUtilities.createMilestone(
-                        'Regulatory Approval', projectProductChild.ProjectProductParent__c, projectProductChild.Id, projectProductChild.EndDate__c
-                    ));
+                    l_milestoneToCreate.add(ProjectProductChildHandlerUtilities.createMilestone('Regulatory Approval', projectProductChild.ProjectProductParent__c, projectProductChild.Id, projectProductChild.EndDate__c));
                 }
                 when 'SetUp' {
-                    l_milestoneToCreate.add(ProjectProductChildHandlerUtilities.createMilestone(
-                        'Launch Date', projectProductChild.ProjectProductParent__c, projectProductChild.Id, projectProductChild.EndDate__c - 4
-                    ));
+                    l_milestoneToCreate.add(ProjectProductChildHandlerUtilities.createMilestone('Launch Date', projectProductChild.ProjectProductParent__c, projectProductChild.Id, projectProductChild.EndDate__c - 4));
                     goLiveEndDate = projectProductChild.EndDate__c - 4;
                 }
             }
         }
- 
+
         insert l_milestoneToCreate;
         return goLiveEndDate;
     }
 
-   /** 🔹 Verrouillage des enregistrements après validation */
-   public static void lockRecordProjectProductChild(Map<Id, ProjectProductChild__c> newProjectProductChild, Map<Id, ProjectProductChild__c> oldProjectProductChild) {
+    /** 🔹 Verrouillage des enregistrements après validation */
+    public static void lockRecordProjectProductChild(Map<Id, ProjectProductChild__c> newProjectProductChild, Map<Id, ProjectProductChild__c> oldProjectProductChild) {
         ProjectChildTeamValidationController.lockRecordPPC(newProjectProductChild.values(), oldProjectProductChild.values());
     }
 
-
     public static void updateProjectProductParent(Map<Id, ProjectProductChild__c> newProjectProductChild, Map<Id, ProjectProductChild__c> oldProjectProductChild) {
         // Champs système et techniques à exclure
-        Set<String> excludedFields = new Set<String>{ 
-            'id', 'createddate', 'createdbyid', 'lastmodifieddate', 'lastmodifiedbyid',
-            'systemmodstamp', 'ownerid', 'lastactivitydate', 'recordtypeid',
-            'tech_childtype__c', 'tech_teamvalidation__c', 'enddate__c'
-        };
- 
+        Set<String> excludedFields = new Set<String>{'id', 'createddate', 'createdbyid', 'lastmodifieddate', 'lastmodifiedbyid', 'systemmodstamp', 'ownerid', 'lastactivitydate', 'recordtypeid', 'tech_childtype__c', 'tech_teamvalidation__c', 'enddate__c'};
+
         // Récupérer les Id des parents concernés
         Set<Id> parentIds = new Set<Id>();
         for (ProjectProductChild__c newChild : newProjectProductChild.values()) {
-            if (newChild.ProjectProductParent__c != null) {
-                parentIds.add(newChild.ProjectProductParent__c);
-            }
+            if (newChild.ProjectProductParent__c != null) parentIds.add(newChild.ProjectProductParent__c);
         }
- 
-        if (parentIds.isEmpty()) {
-            return;
-        }
- 
+
+        if (parentIds.isEmpty()) return;
+
         // Récupérer les parents existants
-        Map<Id, ProjectProduct__c> parentRecords = new Map<Id, ProjectProduct__c>(
-            [SELECT Id FROM ProjectProduct__c WHERE Id IN :parentIds]
-        );
- 
+        Map<Id, ProjectProduct__c> parentRecords = new Map<Id, ProjectProduct__c>([SELECT Id FROM ProjectProduct__c WHERE Id IN :parentIds]);
+
         // Décrire les champs de l'objet enfant et parent
         Map<String, Schema.SObjectField> childFields = ProjectProductChild__c.SObjectType.getDescribe().fields.getMap();
         Map<String, Schema.SObjectField> parentFields = ProjectProduct__c.SObjectType.getDescribe().fields.getMap();
- 
+
         // Préparer les parents à mettre à jour
         Map<Id, ProjectProduct__c> parentsToUpdate = new Map<Id, ProjectProduct__c>();
- 
+
         for (Id childId : newProjectProductChild.keySet()) {
             ProjectProductChild__c newChild = newProjectProductChild.get(childId);
             ProjectProductChild__c oldChild = oldProjectProductChild.get(childId);
- 
+
             Id parentId = newChild.ProjectProductParent__c;
             Schema.DescribeSObjectResult targetDescribe = newChild.getSObjectType().getDescribe();
             Map<String, Schema.SObjectField> targetFields = targetDescribe.fields.getMap();
@@ -479,45 +389,37 @@ public static void blockValidationBeforeSPCValidated(Map<Id, ProjectProductChild
                     parentToUpdate = parentRecords.get(parentId).clone(false, true, false, false);
                     parentToUpdate.Id = parentId; // Restaurer l'Id car le clone met Id = null
                     parentsToUpdate.put(parentId, parentToUpdate);
-                } else {
+                }
+                else {
                     parentToUpdate = parentsToUpdate.get(parentId);
                 }
- 
+
                 // Comparaison champ par champ pour détecter les changements
                 for (String fieldName : childFields.keySet()) {
                     if (excludedFields.contains(fieldName) || !parentFields.containsKey(fieldName)) {
                         continue; // Champ système, technique, ou inexistant sur parent
                     }
- 
+
                     Object newValue = newChild.get(fieldName);
                     Object oldValue = oldChild == null ? null : oldChild.get(fieldName);
-                    if(!targetFields.get(fieldName).getDescribe().isCalculated()){
-
+                    if (!targetFields.get(fieldName).getDescribe().isCalculated()) {
                         // Mise à jour uniquement si la valeur est différente
-                        if ((newValue == null && oldValue != null) || (newValue != null && !newValue.equals(oldValue))) {
-                            parentToUpdate.put(fieldName, newValue);
-                        }
+                        if ((newValue == null && oldValue != null) || (newValue != null && !newValue.equals(oldValue))) parentToUpdate.put(fieldName, newValue);
                     }
                 }
             }
         }
- 
-        if (!parentsToUpdate.isEmpty()) {
-            update parentsToUpdate.values();
-        }
+
+        if (!parentsToUpdate.isEmpty()) update parentsToUpdate.values();
     }
 
     public static void logPhaseValidation(Map<Id, ProjectProductChild__c> newProjectProductChild, Map<Id, ProjectProductChild__c> oldProjectProductChild) {
         List<ProjectProductChild__c> projectProductChildToLog = new List<ProjectProductChild__c>();
         for (ProjectProductChild__c projectProductChild : newProjectProductChild.values()) {
             //TECH_TeamValidation__c has been changed and not null
-            if (projectProductChild.TECH_TeamValidation__c != null && projectProductChild.TECH_TeamValidation__c != oldProjectProductChild.get(projectProductChild.Id).TECH_TeamValidation__c) {
-                projectProductChildToLog.add(projectProductChild);
-            }
+            if (projectProductChild.TECH_TeamValidation__c != null && projectProductChild.TECH_TeamValidation__c != oldProjectProductChild.get(projectProductChild.Id).TECH_TeamValidation__c) projectProductChildToLog.add(projectProductChild);
         }
 
-        if (!projectProductChildToLog.isEmpty()) {
-            FieldHistoryLogger.logPhaseValidation(projectProductChildToLog, oldProjectProductChild);
-        }
+        if (!projectProductChildToLog.isEmpty()) FieldHistoryLogger.logPhaseValidation(projectProductChildToLog, oldProjectProductChild);
     }
 }

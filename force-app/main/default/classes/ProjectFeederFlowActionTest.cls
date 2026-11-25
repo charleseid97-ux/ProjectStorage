@@ -1,136 +1,44 @@
-@IsTest
+/** ──────────────────────────────────────
+ * @description Tests of ProjectFeederFlowAction.getFeeders: feeders of a project's share classes (HTML and plain text), a project
+ *                  without feeder, an empty request list, and one response per project in bulk.
+ * @author Khadija
+ * @covers ProjectFeederFlowAction   100%   [21-10-26]
+ * @lastModifiedBy Charles EID   [21-10-26]
+ ────────────────────────────────────── */
+@isTest
 private class ProjectFeederFlowActionTest {
 
-    // Constant to avoid duplicated literal (fix Sonar CODE_SMELL)
     private static final String FEEDER_PRODUCT_NAME = 'Feeder Product';
 
-    @TestSetup
-    static void setupData() {
-
-        // Create Project Products
-        ProjectProduct__c projectWithFeeder = new ProjectProduct__c(
-            Name = 'Test Project With Feeder'
-        );
-        insert projectWithFeeder;
-
-        ProjectProduct__c projectWithoutFeeder = new ProjectProduct__c(
-            Name = 'Test Project Without Feeder'
-        );
-        insert projectWithoutFeeder;
-
-        // Create Feeder product (lookup target)
-        Product__c feederProduct = new Product__c(
-            Name = FEEDER_PRODUCT_NAME,
-            ProductName__c = FEEDER_PRODUCT_NAME,
-            Validity__c = true
-        );
+    @isTest
+    static void test_getFeeders() {
+        ProjectProduct__c projectWithFeeder = new ProjectProduct__c(Name = 'Test Project With Feeder', ProjectStartDate__c = Date.today());
+        ProjectProduct__c projectWithoutFeeder = new ProjectProduct__c(Name = 'Test Project Without Feeder', ProjectStartDate__c = Date.today());
+        insert new List<ProjectProduct__c>{ projectWithFeeder, projectWithoutFeeder };
+        Product__c feederProduct = new Product__c(Name = FEEDER_PRODUCT_NAME, ProductName__c = FEEDER_PRODUCT_NAME, Validity__c = true);
         insert feederProduct;
 
-        // Create ProjectShareclass WITH feeder
-        ProjectShareclass__c pscWithFeeder = new ProjectShareclass__c(
-            ProjectProduct__c = projectWithFeeder.Id,
-            Type__c = 'X',
-            Feeder__c = feederProduct.Id
-        );
-        insert pscWithFeeder;
-
-        // Create ProjectShareclass WITHOUT feeder (should be ignored)
-        ProjectShareclass__c pscWithoutFeeder = new ProjectShareclass__c(
-            ProjectProduct__c = projectWithFeeder.Id,
-            Type__c = 'A'
-        );
-        insert pscWithoutFeeder;
-    }
-
-    @IsTest
-    static void testWithFeeder() {
-
-        ProjectProduct__c project = [
-            SELECT Id FROM ProjectProduct__c
-            WHERE Name = 'Test Project With Feeder'
-            LIMIT 1
-        ];
-
-        ProjectFeederFlowAction.Request req = new ProjectFeederFlowAction.Request();
-        req.projectId = project.Id;
+        // A share class with a feeder, and one without (ignored)
+        insert new List<ProjectShareclass__c>{ new ProjectShareclass__c(ProjectProduct__c = projectWithFeeder.Id, Type__c = 'X', Feeder__c = feederProduct.Id), new ProjectShareclass__c(ProjectProduct__c = projectWithFeeder.Id, Type__c = 'A') };
 
         Test.startTest();
-        List<ProjectFeederFlowAction.Response> responses =
-            ProjectFeederFlowAction.getFeeders(
-                new List<ProjectFeederFlowAction.Request>{ req }
-            );
+
+        List<ProjectFeederFlowAction.Response> responses = ProjectFeederFlowAction.getFeeders(new List<ProjectFeederFlowAction.Request>{ newRequest(projectWithFeeder.Id), newRequest(projectWithoutFeeder.Id) });
+        List<ProjectFeederFlowAction.Response> emptyResponses = ProjectFeederFlowAction.getFeeders(new List<ProjectFeederFlowAction.Request>());
+
         Test.stopTest();
 
-        System.assertEquals(1, responses.size(), 'One response expected');
-
-        ProjectFeederFlowAction.Response res = responses[0];
-
-        System.assertNotEquals('', res.feedersHtml, 'HTML should not be empty');
-        System.assert(res.feedersHtml.contains('X'), 'Should contain share class name');
-        System.assert(res.feedersHtml.contains(FEEDER_PRODUCT_NAME), 'Should contain feeder name');
-
+        System.assertEquals(2, responses.size(), 'One response per project');
+        System.assert(responses[0].feedersHtml.contains('X'), 'Should contain share class name');
+        System.assert(responses[0].feedersHtml.contains(FEEDER_PRODUCT_NAME), 'Should contain feeder name');
+        System.assertEquals('', responses[1].feedersHtml, 'HTML should be empty');
+        System.assertEquals('', responses[1].feedersPlain, 'Plain text should be empty');
+        System.assertEquals(0, emptyResponses.size(), 'No responses expected');
     }
 
-    @IsTest
-    static void testWithoutFeeder() {
-
-        ProjectProduct__c project = [
-            SELECT Id FROM ProjectProduct__c
-            WHERE Name = 'Test Project Without Feeder'
-            LIMIT 1
-        ];
-
-        ProjectFeederFlowAction.Request req = new ProjectFeederFlowAction.Request();
-        req.projectId = project.Id;
-
-        Test.startTest();
-        List<ProjectFeederFlowAction.Response> responses =
-            ProjectFeederFlowAction.getFeeders(
-                new List<ProjectFeederFlowAction.Request>{ req }
-            );
-        Test.stopTest();
-
-        System.assertEquals(1, responses.size(), 'One response expected');
-
-        ProjectFeederFlowAction.Response res = responses[0];
-
-        System.assertEquals('', res.feedersHtml, 'HTML should be empty');
-        System.assertEquals('', res.feedersPlain, 'Plain text should be empty');
-    }
-
-    @IsTest
-    static void testEmptyRequestList() {
-
-        Test.startTest();
-        List<ProjectFeederFlowAction.Response> responses =
-            ProjectFeederFlowAction.getFeeders(new List<ProjectFeederFlowAction.Request>());
-        Test.stopTest();
-
-        System.assertEquals(0, responses.size(), 'No responses expected');
-    }
-
-    @IsTest
-    static void testBulkMultipleProjects() {
-
-        List<ProjectProduct__c> projects = [
-            SELECT Id FROM ProjectProduct__c
-        ];
-
-        List<ProjectFeederFlowAction.Request> requests =
-            new List<ProjectFeederFlowAction.Request>();
-
-        for (ProjectProduct__c p : projects) {
-            ProjectFeederFlowAction.Request r = new ProjectFeederFlowAction.Request();
-            r.projectId = p.Id;
-            requests.add(r);
-        }
-
-        Test.startTest();
-        List<ProjectFeederFlowAction.Response> responses =
-            ProjectFeederFlowAction.getFeeders(requests);
-        Test.stopTest();
-
-        System.assertEquals(projects.size(), responses.size(),
-            'Should return one response per project');
+    private static ProjectFeederFlowAction.Request newRequest(Id projectId) {
+        ProjectFeederFlowAction.Request request = new ProjectFeederFlowAction.Request();
+        request.projectId = projectId;
+        return request;
     }
 }

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomMetadata xmlns="http://soap.sforce.com/2006/04/metadata" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <label>PMT - Document Notify All Owners</label>
+    <protected>false</protected>
+    <values>
+        <field>Description__c</field>
+        <value xsi:type="xsd:string">Shares a project document (meeting note) with the PMT team owners when Notify All Team Owners is checked - Flow PMT_Teams_Send_Message.</value>
+    </values>
+    <values>
+        <field>DryRun__c</field>
+        <value xsi:type="xsd:boolean">true</value>
+    </values>
+    <values>
+        <field>IsActive__c</field>
+        <value xsi:type="xsd:boolean">true</value>
+    </values>
+    <values>
+        <field>LogFailures__c</field>
+        <value xsi:type="xsd:boolean">true</value>
+    </values>
+    <values>
+        <field>MessageTemplate__c</field>
+        <value xsi:type="xsd:string">PMTDocumentNotifyAllOwnersTeams</value>
+    </values>
+    <values>
+        <field>NamedCredential__c</field>
+        <value xsi:nil="true"/>
+    </values>
+</CustomMetadata>

@@ -1,58 +1,43 @@
+/** ──────────────────────────────────────
+ * @description Tests of the lwc_TaskCompletionByTeam controller on a Fund creation project: the stage x team grid of the widget, then
+ *                  the completion rates of a stage (known team computed, unknown team skipped, nothing to compute).
+ * @covers TaskCompletionByTeamController   99%   [23-10-26]
+ * @lastModifiedBy Charles EID   [23-10-26]
+ ────────────────────────────────────── */
 @isTest
 public class Test_TaskCompletionByTeamController {
- 
-    @testSetup
-    static void setupData() {
-        // Création des matrices
+
+    @isTest
+    static void test_teamCompletion() {
+        // FIX-20178: rules added to the PMT matrix of this transaction (in memory, so not in a @testSetup)
         PMTTestFactoryData.createMatrice('Proposal', 'Risk', 'InvestmentObjective__c;InvestmentStrategy__c', 'CurrencyIsoCode;Type__c');
-        
-        // Création projet et étape
-        ProjectProduct__c proj = PMTTestFactoryData.createProjectProductWithAllFields(
-            Schema.SObjectType.ProjectProduct__c.getRecordTypeInfosByDeveloperName().get('FundCreation').getRecordTypeId()
-        );
-        
-ProjectProductChild__c child = PMTTestFactoryData.createProjectProductChild(proj.Id, 'Proposal', 'Risk');
+        PMTTestFactoryData.createMatrice('Design', 'Risk', 'InvestmentObjective__c;InvestmentStrategy__c', 'CurrencyIsoCode;Type__c');
+        // US-20194 V1.2.2: a Conditional line, required for this project (LegalForm__c Other), must be queried before its condition is evaluated
+        PMTTestFactoryData.createMatrixLine('Proposal', 'Risk', 'Product__c', 'IntentedRetailInvestor__c', 'Conditional', null, 'NOT(ISPICKVAL(ProjectProduct__c.LegalForm__c, \'OEIC\'))');
 
+        ProjectProduct__c proj = PMTTestFactoryData.createProjectProductWithAllFields(PMTTestFactoryData.getRecordTypeId('ProjectProduct__c', 'FundCreation'));
+        proj.Risk__c = UserInfo.getUserId(); // A real owner on the Risk team field, so the owner name resolves to an actual User
+        update proj;
 
+        // Proposal stage validated by Risk, linked to a share class with a Proposal Shareclass Child
+        ProjectProductChild__c child = PMTTestFactoryData.createProjectProductChild(proj.Id, 'Proposal', 'Risk');
         ProjectShareclass__c shc = PMTTestFactoryData.createProjectShareclass(proj.Id, 'CurrencyIsoCode');
-         
+        PMTTestFactoryData.createJunction(child.Id, shc.Id);
+        PMTTestFactoryData.createShareclassChild(shc.Id, 'Proposal');
 
-       
-
-    }
- 
-    @isTest
-    static void test_getStepWithTeams() {
-       
-
-            ProjectProductChild__c ppc = [SELECT Id FROM ProjectProductChild__c LIMIT 1];
-    
-
-         ProjectProduct__c proj = [SELECT Id FROM ProjectProduct__c LIMIT 1];
         Test.startTest();
-String json = TaskCompletionByTeamController.getStepWithTeams(proj.Id);
-        Test.stopTest();
-        System.assertNotEquals(null, json);
-        System.debug(json);
-    }
- 
-    @isTest
-    static void test_getCompletionRatesBulk() {
-        ProjectProduct__c proj = [SELECT Id FROM ProjectProduct__c LIMIT 1];
-ProjectProductChild__c child = [SELECT Id, Name FROM ProjectProductChild__c WHERE ProjectProductParent__c = :proj.Id LIMIT 1];
- 
 
-List<Id> recordIds = new List<Id>{child.Id};
- List<String> stepNames = new List<String>{child.Name};
-        List<String> teamNames = new List<String>{'Risk'};
- 
-        Test.startTest();
-        List<TaskCompletionByTeamController.TeamCompletionWrapper> results =
-            TaskCompletionByTeamController.getCompletionRatesBulk(recordIds, stepNames, teamNames);
+        String stepsWithTeams = TaskCompletionByTeamController.getStepWithTeams(proj.Id);
+        // Risk is computed, an unknown team is skipped
+        List<TaskCompletionByTeamController.TeamCompletionWrapper> results = TaskCompletionByTeamController.getCompletionRatesBulk(new List<Id>{ child.Id, child.Id }, new List<String>{ 'Proposal', 'Proposal' }, new List<String>{ 'Risk', 'Unknown Team' });
+        List<TaskCompletionByTeamController.TeamCompletionWrapper> noResults = TaskCompletionByTeamController.getCompletionRatesBulk(new List<Id>(), new List<String>(), new List<String>());
+
         Test.stopTest();
- 
-        System.assertEquals(1, results.size());
-System.assertEquals(child.Id, results[0].recordId);
+
+        System.assertNotEquals(null, stepsWithTeams, 'Stages and teams of the project');
+        System.assertEquals(1, results.size(), 'Only the known team is computed');
+        System.assertEquals(child.Id, results[0].recordId);
         System.assertEquals('Risk', results[0].teamName);
+        System.assert(noResults.isEmpty(), 'Nothing to compute');
     }
 }

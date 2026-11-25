@@ -6,6 +6,7 @@ public without sharing class BooklyMeetingInvitationQueueable
     private static final String SUBJECT_PREFIX = '[Bookly]';
     private static final String SUBJECT_SEPARATOR = ' – ';
     private static final String TEMPLATE_DEV_NAME = 'BooklyInvitation_VF';
+    private static final String GRAPH_SUPPORT_EMAIL = 'salesforcesupport@carmignac.com';
 
     private static final String RT_EVENT = 'Event';
     private static final String RT_MEETING_DAYS = 'MeetingDays';
@@ -198,6 +199,11 @@ public without sharing class BooklyMeetingInvitationQueueable
                     null
                 );
 
+                // Notify Salesforce Support when Microsoft Graph returns an error.
+                if (response.success != true) {
+                    sendGraphFailureEmail(eventRecord, response.errorMessage);
+                }
+
                 System.debug(
                     'Bookly meeting response for Event__c ' +
                     eventId +
@@ -220,6 +226,9 @@ public without sharing class BooklyMeetingInvitationQueueable
                     null,
                     e
                 );
+
+                // Notify Salesforce Support when the Graph communication throws an exception.
+                sendGraphFailureEmail(eventRecord, e.getMessage());
             }
         }
 
@@ -257,6 +266,50 @@ public without sharing class BooklyMeetingInvitationQueueable
         }
 
         OperationLogService.flush();
+    }
+
+        // Notifies Salesforce Support when a Bookly request cannot communicate with Microsoft Graph.
+    private static void sendGraphFailureEmail(Event__c eventRecord, String errorMessage) {
+        try {
+            String eventTitle = String.isBlank(eventRecord.Title__c)
+                ? eventRecord.Name
+                : eventRecord.Title__c;
+
+            String eventUrl =
+                URL.getOrgDomainUrl().toExternalForm() +
+                '/lightning/r/Event__c/' +
+                eventRecord.Id +
+                '/view';
+
+            EmailService.EmailRequest emailRequest = new EmailService.EmailRequest();
+            emailRequest.subject =
+                '[Bookly] Microsoft Graph communication error — ' + eventTitle;
+            emailRequest.htmlBody =
+                'Problème de communication avec Microsoft Graph sur la Bookly Request : ' +
+                eventTitle.escapeHtml4() +
+                '<br/><br/>' +
+                '<a href="' + eventUrl + '">Open Bookly Request</a>' +
+                '<br/><br/>' +
+                '<b>Erreur :</b> ' +
+                (String.isBlank(errorMessage) ? 'Unknown error' : errorMessage.escapeHtml4());
+
+            emailRequest.to.addresses.add(GRAPH_SUPPORT_EMAIL);
+            emailRequest.whatId = eventRecord.Id;
+            emailRequest.logOperation = 'GraphCommunicationFailureNotification';
+
+            EmailService.send(new List<EmailService.EmailRequest>{ emailRequest });
+        } catch (Exception e) {
+            // The support notification must never interrupt the Graph processing.
+            logGraphInvitation(
+                OperationLogService.Level.ERROR,
+                eventRecord,
+                'GraphFailureNotification',
+                'Unable to notify Salesforce Support: ' + e.getMessage(),
+                null,
+                null,
+                e
+            );
+        }
     }
 
     // Creates an OperationLog__c entry without updating the source Event__c record.

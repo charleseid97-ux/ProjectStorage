@@ -13,5 +13,10 @@
         <operation>equals</operation>
         <value>Marketing</value>
     </filters>
+    <filters>
+        <field>SubType__c</field>
+        <operation>equals</operation>
+        <value>Key Point</value>
+    </filters>
     <label>Marketing</label>
 </ListView>

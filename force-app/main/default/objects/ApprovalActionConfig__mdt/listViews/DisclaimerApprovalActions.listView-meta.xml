@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>DisclaimerApprovalActions</fullName>
+    <columns>MasterLabel</columns>
+    <columns>DeveloperName</columns>
+    <columns>StepConfig__c</columns>
+    <columns>ActionType__c</columns>
+    <columns>ActionKind__c</columns>
+    <columns>ExecutionOrder__c</columns>
+    <columns>IsActive__c</columns>
+    <filterScope>Everything</filterScope>
+    <filters>
+        <field>ProcessConfig__c</field>
+        <operation>equals</operation>
+        <value>DisclaimerApproval</value>
+    </filters>
+    <label>Disclaimer Approval Actions</label>
+    <language>en_US</language>
+</ListView>
