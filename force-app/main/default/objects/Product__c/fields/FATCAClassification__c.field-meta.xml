@@ -21,6 +21,11 @@
                 <default>false</default>
                 <label>Reporting Model 1 FFI</label>
             </value>
+            <value>
+                <fullName>Sponsored FFI</fullName>
+                <default>false</default>
+                <label>Sponsored FFI</label>
+            </value>
         </valueSetDefinition>
     </valueSet>
 </CustomField>

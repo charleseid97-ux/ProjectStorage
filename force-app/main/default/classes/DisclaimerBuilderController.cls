@@ -1,17 +1,17 @@
 /** ──────────────────────────────────────
  * @description Lightning Web Component controller for the Disclaimer Builder screen.
  *              Searches the Footnote / End Disclaimer Narrative__c records matching the selected Country / Language / Media and, per Type, the selected Sub Types (Type => Sub Types map, as many Types as the picklist holds),
- *                plus the "Logical Rule" narratives whose rule passes for the selected products (DisclaimerLogicalRules).
+ *                plus the "Logical Rule" narratives matching the same filters whose rule passes for the selected products (DisclaimerLogicalRules, only called when some are found).
  *              Concatenates their Content__c per Footnote / End Disclaimer bucket, and persists the resulting Disclaimer__c + DisclaimerDetail__c records.
  * @author Charles EID
  * @testClass DisclaimerBuilderControllerTest
- * @coverage 100%   [09-11-26]
- * @lastModifiedBy Charles EID   [06-11-26]
+ * @coverage 100%   [20-11-26]
+ * @lastModifiedBy Charles EID   [20-11-26]
  ────────────────────────────────────── */
 public with sharing class DisclaimerBuilderController {
 
     @TestVisible
-    private static final String LOGICAL_RULE_TYPE = 'Logical Rule';
+    private static final String LOGICAL_RULE_TYPE = DisclaimerLogicalRules.LOGICAL_RULE_TYPE;
     @TestVisible
     private static final String FOOTNOTE_RECORD_TYPE = 'FootnoteDisclaimer';
     @TestVisible
@@ -35,18 +35,9 @@ public with sharing class DisclaimerBuilderController {
     @AuraEnabled
     public static NarrativeSearchResult searchNarratives(String criteriaJson) {
         DisclaimerCriteria criteria = (DisclaimerCriteria) JSON.deserialize(criteriaJson, DisclaimerCriteria.class);
-        Set<String> ruleNames;
-        try {
-            ruleNames = DisclaimerLogicalRules.getMatchingRules(criteria);
-        }
-        catch (DisclaimerLogicalRules.LogicalRuleException e) {
-            AuraHandledException auraException = new AuraHandledException(e.getMessage());
-            auraException.setMessage(e.getMessage());
-            throw auraException;
-        }
 
-        // One branch per Type with selected Sub Types, plus the passing Logical Rules
-        Map<String, Object> binds = new Map<String, Object>();
+        // One branch per Type with selected Sub Types, plus every Logical Rule narrative (its rule decides afterwards, the Logical Rule key sent by the client is ignored)
+        Map<String, Object> binds = new Map<String, Object>{ 'logicalRuleType' => LOGICAL_RULE_TYPE };
         List<String> typeConditions = new List<String>();
         for (String typeName : criteria.subTypesByType.keySet()) {
             List<String> subTypes = criteria.subTypesByType.get(typeName);
@@ -56,14 +47,9 @@ public with sharing class DisclaimerBuilderController {
             binds.put('type' + index, typeName);
             binds.put('subTypes' + index, subTypes);
         }
-        if (!ruleNames.isEmpty()) {
-            typeConditions.add('(Type__c = :logicalRuleType AND LogicalRule__c IN :ruleNames)');
-            binds.put('logicalRuleType', LOGICAL_RULE_TYPE);
-            binds.put('ruleNames', new List<String>(ruleNames));
-        }
+        typeConditions.add('Type__c = :logicalRuleType');
 
         NarrativeSearchResult result = new NarrativeSearchResult();
-        if (typeConditions.isEmpty()) return result;
         List<String> recordTypes = new List<String>{ FOOTNOTE_RECORD_TYPE, END_DISCLAIMER_RECORD_TYPE };
         if (criteria.recordTypeId != null) recordTypes = new List<String>{ Schema.SObjectType.Narrative__c.getRecordTypeInfosById().get(criteria.recordTypeId).getDeveloperName() };
         binds.put('recordTypes', recordTypes);
@@ -74,13 +60,21 @@ public with sharing class DisclaimerBuilderController {
             mediaCondition = ' AND Media__c IN :media';
             binds.put('media', criteria.media);
         }
-        String narrativeQuery = 'SELECT Id, Content__c, RecordType.DeveloperName'
+        String narrativeQuery = 'SELECT Id, Content__c, RecordType.DeveloperName, Type__c, SubType__c, Product__c'
                               + ' FROM Narrative__c'
                               + ' WHERE RecordType.DeveloperName IN :recordTypes AND Country__c = :country AND Language__c = :language' + mediaCondition
                               + ' AND (' + String.join(typeConditions, ' OR ') + ')'
                               + ' ORDER BY DisplayOrder__c NULLS LAST, Name';
 
-        List<Narrative__c> narratives = Database.queryWithBinds(narrativeQuery, binds, AccessLevel.USER_MODE);
+        List<Narrative__c> narratives;
+        try {
+            narratives = DisclaimerLogicalRules.filter(Database.queryWithBinds(narrativeQuery, binds, AccessLevel.USER_MODE), criteria.products);
+        }
+        catch (DisclaimerLogicalRules.LogicalRuleException e) {
+            AuraHandledException auraException = new AuraHandledException(e.getMessage());
+            auraException.setMessage(e.getMessage());
+            throw auraException;
+        }
         List<Narrative__c> footnotes = new List<Narrative__c>();
         List<Narrative__c> endDisclaimers = new List<Narrative__c>();
         for (Narrative__c narrative : narratives) {

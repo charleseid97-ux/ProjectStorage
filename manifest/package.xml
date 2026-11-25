@@ -6,7 +6,6 @@
         <members>Narrative__c.NumberOfFunds__c</members>
         <members>Narrative__c.Type__c</members>
         <members>Narrative__c.Media__c</members>
-        <members>Narrative__c.LogicalRule__c</members>
         <name>CustomField</name>
     </types>
     <types>
@@ -31,6 +30,7 @@
         <members>ApprovalProcessConfig.DisclaimerApproval</members>
         <members>ApprovalStepApproverConfig.DisclaimerApproval_Compliance</members>
         <members>ApprovalStepConfig.DisclaimerApproval_Compliance</members>
+        <members>DisclaimerLogicalRule.*</members>
         <name>CustomMetadata</name>
     </types>
     <types>
@@ -53,6 +53,7 @@
     <types>
         <members>DisclaimerDetail__c-Disclaimer Detail Layout</members>
         <members>Disclaimer__c-Disclaimer Layout</members>
+        <members>DisclaimerLogicalRule__mdt-Disclaimer - Logical Rule Layout</members>
         <name>Layout</name>
     </types>
     <types>
@@ -73,12 +74,13 @@
         <name>ApexTrigger</name>
     </types>
     <types>
-        <members>Narrative__c.VR06_DisclaimerRT_LogicalRuleRequired</members>
-        <name>ValidationRule</name>
-    </types>
-    <types>
         <members>DisclaimerBuilderPermissions</members>
         <name>PermissionSet</name>
     </types>
+    <types>
+        <members>Disclaimer__c.SubmitForApproval</members>
+        <name>QuickAction</name>
+    </types>
+    <!-- FLAG: ON -->
     <version>66.0</version>
 </Package>

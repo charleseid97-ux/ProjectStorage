@@ -150,10 +150,12 @@
               <td class="td-field">End Date</td>
               <td class="td-value">{!IF(ISBLANK(relatedTo.EndDate__c), "", TEXT(YEAR(relatedTo.EndDate__c)) & "-" & IF(MONTH(relatedTo.EndDate__c) < 10, "0" & TEXT(MONTH(relatedTo.EndDate__c)), TEXT(MONTH(relatedTo.EndDate__c))) & "-" & IF(DAY(relatedTo.EndDate__c) < 10, "0" & TEXT(DAY(relatedTo.EndDate__c)), TEXT(DAY(relatedTo.EndDate__c))))}</td>
             </tr>
+            <apex:outputPanel layout="none" rendered="{!relatedTo.RecordType.DeveloperName <> 'OtherFeesGrid'}">
             <tr bgcolor="#f7f9fc">
               <td class="td-field-last">Automatic Grid Update</td>
               <td class="td-value-last">{!relatedTo.AutomaticGridUpdate__c}</td>
             </tr>
+            </apex:outputPanel>
           </table>
         </td>
       </tr>
@@ -239,7 +241,8 @@
       </table>
     </apex:outputPanel>
 
-    <!-- ───── STANDARD GRID RULES ───── -->
+    <!-- ───── STANDARD GRID RULES (hidden for Other Fees Grids — no Grid Details) ───── -->
+    <apex:outputPanel layout="block" rendered="{!relatedTo.RecordType.DeveloperName <> 'OtherFeesGrid'}">
     <table width="100%" border="0" cellpadding="0" cellspacing="0" bgcolor="#ffffff">
       <tr>
         <td class="section-cell">
@@ -272,6 +275,7 @@
       </tr>
       <tr><td class="spacer">&nbsp;</td></tr>
     </table>
+    </apex:outputPanel>
 
     <!-- ───── FOOTER ───── -->
     <table width="100%" border="0" cellpadding="0" cellspacing="0" bgcolor="#f7f9fc" class="footer">
@@ -311,7 +315,7 @@ Agreement Owner:       {!relatedTo.Agreement__r.Owner.Name}
 Kind:                  {!relatedTo.Kind__c}
 Start Date:            {!relatedTo.StartDate__c}
 End Date:              {!relatedTo.EndDate__c}
-Automatic Grid Update: {!relatedTo.AutomaticGridUpdate__c}
+{!IF(relatedTo.RecordType.DeveloperName <> 'OtherFeesGrid', 'Automatic Grid Update: ' & IF(relatedTo.AutomaticGridUpdate__c, 'true', 'false'), '')}
 
 View and Compare: {!LEFT($Api.Partner_Server_URL_260, FIND('/services', $Api.Partner_Server_URL_260))}{!relatedTo.Id}
 

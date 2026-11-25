@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+<body style="font-family: Arial, sans-serif; font-size: 12pt; color: #000000; margin: 0; padding: 20px;">
+    <table border="0" cellpadding="0" cellspacing="0" width="600">
+        <tr>
+            <td style="padding-bottom: 10px;">
+                <p>Hello,</p>
+                <p>The following campaign member(s) have been deleted in Salesforce but have a Lyyti ID, which means they may still exist in Lyyti.</p>
+                <p>Please review the corresponding participant(s) in Lyyti and take the necessary action to ensure the data remains consistent between Salesforce and Lyyti.</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                {_Datatable_}
+            </td>
+        </tr>
+        <tr>
+            <td style="padding-top: 20px; font-size: 10pt; color: #666666;">
+                <p>This is an automated notification. Please do not reply to this email.</p>
+            </td>
+        </tr>
+    </table>
+</body>
+</html>

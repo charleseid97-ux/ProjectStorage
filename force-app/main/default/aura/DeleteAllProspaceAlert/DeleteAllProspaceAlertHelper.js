@@ -66,51 +66,51 @@
         $A.enqueueAction(initializePicklist);
     },
     
-    delAllProspaceAlerts : function (component, event, helper, contactId, selectedAlertTypes) {
-        var action = component.get("c.deleteAllProspaceAlerts");
-        action.setParams({
-            "aContactId": contactId,
-            "selectedAlertTypes":selectedAlertTypes
-        });
+//     delAllProspaceAlerts : function (component, event, helper, contactId, selectedAlertTypes) {
+//         var action = component.get("c.deleteAllProspaceAlerts");
+//         action.setParams({
+//             "aContactId": contactId,
+//             "selectedAlertTypes":selectedAlertTypes
+//         });
         
-        var elementselection = document.getElementsByClassName("selection");
-        elementselection[0].style.display = 'none';
+//         var elementselection = document.getElementsByClassName("selection");
+//         elementselection[0].style.display = 'none';
         
-        var elements = document.getElementsByClassName("loading");
-        elements[0].style.display = 'block';
+//         var elements = document.getElementsByClassName("loading");
+//         elements[0].style.display = 'block';
         
         
-        action.setCallback(this, function(response){
-            var state = response.getState();
-            if (state === "SUCCESS") {
+//         action.setCallback(this, function(response){
+//             var state = response.getState();
+//             if (state === "SUCCESS") {
                 
-                var elements = document.getElementsByClassName("loading");
-                elements[0].style.display = 'none';
+//                 var elements = document.getElementsByClassName("loading");
+//                 elements[0].style.display = 'none';
 
-                var elements = document.getElementsByClassName("loadcomplete");
-                elements[0].style.display = 'block';
+//                 var elements = document.getElementsByClassName("loadcomplete");
+//                 elements[0].style.display = 'block';
 
-                window.setTimeout(
-                    $A.getCallback(function() {
-                        sforce.one.navigateToSObject(contactId);
-                    }), 5500
-                );
+//                 window.setTimeout(
+//                     $A.getCallback(function() {
+//                         sforce.one.navigateToSObject(contactId);
+//                     }), 5500
+//                 );
 
-        }else if(state === "ERROR"){
-            var errorMsg = "ERROR";
-            let toastParams = {
-                title: $A.get("Error"),
-                message: errorMsg, // Default error message
-                type: "error"
-            };
-            let toastEvent = $A.get("e.force:showToast");
-            toastEvent.setParams(toastParams);
-            toastEvent.fire();
-        }
+//         }else if(state === "ERROR"){
+//             var errorMsg = "ERROR";
+//             let toastParams = {
+//                 title: $A.get("Error"),
+//                 message: errorMsg, // Default error message
+//                 type: "error"
+//             };
+//             let toastEvent = $A.get("e.force:showToast");
+//             toastEvent.setParams(toastParams);
+//             toastEvent.fire();
+//         }
         
-    });
+//     });
     
-    $A.enqueueAction(action);
+//     $A.enqueueAction(action);
     
-} 
+// } 
  })

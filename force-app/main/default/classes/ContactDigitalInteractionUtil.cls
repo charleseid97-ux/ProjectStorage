@@ -11,7 +11,7 @@ global with sharing class ContactDigitalInteractionUtil {
 
         String type = ' Type__c ';
         String product = ' Product__c ';
-        String productType = ' Product__r.Product_Name__c,Type__c';
+        String productType = ' Product__r.ProductName__c,Type__c';
         String soql = '';
         Integer c = null;
         String m = '';
@@ -55,7 +55,7 @@ global with sharing class ContactDigitalInteractionUtil {
             }
         } else if ( clickedButton == 'Interactions By Product' ){
 
-            soql = String.format(soqlTemplate, new List<String> {', Product__r.Product_Name__c p', product, productType});
+            soql = String.format(soqlTemplate, new List<String> {', Product__r.ProductName__c p', product, productType});
             records = Database.query(soql);
             for (AggregateResult ar : records) {
            
@@ -130,7 +130,7 @@ global with sharing class ContactDigitalInteractionUtil {
     @AuraEnabled(cacheable=true)
     public static List<disDataTableWrapper> retriveDigitalInteraction(String contactId,String clickedButton) {
         
-        String query = 'SELECT Id, Content_Item_Name__c, URL__c, Date_of_Interaction__c, Product__r.Id, Product__r.Product_Name__c FROM Digital_Interaction__c WHERE Contact__c=: contactId ';
+        String query = 'SELECT Id, Content_Item_Name__c, URL__c, Date_of_Interaction__c, Product__r.Id, Product__r.ProductName__c FROM Digital_Interaction__c WHERE Contact__c=: contactId ';
         String filterSOQL = '';
         
         List<disDataTableWrapper> response = new List<disDataTableWrapper>();
@@ -150,7 +150,7 @@ global with sharing class ContactDigitalInteractionUtil {
             wrapper.diId = dis.Id;
             wrapper.contentItemName = dis.Content_Item_Name__c;
             wrapper.productUrl = '/'+dis.Product__r?.Id;
-            wrapper.product = dis.Product__r?.Product_Name__c;
+            wrapper.product = dis.Product__r?.ProductName__c;
             wrapper.url = dis.URL__c;
             wrapper.createdDate = dis.Date_of_Interaction__c.format('yyyy-MM-dd\' \'HH:mm:ss');
             response.add(wrapper);

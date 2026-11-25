@@ -128,6 +128,17 @@
         </values>
     </picklistValues>
     <picklistValues>
+        <picklist>AssetAge__c</picklist>
+        <values>
+            <fullName>Legacy Asset</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>New Asset</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
         <picklist>CalculationFrequencyBasis__c</picklist>
         <values>
             <fullName>Liabilities - daily average</fullName>
@@ -171,7 +182,7 @@
             <default>false</default>
         </values>
         <values>
-            <fullName>UK intermediaries (none platform)</fullName>
+            <fullName>UK intermediaries %28none platform%29</fullName>
             <default>false</default>
         </values>
     </picklistValues>
@@ -1187,7 +1198,7 @@
             <default>false</default>
         </values>
         <values>
-            <fullName>Investor w/o agreement</fullName>
+            <fullName>Investor w%2Fo agreement</fullName>
             <default>false</default>
         </values>
     </picklistValues>

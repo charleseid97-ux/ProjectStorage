@@ -6,7 +6,7 @@
     <errorConditionFormula>AND(
   ISCHANGED(Name),
   NOT($User.BypassValidationRules__c),
-  $Profile.Name &lt;&gt; &quot;Carmignac - System Admin&quot;
+  $Profile.Name &lt;&gt; &quot;Carmignac - System Administrator&quot;
 )</errorConditionFormula>
     <errorDisplayField>Name</errorDisplayField>
     <errorMessage>You cannot modify the product code.</errorMessage>

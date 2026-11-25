@@ -3,10 +3,12 @@
     <fullName>ExternalKey__c</fullName>
     <caseSensitive>false</caseSensitive>
     <description>Unique technical key used by Data Integration for idempotent upsert and duplicate prevention. Expected format: &lt;ISIN&gt;_&lt;ExecutionDate YYYYMMDD&gt;, for example LU0992630326_20260811.</description>
+    <encryptionScheme>None</encryptionScheme>
     <externalId>true</externalId>
     <label>External Key</label>
     <length>40</length>
     <required>true</required>
+    <trackTrending>false</trackTrending>
     <type>Text</type>
     <unique>true</unique>
 </CustomField>

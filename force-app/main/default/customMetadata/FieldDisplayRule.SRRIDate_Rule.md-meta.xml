@@ -8,7 +8,7 @@
     </values>
     <values>
         <field>DisplayCondition__c</field>
-        <value xsi:type="xsd:string">record.SRI__c&gt;0</value>
+        <value xsi:nil="true"/>
     </values>
     <values>
         <field>FieldApiName__c</field>
@@ -16,7 +16,7 @@
     </values>
     <values>
         <field>Mandatory_Rule__c</field>
-        <value xsi:type="xsd:string">record.SRI__c&gt;0</value>
+        <value xsi:nil="true"/>
     </values>
     <values>
         <field>ObjectApiName__c</field>

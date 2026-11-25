@@ -39,15 +39,15 @@
                             <aura:iteration items="{!v.productList}" var="product">
                                 <tr scope="row" class="dataRow">
                                     <th>
-                                        {!product.Name} <lightning:helptext content="{!product.Product_Name__c}" />
+                                        {!product.Name} <lightning:helptext content="{!product.ProductName__c}" />
                                     </th>
                                     <aura:iteration items="{!v.FSUList}" var="FSU">
                                         <td style="text-align:center;">
                                             <c:auraIfContains items="{!v.isCoveredList}" element="{!product.Name+'-'+FSU.cLabel}">
-                                                <img id="clientTier" src="/resource/GreenTick" style="width:20px;"/>
+                                                <img id="clientTier_1" src="/resource/GreenTick" style="width:20px;"/>
                                             </c:auraIfContains>
                                             <c:auraIfNotContains items="{!v.isCoveredList}" element="{!product.Name+'-'+FSU.cLabel}">
-                                                <img id="clientTier" src="/resource/RedCross" style="width:20px;"/>
+                                                <img id="clientTier_2" src="/resource/RedCross" style="width:20px;"/>
                                             </c:auraIfNotContains>
                                         </td>
                                     </aura:iteration>

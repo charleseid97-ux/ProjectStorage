@@ -51,7 +51,7 @@
                 <!-- AG3: Type -->
                 <lightning-combobox label="Type"
                                     value={agType}
-                                    options={typeOptions}
+                                    options={filteredTypeOptions}
                                     onchange={handleAgType}
                                     required
                                     disabled={isTypeDisabled}
@@ -70,28 +70,30 @@
                     </lightning-combobox>
                 </template>
 
-                <!-- AG4: Automatic Grid Update toggle -->
-                <div class="toggle-grid-update">
-                    <div class="toggle-header">
-                        <span class="toggle-label">{labels.Grid_AutoIncludeLabel}</span>
-                        <lightning-helptext
-                            content={labels.Grid_AutoIncludeHelpText}>
-                        </lightning-helptext>
+                <!-- AG4: Automatic Grid Update toggle (not applicable to Other Fees grids — no Grid Details to auto-update) -->
+                <template if:false={isOtherFeesKind}>
+                    <div class="toggle-grid-update">
+                        <div class="toggle-header">
+                            <span class="toggle-label">{labels.Grid_AutoIncludeLabel}</span>
+                            <lightning-helptext
+                                content={labels.Grid_AutoIncludeHelpText}>
+                            </lightning-helptext>
+                        </div>
+                        <div class="toggle-row">
+                            <lightning-input type="toggle"
+                                            variant="label-hidden"
+                                            checked={isAutoGridUpdate}
+                                            disabled={isAutoUpdateDisabled}
+                                            onchange={handleAutoUpdateToggle}
+                                            message-toggle-active=""
+                                            message-toggle-inactive="">
+                            </lightning-input>
+                            <span class="message-toggle-label">
+                                {toggleLabel}
+                            </span>
+                        </div>
                     </div>
-                    <div class="toggle-row">
-                        <lightning-input type="toggle"
-                                        variant="label-hidden"
-                                        checked={isAutoGridUpdate}
-                                        disabled={isAutoUpdateDisabled}
-                                        onchange={handleAutoUpdateToggle}
-                                        message-toggle-active=""
-                                        message-toggle-inactive="">
-                        </lightning-input>
-                        <span class="message-toggle-label">
-                            {toggleLabel}
-                        </span>
-                    </div>
-                </div>
+                </template>
 
                 <!-- Warning: previous grid end date will be updated -->
                 <template if:true={showEndDateChangeWarning}>
@@ -187,13 +189,15 @@
                                     onchange={handleAgBusinessBackground}>
                 </lightning-textarea>
 
-                <!-- AG12: Other Fees -->
-                <lightning-input type="checkbox"
-                                    label="Other Fees"
-                                    checked={agOtherFees}
-                                    onchange={handleAgOtherFees}
-                                    field-level-help="Check if the agreement includes a fee other than retrocession (e.g. performance fees)">
-                </lightning-input>
+                <!-- AG12: Other Fees (not applicable to Other Fees grids — the whole grid already is Other Fees) -->
+                <template if:false={isOtherFeesKind}>
+                    <lightning-input type="checkbox"
+                                        label="Other Fees"
+                                        checked={agOtherFees}
+                                        onchange={handleAgOtherFees}
+                                        field-level-help="Check if the agreement includes a fee other than retrocession (e.g. performance fees)">
+                    </lightning-input>
+                </template>
 
                 <!-- AG13: Comment -->
                 <lightning-textarea label="Comment"

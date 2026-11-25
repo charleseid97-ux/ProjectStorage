@@ -11,6 +11,9 @@ public class CaseTranslationProcess {
     private static final Id subPublicationRecordTypeId = Schema.SObjectType.Case.getRecordTypeInfosByName().get('Sub Publication Request').getRecordTypeId();
     private static final Map<String, Set<String>> languageWebsitePicklist = DependencyPicklistApex.getFieldDependencies('Case', 'Sub_Target_language__c','TargetWebsite__c');
 
+    private static final String POST_EDITING = 'Post-editing';
+    private static final String FULL_HUMAIN = 'Full humain';
+
     @AuraEnabled(cacheable=true)
     public static List<String> getTargetWebsiteOptions(List<String> target_languages) {
         List<String> websites = new List<String>();
@@ -301,14 +304,14 @@ public class CaseTranslationProcess {
 
     @AuraEnabled(cacheable=true)
     public static List<Product__c> getProducts(){
-        return ([select Id, Name, Product_Name__c from Product__c where  Validity__c  = true order by Product_Name__c asc]);    
+        return ([select Id, Name, ProductName__c from Product__c where  Validity__c  = true order by ProductName__c asc]);    
     }
 
     @AuraEnabled(cacheable=true)
     public static List<Share_Class__c> getShareClassesByFunds(List<String> FundIds) {
-        List<Share_Class__c> scList = [SELECT Id, Name, Fund__c, Fund__r.Product_Name__c,Fund__r.Name,   Validity__c, ISIN_Code__c,Country__c,Share_Class_Type__c
+        List<Share_Class__c> scList = [SELECT Id, Name, Fund__c, Fund__r.ProductName__c,Fund__r.Name,   Validity__c, ISIN_Code__c,Country__c,Share_Class_Type__c
                                         FROM Share_Class__c
-                                        WHERE Fund__c In :FundIds AND Validity__c = TRUE order by Fund__r.Product_Name__c  asc ,Name asc];
+                                        WHERE Fund__c In :FundIds AND Validity__c = TRUE order by Fund__r.ProductName__c  asc ,Name asc];
 
         return scList;
     }
@@ -365,7 +368,7 @@ public class CaseTranslationProcess {
                                                 AND HasAttachment = true 
                                                 AND fromAddress IN :agencyEmails) 
                                     AND RecordTypeId = :subTranslationRecordTypeId 
-                                    AND (Translation_mode__c = 'Post-editing' OR Translation_mode__c = 'Full humain')]) {
+                                    AND (Translation_mode__c = :POST_EDITING OR Translation_mode__c = :FULL_HUMAIN)]) {
 
             translationCase.Status = 'Proofreading Validation';
             translationCase.TECH_TargetReceived__c = true;
@@ -401,7 +404,7 @@ public class CaseTranslationProcess {
                                     FROM Case 
                                     WHERE Id IN (SELECT ParentId FROM EmailMessage WHERE Id IN :emailIds  AND Incoming = true AND HasAttachment = true AND fromAddress IN :agencyEmails) 
                                     AND RecordTypeId =: subTranslationRecordTypeId 
-                                    AND (Translation_mode__c = 'Post-editing' OR Translation_mode__c = 'Full humain')])
+                                    AND (Translation_mode__c = :POST_EDITING OR Translation_mode__c = :FULL_HUMAIN)])
         {
             translationCase.Status = 'Proofreading Validation';
             translationCase.TECH_TargetReceived__c = true;
@@ -436,7 +439,7 @@ public class CaseTranslationProcess {
             FROM Case
             WHERE ParentId IN :casesIds
             AND RecordTypeId =: subTranslationRecordTypeId
-            AND (Translation_mode__c = 'Post-editing' OR Translation_mode__c = 'Full humain')
+            AND (Translation_mode__c = :POST_EDITING OR Translation_mode__c = :FULL_HUMAIN)
             AND Sub_Target_language__c != 'French'
             AND Sub_Target_language__c != 'English'
         ];

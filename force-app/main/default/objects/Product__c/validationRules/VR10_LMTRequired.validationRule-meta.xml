@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>VR10_LMTRequired</fullName>
+    <active>true</active>
+    <errorConditionFormula>AND(
+				NOT($User.BypassValidationRules__c),
+    NOT(ISPICKVAL(LegalForm__c, &quot;OEIC&quot;)),
+    ISBLANK(LiquidityManagementToolLMT__c)
+)</errorConditionFormula>
+    <errorDisplayField>LiquidityManagementToolLMT__c</errorDisplayField>
+    <errorMessage>Liquidity Management Tool (LMT) is required when Legal Form is not OEIC.</errorMessage>
+</ValidationRule>

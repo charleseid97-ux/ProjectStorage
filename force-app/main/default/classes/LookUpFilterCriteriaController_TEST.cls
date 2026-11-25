@@ -21,7 +21,7 @@ public with sharing class LookUpFilterCriteriaController_TEST {
             Product__c prd = new Product__c();
             prd.RecordTypeId = Product__c.sObjectType.getDescribe().getRecordTypeInfosByDeveloperName().get('Fund').getRecordTypeId();
             prd.Name = 'Prod123';
-            prd.Product_Name__c = 'Product Test';
+            prd.ProductName__c = 'Product Test';
             prd.Validity__c = true;
             Database.insert(prd, true);
 
@@ -57,7 +57,7 @@ public with sharing class LookUpFilterCriteriaController_TEST {
             testContact2.WebsiteLanguage__c = 'French';
             testContact2.Prospace_Status__c = 'Validated';
             testContact2.Synchrostatus__c = 'Success';
-            testContact2.TECH_WebSiteID__c = '123455';
+            // testContact2.TECH_WebSiteID__c = '123455';
 
             Database.insert(testContact2, true);
 
@@ -91,21 +91,21 @@ public with sharing class LookUpFilterCriteriaController_TEST {
 
             List<Web_Communication__c> WebCommList = new List<Web_Communication__c>();
             Web_Communication__c web = new Web_Communication__c();
-            web.TECH_ISINCode__c = 'FR0011100000';
+            //web.TECH_ISINCode__c = 'FR0011100000';
             web.AlertTypeRecord__c = theme1.Id;
             web.Contact__c = testContact2.Id;
-            web.TECH_CommunicationWebsiteId__c = '1111';
+            // web.TECH_CommunicationWebsiteId__c = '1111';
             web.ShareClass__c = sC.Id;
             web.Fund__c = prd.Id;
             WebCommList.add(web);
 
             Web_Communication__c web2 = new Web_Communication__c();
-            web2.TECH_ISINCode__c = 'FR0011100011';
+            //web2.TECH_ISINCode__c = 'FR0011100011';
             web2.AlertTypeRecord__c = theme1.Id;
-            web2.Lead__c = ld2.Id;
+            //web2.Lead__c = ld2.Id;
             web2.ShareClass__c = sC.Id;
             web2.Fund__c = prd.Id;
-            web2.TECH_CommunicationWebsiteId__c = '22222';
+            // web2.TECH_CommunicationWebsiteId__c = '22222';
             WebCommList.add(web2);
 
             Database.insert(WebCommList, true);

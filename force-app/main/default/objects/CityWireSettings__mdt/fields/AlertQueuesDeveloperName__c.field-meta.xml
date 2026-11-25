@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>AlertQueuesDeveloperName__c</fullName>
+    <description>Developer names of the Queues whose members receive the Citywire run failure/zero-update alert email, one per line.</description>
+    <externalId>false</externalId>
+    <fieldManageability>DeveloperControlled</fieldManageability>
+    <inlineHelpText>Enter one Queue Developer Name per line to notify multiple queues. Each must match the DeveloperName of an existing Queue. No alert email is sent if this is left blank.</inlineHelpText>
+    <label>Alert Queues Developer Names</label>
+    <length>2048</length>
+    <type>LongTextArea</type>
+    <visibleLines>5</visibleLines>
+</CustomField>

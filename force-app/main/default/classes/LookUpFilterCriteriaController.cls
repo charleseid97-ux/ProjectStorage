@@ -1,9 +1,9 @@
-/*
-* Created By : Noor Goolamnabee 
-* Description : Controller for the Lightning Web Component lwc_lookupfield_filtercriteria
-* Date Created : 05/08/2022
-* Test Class : LookUpFilterCriteriaController_TEST
-*/
+/** ──────────────────────────────────────
+ * @description Controller for the Lightning Web Component lwc_lookupfield_filtercriteria:
+ *              returns lookup field values filtered by criteria, and field/object plural labels.
+ * @testClass LookUpFilterCriteriaController_TEST
+ * @coverage 93%   [08-10-26]
+ ────────────────────────────────────── */
 public with sharing class LookUpFilterCriteriaController {
     //- Description: This method returns values of the lookup field
     //- Parameters : 

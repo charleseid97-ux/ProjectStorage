@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>ConnectorExposureScore__c</fullName>
+    <description>Calculates the exposure associated with the agent’s connected systems based on the number and type of connectors used. The score gives additional weight to Outlook access, Web Search, and the combination of Web Search with internal data sources.</description>
+    <externalId>false</externalId>
+    <formula>/* 3 or more connectors */
+IF(
+    (
+        IF(INCLUDES(Connectors__c, &quot;Outlook&quot;), 1, 0) +
+        IF(INCLUDES(Connectors__c, &quot;OneDrive&quot;), 1, 0) +
+        IF(INCLUDES(Connectors__c, &quot;Salesforce&quot;), 1, 0) +
+        IF(INCLUDES(Connectors__c, &quot;Web Search Access&quot;), 1, 0) +
+        IF(INCLUDES(Connectors__c, &quot;Microsoft Teams&quot;), 1, 0) +
+        IF(INCLUDES(Connectors__c, &quot;Vendome&quot;), 1, 0) +
+        IF(INCLUDES(Connectors__c, &quot;SAM&quot;), 1, 0) +
+        IF(INCLUDES(Connectors__c, &quot;OLYMPIA&quot;), 1, 0) +
+        IF(INCLUDES(Connectors__c, &quot;SharePoint&quot;), 1, 0) +
+        IF(INCLUDES(Connectors__c, &quot;MCP / Other&quot;), 1, 0)
+    ) &gt;= 3,
+    1,
+    0
+)
+
+/* Outlook exposure */
++
+IF(
+    INCLUDES(Connectors__c, &quot;Outlook&quot;),
+    2,
+    0
+)
+
+/* Web Search exposure */
++
+IF(
+    INCLUDES(Connectors__c, &quot;Web Search Access&quot;),
+    1,
+    0
+)
+
+/* Web Search + internal source */
++
+IF(
+    AND(
+        INCLUDES(Connectors__c, &quot;Web Search Access&quot;),
+        OR(
+            INCLUDES(Connectors__c, &quot;Outlook&quot;),
+            INCLUDES(Connectors__c, &quot;OneDrive&quot;),
+            INCLUDES(Connectors__c, &quot;Salesforce&quot;),
+            INCLUDES(Connectors__c, &quot;Microsoft Teams&quot;),
+            INCLUDES(Connectors__c, &quot;Vendome&quot;),
+            INCLUDES(Connectors__c, &quot;SAM&quot;),
+            INCLUDES(Connectors__c, &quot;OLYMPIA&quot;),
+            INCLUDES(Connectors__c, &quot;SharePoint&quot;),
+            INCLUDES(Connectors__c, &quot;MCP / Other&quot;)
+        )
+    ),
+    2,
+    0
+)</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <inlineHelpText>Automatically calculated from the agent’s connectors</inlineHelpText>
+    <label>Connector Exposure Score</label>
+    <precision>18</precision>
+    <required>false</required>
+    <scale>0</scale>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Number</type>
+    <unique>false</unique>
+</CustomField>

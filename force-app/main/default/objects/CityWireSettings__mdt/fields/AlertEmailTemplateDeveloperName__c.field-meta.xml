@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>AlertEmailTemplateDeveloperName__c</fullName>
+    <description>Developer name of the Email Template used to alert support of a failed or zero-update Citywire run.</description>
+    <externalId>false</externalId>
+    <fieldManageability>DeveloperControlled</fieldManageability>
+    <inlineHelpText>Must match the DeveloperName of an existing Email Template. No alert email is sent if this is left blank.</inlineHelpText>
+    <label>Alert Email Template Developer Name</label>
+    <length>255</length>
+    <required>false</required>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

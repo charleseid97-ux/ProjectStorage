@@ -33,7 +33,7 @@ public class WTPProductDelete_Test
             insert caseToCreate;
 
 
-            Product__c product = new Product__c(Name = '123452', Product_Name__c = 'TestProduct');
+            Product__c product = new Product__c(Name = '123452', ProductName__c = 'TestProduct');
             insert product;
 
             List<Id> shareClassList = new List<Id>();

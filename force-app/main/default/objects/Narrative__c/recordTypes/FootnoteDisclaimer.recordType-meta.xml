@@ -80,19 +80,43 @@
             <default>false</default>
         </values>
         <values>
-            <fullName>BNP AM France</fullName>
+            <fullName>CLOs</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>CMD_isCCO</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>CMD_isCELT</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>CMD_isCPEG</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>CMD_isOEIC</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>CMD_isPrivtAsst</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>CMD_isSicav</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>CMD_isTMC</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>CMD_minSubAmt</fullName>
             <default>false</default>
         </values>
         <values>
             <fullName>Carmignac</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Carmignac Gestion Luxembourg S%2EA</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Carmignac Gestion S%2EA</fullName>
             <default>false</default>
         </values>
         <values>
@@ -124,6 +148,14 @@
             <default>false</default>
         </values>
         <values>
+            <fullName>Dividend rate from income shares</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>ESG aspects</fullName>
+            <default>false</default>
+        </values>
+        <values>
             <fullName>Elibigle Counterparties</fullName>
             <default>false</default>
         </values>
@@ -132,7 +164,19 @@
             <default>false</default>
         </values>
         <values>
+            <fullName>External logo</fullName>
+            <default>false</default>
+        </values>
+        <values>
             <fullName>FID</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>FID_Except_CPEG</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Fund mention</fullName>
             <default>false</default>
         </values>
         <values>
@@ -140,7 +184,15 @@
             <default>false</default>
         </values>
         <values>
+            <fullName>Fund name change</fullName>
+            <default>false</default>
+        </values>
+        <values>
             <fullName>GHG scope 1%2C2%2C3</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>GHG scope 1%2C2%2C4</fullName>
             <default>false</default>
         </values>
         <values>
@@ -152,6 +204,14 @@
             <default>false</default>
         </values>
         <values>
+            <fullName>If simulator - investment duration</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>If simulator - lack of fund history duration</fullName>
+            <default>false</default>
+        </values>
+        <values>
             <fullName>In euros in a country whose currency is CHF%2C GBP or USD</fullName>
             <default>false</default>
         </values>
@@ -160,7 +220,15 @@
             <default>false</default>
         </values>
         <values>
+            <fullName>Investment policy change</fullName>
+            <default>false</default>
+        </values>
+        <values>
             <fullName>Investment simulator</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Issuer or values mentionned</fullName>
             <default>false</default>
         </values>
         <values>
@@ -181,6 +249,10 @@
         </values>
         <values>
             <fullName>MSCI ESG rating</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Main risks</fullName>
             <default>false</default>
         </values>
         <values>
@@ -208,6 +280,10 @@
             <default>false</default>
         </values>
         <values>
+            <fullName>Performance%C2%A0in a CHF%2C GBP or USD country</fullName>
+            <default>false</default>
+        </values>
+        <values>
             <fullName>Power generator</fullName>
             <default>false</default>
         </values>
@@ -232,6 +308,10 @@
             <default>false</default>
         </values>
         <values>
+            <fullName>Results without fees</fullName>
+            <default>false</default>
+        </values>
+        <values>
             <fullName>Retail Clients</fullName>
             <default>false</default>
         </values>
@@ -240,7 +320,19 @@
             <default>false</default>
         </values>
         <values>
+            <fullName>SDFR Classification</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>SFDR _approach</fullName>
+            <default>false</default>
+        </values>
+        <values>
             <fullName>START disclaimer</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Share class definition</fullName>
             <default>false</default>
         </values>
         <values>
@@ -264,10 +356,6 @@
             <default>false</default>
         </values>
         <values>
-            <fullName>White Creek Capital LLP</fullName>
-            <default>false</default>
-        </values>
-        <values>
             <fullName>White Creek delegation</fullName>
             <default>false</default>
         </values>
@@ -284,10 +372,6 @@
         </values>
         <values>
             <fullName>Logical Rule</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>ManCo</fullName>
             <default>false</default>
         </values>
         <values>

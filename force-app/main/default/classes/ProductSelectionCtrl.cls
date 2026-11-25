@@ -12,167 +12,116 @@ May-2018         Alpha FMC       0.01            Initial build of lightning vers
 global with sharing class ProductSelectionCtrl {
     
     public class PagedResult {
-        
         @AuraEnabled
         public Integer pageSize { get;set; }
-        
         @AuraEnabled
         public Integer page { get;set; }
-        
         @AuraEnabled
         public Integer total { get;set; }
-        
         @AuraEnabled
         public List<Product__c> products { get;set; }
-        
         @AuraEnabled
         public Set<Product__c> macro_strategies { get;set; }
-        
         @AuraEnabled
         public Set<Product__c> strategies { get;set; }
-        
         @AuraEnabled
         public Set<Product__c> asset_classes { get;set; }
-        
         @AuraEnabled
         public Set<Product__c> sub_asset_classes { get;set; }
-        
     }
     
     public class Filter {
-        
         @AuraEnabled
         public String searchKey { get;set; }
-        
-        
         @AuraEnabled
         public String assetClass { get;set; }
-        
-        
         @AuraEnabled
         public String subAssetClass { get;set; }
-        
         @AuraEnabled
         public String strategy { get;set; }
-        
         @AuraEnabled
         public Boolean sri { get;set; }
-        
         @AuraEnabled
         public Boolean oeic { get;set; }
-        
     }
 
     //changed from getFunds
     @AuraEnabled
     public static PagedResult getProducts(String filters, Decimal pageSize, Decimal pageNumber) {
-        Filter filter = (Filter) JSON.deserializeStrict(filters, ProductSelectionCtrl.Filter.class);
-        System.Debug('Filters: ' + filters);
-        Integer pSize = (Integer)pageSize;
-        Integer offset = ((Integer)pageNumber - 1) * pSize;
-        PagedResult r =  new PagedResult();
-        r.pageSize = pSize;
-        r.page = (Integer) pageNumber;
-                
-        String key =  filter.searchKey;
-        String assetClassID = filter.assetClass;
-        String subAssetClassID = filter.subAssetClass;
-        String strategyID = filter.strategy; 
-        Boolean sri = filter.sri;
-        Boolean oeic = filter.oeic;
-        
-        //subqueries   
-        String searchStringSubQuery = '';
-        String assetClassSubQuery = '';
-        String subAssetClassSubQuery = '';
-        String strategySubQuery = '';
-        searchStringSubQuery = (key != '' ? '(Name LIKE \'%' + key + '%\' OR Strategy__r.Name LIKE \'%' + key + '%\' )' : '');
-        
-        assetClassSubQuery = (assetClassID != '' ? '( Id = \'' +assetClassID+ '\' OR Asset_Class__c = \'' + assetClassID + '\') ' : '');
-        subAssetClassSubQuery = (subAssetClassID != '' ? '( Id = \'' +subAssetClassID+ '\' OR Sub_Asset_Class__c = \'' + subAssetClassID + '\') ' : '');
-        strategySubQuery = (strategyID != '' ? '( Id = \'' +strategyID+ '\' OR Strategy__c = \'' + strategyID + '\') ' : '');
-        
-        String SOQLStrTotal = 'SELECT id, Name, Legal_Status__c, Asset_Class__c, Asset_Class__r.Name, Strategy__c, Strategy__r.Name, RecordType.DeveloperName, RecordType.Name FROM Product__c WHERE (RecordType.Name=\'Strategy\' OR (RecordType.Name=\'Fund\' AND Legal_Status__c = \'OEIC\')) AND validity__c = true AND Dedicated_Fund__c = false '
-            + (searchStringSubQuery == '' && assetClassSubQuery == '' && subAssetClassSubQuery == '' && strategySubQuery == '' && sri != true ? '' : 'AND ' )
-            + (searchStringSubQuery == '' ? '' : searchStringSubQuery)
-            + (searchStringSubQuery != '' && assetClassSubQuery !='' ? ' AND ' : '')
-            + (assetClassSubQuery != '' ? assetClassSubQuery: '')
-            + ((searchStringSubQuery != '' || assetClassSubQuery!= '') && subAssetClassSubQuery != '' ? ' AND ' : '')
-            + (subAssetClassSubQuery != '' ? subAssetClassSubQuery : '')
-            + ((searchStringSubQuery != '' || assetClassSubQuery!= '' || subAssetClassSubQuery!= '' ) && strategySubQuery != '' ? ' AND ' : '')
-            + (strategySubQuery != '' ? strategySubQuery : '')
-            + ((searchStringSubQuery != '' || assetClassSubQuery!= '' || subAssetClassSubQuery!= '' || strategySubQuery != '') && sri == true ? ' AND ' : '')
-            + (sri == true ? ' SRI__c = true' : '')
-            //+ ((searchStringSubQuery != '' || assetClassSubQuery!= '' || subAssetClassSubQuery!= '' || strategySubQuery != '' || sri == true) && oeic == true ? ' AND ' : '')
-            + (oeic == true ? ' AND RecordType.Name=\'Fund\'' : '');
-        
-        
-        String SOQLStr = 'SELECT id, Name, Legal_Status__c, Asset_Class__c, Asset_Class__r.Name, Strategy__c, Strategy__r.Name, RecordType.DeveloperName, RecordType.Name FROM Product__c WHERE (RecordType.Name=\'Strategy\' OR (RecordType.Name=\'Fund\' AND Legal_Status__c = \'OEIC\')) AND validity__c = true AND Dedicated_Fund__c = false '
-            + (searchStringSubQuery == '' && assetClassSubQuery == '' && subAssetClassSubQuery == '' && strategySubQuery == '' && sri != true ? '' : 'AND ' )
-            + (searchStringSubQuery == '' ? '' : searchStringSubQuery)
-            + (searchStringSubQuery != '' && assetClassSubQuery !='' ? ' AND ' : '')
-            + (assetClassSubQuery != '' ? assetClassSubQuery: '')
-            + ((searchStringSubQuery != '' || assetClassSubQuery!= '') && subAssetClassSubQuery != '' ? ' AND ' : '')
-            + (subAssetClassSubQuery != '' ? subAssetClassSubQuery : '')
-            + ((searchStringSubQuery != '' || assetClassSubQuery!= '' || subAssetClassSubQuery!= '' ) && strategySubQuery != '' ? ' AND ' : '')
-            + (strategySubQuery != '' ? strategySubQuery : '')
-            + ((searchStringSubQuery != '' || assetClassSubQuery!= '' || subAssetClassSubQuery!= '' || strategySubQuery != '') && sri == true ? ' AND ' : '')
-            + (sri == true ? ' SRI__c = true' : '')
-            //+ ((searchStringSubQuery != '' || assetClassSubQuery!= '' || subAssetClassSubQuery!= '' || strategySubQuery != '' || sri == true) && oeic == true ? ' AND ' : '')
-            + (oeic == true ? ' AND RecordType.Name=\'Fund\'' : '')
-            + (' LIMIT :pSize OFFSET :offset' );
-        
-        System.debug('QUERY IS: ' + SOQLStr);
-        list<Product__c> totalProds =  database.query(SOQLStrTotal);
-        list<Product__c> pageProds =  database.query(SOQLStr);
-        map<id, product__c> acMap = new map<id, product__c>();
-        map<id, product__c> sacMap = new map<id, product__c>();
-        map<id, product__c> sMap = new map<id, product__c>();
-        map<id, product__c> msMap = new map<id, product__c>();
-        
-        for(Product__c prod : totalProds)
-        {
-            //let's check if it was the selected filter, if so set the IsSelectedFilter__c attribute
-            String prodIdString = (String) prod.Id;
-            if(prodIdString == strategySubQuery  ) 
-            {
-                prod.IsSelectedFilter__c = true;
-            }
-            
-            if(prod.Strategy__c != null){
-                sMap.put(prod.Strategy__c, prod.Strategy__r);
-            }
-            
-            if (prod.RecordType.DeveloperName == 'Fund'){
-                msMap.put(prod.id, prod);
-            }
-
-            if (prod.RecordType.DeveloperName == 'Strategy'){
-                sMap.put(prod.id, prod);
-            }
-
-            if (prod.RecordType.DeveloperName == 'Asset_Class'){
-                acMap.put(prod.id, prod);
-            }
-
-            if (prod.RecordType.DeveloperName == 'Sub_Asset_Class'){
-                sacMap.put(prod.id, prod);
-            }
-            
+        if (pageSize == null || pageSize <= 0 || pageNumber == null || pageNumber <= 0) {
+            throw new AuraHandledException('pageSize and pageNumber must be greater than zero.');
         }
 
-        r.products = pageProds;
-        r.asset_classes = new Set <Product__c> (acMap.values());
-        r.sub_asset_classes = new Set<Product__c> (sacMap.values());
-        r.strategies = new Set <Product__c> (sMap.values());
-        r.macro_strategies = new Set <Product__c> (msMap.values());
-        r.total = totalProds.size();    
+        Filter filter = (Filter) JSON.deserializeStrict(filters, ProductSelectionCtrl.Filter.class);
+        Integer pSize = (Integer) pageSize;
+        Integer currentPage = (Integer) pageNumber;
+        Integer queryOffset = (currentPage - 1) * pSize;
 
-        return r;
+        PagedResult result = new PagedResult();
+        result.pageSize = pSize;
+        result.page = currentPage;
+
+        String searchKey = String.isBlank(filter.searchKey) ? null : filter.searchKey.trim();
+        String searchPattern = searchKey == null ? null : '%' + searchKey + '%';
+        // Id assetClassId = String.isBlank(filter.assetClass) ? null : (Id) filter.assetClass.trim();
+        // Id strategyId = String.isBlank(filter.strategy) ? null : (Id) filter.strategy.trim();
+        // Boolean isOeic = filter.oeic == true;
+
+        // Id subAssetClassId = String.isBlank(filter.subAssetClass) ? null : (Id) filter.subAssetClass.trim(); // Disabled: Sub_Asset_Class__c was removed.
+        // Boolean isSri = filter.sri == true; // Disabled: SRI__c was removed.
+
+        // String targetRecordType = isOeic ? 'Fund' : 'Strategy';
+        // List<String> whereClauses = new List<String>{'RecordType.DeveloperName = :targetRecordType', 'Validity__c = true'};
+        List<String> whereClauses = new List<String>{'RecordType.DeveloperName = \'Fund\'', 'Validity__c = true'};
+
+        // if (searchPattern != null) whereClauses.add('(Name LIKE :searchPattern OR Strategy__r.Name LIKE :searchPattern)');
+        if (searchPattern != null) whereClauses.add('Name LIKE :searchPattern');
+        // if (assetClassId != null) whereClauses.add('(Id = :assetClassId OR Asset_Class__c = :assetClassId)');
+        // if (subAssetClassId != null) whereClauses.add('(Id = :subAssetClassId OR Sub_Asset_Class__c = :subAssetClassId)'); // Disabled: Sub_Asset_Class__c was removed.
+        // if (strategyId != null) whereClauses.add('(Id = :strategyId OR Strategy__c = :strategyId)');
+        // if (isSri) whereClauses.add('SRI__c = true'); // Disabled: SRI__c was removed.
+
+        String baseSoql = 'SELECT Id, Name, LegalForm__c, ' + //Asset_Class__c, Asset_Class__r.Name, ' +
+                          'Strategy__c, Strategy__r.Name, RecordType.DeveloperName, RecordType.Name ' +
+                          'FROM Product__c WHERE ' + String.join(whereClauses, ' AND ');
+        String pagedSoql = baseSoql + ' ORDER BY Name ASC, Id ASC' +
+                                      ' LIMIT :pSize OFFSET :queryOffset';
+
+        System.debug(LoggingLevel.DEBUG, 'Product query: ' + pagedSoql);
+
+        List<Product__c> totalProducts = Database.query(baseSoql);
+        List<Product__c> pageProducts = Database.query(pagedSoql);
+
+        Map<Id, Product__c> strategiesById = new Map<Id, Product__c>();
+        Map<Id, Product__c> macroStrategiesById = new Map<Id, Product__c>();
+
+        for (Product__c product : totalProducts) {
+            // if (strategyId != null && (product.Id == strategyId || product.Strategy__c == strategyId)) product.IsSelectedFilter__c = true;
+            if (product.Strategy__c != null && product.Strategy__r != null) strategiesById.put(product.Strategy__c, product.Strategy__r);
+
+            String recordTypeDeveloperName = product.RecordType.DeveloperName;
+            // if (recordTypeDeveloperName == 'Strategy') strategiesById.put(product.Id, product);
+            if (recordTypeDeveloperName == 'Fund') macroStrategiesById.put(product.Id, product);
+            // if (recordTypeDeveloperName == 'Asset_Class') assetClassesById.put(product.Id, product); // Disabled: this record type is not retrieved by the query.
+            // if (recordTypeDeveloperName == 'Sub_Asset_Class') subAssetClassesById.put(product.Id, product); // Disabled: this record type is not retrieved by the query.
+        }
+
+        // for (Product__c product : pageProducts) {
+        //     if (strategyId != null && (product.Id == strategyId || product.Strategy__c == strategyId)) product.IsSelectedFilter__c = true;
+        // }
+
+        result.products = pageProducts;
+        result.asset_classes = new Set<Product__c>();
+        result.sub_asset_classes = new Set<Product__c>();
+        result.strategies = new Set<Product__c>(strategiesById.values());
+        result.macro_strategies = new Set<Product__c>(macroStrategiesById.values());
+        result.total = totalProducts.size();
+
+        return result;
     }
     
     //changed from getFunds
-    @AuraEnabled
+    /*@AuraEnabled
     public static PagedResult getInvestmentStrategies(String filters, Decimal pageSize, Decimal pageNumber) {
         
         Filter filter = (Filter) JSON.deserializeStrict(filters, ProductSelectionCtrl.Filter.class);
@@ -202,14 +151,14 @@ global with sharing class ProductSelectionCtrl {
         map<String, Id> recordTypes = RecordTypeUtil.GetRecordTypeIdsByDeveloperName(Product__c.SObjectType);
         String strategyRecordTypeId = recordTypes.get('Strategy');
         
-        String SOQLStrTotal = 'SELECT id, Name, Asset_Class__c, Asset_Class__r.Name, Sub_Asset_Class__c, Sub_Asset_Class__r.Name, Strategy__c, Strategy__r.Name, RecordType.DeveloperName, RecordType.Name FROM Product__c '
+        String SOQLStrTotal = 'SELECT id, Name, Asset_Class__c, Asset_Class__r.Name, Strategy__c, Strategy__r.Name, RecordType.DeveloperName, RecordType.Name FROM Product__c '
             + 'WHERE RecordType.DeveloperName = \'Strategy\' '
             + (searchStringSubQuery == '' && strategySubQuery == '' ? '' : 'AND ' )
             + (searchStringSubQuery != '' ? searchStringSubQuery : '' )
             + (strategySubQuery != '' ? strategySubQuery : '');
             
             
-        String SOQLStr = 'SELECT id, Name, Asset_Class__c, Asset_Class__r.Name, Sub_Asset_Class__c, Sub_Asset_Class__r.Name, Strategy__c, Strategy__r.Name, RecordType.DeveloperName, RecordType.Name FROM Product__c '
+        String SOQLStr = 'SELECT id, Name, Asset_Class__c, Asset_Class__r.Name, Strategy__c, Strategy__r.Name, RecordType.DeveloperName, RecordType.Name FROM Product__c '
              + 'WHERE RecordType.DeveloperName = \'Strategy\' '
             + (searchStringSubQuery == '' && strategySubQuery == '' ? '' : 'AND ' )
             + (searchStringSubQuery != '' ? searchStringSubQuery : '' )
@@ -256,34 +205,34 @@ global with sharing class ProductSelectionCtrl {
         
         return r;
 
-    }
+    }*/
         
-    @AuraEnabled
-    public static List<Product__c> getStrategies() {
+    // @AuraEnabled
+    // public static List<Product__c> getStrategies() {
         
-        map<String, Id> recordTypes = RecordTypeUtil.GetRecordTypeIdsByDeveloperName(Product__c.SObjectType);
-        Product__c[] strategies = [Select Id, Name, RecordType.DeveloperName from Product__c where RecordTypeId = : recordTypes.get('Strategy')];
-        return strategies; 
-    }
+    //     map<String, Id> recordTypes = RecordTypeUtil.GetRecordTypeIdsByDeveloperName(Product__c.SObjectType);
+    //     Product__c[] strategies = [Select Id, Name, RecordType.DeveloperName from Product__c where RecordTypeId = : recordTypes.get('Strategy')];
+    //     return strategies; 
+    // }
     
-    @AuraEnabled
-    public static List<Product__c> getAssetClasses() {
+    // @AuraEnabled
+    // public static List<Product__c> getAssetClasses() {
         
-        map<String, Id> recordTypes = RecordTypeUtil.GetRecordTypeIdsByDeveloperName(Product__c.SObjectType);
+    //     map<String, Id> recordTypes = RecordTypeUtil.GetRecordTypeIdsByDeveloperName(Product__c.SObjectType);
         
-        Product__c[] assetClasses = [Select Id, Name from Product__c where RecordTypeId = : recordTypes.get('Asset_Class')];
-        return assetClasses;
-    }
+    //     Product__c[] assetClasses = [Select Id, Name from Product__c where RecordTypeId = : recordTypes.get('Asset_Class')];
+    //     return assetClasses;
+    // }
     
-    @AuraEnabled
-    public static List<Product__c> getSubAssetClasses() {
+    // @AuraEnabled
+    // public static List<Product__c> getSubAssetClasses() {
         
         
-        map<String, Id> recordTypes = RecordTypeUtil.GetRecordTypeIdsByDeveloperName(Product__c.SObjectType);
-        Product__c[] subAssetClasses = [Select Id, Name from Product__c where RecordTypeId = : recordTypes.get('Sub_Asset_Class')];
+    //     map<String, Id> recordTypes = RecordTypeUtil.GetRecordTypeIdsByDeveloperName(Product__c.SObjectType);
+    //     Product__c[] subAssetClasses = [Select Id, Name from Product__c where RecordTypeId = : recordTypes.get('Sub_Asset_Class')];
         
-        return subAssetClasses;
-    }
+    //     return subAssetClasses;
+    // }
     
     
     //USED START ???
@@ -453,9 +402,9 @@ global with sharing class ProductSelectionCtrl {
     //Description: This method returns the list of all products without the filters. 
     @AuraEnabled
     public static List<Product__c> getProductListUnfiltered(){
-        return [SELECT id, Name, Legal_Status__c, Asset_Class__c, Asset_Class__r.Name, Strategy__c, Strategy__r.Name, RecordType.DeveloperName, RecordType.Name 
+        return [SELECT Id, Name, LegalForm__c, /*Asset_Class__c, Asset_Class__r.Name, */Strategy__c, Strategy__r.Name, RecordType.DeveloperName, RecordType.Name 
                 FROM Product__c 
-                WHERE (RecordType.Name='Strategy' OR (RecordType.Name='Fund' AND Legal_Status__c = 'OEIC')) AND validity__c = true AND Dedicated_Fund__c = false];
+                WHERE Validity__c = true]; //AND RecordType.Name='Strategy' AND Dedicated_Fund__c = false];
     }    
     //END : JLC MODIFICATION : 14/06/2022
 }
