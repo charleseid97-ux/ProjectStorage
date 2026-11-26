@@ -7,6 +7,7 @@
  * [16-12-2025]		[EID Charles]	  [Add showValuesWhenNotSelecting feature]
  * [23-01-2025]		[EID Charles]	  [Add enableSelectAll feature]
  * [07-11-2026]		[EID Charles]	  [Fix endless render loop when options load after the first render]
+ * [26-11-2026]		[EID Charles]	  [showValuesWhenNotSelecting in monoSelect: shows the selected option's label]
 **/
 import { LightningElement, api, track } from 'lwc';
 
@@ -72,6 +73,13 @@ export default class MultiSelectSearchList extends LightningElement {
       return this.enableSelectAll && !this.monoSelect;
     }
 
+    // Text shown in the closed box (showValuesWhenNotSelecting): the selected values, or the selected option's label in monoSelect (its value is a single string).
+    get displayedValue() {
+      if (!this.monoSelect) return this.value.join(this.dropdownValueSeparator);
+      const options = this.optionsSaved?.length ? this.optionsSaved : (this.options || []);
+      return options.find(option => option.value === this.value)?.label || '';
+    }
+
     get selectAllLabel(){
       return this.isAllSelected ? 'Deselect all' : 'Select all';
     }
@@ -95,7 +103,7 @@ export default class MultiSelectSearchList extends LightningElement {
 	
 	connectedCallback() {
 		if(this.showValuesWhenNotSelecting) {
-			this.searchKey = this.value.join(this.dropdownValueSeparator);
+			this.searchKey = this.displayedValue;
 		}
 	}
    
@@ -126,7 +134,7 @@ export default class MultiSelectSearchList extends LightningElement {
 		if(this.showValuesWhenNotSelecting) {
 			this.isOpen = (event?.type === 'focus');
 			this.savedSearchKey = this.searchKey;
-			this.searchKey = this.value.join(this.dropdownValueSeparator);
+			this.searchKey = this.displayedValue;
 		} 
 		else {
 			this.isOpen = false;
@@ -175,7 +183,7 @@ export default class MultiSelectSearchList extends LightningElement {
             //let listPills = [];
             this.value = event.detail.value;
             if(this.monoSelect) this.selectedLabelFind(); //needed only in monoSelect Case;
-            this.searchKey = this.showValuesWhenNotSelecting && !this.isOpen? this.value.join(this.dropdownValueSeparator) : '';
+            this.searchKey = this.showValuesWhenNotSelecting && !this.isOpen? this.displayedValue : '';
             this.options = [...this.optionsSaved];
             this.dispatchSearchChange(event, false);
     }
@@ -187,7 +195,7 @@ export default class MultiSelectSearchList extends LightningElement {
       const checked = event.target.checked;
       const allValues = this.getAllOptionValues();
       this.value = checked ? [...allValues] : [];
-      this.searchKey = this.showValuesWhenNotSelecting && !this.isOpen ? this.value.join(this.dropdownValueSeparator) : '';
+      this.searchKey = this.showValuesWhenNotSelecting && !this.isOpen ? this.displayedValue : '';
       this.options = [...this.optionsSaved];
       this.dispatchSearchChange(event, false);
     }

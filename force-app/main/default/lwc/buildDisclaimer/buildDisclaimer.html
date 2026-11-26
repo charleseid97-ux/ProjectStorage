@@ -23,25 +23,29 @@
             <template if:true={isGeneralStep}>
                 <div class="general-settings">
                     <div class="filter-box">
-                        <lightning-combobox
+                        <c-multi-select-search-list
                             label="Country"
                             options={countryOptions}
                             value={selectedCountry}
-                            required
+                            mono-select="true"
+                            required-label="true"
+                            show-values-when-not-selecting="true"
                             data-field="selectedCountry"
-                            onchange={handleValueChange}>
-                        </lightning-combobox>
+                            onchange={handleSettingChange}>
+                        </c-multi-select-search-list>
                     </div>
 
                     <div class="filter-box">
-                        <lightning-combobox
+                        <c-multi-select-search-list
                             label="Language"
                             options={languageOptions}
                             value={selectedLanguage}
-                            required
+                            mono-select="true"
+                            required-label="true"
+                            show-values-when-not-selecting="true"
                             data-field="selectedLanguage"
-                            onchange={handleValueChange}>
-                        </lightning-combobox>
+                            onchange={handleSettingChange}>
+                        </c-multi-select-search-list>
                     </div>
 
                     <div class="filter-box">
@@ -51,7 +55,8 @@
                             value={selectedMedia}
                             enable-select-all="true"
                             show-values-when-not-selecting="true"
-                            onchange={handleMediaChange}>
+                            data-field="selectedMedia"
+                            onchange={handleSettingChange}>
                         </c-multi-select-search-list>
                     </div>
 
@@ -115,14 +120,13 @@
                                         value={selectedProducts}
                                         size="4"
                                         required
-                                        data-field="selectedProducts"
-                                        onchange={handleValueChange}>
+                                        onchange={handleProductsChange}>
                                     </lightning-dual-listbox>
                                 </div>
                             </template>
 
                             <template for:each={typeSections} for:item="section">
-                                <div key={section.type} class="filter-box">
+                                <div key={section.typeName} class="filter-box">
                                     <lightning-dual-listbox
                                         label={section.label}
                                         source-label="Available"
@@ -130,12 +134,16 @@
                                         options={section.options}
                                         value={section.selected}
                                         size="4"
-                                        data-type={section.type}
+                                        data-type={section.typeName}
                                         onchange={handleTypeChange}>
                                     </lightning-dual-listbox>
                                 </div>
                             </template>
                         </div>
+
+                        <template if:true={hasNoTypeSection}>
+                            <p class="slds-text-color_weak slds-m-top_small">{noTypeSectionMessage}</p>
+                        </template>
 
                         <div class="slds-m-top_medium">
                             <lightning-button

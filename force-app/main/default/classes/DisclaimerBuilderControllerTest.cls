@@ -1,14 +1,16 @@
 /** ──────────────────────────────────────
- * @description Test class for the Disclaimer Builder: builder options (record types, valid products), narrative search (one branch per Type with selected Sub Types,
+ * @description Test class for the Disclaimer Builder: builder options (record types, Country / Language / Media from the describe, valid products),
+ *              Type sections offered per record type for the step 1 settings (Sub Types used by matching narratives, Logical Rule left out, language and no media filters),
+ *              narrative search (one branch per Type with selected Sub Types,
  *              Logical Rule narratives found with the same filters then kept by their rule for 0, 1 and several products, Footnote / End Disclaimer bucketing,
  *              invalid rule error), Logical Rules on in-memory narratives and DisclaimerLogicalRule__mdt (number of products, products, narrative product,
  *              Condition Scopes: narrative, at least one / all products, at least one / all valid share classes, parents through lookups, unknown rule,
  *              queries made, invalid conditions and scope), and the Disclaimer__c + DisclaimerDetail__c creation.
  *              Runs with the DisclaimerBuilderPermissions permission set: the narrative search is in user mode.
  * @author Charles EID
- * @covers DisclaimerBuilderController   100%   [20-11-26]
- * @covers DisclaimerLogicalRules   100%   [20-11-26]
- * @lastModifiedBy Charles EID   [20-11-26]
+ * @covers DisclaimerBuilderController   100%   [26-11-26]
+ * @covers DisclaimerLogicalRules   100%   [26-11-26]
+ * @lastModifiedBy Charles EID   [26-11-26]
  ────────────────────────────────────── */
 @IsTest
 private with sharing class DisclaimerBuilderControllerTest {
@@ -88,7 +90,7 @@ private with sharing class DisclaimerBuilderControllerTest {
         Map<String, Schema.RecordTypeInfo> recordTypeByName = Schema.SObjectType.Narrative__c.getRecordTypeInfosByDeveloperName();
         Assert.areEqual(recordTypeByName.get(DisclaimerBuilderController.FOOTNOTE_RECORD_TYPE).getRecordTypeId(), options.footnoteRecordTypeId);
         Assert.areEqual(recordTypeByName.get(DisclaimerBuilderController.END_DISCLAIMER_RECORD_TYPE).getRecordTypeId(), options.endDisclaimerRecordTypeId);
-        Assert.areEqual(DisclaimerBuilderController.LOGICAL_RULE_TYPE, options.logicalRuleType);
+        Assert.isTrue(optionValues(options.countries).contains(COUNTRY) && optionValues(options.languages).contains(LANGUAGE) && optionValues(options.media).contains(MEDIA), 'Step 1 options are the active values of the field describe');
         Map<String, String> labelByValue = new Map<String, String>();
         for (DisclaimerBuilderController.Option option : options.products) labelByValue.put(option.value, option.label);
         Assert.areEqual(SICAV_PRODUCT + ' - Test SICAV', labelByValue.get(SICAV_PRODUCT), 'Valid product labelled "Internal Short Name - Product Name"');
@@ -109,6 +111,13 @@ private with sharing class DisclaimerBuilderControllerTest {
             DisclaimerBuilderController.LOGICAL_RULE_TYPE => new List<String>{ MULTIPLE_RULE }
         };
         Map<String, List<String>> noType = new Map<String, List<String>>();
+        DisclaimerBuilderController.DisclaimerCriteria otherLanguage = criteria(new List<String>(), noType);
+        otherLanguage.language = OTHER_LANGUAGE;
+        DisclaimerBuilderController.DisclaimerCriteria noMedia = criteria(new List<String>(), noType);
+        noMedia.media = new List<String>();
+        DisclaimerBuilderController.ContentOptions contentOptions;
+        DisclaimerBuilderController.ContentOptions otherLanguageOptions;
+        DisclaimerBuilderController.ContentOptions noMediaOptions;
         DisclaimerBuilderController.NarrativeSearchResult oneProduct;
         DisclaimerBuilderController.NarrativeSearchResult noProduct;
         DisclaimerBuilderController.NarrativeSearchResult twoProducts;
@@ -117,6 +126,9 @@ private with sharing class DisclaimerBuilderControllerTest {
         Test.startTest();
 
         System.runAs(builderUser()) {
+            contentOptions = DisclaimerBuilderController.getContentOptions(JSON.serialize(criteria(new List<String>(), noType)));
+            otherLanguageOptions = DisclaimerBuilderController.getContentOptions(JSON.serialize(otherLanguage));
+            noMediaOptions = DisclaimerBuilderController.getContentOptions(JSON.serialize(noMedia));
             oneProduct = DisclaimerBuilderController.searchNarratives(JSON.serialize(criteria(new List<String>{ SICAV_PRODUCT }, subTypesByType)));
             noProduct = DisclaimerBuilderController.searchNarratives(JSON.serialize(criteria(new List<String>(), noType)));
             twoProducts = DisclaimerBuilderController.searchNarratives(JSON.serialize(criteria(new List<String>{ SICAV_PRODUCT, FCP_PRODUCT }, noType)));
@@ -131,6 +143,11 @@ private with sharing class DisclaimerBuilderControllerTest {
 
         Test.stopTest();
 
+        Assert.areEqual(new Map<String, Set<String>>{ CONTENT_TYPE => new Set<String>{ 'Performance', 'Risk Scale' } }, subTypesByTypeName(contentOptions.footnote),
+            'Footnote: the Sub Types used by its French narratives, the Logical Rule ones left out');
+        Assert.areEqual(new Map<String, Set<String>>{ SOURCE_TYPE => new Set<String>{ 'MSCI' } }, subTypesByTypeName(contentOptions.endDisclaimer), 'End Disclaimer: its own record type only');
+        Assert.areEqual(new Map<String, Set<String>>{ CONTENT_TYPE => new Set<String>{ 'Performance' } }, subTypesByTypeName(otherLanguageOptions.footnote), 'English: only the Sub Types of the English narratives');
+        Assert.isTrue(otherLanguageOptions.endDisclaimer.isEmpty() && noMediaOptions.footnote.isEmpty() && noMediaOptions.endDisclaimer.isEmpty(), 'No section without matching narrative (no media selected: narratives without media only)');
         Assert.areEqual('Footnote Performance\n\nFootnote SICAV rule', oneProduct.footnote.content,
             'Selected Sub Type + SICAV rule; the multiple rule (1 product), the FCP narrative (FCP not selected), the unknown rule and the Logical Rule key sent by the client are left out');
         Assert.areEqual('End MSCI', oneProduct.endDisclaimer.content, 'The no product rule fails with 1 product');
@@ -253,6 +270,19 @@ private with sharing class DisclaimerBuilderControllerTest {
         }
         cmdValues.addAll(otherValues);
         return cmdValues;
+    }
+
+    private static Set<String> optionValues(List<DisclaimerBuilderController.Option> options) {
+        Set<String> values = new Set<String>();
+        for (DisclaimerBuilderController.Option option : options) values.add(option.value);
+        return values;
+    }
+
+    // Type => Sub Type values of the sections offered to a tab
+    private static Map<String, Set<String>> subTypesByTypeName(List<DisclaimerBuilderController.TypeSection> sections) {
+        Map<String, Set<String>> subTypesByTypeName = new Map<String, Set<String>>();
+        for (DisclaimerBuilderController.TypeSection section : sections) subTypesByTypeName.put(section.typeName, optionValues(section.options));
+        return subTypesByTypeName;
     }
 
     private static List<String> names(List<Narrative__c> narratives) {
