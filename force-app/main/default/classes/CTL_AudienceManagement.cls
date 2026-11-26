@@ -22,7 +22,7 @@ public with sharing class CTL_AudienceManagement {
     
     //Retrieves every Active Strategy Product
     @AuraEnabled (cacheable=true)
-    public static List<Strategy__c> getProducts(){
+    public static List<Strategy__c> getStrategies(){
         return ([SELECT Id, Code__c, Name FROM Strategy__c  ORDER BY Code__c asc]);
     }
 

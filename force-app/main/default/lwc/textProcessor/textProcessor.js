@@ -1,6 +1,5 @@
 import { LightningElement, track, wire, api } from 'lwc';
 import { ShowToastEvent } from 'lightning/platformShowToastEvent';
-// import getProducts from '@salesforce/apex/CTL_MeetingNotes.getProducts';
 import getProducts from '@salesforce/apex/CTL_TextProcessor.getDemoProducts';
 import correctErrors from '@salesforce/apex/CTL_TextProcessor.correctErrors';
 import productOverview from '@salesforce/apex/CTL_TextProcessor.productOverview';

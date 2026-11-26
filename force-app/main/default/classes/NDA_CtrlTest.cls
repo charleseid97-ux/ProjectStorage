@@ -7,11 +7,8 @@ private class NDA_CtrlTest {
 
     @testSetup
     static void testSetup() {
-
         User usr = TestFactory.getStandardCarmignacUser();
-
-        system.runAs(usr) {
-
+        System.runAs(usr) {
             NDA__c nda =  TestFactory.getNDA();
             nda.Name = 'Morning star NDA';
             insert nda;
@@ -21,9 +18,7 @@ private class NDA_CtrlTest {
             insert newCase;
 
             Id FundRecordTypeId = Schema.SObjectType.Product__c.getRecordTypeInfosByDeveloperName().get('Fund').getRecordTypeId();
-            List<Product__c> pList = new List<Product__c>{
-                    new Product__c(Name='PFund', ProductName__c='Product Fund', Record_Type_Name__c = 'Fund', RecordTypeId=FundRecordTypeId)
-            };
+            List<Product__c> pList = new List<Product__c>{ new Product__c(Name='PFund', ProductName__c='Product Fund', RecordTypeId=FundRecordTypeId) };
 
             insert pList;
 
@@ -38,22 +33,14 @@ private class NDA_CtrlTest {
 
             Case_Product__c newCP = new Case_Product__c(Work_Together_Process__c = newCase.Id, Share_Class__c = sc.Id);
             insert newCP;
-
-
-
         }
-
     }
 
     @IsTest
     static void testBehavior() {
-
         NDA__c nda = [SELECT Id FROM NDA__c LIMIT 1];
-
         nda.Stage__c = 'In progress';
-
         update nda;
-
     }
 
     @IsTest
@@ -62,7 +49,6 @@ private class NDA_CtrlTest {
             NDA__c parentNDA = [SELECT Id FROM NDA__c where Name LIKE '%Morning%' LIMIT 1];
 
             NDA__c nda = TestFactory.getNDA('NDA_via_Platform');
-            //nda.Related_NDA__c = parentNDA.Id;
             insert nda;
 
             Case newCase = TestFactory.getSimpleCase();
@@ -75,9 +61,7 @@ private class NDA_CtrlTest {
             Share_Class__c sc = [SELECT Id FROM Share_Class__c LIMIT 1];
 
             Id FundRecordTypeId = Schema.SObjectType.Product__c.getRecordTypeInfosByDeveloperName().get('Fund').getRecordTypeId();
-            List<Product__c> pList = new List<Product__c>{
-                    new Product__c(Name='PFund2', ProductName__c='Product Fund2', Record_Type_Name__c = 'Fund', RecordTypeId=FundRecordTypeId)
-            };
+            List<Product__c> pList = new List<Product__c>{ new Product__c(Name='PFund2', ProductName__c='Product Fund2', RecordTypeId=FundRecordTypeId) };
 
             insert pList;
 
@@ -93,7 +77,8 @@ private class NDA_CtrlTest {
             try{
                 nda.Stage__c = 'In progress';
                 update nda;
-            }catch (Exception e){
+            }
+            catch (Exception e){
                 System.debug('//testBehaviorPlatform'+e.getMessage());
             }
     }

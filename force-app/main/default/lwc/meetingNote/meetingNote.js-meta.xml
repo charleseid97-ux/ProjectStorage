@@ -15,7 +15,6 @@
             <property name="recordId" type="String" label="please enter recordId"/>
             <property name="objectApiName" type="String" label="please enter ObjectAPI name" />
             <property name="quickActionName" label="The quick action that called this flow" type="String" description="The value the user selected in the picklist" />
-            <property name="aiGeneration" label="AI Generation?" type="Boolean" />
         </targetConfig>
      </targetConfigs>
 </LightningComponentBundle>
