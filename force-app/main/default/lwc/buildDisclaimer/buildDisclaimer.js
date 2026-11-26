@@ -3,65 +3,23 @@
  *                    1. General Settings: Country, Language, Media and whether products are chosen, shared by every tab of step 2.
  *                    2. Disclaimer Content: Footnote / End Disclaimer tabs, each picking per Narrative Type its Sub Types (and the shared Products when chosen in step 1),
  *                       searching the matching Narrative__c records of its record type and previewing the concatenated content, then building the Disclaimer__c + DisclaimerDetail__c records.
- *                    Every option comes from the org: picklists (values, Type => Sub Type dependency) of the 2 disclaimer record types, valid products from Apex.
+ *                    Every option comes from Apex: Country / Language / Media from the field describe, valid products, and on the way to step 2 the Type => Sub Types sections of each record type,
+ *                    built from the narratives matching the step 1 settings (only Sub Types that find narratives, picklist dependency respected).
  *                    A new Type with its Sub Types shows up as a new box without code change.
  * @author		    : Charles EID
- * @lastModifiedBy  : Charles EID   [25-11-26]
+ * @lastModifiedBy  : Charles EID   [26-11-26]
 **/
 import { LightningElement, wire } from 'lwc';
 import { NavigationMixin } from 'lightning/navigation';
-import { getPicklistValuesByRecordType } from 'lightning/uiObjectInfoApi';
-import NARRATIVE_OBJECT from '@salesforce/schema/Narrative__c';
 import { showToast, reduceError } from 'c/gridBuilderUtils';
 import getBuilderOptions from '@salesforce/apex/DisclaimerBuilderController.getBuilderOptions';
+import getContentOptions from '@salesforce/apex/DisclaimerBuilderController.getContentOptions';
 import searchNarratives from '@salesforce/apex/DisclaimerBuilderController.searchNarratives';
 import buildDisclaimer from '@salesforce/apex/DisclaimerBuilderController.buildDisclaimer';
 
-const TYPE_FIELD = 'Type__c';
-const SUBTYPE_FIELD = 'SubType__c';
-const COUNTRY_FIELD = 'Country__c';
-const LANGUAGE_FIELD = 'Language__c';
-const MEDIA_FIELD = 'Media__c';
 const SHOWN_VALUES_IN_SUMMARY = 2;
 const GENERAL_STEP = '1';
 const CONTENT_STEP = '2';
-
-// Values of a picklist field across record types, without duplicates, in picklist order.
-function mergeValues(picklists, fieldName) {
-    const labelByValue = new Map();
-    picklists.forEach(picklist => {
-        (picklist.picklistFieldValues[fieldName]?.values || []).forEach(option => {
-            if (!labelByValue.has(option.value)) labelByValue.set(option.value, option.label);
-        });
-    });
-    return [...labelByValue].map(([value, label]) => ({ label, value }));
-}
-
-// One section per Type having Sub Types on the record types (Type => Sub Types from the dependency), the excluded Type (Logical Rule) left out.
-function buildTypeSections(picklists, excludedType) {
-    const sectionByType = new Map();
-    picklists.forEach(picklist => {
-        const subTypeField = picklist.picklistFieldValues[SUBTYPE_FIELD];
-        if (!subTypeField) return;
-        (picklist.picklistFieldValues[TYPE_FIELD]?.values || []).forEach(type => {
-            if (type.value === excludedType) return;
-            const index = subTypeField.controllerValues[type.value];
-            if (!sectionByType.has(type.value)) sectionByType.set(type.value, { type: type.value, label: type.label, optionByValue: new Map() });
-            const section = sectionByType.get(type.value);
-            subTypeField.values
-                .filter(subType => subType.validFor.includes(index))
-                .forEach(subType => section.optionByValue.set(subType.value, subType.label));
-        });
-    });
-    return [...sectionByType.values()]
-        .filter(section => section.optionByValue.size)
-        .map(section => ({
-            type: section.type,
-            label: section.label,
-            options: [...section.optionByValue].map(([value, label]) => ({ label, value })),
-            selected: []
-        }));
-}
 
 // One bucket from several (footnote tabs merged into the single Footnote detail).
 function mergeBuckets(buckets) {
@@ -96,8 +54,9 @@ export default class BuildDisclaimer extends NavigationMixin(LightningElement) {
     currentStep = GENERAL_STEP;
 
     builderOptions;
-    footnotePicklists;
-    endDisclaimerPicklists;
+    // Type sections offered per record type for the step 1 settings, reloaded on the way to step 2 once a setting changed.
+    contentOptions;
+    isContentOptionsStale = true;
 
     // One tab per footnote, then the End Disclaimer: each holds its record type, Type sections and preview.
     tabs = [];
@@ -111,22 +70,14 @@ export default class BuildDisclaimer extends NavigationMixin(LightningElement) {
     wiredBuilderOptions({ data, error }) {
         if (data) {
             this.builderOptions = data;
+            this.countryOptions = data.countries;
+            this.languageOptions = data.languages;
+            this.mediaOptions = data.media;
             this.productOptions = data.products;
-            this.buildFilterOptions();
         }
         else if (error) {
             showToast(this, 'Error', reduceError(error), 'error');
         }
-    }
-
-    @wire(getPicklistValuesByRecordType, { objectApiName: NARRATIVE_OBJECT, recordTypeId: '$builderOptions.footnoteRecordTypeId' })
-    wiredFootnotePicklists({ data, error }) {
-        this.storePicklists('footnotePicklists', data, error);
-    }
-
-    @wire(getPicklistValuesByRecordType, { objectApiName: NARRATIVE_OBJECT, recordTypeId: '$builderOptions.endDisclaimerRecordTypeId' })
-    wiredEndDisclaimerPicklists({ data, error }) {
-        this.storePicklists('endDisclaimerPicklists', data, error);
     }
 
     get isGeneralStep() {
@@ -185,6 +136,16 @@ export default class BuildDisclaimer extends NavigationMixin(LightningElement) {
         return this.activeTab?.typeSections || [];
     }
 
+    get hasNoTypeSection() {
+        return !this.typeSections.length;
+    }
+
+    // A footnote tab still searches the Logical Rule narratives, which have no Type box.
+    get noTypeSectionMessage() {
+        const message = 'No narrative of this tab matches the General Settings with a Type and Sub Type.';
+        return this.activeTab?.isFootnote ? `${message} Search still finds the Logical Rule narratives.` : message;
+    }
+
     get hasSearched() {
         return this.activeTab?.hasSearched;
     }
@@ -223,29 +184,41 @@ export default class BuildDisclaimer extends NavigationMixin(LightningElement) {
         return this.previewBucket?.content || '';
     }
 
-    storePicklists(propertyName, data, error) {
-        if (data) {
-            this[propertyName] = data;
-            this.buildFilterOptions();
+    // Type sections of the step 1 settings: the first load creates the Footnote and End Disclaimer tabs, a reload keeps each tab's Sub Types still offered.
+    async loadContentOptions() {
+        try {
+            this.isLoading = true;
+            this.contentOptions = await getContentOptions({ criteriaJson: JSON.stringify(this.buildCriteria([])) });
+            if (this.tabs.length) {
+                this.tabs = this.tabs.map(tab => ({ ...tab, typeSections: this.buildTypeSections(tab.isFootnote, tab.typeSections) }));
+            }
+            else {
+                this.tabs = [this.newTab(true), this.newTab(false)];
+                this.activeTabId = this.tabs[0].id;
+            }
+            this.isContentOptionsStale = false;
+            return true;
         }
-        else if (error) {
+        catch (error) {
             showToast(this, 'Error', reduceError(error), 'error');
+            return false;
+        }
+        finally {
+            this.isLoading = false;
         }
     }
 
-    // Built once the Apex options and both record types' picklists are loaded.
-    buildFilterOptions() {
-        if (!this.builderOptions || !this.footnotePicklists || !this.endDisclaimerPicklists) return;
-        const picklists = [this.footnotePicklists, this.endDisclaimerPicklists];
-        this.countryOptions = mergeValues(picklists, COUNTRY_FIELD);
-        this.languageOptions = mergeValues(picklists, LANGUAGE_FIELD);
-        this.mediaOptions = mergeValues(picklists, MEDIA_FIELD);
-        if (this.tabs.length) return;
-        this.tabs = [this.newTab(true), this.newTab(false)];
-        this.activeTabId = this.tabs[0].id;
+    // A tab's Type sections for the loaded settings, keeping the selected Sub Types still offered.
+    buildTypeSections(isFootnote, previousSections = []) {
+        const sections = isFootnote ? this.contentOptions.footnote : this.contentOptions.endDisclaimer;
+        return sections.map(section => {
+            const offered = new Set(section.options.map(option => option.value));
+            const selected = previousSections.find(previous => previous.typeName === section.typeName)?.selected || [];
+            return { ...section, selected: selected.filter(value => offered.has(value)) };
+        });
     }
 
-    // A footnote tab (Footnote, Footnote 2...) or the End Disclaimer tab, with the Types of its record type.
+    // A footnote tab (Footnote, Footnote 2...) or the End Disclaimer tab, with the Type sections of its record type.
     newTab(isFootnote) {
         this.tabCount += 1;
         const footnoteNumber = this.tabs.filter(tab => tab.isFootnote).length + 1;
@@ -255,7 +228,7 @@ export default class BuildDisclaimer extends NavigationMixin(LightningElement) {
             label: isFootnote ? footnoteLabel : 'End Disclaimer',
             isFootnote,
             recordTypeId: isFootnote ? this.builderOptions.footnoteRecordTypeId : this.builderOptions.endDisclaimerRecordTypeId,
-            typeSections: buildTypeSections([isFootnote ? this.footnotePicklists : this.endDisclaimerPicklists], this.builderOptions.logicalRuleType),
+            typeSections: this.buildTypeSections(isFootnote),
             previewResult: null,
             hasSearched: false
         };
@@ -286,8 +259,10 @@ export default class BuildDisclaimer extends NavigationMixin(LightningElement) {
         this.goToStep(CONTENT_STEP);
     }
 
-    goToStep(step) {
+    // Step 2 opens once its Type sections are loaded for the current step 1 settings.
+    async goToStep(step) {
         if (step === CONTENT_STEP && !this.isGeneralStepValid) return;
+        if (step === CONTENT_STEP && this.isContentOptionsStale && !(await this.loadContentOptions())) return;
         this.currentStep = step;
     }
 
@@ -316,21 +291,22 @@ export default class BuildDisclaimer extends NavigationMixin(LightningElement) {
         this.filtersExpanded = !this.filtersExpanded;
     }
 
-    // Country, Language, Products: the property to set is the input's data-field.
-    handleValueChange(event) {
-        this[event.target.dataset.field] = event.detail.value;
+    handleProductsChange(event) {
+        this.selectedProducts = event.detail.value;
         this.resetSearches();
     }
 
-    handleMediaChange(event) {
+    // Country, Language (mono-select) and Media: the property to set is the list's data-field; the Type sections are reloaded on the way to step 2.
+    handleSettingChange(event) {
         if (event.detail.isSearchChange) return;
-        this.selectedMedia = event.detail.selectedValues || [];
+        this[event.target.dataset.field] = event.detail.selectedValues;
+        this.isContentOptionsStale = true;
         this.resetSearches();
     }
 
     handleTypeChange(event) {
-        const type = event.target.dataset.type;
-        const typeSections = this.typeSections.map(section => (section.type === type ? { ...section, selected: event.detail.value } : section));
+        const typeName = event.target.dataset.type;
+        const typeSections = this.typeSections.map(section => (section.typeName === typeName ? { ...section, selected: event.detail.value } : section));
         this.updateTab(this.activeTabId, { typeSections, hasSearched: false });
     }
 
@@ -396,7 +372,7 @@ export default class BuildDisclaimer extends NavigationMixin(LightningElement) {
         typeSections
             .filter(section => section.selected.length)
             .forEach(section => {
-                subTypesByType[section.type] = [...new Set([...(subTypesByType[section.type] || []), ...section.selected])];
+                subTypesByType[section.typeName] = [...new Set([...(subTypesByType[section.typeName] || []), ...section.selected])];
             });
         return {
             products: this.selectedProducts,
