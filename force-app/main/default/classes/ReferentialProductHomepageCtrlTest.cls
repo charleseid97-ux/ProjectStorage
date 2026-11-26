@@ -16,9 +16,9 @@ public class ReferentialProductHomepageCtrlTest {
         insert s0;
         insert s1;
 
-        Product__c p0 = new Product__c(Name='P0', FundStrategy__c=s0.Id, ProductName__c='Product Zero', InternalShortName__c='CC27', Record_Type_Name__c = 'Fund', RecordTypeId=fundRecordTypeId, Validity__c=true, LegalForm__c='SICAV',VehicleType__c='Funds', Scope__c='IS');
-        Product__c p1 = new Product__c(Name='P1', FundStrategy__c=s1.Id, ProductName__c='Product One', Record_Type_Name__c = 'Fund', RecordTypeId=fundRecordTypeId, Validity__c=true, Scope__c='IS');
-        Product__c p2 = new Product__c(Name='P2', FundStrategy__c=s1.Id, ProductName__c='Product Inactif', Record_Type_Name__c = 'Fund', RecordTypeId=fundRecordTypeId, Validity__c=false);
+        Product__c p0 = new Product__c(Name='P0', FundStrategy__c=s0.Id, ProductName__c='Product Zero', InternalShortName__c='CC27', RecordTypeId=fundRecordTypeId, Validity__c=true, LegalForm__c='SICAV',VehicleType__c='Funds', Scope__c='IS');
+        Product__c p1 = new Product__c(Name='P1', FundStrategy__c=s1.Id, ProductName__c='Product One', RecordTypeId=fundRecordTypeId, Validity__c=true, Scope__c='IS');
+        Product__c p2 = new Product__c(Name='P2', FundStrategy__c=s1.Id, ProductName__c='Product Inactif', RecordTypeId=fundRecordTypeId, Validity__c=false);
 
         insert p0;
         insert p1;

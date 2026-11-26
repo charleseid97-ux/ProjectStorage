@@ -1,10 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Package xmlns="http://soap.sforce.com/2006/04/metadata">
     <types>
-        <members>ProductTileListWTP</members>
-        <name>AuraDefinitionBundle</name>
-    </types>
-    <types>
         <members>Batch_DataMngt_MeetingNotes</members>
         <members>CTL_AudienceManagement</members>
         <members>CTL_AudienceManagementTest</members>
@@ -14,6 +10,15 @@
         <members>CTL_SearchSubscriptionProductTest</members>
         <members>ProductSelectionCtrl</members>
         <members>WTPSelectorController</members>
+        <members>CaseProductUpdateTest</members>
+        <members>DigitalInteractionTest</members>
+        <members>NDA_CtrlTest</members>
+        <members>ProductTriggerTest</members>
+        <members>ReferentialProductHomepageCtrlTest</members>
+        <members>ShareclassTriggerTest</members>
+        <members>Test_FieldHistoryLogger</members>
+        <members>Test_FieldModificationController</members>
+        <members>Test_TaxEmailService</members>
         <name>ApexClass</name>
     </types>
     <types>
@@ -26,6 +31,12 @@
         <members>meetingNote</members>
         <members>meetingNoteAI</members>
         <name>LightningComponentBundle</name>
+    </types>
+    <types>
+        <members>Share_Class__c.Strategy__c</members>
+        <members>Flow__c.TECH_StrategyFormula__c</members>
+        <members>Web_Communication__c.Fund__c</members>
+        <name>CustomField</name>
     </types>
     <version>64.0</version>
 </Package>
