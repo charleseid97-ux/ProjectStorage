@@ -1,8 +1,34 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Package xmlns="http://soap.sforce.com/2006/04/metadata">
     <types>
-        <members>GridDetailTableController</members>
+        <members>ProductSelectionCtrl</members>
+        <members>ProductSelectionCtrlTest</members>
+        <members>WTPProductSelectorController</members>
+        <members>WTPProductSelectorControllerTest</members>
+        <members>WTPSelectorController</members>
+        <members>WTPSelectorControllerTest</members>
         <name>ApexClass</name>
+    </types>
+    <types>
+        <members>Work_Together_Process_Record_Page4</members>
+        <members>Work_Together_Process_Record_PageDPM</members>
+        <members>Work_Together_Process_Record_Page_Admin_MI</members>
+        <name>FlexiPage</name>
+    </types>
+    <types>
+        <members>WTP_Product_Selector</members>
+        <members>WTP_Product_Selector_Delete_Related_Share_Classes</members>
+        <name>Flow</name>
+    </types>
+    <types>
+        <members>flowModal</members>
+        <members>wtpProductSelector</members>
+        <members>wtpProductSelectorAction</members>
+        <name>LightningComponentBundle</name>
+    </types>
+    <types>
+        <members>Case.Add_Products_Share_Classes</members>
+        <name>QuickAction</name>
     </types>
     <version>64.0</version>
 </Package>
