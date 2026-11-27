@@ -19,7 +19,8 @@
  *              An invalid condition throws a LogicalRuleException naming the rule: a disclaimer must never silently miss a narrative.
  * @author Charles EID
  * @testClass DisclaimerBuilderControllerTest
- * @coverage 100%   [20-11-26]
+ * @coverage 100%   [26-11-26]
+ * @lastModifiedBy Charles EID   [26-11-26]
  ────────────────────────────────────── */
 public with sharing class DisclaimerLogicalRules {
 
@@ -58,8 +59,7 @@ public with sharing class DisclaimerLogicalRules {
 
     public class LogicalRuleException extends Exception {}
 
-    /** Narratives found by the builder, in their order, without the Logical Rule narratives whose rule does not pass for the selected products
-     *      (InternalShortName__c values). The narratives must carry Type__c, SubType__c and Product__c. */
+    // Narratives found by the builder, in their order, without the Logical Rule narratives whose rule does not pass for the selected products (InternalShortName__c values); the narratives must carry Type__c, SubType__c and Product__c
     public static List<Narrative__c> filter(List<Narrative__c> narratives, List<String> productNames) {
         List<Narrative__c> ruleNarratives = new List<Narrative__c>();
         for (Narrative__c narrative : narratives) {
@@ -78,83 +78,19 @@ public with sharing class DisclaimerLogicalRules {
 
     // Result of each Logical Rule narrative, in their order
     private static List<Boolean> evaluate(List<Narrative__c> ruleNarratives, List<String> productNames) {
+        RuleEvaluation evaluation = new RuleEvaluation(ruleNarratives, productNames);
+        List<Boolean> results = new List<Boolean>();
+        for (Narrative__c narrative : ruleNarratives) results.add(evaluation.passes(narrative));
+        return results;
+    }
+
+    // Sub Types of the Logical Rule narratives: the DeveloperNames of their rules
+    private static Set<String> getRuleNames(List<Narrative__c> ruleNarratives) {
         Set<String> names = new Set<String>();
         for (Narrative__c narrative : ruleNarratives) {
             if (String.isNotBlank(narrative.SubType__c)) names.add(narrative.SubType__c);
         }
-
-        // Rules whose number of products and products criteria pass (lower-case DeveloperName keys), their conditions grouped by the object they read
-        String numberOfProducts = productNames.isEmpty() ? NO_PRODUCT : productNames.size() == 1 ? ONE_PRODUCT : MULTIPLE_PRODUCTS;
-        Map<String, DisclaimerLogicalRule__mdt> ruleByName = new Map<String, DisclaimerLogicalRule__mdt>();
-        Map<String, FormulaEvaluatorService> conditionByName = new Map<String, FormulaEvaluatorService>();
-        Map<Schema.SObjectType, List<FormulaEvaluatorService>> conditionsByType = new Map<Schema.SObjectType, List<FormulaEvaluatorService>>{
-            Narrative__c.SObjectType   => new List<FormulaEvaluatorService>(),
-            Product__c.SObjectType     => new List<FormulaEvaluatorService>(),
-            Share_Class__c.SObjectType => new List<FormulaEvaluatorService>()
-        };
-        for (DisclaimerLogicalRule__mdt rule : getRules(names)) {
-            if (String.isNotBlank(rule.NumberOfProducts__c) && rule.NumberOfProducts__c != numberOfProducts) continue;
-            if (String.isNotBlank(rule.Products__c) && !containsAny(productNames, rule.Products__c.split(PRODUCTS_SEPARATOR))) continue;
-            String name = rule.DeveloperName.toLowerCase();
-            ruleByName.put(name, rule);
-            if (String.isBlank(rule.Condition__c)) continue;
-
-            Schema.SObjectType objectType = TYPE_BY_SCOPE.get(getScope(rule));
-            if (objectType == null) throw new LogicalRuleException(rule.DeveloperName + ': unknown Condition Scope ' + rule.ConditionScope__c + ', one of ' + String.join(new List<String>(TYPE_BY_SCOPE.keySet()), ', ') + '.');
-            FormulaEvaluatorService condition = compile(rule, objectType);
-            conditionByName.put(name, condition);
-            conditionsByType.get(objectType).add(condition);
-        }
-
-        Boolean hasProductNarrative = false;
-        Set<Id> narrativeIds = new Set<Id>();
-        for (Narrative__c narrative : ruleNarratives) {
-            if (!ruleByName.containsKey(narrative.SubType__c?.toLowerCase())) continue;
-            if (narrative.Product__c != null) hasProductNarrative = true;
-            if (narrative.Id != null) narrativeIds.add(narrative.Id);
-        }
-
-        // Records the conditions read, in system mode: rules are configuration and must not depend on the user's field access
-        Map<Schema.SObjectType, List<SObject>> recordsByType = new Map<Schema.SObjectType, List<SObject>>{
-            Product__c.SObjectType     => new List<SObject>(),
-            Share_Class__c.SObjectType => new List<SObject>()
-        };
-        if (!productNames.isEmpty() && (hasProductNarrative || !conditionsByType.get(Product__c.SObjectType).isEmpty())) {
-            recordsByType.put(Product__c.SObjectType, queryRecords(Product__c.SObjectType, conditionsByType, 'InternalShortName__c IN :names', productNames));
-        }
-        if (!productNames.isEmpty() && !conditionsByType.get(Share_Class__c.SObjectType).isEmpty()) {
-            recordsByType.put(Share_Class__c.SObjectType, queryRecords(Share_Class__c.SObjectType, conditionsByType, 'Fund__r.InternalShortName__c IN :names AND Validity__c = true', productNames));
-        }
-        Map<Id, Narrative__c> narrativeById = new Map<Id, Narrative__c>();
-        List<FormulaEvaluatorService> narrativeConditions = conditionsByType.get(Narrative__c.SObjectType);
-        if (!narrativeConditions.isEmpty() && !narrativeIds.isEmpty()) {
-            narrativeById = new Map<Id, Narrative__c>((List<Narrative__c>) FormulaEvaluatorService.queryRecords(Narrative__c.SObjectType, narrativeIds,
-                FormulaEvaluatorService.getQueryFields(narrativeConditions, null), AccessLevel.SYSTEM_MODE));
-        }
-
-        Set<Id> productIds = new Map<Id, SObject>(recordsByType.get(Product__c.SObjectType)).keySet();
-        Map<String, Boolean> resultByName = new Map<String, Boolean>();
-        List<Boolean> results = new List<Boolean>();
-        for (Narrative__c narrative : ruleNarratives) {
-            String name = narrative.SubType__c?.toLowerCase();
-            Boolean passes = ruleByName.containsKey(name) && (narrative.Product__c == null || productIds.contains(narrative.Product__c));
-            FormulaEvaluatorService condition = passes ? conditionByName.get(name) : null;
-            if (condition != null) {
-                String scope = getScope(ruleByName.get(name));
-                if (scope == NARRATIVE_SCOPE) {
-                    passes = condition.evaluateBoolean(narrativeById.get(narrative.Id) ?? narrative);
-                }
-                else {
-                    if (!resultByName.containsKey(name)) {
-                        List<SObject> records = recordsByType.get(TYPE_BY_SCOPE.get(scope));
-                        resultByName.put(name, AT_LEAST_ONE_SCOPES.contains(scope) ? condition.evaluateAny(records) : condition.evaluateEvery(records));
-                    }
-                    passes = resultByName.get(name);
-                }
-            }
-            results.add(passes);
-        }
-        return results;
+        return names;
     }
 
     private static List<DisclaimerLogicalRule__mdt> getRules(Set<String> names) {
@@ -170,8 +106,21 @@ public with sharing class DisclaimerLogicalRules {
         return found;
     }
 
+    // Number of products and products criteria of the rule, each passing when empty
+    private static Boolean passesProductCriteria(DisclaimerLogicalRule__mdt rule, String numberOfProducts, List<String> productNames) {
+        if (String.isNotBlank(rule.NumberOfProducts__c) && rule.NumberOfProducts__c != numberOfProducts) return false;
+        return String.isBlank(rule.Products__c) || containsAny(productNames, rule.Products__c.split(PRODUCTS_SEPARATOR));
+    }
+
     private static String getScope(DisclaimerLogicalRule__mdt rule) {
         return String.isBlank(rule.ConditionScope__c) ? ALL_PRODUCTS : rule.ConditionScope__c;
+    }
+
+    // Object the rule's condition reads, from its Condition Scope
+    private static Schema.SObjectType getConditionType(DisclaimerLogicalRule__mdt rule) {
+        Schema.SObjectType objectType = TYPE_BY_SCOPE.get(getScope(rule));
+        if (objectType == null) throw new LogicalRuleException(rule.DeveloperName + ': unknown Condition Scope ' + rule.ConditionScope__c + ', one of ' + String.join(new List<String>(TYPE_BY_SCOPE.keySet()), ', ') + '.');
+        return objectType;
     }
 
     // Condition compiled on its scope's object, its fields written directly
@@ -184,17 +133,100 @@ public with sharing class DisclaimerLogicalRules {
         }
     }
 
-    // Products or share classes of the selection (bound as :names) with every field their conditions read
-    private static List<SObject> queryRecords(Schema.SObjectType objectType, Map<Schema.SObjectType, List<FormulaEvaluatorService>> conditionsByType, String whereClause, List<String> productNames) {
-        return FormulaEvaluatorService.queryRecords(objectType, FormulaEvaluatorService.getQueryFields(conditionsByType.get(objectType), null), whereClause,
-            new Map<String, Object>{ 'names' => productNames }, AccessLevel.SYSTEM_MODE);
-    }
-
     private static Boolean containsAny(List<String> selectedNames, List<String> ruleNames) {
         Set<String> selected = new Set<String>(selectedNames);
         for (String ruleName : ruleNames) {
             if (selected.contains(ruleName.trim())) return true;
         }
         return false;
+    }
+
+    // One evaluation of the Logical Rule narratives for the selected products: the rules whose number of products and products criteria pass (lower-case DeveloperName keys), their conditions grouped by the object they read, and the records these read
+    private class RuleEvaluation {
+        private List<String> productNames;
+        private Map<String, DisclaimerLogicalRule__mdt> ruleByName = new Map<String, DisclaimerLogicalRule__mdt>();
+        private Map<String, FormulaEvaluatorService> conditionByName = new Map<String, FormulaEvaluatorService>();
+        private Map<Schema.SObjectType, List<FormulaEvaluatorService>> conditionsByType = new Map<Schema.SObjectType, List<FormulaEvaluatorService>>{
+            Narrative__c.SObjectType   => new List<FormulaEvaluatorService>(),
+            Product__c.SObjectType     => new List<FormulaEvaluatorService>(),
+            Share_Class__c.SObjectType => new List<FormulaEvaluatorService>()
+        };
+        private Map<Schema.SObjectType, List<SObject>> recordsByType = new Map<Schema.SObjectType, List<SObject>>{
+            Product__c.SObjectType     => new List<SObject>(),
+            Share_Class__c.SObjectType => new List<SObject>()
+        };
+        private Map<Id, Narrative__c> narrativeById = new Map<Id, Narrative__c>();
+        private Set<Id> productIds = new Set<Id>();
+        // Result of each product or share class condition, evaluated once per rule, not once per narrative
+        private Map<String, Boolean> resultByName = new Map<String, Boolean>();
+
+        private RuleEvaluation(List<Narrative__c> ruleNarratives, List<String> productNames) {
+            this.productNames = productNames;
+            loadRules(ruleNarratives);
+            loadRecords(ruleNarratives);
+        }
+
+        // Narrative kept when its rule passed the product criteria, its product (if any) is selected and its condition (if any) passes
+        private Boolean passes(Narrative__c narrative) {
+            String name = narrative.SubType__c?.toLowerCase();
+            if (!ruleByName.containsKey(name) || (narrative.Product__c != null && !productIds.contains(narrative.Product__c))) return false;
+            FormulaEvaluatorService condition = conditionByName.get(name);
+            if (condition == null) return true;
+            String scope = getScope(ruleByName.get(name));
+            if (scope == NARRATIVE_SCOPE) return condition.evaluateBoolean(narrativeById.get(narrative.Id) ?? narrative);
+            if (!resultByName.containsKey(name)) {
+                List<SObject> records = recordsByType.get(TYPE_BY_SCOPE.get(scope));
+                resultByName.put(name, AT_LEAST_ONE_SCOPES.contains(scope) ? condition.evaluateAny(records) : condition.evaluateEvery(records));
+            }
+            return resultByName.get(name);
+        }
+
+        // Rules of the narratives whose number of products and products criteria pass, their conditions compiled on their scope's object
+        private void loadRules(List<Narrative__c> ruleNarratives) {
+            String numberOfProducts = productNames.isEmpty() ? NO_PRODUCT : productNames.size() == 1 ? ONE_PRODUCT : MULTIPLE_PRODUCTS;
+            List<DisclaimerLogicalRule__mdt> foundRules = getRules(getRuleNames(ruleNarratives));
+            for (DisclaimerLogicalRule__mdt rule : foundRules) {
+                if (!passesProductCriteria(rule, numberOfProducts, productNames)) continue;
+                String name = rule.DeveloperName.toLowerCase();
+                ruleByName.put(name, rule);
+                if (String.isBlank(rule.Condition__c)) continue;
+
+                Schema.SObjectType objectType = getConditionType(rule);
+                FormulaEvaluatorService condition = compile(rule, objectType);
+                conditionByName.put(name, condition);
+                conditionsByType.get(objectType).add(condition);
+            }
+        }
+
+        // Records the conditions read, in system mode: rules are configuration and must not depend on the user's field access
+        private void loadRecords(List<Narrative__c> ruleNarratives) {
+            Boolean hasProductNarrative = false;
+            Set<Id> narrativeIds = new Set<Id>();
+            for (Narrative__c narrative : ruleNarratives) {
+                if (!ruleByName.containsKey(narrative.SubType__c?.toLowerCase())) continue;
+                if (narrative.Product__c != null) hasProductNarrative = true;
+                if (narrative.Id != null) narrativeIds.add(narrative.Id);
+            }
+
+            if (!productNames.isEmpty() && (hasProductNarrative || hasConditions(Product__c.SObjectType))) queryRecords(Product__c.SObjectType, 'InternalShortName__c IN :names');
+            if (!productNames.isEmpty() && hasConditions(Share_Class__c.SObjectType)) queryRecords(Share_Class__c.SObjectType, 'Fund__r.InternalShortName__c IN :names AND Validity__c = true');
+            if (hasConditions(Narrative__c.SObjectType) && !narrativeIds.isEmpty()) {
+                Set<String> fields = FormulaEvaluatorService.getQueryFields(conditionsByType.get(Narrative__c.SObjectType), null);
+                List<Narrative__c> narratives = (List<Narrative__c>) FormulaEvaluatorService.queryRecords(Narrative__c.SObjectType, narrativeIds, fields, AccessLevel.SYSTEM_MODE);
+                narrativeById = new Map<Id, Narrative__c>(narratives);
+            }
+            productIds = new Map<Id, SObject>(recordsByType.get(Product__c.SObjectType)).keySet();
+        }
+
+        private Boolean hasConditions(Schema.SObjectType objectType) {
+            return !conditionsByType.get(objectType).isEmpty();
+        }
+
+        // Products or share classes of the selection (bound as :names) with every field their conditions read
+        private void queryRecords(Schema.SObjectType objectType, String whereClause) {
+            Set<String> fields = FormulaEvaluatorService.getQueryFields(conditionsByType.get(objectType), null);
+            List<SObject> records = FormulaEvaluatorService.queryRecords(objectType, fields, whereClause, new Map<String, Object>{ 'names' => productNames }, AccessLevel.SYSTEM_MODE);
+            recordsByType.put(objectType, records);
+        }
     }
 }
