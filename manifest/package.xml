@@ -1,42 +1,128 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Package xmlns="http://soap.sforce.com/2006/04/metadata">
     <types>
-        <members>Batch_DataMngt_MeetingNotes</members>
-        <members>CTL_AudienceManagement</members>
-        <members>CTL_AudienceManagementTest</members>
-        <members>CTL_MeetingNotes</members>
-        <members>CTL_MeetingNotesTest</members>
-        <members>CTL_SearchSubscriptionProduct</members>
-        <members>CTL_SearchSubscriptionProductTest</members>
-        <members>ProductSelectionCtrl</members>
-        <members>WTPSelectorController</members>
-        <members>CaseProductUpdateTest</members>
-        <members>DigitalInteractionTest</members>
-        <members>NDA_CtrlTest</members>
-        <members>ProductTriggerTest</members>
-        <members>ReferentialProductHomepageCtrlTest</members>
-        <members>ShareclassTriggerTest</members>
-        <members>Test_FieldHistoryLogger</members>
-        <members>Test_FieldModificationController</members>
-        <members>Test_TaxEmailService</members>
-        <name>ApexClass</name>
+        <members>PMTEmailTemplates</members>
+        <name>EmailTemplateFolder</name>
     </types>
     <types>
-        <members>PMT_Narratives_Duplicates_Narrative</members>
+        <members>PMTEmailTemplates/PMTGoLiveEmailTemplate</members>
+        <members>PMTEmailTemplates/PMTSPCFinalValidationCreation</members>
+        <members>PMTEmailTemplates/PMTSPCFinalValidationModification</members>
+        <members>PMTEmailTemplates/PMTMilestoneCompletedTeams</members>
+        <members>PMTEmailTemplates/PMTLaunchDateChangeTeams</members>
+        <members>PMTEmailTemplates/PMTRoadToMarketActivatedTeams</members>
+        <members>PMTEmailTemplates/PMTDocumentNotifyAllOwnersTeams</members>
+        <name>EmailTemplate</name>
+    </types>
+    <types>
+        <members>CustomEmailAlert.PMTGoLiveNotification</members>
+        <members>CustomEmailAlert.PMTSPCFinalValidationCreation</members>
+        <members>CustomEmailAlert.PMTSPCFinalValidationModification</members>
+
+        <!-- PMT Go Live Recipients -->
+        <members>CustomEmailRecipient.PMTGoLiveNotificationTo1</members>
+        <members>CustomEmailRecipient.PMTGoLiveNotificationTo2</members>
+        <members>CustomEmailRecipient.PMTGoLiveNotificationTo3</members>
+        <members>CustomEmailRecipient.PMTGoLiveNotificationTo4</members>
+        <members>CustomEmailRecipient.PMTGoLiveNotificationTo5</members>
+        <members>CustomEmailRecipient.PMTGoLiveNotificationTo6</members>
+        <members>CustomEmailRecipient.PMTGoLiveNotificationTo7</members>
+        <members>CustomEmailRecipient.PMTGoLiveNotificationTo8</members>
+        <members>CustomEmailRecipient.PMTGoLiveNotificationTo9</members>
+        <members>CustomEmailRecipient.PMTGoLiveNotificationTo10</members>
+        <members>CustomEmailRecipient.PMTGoLiveNotificationTo11</members>
+        <members>CustomEmailRecipient.PMTGoLiveNotificationTo12</members>
+        <members>CustomEmailRecipient.PMTGoLiveNotificationTo13</members>
+        <members>CustomEmailRecipient.PMTGoLiveNotificationTo14</members>
+
+        <!-- SPC Final Validation - Creation -->
+        <members>CustomEmailRecipient.PMTSPCFinalValidationCreationTo1</members>
+        <members>CustomEmailRecipient.PMTSPCFinalValidationCreationTo2</members>
+        <members>CustomEmailRecipient.PMTSPCFinalValidationCreationTo3</members>
+        <members>CustomEmailRecipient.PMTSPCFinalValidationCreationTo4</members>
+        <members>CustomEmailRecipient.PMTSPCFinalValidationCreationTo5</members>
+        <members>CustomEmailRecipient.PMTSPCFinalValidationCreationTo6</members>
+        <members>CustomEmailRecipient.PMTSPCFinalValidationCreationTo7</members>
+        <members>CustomEmailRecipient.PMTSPCFinalValidationCreationTo8</members>
+        <members>CustomEmailRecipient.PMTSPCFinalValidationCreationTo9</members>
+        <members>CustomEmailRecipient.PMTSPCFinalValidationCreationTo10</members>
+        <members>CustomEmailRecipient.PMTSPCFinalValidationCreationTo11</members>
+        <members>CustomEmailRecipient.PMTSPCFinalValidationCreationTo12</members>
+        <members>CustomEmailRecipient.PMTSPCFinalValidationCreationTo13</members>
+        <members>CustomEmailRecipient.PMTSPCFinalValidationCreationTo14</members>
+
+        <!-- SPC Final Validation - Modification -->
+        <members>CustomEmailRecipient.PMTSPCFinalValidationModificationTo1</members>
+        <members>CustomEmailRecipient.PMTSPCFinalValidationModificationTo2</members>
+        <members>CustomEmailRecipient.PMTSPCFinalValidationModificationTo3</members>
+        <members>CustomEmailRecipient.PMTSPCFinalValidationModificationTo4</members>
+        <members>CustomEmailRecipient.PMTSPCFinalValidationModificationTo5</members>
+        <members>CustomEmailRecipient.PMTSPCFinalValidationModificationTo6</members>
+        <members>CustomEmailRecipient.PMTSPCFinalValidationModificationTo7</members>
+        <members>CustomEmailRecipient.PMTSPCFinalValidationModificationTo8</members>
+        <members>CustomEmailRecipient.PMTSPCFinalValidationModificationTo9</members>
+        <members>CustomEmailRecipient.PMTSPCFinalValidationModificationTo10</members>
+        <members>CustomEmailRecipient.PMTSPCFinalValidationModificationTo11</members>
+        <members>CustomEmailRecipient.PMTSPCFinalValidationModificationTo12</members>
+        <members>CustomEmailRecipient.PMTSPCFinalValidationModificationTo13</members>
+        <members>CustomEmailRecipient.PMTSPCFinalValidationModificationTo14</members>
+
+        <!-- CustomTeamsMessage -->
+        <members>CustomTeamsMessage.PMTMilestoneCompleted</members>
+        <members>CustomTeamsMessage.PMTLaunchDateChange</members>
+        <members>CustomTeamsMessage.PMTRoadToMarketActivated</members>
+        <members>CustomTeamsMessage.PMTDocumentNotifyAllOwners</members>
+
+        <!-- CustomTeamsMessage Recipients -->
+        <members>CustomEmailRecipient.PMTMilestoneCompleted1</members>
+        <members>CustomEmailRecipient.PMTLaunchDateChange1</members>
+        <members>CustomEmailRecipient.PMTRoadToMarketActivated1</members>
+        <members>CustomEmailRecipient.PMTDocumentNotifyAllOwners1</members>
+        
+        <members>PMTTeam.ESG</members>
+        <name>CustomMetadata</name>
+    </types>
+    <types>
+        <members>PMT_Benchmark_techno_fund_Management_Notification_Setup</members>
+        <members>FL_PMT_EmailNotifications</members>
+        <members>FL_SendEmailForBenchmarkCreation</members>
+        <members>FL_7_days_before_Notification</members>
+        <members>PMT_Email_Notification_Milestone_Filing_in_7_days</members>
+        <members>Reminder_Notice_to_Shareholders_J_60</members>
+        <members>FL_SPCFinalEmailNotification</members>
+        <members>PMT_Teams_Send_Message</members>
+        <members>Teams_Send_Message_Launch_Date_Change</members>
+        <members>Teams_Send_Message_Milestone_Completed</members>
+        <members>Teams_Send_Message</members>
         <name>Flow</name>
     </types>
     <types>
-        <members>audienceManagementSelection</members>
-        <members>textProcessor</members>
-        <members>meetingNote</members>
-        <members>meetingNoteAI</members>
-        <name>LightningComponentBundle</name>
+        <members>EmailService</members>
+        <members>EmailServiceTest</members>
+        <members>CustomEmailAlertFlowAction</members>
+        <members>WS_GetUserGraphApi</members>
+        <members>TeamsMessageService</members>
+        <members>TeamsMessageQueueable</members>
+        <members>CustomTeamsMessageFlowAction</members>
+        <members>PMTTeamOwnerRecipients</members>
+        <members>TeamsMessageServiceTest</members>
+        <name>ApexClass</name>
     </types>
     <types>
-        <members>Share_Class__c.Strategy__c</members>
-        <members>Flow__c.TECH_StrategyFormula__c</members>
-        <members>Web_Communication__c.Fund__c</members>
+        <members>CustomTeamsMessage__mdt</members>
+        <members>CustomEmailRecipient__mdt</members>
+        <members>EmailServiceSettings__c</members>
+        <name>CustomObject</name>
+    </types>
+    <types>
+        <members>CustomEmailAlert__mdt.DryRun__c</members>
+        <members>PMTTeam__mdt.NotificationCondition__c</members>
         <name>CustomField</name>
+    </types>
+    <types>
+        <members>CustomTeamsMessage__mdt-Custom Teams Message Layout</members>
+        <members>CustomEmailRecipient__mdt-Custom Email Recipient Layout</members>
+        <name>Layout</name>
     </types>
     <version>64.0</version>
 </Package>
