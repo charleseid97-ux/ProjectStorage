@@ -5,5 +5,10 @@
         <sharedTo>ceid1-crm@carmignac.com</sharedTo>
         <sharedToType>User</sharedToType>
     </folderShares>
+    <folderShares>
+        <accessLevel>Manage</accessLevel>
+        <sharedTo>Administrators</sharedTo>
+        <sharedToType>Group</sharedToType>
+    </folderShares>
     <name>PMT Email Templates and Teams Messages</name>
 </EmailTemplateFolder>
