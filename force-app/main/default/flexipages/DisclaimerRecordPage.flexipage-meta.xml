@@ -116,18 +116,8 @@
                     <name>uiBehavior</name>
                     <value>readonly</value>
                 </fieldInstanceProperties>
-                <fieldItem>Record.SelectedProducts__c</fieldItem>
-                <identifier>RecordSelectedProducts_cField</identifier>
-            </fieldInstance>
-        </itemInstances>
-        <itemInstances>
-            <fieldInstance>
-                <fieldInstanceProperties>
-                    <name>uiBehavior</name>
-                    <value>readonly</value>
-                </fieldInstanceProperties>
-                <fieldItem>Record.SelectedTypesAndSubtypes__c</fieldItem>
-                <identifier>RecordSelectedTypesAndSubtypes_cField</identifier>
+                <fieldItem>Record.SelectedCountry__c</fieldItem>
+                <identifier>RecordSelectedCountry_cField</identifier>
             </fieldInstance>
         </itemInstances>
         <itemInstances>
@@ -140,30 +130,6 @@
                 <identifier>RecordSelectedLanguage_cField</identifier>
             </fieldInstance>
         </itemInstances>
-        <name>Facet-b73e4aa1-adc1-4d19-ae46-b7d153f27059</name>
-        <type>Facet</type>
-    </flexiPageRegions>
-    <flexiPageRegions>
-        <itemInstances>
-            <fieldInstance>
-                <fieldInstanceProperties>
-                    <name>uiBehavior</name>
-                    <value>readonly</value>
-                </fieldInstanceProperties>
-                <fieldItem>Record.SelectedSources__c</fieldItem>
-                <identifier>RecordSelectedSources_cField</identifier>
-            </fieldInstance>
-        </itemInstances>
-        <itemInstances>
-            <fieldInstance>
-                <fieldInstanceProperties>
-                    <name>uiBehavior</name>
-                    <value>readonly</value>
-                </fieldInstanceProperties>
-                <fieldItem>Record.SelectedCountry__c</fieldItem>
-                <identifier>RecordSelectedCountry_cField</identifier>
-            </fieldInstance>
-        </itemInstances>
         <itemInstances>
             <fieldInstance>
                 <fieldInstanceProperties>
@@ -172,6 +138,36 @@
                 </fieldInstanceProperties>
                 <fieldItem>Record.SelectedMedia__c</fieldItem>
                 <identifier>RecordSelectedMedia_cField</identifier>
+            </fieldInstance>
+        </itemInstances>
+        <name>Facet-b73e4aa1-adc1-4d19-ae46-b7d153f27059</name>
+        <type>Facet</type>
+    </flexiPageRegions>
+    <flexiPageRegions>
+        <itemInstances>
+            <componentInstance>
+                <componentName>flexipage:blankSpace</componentName>
+                <identifier>flexipage_blankSpace</identifier>
+            </componentInstance>
+        </itemInstances>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>readonly</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.SelectedProducts__c</fieldItem>
+                <identifier>RecordSelectedProducts_cField</identifier>
+            </fieldInstance>
+        </itemInstances>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>readonly</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.SelectedTypesAndSubtypes__c</fieldItem>
+                <identifier>RecordSelectedTypesAndSubtypes_cField</identifier>
             </fieldInstance>
         </itemInstances>
         <name>Facet-10f0ea5d-617f-450a-a3c2-abf1fdf311d3</name>

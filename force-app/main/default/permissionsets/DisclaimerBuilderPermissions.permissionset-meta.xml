@@ -25,6 +25,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>Disclaimer__c.ApprovalStatus__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>Disclaimer__c.SelectedCountry__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -41,11 +46,6 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Disclaimer__c.SelectedProducts__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>Disclaimer__c.SelectedSources__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
