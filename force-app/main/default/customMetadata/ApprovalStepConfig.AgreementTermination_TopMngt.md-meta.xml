@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomMetadata xmlns="http://soap.sforce.com/2006/04/metadata" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <label>Agreement Termination - Top Mngt</label>
+    <protected>false</protected>
+    <values>
+        <field>ApprovalMode__c</field>
+        <value xsi:type="xsd:string">Any</value>
+    </values>
+    <values>
+        <field>EntryCriteria__c</field>
+        <value xsi:nil="true"/>
+    </values>
+    <values>
+        <field>ProcessConfig__c</field>
+        <value xsi:type="xsd:string">AgreementTermination</value>
+    </values>
+    <values>
+        <field>StepLabel__c</field>
+        <value xsi:type="xsd:string">Top Management Approval</value>
+    </values>
+    <values>
+        <field>StepOrder__c</field>
+        <value xsi:type="xsd:double">2.0</value>
+    </values>
+</CustomMetadata>
