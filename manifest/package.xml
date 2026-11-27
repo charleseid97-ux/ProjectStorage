@@ -1,42 +1,54 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Package xmlns="http://soap.sforce.com/2006/04/metadata">
     <types>
-        <members>Batch_DataMngt_MeetingNotes</members>
-        <members>CTL_AudienceManagement</members>
-        <members>CTL_AudienceManagementTest</members>
-        <members>CTL_MeetingNotes</members>
-        <members>CTL_MeetingNotesTest</members>
-        <members>CTL_SearchSubscriptionProduct</members>
-        <members>CTL_SearchSubscriptionProductTest</members>
-        <members>ProductSelectionCtrl</members>
-        <members>WTPSelectorController</members>
-        <members>CaseProductUpdateTest</members>
-        <members>DigitalInteractionTest</members>
-        <members>NDA_CtrlTest</members>
-        <members>ProductTriggerTest</members>
-        <members>ReferentialProductHomepageCtrlTest</members>
-        <members>ShareclassTriggerTest</members>
-        <members>Test_FieldHistoryLogger</members>
-        <members>Test_FieldModificationController</members>
-        <members>Test_TaxEmailService</members>
+        <members>AgreementHOCApproverResolver</members>
+        <members>AgreementTopManagementApproverResolver</members>
         <name>ApexClass</name>
     </types>
     <types>
-        <members>PMT_Narratives_Duplicates_Narrative</members>
-        <name>Flow</name>
-    </types>
-    <types>
-        <members>audienceManagementSelection</members>
-        <members>textProcessor</members>
-        <members>meetingNote</members>
-        <members>meetingNoteAI</members>
+        <members>conventionSubmitAgreementTermination</members>
+        <members>conventionSubmitForApproval</members>
         <name>LightningComponentBundle</name>
     </types>
     <types>
-        <members>Share_Class__c.Strategy__c</members>
-        <members>Flow__c.TECH_StrategyFormula__c</members>
-        <members>Web_Communication__c.Fund__c</members>
-        <name>CustomField</name>
+        <members>Convention__c.SubmitAgreementTermination</members>
+        <members>Convention__c.SubmitForApproval</members>
+        <name>QuickAction</name>
     </types>
-    <version>64.0</version>
+    <types>
+        <members>ApprovalActionConfig.AgreementReqApproval_ComplApproval</members>
+        <members>ApprovalActionConfig.AgreementReqApproval_DCODOApproval</members>
+        <members>ApprovalActionConfig.AgreementReqApproval_FinalApproval</members>
+        <members>ApprovalActionConfig.AgreementReqApproval_FinalRejection</members>
+        <members>ApprovalActionConfig.AgreementReqApproval_HOCApproval</members>
+        <members>ApprovalActionConfig.AgreementReqApproval_InitSubmission</members>
+        <members>ApprovalActionConfig.AgreementReqApproval_Recall</members>
+        <members>ApprovalActionConfig.AgreementTermination_FinalApproval</members>
+        <members>ApprovalActionConfig.AgreementTermination_FinalRejection</members>
+        <members>ApprovalActionConfig.AgreementTermination_HOCApproval</members>
+        <members>ApprovalActionConfig.AgreementTermination_InitSubmission</members>
+        <members>ApprovalActionConfig.AgreementTermination_Recall</members>
+        <members>ApprovalActionConfig.AgreementTermination_TopMgtApproval</members>
+        <members>ApprovalProcessConfig.AgreementRequestApproval</members>
+        <members>ApprovalProcessConfig.AgreementTermination</members>
+        <members>ApprovalStepApproverConfig.AgreementRequestApproval_Compliance</members>
+        <members>ApprovalStepApproverConfig.AgreementRequestApproval_DCORebate</members>
+        <members>ApprovalStepApproverConfig.AgreementRequestApproval_DOKYD</members>
+        <members>ApprovalStepApproverConfig.AgreementRequestApproval_HOC</members>
+        <members>ApprovalStepApproverConfig.AgreementRequestApproval_Legal</members>
+        <members>ApprovalStepApproverConfig.AgreementRequestApproval_TopMngt</members>
+        <members>ApprovalStepApproverConfig.AgreementTermination_HOC</members>
+        <members>ApprovalStepApproverConfig.AgreementTermination_Legal</members>
+        <members>ApprovalStepApproverConfig.AgreementTermination_TopMngt</members>
+        <members>ApprovalStepConfig.AgreementRequestApproval_Compliance</members>
+        <members>ApprovalStepConfig.AgreementRequestApproval_DCODO</members>
+        <members>ApprovalStepConfig.AgreementRequestApproval_HOC</members>
+        <members>ApprovalStepConfig.AgreementRequestApproval_Legal</members>
+        <members>ApprovalStepConfig.AgreementRequestApproval_TopMngt</members>
+        <members>ApprovalStepConfig.AgreementTermination_HOC</members>
+        <members>ApprovalStepConfig.AgreementTermination_Legal</members>
+        <members>ApprovalStepConfig.AgreementTermination_TopMngt</members>
+        <name>CustomMetadata</name>
+    </types>
+    <version>66.0</version>
 </Package>
