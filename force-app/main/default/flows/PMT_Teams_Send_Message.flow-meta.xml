@@ -1,41 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Flow xmlns="http://soap.sforce.com/2006/04/metadata">
     <actionCalls>
-        <name>SendTeamsMessage</name>
-        <label>Send Teams Message</label>
-        <locationX>0</locationX>
-        <locationY>0</locationY>
-        <actionName>CustomTeamsMessageFlowAction</actionName>
-        <actionType>apex</actionType>
-        <flowTransactionModel>Automatic</flowTransactionModel>
-        <inputParameters>
-            <name>recordId</name>
-            <value>
-                <elementReference>$Record.Project_product__c</elementReference>
-            </value>
-        </inputParameters>
-        <inputParameters>
-            <name>replacementTokens</name>
-            <value>
-                <elementReference>CustomTeamsMessageTokens</elementReference>
-            </value>
-        </inputParameters>
-        <inputParameters>
-            <name>replacementValues</name>
-            <value>
-                <elementReference>CustomTeamsMessageValues</elementReference>
-            </value>
-        </inputParameters>
-        <inputParameters>
-            <name>teamsMessageName</name>
-            <value>
-                <stringValue>PMTDocumentNotifyAllOwners</stringValue>
-            </value>
-        </inputParameters>
-        <nameSegment>CustomTeamsMessageFlowAction</nameSegment>
-        <offset>0</offset>
-    </actionCalls>
-    <actionCalls>
         <name>Send_email_to_tax_team</name>
         <label>Send email to tax team</label>
         <locationX>0</locationX>
@@ -82,10 +47,45 @@
         <nameSegment>emailSimple</nameSegment>
         <offset>0</offset>
     </actionCalls>
+    <actionCalls>
+        <name>SendTeamsMessage</name>
+        <label>Send Teams Message</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <actionName>CustomTeamsMessageFlowAction</actionName>
+        <actionType>apex</actionType>
+        <flowTransactionModel>Automatic</flowTransactionModel>
+        <inputParameters>
+            <name>recordId</name>
+            <value>
+                <elementReference>$Record.Project_product__c</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>replacementTokens</name>
+            <value>
+                <elementReference>CustomTeamsMessageTokens</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>replacementValues</name>
+            <value>
+                <elementReference>CustomTeamsMessageValues</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>teamsMessageName</name>
+            <value>
+                <stringValue>PMTDocumentNotifyAllOwners</stringValue>
+            </value>
+        </inputParameters>
+        <nameSegment>CustomTeamsMessageFlowAction</nameSegment>
+        <offset>0</offset>
+    </actionCalls>
     <apiVersion>64.0</apiVersion>
     <areMetricsLoggedToDataCloud>false</areMetricsLoggedToDataCloud>
     <assignments>
-        <description>The document's values, passed as tokens: a template can't be rendered on ProjectDocuments__c (activities not enabled), so the message is rendered on the project.</description>
+        <description>The document&apos;s values, passed as tokens: a template can&apos;t be rendered on ProjectDocuments__c (activities not enabled), so the message is rendered on the project.</description>
         <name>AddDocumentTokens</name>
         <label>Add Document Tokens</label>
         <locationX>0</locationX>

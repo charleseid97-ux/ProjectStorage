@@ -7,7 +7,8 @@
  *                  restricted to the project's Scope where PS and IS are mutually exclusive.
  *              US-20194: the matrix follows the project's conditions (PMTMatrix.forConditions / forProject); resyncConditionalValues
  *                  realigns (asynchronously) the goals and the automatically validated teams when a field read by a condition changes.
- * @lastModifiedBy Charles EID   [22-10-26]
+ *              US-20194 V1.8: resyncPhases reads once the parent records followed by the conditions on the old values (PMTMatrix.loadRelationships).
+ * @lastModifiedBy Charles EID   [18-11-26]
  * @testClass Test_ProjectProductTrigger
  * @coverage 95%   [22-10-26]
  ────────────────────────────────────── */
@@ -106,6 +107,7 @@ public without sharing class ProjectProductSetupHandler {
     // Share class goals (NbOfFieldsGoal__c) of the projects, then their phases not yet Completed (Design excepted), from their values before the change: the fields goal (fundNbOfFields__c) and the teams validated automatically (a team that gains fields at the stage has to validate it, a team left without fields is validated). The share class goals come first: the phase save computes the completion rate from them.
     public static void resyncPhases(Map<Id, ProjectProduct__c> oldProjectProducts) {
         Map<Id, ProjectProduct__c> newProjectProducts = PMTMatrix.loadProjects(oldProjectProducts.keySet());
+        PMTMatrix.loadRelationships(oldProjectProducts.values()); // US-20194 V1.8: the old values (Trigger.old) carry no parent: read once, not per phase
 
         List<ProjectShareclass__c> shareClasses = [SELECT Id FROM ProjectShareclass__c WHERE ProjectProduct__c IN :newProjectProducts.keySet()];
         if (!shareClasses.isEmpty()) {

@@ -3,6 +3,7 @@
     <fullName>Type__c</fullName>
     <label>Type</label>
     <required>false</required>
+    <securityClassification>Confidential</securityClassification>
     <trackTrending>false</trackTrending>
     <type>Picklist</type>
     <valueSet>
@@ -53,6 +54,36 @@
                 <fullName>ESG</fullName>
                 <default>false</default>
                 <label>ESG</label>
+            </value>
+            <value>
+                <fullName>Content</fullName>
+                <default>false</default>
+                <label>Content</label>
+            </value>
+            <value>
+                <fullName>Source</fullName>
+                <default>false</default>
+                <label>Source</label>
+            </value>
+            <value>
+                <fullName>ManCo</fullName>
+                <default>false</default>
+                <label>ManCo</label>
+            </value>
+            <value>
+                <fullName>Audience</fullName>
+                <default>false</default>
+                <label>Audience</label>
+            </value>
+            <value>
+                <fullName>Targeted audience</fullName>
+                <default>false</default>
+                <label>Targeted audience</label>
+            </value>
+            <value>
+                <fullName>Logical Rule</fullName>
+                <default>false</default>
+                <label>Logical Rule</label>
             </value>
             <value>
                 <fullName>Benchmark</fullName>

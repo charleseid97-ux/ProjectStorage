@@ -6,7 +6,6 @@
     <inlineHelpText>The email this recipient receives. Fill it together with Custom Teams Message so the same person also receives the Teams message, or leave it empty for a Teams-only recipient.</inlineHelpText>
     <label>Custom Email Alert</label>
     <referenceTo>CustomEmailAlert__mdt</referenceTo>
-    <relationshipLabel>Custom Email Recipients</relationshipLabel>
     <relationshipName>CustomEmailRecipients</relationshipName>
     <required>false</required>
     <type>MetadataRelationship</type>

@@ -3,11 +3,11 @@
 	<title></title>
 </head>
 <body>
-<b>📅 Launch Date Updated</b><br>
-Project: <b>{{{ProjectProduct__c.Name}}}</b><br>
-New Date: <b>{{{ProjectProduct__c.EndDate__c}}}</b><br><br>
+<b>📅 Launch Date Updated</b><br />
+Project: <b>{{{ProjectProduct__c.Name}}}</b><br />
+New Date: <b>{{{ProjectProduct__c.EndDate__c}}}</b><br /><br />
 🔗 <a href="{{{ProjectProduct__c.Tech_RecordLink__c}}}">View project in Salesforce</a>
-<hr>
+<hr />
 <i>The Product Strategy Team</i>
 </body>
 </html>

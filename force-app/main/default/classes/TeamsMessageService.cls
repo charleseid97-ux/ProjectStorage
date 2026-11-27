@@ -7,7 +7,7 @@
  *              Configuration errors (unknown Teams message, template, queue, group, invalid condition) throw before anything is sent, like emails.
  *              The callouts can't run in the caller's transaction (a record-triggered Flow has pending work): send() hands the messages to TeamsMessageQueueable,
  *                  which logs the recipients it could not reach (LogFailures__c). A message sent to the No Recipient Addresses is logged here (WARN).
- *              Sent from the Microsoft 365 account of the Named Credential (NamedCredential__c, default MicrosoftGraph), exactly like WS_QueueableLauncher.
+ *              Sent from the Microsoft 365 account of the Named Credential (NamedCredential__c, default MicrosoftGraphSF), exactly like WS_QueueableLauncher.
  * @author Charles EID
  * @testClass TeamsMessageServiceTest
  * @coverage 98%   [12-11-26]

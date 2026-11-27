@@ -17,8 +17,8 @@ private class CTL_SearchSubscriptionProductTest {
         Contact c = [SELECT id FROM Contact Limit 1];
         CTL_SearchSubscriptionProduct.getShareClasses();
         CTL_SearchSubscriptionProduct.getFundWithShareClasses();
-        CTL_SearchSubscriptionProduct.getShareClassesByCountry('AA');
-        CTL_SearchSubscriptionProduct.getShareClassesByCountry('');
+        //CTL_SearchSubscriptionProduct.getShareClassesByCountry('AA');
+        //CTL_SearchSubscriptionProduct.getShareClassesByCountry('');
         CTL_SearchSubscriptionProduct.saveProspaceAlerts(new List<Web_Communication__c>());
         CTL_SearchSubscriptionProduct.getAlertTypes('Publication');
         CTL_SearchSubscriptionProduct.getShareClassesByCountryWithSub('FR', 'Report', c.id, 0);

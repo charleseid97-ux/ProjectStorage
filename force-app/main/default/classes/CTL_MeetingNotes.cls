@@ -32,7 +32,7 @@ public without sharing class CTL_MeetingNotes {
     }
     //New Method for Strategy Relationship
     @AuraEnabled(cacheable=true)
-    public static List<Strategy__c> getProducts(String statFilter){
+    public static List<Strategy__c> getStrategies(String statFilter){
         return ([select Id,Code__c, Name from Strategy__c ORDER BY Code__c asc]);
     }
     /*

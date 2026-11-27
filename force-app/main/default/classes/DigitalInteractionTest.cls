@@ -13,7 +13,7 @@ History
 public with sharing class DigitalInteractionTest {
     
 	public static void insertData() {
-        Product__c p0 = new Product__c(Name='Equity', ProductName__c='Equity', Record_Type_Name__c = 'Asset Class');
+        Product__c p0 = new Product__c(Name='Equity', ProductName__c='Equity');
         insert p0;
         Contact testContact = CommonTestData.AccContact;
         testContact.Bypass_Apex__c = true;
@@ -31,6 +31,4 @@ public with sharing class DigitalInteractionTest {
 
         Test.stopTest();
     }
-    
-
 }

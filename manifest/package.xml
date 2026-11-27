@@ -67,15 +67,18 @@
         <members>CustomEmailRecipient.PMTSPCFinalValidationModificationTo13</members>
         <members>CustomEmailRecipient.PMTSPCFinalValidationModificationTo14</members>
 
-        <!-- PMT Milestone Completed -->
-        <members>CustomEmailRecipient.PMTMilestoneCompleted1</members>
+        <!-- CustomTeamsMessage -->
         <members>CustomTeamsMessage.PMTMilestoneCompleted</members>
         <members>CustomTeamsMessage.PMTLaunchDateChange</members>
         <members>CustomTeamsMessage.PMTRoadToMarketActivated</members>
         <members>CustomTeamsMessage.PMTDocumentNotifyAllOwners</members>
+
+        <!-- CustomTeamsMessage Recipients -->
+        <members>CustomEmailRecipient.PMTMilestoneCompleted1</members>
         <members>CustomEmailRecipient.PMTLaunchDateChange1</members>
         <members>CustomEmailRecipient.PMTRoadToMarketActivated1</members>
         <members>CustomEmailRecipient.PMTDocumentNotifyAllOwners1</members>
+        
         <members>PMTTeam.ESG</members>
         <name>CustomMetadata</name>
     </types>

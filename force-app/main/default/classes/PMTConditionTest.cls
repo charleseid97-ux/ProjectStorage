@@ -1,9 +1,10 @@
 /** ──────────────────────────────────────
  * @description Tests of PMTCondition: compilation of a condition (object prefixes, fields read, cache), evaluation at project and
- *                  share class level, rejected conditions (unknown field, picklist without ISPICKVAL, parent relationship), the projects
- *                  query, and the evaluation by a user with minimum access (PMT conditions are evaluated for every team).
- * @covers PMTCondition   100%   [21-10-26]
+ *                  share class level, lookups followed (US-20194 V1.8), rejected conditions (unknown field, picklist without ISPICKVAL,
+ *                  polymorphic lookup, too many lookups), the projects query, and the evaluation by a user with minimum access.
+ * @covers PMTCondition   100%   [18-11-26]
  * @author Charles EID
+ * @lastModifiedBy Charles EID   [18-11-26]
  ────────────────────────────────────── */
 @isTest
 private class PMTConditionTest {
@@ -43,7 +44,18 @@ private class PMTConditionTest {
         System.assert(projectCondition.evaluate(fcpFund, null) && !projectCondition.evaluate(new ProjectProduct__c(LegalForm__c = 'SICAV'), null), 'Project condition');
         System.assert(evaluatedWithMinimumAccess, 'A user with minimum access evaluates the conditions');
 
-        for (String invalid : new List<String>{ 'ISPICKVAL(ProjectProduct__c.UnknownField__c, \'FCP\')', 'ProjectProduct__c.LegalForm__c == \'FCP\'', 'ProjectProduct__c.RecordType.DeveloperName = \'FundCreation\'' }) {
+        // US-20194 V1.8: lookups followed like in a formula field; a path changes with its lookup
+        PMTCondition pathCondition = PMTCondition.compile('ProjectProduct__c.ParentProduct__r.Name = \'Parent\' && ProjectProduct__c.RecordType.DeveloperName = \'FundCreation\'');
+        ProjectProduct__c childFund = new ProjectProduct__c();
+        childFund.putSObject('ParentProduct__r', new Product__c(Name = 'Parent'));
+        childFund.putSObject('RecordType', new RecordType(DeveloperName = 'FundCreation'));
+        System.assertEquals(new Set<String>{ 'ParentProduct__r.Name', 'RecordType.DeveloperName' }, pathCondition.projectPaths, 'Paths read, as written');
+        System.assertEquals(new Set<String>{ 'ParentProduct__c', 'RecordTypeId' }, pathCondition.projectFields, 'A path changes with its lookup');
+        System.assert(pathCondition.evaluate(childFund, null) && !pathCondition.evaluate(new ProjectProduct__c(), null), 'Evaluated on the parent records attached to the project');
+
+        // Rejected: unknown field, picklist without ISPICKVAL, polymorphic lookup (read as blank by the formula engine), more than MAX_RELATIONSHIP_HOPS lookups
+        for (String invalid : new List<String>{ 'ISPICKVAL(ProjectProduct__c.UnknownField__c, \'FCP\')', 'ProjectProduct__c.LegalForm__c == \'FCP\'', 'ProjectProduct__c.ParentProduct__r.Owner:User.Email = \'a@b.c\'',
+                                                'ProjectProduct__c.ParentProduct__r.ParentProduct__r.ParentProduct__r.ParentProduct__r.ParentProduct__r.Name = \'Root\'' }) {
             Boolean rejected = false;
             try {
                 PMTCondition.compile(invalid);
@@ -54,7 +66,7 @@ private class PMTConditionTest {
             System.assert(rejected, 'Rejected with its text: ' + invalid);
         }
 
-        List<ProjectProduct__c> noProjects = PMTCondition.queryProjects(new Set<Id>(), new Set<String>{ 'LegalForm__c', 'legalform__c', 'Scope__c' }, new Set<String>{ 'HasPerfFees__c' });
-        System.assert(noProjects.isEmpty(), 'Projects query without duplicate field');
+        List<ProjectProduct__c> noProjects = PMTCondition.queryProjects(new Set<Id>(), new Set<String>{ 'LegalForm__c', 'legalform__c', 'Scope__c', 'ParentProduct__r.Name' }, new Set<String>{ 'HasPerfFees__c' });
+        System.assert(noProjects.isEmpty(), 'Projects query without duplicate field, paths included');
     }
 }

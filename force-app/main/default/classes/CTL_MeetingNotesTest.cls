@@ -63,7 +63,7 @@ private class CTL_MeetingNotesTest {
         evt.WhoId = internalC.Id;
         insert evt;
 
-        // Strategy__c sample (for getProducts)
+        // Strategy__c sample (for getStrategies)
         Strategy__c strat = (Strategy__c)buildRequiredSObject(new Strategy__c());
         if (Schema.sObjectType.Strategy__c.fields.getMap().containsKey('Code__c') && strat.get('Code__c') == null) {
             strat.put('Code__c', 'S001');
@@ -114,7 +114,7 @@ private class CTL_MeetingNotesTest {
     @IsTest
     static void test_getProducts_getOpportunities_getOpenOpportunities() {
         Test.startTest();
-        List<Strategy__c> products = CTL_MeetingNotes.getProducts(null);
+        List<Strategy__c> products = CTL_MeetingNotes.getStrategies(null);
         List<Opportunity> opps = CTL_MeetingNotes.getOpportunities();
         List<Opportunity> openOpps = CTL_MeetingNotes.getOpenOpportunities();
         Test.stopTest();

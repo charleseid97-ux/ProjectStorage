@@ -18,10 +18,10 @@ const VIEW_OPTIONS = [
     { label: 'By team', value: 'team' },
     { label: 'By stage', value: 'stage' }
 ];
-const MODIFIABLE_OPTIONS = [
+const SENSITIVE_OPTIONS = [
     { label: 'All', value: '' },
-    { label: 'Modifiable', value: 'true' },
-    { label: 'Not modifiable', value: 'false' }
+    { label: 'Sensitive', value: 'true' },
+    { label: 'Not sensitive', value: 'false' }
 ];
 const ACTIVE_OPTIONS = [
     { label: 'All', value: '' },
@@ -40,7 +40,7 @@ const CHIP_LEGEND = [
 const SETUP_URL = '/lightning/setup/CustomMetadata/page?address=%2F';
 // US-20194 V1.6: result of a deployment started by the rule line editor (PMTMatrixExplorerController.DeployCallback)
 const DEPLOY_CHANNEL = '/event/PMTConfigurationDeploy__e';
-const DEFAULT_FILTERS = { searchText: '', teamFilter: '', stageFilter: '', levelFilter: '', requirementFilter: '', modifiableFilter: '', activeFilter: '', statusFilter: '' };
+const DEFAULT_FILTERS = { searchText: '', teamFilter: '', stageFilter: '', levelFilter: '', requirementFilter: '', sensitiveFilter: '', activeFilter: '', statusFilter: '' };
 
 export default class PmtMatrixExplorer extends LightningElement {
     model;
@@ -49,7 +49,7 @@ export default class PmtMatrixExplorer extends LightningElement {
     isLoading = true;
     view = 'matrix';
     viewOptions = VIEW_OPTIONS;
-    modifiableOptions = MODIFIABLE_OPTIONS;
+    sensitiveOptions = SENSITIVE_OPTIONS;
     activeOptions = ACTIVE_OPTIONS;
     chipLegend = CHIP_LEGEND;
     isLegendOpen = false;
@@ -62,7 +62,7 @@ export default class PmtMatrixExplorer extends LightningElement {
     stageFilter = '';
     levelFilter = '';
     requirementFilter = '';
-    modifiableFilter = '';
+    sensitiveFilter = '';
     activeFilter = '';
     statusFilter = '';
     wiredModelResult;
@@ -133,7 +133,7 @@ export default class PmtMatrixExplorer extends LightningElement {
             { key: 'stages', label: 'Stages', value: this.usedStages.length },
             { key: 'teams', label: 'Teams', value: this.model.teams.length },
             { key: 'fields', label: 'Fields', value: this.fields.length },
-            { key: 'modifiable', label: 'Modifiable fields', value: this.fields.filter(field => field.isModifiable).length },
+            { key: 'sensitive', label: 'Sensitive fields', value: this.fields.filter(field => field.isSensitive).length },
             { key: 'lines', label: 'Rule lines', value: lines.length },
             { key: 'conditional', label: 'Conditional lines', value: lines.filter(line => line.isConditional).length },
             { key: 'inactive', label: 'Inactive lines', value: lines.filter(line => !line.isActive).length },
@@ -178,14 +178,14 @@ export default class PmtMatrixExplorer extends LightningElement {
     }
 
     get hasFilter() {
-        return this.hasLineFilter || !!(this.searchText || this.levelFilter || this.modifiableFilter || this.statusFilter);
+        return this.hasLineFilter || !!(this.searchText || this.levelFilter || this.sensitiveFilter || this.statusFilter);
     }
 
     get filteredFields() {
         const search = this.searchText.toLowerCase();
         return this.fields.filter(field => (!search || field.label.toLowerCase().includes(search) || field.apiName.toLowerCase().includes(search))
             && (!this.levelFilter || field.level === this.levelFilter)
-            && (!this.modifiableFilter || String(field.isModifiable) === this.modifiableFilter)
+            && (!this.sensitiveFilter || String(field.isSensitive) === this.sensitiveFilter)
             && (!this.statusFilter || field.sharingStatus === this.statusFilter)
             && (!this.hasLineFilter || field.lines.some(line => this.matchesLine(line))));
     }
@@ -277,7 +277,7 @@ export default class PmtMatrixExplorer extends LightningElement {
             developerName: field.developerName,
             setupUrl: SETUP_URL + field.id,
             isMissing: !field.existsOnObject,
-            modifiableLabel: field.isModifiable ? 'Yes' : 'No',
+            sensitiveLabel: field.isSensitive ? 'Yes' : 'No',
             dependentFields: field.dependentFields.map(dependent => ({ ...dependent, key: dependent.apiName, isMissing: !dependent.existsOnObject })),
             noDependentFields: !field.dependentFields.length,
             status: this.buildStatus(field.sharingStatus),
@@ -323,7 +323,7 @@ export default class PmtMatrixExplorer extends LightningElement {
             label: field.label,
             apiName: field.apiName,
             level: field.level,
-            isModifiable: field.isModifiable,
+            isSensitive: field.isSensitive,
             requirement: line.requirement,
             requirementClass: `requirement requirement_${line.requirement.toLowerCase()}`,
             condition: line.condition,
@@ -452,7 +452,7 @@ export default class PmtMatrixExplorer extends LightningElement {
             stage: line.stageDeveloperName,
             objectName: field.objectName,
             fieldApiName: field.apiName,
-            isModifiable: field.isModifiable,
+            isSensitive: field.isSensitive,
             dependentFields: field.dependentFields.map(dependent => dependent.apiName),
             requirement: line.requirement,
             condition: line.condition,

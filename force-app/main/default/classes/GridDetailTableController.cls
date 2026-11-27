@@ -67,7 +67,7 @@ public with sharing class GridDetailTableController {
                                     ' StartDate__c, EndDate__c, RebateRate__c, EffectiveManagementFees__c, Grid__r.Name, StandardGridDetail__r.Grid__r.Name' +
                                 ' FROM GridDetail__c' +
                                 ' WHERE Grid__c = :gridId';
-        gdQuery += activeOnly?  ' AND StandardGridDetail__r.TECH_EffMgtFeesAuditHistory__c = null' : '';
+        gdQuery += activeOnly?  ' AND StandardGridDetail__r.TECH_EffMgtFeesAuditHistory__c = null AND TECH_EffMgtFeesAuditHistory__c = null' : '';
         gdQuery +=              ' ORDER BY ShareClass__r.Fund__r.ProductName__c, ShareClass__r.Name__c, StartDate__c DESC';
 
         List<GridDetail__c> details = Database.query(gdQuery);

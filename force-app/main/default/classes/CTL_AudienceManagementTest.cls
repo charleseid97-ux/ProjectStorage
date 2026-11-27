@@ -115,7 +115,7 @@ public with sharing class CTL_AudienceManagementTest {
 
     @IsTest
     public static void getProductsTest() {
-        List<Strategy__c> pList = CTL_AudienceManagement.getProducts();
+        List<Strategy__c> pList = CTL_AudienceManagement.getStrategies();
         System.assertEquals(1, pList.size());
     }
 

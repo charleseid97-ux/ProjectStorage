@@ -1,10 +1,7 @@
 /** ──────────────────────────────────────
- * @description Flow action "Send Custom Email Alert": sends the email configured in a CustomEmailAlert__mdt record
- *                  (template, recipients, sender) through EmailService, the template rendered with the Record Id.
- *              One EmailService.EmailRequest per Flow interview, all sent in a single EmailService.send, then the
- *                  OperationLog buffer is flushed: this action is the entry point of the email logs.
- *              Configuration errors (unknown alert, template or queue, tokens and values of different sizes)
- *                  make the Flow fail; send failures are only logged (LogFailures__c) and never stop the Flow.
+ * @description Flow action "Send Custom Email Alert": sends the email configured in a CustomEmailAlert__mdt record (template, recipients, sender) through EmailService, the template rendered with the Record Id.
+ *              One EmailService.EmailRequest per Flow interview, all sent in a single EmailService.send, then the OperationLog buffer is flushed: this action is the entry point of the email logs.
+ *              Configuration errors (unknown alert, template or queue, tokens and values of different sizes) make the Flow fail; send failures are only logged (LogFailures__c) and never stop the Flow.
  *              An email left without To recipient goes to the No Recipient Addresses (Email and Notification Service Settings) and doesn't stop the Flow.
  *              Dry Run input: forces a dry run for that call (it can't turn off the alert's own DryRun__c).
  *              Additional To / Cc / Bcc Addresses inputs: addresses computed by the Flow (comma-separated text), added to the alert's Custom Email Recipients.

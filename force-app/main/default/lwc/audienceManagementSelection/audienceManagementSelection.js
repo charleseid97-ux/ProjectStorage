@@ -14,7 +14,7 @@ import amQuery from "@salesforce/messageChannel/audienceManagementQuery__c";
 
 import getAllFilters from '@salesforce/apex/CTL_AudienceManagement.getAllFilters';
 import getCurrentProfile from '@salesforce/apex/CTL_AudienceManagement.getCurrentProfile';
-import getProducts from '@salesforce/apex/CTL_AudienceManagement.getProducts';
+import getStrategies from '@salesforce/apex/CTL_AudienceManagement.getStrategies';
 import getUsers from '@salesforce/apex/CTL_AudienceManagement.getUsers';
 import getContactFromProductInterest from '@salesforce/apex/CTL_AudienceManagement.getContactFromProductInterest';
 import getCompanyFromProductInterest from '@salesforce/apex/CTL_AudienceManagement.getCompanyFromProductInterest';
@@ -123,7 +123,7 @@ export default class AudienceManagementSelection extends LightningElement {
         }
     }
     //Retrieve products on load
-    @wire(getProducts, {})
+    @wire(getStrategies, {})
     products({data,error}) {
         if(data && data.length){ 
             let products =[];
@@ -255,14 +255,14 @@ export default class AudienceManagementSelection extends LightningElement {
     }
 
     handleChangePicklist(event) {
-        var newValue = {};
+        let newValue = {};
         newValue.name = event.currentTarget.dataset.id;
         newValue.value = event.detail.value;
         this.changeFilterValue(newValue);
     }
 
     handleChangeMultipicklist(event) {
-        var newValue = {};
+        let newValue = {};
         newValue.name = event.currentTarget.dataset.id;
         newValue.value = event.detail.value;
         this.changeFilterValue(newValue);
@@ -327,14 +327,14 @@ export default class AudienceManagementSelection extends LightningElement {
     }
 
     handleChangeDate(event) {
-        var newValue = {};
+        let newValue = {};
         newValue.name = event.currentTarget.dataset.id;
         newValue.value = event.detail.value;
         this.changeFilterValue(newValue);
     }
 
     handleChangeNumber(event) {
-        var newValue = {};
+        let newValue = {};
         newValue.name = event.currentTarget.dataset.id;
         newValue.value = event.detail.value;
         this.changeFilterValue(newValue);
@@ -342,7 +342,7 @@ export default class AudienceManagementSelection extends LightningElement {
 
     //Add the new filter value to the correct list of filter value, depending on the section of the filter
     changeFilterValue(newValue) {        
-        var filter = this.allFilters.find(e => e.name === newValue.name);
+        let filter = this.allFilters.find(e => e.name === newValue.name);
         if(filter.section === 'Digital Interactions') {
             this.addToInteractionsFilters(newValue);
         } else {
@@ -351,7 +351,7 @@ export default class AudienceManagementSelection extends LightningElement {
     }
 
     addToContactFilters(newValue) {
-        var index = this.contactFiltersValue.findIndex(e => e.name === newValue.name)
+        let index = this.contactFiltersValue.findIndex(e => e.name === newValue.name)
         if(index >= 0) {
             this.contactFiltersValue.splice(index, 1);
         }
@@ -360,7 +360,7 @@ export default class AudienceManagementSelection extends LightningElement {
     }
 
     addToInteractionsFilters(newValue) {
-        var index = this.interactionsFiltersValue.findIndex(e => e.name === newValue.name)
+        let index = this.interactionsFiltersValue.findIndex(e => e.name === newValue.name)
         if(index >= 0) {
             this.interactionsFiltersValue.splice(index, 1);
         }
@@ -368,7 +368,7 @@ export default class AudienceManagementSelection extends LightningElement {
     }
 
     handleProducts(event){
-        var product = this.mapProducts[event.detail.selectedValues];
+        let product = this.mapProducts[event.detail.selectedValues];
         if(product) {
             this.selectedProduct = {id:event.detail.selectedValues, name:product.Name};
         }
@@ -608,8 +608,8 @@ export default class AudienceManagementSelection extends LightningElement {
 
     //Build the query to retrieve the meeting notes linked to a product
     buildQueryInterest() {
-        var query = 'SELECT MeetingNote__c FROM ClientInterest__c WHERE ';
-        var first = true;
+        let query = 'SELECT MeetingNote__c FROM ClientInterest__c WHERE ';
+        let first = true;
         if(this.selectedProduct) {
             if(first) {
                 first = false;
